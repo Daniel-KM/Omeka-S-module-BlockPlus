@@ -29,8 +29,8 @@ class AssetsForm extends Form
             'name' => 'o:block[__blockIndex__][o:data][heading]',
             'type' => Element\Text::class,
             'options' => [
-                'label' => 'Preview title', // @translate
-                'info' => 'Heading above resource list, if any.', // @translate
+                'label' => 'Block title', // @translate
+                'info' => 'Heading for the block, if any.', // @translate
             ],
         ]);
         $this->add([

@@ -1,7 +1,6 @@
 <?php
 namespace BlockPlus\Site\BlockLayout;
 
-use BlockPlus\Form\AssetsForm;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
@@ -12,19 +11,14 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Assets extends AbstractBlockLayout
 {
-    use FillPartialsTrait;
+    use FillPartialValueOptionsTrait;
 
     public function getLabel()
     {
         return 'Assets'; // @translate
     }
 
-    protected $blockForm = AssetsForm::class;
-
-    /**
-     * @var array
-     */
-    protected $defaultSettings = [];
+    protected $blockForm = \BlockPlus\Form\AssetsForm::class;
 
     public function prepareForm(PhpRenderer $view)
     {
@@ -63,12 +57,8 @@ class Assets extends AbstractBlockLayout
             ];
         }
 
-        $data = [
-            'heading' => $data['heading'],
-            'assets' => $result,
-            'misc' => $data['misc'],
-            'partial' => $data['partial'],
-        ];
+        $data['assets'] = $result;
+        unset($data['links_labels']);
 
         $block->setData($data);
     }
@@ -82,9 +72,9 @@ class Assets extends AbstractBlockLayout
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
-        $this->defaultSettings = $services->get('Config')['blockplus']['block_settings']['assets'];
+        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['assets'];
 
-        $data = $block ? $block->data() + $this->defaultSettings : $this->defaultSettings;
+        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
         // Adaptation for the form.
         $assets = [];
@@ -93,10 +83,8 @@ class Assets extends AbstractBlockLayout
             $assets[] = $asset['asset'];
             $linksLabels .= $asset['url'] . ($asset['label'] ? ' | ' . $asset['label'] : '') . "\n";
         }
-        $data = [
-            'assets' => $assets,
-            'links_labels' => $linksLabels,
-        ];
+        $data['assets'] = $assets;
+        $data['links_labels'] = $linksLabels;
 
         $dataForm = [];
         foreach ($data as $key => $value) {
@@ -104,7 +92,7 @@ class Assets extends AbstractBlockLayout
         }
 
         $form = $formElementManager->get($this->blockForm);
-        $this->fillPartials($form, 'common/block-layout/assets', $site, $services);
+        $this->fillPartialValueOptions($form, 'common/block-layout/assets', $site);
         $form->setData($dataForm);
         $form->prepare();
 

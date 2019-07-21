@@ -3,12 +3,12 @@ namespace BlockPlus\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
 use Zend\Form\Form;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Trait to fill partials to manage multiple display for blocks.
+ * Trait to fill value options of the element "partial" in order to manage
+ * multiple display for blocks.
  */
-trait FillPartialsTrait
+trait FillPartialValueOptionsTrait
 {
     /**
      * Fill the element partial of a form.
@@ -16,11 +16,10 @@ trait FillPartialsTrait
      * @param Form $form
      * @param string $root
      * @param SiteRepresentation $site
-     * @param ServiceLocatorInterface $services
      */
-    protected function fillPartials(Form $form, $root, SiteRepresentation $site, ServiceLocatorInterface $services)
+    protected function fillPartialValueOptions(Form $form, $root, SiteRepresentation $site)
     {
-        $partials = $this->findPartials($root, $site, $services);
+        $partials = $this->findPartials($root, $site);
         $form
             ->get('o:block[__blockIndex__][o:data][partial]')
             ->setValueOptions($partials);
@@ -31,10 +30,9 @@ trait FillPartialsTrait
      *
      * @param string $root
      * @param SiteRepresentation $site
-     * @param ServiceLocatorInterface $services
      * @return array
      */
-    protected function findPartials($root, SiteRepresentation $site, ServiceLocatorInterface $services)
+    protected function findPartials($root, SiteRepresentation $site)
     {
         // Hacky way to get all filenames for the asset. Theme first, then
         // modules, then core.
@@ -47,6 +45,7 @@ trait FillPartialsTrait
         $partials += array_combine($recursiveList, $recursiveList);
 
         // Check filenames in modules.
+        $services = $site->getServiceLocator();
         $templatePathStack = $services->get('Config')['view_manager']['template_path_stack'];
         foreach ($templatePathStack as $directory) {
             $recursiveList = $this->filteredFilesInFolder($directory, $root, ['phtml']);

@@ -1,7 +1,6 @@
 <?php
 namespace BlockPlus\Site\BlockLayout;
 
-use BlockPlus\Form\BrowsePreviewForm;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
@@ -10,19 +9,14 @@ use Zend\View\Renderer\PhpRenderer;
 
 class BrowsePreview extends AbstractBlockLayout
 {
-    use FillPartialsTrait;
+    use FillPartialValueOptionsTrait;
 
     public function getLabel()
     {
         return 'Browse preview'; // @translate
     }
 
-    protected $blockForm = BrowsePreviewForm::class;
-
-    /**
-     * @var array
-     */
-    protected $defaultSettings = [];
+    protected $blockForm = \BlockPlus\Form\BrowsePreviewForm::class;
 
     public function form(
         PhpRenderer $view,
@@ -33,9 +27,9 @@ class BrowsePreview extends AbstractBlockLayout
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
-        $this->defaultSettings = $services->get('Config')['blockplus']['block_settings']['browsePreview'];
+        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['browsePreview'];
 
-        $data = $block ? $block->data() + $this->defaultSettings : $this->defaultSettings;
+        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {
@@ -43,7 +37,7 @@ class BrowsePreview extends AbstractBlockLayout
         }
 
         $form = $formElementManager->get($this->blockForm);
-        $this->fillPartials($form, 'common/block-layout/browse-preview', $site, $services);
+        $this->fillPartialValueOptions($form, 'common/block-layout/browse-preview', $site);
         $form->setData($dataForm);
         $form->prepare();
 
