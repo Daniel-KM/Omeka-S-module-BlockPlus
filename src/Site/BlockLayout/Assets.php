@@ -103,7 +103,14 @@ class Assets extends AbstractBlockLayout
             'links_labels' => $linksLabels,
         ];
 
+        /** @var \BlockPlus\Form\AssetsForm $form */
         $form = $this->formElementManager->get($this->blockForm);
+
+        $partials = $this->findPartials('common/block-layout/assets', $site, $services);
+        $form
+            ->get('o:block[__blockIndex__][o:data][partial]')
+            ->setValueOptions($partials); // @translate
+
         $dataForm = [];
         foreach ($data as $key => $value) {
             $dataForm['o:block[__blockIndex__][o:data][' . $key . ']'] = $value;
@@ -114,7 +121,8 @@ class Assets extends AbstractBlockLayout
 
         // The assets are currently filled manually (use default form).
         $html = $view->formCollection($form);
-        $html = $this->fillMultipleAssets($dataForm, $html, $services);
+        $html = $this->fillMultipleAssets($dataForm, $html, $view);
+
         return $html;
     }
 
@@ -147,20 +155,19 @@ class Assets extends AbstractBlockLayout
      *
      * @param array $data
      * @param string $html
-     * @param ServiceLocatorInterface $services
+     * @param PhpRenderer $view
      * @return string
      */
-    protected function fillMultipleAssets(array $data, $html, ServiceLocatorInterface $services)
+    protected function fillMultipleAssets(array $data, $html, PhpRenderer $view)
     {
         if (empty($data['o:block[__blockIndex__][o:data][assets]'])) {
             return $html;
         }
 
-        $helpers = $services->get('ViewHelperManager');
-        $api = $helpers->get('api');
-        $translate = $helpers->get('translate');
-        $url = $helpers->get('url');
-        $escape = $helpers->get('escapeHtml');
+        $api = $view->plugin('api');
+        $translate = $view->plugin('translate');
+        $url = $view->plugin('url');
+        $escape = $view->plugin('escapeHtml');
 
         $translations = [
             '{no_selected_asset}' => $translate('[No asset selected]'),
@@ -222,5 +229,86 @@ HTML;
             $insert,
             $html
         );
+    }
+
+    /**
+     * Find all partials whose filename starts with a string.
+     *
+     * @param string $root
+     * @param SiteRepresentation $site
+     * @param ServiceLocatorInterface $services
+     * @return array
+     */
+    protected function findPartials($root, SiteRepresentation $site, ServiceLocatorInterface $services)
+    {
+        // Hacky way to get all filenames for the asset. Theme first, then
+        // modules, then core.
+        $partials = [$root => 'Default']; // @translate
+
+        // Check filenames in core.
+        $directory = OMEKA_PATH . '/application/view/';
+        // Check filenames in modules.
+        $recursiveList = $this->filteredFilesInFolder($directory, $root, ['phtml']);
+        $partials += array_combine($recursiveList, $recursiveList);
+
+        // Check filenames in modules.
+        $templatePathStack = $services->get('Config')['view_manager']['template_path_stack'];
+        foreach ($templatePathStack as $directory) {
+            $recursiveList = $this->filteredFilesInFolder($directory, $root, ['phtml']);
+            $partials += array_combine($recursiveList, $recursiveList);
+        }
+
+        // Check filenames in the theme.
+        $directory = OMEKA_PATH . '/themes/' . $site->theme() . '/view/';
+        $recursiveList = $this->filteredFilesInFolder($directory, $root, ['phtml']);
+        $partials += array_combine($recursiveList, $recursiveList);
+
+        return $partials;
+    }
+
+    /**
+     * Get files filtered by a root and extensions recursively in a directory.
+     *
+     * @param string $dir
+     * @param string $root Directory or beginning of a file without extension.
+     * @param array $extensions
+     * @return array Files are returned without extensions.
+     */
+    protected function filteredFilesInFolder($dir, $root = '', array $extensions = [])
+    {
+        $base = rtrim($dir, '\\/') ?: '/';
+        $root = ltrim($root, '\\/');
+
+        $isRootDir = $root === '' || substr($root, -1) === '/';
+        $dir = $isRootDir
+            ? $base . '/' . $root
+            : dirname($base . '/' . $root);
+        if (empty($dir) || !file_exists($dir) || !is_dir($dir) || !is_readable($dir)) {
+            return [];
+        }
+
+        // The files are saved from the base.
+        $files = [];
+        $dirRoot = $isRootDir
+            ? $root
+            : (dirname($root) ? dirname($root) . '/' : '');
+        $regex = '~' . preg_quote(pathinfo($root, PATHINFO_FILENAME), '~')
+            . '.*'
+            . ($extensions ? '\.(?:' . implode('|', $extensions) . ')' : '')
+            . '$~';
+        $Directory = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
+        $Iterator = new \RecursiveIteratorIterator($Directory);
+        $RegexIterator = new \RegexIterator($Iterator, $regex, \RecursiveRegexIterator::GET_MATCH);
+        foreach ($RegexIterator as $file) {
+            $file = reset($file);
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+            if (strlen($extension)) {
+                $file = substr($file, 0, -1 - strlen($extension));
+            }
+            $files[] = $dirRoot . $file;
+        }
+        natcasesort($files);
+
+        return $files;
     }
 }

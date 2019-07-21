@@ -22,7 +22,7 @@ class AssetsForm extends Form
             'type' => Element\Textarea::class,
             'options' => [
                 'label' => 'Links and labels', // @translate
-                'info' => 'List of urls and optionally labels separated by "|", for each asset, one by line.', // @translate
+                'info' => 'Optional list of urls and labels separated by "|", for each asset, one by line.', // @translate
             ],
         ]);
         $this->add([
@@ -43,13 +43,16 @@ class AssetsForm extends Form
         ]);
         $this->add([
             'name' => 'o:block[__blockIndex__][o:data][partial]',
-            'type' => Element\Text::class,
+            'type' => Element\Select::class,
             'options' => [
-                'label' => 'Partial', // @translate
-                'info' => 'Set a different partial to display. Default is "common/block-layout/assets" (no extension).', // @translate
+                'label' => 'Partial to display', // @translate
+                'info' => 'Partials are in folder "common/block-layout" of the theme and should start with "assets".', // @translate
+                'value_options' => [
+                    '' => 'Default', // @translate
+                ],
             ],
             'attributes' => [
-                'placeholder' => 'common/block-layout/assets',
+                'class' => 'chosen-select',
             ],
         ]);
     }
