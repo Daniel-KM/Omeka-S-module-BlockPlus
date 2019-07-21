@@ -15,6 +15,7 @@ return [
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
         ],
         'factories' => [
+            'embedText' => Service\BlockLayout\EmbedTextFactory::class,
             'mediaText' => Service\BlockLayout\MediaTextFactory::class,
         ],
     ],
@@ -22,6 +23,7 @@ return [
         'invokables' => [
             Form\AssetsFieldset::class => Form\AssetsFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
+            Form\EmbedTextFieldset::class => Form\EmbedTextFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\MediaTextFieldset::class => Form\MediaTextFieldset::class,
         ],
@@ -54,6 +56,17 @@ return [
                 'limit' => 12,
                 'heading' => '',
                 'link-text' => 'Browse all', // @translate
+                'partial' => '',
+            ],
+            'embedText' => [
+                'heading' => '',
+                'embeds' => [],
+                'html' => '',
+                'alignment' => 'left',
+                'show_title_option' => 'title',
+                'caption_position' => 'center',
+                'link_text' => 'Know more', // @translate
+                'link_url' => '#',
                 'partial' => '',
             ],
             'itemShowcase' => [

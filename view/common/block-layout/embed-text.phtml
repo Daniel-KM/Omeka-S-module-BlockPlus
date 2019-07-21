@@ -1,0 +1,70 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $heading
+ * @var array $embeds
+ * @var string $html
+ * @var string $alignmentClass
+ * @var string $showTitleOption
+ * @var string $captionPosition
+ * @var string $linkText
+ * @var string $linkUrl
+ */
+
+$plugins = $this->getHelperPluginManager();
+$escapeHtml = $plugins->get('escapeHtml');
+$hyperlink = $plugins->get('hyperlink');
+?>
+<div class="embed-text media-text">
+    <?php if ($heading): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
+
+<div class="<?= $alignmentClass . ' captions-' . $captionPosition ?> media file">
+    <div class="embeds attachments">
+<?php foreach($embeds as $embed): ?>
+    <div class="item resource">
+    <?php
+    $data = $embed['data'];
+    if ($data):
+        if ($data['type'] == 'photo'):
+            $url = $data['url'];
+            $width = $data['width'];
+            $height = $data['height'];
+            $title = empty($data['title']) ? $url : $data['title'];
+            echo sprintf(
+                '<img src="%s" width="%s" height="%s" alt="%s">',
+                $escapeHtml($url),
+                $escapeHtml($width),
+                $escapeHtml($height),
+                $escapeHtml($title)
+            );
+        elseif (!empty($data['html'])):
+            echo $data['html'];
+        else:
+            $showTitleOption = 'title';
+        endif;
+
+        if ($showTitleOption === 'title'):
+            $source = $embed['source'];
+            $title = empty($data['title']) ? $source : $data['title'];
+        ?>
+        <h3><?= $hyperlink($title, $source) ?></h3>
+        <?php endif; ?>
+    <?php endif; ?>
+
+    <?php $caption = isset($data['caption']) ? $data['caption'] : null; ?>
+    <?php if ($caption): ?>
+        <div class="caption"><?= $caption ?></div>
+    <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+    </div>
+</div>
+<?= $html ?>
+
+<?php if ($linkUrl && $linkText): ?>
+<?= $hyperlink($linkText, $linkUrl) ?>
+<?php endif; ?>
+</div>
