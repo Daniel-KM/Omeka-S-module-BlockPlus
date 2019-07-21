@@ -7,22 +7,33 @@
  */
 
 ?>
-<div class="block-assets">
+<style>
+.partners {
+    text-align: center;
+}
+.partner-logo img {
+    margin: 12px;
+    height: 128px;
+    max-height: 128px;
+    width: auto;
+}
+</style>
+<div class="block-assets partners">
     <?php if ($heading): ?>
     <h2><?= $heading ?></h2>
     <?php endif; ?>
 
+    <div class="asset partners-logos">
     <?php foreach ($assets as $asset): ?>
-    <div class="asset">
         <?php if ($asset['url']): ?>
-        <a href="<?= $asset['url'] ?>"<?php if (filter_var($asset['url'], FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
+        <a class="partner-logo" href="<?= $asset['url'] ?>"<?php if (filter_var($asset['url'], FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
             <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['label'] ?>"/>
         </a>
         <?php else: ?>
-        <span>
+        <span class="partner-logo">
             <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['label'] ?>"/>
         </span>
         <?php endif; ?>
-    </div>
     <?php endforeach; ?>
+    </div>
 </div>
