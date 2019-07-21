@@ -14,12 +14,16 @@ return [
             // TODO Omeka core use "itemShowCase" instead of "itemShowcase".
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
         ],
+        'factories' => [
+            'mediaText' => Service\BlockLayout\MediaTextFactory::class,
+        ],
     ],
     'form_elements' => [
         'invokables' => [
             Form\AssetsFieldset::class => Form\AssetsFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
+            Form\MediaTextFieldset::class => Form\MediaTextFieldset::class,
         ],
         'factories' => [
             Form\Element\ThumbnailTypeSelect::class => Service\Form\Element\ThumbnailTypeSelectFactory::class,
@@ -56,6 +60,17 @@ return [
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',
                 'heading' => '',
+                'partial' => '',
+            ],
+            'mediaText' => [
+                'heading' => '',
+                'attachments' => [],
+                'html' => '',
+                'thumbnail_type' => 'square',
+                'alignment' => 'left',
+                'show_title_option' => 'item_title',
+                // This option is mainly for compability with Omeka Classic exhibits.
+                'caption_position' => 'center',
                 'partial' => '',
             ],
         ],

@@ -1,0 +1,17 @@
+.media-text::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.media-text .captions-center .resource h3,
+.media-text .captions-center .resource .caption {
+    text-align: center;
+}
+.media-text .captions-left .resource h3,
+.media-text .captions-left .resource .caption {
+    text-align: left;
+}
+.media-text .captions-right .resource h3,
+.media-text .captions-right .resource .caption {
+    text-align: right;
+}
