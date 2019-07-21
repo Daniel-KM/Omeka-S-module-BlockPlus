@@ -2,9 +2,9 @@
 namespace BlockPlus\Form;
 
 use Zend\Form\Element;
-use Zend\Form\Form;
+use Zend\Form\Fieldset;
 
-class BrowsePreviewForm extends Form
+class BrowsePreviewFieldset extends Fieldset
 {
     public function init()
     {

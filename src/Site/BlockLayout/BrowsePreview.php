@@ -16,8 +16,6 @@ class BrowsePreview extends AbstractBlockLayout
         return 'Browse preview'; // @translate
     }
 
-    protected $blockForm = \BlockPlus\Form\BrowsePreviewForm::class;
-
     public function form(
         PhpRenderer $view,
         SiteRepresentation $site,
@@ -28,6 +26,7 @@ class BrowsePreview extends AbstractBlockLayout
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['browsePreview'];
+        $blockFieldset = \BlockPlus\Form\BrowsePreviewFieldset::class;
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
@@ -36,12 +35,11 @@ class BrowsePreview extends AbstractBlockLayout
             $dataForm['o:block[__blockIndex__][o:data][' . $key . ']'] = $value;
         }
 
-        $form = $formElementManager->get($this->blockForm);
-        $this->fillPartialValueOptions($form, 'common/block-layout/browse-preview', $site);
-        $form->setData($dataForm);
-        $form->prepare();
+        $fieldset = $formElementManager->get($blockFieldset);
+        $this->fillPartialValueOptions($fieldset, 'common/block-layout/browse-preview', $site);
+        $fieldset->populateValues($dataForm);
 
-        return $view->formCollection($form);
+        return $view->formCollection($fieldset);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

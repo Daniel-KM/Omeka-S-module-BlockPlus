@@ -2,9 +2,9 @@
 namespace BlockPlus\Form;
 
 use Zend\Form\Element;
-use Zend\Form\Form;
+use Zend\Form\Fieldset;
 
-class ItemShowcaseForm extends Form
+class ItemShowcaseFieldset extends Fieldset
 {
     public function init()
     {

@@ -3,9 +3,9 @@ namespace BlockPlus\Form;
 
 use Omeka\Form\Element\Asset;
 use Zend\Form\Element;
-use Zend\Form\Form;
+use Zend\Form\Fieldset;
 
-class AssetsForm extends Form
+class AssetsFieldset extends Fieldset
 {
     public function init()
     {

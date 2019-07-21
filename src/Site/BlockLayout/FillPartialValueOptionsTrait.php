@@ -2,7 +2,7 @@
 namespace BlockPlus\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
-use Zend\Form\Form;
+use Zend\Form\Fieldset;
 
 /**
  * Trait to fill value options of the element "partial" in order to manage
@@ -13,14 +13,14 @@ trait FillPartialValueOptionsTrait
     /**
      * Fill the element partial of a form.
      *
-     * @param Form $form
+     * @param Fieldset $fieldset
      * @param string $root
      * @param SiteRepresentation $site
      */
-    protected function fillPartialValueOptions(Form $form, $root, SiteRepresentation $site)
+    protected function fillPartialValueOptions(Fieldset $fieldset, $root, SiteRepresentation $site)
     {
         $partials = $this->findPartials($root, $site);
-        $form
+        $fieldset
             ->get('o:block[__blockIndex__][o:data][partial]')
             ->setValueOptions($partials);
     }

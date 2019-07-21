@@ -17,9 +17,9 @@ return [
     ],
     'form_elements' => [
         'invokables' => [
-            Form\AssetsForm::class => Form\AssetsForm::class,
-            Form\BrowsePreviewForm::class => Form\BrowsePreviewForm::class,
-            Form\ItemShowcaseForm::class => Form\ItemShowcaseForm::class,
+            Form\AssetsFieldset::class => Form\AssetsFieldset::class,
+            Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
+            Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
         ],
     ],
     'translator' => [

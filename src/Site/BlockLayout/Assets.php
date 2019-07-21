@@ -18,8 +18,6 @@ class Assets extends AbstractBlockLayout
         return 'Assets'; // @translate
     }
 
-    protected $blockForm = \BlockPlus\Form\AssetsForm::class;
-
     public function prepareForm(PhpRenderer $view)
     {
         $view->headScript()->appendFile($view->assetUrl('js/assets-form.js', 'BlockPlus'));
@@ -73,6 +71,7 @@ class Assets extends AbstractBlockLayout
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['assets'];
+        $blockFieldset = \BlockPlus\Form\AssetsFieldset::class;
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
@@ -91,13 +90,12 @@ class Assets extends AbstractBlockLayout
             $dataForm['o:block[__blockIndex__][o:data][' . $key . ']'] = $value;
         }
 
-        $form = $formElementManager->get($this->blockForm);
-        $this->fillPartialValueOptions($form, 'common/block-layout/assets', $site);
-        $form->setData($dataForm);
-        $form->prepare();
+        $fieldset = $formElementManager->get($blockFieldset);
+        $this->fillPartialValueOptions($fieldset, 'common/block-layout/assets', $site);
+        $fieldset->populateValues($dataForm);
 
         // The assets are currently filled manually (use default form).
-        $html = $view->formCollection($form);
+        $html = $view->formCollection($fieldset);
         $html = $this->fillMultipleAssets($dataForm, $html, $view);
 
         return $html;

@@ -16,8 +16,6 @@ class ItemShowcase extends AbstractBlockLayout
         return 'Item showcase'; // @translate
     }
 
-    protected $blockForm = \BlockPlus\Form\ItemShowcaseForm::class;
-
     public function form(
         PhpRenderer $view,
         SiteRepresentation $site,
@@ -31,6 +29,7 @@ class ItemShowcase extends AbstractBlockLayout
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['itemShowcase'];
+        $blockFieldset = \BlockPlus\Form\ItemShowcaseFieldset::class;
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
@@ -39,10 +38,9 @@ class ItemShowcase extends AbstractBlockLayout
             $dataForm['o:block[__blockIndex__][o:data][' . $key . ']'] = $value;
         }
 
-        $form = $formElementManager->get($this->blockForm);
-        $this->fillPartialValueOptions($form, 'common/block-layout/item-showcase', $site);
-        $form->setData($dataForm);
-        $form->prepare();
+        $fieldset = $formElementManager->get($blockFieldset);
+        $this->fillPartialValueOptions($fieldset, 'common/block-layout/item-showcase', $site);
+        $fieldset->populateValues($dataForm);
 
         $html = '';
         $html .= $view->blockAttachmentsForm($block);
@@ -52,7 +50,7 @@ class ItemShowcase extends AbstractBlockLayout
         $html .= $view->blockThumbnailTypeSelect($block);
         $html .= $view->blockShowTitleSelect($block);
         $html .= '<style>.collapsible.no-override {overflow:visible;}</style>';
-        $html .= $view->formCollection($form);
+        $html .= $view->formCollection($fieldset);
         $html .= '</div>';
 
         return $html;
