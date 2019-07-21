@@ -23,13 +23,20 @@ theme.
 
 ### Assets
 
-Display a list of assets with optional urls and labels. It's useful to build a
+Display a list of assets with optional urls and labels. It’s useful to build a
 block of partners, for example.
+
+#### Simple page
+
+Allow to use a page as a block, so the same page can be use in multiple sites,
+for example the page "About" or "Privacy". Of course, the page is a standard
+page and can be more complex with multiple blocks. May be fun.
+This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
 
 ### Media with html
 
 Simplify the display of a media on the left or the right (see [user guide]). It
-is the same block that existed in Omeka Classic Exhibit `file-text`.
+is the same block that existed in [Omeka Classic] [Exhibit `file-text`].
 
 ### Embedded asset with html
 
@@ -37,10 +44,16 @@ Similar to media with html, but to display an external asset that is not a
 resource neither an asset file, so currently not manageable inside Omeka. It may
 be used to display a html text with a video on the home page.
 
+### Search form
+
+Include a specific search form in a specific page. The default query may be
+adapted to the page.
+
 ### Improvements for Browse Preview and Item Showcase
 
-Allow to use a specific partial for some blocks, so it's possible to display
-these blocks differently in the same page or on different pages.
+Allow to use a specific partial for some blocks, so it’s possible to display
+these blocks differently in the same page or on different pages. An heading is
+added too.
 
 
 Warning
@@ -98,7 +111,9 @@ Copyright
 [Block Plus]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus
 [Omeka S]: https://omeka.org/s
 [Installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
-[Bootstrap]: https://getbootstrap.com
+[shortcode as a page]: https://github.com/omeka/plugin-SimplePages/pull/24
+[Omeka Classic]: https://omeka.org/classic
+[Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
