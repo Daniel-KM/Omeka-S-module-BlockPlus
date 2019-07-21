@@ -101,6 +101,7 @@ return [
             ],
             'searchForm' => [
                 'heading' => '',
+                'partial' => '',
             ],
             'simplePage' => [
                 'page' => null,

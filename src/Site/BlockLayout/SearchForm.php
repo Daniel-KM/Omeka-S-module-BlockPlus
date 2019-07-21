@@ -43,6 +43,8 @@ class SearchForm extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $data = $block->data();
-        return $view->partial('common/block-layout/search-form', $data);
+        unset($data['partial']);
+        $partial = $block->dataValue('partial') ?: 'common/block-layout/search-form';
+        return $view->partial($partial, $data);
     }
 }
