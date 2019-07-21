@@ -69,6 +69,7 @@ class Assets extends AbstractBlockLayout
         }
 
         $data = [
+            'heading' => $data['heading'],
             'assets' => $result,
             'misc' => $data['misc'],
             'partial' => $data['partial'],
@@ -133,6 +134,7 @@ class Assets extends AbstractBlockLayout
         $partial = $block->dataValue('partial') ?: 'common/block-layout/assets';
 
         return $view->partial($partial, [
+            'heading' => $block->dataValue('heading'),
             'assets' => $assets,
             'misc' => $block->dataValue('misc'),
         ]);

@@ -32,6 +32,7 @@ return [
     'blockplus' => [
         'block_settings' => [
             'assets' => [
+                'heading' => '',
                 // Each asset is an array with asset id and optional url and label.
                 'assets' => [],
                 'partial' => null,

@@ -2,12 +2,16 @@
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var array $assets Contains AssetRepresentation and optional url and label.
+ * @var string $heading
  * @var string $misc
  */
 
-// Note: this hero uses the classes of Twitter Bootstrap.
+// Note: this hero uses the classes and js of Twitter Bootstrap.
 
 ?>
+<?php if ($heading): ?>
+<h2><?= $heading ?></h2>
+<?php endif; ?>
 <?php if ($assets): ?>
 <?php $asset = reset($assets); ?>
 <div class="header-wrapper" style="background-image:url(<?= $asset['asset']->assetUrl() ?>);">

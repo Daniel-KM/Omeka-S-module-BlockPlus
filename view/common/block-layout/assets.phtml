@@ -2,11 +2,16 @@
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var array $assets Contains AssetRepresentation and optional url and label.
+ * @var string $heading
  * @var string $misc
  */
 
 ?>
-<div class="assets-block">
+<div class="block-assets">
+    <?php if ($heading): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
+
     <?php foreach ($assets as $asset): ?>
     <div class="asset">
         <?php if ($asset['url']): ?>
