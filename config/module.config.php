@@ -18,6 +18,7 @@ return [
             'assets' => Service\BlockLayout\AssetsFactory::class,
             'embedText' => Service\BlockLayout\EmbedTextFactory::class,
             'mediaText' => Service\BlockLayout\MediaTextFactory::class,
+            'simplePage' => Service\BlockLayout\SimplePageFactory::class,
         ],
     ],
     'form_elements' => [
@@ -27,9 +28,11 @@ return [
             Form\EmbedTextFieldset::class => Form\EmbedTextFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\MediaTextFieldset::class => Form\MediaTextFieldset::class,
+            Form\SimplePageBlockFieldset::class => Form\SimplePageBlockFieldset::class,
         ],
         'factories' => [
             Form\Element\PartialSelect::class => Service\Form\Element\PartialSelectFactory::class,
+            Form\Element\SitesPageSelect::class => Service\Form\Element\SitesPageSelectFactory::class,
             Form\Element\ThumbnailTypeSelect::class => Service\Form\Element\ThumbnailTypeSelectFactory::class,
         ],
     ],
@@ -96,6 +99,9 @@ return [
                 'partial' => '',
             ],
             'searchForm' => [
+            ],
+            'simplePage' => [
+                'page' => null,
             ],
         ],
     ],
