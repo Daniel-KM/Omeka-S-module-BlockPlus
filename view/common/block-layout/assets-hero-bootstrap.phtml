@@ -1,0 +1,27 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var array $assets Contains AssetRepresentation and optional url and label.
+ * @var string $misc
+ */
+
+// Note: this hero uses the classes of Twitter Bootstrap.
+
+?>
+<?php if ($assets): ?>
+<?php $asset = reset($assets); ?>
+<div class="header-wrapper" style="background-image:url(<?= $asset['asset']->assetUrl() ?>);">
+    <?php if ($misc): ?>
+    <div class="container mt-5">
+        <div class="row mt-5">
+            <div class="col-md-6  offset-3 mt-5">
+                <h1 class="lorem text-uppercase text-center text-justify"><?= $misc ?></h1>
+                <?php if ($asset['label'] && $asset['url']): ?>
+                <a href="<?= $asset['url'] ?>"><button class="btn knowmore"><?= $asset['label'] ?></button></a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
+<?php endif; ?>

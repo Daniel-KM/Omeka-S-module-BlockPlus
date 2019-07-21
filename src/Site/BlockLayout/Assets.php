@@ -70,6 +70,7 @@ class Assets extends AbstractBlockLayout
 
         $data = [
             'assets' => $result,
+            'misc' => $data['misc'],
             'partial' => $data['partial'],
         ];
 
@@ -119,7 +120,7 @@ class Assets extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $api = $view->api();
-        $assets = $block->dataValue('assets') ?: [];
+        $assets = $block->dataValue('assets', []);
         foreach ($assets as $key => &$assetData) {
             try {
                 $assetData['asset'] = $api->read('assets', $assetData['asset'])->getContent();
@@ -133,6 +134,7 @@ class Assets extends AbstractBlockLayout
 
         return $view->partial($partial, [
             'assets' => $assets,
+            'misc' => $block->dataValue('misc'),
         ]);
     }
 

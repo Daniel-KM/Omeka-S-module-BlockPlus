@@ -26,6 +26,14 @@ class AssetsForm extends Form
             ],
         ]);
         $this->add([
+            'name' => 'o:block[__blockIndex__][o:data][misc]',
+            'type' => Element\Textarea::class,
+            'options' => [
+                'label' => 'Miscellaneous', // @translate
+                'info' => 'This text area may be use with specific partials.', // @translate
+            ],
+        ]);
+        $this->add([
             'name' => 'o:block[__blockIndex__][o:data][partial]',
             'type' => Element\Text::class,
             'options' => [

@@ -11,14 +11,12 @@ return [
         'invokables' => [
             'assets' => Site\BlockLayout\Assets::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
-            'hero' => Site\BlockLayout\Hero::class,
         ],
     ],
     'form_elements' => [
         'invokables' => [
             Form\AssetsForm::class => Form\AssetsForm::class,
             Form\BrowsePreviewForm::class => Form\BrowsePreviewForm::class,
-            Form\HeroForm::class => Form\HeroForm::class,
         ],
     ],
     'translator' => [
@@ -45,12 +43,6 @@ return [
                 'heading' => '',
                 'link-text' => 'Browse all', // @translate
                 'partial' => '',
-            ],
-            'hero' => [
-                'asset' => null,
-                'text' => '',
-                'button' => 'Discover documents…', // @translate
-                'url' => 'item',
             ],
         ],
     ],
