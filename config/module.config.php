@@ -36,6 +36,7 @@ return [
             'assets' => [
                 // Each asset is an array with asset id and optional url and label.
                 'assets' => [],
+                'partial' => null,
             ],
             'browsePreview' => [
                 'resource_type' => 'items',

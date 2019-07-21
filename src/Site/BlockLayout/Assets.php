@@ -67,7 +67,11 @@ class Assets extends AbstractBlockLayout
                 'label' => $label,
             ];
         }
-        $data = ['assets' => $result];
+
+        $data = [
+            'assets' => $result,
+            'partial' => $data['partial'],
+        ];
 
         $block->setData($data);
     }
@@ -125,7 +129,9 @@ class Assets extends AbstractBlockLayout
             }
         }
 
-        return $view->partial('common/block-layout/assets', [
+        $partial = $block->dataValue('partial') ?: 'common/block-layout/assets';
+
+        return $view->partial($partial, [
             'assets' => $assets,
         ]);
     }

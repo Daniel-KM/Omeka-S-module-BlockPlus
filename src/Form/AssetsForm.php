@@ -25,5 +25,16 @@ class AssetsForm extends Form
                 'info' => 'List of urls and optionally labels separated by "|", for each asset, one by line.', // @translate
             ],
         ]);
+        $this->add([
+            'name' => 'o:block[__blockIndex__][o:data][partial]',
+            'type' => Element\Text::class,
+            'options' => [
+                'label' => 'Partial', // @translate
+                'info' => 'Set a different partial to display. Default is "common/block-layout/assets" (no extension).', // @translate
+            ],
+            'attributes' => [
+                'placeholder' => 'common/block-layout/assets',
+            ],
+        ]);
     }
 }
