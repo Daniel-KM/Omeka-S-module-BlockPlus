@@ -1,6 +1,7 @@
 <?php
 namespace BlockPlus\Form;
 
+use BlockPlus\Form\Element\PartialSelect;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
 
@@ -18,13 +19,11 @@ class ItemShowcaseFieldset extends Fieldset
         ]);
         $this->add([
             'name' => 'o:block[__blockIndex__][o:data][partial]',
-            'type' => Element\Select::class,
+            'type' => PartialSelect::class,
             'options' => [
                 'label' => 'Partial to display', // @translate
-                'info' => 'The partials are in folder "common/block-layout" of the theme and should start with "item-showcase".', // @translate
-                'value_options' => [
-                    '' => 'Default', // @translate
-                ],
+                'info' => 'Partials are in folder "common/block-layout" of the theme and should start with "item-showcase".', // @translate
+                'partial' => 'common/block-layout/item-showcase',
             ],
             'attributes' => [
                 'class' => 'chosen-select',

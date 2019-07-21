@@ -1,6 +1,7 @@
 <?php
 namespace BlockPlus\Form;
 
+use BlockPlus\Form\Element\PartialSelect;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
 
@@ -56,16 +57,13 @@ class BrowsePreviewFieldset extends Fieldset
                 'info' => 'Text for link to full browse view, if any. There is no link for media.', // @translate
             ],
         ]);
-
         $this->add([
             'name' => 'o:block[__blockIndex__][o:data][partial]',
-            'type' => Element\Select::class,
+            'type' => PartialSelect::class,
             'options' => [
                 'label' => 'Partial to display', // @translate
-                'info' => 'The partials are in folder "common/block-layout" of the theme and should start with "browse-preview".', // @translate
-                'value_options' => [
-                    '' => 'Default', // @translate
-                ],
+                'info' => 'Partials are in folder "common/block-layout" of the theme and should start with "browse-preview".', // @translate
+                'partial' => 'common/block-layout/browse-preview',
             ],
             'attributes' => [
                 'class' => 'chosen-select',

@@ -1,6 +1,7 @@
 <?php
 namespace BlockPlus\Form;
 
+use BlockPlus\Form\Element\PartialSelect;
 use Omeka\Form\Element\Asset;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
@@ -43,13 +44,11 @@ class AssetsFieldset extends Fieldset
         ]);
         $this->add([
             'name' => 'o:block[__blockIndex__][o:data][partial]',
-            'type' => Element\Select::class,
+            'type' => PartialSelect::class,
             'options' => [
                 'label' => 'Partial to display', // @translate
                 'info' => 'Partials are in folder "common/block-layout" of the theme and should start with "assets".', // @translate
-                'value_options' => [
-                    '' => 'Default', // @translate
-                ],
+                'partial' => 'common/block-layout/assets',
             ],
             'attributes' => [
                 'class' => 'chosen-select',

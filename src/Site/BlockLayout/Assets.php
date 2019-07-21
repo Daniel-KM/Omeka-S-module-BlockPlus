@@ -11,8 +11,6 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Assets extends AbstractBlockLayout
 {
-    use FillPartialValueOptionsTrait;
-
     public function getLabel()
     {
         return 'Assets'; // @translate
@@ -91,7 +89,6 @@ class Assets extends AbstractBlockLayout
         }
 
         $fieldset = $formElementManager->get($blockFieldset);
-        $this->fillPartialValueOptions($fieldset, 'common/block-layout/assets', $site);
         $fieldset->populateValues($dataForm);
 
         // The assets are currently filled manually (use default form).

@@ -26,6 +26,7 @@ return [
             Form\MediaTextFieldset::class => Form\MediaTextFieldset::class,
         ],
         'factories' => [
+            Form\Element\PartialSelect::class => Service\Form\Element\PartialSelectFactory::class,
             Form\Element\ThumbnailTypeSelect::class => Service\Form\Element\ThumbnailTypeSelectFactory::class,
         ],
     ],

@@ -9,8 +9,6 @@ use Zend\View\Renderer\PhpRenderer;
 
 class ItemShowcase extends AbstractBlockLayout
 {
-    use FillPartialValueOptionsTrait;
-
     public function getLabel()
     {
         return 'Item showcase'; // @translate
@@ -39,7 +37,6 @@ class ItemShowcase extends AbstractBlockLayout
         }
 
         $fieldset = $formElementManager->get($blockFieldset);
-        $this->fillPartialValueOptions($fieldset, 'common/block-layout/item-showcase', $site);
         $fieldset->populateValues($dataForm);
 
         $html = '';

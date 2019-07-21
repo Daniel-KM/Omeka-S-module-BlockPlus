@@ -17,8 +17,6 @@ use Zend\View\Renderer\PhpRenderer;
  */
 class MediaText extends AbstractBlockLayout
 {
-    use FillPartialValueOptionsTrait;
-
     /**
      * @var HtmlPurifier
      */
@@ -71,8 +69,6 @@ class MediaText extends AbstractBlockLayout
         }
 
         $fieldset = $formElementManager->get($blockFieldset);
-        $this->fillPartialValueOptions($fieldset, 'common/block-layout/media-text', $site);
-
         $fieldset->populateValues($dataForm);
 
         // Display manually to inset collapsible options.

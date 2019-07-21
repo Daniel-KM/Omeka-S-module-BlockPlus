@@ -9,8 +9,6 @@ use Zend\View\Renderer\PhpRenderer;
 
 class BrowsePreview extends AbstractBlockLayout
 {
-    use FillPartialValueOptionsTrait;
-
     public function getLabel()
     {
         return 'Browse preview'; // @translate
@@ -36,7 +34,6 @@ class BrowsePreview extends AbstractBlockLayout
         }
 
         $fieldset = $formElementManager->get($blockFieldset);
-        $this->fillPartialValueOptions($fieldset, 'common/block-layout/browse-preview', $site);
         $fieldset->populateValues($dataForm);
 
         return $view->formCollection($fieldset);
