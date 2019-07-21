@@ -9,12 +9,14 @@ return [
     ],
     'block_layouts' => [
         'invokables' => [
+            'assets' => Site\BlockLayout\Assets::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             'hero' => Site\BlockLayout\Hero::class,
         ],
     ],
     'form_elements' => [
         'invokables' => [
+            Form\AssetsForm::class => Form\AssetsForm::class,
             Form\BrowsePreviewForm::class => Form\BrowsePreviewForm::class,
             Form\HeroForm::class => Form\HeroForm::class,
         ],
@@ -31,6 +33,10 @@ return [
     ],
     'blockplus' => [
         'block_settings' => [
+            'assets' => [
+                // Each asset is an array with asset id and optional url and label.
+                'assets' => [],
+            ],
             'browsePreview' => [
                 'resource_type' => 'items',
                 'query' => '',

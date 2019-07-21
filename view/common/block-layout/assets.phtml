@@ -1,0 +1,20 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var array $assets Contains AssetRepresentation and optional url and label.
+ */
+
+?>
+<div class="assets-block">
+    <?php foreach ($assets as $asset): ?>
+    <div class="asset">
+        <?php if ($asset['url']): ?>
+        <a href="<?= $asset['url'] ?>"<?php if (filter_var($asset['url'], FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['label'] ?>"/>
+        </a>
+        <?php else: ?>
+        <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['label'] ?>"/>
+        <?php endif; ?>
+    </div>
+    <?php endforeach; ?>
+</div>
