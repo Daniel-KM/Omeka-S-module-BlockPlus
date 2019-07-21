@@ -26,7 +26,7 @@ theme.
 Display a list of assets with optional urls and labels. It’s useful to build a
 block of partners, for example.
 
-#### Simple page
+### Simple page
 
 Allow to use a page as a block, so the same page can be use in multiple sites,
 for example the page "About" or "Privacy". Of course, the page is a standard
@@ -47,7 +47,7 @@ be used to display a html text with a video on the home page.
 ### Search form
 
 Include a specific search form in a specific page. The default query may be
-adapted to the page.
+adapted to the page via the theme.
 
 ### Improvements for Browse Preview and Item Showcase
 
@@ -94,18 +94,10 @@ This Agreement may be freely reproduced and published, provided it is not
 altered, and that no provisions are either added or removed herefrom.
 
 
-Contact
--------
-
-Current maintainers:
-
-* Daniel Berthereau (see [Daniel-KM] on GitHub)
-
-
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2018-2019
+* Copyright Daniel Berthereau, 2018-2019 (see [Daniel-KM] on GitHub)
 
 
 [Block Plus]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus
