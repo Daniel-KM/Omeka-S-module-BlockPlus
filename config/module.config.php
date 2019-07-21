@@ -11,7 +11,8 @@ return [
         'invokables' => [
             'assets' => Site\BlockLayout\Assets::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
-            'itemShowcase' => Site\BlockLayout\ItemShowcase::class,
+            // TODO Omeka core use "itemShowCase" instead of "itemShowcase".
+            'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
         ],
     ],
     'form_elements' => [
