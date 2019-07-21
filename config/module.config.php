@@ -12,6 +12,7 @@ return [
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             // TODO Omeka core use "itemShowCase" instead of "itemShowcase".
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
+            'searchForm' => Site\BlockLayout\SearchForm::class,
         ],
         'factories' => [
             'assets' => Service\BlockLayout\AssetsFactory::class,
@@ -93,6 +94,8 @@ return [
                 // This option is mainly for compability with Omeka Classic exhibits.
                 'caption_position' => 'center',
                 'partial' => '',
+            ],
+            'searchForm' => [
             ],
         ],
     ],
