@@ -1,10 +1,11 @@
 <?php
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
- * @var array $assets Contains AssetRepresentation and optional url and label.
+ * @var array $assets Contains AssetRepresentation, caption, title, url and class.
  * @var string $heading
- * @var string $misc
  */
+
+// Caption is not used in this template.
 
 ?>
 <style>
@@ -26,12 +27,12 @@
     <div class="asset partners-logos">
     <?php foreach ($assets as $asset): ?>
         <?php if ($asset['url']): ?>
-        <a class="partner-logo" href="<?= $asset['url'] ?>"<?php if (filter_var($asset['url'], FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
-            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['label'] ?>"/>
+        <a class="partner-logo <?= $asset['class'] ?>" href="<?= $asset['url'] ?>" target="_blank">
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
         </a>
         <?php else: ?>
-        <span class="partner-logo">
-            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['label'] ?>"/>
+        <span class="partner-logo <?= $asset['class'] ?>">
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
         </span>
         <?php endif; ?>
     <?php endforeach; ?>

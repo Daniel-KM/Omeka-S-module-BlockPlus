@@ -1,9 +1,8 @@
 <?php
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
- * @var array $assets Contains AssetRepresentation and optional url and label.
+ * @var array $assets Contains AssetRepresentation, caption, title, url and class.
  * @var string $heading
- * @var string $misc
  */
 
 ?>
@@ -13,15 +12,22 @@
     <?php endif; ?>
 
     <?php foreach ($assets as $asset): ?>
-    <div class="asset">
-        <?php if ($asset['url']): ?>
+    <div class="asset <?= $asset['class'] ?>">
+        <?php if ($asset['asset']): ?>
+            <?php if ($asset['url']): ?>
         <a href="<?= $asset['url'] ?>"<?php if (filter_var($asset['url'], FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
-            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['label'] ?>"/>
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
         </a>
-        <?php else: ?>
+            <?php else: ?>
         <span>
-            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['label'] ?>"/>
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
         </span>
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($asset['caption']): ?>
+        <div class="caption">
+            <?= $asset['caption'] ?>
+        </div>
         <?php endif; ?>
     </div>
     <?php endforeach; ?>

@@ -129,10 +129,17 @@ class Assets extends AbstractBlockLayout
         $assets = $block->dataValue('assets', []);
 
         foreach ($assets as $key => &$assetData) {
+            if (empty($assetData['asset'])) {
+                continue;
+            }
+
             try {
                 $assetData['asset'] = $api->read('assets', $assetData['asset'])->getContent();
             } catch (\Omeka\Api\Exception\NotFoundException $e) {
-                // The asset has been removed. It's kept in block, but skipped.
+                $assetData['asset'] = null;
+            }
+
+            if (empty($assetData['asset']) && empty($assetData['caption'])) {
                 unset($assets[$key]);
             }
         }

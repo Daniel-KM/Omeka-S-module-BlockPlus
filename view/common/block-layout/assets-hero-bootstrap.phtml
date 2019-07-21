@@ -1,9 +1,8 @@
 <?php
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
- * @var array $assets Contains AssetRepresentation and optional url and label.
+ * @var array $assets Contains AssetRepresentation, caption, title, url and class.
  * @var string $heading
- * @var string $misc
  */
 
 // Note: this hero uses the classes and js of Twitter Bootstrap.
@@ -12,16 +11,18 @@
 <?php if ($heading): ?>
 <h2><?= $heading ?></h2>
 <?php endif; ?>
+
 <?php if ($assets): ?>
+<?php // The hero use the first asset. ?>
 <?php $asset = reset($assets); ?>
-<div class="header-wrapper" style="background-image:url(<?= $asset['asset']->assetUrl() ?>);">
-    <?php if ($misc): ?>
+<div class="header-wrapper <? $asset['class'] ?>" style="background-image:url(<?= $asset['asset']->assetUrl() ?>);">
+    <?php if ($asset['caption']): ?>
     <div class="container mt-5">
         <div class="row mt-5">
             <div class="col-md-6  offset-3 mt-5">
-                <h1 class="lorem text-uppercase text-center text-justify"><?= $misc ?></h1>
-                <?php if ($asset['label'] && $asset['url']): ?>
-                <a href="<?= $asset['url'] ?>"><button class="btn knowmore"><?= $asset['label'] ?></button></a>
+                <h1 class="lorem text-uppercase text-center text-justify"><?= $asset['caption'] ?></h1>
+                <?php if ($asset['title'] && $asset['url']): ?>
+                <a href="<?= $asset['url'] ?>"><button class="btn knowmore"><?= $asset['title'] ?></button></a>
                 <?php endif; ?>
             </div>
         </div>
