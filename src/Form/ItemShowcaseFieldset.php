@@ -11,6 +11,14 @@ class ItemShowcaseFieldset extends Fieldset
     public function init()
     {
         $this->add([
+            'name' => 'o:block[__blockIndex__][o:data][heading]',
+            'type' => Element\Text::class,
+            'options' => [
+                'label' => 'Block title', // @translate
+                'info' => 'Heading for the block, if any.', // @translate
+            ],
+        ]);
+        $this->add([
             'name' => 'o:block[__blockIndex__][o:data][thumbnail_type]',
             'type' => ThumbnailTypeSelect::class,
             'options' => [
@@ -18,14 +26,6 @@ class ItemShowcaseFieldset extends Fieldset
             ],
             'attributes' => [
                 'class' => 'chosen-select',
-            ],
-        ]);
-        $this->add([
-            'name' => 'o:block[__blockIndex__][o:data][heading]',
-            'type' => Element\Text::class,
-            'options' => [
-                'label' => 'Block title', // @translate
-                'info' => 'Heading for the block, if any.', // @translate
             ],
         ]);
         $this->add([
