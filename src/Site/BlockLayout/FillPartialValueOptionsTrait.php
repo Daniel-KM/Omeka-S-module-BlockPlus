@@ -42,20 +42,20 @@ trait FillPartialValueOptionsTrait
         $directory = OMEKA_PATH . '/application/view/';
         // Check filenames in modules.
         $recursiveList = $this->filteredFilesInFolder($directory, $root, ['phtml']);
-        $partials += array_combine($recursiveList, $recursiveList);
+        $partials += $recursiveList;
 
         // Check filenames in modules.
         $services = $site->getServiceLocator();
         $templatePathStack = $services->get('Config')['view_manager']['template_path_stack'];
         foreach ($templatePathStack as $directory) {
             $recursiveList = $this->filteredFilesInFolder($directory, $root, ['phtml']);
-            $partials += array_combine($recursiveList, $recursiveList);
+            $partials += $recursiveList;
         }
 
         // Check filenames in the theme.
         $directory = OMEKA_PATH . '/themes/' . $site->theme() . '/view/';
         $recursiveList = $this->filteredFilesInFolder($directory, $root, ['phtml']);
-        $partials += array_combine($recursiveList, $recursiveList);
+        $partials += $recursiveList;
 
         return $partials;
     }
@@ -99,7 +99,7 @@ trait FillPartialValueOptionsTrait
             if (strlen($extension)) {
                 $file = substr($file, 0, -1 - strlen($extension));
             }
-            $files[] = $dirRoot . $file;
+            $files[$dirRoot . $file] = $file;
         }
         natcasesort($files);
 
