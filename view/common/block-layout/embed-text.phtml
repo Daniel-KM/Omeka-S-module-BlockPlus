@@ -64,7 +64,9 @@ $hyperlink = $plugins->get('hyperlink');
 </div>
 <?= $html ?>
 
-<?php if ($linkUrl && $linkText): ?>
+<?php if ($linkText && $linkUrl): ?>
 <?= $hyperlink($linkText, $linkUrl) ?>
+<?php elseif ($linkText): ?>
+<span><?= $linkText ?></span>
 <?php endif; ?>
 </div>
