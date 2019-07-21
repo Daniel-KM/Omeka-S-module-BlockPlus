@@ -1,0 +1,34 @@
+{
+    "name": "daniel-km/omeka-s-module-block-plus",
+    "type": "library",
+    "description": "Module for Omeka S that adds some new blocks for the static pages and improves the existing ones.",
+    "license": "CECILL-2.1",
+    "authors": [
+        {
+            "name": "Daniel Berthereau",
+            "email": "Daniel.packagist@Berthereau.net"
+        }
+    ],
+    "homepage": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus",
+    "support": {
+        "issues": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/issues",
+        "forum": "https://forum.omeka.org/"
+    },
+    "keywords": [
+        "Omeka S",
+        "module",
+        "feature",
+        "theme",
+        "admin"
+    ],
+    "autoload": {
+        "psr-4": {
+            "BlockPlus\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BlockPlusTest\\": "test/BlockPlusTest/"
+        }
+    }
+}
