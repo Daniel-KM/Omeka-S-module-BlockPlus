@@ -44,9 +44,8 @@ class ItemShowcase extends AbstractBlockLayout
 
         $html .= '<a href="#" class="collapse" aria-label="collapse"><h4>' . $view->translate('Options'). '</h4></a>';
         $html .= '<div class="collapsible no-override">';
-        $html .= $view->blockThumbnailTypeSelect($block);
-        $html .= $view->blockShowTitleSelect($block);
         $html .= '<style>.collapsible.no-override {overflow:visible;}</style>';
+        $html .= $view->blockShowTitleSelect($block);
         $html .= $view->formCollection($fieldset);
         $html .= '</div>';
 

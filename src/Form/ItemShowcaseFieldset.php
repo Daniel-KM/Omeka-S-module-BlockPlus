@@ -2,6 +2,7 @@
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\PartialSelect;
+use BlockPlus\Form\Element\ThumbnailTypeSelect;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
 
@@ -9,6 +10,16 @@ class ItemShowcaseFieldset extends Fieldset
 {
     public function init()
     {
+        $this->add([
+            'name' => 'o:block[__blockIndex__][o:data][thumbnail_type]',
+            'type' => ThumbnailTypeSelect::class,
+            'options' => [
+                'label' => 'Thumbnail type', // @translate
+            ],
+            'attributes' => [
+                'class' => 'chosen-select',
+            ],
+        ]);
         $this->add([
             'name' => 'o:block[__blockIndex__][o:data][heading]',
             'type' => Element\Text::class,
