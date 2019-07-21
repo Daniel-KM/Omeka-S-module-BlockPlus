@@ -9,11 +9,13 @@ return [
     ],
     'block_layouts' => [
         'invokables' => [
+            'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             'hero' => Site\BlockLayout\Hero::class,
         ],
     ],
     'form_elements' => [
         'invokables' => [
+            Form\BrowsePreviewForm::class => Form\BrowsePreviewForm::class,
             Form\HeroForm::class => Form\HeroForm::class,
         ],
     ],
@@ -29,6 +31,14 @@ return [
     ],
     'blockplus' => [
         'block_settings' => [
+            'browsePreview' => [
+                'resource_type' => 'items',
+                'query' => '',
+                'limit' => 12,
+                'heading' => '',
+                'link-text' => 'Browse all', // @translate
+                'partial' => '',
+            ],
             'hero' => [
                 'asset' => null,
                 'text' => '',
