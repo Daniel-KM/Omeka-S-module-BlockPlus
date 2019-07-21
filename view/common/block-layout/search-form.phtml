@@ -1,9 +1,14 @@
 <?php
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var string $heading
  */
 
 ?>
 <div class="block-search">
+    <?php if ($heading): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
+
     <?= $this->partial('common/search-form') ?>
 </div>

@@ -20,11 +20,29 @@ class SearchForm extends AbstractBlockLayout
         SitePageRepresentation $page = null,
         SitePageBlockRepresentation $block = null
     ) {
-        return $view->translate('Insert a themable search form on the page, generally the home page.'); // @translate
+        // Factory is not used to make rendering simpler.
+        $services = $site->getServiceLocator();
+        $formElementManager = $services->get('FormElementManager');
+        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['searchForm'];
+        $blockFieldset = \BlockPlus\Form\SearchFormFieldset::class;
+
+        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+
+        $dataForm = [];
+        foreach ($data as $key => $value) {
+            $dataForm['o:block[__blockIndex__][o:data][' . $key . ']'] = $value;
+        }
+
+        $fieldset = $formElementManager->get($blockFieldset);
+        $fieldset->populateValues($dataForm);
+
+        $html = $view->formCollection($fieldset);
+        return $html;
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        return $view->partial('common/block-layout/search-form');
+        $data = $block->data();
+        return $view->partial('common/block-layout/search-form', $data);
     }
 }

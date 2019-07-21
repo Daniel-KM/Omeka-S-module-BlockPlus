@@ -28,6 +28,7 @@ return [
             Form\EmbedTextFieldset::class => Form\EmbedTextFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\MediaTextFieldset::class => Form\MediaTextFieldset::class,
+            Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
             Form\SimplePageBlockFieldset::class => Form\SimplePageBlockFieldset::class,
         ],
         'factories' => [
@@ -99,6 +100,7 @@ return [
                 'partial' => '',
             ],
             'searchForm' => [
+                'heading' => '',
             ],
             'simplePage' => [
                 'page' => null,
