@@ -21,6 +21,9 @@ return [
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
         ],
+        'factories' => [
+            Form\Element\ThumbnailTypeSelect::class => Service\Form\Element\ThumbnailTypeSelectFactory::class,
+        ],
     ],
     'translator' => [
         'translation_file_patterns' => [
