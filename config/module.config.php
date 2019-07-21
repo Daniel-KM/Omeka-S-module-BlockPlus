@@ -29,7 +29,7 @@ return [
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\MediaTextFieldset::class => Form\MediaTextFieldset::class,
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
-            Form\SimplePageBlockFieldset::class => Form\SimplePageBlockFieldset::class,
+            Form\SimplePageFieldset::class => Form\SimplePageFieldset::class,
         ],
         'factories' => [
             Form\Element\PartialSelect::class => Service\Form\Element\PartialSelectFactory::class,

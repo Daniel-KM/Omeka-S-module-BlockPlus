@@ -70,7 +70,7 @@ class SimplePage extends AbstractBlockLayout
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['simplePage'];
-        $blockFieldset = \BlockPlus\Form\SimplePageBlockFieldset::class;
+        $blockFieldset = \BlockPlus\Form\SimplePageFieldset::class;
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
