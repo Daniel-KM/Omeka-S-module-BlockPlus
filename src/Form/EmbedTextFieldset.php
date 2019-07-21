@@ -26,13 +26,6 @@ class EmbedTextFieldset extends Fieldset
             ],
         ]);
         $this->add([
-            'name' => 'o:block[__blockIndex__][o:data][html]',
-            'type' => Element\Textarea::class,
-            'attributes' => [
-                'class' => 'block-html full wysiwyg',
-            ],
-        ]);
-        $this->add([
             'name' => 'o:block[__blockIndex__][o:data][alignment]',
             'type' => Element\Radio::class,
             'options' => [
@@ -64,6 +57,13 @@ class EmbedTextFieldset extends Fieldset
                     'left' => 'left', // @translate
                     'right' => 'right', // @translate
                 ],
+            ],
+        ]);
+        $this->add([
+            'name' => 'o:block[__blockIndex__][o:data][html]',
+            'type' => Element\Textarea::class,
+            'attributes' => [
+                'class' => 'block-html full wysiwyg',
             ],
         ]);
         $this->add([
