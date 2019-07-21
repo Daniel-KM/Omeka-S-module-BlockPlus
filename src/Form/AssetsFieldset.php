@@ -105,7 +105,7 @@ class AssetsFieldset extends Fieldset
                     'label' => 'Add another', // @translate
                 ],
                 'attributes' => [
-                    'class' => 'asset-form-add button'
+                    'class' => 'asset-form-add button',
                 ],
             ])
             ->add([
@@ -115,7 +115,7 @@ class AssetsFieldset extends Fieldset
                     'label' => 'Remove', // @translate
                 ],
                 'attributes' => [
-                    'class' => 'asset-form-remove button red'
+                    'class' => 'asset-form-remove button red',
                 ],
             ]);
     }

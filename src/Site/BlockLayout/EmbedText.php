@@ -69,7 +69,6 @@ class EmbedText extends AbstractBlockLayout
          * @see \Omeka\Media\Ingester\OEmbed
          * @see \Omeka\Site\BlockLayout\Html
          */
-
         $data = $block->getData();
 
         // Currently, the UI manages only one embed, but it simplifies future
