@@ -71,7 +71,6 @@ class EmbedText extends AbstractBlockLayout
          */
 
         $data = $block->getData();
-pmf($data);
 
         // Currently, the UI manages only one embed, but it simplifies future
         // improvments

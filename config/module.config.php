@@ -46,8 +46,15 @@ return [
         'block_settings' => [
             'assets' => [
                 'heading' => '',
-                // Each asset is an array with asset id and optional url and label.
-                'assets' => [],
+                'assets' => [
+                    [
+                        'asset' => null,
+                        'title' => '',
+                        'caption' => '',
+                        'url' => '',
+                        'class' => '',
+                    ],
+                ],
                 'partial' => null,
             ],
             'browsePreview' => [
