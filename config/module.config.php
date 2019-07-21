@@ -9,12 +9,12 @@ return [
     ],
     'block_layouts' => [
         'invokables' => [
-            'assets' => Site\BlockLayout\Assets::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             // TODO Omeka core use "itemShowCase" instead of "itemShowcase".
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
         ],
         'factories' => [
+            'assets' => Service\BlockLayout\AssetsFactory::class,
             'embedText' => Service\BlockLayout\EmbedTextFactory::class,
             'mediaText' => Service\BlockLayout\MediaTextFactory::class,
         ],

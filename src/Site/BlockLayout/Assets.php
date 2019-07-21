@@ -7,10 +7,22 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\HtmlPurifier;
 use Zend\View\Renderer\PhpRenderer;
 
 class Assets extends AbstractBlockLayout
 {
+    /**
+     * @var HtmlPurifier
+     */
+    protected $htmlPurifier;
+
+    public function __construct(
+        HtmlPurifier $htmlPurifier
+    ) {
+        $this->htmlPurifier = $htmlPurifier;
+    }
+
     public function getLabel()
     {
         return 'Assets'; // @translate
@@ -28,6 +40,15 @@ class Assets extends AbstractBlockLayout
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {
         $data = $block->getData();
+
+        // Normalize values and purify html.
+        $data['assets'] = array_map(function ($v) {
+            $v += ['asset' => null, 'caption' => null, 'title' => null, 'url' => null, 'class' => null];
+            $v['caption'] = isset($v['caption'])
+                ? $this->htmlPurifier->purify($v['caption'])
+                : '';
+            return $v;
+        }, $data['assets']);
 
         // Trim all values, then remove empty asset arrays: array without asset
         // and caption are removed.
