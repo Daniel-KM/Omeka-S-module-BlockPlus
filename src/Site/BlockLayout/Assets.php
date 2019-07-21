@@ -18,7 +18,11 @@ class Assets extends AbstractBlockLayout
 
     public function prepareForm(PhpRenderer $view)
     {
-        $view->headScript()->appendFile($view->assetUrl('js/assets-form.js', 'BlockPlus'));
+        $assetUrl = $view->plugin('assetUrl');
+        $view->headLink()->appendStylesheet($assetUrl('css/asset-form.css', 'Omeka'));
+        $view->headScript()
+            ->appendFile($assetUrl('js/asset-form.js', 'Omeka'))
+            ->appendFile($assetUrl('js/assets-form.js', 'BlockPlus'));
     }
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
