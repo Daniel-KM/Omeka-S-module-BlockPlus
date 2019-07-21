@@ -19,6 +19,9 @@ class BrowsePreviewForm extends Form
                     'media' => 'Media', // @translate
                 ],
             ],
+            'attributes' => [
+                'class' => 'chosen-select',
+            ],
         ]);
         $this->add([
             'name' => 'o:block[__blockIndex__][o:data][query]',
@@ -56,13 +59,16 @@ class BrowsePreviewForm extends Form
 
         $this->add([
             'name' => 'o:block[__blockIndex__][o:data][partial]',
-            'type' => Element\Text::class,
+            'type' => Element\Select::class,
             'options' => [
-                'label' => 'Partial', // @translate
-                'info' => 'Set a different partial to display. Default is "common/block-layout/browse-preview" (no extension).', // @translate
+                'label' => 'Partial to display', // @translate
+                'info' => 'The partials are in folder "common/block-layout" of the theme and should start with "browse-preview".', // @translate
+                'value_options' => [
+                    '' => 'Default', // @translate
+                ],
             ],
             'attributes' => [
-                'placeholder' => 'common/block-layout/browse-preview',
+                'class' => 'chosen-select',
             ],
         ]);
     }

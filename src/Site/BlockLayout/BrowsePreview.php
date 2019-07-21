@@ -6,22 +6,18 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
-use Zend\Form\FormElementManager\FormElementManagerV3Polyfill as FormElementManager;
 use Zend\View\Renderer\PhpRenderer;
 
 class BrowsePreview extends AbstractBlockLayout
 {
+    use FillPartialsTrait;
+
     public function getLabel()
     {
         return 'Browse preview'; // @translate
     }
 
     protected $blockForm = BrowsePreviewForm::class;
-
-    /**
-     * @var FormElementManager
-     */
-    protected $formElementManager;
 
     /**
      * @var array
@@ -36,22 +32,22 @@ class BrowsePreview extends AbstractBlockLayout
     ) {
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
-        $this->formElementManager = $services->get('FormElementManager');
+        $formElementManager = $services->get('FormElementManager');
         $this->defaultSettings = $services->get('Config')['blockplus']['block_settings']['browsePreview'];
 
         $data = $block ? $block->data() + $this->defaultSettings : $this->defaultSettings;
-        $form = $this->formElementManager->get($this->blockForm);
+
         $dataForm = [];
         foreach ($data as $key => $value) {
             $dataForm['o:block[__blockIndex__][o:data][' . $key . ']'] = $value;
         }
+
+        $form = $formElementManager->get($this->blockForm);
+        $this->fillPartials($form, 'common/block-layout/browse-preview', $site, $services);
         $form->setData($dataForm);
         $form->prepare();
 
-        $html = '<p class="explanation">'
-            . $view->translate('This block allows to select the partial you want.')
-            . '</p>';
-        return $html . $view->formCollection($form);
+        return $view->formCollection($form);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
