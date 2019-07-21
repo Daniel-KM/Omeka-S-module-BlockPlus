@@ -11,12 +11,14 @@ return [
         'invokables' => [
             'assets' => Site\BlockLayout\Assets::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
+            'itemShowcase' => Site\BlockLayout\ItemShowcase::class,
         ],
     ],
     'form_elements' => [
         'invokables' => [
             Form\AssetsForm::class => Form\AssetsForm::class,
             Form\BrowsePreviewForm::class => Form\BrowsePreviewForm::class,
+            Form\ItemShowcaseForm::class => Form\ItemShowcaseForm::class,
         ],
     ],
     'translator' => [
@@ -43,6 +45,13 @@ return [
                 'limit' => 12,
                 'heading' => '',
                 'link-text' => 'Browse all', // @translate
+                'partial' => '',
+            ],
+            'itemShowcase' => [
+                'attachments' => [],
+                'thumbnail_type' => 'square',
+                'show_title_option' => 'item_title',
+                'heading' => '',
                 'partial' => '',
             ],
         ],
