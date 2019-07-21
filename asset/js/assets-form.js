@@ -36,7 +36,9 @@
                 });
             // Reset all values and content.
             next
-                .find('.inputs input, .inputs textarea').val('').html('');
+                .find('.inputs input').val('').end()
+                .find('.inputs textarea').html('').end()
+                .find('.inputs .cke_textarea_inline').html('');
 
             first.after(next);
 
