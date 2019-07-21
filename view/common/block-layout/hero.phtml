@@ -1,0 +1,25 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\AssetRepresentation $asset
+ * @var string $text
+ * @var string $button
+ * @var string $url
+ */
+
+// Note: this hero has the classes of the Twitter bootstrap.
+?>
+<div class="header-wrapper" style="background-image:url(<?= $asset ? $asset->assetUrl() : '' ?>);">
+    <?php if ($text): ?>
+    <div class="container mt-5">
+        <div class="row mt-5">
+            <div class="col-md-6  offset-3 mt-5">
+                <h1 class="lorem text-uppercase text-center text-justify"><?= $text ?></h1>
+                <?php if ($button && $url): ?>
+                <a href="<?= $url ?>"><button class="btn knowmore"><?= $button ?></button></a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>

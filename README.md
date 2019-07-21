@@ -21,6 +21,11 @@ Select them in the view "Page edit". You may theme them too: copy the block
 partials that are in `view/common/block-layout/` in the same place of your
 theme.
 
+### Hero
+
+Display a single big image with a special effect. Require [Bootstrap], else the
+html code should be adapted to your code.
+
 
 Warning
 -------
@@ -77,6 +82,7 @@ Copyright
 [Block Plus]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus
 [Omeka S]: https://omeka.org/s
 [Installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
+[Bootstrap]: https://getbootstrap.com
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html

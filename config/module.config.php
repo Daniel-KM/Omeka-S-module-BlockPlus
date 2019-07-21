@@ -9,10 +9,12 @@ return [
     ],
     'block_layouts' => [
         'invokables' => [
+            'hero' => Site\BlockLayout\Hero::class,
         ],
     ],
     'form_elements' => [
         'invokables' => [
+            Form\HeroForm::class => Form\HeroForm::class,
         ],
     ],
     'translator' => [
@@ -27,6 +29,12 @@ return [
     ],
     'blockplus' => [
         'block_settings' => [
+            'hero' => [
+                'asset' => null,
+                'text' => '',
+                'button' => 'Discover documents…', // @translate
+                'url' => 'item',
+            ],
         ],
     ],
 ];
