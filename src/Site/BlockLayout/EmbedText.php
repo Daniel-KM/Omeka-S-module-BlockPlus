@@ -21,6 +21,8 @@ use Zend\View\Renderer\PhpRenderer;
  */
 class EmbedText extends AbstractBlockLayout
 {
+    use CommonTrait;
+
     /**
      * @var HtmlPurifier
      */
@@ -127,7 +129,7 @@ class EmbedText extends AbstractBlockLayout
         }
 
         $data['html'] = isset($data['html'])
-            ? $this->htmlPurifier->purify($data['html'])
+            ? $this->fixEndOfLine($this->htmlPurifier->purify($data['html']))
             : '';
 
         $block->setData($data);

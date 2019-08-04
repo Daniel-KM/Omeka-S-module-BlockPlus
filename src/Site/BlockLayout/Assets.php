@@ -12,6 +12,8 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Assets extends AbstractBlockLayout
 {
+    use CommonTrait;
+
     /**
      * @var HtmlPurifier
      */
@@ -45,7 +47,7 @@ class Assets extends AbstractBlockLayout
         $data['assets'] = array_map(function ($v) {
             $v += ['asset' => null, 'caption' => null, 'title' => null, 'url' => null, 'class' => null];
             $v['caption'] = isset($v['caption'])
-                ? $this->htmlPurifier->purify($v['caption'])
+                ? $this->fixEndOfLine($this->htmlPurifier->purify($v['caption']))
                 : '';
             return $v;
         }, $data['assets']);

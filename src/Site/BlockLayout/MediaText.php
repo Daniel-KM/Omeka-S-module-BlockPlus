@@ -17,6 +17,8 @@ use Zend\View\Renderer\PhpRenderer;
  */
 class MediaText extends AbstractBlockLayout
 {
+    use CommonTrait;
+
     /**
      * @var HtmlPurifier
      */
@@ -44,7 +46,7 @@ class MediaText extends AbstractBlockLayout
     {
         $data = $block->getData();
         $data['html'] = isset($data['html'])
-            ? $this->htmlPurifier->purify($data['html'])
+            ? $this->fixEndOfLine($this->htmlPurifier->purify($data['html']))
             : '';
         $block->setData($data);
     }
