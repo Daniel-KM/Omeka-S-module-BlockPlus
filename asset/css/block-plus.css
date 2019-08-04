@@ -16,6 +16,16 @@
     text-align: right;
 }
 
+.align-left {
+    float: left;
+}
+.align-right {
+    float: right;
+}
+.clear {
+    clear: both;
+}
+
 .wrapper-iframe {
     width: 100%;
 }

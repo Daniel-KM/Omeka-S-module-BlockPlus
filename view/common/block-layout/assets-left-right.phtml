@@ -1,0 +1,42 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var array $assets Contains keys "asset" (AssetRepresentation), "caption", "title", "url" and "class".
+ * @var string $heading
+ */
+
+?>
+<style>
+.align-left { float: left; margin-right: 6px; }
+.align-right { float: right; margin-left: 6px; }
+.clear { clear: both; }
+</style>
+
+<div class="block-assets">
+    <?php if ($heading): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
+
+    <?php $index = 0; ?>
+    <?php foreach ($assets as $asset): ?>
+    <div class="asset <?= $asset['class'] ?>">
+        <?php if ($asset['asset']): ?>
+            <?php if ($asset['url']): ?>
+        <a class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>" href="<?= $asset['url'] ?>"<?php if (filter_var($asset['url'], FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
+        </a>
+            <?php else: ?>
+        <span class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>">
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
+        </span>
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($asset['caption']): ?>
+        <div class="caption">
+            <?= $asset['caption'] ?>
+        </div>
+        <?php endif; ?>
+        <div class="clear"></div>
+    </div>
+    <?php endforeach; ?>
+</div>
