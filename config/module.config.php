@@ -10,8 +10,9 @@ return [
     'block_layouts' => [
         'invokables' => [
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
-            // TODO Omeka core use "itemShowCase" instead of "itemShowcase".
+            // TODO Omeka core uses "itemShowCase" instead of "itemShowcase".
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
+            'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
             'separator' => Site\BlockLayout\Separator::class,
         ],
@@ -28,6 +29,7 @@ return [
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\EmbedTextFieldset::class => Form\EmbedTextFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
+            Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\MediaTextFieldset::class => Form\MediaTextFieldset::class,
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
             Form\SimplePageFieldset::class => Form\SimplePageFieldset::class,
@@ -87,6 +89,14 @@ return [
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',
                 'heading' => '',
+                'partial' => '',
+            ],
+            'listOfSites' => [
+                'heading' => '',
+                'sort' => 'alpha',
+                'limit' => null,
+                'pagination' => false,
+                'summaries' => true,
                 'partial' => '',
             ],
             'mediaText' => [
