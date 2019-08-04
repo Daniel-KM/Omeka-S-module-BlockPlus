@@ -53,7 +53,7 @@ class Separator extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $class = $block->dataValue('class', 'transparent');
+        $class = $block->dataValue('class', 'transparent') ?: 'transparent';
         return '<div class="break separator ' . $class . '"></div>';
     }
 }
