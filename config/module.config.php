@@ -19,6 +19,7 @@ return [
         'factories' => [
             'assets' => Service\BlockLayout\AssetsFactory::class,
             'embedText' => Service\BlockLayout\EmbedTextFactory::class,
+            'html' => Service\BlockLayout\HtmlFactory::class,
             'mediaText' => Service\BlockLayout\MediaTextFactory::class,
             'simplePage' => Service\BlockLayout\SimplePageFactory::class,
         ],
