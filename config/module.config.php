@@ -13,6 +13,7 @@ return [
             // TODO Omeka core use "itemShowCase" instead of "itemShowcase".
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
+            'separator' => Site\BlockLayout\Separator::class,
         ],
         'factories' => [
             'assets' => Service\BlockLayout\AssetsFactory::class,
@@ -102,6 +103,9 @@ return [
             'searchForm' => [
                 'heading' => '',
                 'partial' => '',
+            ],
+            'separator' => [
+                'class' => '',
             ],
             'simplePage' => [
                 'page' => null,
