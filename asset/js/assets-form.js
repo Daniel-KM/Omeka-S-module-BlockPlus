@@ -2,6 +2,7 @@
     $(document).ready(function () {
         // TODO Make multiple assets form sortable.
         // TODO Use the removed base fieldset as a hidden base.
+        // TODO Allow to save a caption without asset.
         $('#content').on('click', '.asset-form-add', function () {
             var assets = $(this).closest('.assets-list');
             var first = $(this).closest('.asset-data');
