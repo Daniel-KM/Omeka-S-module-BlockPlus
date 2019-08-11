@@ -71,6 +71,7 @@ return [
             ],
             'block' => [
                 'heading' => '',
+                'params' => '',
                 'partial' => '',
             ],
             'browsePreview' => [
