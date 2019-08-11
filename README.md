@@ -26,6 +26,12 @@ theme.
 Display a list of assets with optional urls and labels. It’s useful to build a
 block of partners, for example.
 
+### Simple block
+
+A simple block allow to display a partial from the theme. It may be used for a
+static html content, like a list of partners, or a complex layout, since any
+Omeka feature is available in a view.
+
 ### Simple page
 
 Allow to use a page as a block, so the same page can be use in multiple sites,

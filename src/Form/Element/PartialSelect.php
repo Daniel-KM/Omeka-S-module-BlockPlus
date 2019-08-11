@@ -77,10 +77,11 @@ class PartialSelect extends Select
         $dirLayout = $isLayoutDir
             ? $layout
             : (dirname($layout) ? dirname($layout) . '/' : '');
-        $regex = '~' . preg_quote(pathinfo($layout, PATHINFO_FILENAME), '~')
+        $regex = '~' . preg_quote($layout, '~')
             . '.*'
             . ($extension ? '\.' . preg_quote($extension, '~') : '')
             . '$~';
+
         $Directory = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
         $Iterator = new \RecursiveIteratorIterator($Directory);
         $RegexIterator = new \RegexIterator($Iterator, $regex, \RecursiveRegexIterator::GET_MATCH);
@@ -90,7 +91,7 @@ class PartialSelect extends Select
             if (strlen($extension)) {
                 $file = substr($file, 0, -1 - strlen($extension));
             }
-            $files[$dirLayout . $file] = $file;
+            $files[$file] = substr($file, strlen($dirLayout));
         }
         natcasesort($files);
 

@@ -9,6 +9,7 @@ return [
     ],
     'block_layouts' => [
         'invokables' => [
+            'block' => Site\BlockLayout\Block::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             // TODO Omeka core uses "itemShowCase" instead of "itemShowcase".
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
@@ -27,6 +28,7 @@ return [
     'form_elements' => [
         'invokables' => [
             Form\AssetsFieldset::class => Form\AssetsFieldset::class,
+            Form\BlockFieldset::class => Form\BlockFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\EmbedTextFieldset::class => Form\EmbedTextFieldset::class,
             Form\HtmlFieldset::class => Form\HtmlFieldset::class,
@@ -65,7 +67,11 @@ return [
                         'class' => '',
                     ],
                 ],
-                'partial' => null,
+                'partial' => '',
+            ],
+            'block' => [
+                'heading' => '',
+                'partial' => '',
             ],
             'browsePreview' => [
                 'resource_type' => 'items',
