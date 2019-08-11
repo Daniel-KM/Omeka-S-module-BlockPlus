@@ -4,7 +4,9 @@ namespace BlockPlus\Site\BlockLayout;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
 class BrowsePreview extends AbstractBlockLayout
@@ -12,6 +14,13 @@ class BrowsePreview extends AbstractBlockLayout
     public function getLabel()
     {
         return 'Browse preview'; // @translate
+    }
+
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
+    {
+        $data = $block->getData();
+        $data['query'] = ltrim($data['query'], '? ');
+        $block->setData($data);
     }
 
     public function form(
@@ -43,8 +52,9 @@ class BrowsePreview extends AbstractBlockLayout
     {
         $resourceType = $block->dataValue('resource_type', 'items');
 
+        // The trim is kept for compatibility with old core blocks.
         $query = [];
-        parse_str($block->dataValue('query'), $query);
+        parse_str(ltrim($block->dataValue('query'), '? '), $query);
         $originalQuery = $query;
 
         $site = $block->page()->site();
