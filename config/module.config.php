@@ -29,6 +29,7 @@ return [
             Form\AssetsFieldset::class => Form\AssetsFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\EmbedTextFieldset::class => Form\EmbedTextFieldset::class,
+            Form\HtmlFieldset::class => Form\HtmlFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\MediaTextFieldset::class => Form\MediaTextFieldset::class,
@@ -83,6 +84,11 @@ return [
                 'caption_position' => 'center',
                 'link_text' => 'Know more', // @translate
                 'link_url' => '#',
+                'partial' => '',
+            ],
+            'html' => [
+                'heading' => '',
+                'html' => '',
                 'partial' => '',
             ],
             'itemShowcase' => [
