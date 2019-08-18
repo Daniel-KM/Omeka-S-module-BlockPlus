@@ -162,8 +162,7 @@ class EmbedText extends AbstractBlockLayout
         $fieldset = $formElementManager->get($blockFieldset);
         $fieldset->populateValues($dataForm);
 
-        $html = $view->formCollection($fieldset);
-        return $html;
+        return $view->formCollection($fieldset);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

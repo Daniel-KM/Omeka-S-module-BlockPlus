@@ -120,9 +120,8 @@ class Assets extends AbstractBlockLayout
         $fieldset->populateValues($dataForm);
 
         // The assets are currently filled manually (use default form).
-        $html = $view->formCollection($fieldset);
 
-        return $html;
+        return $view->formCollection($fieldset);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
