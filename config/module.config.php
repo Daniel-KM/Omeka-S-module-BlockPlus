@@ -21,7 +21,7 @@ return [
             'assets' => Service\BlockLayout\AssetsFactory::class,
             'embedText' => Service\BlockLayout\EmbedTextFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
-            'mediaText' => Service\BlockLayout\MediaTextFactory::class,
+            'resourceText' => Service\BlockLayout\ResourceTextFactory::class,
             'simplePage' => Service\BlockLayout\SimplePageFactory::class,
         ],
     ],
@@ -34,7 +34,7 @@ return [
             Form\HtmlFieldset::class => Form\HtmlFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
-            Form\MediaTextFieldset::class => Form\MediaTextFieldset::class,
+            Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
             Form\SimplePageFieldset::class => Form\SimplePageFieldset::class,
         ],
@@ -113,7 +113,7 @@ return [
                 'summaries' => true,
                 'partial' => '',
             ],
-            'mediaText' => [
+            'resourceText' => [
                 'heading' => '',
                 'attachments' => [],
                 'html' => '',

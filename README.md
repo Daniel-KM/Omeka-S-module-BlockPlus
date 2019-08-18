@@ -40,7 +40,7 @@ for example the page "About" or "Privacy". Of course, the page is a standard
 page and can be more complex with multiple blocks. May be fun.
 This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
 
-### Media with html
+### Resource with html
 
 Simplify the display of a media on the left or the right (see [user guide]). It
 is the same block that existed in [Omeka Classic] [Exhibit `file-text`].

@@ -14,8 +14,9 @@ use Zend\View\Renderer\PhpRenderer;
  * Replace media + html and simplify management of right/left media beside text.
  *
  * @link https://omeka.org/s/docs/user-manual/sites/site_pages/#media
+ * @link https://omeka.org/s/docs/user-manual/sites/site_pages/#html
  */
-class MediaText extends AbstractBlockLayout
+class ResourceText extends AbstractBlockLayout
 {
     use CommonTrait;
 
@@ -34,7 +35,7 @@ class MediaText extends AbstractBlockLayout
 
     public function getLabel()
     {
-        return 'Media with text'; // @translate
+        return 'Resource with text'; // @translate
     }
 
     public function prepareRender(PhpRenderer $view)
@@ -60,8 +61,8 @@ class MediaText extends AbstractBlockLayout
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
-        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['mediaText'];
-        $blockFieldset = \BlockPlus\Form\MediaTextFieldset::class;
+        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['resourceText'];
+        $blockFieldset = \BlockPlus\Form\ResourceTextFieldset::class;
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
@@ -109,7 +110,7 @@ class MediaText extends AbstractBlockLayout
             return '';
         }
 
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/media-text';
+        $partial = $block->dataValue('partial') ?: 'common/block-layout/resource-text';
 
         return $view->partial($partial, [
             'block' => $block,

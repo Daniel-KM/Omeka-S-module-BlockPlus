@@ -6,7 +6,7 @@ use BlockPlus\Form\Element\ThumbnailTypeSelect;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
 
-class MediaTextFieldset extends Fieldset
+class ResourceTextFieldset extends Fieldset
 {
     public function init()
     {
@@ -86,8 +86,8 @@ class MediaTextFieldset extends Fieldset
             'type' => PartialSelect::class,
             'options' => [
                 'label' => 'Partial to display', // @translate
-                'info' => 'Partials are in folder "common/block-layout" of the theme and should start with "media-text".', // @translate
-                'partial' => 'common/block-layout/media-text',
+                'info' => 'Partials are in folder "common/block-layout" of the theme and should start with "resource-text".', // @translate
+                'partial' => 'common/block-layout/resource-text',
             ],
             'attributes' => [
                 'class' => 'chosen-select',
