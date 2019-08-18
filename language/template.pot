@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-22 00:00+0200\n"
+"POT-Creation-Date: 2019-08-19 00:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,16 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/Site/BlockLayout/Block.php:40
+msgid "A simple block allow to display a partial from the theme."
+msgstr ""
+
+#: src/Site/BlockLayout/Block.php:41
+msgid ""
+"It may be used for a static html content, like a list of partners, or a "
+"complex layout, since any Omeka feature is available in a view."
+msgstr ""
 
 #: src/Site/BlockLayout/SimplePage.php:86
 msgid "Choose any page from any site."
@@ -32,20 +42,26 @@ msgid "The current page and recursive pages are forbidden."
 msgstr ""
 
 #: src/Form/SearchFormFieldset.php:17 src/Form/AssetsFieldset.php:18
-#: src/Form/MediaTextFieldset.php:73 src/Form/EmbedTextFieldset.php:16
-#: src/Form/ItemShowcaseFieldset.php:17 src/Form/BrowsePreviewFieldset.php:48
+#: src/Form/EmbedTextFieldset.php:16 src/Form/ListOfSitesFieldset.php:17
+#: src/Form/ItemShowcaseFieldset.php:17 src/Form/BrowsePreviewFieldset.php:49
+#: src/Form/ResourceTextFieldset.php:73 src/Form/HtmlFieldset.php:17
+#: src/Form/BlockFieldset.php:17
 msgid "Block title"
 msgstr ""
 
 #: src/Form/SearchFormFieldset.php:18 src/Form/AssetsFieldset.php:19
-#: src/Form/MediaTextFieldset.php:74 src/Form/EmbedTextFieldset.php:17
-#: src/Form/ItemShowcaseFieldset.php:18 src/Form/BrowsePreviewFieldset.php:49
+#: src/Form/EmbedTextFieldset.php:17 src/Form/ListOfSitesFieldset.php:18
+#: src/Form/ItemShowcaseFieldset.php:18 src/Form/BrowsePreviewFieldset.php:50
+#: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:18
+#: src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
 msgstr ""
 
 #: src/Form/SearchFormFieldset.php:25 src/Form/AssetsFieldset.php:37
-#: src/Form/MediaTextFieldset.php:88 src/Form/EmbedTextFieldset.php:87
-#: src/Form/ItemShowcaseFieldset.php:35 src/Form/BrowsePreviewFieldset.php:64
+#: src/Form/EmbedTextFieldset.php:87 src/Form/ListOfSitesFieldset.php:74
+#: src/Form/ItemShowcaseFieldset.php:35 src/Form/BrowsePreviewFieldset.php:65
+#: src/Form/ResourceTextFieldset.php:88 src/Form/HtmlFieldset.php:32
+#: src/Form/BlockFieldset.php:33
 msgid "Partial to display"
 msgstr ""
 
@@ -55,7 +71,7 @@ msgid ""
 "with \"search-form\"."
 msgstr ""
 
-#: src/Form/AssetsFieldset.php:26 src/Site/BlockLayout/Assets.php:28
+#: src/Form/AssetsFieldset.php:26 src/Site/BlockLayout/Assets.php:30
 msgid "Assets"
 msgstr ""
 
@@ -92,30 +108,6 @@ msgid ""
 "forbidden."
 msgstr ""
 
-#: src/Form/MediaTextFieldset.php:31 src/Form/MediaTextFieldset.php:61
-#: src/Form/EmbedTextFieldset.php:34 src/Form/EmbedTextFieldset.php:57
-msgid "left"
-msgstr ""
-
-#: src/Form/MediaTextFieldset.php:32 src/Form/MediaTextFieldset.php:62
-#: src/Form/EmbedTextFieldset.php:35 src/Form/EmbedTextFieldset.php:58
-msgid "right"
-msgstr ""
-
-#: src/Form/MediaTextFieldset.php:58 src/Form/EmbedTextFieldset.php:54
-msgid "Captions position"
-msgstr ""
-
-#: src/Form/MediaTextFieldset.php:60 src/Form/EmbedTextFieldset.php:56
-msgid "center"
-msgstr ""
-
-#: src/Form/MediaTextFieldset.php:89
-msgid ""
-"Partials are in folder \"common/block-layout\" of the theme and should start "
-"with \"media-text\"."
-msgstr ""
-
 #: src/Form/EmbedTextFieldset.php:24
 msgid "Embedded url"
 msgstr ""
@@ -130,8 +122,26 @@ msgstr ""
 msgid "Embedded alignment"
 msgstr ""
 
+#: src/Form/EmbedTextFieldset.php:34 src/Form/EmbedTextFieldset.php:57
+#: src/Form/ResourceTextFieldset.php:31 src/Form/ResourceTextFieldset.php:61
+msgid "left"
+msgstr ""
+
+#: src/Form/EmbedTextFieldset.php:35 src/Form/EmbedTextFieldset.php:58
+#: src/Form/ResourceTextFieldset.php:32 src/Form/ResourceTextFieldset.php:62
+msgid "right"
+msgstr ""
+
 #: src/Form/EmbedTextFieldset.php:43
 msgid "Show title"
+msgstr ""
+
+#: src/Form/EmbedTextFieldset.php:54 src/Form/ResourceTextFieldset.php:58
+msgid "Captions position"
+msgstr ""
+
+#: src/Form/EmbedTextFieldset.php:56 src/Form/ResourceTextFieldset.php:60
+msgid "center"
 msgstr ""
 
 #: src/Form/EmbedTextFieldset.php:80
@@ -144,72 +154,114 @@ msgid ""
 "with \"embed-text\"."
 msgstr ""
 
+#: src/Form/ListOfSitesFieldset.php:75
+msgid ""
+"Partials are in folder \"common/block-layout\" of the theme and should start "
+"with \"list-of-sites\"."
+msgstr ""
+
 #: src/Form/ItemShowcaseFieldset.php:36
 msgid ""
 "Partials are in folder \"common/block-layout\" of the theme and should start "
 "with \"item-showcase\"."
 msgstr ""
 
-#: src/Form/BrowsePreviewFieldset.php:57
+#: src/Form/BrowsePreviewFieldset.php:58
 msgid "Text for link to full browse view, if any. There is no link for media."
 msgstr ""
 
-#: src/Form/BrowsePreviewFieldset.php:65
+#: src/Form/BrowsePreviewFieldset.php:66
 msgid ""
 "Partials are in folder \"common/block-layout\" of the theme and should start "
 "with \"browse-preview\"."
+msgstr ""
+
+#: src/Form/ResourceTextFieldset.php:89
+msgid ""
+"Partials are in folder \"common/block-layout\" of the theme and should start "
+"with \"resource-text\"."
+msgstr ""
+
+#: src/Form/HtmlFieldset.php:33
+msgid ""
+"Partials are in folder \"common/block-layout\" of the theme and should start "
+"with \"html\"."
 msgstr ""
 
 #: src/Form/Element/AbstractGroupBySiteSelect.php:100
 msgid "[No site]"
 msgstr ""
 
-#: src/Site/BlockLayout/MediaText.php:35
-msgid "Media with text"
+#: src/Form/BlockFieldset.php:25
+msgid "Params"
+msgstr ""
+
+#: src/Form/BlockFieldset.php:26
+msgid "The params are passed directly to the block layout."
+msgstr ""
+
+#: src/Form/BlockFieldset.php:34
+msgid ""
+"Partials are in folder \"common/block-layout\" of the theme and should start "
+"with \"block\"."
+msgstr ""
+
+#: src/Site/BlockLayout/Block.php:14
+msgid "Simple Block"
 msgstr ""
 
 #: src/Site/BlockLayout/SearchForm.php:14
 msgid "Search simple form"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:58
+#: src/Site/BlockLayout/Separator.php:16
+msgid "Separator"
+msgstr ""
+
+#: src/Site/BlockLayout/Separator.php:42
+msgid ""
+"Set the class or the name of the separator. Default is \"transparent\". "
+"Other ones depends on the theme."
+msgstr ""
+
+#: src/Site/BlockLayout/EmbedText.php:60
 msgid "Embedded with text"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:87
+#: src/Site/BlockLayout/EmbedText.php:89
 msgid "Invalid OEmbed URL"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:93
+#: src/Site/BlockLayout/EmbedText.php:95
 msgid "OEmbed URL"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:95
+#: src/Site/BlockLayout/EmbedText.php:97
 msgid "OEmbed URL unavailable"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:103
+#: src/Site/BlockLayout/EmbedText.php:105
 msgid "No OEmbed links were found at the given URI"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:109
+#: src/Site/BlockLayout/EmbedText.php:111
 msgid "OEmbed link URL"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:111
+#: src/Site/BlockLayout/EmbedText.php:113
 msgid "OEmbed link URL unavailable"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:117
+#: src/Site/BlockLayout/EmbedText.php:119
 msgid "Error decoding OEmbed JSON"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:201
+#: src/Site/BlockLayout/EmbedText.php:202
 #, php-format
 msgid "Invalid \"%s\" specified"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:212
+#: src/Site/BlockLayout/EmbedText.php:213
 #, php-format
 msgid "Error reading %s: %s (%s)"
 msgstr ""
@@ -238,6 +290,10 @@ msgid ""
 "refers to a removed page."
 msgstr ""
 
-#: config/module.config.php:80
+#: src/Site/BlockLayout/ResourceText.php:38
+msgid "Resource with text"
+msgstr ""
+
+#: config/module.config.php:92
 msgid "Know more"
 msgstr ""
