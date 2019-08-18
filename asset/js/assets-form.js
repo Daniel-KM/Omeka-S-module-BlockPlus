@@ -2,11 +2,10 @@
     $(document).ready(function () {
         // TODO Make multiple assets form sortable.
         // TODO Use the removed base fieldset as a hidden base.
-        // TODO Allow to save a caption without asset.
         $('#content').on('click', '.asset-form-add', function () {
             var assets = $(this).closest('.assets-list');
-            var first = $(this).closest('.asset-data');
-            var next = first.clone();
+            var current = $(this).closest('.asset-data');
+            var next = current.clone();
             var nextIndex = assets.attr('data-next-index');
             $(next)
                 .attr('data-index', nextIndex)
@@ -26,6 +25,7 @@
                         .attr('id', name)
                         .attr('name', name);
                 });
+
             next
                 .find('.field-meta label').each(function() {
                     var name = $(this).attr('for');
@@ -38,10 +38,16 @@
             // Reset all values and content.
             next
                 .find('.inputs input').val('').end()
-                .find('.inputs textarea').html('').end()
-                .find('.inputs .cke_textarea_inline').html('');
+                .find('.inputs textarea').html('');
 
-            first.after(next);
+            current.after(next);
+
+            // TODO Use the standard Omeka editor (trigger on body; allow caption without asset).
+            next
+                .find('.cke').remove().end()
+                .find('.inputs textarea').hide().removeClass('block-html full wysiwyg')
+                .closest('.inputs').find('.cke_textarea_inline').remove();
+            window.CKEDITOR.replace(next.find('textarea').attr('name'));
 
             assets.attr('data-next-index', parseInt(nextIndex) + 1);
         });

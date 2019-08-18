@@ -24,7 +24,8 @@ theme.
 ### Assets
 
 Display a list of assets with optional urls and labels. It’s useful to build a
-block of partners, for example.
+block of partners, for example. The assets are not required to be filled, so it
+allow to display any list of contents.
 
 ### Simple block
 
