@@ -13,13 +13,14 @@
  */
 
 $plugins = $this->getHelperPluginManager();
-$escapeHtml = $plugins->get('escapeHtml');
+$escape = $plugins->get('escapeHtml');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 $hyperlink = $plugins->get('hyperlink');
 ?>
 
 <div class="embed-text media-text">
     <?php if ($heading): ?>
-    <h2><?= $heading ?></h2>
+    <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
 <div class="<?= $alignmentClass . ' captions-' . $captionPosition ?> media file">
@@ -36,10 +37,10 @@ $hyperlink = $plugins->get('hyperlink');
             $title = empty($data['title']) ? $url : $data['title'];
             echo sprintf(
                 '<img src="%s" width="%s" height="%s" alt="%s">',
-                $escapeHtml($url),
-                $escapeHtml($width),
-                $escapeHtml($height),
-                $escapeHtml($title)
+                $escapeAttr($url),
+                $escapeAttr($width),
+                $escapeAttr($height),
+                $escapeAttr($title)
             );
         elseif (!empty($data['html'])):
             echo $data['html'];
@@ -57,7 +58,9 @@ $hyperlink = $plugins->get('hyperlink');
 
     <?php $caption = isset($data['caption']) ? $data['caption'] : null; ?>
     <?php if ($caption): ?>
-        <div class="caption"><?= $caption ?></div>
+        <div class="caption">
+            <?= $caption ?>
+        </div>
     <?php endif; ?>
     </div>
 <?php endforeach; ?>
@@ -68,6 +71,6 @@ $hyperlink = $plugins->get('hyperlink');
 <?php if ($linkText && $linkUrl): ?>
 <?= $hyperlink($linkText, $linkUrl) ?>
 <?php elseif ($linkText): ?>
-<span><?= $linkText ?></span>
+<span><?= $escape($linkText) ?></span>
 <?php endif; ?>
 </div>

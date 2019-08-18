@@ -4,11 +4,12 @@
  * @var string $heading
  */
 
+$escape = $this->plugin('escapeHtml');
 ?>
 
 <div class="block-search">
     <?php if ($heading): ?>
-    <h2><?= $heading ?></h2>
+    <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
     <?= $this->partial('common/search-form') ?>

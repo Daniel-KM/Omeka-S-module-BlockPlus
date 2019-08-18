@@ -7,12 +7,13 @@
  * @var bool $summaries
  */
 
+$escape = $this->plugin('escapeHtml');
 $partial = $this->plugin('partial');
 ?>
 
 <div class="list-of-sites">
     <?php if (!empty($heading)): ?>
-    <h2><?= $heading ?></h2>
+    <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
     <div class="site-list">

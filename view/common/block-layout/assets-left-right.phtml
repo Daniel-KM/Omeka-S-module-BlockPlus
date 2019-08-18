@@ -5,7 +5,10 @@
  * @var string $heading
  */
 
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
+
 <style>
 .align-left { float: left; margin-right: 6px; }
 .align-right { float: right; margin-left: 6px; }
@@ -14,20 +17,20 @@
 
 <div class="block-assets">
     <?php if ($heading): ?>
-    <h2><?= $heading ?></h2>
+    <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
     <?php $index = 0; ?>
     <?php foreach ($assets as $asset): ?>
-    <div class="asset <?= $asset['class'] ?>">
+    <div class="asset <?= $escapeAttr($asset['class']) ?>">
         <?php if ($asset['asset']): ?>
             <?php if ($asset['url']): ?>
-        <a class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>" href="<?= $asset['url'] ?>"<?php if (filter_var($asset['url'], FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
-            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
+        <a class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>" href="<?= $escapeAttr($asset['url']) ?>"<?php if (filter_var($asset['url'], FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $escapeAttr($asset['title']) ?>"/>
         </a>
             <?php else: ?>
         <span class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>">
-            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $escapeAttr($asset['title']) ?>"/>
         </span>
             <?php endif; ?>
         <?php endif; ?>

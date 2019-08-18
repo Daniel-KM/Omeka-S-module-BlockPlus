@@ -11,6 +11,7 @@
  * @var string $captionPosition "center", "left" or "right".
  */
 
+$escape = $this->plugin('escapeHtml');
 $hyperlink = $this->plugin('hyperlink');
 $siteSetting = $this->plugin('siteSetting');
 
@@ -19,7 +20,7 @@ $linkType = $siteSetting('attachment_link_type', 'item');
 
 <div class="media-text">
     <?php if ($heading): ?>
-    <h2><?= $heading ?></h2>
+    <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
     <div class="<?= $alignmentClass . ' ' . $thumbnailType . ' captions-' . $captionPosition ?> media file">

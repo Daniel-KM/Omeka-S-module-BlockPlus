@@ -7,6 +7,8 @@
 
 // Caption is not used in this template.
 
+$escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <style>
@@ -20,20 +22,21 @@
     width: auto;
 }
 </style>
+
 <div class="block-assets partners">
     <?php if ($heading): ?>
-    <h2><?= $heading ?></h2>
+    <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
     <div class="asset partners-logos">
     <?php foreach ($assets as $asset): ?>
         <?php if ($asset['url']): ?>
-        <a class="partner-logo <?= $asset['class'] ?>" href="<?= $asset['url'] ?>" target="_blank">
-            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
+        <a class="partner-logo <?= $escapeAttr($asset['class']) ?>" href="<?= $escapeAttr($asset['url']) ?>" target="_blank">
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $escapeAttr($asset['title']) ?>"/>
         </a>
         <?php else: ?>
-        <span class="partner-logo <?= $asset['class'] ?>">
-            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $asset['title'] ?>"/>
+        <span class="partner-logo <?= $escapeAttr($asset['class']) ?>">
+            <img src="<?= $asset['asset']->assetUrl() ?>" alt="<?= $escapeAttr($asset['title']) ?>"/>
         </span>
         <?php endif; ?>
     <?php endforeach; ?>

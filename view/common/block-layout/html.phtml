@@ -2,6 +2,13 @@
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var string $html
+ * @var string $heading
  */
 
-echo $html;
+$escape = $this->plugin('escapeHtml');
+?>
+
+<?php if ($heading): ?>
+<h2><?= $escape($heading) ?></h2>
+<?php endif; ?>
+<?= $html ?>
