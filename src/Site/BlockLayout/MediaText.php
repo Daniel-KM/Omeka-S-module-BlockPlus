@@ -120,8 +120,6 @@ class MediaText extends AbstractBlockLayout
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
             'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
             'captionPosition' => $block->dataValue('caption_position', 'center'),
-            // Link type is a site setting provided here for simplicity.
-            'link' => $view->siteSetting('attachment_link_type', 'item'),
         ]);
     }
 }

@@ -5,13 +5,16 @@
  * @var \Omeka\Api\Representation\SiteBlockAttachmentRepresentation[] $attachments
  * @var string $heading
  * @var string $html
- * @var string $alignmentClass
+ * @var string $alignmentClass "left" or "right"
  * @var string $thumbnailType
- * @var string $showTitleOption
- * @var string $captionPosition
- * @var string $link
+ * @var string $showTitleOption "item_title" or "file_name" or "none".
+ * @var string $captionPosition "center", "left" or "right".
  */
 
+$hyperlink = $this->plugin('hyperlink');
+$siteSetting = $this->plugin('siteSetting');
+
+$linkType = $siteSetting('attachment_link_type', 'item');
 ?>
 
 <div class="media-text">
@@ -19,39 +22,53 @@
     <h2><?= $heading ?></h2>
     <?php endif; ?>
 
-<div class="<?= $alignmentClass . ' ' . $thumbnailType . ' captions-' . $captionPosition ?> media file">
-    <div class="attachments">
-<?php foreach($attachments as $attachment): ?>
-    <div class="item resource">
-    <?php
-    $item = $attachment->item();
-    if ($item):
-    ?>
-        <?php
-        $media = $attachment->media() ?: $item->primaryMedia();
-        if ($media):
-            echo $media->render([
-                'thumbnailType' => $thumbnailType,
-                'link' => $link,
-            ]);
-        endif;
-        ?>
-        <?php if ($showTitleOption == 'item_title'): ?>
-        <h3><?= $item->link($item->displayTitle()) ?></h3>
-        <?php elseif ($showTitleOption == 'file_name'): ?>
-        <h3><?= $media->displayTitle() ?></h3>
-        <?php endif; ?>
-    <?php endif; ?>
+    <div class="<?= $alignmentClass . ' ' . $thumbnailType . ' captions-' . $captionPosition ?> media file">
+        <div class="attachments">
+            <?php
+            foreach($attachments as $attachment):
+                $render = null;
+                $title = null;
+                $link = null;
+                $item = $attachment->item();
+                if ($item):
+                    $media = $attachment->media() ?: $item->primaryMedia();
+                    if ($media):
+                        $render = $media->render([
+                            'thumbnailType' => $thumbnailType,
+                            'link' => $linkType,
+                        ]);
+                    endif;
 
-    <?php
-    $caption = $attachment->caption();
-    if ($caption):
-    ?>
-        <div class="caption"><?= $caption ?></div>
-    <?php endif; ?>
+                    if ($showTitleOption == 'item_title'):
+                        $title = $item->displayTitle();
+                    elseif ($media && $showTitleOption == 'file_name'):
+                        $title = $media->displayTitle();
+                    endif;
+
+                    if ($title):
+                        if ($media && $linkType === 'media'):
+                            $link = $media->link($title);
+                        elseif ($media && $linkType === 'original' && $media->hasOriginal()):
+                            $link = $hyperlink($title, $media->originalUrl());
+                        else:
+                            $link = $item->link($title);
+                        endif;
+                    endif;
+                endif;
+
+                $caption = $attachment->caption();
+            ?>
+            <div class="item resource">
+                <?= $render ?>
+                <?= $link ?>
+                <div class="caption">
+                    <?= $caption ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
     </div>
-<?php endforeach; ?>
+    <div class="text">
+        <?= $html ?>
     </div>
-</div>
-<?= $html ?>
 </div>
