@@ -30,6 +30,14 @@ class TableOfContentsFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][root]',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'label' => 'List from root', // @translate
+                    'info' => 'If set, all the pages will be displayed, else only the ones from the current page.', // @translate
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][partial]',
                 'type' => PartialSelect::class,
                 'options' => [
@@ -38,7 +46,7 @@ class TableOfContentsFieldset extends Fieldset
                     'partial' => 'common/block-layout/table-of-contents',
                 ],
                 'attributes' => [
-                    'class' => 'table-of-contents',
+                    'class' => 'chosen-select',
                 ],
             ]);
     }

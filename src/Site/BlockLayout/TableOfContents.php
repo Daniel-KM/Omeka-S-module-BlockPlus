@@ -44,11 +44,18 @@ class TableOfContents extends AbstractBlockLayout
     {
         $view->pageViewModel->setVariable('displayNavigation', false);
         $nav = $block->page()->site()->publicNav();
+
+        /** @var \Zend\View\Helper\Navigation $container */
         $container = $nav->getContainer();
-        $activePage = $nav->findActive($container);
-        if (!$activePage) {
-            return null;
+        if ($block->dataValue('root')) {
+            $activePage = ['page' => $container, 'depth' => 0];
+        } else {
+            $activePage = $nav->findActive($container);
+            if (!$activePage) {
+                return null;
+            }
         }
+
         // Make new copies of the pages so we don't disturb the regular nav
         $pages = $activePage['page']->getPages();
         $newPages = [];
@@ -56,8 +63,11 @@ class TableOfContents extends AbstractBlockLayout
             $newPages[] = $page->toArray();
         }
         $subNav = new Navigation($newPages);
+
         $depth = (int) $block->dataValue('depth', 1);
+
         $partial = $block->dataValue('partial') ?: 'common/block-layout/table-of-contents';
+
         return $view->partial($partial, [
             'block' => $block,
             'heading' => $block->dataValue('heading'),

@@ -149,6 +149,7 @@ return [
             'tableOfContents' => [
                 'depth' => null,
                 'heading' => '',
+                'root' => false,
                 'partial' => '',
             ],
         ],
