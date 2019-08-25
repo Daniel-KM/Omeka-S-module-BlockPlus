@@ -16,6 +16,7 @@ return [
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
+            'pageTitle' => Site\BlockLayout\PageTitle::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
             'separator' => Site\BlockLayout\Separator::class,
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
@@ -41,6 +42,7 @@ return [
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\ItemWithMetadataFieldset::class => Form\ItemWithMetadataFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
+            Form\PageTitleFieldset::class => Form\PageTitleFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
             Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
@@ -130,6 +132,9 @@ return [
                 'limit' => null,
                 'pagination' => false,
                 'summaries' => true,
+                'partial' => '',
+            ],
+            'pageTitle' => [
                 'partial' => '',
             ],
             'resourceText' => [

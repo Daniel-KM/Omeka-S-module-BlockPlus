@@ -1,0 +1,10 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ */
+
+$escape = $this->plugin('escapeHtml');
+?>
+
+<h2><?= $escape($block->page()->title()) ?></h2>
