@@ -14,6 +14,7 @@ return [
             'column' => Site\BlockLayout\Column::class,
             // Omeka core uses "itemShowCase" instead of "itemShowcase". Won't fix: https://github.com/omeka/omeka-s/pull/1431
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
+            'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
             'separator' => Site\BlockLayout\Separator::class,
@@ -38,6 +39,7 @@ return [
             Form\EmbedTextFieldset::class => Form\EmbedTextFieldset::class,
             Form\HtmlFieldset::class => Form\HtmlFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
+            Form\ItemWithMetadataFieldset::class => Form\ItemWithMetadataFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
@@ -114,6 +116,11 @@ return [
                 'attachments' => [],
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',
+                'heading' => '',
+                'partial' => '',
+            ],
+            'itemWithMetadata' => [
+                'attachments' => [],
                 'heading' => '',
                 'partial' => '',
             ],

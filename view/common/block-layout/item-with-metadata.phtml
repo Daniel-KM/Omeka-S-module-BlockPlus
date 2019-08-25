@@ -1,0 +1,46 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteBlockAttachmentRepresentation[] $attachments
+ * @var string $heading
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$thumbnail = $plugins->get('thumbnail');
+?>
+
+<div class="item-with-metadata">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
+
+<?php foreach($attachments as $attachment): ?>
+    <?php $item = $attachment->item(); ?>
+    <?php if (empty($item)) continue; ?>
+    <div class="resource show">
+    <?php echo $item->displayValues(); ?>
+    <?php $itemSets = $item->itemSets(); ?>
+    <?php if (count($itemSets)): ?>
+        <div class="property">
+            <h4><?php echo $translate('Item sets'); ?></h4>
+            <?php foreach ($itemSets as $itemSet): ?>
+            <div class="value"><?php echo $itemSet->link($itemSet->displayTitle()); ?></div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+    <?php $medias = $item->media(); ?>
+    <?php if ($medias): ?>
+        <div class="media-list">
+        <?php
+        foreach ($medias as $media):
+            echo $media->linkRaw($thumbnail($media, 'medium', ['title' => $media->displayTitle()]), null, [
+                'class' => 'media resource'
+            ]);
+        endforeach;
+        ?>
+        </div>
+    <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+</div>
