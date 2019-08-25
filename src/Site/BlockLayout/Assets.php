@@ -49,6 +49,8 @@ class Assets extends AbstractBlockLayout
             $v['caption'] = isset($v['caption'])
                 ? $this->fixEndOfLine($this->htmlPurifier->purify($v['caption']))
                 : '';
+            // Stricter than w3c standard.
+            $v['class'] = preg_replace('/[^A-Za-z0-9_ -]/', '', $v['class']);
             return $v;
         }, $data['assets']);
 

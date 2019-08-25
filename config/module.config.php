@@ -36,6 +36,7 @@ return [
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
+            Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
             Form\SimplePageFieldset::class => Form\SimplePageFieldset::class,
         ],
         'factories' => [
