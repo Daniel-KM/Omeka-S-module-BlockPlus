@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-19 00:00+0200\n"
+"POT-Creation-Date: 2019-08-26 00:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,13 @@ msgid ""
 "complex layout, since any Omeka feature is available in a view."
 msgstr ""
 
+#: src/Site/BlockLayout/Column.php:133
+msgid ""
+"Divide the page into columns. There must be at least two blocks, one for the "
+"start and one for the end, to avoid html issues. Multiple columns can be "
+"nested."
+msgstr ""
+
 #: src/Site/BlockLayout/SimplePage.php:86
 msgid "Choose any page from any site."
 msgstr ""
@@ -41,34 +48,49 @@ msgstr ""
 msgid "The current page and recursive pages are forbidden."
 msgstr ""
 
-#: src/Form/SearchFormFieldset.php:17 src/Form/AssetsFieldset.php:18
-#: src/Form/EmbedTextFieldset.php:16 src/Form/ListOfSitesFieldset.php:17
-#: src/Form/ItemShowcaseFieldset.php:17 src/Form/BrowsePreviewFieldset.php:49
-#: src/Form/ResourceTextFieldset.php:73 src/Form/HtmlFieldset.php:17
+#: src/Form/ItemWithMetadataFieldset.php:19 src/Form/SearchFormFieldset.php:17
+#: src/Form/AssetsFieldset.php:18 src/Form/EmbedTextFieldset.php:16
+#: src/Form/ListOfSitesFieldset.php:17 src/Form/TableOfContentsFieldset.php:17
+#: src/Form/ItemShowcaseFieldset.php:20 src/Form/BrowsePreviewFieldset.php:49
+#: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:17
 #: src/Form/BlockFieldset.php:17
 msgid "Block title"
 msgstr ""
 
-#: src/Form/SearchFormFieldset.php:18 src/Form/AssetsFieldset.php:19
-#: src/Form/EmbedTextFieldset.php:17 src/Form/ListOfSitesFieldset.php:18
-#: src/Form/ItemShowcaseFieldset.php:18 src/Form/BrowsePreviewFieldset.php:50
-#: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:18
+#: src/Form/ItemWithMetadataFieldset.php:20 src/Form/SearchFormFieldset.php:18
+#: src/Form/AssetsFieldset.php:19 src/Form/EmbedTextFieldset.php:17
+#: src/Form/ListOfSitesFieldset.php:18 src/Form/TableOfContentsFieldset.php:18
+#: src/Form/ItemShowcaseFieldset.php:21 src/Form/BrowsePreviewFieldset.php:50
+#: src/Form/ResourceTextFieldset.php:75 src/Form/HtmlFieldset.php:18
 #: src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
 msgstr ""
 
-#: src/Form/SearchFormFieldset.php:25 src/Form/AssetsFieldset.php:37
-#: src/Form/EmbedTextFieldset.php:87 src/Form/ListOfSitesFieldset.php:74
-#: src/Form/ItemShowcaseFieldset.php:35 src/Form/BrowsePreviewFieldset.php:65
-#: src/Form/ResourceTextFieldset.php:88 src/Form/HtmlFieldset.php:32
-#: src/Form/BlockFieldset.php:33
+#: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
+#: src/Form/AssetsFieldset.php:37 src/Form/EmbedTextFieldset.php:87
+#: src/Form/PageTitleFieldset.php:16 src/Form/ListOfSitesFieldset.php:74
+#: src/Form/TableOfContentsFieldset.php:44 src/Form/ItemShowcaseFieldset.php:38
+#: src/Form/BrowsePreviewFieldset.php:65 src/Form/ResourceTextFieldset.php:89
+#: src/Form/HtmlFieldset.php:32 src/Form/BlockFieldset.php:33
 msgid "Partial to display"
+msgstr ""
+
+#: src/Form/ItemWithMetadataFieldset.php:28
+msgid ""
+"Partials are in folder \"common/block-layout\" of the theme and should start "
+"with \"item-with-metadata\"."
 msgstr ""
 
 #: src/Form/SearchFormFieldset.php:26
 msgid ""
 "Partials are in folder \"common/block-layout\" of the theme and should start "
 "with \"search-form\"."
+msgstr ""
+
+#: src/Form/SeparatorFieldset.php:17
+msgid ""
+"Set the class or the name of the separator. Default is \"transparent\". "
+"Other ones depends on the theme."
 msgstr ""
 
 #: src/Form/AssetsFieldset.php:26 src/Site/BlockLayout/Assets.php:30
@@ -93,7 +115,7 @@ msgstr ""
 msgid "Url"
 msgstr ""
 
-#: src/Form/AssetsFieldset.php:97
+#: src/Form/AssetsFieldset.php:97 src/Form/ColumnFieldset.php:50
 msgid "CSS class"
 msgstr ""
 
@@ -123,12 +145,12 @@ msgid "Embedded alignment"
 msgstr ""
 
 #: src/Form/EmbedTextFieldset.php:34 src/Form/EmbedTextFieldset.php:57
-#: src/Form/ResourceTextFieldset.php:31 src/Form/ResourceTextFieldset.php:61
+#: src/Form/ResourceTextFieldset.php:32 src/Form/ResourceTextFieldset.php:62
 msgid "left"
 msgstr ""
 
 #: src/Form/EmbedTextFieldset.php:35 src/Form/EmbedTextFieldset.php:58
-#: src/Form/ResourceTextFieldset.php:32 src/Form/ResourceTextFieldset.php:62
+#: src/Form/ResourceTextFieldset.php:33 src/Form/ResourceTextFieldset.php:63
 msgid "right"
 msgstr ""
 
@@ -136,11 +158,11 @@ msgstr ""
 msgid "Show title"
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:54 src/Form/ResourceTextFieldset.php:58
+#: src/Form/EmbedTextFieldset.php:54 src/Form/ResourceTextFieldset.php:59
 msgid "Captions position"
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:56 src/Form/ResourceTextFieldset.php:60
+#: src/Form/EmbedTextFieldset.php:56 src/Form/ResourceTextFieldset.php:61
 msgid "center"
 msgstr ""
 
@@ -154,13 +176,35 @@ msgid ""
 "with \"embed-text\"."
 msgstr ""
 
+#: src/Form/PageTitleFieldset.php:17
+msgid ""
+"Partials are in folder \"common/block-layout\" of the theme and should start "
+"with \"page-title\"."
+msgstr ""
+
 #: src/Form/ListOfSitesFieldset.php:75
 msgid ""
 "Partials are in folder \"common/block-layout\" of the theme and should start "
 "with \"list-of-sites\"."
 msgstr ""
 
-#: src/Form/ItemShowcaseFieldset.php:36
+#: src/Form/TableOfContentsFieldset.php:36
+msgid "List from root"
+msgstr ""
+
+#: src/Form/TableOfContentsFieldset.php:37
+msgid ""
+"If set, all the pages will be displayed, else only the ones from the current "
+"page."
+msgstr ""
+
+#: src/Form/TableOfContentsFieldset.php:45
+msgid ""
+"Partials are in folder \"common/block-layout\" of the theme and should start "
+"with \"table-of-contents\"."
+msgstr ""
+
+#: src/Form/ItemShowcaseFieldset.php:39
 msgid ""
 "Partials are in folder \"common/block-layout\" of the theme and should start "
 "with \"item-showcase\"."
@@ -176,7 +220,7 @@ msgid ""
 "with \"browse-preview\"."
 msgstr ""
 
-#: src/Form/ResourceTextFieldset.php:89
+#: src/Form/ResourceTextFieldset.php:90
 msgid ""
 "Partials are in folder \"common/block-layout\" of the theme and should start "
 "with \"resource-text\"."
@@ -190,6 +234,40 @@ msgstr ""
 
 #: src/Form/Element/AbstractGroupBySiteSelect.php:100
 msgid "[No site]"
+msgstr ""
+
+#: src/Form/ColumnFieldset.php:21
+msgid "New column"
+msgstr ""
+
+#: src/Form/ColumnFieldset.php:22
+msgid "End previous and start new"
+msgstr ""
+
+#: src/Form/ColumnFieldset.php:23
+msgid "End column"
+msgstr ""
+
+#: src/Form/ColumnFieldset.php:29
+msgid "Select below…"
+msgstr ""
+
+#: src/Form/ColumnFieldset.php:36
+msgid "Tag for new column"
+msgstr ""
+
+#: src/Form/ColumnFieldset.php:38
+msgid "div"
+msgstr ""
+
+#: src/Form/ColumnFieldset.php:39
+msgid "aside"
+msgstr ""
+
+#: src/Form/ColumnFieldset.php:51
+msgid ""
+"Set the classes according to the css of your theme. Only classes \"main\" "
+"and \"column\" are managed."
 msgstr ""
 
 #: src/Form/BlockFieldset.php:25
@@ -214,14 +292,39 @@ msgstr ""
 msgid "Search simple form"
 msgstr ""
 
-#: src/Site/BlockLayout/Separator.php:16
-msgid "Separator"
+#: src/Site/BlockLayout/Column.php:16
+msgid "Column"
 msgstr ""
 
-#: src/Site/BlockLayout/Separator.php:42
+#: src/Site/BlockLayout/Column.php:64 src/Site/BlockLayout/Column.php:199
+#: src/Site/BlockLayout/Column.php:206
 msgid ""
-"Set the class or the name of the separator. Default is \"transparent\". "
-"Other ones depends on the theme."
+"Type \"intermediate\" and \"end\" columns must be after a block \"start\" or "
+"\"intermediate\"."
+msgstr ""
+
+#: src/Site/BlockLayout/Column.php:76 src/Site/BlockLayout/Column.php:215
+msgid "Unauthorized type for block column."
+msgstr ""
+
+#: src/Site/BlockLayout/Column.php:83 src/Site/BlockLayout/Column.php:225
+msgid "A block \"column\" cannot be single."
+msgstr ""
+
+#: src/Site/BlockLayout/Column.php:90 src/Site/BlockLayout/Column.php:232
+msgid "The first column block must be of type \"start\"."
+msgstr ""
+
+#: src/Site/BlockLayout/Column.php:95 src/Site/BlockLayout/Column.php:237
+msgid "The last column block must be of type \"end\"."
+msgstr ""
+
+#: src/Site/BlockLayout/Column.php:100 src/Site/BlockLayout/Column.php:242
+msgid "Some columns have no end."
+msgstr ""
+
+#: src/Site/BlockLayout/Separator.php:16
+msgid "Separator"
 msgstr ""
 
 #: src/Site/BlockLayout/EmbedText.php:60
@@ -294,6 +397,6 @@ msgstr ""
 msgid "Resource with text"
 msgstr ""
 
-#: config/module.config.php:92
+#: config/module.config.php:108
 msgid "Know more"
 msgstr ""
