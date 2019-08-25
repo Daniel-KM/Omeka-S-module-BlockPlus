@@ -16,6 +16,13 @@
     text-align: right;
 }
 
+.main.column {
+    width: 69%;
+}
+aside.column {
+    width: 29%;
+}
+
 .align-left {
     float: left;
 }
@@ -42,4 +49,13 @@
     width: 100%;
     height: 100%;
     position: absolute;
+}
+
+@media screen and (max-width: 640px) {
+    .main.column {
+        width: 100%;
+    }
+    aside.column {
+        width: 100%;
+    }
 }

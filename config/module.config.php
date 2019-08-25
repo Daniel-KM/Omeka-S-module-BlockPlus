@@ -11,6 +11,7 @@ return [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
+            'column' => Site\BlockLayout\Column::class,
             // Omeka core uses "itemShowCase" instead of "itemShowcase". Won't fix: https://github.com/omeka/omeka-s/pull/1431
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
@@ -85,6 +86,11 @@ return [
                 'heading' => '',
                 'link-text' => 'Browse all', // @translate
                 'partial' => '',
+            ],
+            'column' => [
+                'type' => '',
+                'tag' => 'div',
+                'class' => 'column',
             ],
             'embedText' => [
                 'heading' => '',
