@@ -17,6 +17,7 @@ return [
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
             'separator' => Site\BlockLayout\Separator::class,
+            'tableOfContents' => Site\BlockLayout\TableOfContents::class,
         ],
         'factories' => [
             'assets' => Service\BlockLayout\AssetsFactory::class,
@@ -42,6 +43,7 @@ return [
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
             Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
             Form\SimplePageFieldset::class => Form\SimplePageFieldset::class,
+            Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
         ],
         'factories' => [
             Form\Element\PartialSelect::class => Service\Form\Element\PartialSelectFactory::class,
@@ -143,6 +145,11 @@ return [
             ],
             'simplePage' => [
                 'page' => null,
+            ],
+            'tableOfContents' => [
+                'depth' => null,
+                'heading' => '',
+                'partial' => '',
             ],
         ],
     ],
