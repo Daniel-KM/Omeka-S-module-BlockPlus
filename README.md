@@ -56,11 +56,38 @@ be used to display a html text with a video on the home page.
 Include a specific search form in a specific page. The default query may be
 adapted to the page via the theme.
 
-### Improvements for Browse Preview and Item Showcase
+### Separator
+
+Allow to set a div with a specific class between two blocks. May be useful to
+fix some css issues, or to increase space between some blocks.
+
+### Column
+
+Allow to group blocks in one or multiple columns. Columns can be nested. The
+css should be prepared in the theme to managed them. By default, only a simple
+`aside` column of 30% is available with class `column align-right` (or left).
+
+### Improvements for Browse preview, Html, Item metadata, Item showcase, List of sites, Page title, Table of contents
 
 Allow to use a specific partial for some blocks, so it’s possible to display
 these blocks differently in the same page or on different pages. An heading is
-added too.
+added too. For the table of contents, the possibility to display the table from
+the root is added too.
+
+**Warning**
+
+When a block allows to select a partial, the filename must start with the same
+string than the original partial, for example "table-of-contents-pages.phtml".
+
+Furthermore, it should exists in a module or in the current theme. Thereby, when
+the module or the theme that have this partial are replaced, you have to check
+the pages that use it.
+
+
+TODO
+----
+
+- Merge some similar blocks into a main block.
 
 
 Warning
