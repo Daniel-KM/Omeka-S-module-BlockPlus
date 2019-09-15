@@ -147,9 +147,9 @@ class Assets extends AbstractBlockLayout
             }
         }
 
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/assets';
+        $template = $block->dataValue('template') ?: 'common/block-layout/assets';
 
-        return $view->partial($partial, [
+        return $view->partial($template, [
             'heading' => $block->dataValue('heading', ''),
             'assets' => $assets,
         ]);

@@ -78,9 +78,9 @@ class ListOfSites extends AbstractBlockLayout
 
         $sites = $response->getContent();
 
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/list-of-sites';
+        $template = $block->dataValue('template') ?: 'common/block-layout/list-of-sites';
 
-        return $view->partial($partial, [
+        return $view->partial($template, [
             'heading' => $block->dataValue('heading', ''),
             'sites' => $sites,
             'summaries' => $summaries,

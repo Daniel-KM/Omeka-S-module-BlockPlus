@@ -37,8 +37,8 @@ class Html extends \Omeka\Site\BlockLayout\Html
     {
         $html = $block->dataValue('html', '');
         $heading = $block->dataValue('heading', '');
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/html';
-        return $view->partial($partial, [
+        $template = $block->dataValue('template') ?: 'common/block-layout/html';
+        return $view->partial($template, [
             'heading' => $heading,
             'html' => $html,
         ]);

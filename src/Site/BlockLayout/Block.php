@@ -46,8 +46,8 @@ class Block extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/block';
-        return $view->partial($partial, [
+        $template = $block->dataValue('template') ?: 'common/block-layout/block';
+        return $view->partial($template, [
             'block' => $block,
             'heading' => $block->dataValue('heading', ''),
             'params' => $block->dataValue('params', ''),

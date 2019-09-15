@@ -1,7 +1,7 @@
 <?php
 namespace BlockPlus\Form;
 
-use BlockPlus\Form\Element\PartialSelect;
+use BlockPlus\Form\Element\TemplateSelect;
 use BlockPlus\Form\Element\ThumbnailTypeSelect;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
@@ -32,12 +32,12 @@ class ItemShowcaseFieldset extends Fieldset
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][partial]',
-                'type' => PartialSelect::class,
+                'name' => 'o:block[__blockIndex__][o:data][template]',
+                'type' => TemplateSelect::class,
                 'options' => [
-                    'label' => 'Partial to display', // @translate
-                    'info' => 'Partials are in folder "common/block-layout" of the theme and should start with "item-showcase".', // @translate
-                    'partial' => 'common/block-layout/item-showcase',
+                    'label' => 'Template to display', // @translate
+                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "item-showcase".', // @translate
+                    'template' => 'common/block-layout/item-showcase',
                 ],
                 'attributes' => [
                     'class' => 'chosen-select',

@@ -30,3 +30,14 @@ WHERE layout = "mediaText";
 SQL;
     $connection->exec($sql);
 }
+
+if (version_compare($oldVersion, '3.0.5', '<')) {
+    $sql = <<<'SQL'
+UPDATE site_page_block
+SET
+    data = REPLACE(data, '"partial":"', '"template":"')
+WHERE
+    layout IN ('block', 'browsePreview', 'column', 'itemShowCase', 'itemWithMetadata', 'listOfSites', 'pageTitle', 'searchForm', 'separator', 'tableOfContents', 'assets', 'embedText', 'html', 'resourceText', 'simplePage');
+SQL;
+    $connection->exec($sql);
+}

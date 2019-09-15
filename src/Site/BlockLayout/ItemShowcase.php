@@ -59,9 +59,9 @@ class ItemShowcase extends AbstractBlockLayout
             return '';
         }
 
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/item-showcase';
+        $template = $block->dataValue('template') ?: 'common/block-layout/item-showcase';
 
-        return $view->partial($partial, [
+        return $view->partial($template, [
             'block' => $block,
             'attachments' => $attachments,
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),

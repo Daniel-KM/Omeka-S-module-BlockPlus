@@ -50,9 +50,9 @@ class ItemWithMetadata extends AbstractBlockLayout
             return 'No item selected'; // @translate
         }
 
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/item-with-metadata';
+        $template = $block->dataValue('template') ?: 'common/block-layout/item-with-metadata';
 
-        return $view->partial($partial, [
+        return $view->partial($template, [
             'attachments' => $attachments,
             'heading' => $block->dataValue('heading', ''),
         ]);

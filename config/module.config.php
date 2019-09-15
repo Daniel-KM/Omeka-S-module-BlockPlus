@@ -50,8 +50,8 @@ return [
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
         ],
         'factories' => [
-            Form\Element\PartialSelect::class => Service\Form\Element\PartialSelectFactory::class,
             Form\Element\SitesPageSelect::class => Service\Form\Element\SitesPageSelectFactory::class,
+            Form\Element\TemplateSelect::class => Service\Form\Element\TemplateSelectFactory::class,
             Form\Element\ThumbnailTypeSelect::class => Service\Form\Element\ThumbnailTypeSelectFactory::class,
         ],
     ],
@@ -78,12 +78,12 @@ return [
                         'class' => '',
                     ],
                 ],
-                'partial' => '',
+                'template' => '',
             ],
             'block' => [
                 'heading' => '',
                 'params' => '',
-                'partial' => '',
+                'template' => '',
             ],
             'browsePreview' => [
                 'resource_type' => 'items',
@@ -91,7 +91,7 @@ return [
                 'limit' => 12,
                 'heading' => '',
                 'link-text' => 'Browse all', // @translate
-                'partial' => '',
+                'template' => '',
             ],
             'column' => [
                 'type' => '',
@@ -107,24 +107,24 @@ return [
                 'caption_position' => 'center',
                 'link_text' => 'Know more', // @translate
                 'link_url' => '#',
-                'partial' => '',
+                'template' => '',
             ],
             'html' => [
                 'heading' => '',
                 'html' => '',
-                'partial' => '',
+                'template' => '',
             ],
             'itemShowcase' => [
                 'attachments' => [],
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',
                 'heading' => '',
-                'partial' => '',
+                'template' => '',
             ],
             'itemWithMetadata' => [
                 'attachments' => [],
                 'heading' => '',
-                'partial' => '',
+                'template' => '',
             ],
             'listOfSites' => [
                 'heading' => '',
@@ -132,10 +132,10 @@ return [
                 'limit' => null,
                 'pagination' => false,
                 'summaries' => true,
-                'partial' => '',
+                'template' => '',
             ],
             'pageTitle' => [
-                'partial' => '',
+                'template' => '',
             ],
             'resourceText' => [
                 'heading' => '',
@@ -146,11 +146,11 @@ return [
                 'show_title_option' => 'item_title',
                 // This option is mainly for compability with Omeka Classic exhibits.
                 'caption_position' => 'center',
-                'partial' => '',
+                'template' => '',
             ],
             'searchForm' => [
                 'heading' => '',
-                'partial' => '',
+                'template' => '',
             ],
             'separator' => [
                 'class' => '',
@@ -162,7 +162,7 @@ return [
                 'depth' => null,
                 'heading' => '',
                 'root' => false,
-                'partial' => '',
+                'template' => '',
             ],
         ],
     ],

@@ -3,52 +3,52 @@ namespace BlockPlus\Form\Element;
 
 use Zend\Form\Element\Select;
 
-class PartialSelect extends Select
+class TemplateSelect extends Select
 {
     protected $templatePathStack = [];
     protected $theme = '';
 
     public function setOptions($options)
     {
-        if (!empty($options['partial'])) {
-            $options['value_options'] = $this->findPartials($options['partial']);
+        if (!empty($options['template'])) {
+            $options['value_options'] = $this->findTemplates($options['template']);
         }
 
         return parent::setOptions($options);
     }
 
     /**
-     * Find all partials whose filename starts with a string.
+     * Find all partial templates whose filename starts with a string.
      *
      * @param string $layout
      * @return array
      */
-    protected function findPartials($layout)
+    protected function findTemplates($layout)
     {
         // Hacky way to get all filenames for the asset. Theme first, then
         // modules, then core.
-        $partials = [$layout => 'Default']; // @translate
+        $templates = [$layout => 'Default']; // @translate
 
         // Check filenames in core.
         $directory = OMEKA_PATH . '/application/view/';
         // Check filenames in modules.
         $recursiveList = $this->filteredFilesInFolder($directory, $layout, 'phtml');
-        $partials += $recursiveList;
+        $templates += $recursiveList;
 
         // Check filenames in modules.
         foreach ($this->templatePathStack as $directory) {
             $recursiveList = $this->filteredFilesInFolder($directory, $layout, 'phtml');
-            $partials += $recursiveList;
+            $templates += $recursiveList;
         }
 
         // Check filenames in the theme.
         if (strlen($this->theme)) {
             $directory = OMEKA_PATH . '/themes/' . $this->theme . '/view/';
             $recursiveList = $this->filteredFilesInFolder($directory, $layout, 'phtml');
-            $partials += $recursiveList;
+            $templates += $recursiveList;
         }
 
-        return $partials;
+        return $templates;
     }
 
     /**
@@ -100,7 +100,7 @@ class PartialSelect extends Select
 
     /**
      * @param array $templatePathStack
-     * @return \BlockPlus\Form\Element\PartialSelect
+     * @return \BlockPlus\Form\Element\TemplateSelect
      */
     public function setTemplatePathStack(array $templatePathStack)
     {
@@ -110,7 +110,7 @@ class PartialSelect extends Select
 
     /**
      * @param string $theme
-     * @return \BlockPlus\Form\Element\PartialSelect
+     * @return \BlockPlus\Form\Element\TemplateSelect
      */
     public function setTheme($theme)
     {

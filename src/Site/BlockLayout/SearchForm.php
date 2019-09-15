@@ -43,7 +43,7 @@ class SearchForm extends AbstractBlockLayout
     {
         $data = $block->data();
         unset($data['partial']);
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/search-form';
-        return $view->partial($partial, $data);
+        $template = $block->dataValue('template') ?: 'common/block-layout/search-form';
+        return $view->partial($template, $data);
     }
 }

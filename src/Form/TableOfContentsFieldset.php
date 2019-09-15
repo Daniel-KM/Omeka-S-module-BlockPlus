@@ -1,7 +1,7 @@
 <?php
 namespace BlockPlus\Form;
 
-use BlockPlus\Form\Element\PartialSelect;
+use BlockPlus\Form\Element\TemplateSelect;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
 
@@ -38,12 +38,12 @@ class TableOfContentsFieldset extends Fieldset
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][partial]',
-                'type' => PartialSelect::class,
+                'name' => 'o:block[__blockIndex__][o:data][template]',
+                'type' => TemplateSelect::class,
                 'options' => [
-                    'label' => 'Partial to display', // @translate
-                    'info' => 'Partials are in folder "common/block-layout" of the theme and should start with "table-of-contents".', // @translate
-                    'partial' => 'common/block-layout/table-of-contents',
+                    'label' => 'Template to display', // @translate
+                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "table-of-contents".', // @translate
+                    'template' => 'common/block-layout/table-of-contents',
                 ],
                 'attributes' => [
                     'class' => 'chosen-select',

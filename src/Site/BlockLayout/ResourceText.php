@@ -92,7 +92,7 @@ class ResourceText extends AbstractBlockLayout
             'o:block[__blockIndex__][o:data][alignment]',
             'o:block[__blockIndex__][o:data][show_title_option]',
             'o:block[__blockIndex__][o:data][caption_position]',
-            'o:block[__blockIndex__][o:data][partial]',
+            'o:block[__blockIndex__][o:data][template]',
         ];
         foreach ($optionsElements as $element) {
             $element = $fieldset->get($element);
@@ -110,9 +110,9 @@ class ResourceText extends AbstractBlockLayout
             return '';
         }
 
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/resource-text';
+        $template = $block->dataValue('template') ?: 'common/block-layout/resource-text';
 
-        return $view->partial($partial, [
+        return $view->partial($template, [
             'block' => $block,
             'heading' => $block->dataValue('heading', ''),
             'attachments' => $attachments,

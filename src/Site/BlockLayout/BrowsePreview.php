@@ -81,11 +81,11 @@ class BrowsePreview extends AbstractBlockLayout
             'media' => 'media',
         ];
 
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/browse-preview';
+        $template = $block->dataValue('template') ?: 'common/block-layout/browse-preview';
 
         // There is no list of media in public views.
         $linkText = $resourceType === 'media' ? '' : $block->dataValue('link-text');
-        return $view->partial($partial, [
+        return $view->partial($template, [
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
             'heading' => $block->dataValue('heading'),

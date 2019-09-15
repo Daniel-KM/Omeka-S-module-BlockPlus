@@ -44,8 +44,8 @@ class PageTitle extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/page-title';
-        return $view->partial($partial, [
+        $template = $block->dataValue('template') ?: 'common/block-layout/page-title';
+        return $view->partial($template, [
             'block' => $block,
         ]);
     }

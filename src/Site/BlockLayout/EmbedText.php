@@ -173,9 +173,9 @@ class EmbedText extends AbstractBlockLayout
             return '';
         }
 
-        $partial = $block->dataValue('partial') ?: 'common/block-layout/embed-text';
+        $template = $block->dataValue('template') ?: 'common/block-layout/embed-text';
 
-        return $view->partial($partial, [
+        return $view->partial($template, [
             'block' => $block,
             'heading' => $block->dataValue('heading', ''),
             'embeds' => $embeds,
