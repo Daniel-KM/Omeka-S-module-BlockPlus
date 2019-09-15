@@ -18,7 +18,7 @@ Usage
 -----
 
 Select them in the view "Page edit". You may theme them too: copy the block
-partials that are in `view/common/block-layout/` in the same place of your
+templates that are in `view/common/block-layout/` in the same place of your
 theme.
 
 ### Assets
@@ -29,7 +29,7 @@ allow to display any list of contents.
 
 ### Simple block
 
-A simple block allow to display a partial from the theme. It may be used for a
+A simple block allow to display a template from the theme. It may be used for a
 static html content, like a list of partners, or a complex layout, since any
 Omeka feature is available in a view.
 
@@ -69,25 +69,26 @@ css should be prepared in the theme to managed them. By default, only a simple
 
 ### Improvements for Browse preview, Html, Item metadata, Item showcase, List of sites, Page title, Table of contents
 
-Allow to use a specific partial for some blocks, so it’s possible to display
+Allow to use a specific template for some blocks, so it’s possible to display
 these blocks differently in the same page or on different pages. An heading is
 added too. For the table of contents, the possibility to display the table from
 the root is added too.
 
 **Warning**
 
-When a block allows to select a partial, the filename must start with the same
-string than the original partial, for example "table-of-contents-pages.phtml".
+When a block allows to select a template, the filename must start with the same
+string than the original template, for example "table-of-contents-pages.phtml"
+for the block `TableOfContents`.
 
 Furthermore, it should exists in a module or in the current theme. Thereby, when
-the module or the theme that have this partial are replaced, you have to check
+the module or the theme that have this template are replaced, you have to check
 the pages that use it.
 
 
 TODO
 ----
 
-- Merge some similar blocks into a main block.
+- Merge some similar blocks into a main block (with automatic upgrade).
 
 
 Warning
