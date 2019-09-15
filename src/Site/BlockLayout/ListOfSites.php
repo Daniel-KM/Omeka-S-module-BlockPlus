@@ -198,7 +198,7 @@ class ListOfSites extends AbstractBlockLayout
         $sites = $repository->findBy(['id' => $siteIds], $order);
 
         // Convert to an array of representations.
-        $sites = array_map(function($v) use($adapter) {
+        $sites = array_map(function ($v) use ($adapter) {
             return $adapter->getRepresentation($v);
         }, $sites);
 
