@@ -9,6 +9,16 @@ class ListOfSitesFieldset extends Fieldset
 {
     public function init()
     {
+        // Prepare the list of sites to exclude.
+        // No trigger to simplify process (it's already an extended class).
+        $exclude = [
+            'main' => 'Main site', // @translate
+            'current' => 'Current site', // @translate
+        ];
+        if (class_exists(\Internationalisation\Form\Element\SitesPageSelect::class)) {
+            $exclude['translated'] = 'Translated sites'; // @translate
+        }
+
         $this
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][heading]',
@@ -44,6 +54,17 @@ class ListOfSitesFieldset extends Fieldset
                     'id' => 'list-of-sites-limit',
                     'placeholder' => 'Unlimited', // @translate
                     'min' => 0,
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][exclude]',
+                'type' => Element\MultiCheckbox::class,
+                'options' => [
+                    'label' => 'Exclude sites', // @translate
+                    'value_options' => $exclude,
+                ],
+                'attributes' => [
+                    'id' => 'exclude',
                 ],
             ])
             ->add([

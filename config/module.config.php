@@ -130,6 +130,8 @@ return [
                 'heading' => '',
                 'sort' => 'alpha',
                 'limit' => null,
+                'exclude' => [
+                ],
                 'pagination' => false,
                 'summaries' => true,
                 'template' => '',
