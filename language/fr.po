@@ -1,31 +1,32 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+# Daniel Berthereau <Daniel.github@Berthereau.net>, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-16 00:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2019-09-16 00:00+0200\n"
+"Last-Translator: Daniel Berthereau <Daniel.github@Berthereau.net>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: src/Site/BlockLayout/Block.php:40
 msgid "A simple block allow to display a partial from the theme."
-msgstr ""
+msgstr "Un bloc simple pour afficher un gabarit du thème. "
 
 #: src/Site/BlockLayout/Block.php:41
 msgid ""
 "It may be used for a static html content, like a list of partners, or a "
 "complex layout, since any Omeka feature is available in a view."
 msgstr ""
+"Il peut être utilisé pour du contenu statique, telle qu’une liste de"
+" partenaires, ou un modèle complexe, puisque toutes les fonctionnalités"
+" d’Omeka sont disponibles dans les vues."
 
 #: src/Site/BlockLayout/Column.php:133
 msgid ""
@@ -33,20 +34,27 @@ msgid ""
 "start and one for the end, to avoid html issues. Multiple columns can be "
 "nested."
 msgstr ""
+"Divise la page en colonnes. Il doit y avoir au moins deux blocs, l’un pour le"
+" début et l’autre pour la fin, pour éviter les problèmes. Les colonnes"
+" peuvent être imbriquées."
 
 #: src/Site/BlockLayout/SimplePage.php:86
 msgid "Choose any page from any site."
-msgstr ""
+msgstr "Choisir une page de n’importe quel site."
 
 #: src/Site/BlockLayout/SimplePage.php:87
 msgid ""
 "If a page of a private site is selected, it will be hidden on the public "
 "side."
 msgstr ""
+"Si une page d’un site privé est choisie, elle sera cachée dans la partie"
+" publique."
 
 #: src/Site/BlockLayout/SimplePage.php:88
 msgid "The current page and recursive pages are forbidden."
 msgstr ""
+"La page en cours ou qui se trouve récursivement dans une autre page ne peut"
+" être choisie."
 
 #: src/Form/ItemWithMetadataFieldset.php:19 src/Form/SearchFormFieldset.php:17
 #: src/Form/AssetsFieldset.php:18 src/Form/EmbedTextFieldset.php:16
@@ -55,7 +63,7 @@ msgstr ""
 #: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:17
 #: src/Form/BlockFieldset.php:17
 msgid "Block title"
-msgstr ""
+msgstr "Titre du bloc"
 
 #: src/Form/ItemWithMetadataFieldset.php:20 src/Form/SearchFormFieldset.php:18
 #: src/Form/AssetsFieldset.php:19 src/Form/EmbedTextFieldset.php:17
@@ -64,7 +72,7 @@ msgstr ""
 #: src/Form/ResourceTextFieldset.php:75 src/Form/HtmlFieldset.php:18
 #: src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
-msgstr ""
+msgstr "Entête du bloc, si présent"
 
 #: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
 #: src/Form/AssetsFieldset.php:37 src/Form/EmbedTextFieldset.php:87
@@ -73,55 +81,63 @@ msgstr ""
 #: src/Form/BrowsePreviewFieldset.php:65 src/Form/ResourceTextFieldset.php:89
 #: src/Form/HtmlFieldset.php:32 src/Form/BlockFieldset.php:33
 msgid "Template to display"
-msgstr ""
+msgstr "Gabarit à afficher"
 
 #: src/Form/ItemWithMetadataFieldset.php:28
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"item-with-metadata\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"item-with-metadata\"."
 
 #: src/Form/SearchFormFieldset.php:26
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"search-form\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"search-form\"."
 
 #: src/Form/SeparatorFieldset.php:17
 msgid ""
 "Set the class or the name of the separator. Default is \"transparent\". "
 "Other ones depends on the theme."
 msgstr ""
+"Indiquer la classe ou le nom du séparateur. Le séparateur par défaut est"
+" \"transparent\". Les autres dépendent du thème."
 
 #: src/Form/AssetsFieldset.php:26 src/Site/BlockLayout/Assets.php:30
 msgid "Assets"
-msgstr ""
+msgstr "Fichiers du projet"
 
 #: src/Form/AssetsFieldset.php:38
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"assets\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"assets\"."
 
 #: src/Form/AssetsFieldset.php:52
 msgid "Asset"
-msgstr ""
+msgstr "Fichier du projet"
 
 #: src/Form/AssetsFieldset.php:66
 msgid "Asset file"
-msgstr ""
+msgstr "Fichier"
 
 #: src/Form/AssetsFieldset.php:80
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: src/Form/AssetsFieldset.php:97 src/Form/ColumnFieldset.php:50
 msgid "CSS class"
-msgstr ""
+msgstr "Classe CSS"
 
 #: src/Form/AssetsFieldset.php:105
 msgid "Add another"
-msgstr ""
+msgstr "Ajouter un autre"
 
 #: src/Form/SimplePageFieldset.php:16
 msgid ""
@@ -129,188 +145,217 @@ msgid ""
 "will be hidden on the public site. The current page and recursive pages are "
 "forbidden."
 msgstr ""
+"Les sites privés sont indiqués avec une \"*\". Si une page privée est"
+" choisie, elle sera cachée au public. La pacte courante et les pages qui la"
+" contiennent récursivement sont interdites."
 
 #: src/Form/EmbedTextFieldset.php:24
 msgid "Embedded url"
-msgstr ""
+msgstr "Url embarquée"
 
 #: src/Form/EmbedTextFieldset.php:25
 msgid ""
 "The standard \"oEmbed\" normalizes the integration of external resources. "
 "Main third parties are supported. Set the url to be used for the iframe."
 msgstr ""
+"Le standard \"oEmbed\" normalise l’integration des ressources externes. Les"
+" principaux sites tiers sont gérés. Indiquer l’url à utiliser pour l’iframe."
 
 #: src/Form/EmbedTextFieldset.php:32
 msgid "Embedded alignment"
-msgstr ""
+msgstr "Alignement du contenu embarqué"
 
 #: src/Form/EmbedTextFieldset.php:34 src/Form/EmbedTextFieldset.php:57
 #: src/Form/ResourceTextFieldset.php:32 src/Form/ResourceTextFieldset.php:62
 msgid "left"
-msgstr ""
+msgstr "gauche"
 
 #: src/Form/EmbedTextFieldset.php:35 src/Form/EmbedTextFieldset.php:58
 #: src/Form/ResourceTextFieldset.php:33 src/Form/ResourceTextFieldset.php:63
 msgid "right"
-msgstr ""
+msgstr "droite"
 
 #: src/Form/EmbedTextFieldset.php:43
 msgid "Show title"
-msgstr ""
+msgstr "Afficher le titre"
 
 #: src/Form/EmbedTextFieldset.php:54 src/Form/ResourceTextFieldset.php:59
 msgid "Captions position"
-msgstr ""
+msgstr "Position des légendes"
 
 #: src/Form/EmbedTextFieldset.php:56 src/Form/ResourceTextFieldset.php:61
 msgid "center"
-msgstr ""
+msgstr "centre"
 
 #: src/Form/EmbedTextFieldset.php:80
 msgid "Link url"
-msgstr ""
+msgstr "Lien pour l’url"
 
 #: src/Form/EmbedTextFieldset.php:88
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"embed-text\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"embed-text\"."
 
 #: src/Form/PageTitleFieldset.php:17
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"page-title\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"page-title\"."
 
 #: src/Form/ListOfSitesFieldset.php:15
 msgid "Main site"
-msgstr ""
+msgstr "Site par défaut"
 
 #: src/Form/ListOfSitesFieldset.php:16
 msgid "Current site"
-msgstr ""
+msgstr "Site en cours"
 
 #: src/Form/ListOfSitesFieldset.php:19
 msgid "Translated sites"
-msgstr ""
+msgstr "Sites traduits"
 
 #: src/Form/ListOfSitesFieldset.php:63
 msgid "Exclude sites"
-msgstr ""
+msgstr "Exclure des sites"
 
 #: src/Form/ListOfSitesFieldset.php:96
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"list-of-sites\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"list-of-sites\"."
 
 #: src/Form/TableOfContentsFieldset.php:36
 msgid "List from root"
-msgstr ""
+msgstr "Liste depuis la racine"
 
 #: src/Form/TableOfContentsFieldset.php:37
 msgid ""
 "If set, all the pages will be displayed, else only the ones from the current "
 "page."
 msgstr ""
+"Si coché, toutes les pages seront affichées, sinon seulement celles situées"
+" dans l’arborescence de la page en cours."
 
 #: src/Form/TableOfContentsFieldset.php:45
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"table-of-contents\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"table-of-contents\"."
 
 #: src/Form/ItemShowcaseFieldset.php:39
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"item-showcase\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"item-showcase\"."
 
 #: src/Form/BrowsePreviewFieldset.php:58
 msgid "Text for link to full browse view, if any. There is no link for media."
 msgstr ""
+"Texte pour le lien vers la page \"tout parcourir\". Il n’y a pas de lien pour"
+" les médias."
 
 #: src/Form/BrowsePreviewFieldset.php:66
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"browse-preview\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"browse-preview\"."
 
 #: src/Form/ResourceTextFieldset.php:90
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"resource-text\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"resource-text\"."
 
 #: src/Form/HtmlFieldset.php:33
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"html\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"html\"."
 
 #: src/Form/Element/AbstractGroupBySiteSelect.php:166
 msgid "[No site]"
-msgstr ""
+msgstr "[Pas de site]"
 
 #: src/Form/ColumnFieldset.php:21
 msgid "New column"
-msgstr ""
+msgstr "Nouvelle colonne"
 
 #: src/Form/ColumnFieldset.php:22
 msgid "End previous and start new"
-msgstr ""
+msgstr "Clore la précédente colonne et en commencer une autre"
 
 #: src/Form/ColumnFieldset.php:23
 msgid "End column"
-msgstr ""
+msgstr "Clore la colonne"
 
 #: src/Form/ColumnFieldset.php:29
 msgid "Select below…"
-msgstr ""
+msgstr "Choisir ci-dessous…"
 
 #: src/Form/ColumnFieldset.php:36
 msgid "Tag for new column"
-msgstr ""
+msgstr "Balise pour la nouvelle colonne"
 
 #: src/Form/ColumnFieldset.php:38
 msgid "div"
-msgstr ""
+msgstr "div"
 
 #: src/Form/ColumnFieldset.php:39
 msgid "aside"
-msgstr ""
+msgstr "aside"
 
 #: src/Form/ColumnFieldset.php:51
 msgid ""
 "Set the classes according to the css of your theme. Only classes \"main\" "
 "and \"column\" are managed."
 msgstr ""
+"Indiquer les classes selon le css du thème. Seules les classes \"main\" et"
+" \"column\" sont gérées."
 
 #: src/Form/BlockFieldset.php:25
 msgid "Params"
-msgstr ""
+msgstr "Paramètres"
 
 #: src/Form/BlockFieldset.php:26
 msgid "The params are passed directly to the block layout."
-msgstr ""
+msgstr "Les paramètres sont passés directement au gabarit du bloc."
 
 #: src/Form/BlockFieldset.php:34
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"block\"."
 msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et doivent"
+" commencer avec \"block\"."
 
 #: src/Site/BlockLayout/Block.php:14
 msgid "Simple Block"
-msgstr ""
+msgstr "Bloc simple"
 
 #: src/Site/BlockLayout/SearchForm.php:14
 msgid "Search simple form"
-msgstr ""
+msgstr "Formulaire de recherche simple"
 
 #: src/Site/BlockLayout/Column.php:16
 msgid "Column"
-msgstr ""
+msgstr "Colonne"
 
 #: src/Site/BlockLayout/Column.php:64 src/Site/BlockLayout/Column.php:199
 #: src/Site/BlockLayout/Column.php:206
@@ -318,89 +363,93 @@ msgid ""
 "Type \"intermediate\" and \"end\" columns must be after a block \"start\" or "
 "\"intermediate\"."
 msgstr ""
+"Les colonnes de type \"intermédiaire\" et \"fin\" doivent être situées après"
+" un bloc \"début\" ou \"intermédiaire\"."
 
 #: src/Site/BlockLayout/Column.php:76 src/Site/BlockLayout/Column.php:215
 msgid "Unauthorized type for block column."
-msgstr ""
+msgstr "Type non autorisé pour le bloc de colonne."
 
 #: src/Site/BlockLayout/Column.php:83 src/Site/BlockLayout/Column.php:225
 msgid "A block \"column\" cannot be single."
-msgstr ""
+msgstr "Un bloc \"colonne\" ne peut pas être utilisé seul."
 
 #: src/Site/BlockLayout/Column.php:90 src/Site/BlockLayout/Column.php:232
 msgid "The first column block must be of type \"start\"."
-msgstr ""
+msgstr "Le premier bloc de colonne doit être de type \"début\"."
 
 #: src/Site/BlockLayout/Column.php:95 src/Site/BlockLayout/Column.php:237
 msgid "The last column block must be of type \"end\"."
-msgstr ""
+msgstr "Le dernier bloc de colonne doit être de type \"fin\"."
 
 #: src/Site/BlockLayout/Column.php:100 src/Site/BlockLayout/Column.php:242
 msgid "Some columns have no end."
-msgstr ""
+msgstr "Certaines colonnes n’ont pas de fin."
 
 #: src/Site/BlockLayout/Separator.php:16
 msgid "Separator"
-msgstr ""
+msgstr "Séparateur"
 
 #: src/Site/BlockLayout/EmbedText.php:60
 msgid "Embedded with text"
-msgstr ""
+msgstr "Embarqué avec texte"
 
 #: src/Site/BlockLayout/EmbedText.php:89
 msgid "Invalid OEmbed URL"
-msgstr ""
+msgstr "Url oEmbed invalide"
 
 #: src/Site/BlockLayout/EmbedText.php:95
 msgid "OEmbed URL"
-msgstr ""
+msgstr "Url oEmbed"
 
 #: src/Site/BlockLayout/EmbedText.php:97
 msgid "OEmbed URL unavailable"
-msgstr ""
+msgstr "Url oEmbed indisponible"
 
 #: src/Site/BlockLayout/EmbedText.php:105
 msgid "No OEmbed links were found at the given URI"
-msgstr ""
+msgstr "Aucun lien oEmbed n’a été trouvé dans l’uri indiquée."
 
 #: src/Site/BlockLayout/EmbedText.php:111
 msgid "OEmbed link URL"
-msgstr ""
+msgstr "Lien url oEmbed"
 
 #: src/Site/BlockLayout/EmbedText.php:113
 msgid "OEmbed link URL unavailable"
-msgstr ""
+msgstr "L’url du lien oEmbed est indisponible."
 
 #: src/Site/BlockLayout/EmbedText.php:119
 msgid "Error decoding OEmbed JSON"
-msgstr ""
+msgstr "Erreur lors du décodage du json oEmbed"
 
 #: src/Site/BlockLayout/EmbedText.php:209
 #, php-format
 msgid "Invalid \"%s\" specified"
-msgstr ""
+msgstr "Spécification \"%s\" invalide"
 
 #: src/Site/BlockLayout/EmbedText.php:220
 #, php-format
 msgid "Error reading %s: %s (%s)"
-msgstr ""
+msgstr "Erreur lors de la lecture %s: %s (%s)"
 
 #: src/Site/BlockLayout/SimplePage.php:31
 msgid "Simple page"
-msgstr ""
+msgstr "Simple page"
 
 #: src/Site/BlockLayout/SimplePage.php:39
 msgid "A page should be selected to create a simple page."
-msgstr ""
+msgstr "Une page doit être sélectionnée pour créer un bloc Simple page."
 
 #: src/Site/BlockLayout/SimplePage.php:44
 msgid "A simple page cannot be inside itself."
-msgstr ""
+msgstr "Une simple page ne peut pas être à l’intérieur d’elle-même."
 
 #: src/Site/BlockLayout/SimplePage.php:52
 #: src/Site/BlockLayout/SimplePage.php:58
 msgid "A simple page cannot use a page that uses it recursively as a block."
 msgstr ""
+"Une simple page ne peut pas utiliser une page qui l’utilise récursivement"
+" dans un bloc."
 
 #: src/Site/BlockLayout/SimplePage.php:103
 #, php-format
@@ -408,11 +457,14 @@ msgid ""
 "Simple page block #%d of page \"%s\" of site \"%s\" should be updated: it "
 "refers to a removed page."
 msgstr ""
+"Le bloc Simple page #%d de la page \"%s\" du site \"%s\" doite être mis à"
+" jour: il fait référence à une page supprimée."
 
 #: src/Site/BlockLayout/ResourceText.php:38
 msgid "Resource with text"
-msgstr ""
+msgstr "Ressource avec texte"
 
 #: config/module.config.php:108
 msgid "Know more"
-msgstr ""
+msgstr "En savoir plus"
+
