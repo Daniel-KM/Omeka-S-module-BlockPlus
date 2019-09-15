@@ -154,4 +154,11 @@ class Assets extends AbstractBlockLayout
             'assets' => $assets,
         ]);
     }
+
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
+    {
+        // TODO Add captions (they are not added in the core)?
+        return $block->dataValue('heading', '')
+            . ' ' . $block->dataValue('html', '');
+    }
 }

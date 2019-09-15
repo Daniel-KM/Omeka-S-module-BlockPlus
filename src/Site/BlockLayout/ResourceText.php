@@ -123,4 +123,11 @@ class ResourceText extends AbstractBlockLayout
             'captionPosition' => $block->dataValue('caption_position', 'center'),
         ]);
     }
+
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
+    {
+        // TODO Add captions (they are not added in the core)?
+        return $block->dataValue('heading', '')
+            . ' ' . $block->dataValue('html', '');
+    }
 }

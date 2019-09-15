@@ -53,4 +53,9 @@ class Block extends AbstractBlockLayout
             'params' => $block->dataValue('params', ''),
         ]);
     }
+
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
+    {
+        return strip_tags($this->render($view, $block));
+    }
 }

@@ -188,6 +188,13 @@ class EmbedText extends AbstractBlockLayout
         ]);
     }
 
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
+    {
+        // TODO Add captions (they are not added in the core)?
+        return $block->dataValue('heading', '')
+            . ' ' . $block->dataValue('html', '');
+    }
+
     /**
      * Make a request and handle any errors that might occur.
      *
