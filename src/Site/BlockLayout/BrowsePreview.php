@@ -103,6 +103,15 @@ class BrowsePreview extends AbstractBlockLayout
             $view->pagination(null, $totalCount, $currentPage, $limit);
         }
 
+        /** @var \Omeka\Api\Representation\ResourceTemplateRepresentation $resourceTemplate */
+        $resourceTemplate = $block->dataValue('resource_template');
+        if ($resourceTemplate) {
+            try {
+                $resourceTemplate = $api->read('resource_templates', $resourceTemplate)->getContent();
+            } catch (\Exception $e) {
+            }
+        }
+
         $sortHeadings = $block->dataValue('sort_headings', []);
         if ($sortHeadings) {
             $translate = $view->plugin('translate');
@@ -117,6 +126,13 @@ class BrowsePreview extends AbstractBlockLayout
                     default:
                         $property = $api->searchOne('properties', ['term' => $sortHeading])->getContent();
                         if ($property) {
+                            if ($resourceTemplate) {
+                                $templateProperty = $resourceTemplate->resourceTemplateProperty($property->id());
+                                if ($templateProperty) {
+                                    $label = $translate($templateProperty->alternateLabel() ?: $property->label());
+                                    break;
+                                }
+                            }
                             $label = $translate($property->label());
                         } else {
                             unset($sortHeadings[$key]);

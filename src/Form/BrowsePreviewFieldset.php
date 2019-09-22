@@ -3,6 +3,7 @@ namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
 use Omeka\Form\Element\PropertySelect;
+use Omeka\Form\Element\ResourceTemplateSelect;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
 
@@ -89,6 +90,20 @@ class BrowsePreviewFieldset extends Fieldset
                     'class' => 'chosen-select',
                     'multiple' => true,
                     'data-placeholder' => 'Select properties', // @translate
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][resource_template]',
+                'type' => ResourceTemplateSelect::class,
+                'options' => [
+                    'label' => 'Resource template for sort headings', // @translate
+                    'info' => 'If set, the alternative labels of this resource template will be used to display the sort headings.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'browse-preview-resource-template',
+                    'class' => 'chosen-select',
+                    'multiple' => false,
+                    'data-placeholder' => 'Select resource template', // @translate
                 ],
             ])
             ->add([

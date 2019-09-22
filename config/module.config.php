@@ -92,6 +92,7 @@ return [
                 'limit' => 12,
                 'pagination' => false,
                 'sort_headings' => [],
+                'resource_template' => null,
                 'link-text' => 'Browse all', // @translate
                 'template' => '',
             ],
