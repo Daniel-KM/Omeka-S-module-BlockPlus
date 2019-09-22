@@ -74,9 +74,9 @@ these blocks differently in the same page or on different pages. An heading is
 added too. For the table of contents, the possibility to display the table from
 the root is added too.
 
-Furthermore, the block Browse preview has new fields to display sort headings,
-so it's now possible to have a specific list of items, like the main browse
-view.
+Furthermore, the block Browse preview has new fields to display sort headings
+and pagination, so it's now possible to have a specific list of items, like the
+main browse view.
 
 
 **Warning**
