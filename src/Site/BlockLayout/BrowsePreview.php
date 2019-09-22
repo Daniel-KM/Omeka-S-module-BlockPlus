@@ -63,7 +63,16 @@ class BrowsePreview extends AbstractBlockLayout
         }
 
         $query['site_id'] = $site->id();
-        $query['limit'] = $block->dataValue('limit', 12);
+
+        $limit = $block->dataValue('limit', 12);
+        $pagination = $limit && $block->dataValue('pagination');
+        if ($pagination) {
+            $currentPage = $view->params()->fromQuery('page', 1);
+            $query['page'] = $currentPage;
+            $query['per_page'] = $limit;
+        } elseif ($limit) {
+            $query['limit'] = $limit;
+        }
 
         if (!isset($query['sort_by'])) {
             $query['sort_by'] = 'created';
@@ -72,7 +81,20 @@ class BrowsePreview extends AbstractBlockLayout
             $query['sort_order'] = 'desc';
         }
 
+        /** @var \Omeka\Api\Response $response */
         $response = $view->api()->search($resourceType, $query);
+
+        // TODO Currently, there can be only one pagination by page.
+        if ($pagination) {
+            $totalCount = $response->getTotalResults();
+            $pagination = [
+                'total_count' => $totalCount,
+                'current_page' => $currentPage,
+                'limit' => $limit,
+            ];
+            $view->pagination(null, $totalCount, $currentPage, $limit);
+        }
+
         $resources = $response->getContent();
 
         $resourceTypes = [
@@ -85,12 +107,14 @@ class BrowsePreview extends AbstractBlockLayout
 
         // There is no list of media in public views.
         $linkText = $resourceType === 'media' ? '' : $block->dataValue('link-text');
+
         return $view->partial($template, [
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
             'heading' => $block->dataValue('heading'),
             'linkText' => $linkText,
             'query' => $originalQuery,
+            'pagination' => $pagination,
         ]);
     }
 }

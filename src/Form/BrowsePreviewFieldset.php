@@ -11,6 +11,14 @@ class BrowsePreviewFieldset extends Fieldset
     {
         $this
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][heading]',
+                'type' => Element\Text::class,
+                'options' => [
+                    'label' => 'Block title', // @translate
+                    'info' => 'Heading for the block, if any.', // @translate
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][resource_type]',
                 'type' => Element\Select::class,
                 'options' => [
@@ -43,11 +51,14 @@ class BrowsePreviewFieldset extends Fieldset
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][heading]',
-                'type' => Element\Text::class,
+                'name' => 'o:block[__blockIndex__][o:data][pagination]',
+                'type' => Element\Checkbox::class,
                 'options' => [
-                    'label' => 'Block title', // @translate
-                    'info' => 'Heading for the block, if any.', // @translate
+                    'label' => 'Pagination', // @translate
+                    'info' => 'Show pagination to browse all resources on the same page.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'browse-preview-pagination',
                 ],
             ])
             ->add([
@@ -69,6 +80,7 @@ class BrowsePreviewFieldset extends Fieldset
                 'attributes' => [
                     'class' => 'chosen-select',
                 ],
-            ]);
+            ])
+        ;
     }
 }

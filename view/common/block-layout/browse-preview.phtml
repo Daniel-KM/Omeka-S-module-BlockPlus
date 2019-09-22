@@ -1,0 +1,57 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var string $resourceType
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $heading
+ * @var string $linkText
+ * @var array $query
+ * @var array|false $pagination
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
+?>
+
+<div class="preview-block">
+
+<?php if (!empty($heading)): ?>
+<h2><?= $heading ?></h2>
+<?php endif; ?>
+
+<ul class="resource-list preview">
+<?php
+$headingTerm = $siteSetting('browse_heading_property_term', 'dcterms:title');
+$bodyTerm = $siteSetting('browse_body_property_term', 'dcterms:description');
+$untitled = $translate('[Untitled]');
+foreach ($resources as $resource):
+$heading = $resource->value($headingTerm, ['default' => $untitled]);
+    $body = $resource->value($bodyTerm);
+?>
+    <li class="<?= $resourceType ?> resource">
+        <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
+        <h4><?= $resource->link($heading) ?></h4>
+        <?php if ($body): ?>
+        <div class="description"><?= $body ?></div>
+        <?php endif; ?>
+    </li>
+<?php endforeach; ?>
+</ul>
+
+<?php
+if ($pagination):
+    echo $this->pagination();
+endif;
+?>
+
+<?php
+if ($linkText):
+    echo $this->hyperlink($linkText, $this->url(
+        'site/resource', ['controller' => $resourceType, 'action' => 'browse'], ['query' => $query], true
+    ));
+endif;
+?>
+
+</div>

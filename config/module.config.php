@@ -89,6 +89,7 @@ return [
                 'resource_type' => 'items',
                 'query' => '',
                 'limit' => 12,
+                'pagination' => false,
                 'heading' => '',
                 'link-text' => 'Browse all', // @translate
                 'template' => '',
