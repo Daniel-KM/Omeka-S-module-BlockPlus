@@ -74,15 +74,23 @@ class BrowsePreview extends AbstractBlockLayout
             $query['limit'] = $limit;
         }
 
-        if (!isset($query['sort_by'])) {
+        $sortBy = $view->params()->fromQuery('sort_by');
+        if ($sortBy) {
+            $query['sort_by'] = $sortBy;
+        } elseif (!isset($query['sort_by'])) {
             $query['sort_by'] = 'created';
         }
-        if (!isset($query['sort_order'])) {
+
+        $sortOrder = $view->params()->fromQuery('sort_order');
+        if ($sortOrder) {
+            $query['sort_order'] = $sortOrder;
+        } elseif (!isset($query['sort_order'])) {
             $query['sort_order'] = 'desc';
         }
 
         /** @var \Omeka\Api\Response $response */
-        $response = $view->api()->search($resourceType, $query);
+        $api = $view->api();
+        $response = $api->search($resourceType, $query);
 
         // TODO Currently, there can be only one pagination by page.
         if ($pagination) {
@@ -95,6 +103,35 @@ class BrowsePreview extends AbstractBlockLayout
             $view->pagination(null, $totalCount, $currentPage, $limit);
         }
 
+        $sortHeadings = $block->dataValue('sort_headings', []);
+        if ($sortHeadings) {
+            $translate = $view->plugin('translate');
+            foreach ($sortHeadings as $key => $sortHeading) {
+                switch ($sortHeading) {
+                    case 'created':
+                        $label = $translate('Created'); // @translate
+                        break;
+                    case 'resource_class_label':
+                        $label = $translate('Class'); // @translate
+                        break;
+                    default:
+                        $property = $api->searchOne('properties', ['term' => $sortHeading])->getContent();
+                        if ($property) {
+                            $label = $translate($property->label());
+                        } else {
+                            unset($sortHeadings[$key]);
+                            continue;
+                        }
+                        break;
+                }
+                $sortHeadings[$key] = [
+                    'label' => $label,
+                    'value' => $sortHeading,
+                ];
+            }
+            $sortHeadings = array_filter($sortHeadings);
+        }
+
         $resources = $response->getContent();
 
         $resourceTypes = [
@@ -103,10 +140,10 @@ class BrowsePreview extends AbstractBlockLayout
             'media' => 'media',
         ];
 
-        $template = $block->dataValue('template') ?: 'common/block-layout/browse-preview';
-
         // There is no list of media in public views.
         $linkText = $resourceType === 'media' ? '' : $block->dataValue('link-text');
+
+        $template = $block->dataValue('template') ?: 'common/block-layout/browse-preview';
 
         return $view->partial($template, [
             'resourceType' => $resourceTypes[$resourceType],
@@ -115,6 +152,7 @@ class BrowsePreview extends AbstractBlockLayout
             'linkText' => $linkText,
             'query' => $originalQuery,
             'pagination' => $pagination,
+            'sortHeadings' => $sortHeadings,
         ]);
     }
 }

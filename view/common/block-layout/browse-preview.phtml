@@ -6,6 +6,7 @@
  * @var string $heading
  * @var string $linkText
  * @var array $query
+ * @var array $sortHeadings
  * @var array|false $pagination
  */
 
@@ -21,13 +22,19 @@ $siteSetting = $plugins->get('siteSetting');
 <h2><?= $heading ?></h2>
 <?php endif; ?>
 
+<?php if (!empty($sortHeadings)): ?>
+<div class="browse-controls">
+    <?= $this->sortSelector($sortHeadings) ?>
+</div>
+<?php endif; ?>
+
 <ul class="resource-list preview">
 <?php
 $headingTerm = $siteSetting('browse_heading_property_term', 'dcterms:title');
 $bodyTerm = $siteSetting('browse_body_property_term', 'dcterms:description');
 $untitled = $translate('[Untitled]');
 foreach ($resources as $resource):
-$heading = $resource->value($headingTerm, ['default' => $untitled]);
+    $heading = $resource->value($headingTerm, ['default' => $untitled]);
     $body = $resource->value($bodyTerm);
 ?>
     <li class="<?= $resourceType ?> resource">
@@ -41,7 +48,7 @@ $heading = $resource->value($headingTerm, ['default' => $untitled]);
 </ul>
 
 <?php
-if ($pagination):
+if (!empty($pagination)):
     echo $this->pagination();
 endif;
 ?>

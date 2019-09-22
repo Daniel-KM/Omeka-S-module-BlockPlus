@@ -86,11 +86,12 @@ return [
                 'template' => '',
             ],
             'browsePreview' => [
+                'heading' => '',
                 'resource_type' => 'items',
                 'query' => '',
                 'limit' => 12,
                 'pagination' => false,
-                'heading' => '',
+                'sort_headings' => [],
                 'link-text' => 'Browse all', // @translate
                 'template' => '',
             ],
