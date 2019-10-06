@@ -20,7 +20,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 
 <?php // This block uses two div by default to comply with common themes. ?>
 <div class="search-form-block">
-    <?php if (!empty($heading)): ?>
+    <?php if ($heading): ?>
     <h2><?= $heading ?></h2>
     <?php endif; ?>
 
