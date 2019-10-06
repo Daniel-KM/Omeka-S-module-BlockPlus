@@ -9,6 +9,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Block extends AbstractBlockLayout
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/block';
+
     public function getLabel()
     {
         return 'Simple Block'; // @translate
@@ -46,12 +51,15 @@ class Block extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $template = $block->dataValue('template') ?: 'common/block-layout/block';
-        return $view->partial($template, [
+        $vars = [
             'block' => $block,
             'heading' => $block->dataValue('heading', ''),
             'params' => $block->dataValue('params', ''),
-        ]);
+        ];
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

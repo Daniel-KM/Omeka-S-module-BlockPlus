@@ -9,6 +9,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class ListOfSites extends AbstractBlockLayout
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/list-of-sites';
+
     public function getLabel()
     {
         return 'List of sites'; // @translate
@@ -81,14 +86,16 @@ class ListOfSites extends AbstractBlockLayout
             $sites = $response->getContent();
         }
 
-        $template = $block->dataValue('template') ?: 'common/block-layout/list-of-sites';
-
-        return $view->partial($template, [
+        $vars = [
             'heading' => $block->dataValue('heading', ''),
             'sites' => $sites,
             'summaries' => $summaries,
             'pagination' => $pagination,
-        ]);
+        ];
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 
     /**

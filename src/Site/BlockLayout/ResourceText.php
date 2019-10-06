@@ -21,6 +21,11 @@ class ResourceText extends AbstractBlockLayout
     use CommonTrait;
 
     /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/resource-text';
+
+    /**
      * @var HtmlPurifier
      */
     protected $htmlPurifier;
@@ -110,9 +115,7 @@ class ResourceText extends AbstractBlockLayout
             return '';
         }
 
-        $template = $block->dataValue('template') ?: 'common/block-layout/resource-text';
-
-        return $view->partial($template, [
+        $vars = [
             'block' => $block,
             'heading' => $block->dataValue('heading', ''),
             'attachments' => $attachments,
@@ -121,7 +124,11 @@ class ResourceText extends AbstractBlockLayout
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
             'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
             'captionPosition' => $block->dataValue('caption_position', 'center'),
-        ]);
+        ];
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

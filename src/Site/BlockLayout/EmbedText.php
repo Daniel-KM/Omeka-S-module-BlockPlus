@@ -24,6 +24,11 @@ class EmbedText extends AbstractBlockLayout
     use CommonTrait;
 
     /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/embed-text';
+
+    /**
      * @var HtmlPurifier
      */
     protected $htmlPurifier;
@@ -173,9 +178,7 @@ class EmbedText extends AbstractBlockLayout
             return '';
         }
 
-        $template = $block->dataValue('template') ?: 'common/block-layout/embed-text';
-
-        return $view->partial($template, [
+        $vars = [
             'block' => $block,
             'heading' => $block->dataValue('heading', ''),
             'embeds' => $embeds,
@@ -185,7 +188,11 @@ class EmbedText extends AbstractBlockLayout
             'captionPosition' => $block->dataValue('caption_position', 'center'),
             'linkText' => $block->dataValue('link_text', ''),
             'linkUrl' => $block->dataValue('link_url', ''),
-        ]);
+        ];
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

@@ -15,6 +15,11 @@ class Assets extends AbstractBlockLayout
     use CommonTrait;
 
     /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/assets';
+
+    /**
      * @var HtmlPurifier
      */
     protected $htmlPurifier;
@@ -147,12 +152,15 @@ class Assets extends AbstractBlockLayout
             }
         }
 
-        $template = $block->dataValue('template') ?: 'common/block-layout/assets';
-
-        return $view->partial($template, [
+        $vars = [
             'heading' => $block->dataValue('heading', ''),
             'assets' => $assets,
-        ]);
+        ];
+
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

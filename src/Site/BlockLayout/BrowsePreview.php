@@ -11,6 +11,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class BrowsePreview extends AbstractBlockLayout
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/browse-preview';
+
     public function getLabel()
     {
         return 'Browse preview'; // @translate
@@ -161,9 +166,7 @@ class BrowsePreview extends AbstractBlockLayout
         // There is no list of media in public views.
         $linkText = $resourceType === 'media' ? '' : $block->dataValue('link-text');
 
-        $template = $block->dataValue('template') ?: 'common/block-layout/browse-preview';
-
-        return $view->partial($template, [
+        $vars = [
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
             'heading' => $block->dataValue('heading'),
@@ -171,6 +174,10 @@ class BrowsePreview extends AbstractBlockLayout
             'query' => $originalQuery,
             'pagination' => $pagination,
             'sortHeadings' => $sortHeadings,
-        ]);
+        ];
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 }

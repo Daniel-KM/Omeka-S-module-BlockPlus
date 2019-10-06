@@ -10,6 +10,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class TableOfContents extends AbstractBlockLayout
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/table-of-contents';
+
     public function getLabel()
     {
         return 'Table of contents'; // @translate
@@ -66,13 +71,15 @@ class TableOfContents extends AbstractBlockLayout
 
         $depth = (int) $block->dataValue('depth', 1);
 
-        $template = $block->dataValue('template') ?: 'common/block-layout/table-of-contents';
-
-        return $view->partial($template, [
+        $vars = [
             'block' => $block,
             'heading' => $block->dataValue('heading'),
             'subNav' => $subNav,
             'maxDepth' => $depth - 1,
-        ]);
+        ];
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 }

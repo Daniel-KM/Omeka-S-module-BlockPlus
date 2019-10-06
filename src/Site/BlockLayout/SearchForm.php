@@ -9,6 +9,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class SearchForm extends AbstractBlockLayout
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/search-form';
+
     public function getLabel()
     {
         return 'Search form'; // @translate
@@ -41,9 +46,11 @@ class SearchForm extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $data = $block->data();
-        unset($data['partial']);
-        $template = $block->dataValue('template') ?: 'common/block-layout/search-form';
-        return $view->partial($template, $data);
+        $vars = $block->data();
+        unset($vars['template']);
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 }

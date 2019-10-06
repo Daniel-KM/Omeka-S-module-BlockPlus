@@ -9,6 +9,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class ItemShowcase extends AbstractBlockLayout
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/item-showcase';
+
     public function getLabel()
     {
         return 'Item showcase'; // @translate
@@ -59,14 +64,16 @@ class ItemShowcase extends AbstractBlockLayout
             return '';
         }
 
-        $template = $block->dataValue('template') ?: 'common/block-layout/item-showcase';
-
-        return $view->partial($template, [
+        $vars = [
             'block' => $block,
             'attachments' => $attachments,
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
             'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
             'heading' => $block->dataValue('heading', ''),
-        ]);
+        ];
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 }

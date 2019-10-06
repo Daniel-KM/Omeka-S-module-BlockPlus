@@ -8,6 +8,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Html extends \Omeka\Site\BlockLayout\Html
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/html';
+
     public function form(
         PhpRenderer $view,
         SiteRepresentation $site,
@@ -35,12 +40,11 @@ class Html extends \Omeka\Site\BlockLayout\Html
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $html = $block->dataValue('html', '');
-        $heading = $block->dataValue('heading', '');
-        $template = $block->dataValue('template') ?: 'common/block-layout/html';
-        return $view->partial($template, [
-            'heading' => $heading,
-            'html' => $html,
-        ]);
+        $vars = $block->data();
+        unset($vars['template']);
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 }

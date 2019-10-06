@@ -11,6 +11,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class SearchResults extends AbstractBlockLayout
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/search-results';
+
     public function getLabel()
     {
         return 'Search form and results'; // @translate
@@ -160,15 +165,17 @@ class SearchResults extends AbstractBlockLayout
             'media' => 'media',
         ];
 
-        $template = $block->dataValue('template') ?: 'common/block-layout/search-results';
-
-        return $view->partial($template, [
+        $vars = [
             'heading' => $block->dataValue('heading'),
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
             'query' => $query,
             'pagination' => $pagination,
             'sortHeadings' => $sortHeadings,
-        ]);
+        ];
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 }

@@ -9,6 +9,11 @@ use Zend\View\Renderer\PhpRenderer;
 
 class PageTitle extends AbstractBlockLayout
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout/page-title';
+
     public function getLabel()
     {
         return 'Page title'; // @translate
@@ -44,9 +49,12 @@ class PageTitle extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $template = $block->dataValue('template') ?: 'common/block-layout/page-title';
-        return $view->partial($template, [
+        $vars = [
             'block' => $block,
-        ]);
+        ];
+        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        return $view->resolver($template)
+            ? $view->partial($template, $vars)
+            : $view->partial(self::PARTIAL_NAME, $vars);
     }
 }
