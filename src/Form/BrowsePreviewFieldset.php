@@ -97,13 +97,14 @@ class BrowsePreviewFieldset extends Fieldset
                 'type' => ResourceTemplateSelect::class,
                 'options' => [
                     'label' => 'Resource template for sort headings', // @translate
+                    'empty_option' => '',
                     'info' => 'If set, the alternative labels of this resource template will be used to display the sort headings.', // @translate
                 ],
                 'attributes' => [
                     'id' => 'browse-preview-resource-template',
                     'class' => 'chosen-select',
                     'multiple' => false,
-                    'data-placeholder' => 'Select resource template', // @translate
+                    'data-placeholder' => 'Select resource template…', // @translate
                 ],
             ])
             ->add([
