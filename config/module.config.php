@@ -18,6 +18,7 @@ return [
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'pageTitle' => Site\BlockLayout\PageTitle::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
+            'searchResults' => Site\BlockLayout\SearchResults::class,
             'separator' => Site\BlockLayout\Separator::class,
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
         ],
@@ -45,6 +46,7 @@ return [
             Form\PageTitleFieldset::class => Form\PageTitleFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
+            Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
             Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
             Form\SimplePageFieldset::class => Form\SimplePageFieldset::class,
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
@@ -155,6 +157,16 @@ return [
             ],
             'searchForm' => [
                 'heading' => '',
+                'template' => '',
+            ],
+            'searchResults' => [
+                'heading' => '',
+                'resource_type' => 'items',
+                'query' => [],
+                'limit' => 12,
+                'pagination' => true,
+                'sort_headings' => [],
+                'resource_template' => null,
                 'template' => '',
             ],
             'separator' => [

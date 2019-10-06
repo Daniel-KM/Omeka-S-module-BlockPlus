@@ -1,0 +1,65 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var string $resourceType
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $heading
+ * @var array $query
+ * @var array $sortHeadings
+ * @var array|false $pagination
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
+// Total is available through $this->pagination()->getPaginator().
+?>
+
+<?php // This block uses two div by default to comply with common themes. ?>
+<div class="search-form-block">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
+
+    <form id="search-form">
+        <input type="text" name="search" value="<?= $escapeAttr($query['search']) ?>" placeholder="<?= $translate('Search') ?>">
+        <button type="submit"><?= $translate('Search') ?></button>
+    </form>
+</div>
+
+<div class="search-results-block">
+    <?php if (!empty($sortHeadings)): ?>
+    <div class="browse-controls">
+        <?= $this->sortSelector($sortHeadings) ?>
+    </div>
+    <?php endif; ?>
+
+    <ul class="resource-list preview">
+    <?php
+    $headingTerm = $siteSetting('browse_heading_property_term', 'dcterms:title');
+    $bodyTerm = $siteSetting('browse_body_property_term', 'dcterms:description');
+    $untitled = $translate('[Untitled]');
+    foreach ($resources as $resource):
+        $heading = $resource->value($headingTerm, ['default' => $untitled]);
+        $body = $resource->value($bodyTerm);
+    ?>
+        <li class="<?= $resourceType ?> resource">
+            <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
+            <h4><?= $resource->link($heading) ?></h4>
+            <?php if ($body): ?>
+            <div class="description"><?= $body ?></div>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+
+    <?php
+    if (!empty($pagination)):
+        echo $this->pagination();
+    endif;
+    ?>
+
+</div>

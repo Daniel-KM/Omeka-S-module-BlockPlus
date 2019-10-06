@@ -7,7 +7,7 @@ use Omeka\Form\Element\ResourceTemplateSelect;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
 
-class BrowsePreviewFieldset extends Fieldset
+class SearchResultsFieldset extends Fieldset
 {
     public function init()
     {
@@ -44,7 +44,7 @@ class BrowsePreviewFieldset extends Fieldset
                 'type' => Element\Text::class,
                 'options' => [
                     'label' => 'Query', // @translate
-                    'info' => 'Display resources using this search query', // @translate
+                    'info' => 'Used to restrict resources, for example on an item set. Let empty for none, use "=" for any resource in the site.', // @translate
                     'documentation' => 'https://omeka.org/s/docs/user-manual/sites/site_pages/#browse-preview',
                 ],
                 'attributes' => [
@@ -89,7 +89,7 @@ class BrowsePreviewFieldset extends Fieldset
                     'id' => 'browse-preview-sort-headings',
                     'class' => 'chosen-select',
                     'multiple' => true,
-                    'data-placeholder' => 'Select properties…', // @translate
+                    'data-placeholder' => 'Select properties', // @translate
                 ],
             ])
             ->add([
@@ -108,23 +108,12 @@ class BrowsePreviewFieldset extends Fieldset
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][link-text]',
-                'type' => Element\Text::class,
-                'options' => [
-                    'label' => 'Link text', // @translate
-                    'info' => 'Text for link to full browse view, if any. There is no link for media.', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'browse-preview-link-text',
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
                 'type' => TemplateSelect::class,
                 'options' => [
                     'label' => 'Template to display', // @translate
-                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "browse-preview".', // @translate
-                    'template' => 'common/block-layout/browse-preview',
+                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "search-results".', // @translate
+                    'template' => 'common/block-layout/search-results',
                 ],
                 'attributes' => [
                     'id' => 'browse-preview-template',

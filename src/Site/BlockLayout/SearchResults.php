@@ -9,17 +9,19 @@ use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
-class BrowsePreview extends AbstractBlockLayout
+class SearchResults extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Browse preview'; // @translate
+        return 'Search form and results'; // @translate
     }
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {
         $data = $block->getData();
-        $data['query'] = ltrim($data['query'], '? ');
+        $query = [];
+        parse_str(ltrim($data['query'], '? '), $query);
+        $data['query'] = $query;
         $block->setData($data);
     }
 
@@ -32,10 +34,12 @@ class BrowsePreview extends AbstractBlockLayout
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
-        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['browsePreview'];
-        $blockFieldset = \BlockPlus\Form\BrowsePreviewFieldset::class;
+        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['searchResults'];
+        $blockFieldset = \BlockPlus\Form\SearchResultsFieldset::class;
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+
+        $data['query'] = http_build_query($data['query']);
 
         $dataForm = [];
         foreach ($data as $key => $value) {
@@ -50,14 +54,12 @@ class BrowsePreview extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        // Similar to SearchResults::render().
+        // Similar to BrowsePreview::render(), but with a different query.
 
         $resourceType = $block->dataValue('resource_type', 'items');
 
-        // The trim is kept for compatibility with old core blocks.
-        $query = [];
-        parse_str(ltrim($block->dataValue('query'), '? '), $query);
-        $originalQuery = $query;
+        $defaultQuery = $block->dataValue('query', []) + ['search' => ''];
+        $query = $view->params()->fromQuery() + $defaultQuery;
 
         $site = $block->page()->site();
         if ($view->siteSetting('browse_attached_items', false)) {
@@ -158,17 +160,13 @@ class BrowsePreview extends AbstractBlockLayout
             'media' => 'media',
         ];
 
-        // There is no list of media in public views.
-        $linkText = $resourceType === 'media' ? '' : $block->dataValue('link-text');
-
-        $template = $block->dataValue('template') ?: 'common/block-layout/browse-preview';
+        $template = $block->dataValue('template') ?: 'common/block-layout/search-results';
 
         return $view->partial($template, [
+            'heading' => $block->dataValue('heading'),
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
-            'heading' => $block->dataValue('heading'),
-            'linkText' => $linkText,
-            'query' => $originalQuery,
+            'query' => $query,
             'pagination' => $pagination,
             'sortHeadings' => $sortHeadings,
         ]);

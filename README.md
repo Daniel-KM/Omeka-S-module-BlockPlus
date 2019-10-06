@@ -56,6 +56,13 @@ be used to display a html text with a video on the home page.
 Include a specific search form in a specific page. The default query may be
 adapted to the page via the theme.
 
+### Search and results
+
+Create a full search page with a simple or complex form and the results on the
+same page. All options should be managed via the theme. To replace item/browse,
+item-set/browse and even media/browse, you may need to set the page as default
+action for the search in default template `common/search-form`.
+
 ### Separator
 
 Allow to set a div with a specific class between two blocks. May be useful to
