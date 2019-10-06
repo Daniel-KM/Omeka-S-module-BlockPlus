@@ -11,7 +11,7 @@ class SearchForm extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Search simple form'; // @translate
+        return 'Search form'; // @translate
     }
 
     public function form(
