@@ -63,6 +63,5 @@ class ItemWithMetadata extends AbstractBlockLayout
         return $view->resolver($template)
             ? $view->partial($template, $vars)
             : $view->partial(self::PARTIAL_NAME, $vars);
-
     }
 }
