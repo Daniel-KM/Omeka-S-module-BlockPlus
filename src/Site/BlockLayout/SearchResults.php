@@ -74,14 +74,14 @@ class SearchResults extends AbstractBlockLayout
         $query['site_id'] = $site->id();
 
         $limit = $block->dataValue('limit', 12);
-        $pagination = $limit && $block->dataValue('pagination');
-        if ($pagination) {
-            $currentPage = $view->params()->fromQuery('page', 1);
-            $query['page'] = $currentPage;
-            $query['per_page'] = $limit;
-        } elseif ($limit) {
-            $query['limit'] = $limit;
-        }
+
+        // Unlike browse preview, the pagination is always prepared, even if it
+        // not displayed in the view.
+        $showPagination = $limit && $block->dataValue('pagination');
+
+        $currentPage = $view->params()->fromQuery('page', 1);
+        $query['page'] = $currentPage;
+        $query['per_page'] = $limit;
 
         $sortBy = $view->params()->fromQuery('sort_by');
         if ($sortBy) {
@@ -102,15 +102,8 @@ class SearchResults extends AbstractBlockLayout
         $response = $api->search($resourceType, $query);
 
         // TODO Currently, there can be only one pagination by page.
-        if ($pagination) {
-            $totalCount = $response->getTotalResults();
-            $pagination = [
-                'total_count' => $totalCount,
-                'current_page' => $currentPage,
-                'limit' => $limit,
-            ];
-            $view->pagination(null, $totalCount, $currentPage, $limit);
-        }
+        $totalCount = $response->getTotalResults();
+        $view->pagination(null, $totalCount, $currentPage, $limit);
 
         /** @var \Omeka\Api\Representation\ResourceTemplateRepresentation $resourceTemplate */
         $resourceTemplate = $block->dataValue('resource_template');
@@ -170,7 +163,7 @@ class SearchResults extends AbstractBlockLayout
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
             'query' => $query,
-            'pagination' => $pagination,
+            'pagination' => $showPagination,
             'sortHeadings' => $sortHeadings,
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);
