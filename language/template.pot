@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-16 00:00+0200\n"
+"POT-Creation-Date: 2019-10-14 00:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Site/BlockLayout/Block.php:40
+#: src/Site/BlockLayout/Block.php:45
 msgid "A simple block allow to display a partial from the theme."
 msgstr ""
 
-#: src/Site/BlockLayout/Block.php:41
+#: src/Site/BlockLayout/Block.php:46
 msgid ""
 "It may be used for a static html content, like a list of partners, or a "
 "complex layout, since any Omeka feature is available in a view."
@@ -49,29 +49,30 @@ msgid "The current page and recursive pages are forbidden."
 msgstr ""
 
 #: src/Form/ItemWithMetadataFieldset.php:19 src/Form/SearchFormFieldset.php:17
-#: src/Form/AssetsFieldset.php:18 src/Form/EmbedTextFieldset.php:16
-#: src/Form/ListOfSitesFieldset.php:27 src/Form/TableOfContentsFieldset.php:17
-#: src/Form/ItemShowcaseFieldset.php:20 src/Form/BrowsePreviewFieldset.php:49
-#: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:17
-#: src/Form/BlockFieldset.php:17
+#: src/Form/SearchResultsFieldset.php:19 src/Form/AssetsFieldset.php:18
+#: src/Form/EmbedTextFieldset.php:16 src/Form/ListOfSitesFieldset.php:27
+#: src/Form/TableOfContentsFieldset.php:17 src/Form/ItemShowcaseFieldset.php:20
+#: src/Form/BrowsePreviewFieldset.php:19 src/Form/ResourceTextFieldset.php:74
+#: src/Form/HtmlFieldset.php:17 src/Form/BlockFieldset.php:17
 msgid "Block title"
 msgstr ""
 
 #: src/Form/ItemWithMetadataFieldset.php:20 src/Form/SearchFormFieldset.php:18
-#: src/Form/AssetsFieldset.php:19 src/Form/EmbedTextFieldset.php:17
-#: src/Form/ListOfSitesFieldset.php:28 src/Form/TableOfContentsFieldset.php:18
-#: src/Form/ItemShowcaseFieldset.php:21 src/Form/BrowsePreviewFieldset.php:50
-#: src/Form/ResourceTextFieldset.php:75 src/Form/HtmlFieldset.php:18
-#: src/Form/BlockFieldset.php:18
+#: src/Form/SearchResultsFieldset.php:20 src/Form/AssetsFieldset.php:19
+#: src/Form/EmbedTextFieldset.php:17 src/Form/ListOfSitesFieldset.php:28
+#: src/Form/TableOfContentsFieldset.php:18 src/Form/ItemShowcaseFieldset.php:21
+#: src/Form/BrowsePreviewFieldset.php:20 src/Form/ResourceTextFieldset.php:75
+#: src/Form/HtmlFieldset.php:18 src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
 msgstr ""
 
 #: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
-#: src/Form/AssetsFieldset.php:37 src/Form/EmbedTextFieldset.php:87
-#: src/Form/PageTitleFieldset.php:16 src/Form/ListOfSitesFieldset.php:95
-#: src/Form/TableOfContentsFieldset.php:44 src/Form/ItemShowcaseFieldset.php:38
-#: src/Form/BrowsePreviewFieldset.php:65 src/Form/ResourceTextFieldset.php:89
-#: src/Form/HtmlFieldset.php:32 src/Form/BlockFieldset.php:33
+#: src/Form/SearchResultsFieldset.php:114 src/Form/AssetsFieldset.php:37
+#: src/Form/EmbedTextFieldset.php:87 src/Form/PageTitleFieldset.php:16
+#: src/Form/ListOfSitesFieldset.php:95 src/Form/TableOfContentsFieldset.php:44
+#: src/Form/ItemShowcaseFieldset.php:38 src/Form/BrowsePreviewFieldset.php:125
+#: src/Form/ResourceTextFieldset.php:89 src/Form/HtmlFieldset.php:32
+#: src/Form/BlockFieldset.php:33
 msgid "Template to display"
 msgstr ""
 
@@ -93,7 +94,51 @@ msgid ""
 "Other ones depends on the theme."
 msgstr ""
 
-#: src/Form/AssetsFieldset.php:26 src/Site/BlockLayout/Assets.php:30
+#: src/Form/SearchResultsFieldset.php:47
+msgid ""
+"Used to restrict resources, for example on an item set. Let empty for none, "
+"use \"=\" for any resource in the site."
+msgstr ""
+
+#: src/Form/SearchResultsFieldset.php:70 src/Form/BrowsePreviewFieldset.php:70
+msgid "Show pagination to browse all resources on the same page."
+msgstr ""
+
+#: src/Form/SearchResultsFieldset.php:80 src/Form/BrowsePreviewFieldset.php:80
+msgid "Sort headings"
+msgstr ""
+
+#: src/Form/SearchResultsFieldset.php:81 src/Form/BrowsePreviewFieldset.php:81
+msgid "Display sort links for the list of results."
+msgstr ""
+
+#: src/Form/SearchResultsFieldset.php:85 src/Form/BrowsePreviewFieldset.php:85
+msgid "Resource class"
+msgstr ""
+
+#: src/Form/SearchResultsFieldset.php:99 src/Form/BrowsePreviewFieldset.php:99
+msgid "Resource template for sort headings"
+msgstr ""
+
+#: src/Form/SearchResultsFieldset.php:100
+#: src/Form/BrowsePreviewFieldset.php:100
+msgid ""
+"If set, the alternative labels of this resource template will be used to "
+"display the sort headings."
+msgstr ""
+
+#: src/Form/SearchResultsFieldset.php:107
+#: src/Form/BrowsePreviewFieldset.php:107
+msgid "Select resource template…"
+msgstr ""
+
+#: src/Form/SearchResultsFieldset.php:115
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"search-results\"."
+msgstr ""
+
+#: src/Form/AssetsFieldset.php:26 src/Site/BlockLayout/Assets.php:35
 msgid "Assets"
 msgstr ""
 
@@ -226,11 +271,15 @@ msgid ""
 "start with \"item-showcase\"."
 msgstr ""
 
-#: src/Form/BrowsePreviewFieldset.php:58
+#: src/Form/BrowsePreviewFieldset.php:92
+msgid "Select properties…"
+msgstr ""
+
+#: src/Form/BrowsePreviewFieldset.php:115
 msgid "Text for link to full browse view, if any. There is no link for media."
 msgstr ""
 
-#: src/Form/BrowsePreviewFieldset.php:66
+#: src/Form/BrowsePreviewFieldset.php:126
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"browse-preview\"."
@@ -300,12 +349,12 @@ msgid ""
 "start with \"block\"."
 msgstr ""
 
-#: src/Site/BlockLayout/Block.php:14
+#: src/Site/BlockLayout/Block.php:19
 msgid "Simple Block"
 msgstr ""
 
-#: src/Site/BlockLayout/SearchForm.php:14
-msgid "Search simple form"
+#: src/Site/BlockLayout/SearchForm.php:19
+msgid "Search form"
 msgstr ""
 
 #: src/Site/BlockLayout/Column.php:16
@@ -339,48 +388,52 @@ msgstr ""
 msgid "Some columns have no end."
 msgstr ""
 
+#: src/Site/BlockLayout/SearchResults.php:21
+msgid "Search form and results"
+msgstr ""
+
 #: src/Site/BlockLayout/Separator.php:16
 msgid "Separator"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:60
+#: src/Site/BlockLayout/EmbedText.php:65
 msgid "Embedded with text"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:89
+#: src/Site/BlockLayout/EmbedText.php:94
 msgid "Invalid OEmbed URL"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:95
+#: src/Site/BlockLayout/EmbedText.php:100
 msgid "OEmbed URL"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:97
+#: src/Site/BlockLayout/EmbedText.php:102
 msgid "OEmbed URL unavailable"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:105
+#: src/Site/BlockLayout/EmbedText.php:110
 msgid "No OEmbed links were found at the given URI"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:111
+#: src/Site/BlockLayout/EmbedText.php:116
 msgid "OEmbed link URL"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:113
+#: src/Site/BlockLayout/EmbedText.php:118
 msgid "OEmbed link URL unavailable"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:119
+#: src/Site/BlockLayout/EmbedText.php:124
 msgid "Error decoding OEmbed JSON"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:209
+#: src/Site/BlockLayout/EmbedText.php:216
 #, php-format
 msgid "Invalid \"%s\" specified"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:220
+#: src/Site/BlockLayout/EmbedText.php:227
 #, php-format
 msgid "Error reading %s: %s (%s)"
 msgstr ""
@@ -409,10 +462,10 @@ msgid ""
 "refers to a removed page."
 msgstr ""
 
-#: src/Site/BlockLayout/ResourceText.php:38
+#: src/Site/BlockLayout/ResourceText.php:43
 msgid "Resource with text"
 msgstr ""
 
-#: config/module.config.php:108
+#: config/module.config.php:113
 msgid "Know more"
 msgstr ""
