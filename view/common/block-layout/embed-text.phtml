@@ -19,7 +19,7 @@ $hyperlink = $plugins->get('hyperlink');
 ?>
 
 <div class="embed-text media-text">
-    <?php if ($heading): ?>
+    <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 

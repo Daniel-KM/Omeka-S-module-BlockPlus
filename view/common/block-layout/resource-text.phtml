@@ -19,7 +19,7 @@ $linkType = $siteSetting('attachment_link_type', 'item');
 ?>
 
 <div class="media-text">
-    <?php if ($heading): ?>
+    <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 

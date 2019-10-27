@@ -10,7 +10,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 ?>
 
 <div class="block-assets">
-    <?php if ($heading): ?>
+    <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
