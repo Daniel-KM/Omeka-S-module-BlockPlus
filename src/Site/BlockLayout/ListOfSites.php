@@ -89,6 +89,7 @@ class ListOfSites extends AbstractBlockLayout
         $vars = [
             'heading' => $block->dataValue('heading', ''),
             'sites' => $sites,
+            'currentSite' => $block->page()->site(),
             'summaries' => $summaries,
             'pagination' => $pagination,
         ];
