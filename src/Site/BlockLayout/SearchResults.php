@@ -71,7 +71,10 @@ class SearchResults extends AbstractBlockLayout
             $query['site_attachments_only'] = true;
         }
 
-        $query['site_id'] = $site->id();
+        // Allow to force to display resources from another site.
+        if (empty($query['site_id'])) {
+            $query['site_id'] = $site->id();
+        }
 
         $limit = $block->dataValue('limit', 12);
 
