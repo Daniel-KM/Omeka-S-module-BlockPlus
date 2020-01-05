@@ -146,7 +146,7 @@ class BrowsePreview extends AbstractBlockLayout
                             $label = $translate($property->label());
                         } else {
                             unset($sortHeadings[$key]);
-                            continue;
+                            continue 2;
                         }
                         break;
                 }
