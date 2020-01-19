@@ -19,8 +19,13 @@
         "module",
         "feature",
         "theme",
-        "admin"
+        "admin",
+        "gallery"
     ],
+    "require": {
+        "slowprog/composer-copy-file": "~0.3",
+        "asset/thumbnail-grid-expanding-preview": "*"
+    },
     "autoload": {
         "psr-4": {
             "BlockPlus\\": "src/"
@@ -29,6 +34,40 @@
     "autoload-dev": {
         "psr-4": {
             "BlockPlusTest\\": "test/BlockPlusTest/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "asset/thumbnail-grid-expanding-preview",
+                "version": "0.1",
+                "dist": {
+                    "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.1.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "scripts": {
+        "post-install-cmd": [
+            "SlowProg\\CopyFile\\ScriptHandler::copy"
+        ],
+        "post-update-cmd": [
+            "SlowProg\\CopyFile\\ScriptHandler::copy"
+        ]
+    },
+    "extra": {
+        "copy-file": {
+            "vendor/asset/thumbnail-grid-expanding-preview/css/": "asset/vendor/ThumbnailGridExpandingPreview/css/",
+            "vendor/asset/thumbnail-grid-expanding-preview/images/": "asset/vendor/ThumbnailGridExpandingPreview/images/",
+            "vendor/asset/thumbnail-grid-expanding-preview/js/": "asset/vendor/ThumbnailGridExpandingPreview/js/",
+            "vendor/asset/thumbnail-grid-expanding-preview/add.html": "asset/vendor/ThumbnailGridExpandingPreview/",
+            "vendor/asset/thumbnail-grid-expanding-preview/index.html": "asset/vendor/ThumbnailGridExpandingPreview/",
+            "vendor/asset/thumbnail-grid-expanding-preview/README.md": "asset/vendor/ThumbnailGridExpandingPreview/",
+            "vendor/asset/thumbnail-grid-expanding-preview/vendor/imagesloaded/": "asset/vendor/imagesloaded/",
+            "vendor/asset/thumbnail-grid-expanding-preview/vendor/jquery-smartresize/": "asset/vendor/jquery-smartresize/",
+            "vendor/asset/thumbnail-grid-expanding-preview/vendor/modernizr/": "asset/vendor/modernizr/"
         }
     }
 }
