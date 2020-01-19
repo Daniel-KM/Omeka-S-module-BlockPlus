@@ -1,0 +1,111 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $resourceType
+ * @var string $heading
+ * @var string $linkText
+ * @var array $query
+ * @var array $sortHeadings
+ * @var array|false $pagination
+ *
+ * @link https://github.com/codrops/ThumbnailGridExpandingPreview
+ * @copyright 2013, Codrops
+ * @license http://tympanus.net/codrops/licensing/ (not-standard open source license)
+ * The original template was fixed by KevinMwangi and updated newer version of components (modernizr, smartresize, imagesloaded).
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+$hyperlink = $plugins->get('hyperlink');
+$url = $plugins->get('url');
+// Append in header is not possible with browse preview, so css and js are set in body, even if it is not standard.
+$assetUrl = $plugins->get('assetUrl');
+?>
+
+<div class="preview-block">
+
+    <?php if (!empty($heading)): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
+
+    <?php /* // Require two divs with classes container and main above the og-grid.
+    <link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/css/default.css') ?>" />
+    */?>
+    <link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/css/component.css', 'BlockPlus') ?>" />
+    <style>
+        #og-grid img.medium-img {
+            height: 200px;
+        }
+        /* Remove some default styling of component.css. */
+        #og-grid .og-details h3 {
+            font-size: inherit;
+            padding-top: 0;
+            margin-top: 0;
+        }
+        #og-grid .og-details a {
+            font-weight: inherit;
+            font-size: inherit;
+            color: inherit;
+            text-transform: inherit;
+            letter-spacing: inherit;
+            padding: inherit;
+            border: inherit;
+            display: inline-block;
+            margin: inherit;
+            outline: inherit;
+        }
+        #og-grid .og-details a::before {
+            content: '';
+            display: inline-block;
+            margin-right: inherit;
+        }
+    </style>
+    <script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/modernizr/modernizr-custom.js', 'BlockPlus') ?>"></script>
+    <script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/jquery-smartresize/jquery.debouncedresize.js', 'BlockPlus') ?>"></script>
+    <script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/imagesloaded/imagesloaded.pkgd.min.js', 'BlockPlus') ?>"></script>
+    <script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/js/grid.js', 'BlockPlus') ?>"></script>
+    <script type="text/javascript" defer="defer" src="<?= $assetUrl('js/browse-preview-gallery.js', 'BlockPlus') ?>"></script>
+    <div class="preview-grid">
+        <ul id="og-grid" class="og-grid">
+            <?php
+            $thumbnailSize = @$query['thumbnail_size'] ?: 'square';
+            $untitled = $translate('[Untitled]');
+            foreach ($resources as $resource):
+                $media = $resource->primaryMedia();
+                if (!$media) continue;
+
+                $mediaThumbnail = $media->thumbnailUrl($thumbnailSize);
+                // Speedup process.
+                $mediaLarge = str_replace('/' . $thumbnailSize . '/', '/large/', $mediaThumbnail);
+                $heading = $resource->displayTitle($untitled);
+
+                $body = $resource->displayDescription();
+                $body .= '<p>'
+                    . $translate('More information')
+                    . '<br/>'
+                    . $resource->linkPretty()
+                    . '</p>';
+            ?>
+            <li>
+                <a href="#" data-largesrc="<?= $mediaLarge ?>" data-title="<?= $heading ?>" data-description="<?= $escapeAttr($body) ?>">
+                    <img class="medium-img" src="<?= $mediaThumbnail ?>" alt="<?= $heading ?>"/>
+                </a>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php /* // TODO Require some js to fetch data.
+        <a id="og-additems" href="#"><?= $translate('See more') ?></a>
+        */ ?>
+    </div>
+
+    <?php
+    if ($linkText):
+        echo $hyperlink($linkText, $url(
+            'site/resource', ['controller' => $resourceType, 'action' => 'browse'], ['query' => $query], true
+        ));
+    endif;
+    ?>
+
+</div>
