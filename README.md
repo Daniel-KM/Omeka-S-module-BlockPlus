@@ -8,8 +8,33 @@ pages and improves some of the existing ones.
 Installation
 ------------
 
-Uncompress files and rename module folder `BlockPlus`. Then install it like any
-other Omeka module and follow the config instructions.
+First, install the optional module [Generic].
+
+The module uses external js libraries for some blocks, so use the release zip to
+install it, or use and init the source.
+
+* From the zip
+
+Download the last release [`BlockPlus.zip`] from the list of releases (the
+master does not contain the dependency), and uncompress it in the `modules`
+directory.
+
+* From the source and for development:
+
+If the module was installed from the source, rename the name of the folder of
+the module to `BlockPlus`, and go to the root module, and run:
+
+```
+    composer install
+```
+
+The next times:
+
+```
+    composer update
+```
+
+Then install it like any other Omeka module.
 
 See general end user documentation for [Installing a module].
 
@@ -83,8 +108,9 @@ the root is added too.
 
 Furthermore, the block Browse preview has new fields to display sort headings
 and pagination, so it's now possible to have a specific list of items, like the
-main browse view.
-
+main browse view. It has another template for gallery display with a quick
+viewer too (browse-preview-gallery). This one has a specific option to add to
+the query to display thumbnails as square or medium: `thumbnail_size=medium`.
 
 **Warning**
 
@@ -121,6 +147,8 @@ See online issues on the [module issues] page on GitHub.
 License
 -------
 
+### Module
+
 This module is published under the [CeCILL v2.1] licence, compatible with
 [GNU/GPL] and approved by [FSF] and [OSI].
 
@@ -140,11 +168,18 @@ and, more generally, to use and operate it in the same conditions of security.
 This Agreement may be freely reproduced and published, provided it is not
 altered, and that no provisions are either added or removed herefrom.
 
+### Gallery of images
+
+See non standard but open source license here: http://tympanus.net/codrops/licensing/
+The original template was fixed by KevinMwangi and updated for newer version of
+components (modernizr, smartresize, imagesloaded).
+
 
 Copyright
 ---------
 
 * Copyright Daniel Berthereau, 2018-2019 (see [Daniel-KM] on GitHub)
+* Copyright Codrops, 2013 ([image gallery], see vendor/ for more infos)
 
 
 [Block Plus]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus
@@ -160,4 +195,5 @@ Copyright
 [FSF]: https://www.fsf.org
 [OSI]: http://opensource.org
 [MIT]: http://http://opensource.org/licenses/MIT
+[image Gallery]: https://github.com/codrops/ThumbnailGridExpandingPreview
 [Daniel-KM]: https://github.com/Daniel-KM "Daniel Berthereau"
