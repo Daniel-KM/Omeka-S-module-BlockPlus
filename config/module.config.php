@@ -10,6 +10,7 @@ return [
     'view_helpers' => [
         'invokables' => [
             'pageMetadata' => View\Helper\PageMetadata::class,
+            'pagesMetadata' => View\Helper\PagesMetadata::class,
         ],
     ],
     'block_layouts' => [
