@@ -17,6 +17,7 @@ return [
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
+            'pageMetadata' => Site\BlockLayout\PageMetadata::class,
             'pageTitle' => Site\BlockLayout\PageTitle::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
             'searchResults' => Site\BlockLayout\SearchResults::class,
@@ -52,11 +53,14 @@ return [
             Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
             Form\SimplePageFieldset::class => Form\SimplePageFieldset::class,
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
+            // Site config.
+            Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldset::class,
         ],
         'factories' => [
             Form\Element\SitesPageSelect::class => Service\Form\Element\SitesPageSelectFactory::class,
             Form\Element\TemplateSelect::class => Service\Form\Element\TemplateSelectFactory::class,
             Form\Element\ThumbnailTypeSelect::class => Service\Form\Element\ThumbnailTypeSelectFactory::class,
+            Form\PageMetadataFieldset::class => Service\Form\PageMetadataFieldsetFactory::class,
         ],
     ],
     'translator' => [
@@ -70,6 +74,9 @@ return [
         ],
     ],
     'blockplus' => [
+        'site_settings' => [
+            'blockplus_page_types' => [],
+        ],
         'block_settings' => [
             'assets' => [
                 'heading' => '',
@@ -149,6 +156,15 @@ return [
                 'pagination' => false,
                 'summaries' => true,
                 'template' => '',
+            ],
+            'pageMetadata' => [
+                'type' => '',
+                'credits' => '',
+                'summary' => '',
+                'featured' => false,
+                'tags' => [],
+                'cover' => null,
+                'params' => '',
             ],
             'pageTitle' => [
                 'template' => '',
