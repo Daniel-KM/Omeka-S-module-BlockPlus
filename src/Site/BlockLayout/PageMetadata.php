@@ -53,11 +53,24 @@ class PageMetadata extends AbstractBlockLayout
 
         $translate = $view->plugin('translate');
         $html = '<p>'
-            . $translate('This block doesn’t display anything, but allows to store the type of the page and various metadata to be used anywhere in the site.') // @translate
-            . ' ' . $translate('The metadata can be fetched in the templates of the theme via the helper "pageMetadata()".') // @translate
+            . $translate('This block doesn’t display anything, but store the type and various metadata about this page for themes.') // @translate
             . '</p>';
         $html .= $view->formCollection($fieldset, false);
+
+        // Hack to hide the advanced metadata by default.
+        $posHtml = <<<HTML
+<div class="field">
+    <div class="field-meta">
+        <label for="page-metadata-credits">
+HTML;
+        $advancedOptionsHtml = '<a href="#" class="expand" title="' . $translate('expand') . '" aria-label="' . $translate('expand') . '"><h4>' . $translate('Metadata'). '</h4></a>';
+        $advancedOptionsHtml .= '<div class="collapsible no-override">';
+        $advancedOptionsHtml .= '<style>.collapsible.no-override {overflow:visible;}</style>';
+        $html = str_replace($posHtml, $advancedOptionsHtml . $posHtml, $html);
+
         $html .= $view->blockAttachmentsForm($block);
+        $html .= '</div>';
+
         return $html;
     }
 

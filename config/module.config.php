@@ -178,6 +178,7 @@ return [
                 'tags' => [],
                 'cover' => null,
                 'params' => '',
+                'attachments' => [],
             ],
             'pageTitle' => [
                 'template' => '',
