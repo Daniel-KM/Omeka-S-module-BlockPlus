@@ -3,6 +3,8 @@ namespace BlockPlus\View\Helper;
 
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Representation\SitePageRepresentation;
+use Omeka\Api\Representation\SiteRepresentation;
+use Zend\Navigation\Navigation;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -54,8 +56,6 @@ class PageMetadata extends AbstractHelper
             return false;
         }
 
-        // TODO Get the parent page and the root page of an exhibit.
-
         switch ($metadata) {
             case 'page':
                 return $block->page();
@@ -88,6 +88,15 @@ class PageMetadata extends AbstractHelper
             case 'attachments':
                 return $block->attachments();
 
+            case 'root':
+                $parents = $this->parentPages($page);
+                return empty($parents) ? $page : array_pop($parents);
+            case 'parent':
+                $parents = $this->parentPages($page);
+                return empty($parents) ? null : reset($parents);
+            case 'parents':
+                return $this->parentPages($page);
+
             case is_null($metadata):
                 return $block;
 
@@ -113,6 +122,99 @@ class PageMetadata extends AbstractHelper
                     ? $list[$metadata]
                     : null;
         }
+    }
+
+    protected function sitePages(SiteRepresentation $site)
+    {
+        static $pagesBySite;
+
+        $siteId = $site->id();
+        if (!isset($pagesBySite[$siteId])) {
+            $pagesBySite[$siteId] = [];
+            foreach ($site->pages() as $sitePage) {
+                $pagesBySite[$siteId][$sitePage->id()] = $sitePage;
+            }
+        }
+
+        return $pagesBySite[$siteId];
+    }
+
+    /**
+     * Get the parent pages of a page,
+     *
+     * @todo Improve the process to get the parent pages.
+     *
+     * @param SitePageRepresentation $page
+     * @return SitePageRepresentation[]
+     */
+    protected function parentPages(SitePageRepresentation $page)
+    {
+        $site = $page->site();
+        $sitePages = $this->sitePages($site);
+        $navigation = $site->navigation();
+        $pages = [];
+        $pageId = $page->id();
+        while (true) {
+            $pageData = $this->findPageInNavigation($pageId, $navigation);
+            if (!$pageData || empty($pageData['parent_id'])) {
+                return $pages;
+            }
+            $pages[] = $sitePages[$pageData['parent_id']];
+            $pageId = $pageData['parent_id'];
+        }
+        return $pages;
+    }
+
+    /**
+     * Find data about a page from the navigation.
+     *
+     * FIXME Use nav container, not the static site navigation (even if it should be the same because no page are private).
+     * See \Omeka\Site\BlockLayout\TableOfContents::render()
+     *
+     * @param int $pageId
+     * @param array $navItems
+     * @param int $parentPageId
+     * @return array
+     */
+    protected function findPageInNavigation($pageId, $navItems, $parentPageId = null)
+    {
+        $siblings = [];
+        foreach ($navItems as $navItem) {
+            if ($navItem['type'] === 'page') {
+                $navItemData = $navItem['data'];
+                $navItemId = $navItemData['id'];
+                $siblings[] = $navItemId;
+            }
+        }
+
+        $childLinks = [];
+        foreach ($navItems as $navItem) {
+            if ($navItem['type'] === 'page') {
+                $navItemData = $navItem['data'];
+                $navItemId = $navItemData['id'];
+
+                if ($navItemId === $pageId) {
+                    return [
+                        'id' => $pageId,
+                        'parent_id' => $parentPageId,
+                        'siblings' => $siblings,
+                    ];
+                }
+
+                if (array_key_exists('links', $navItem)) {
+                    $childLinks[$navItemId] = $navItem['links'];
+                }
+            }
+        }
+
+        foreach ($childLinks as $parentPageId => $links) {
+            $childLinkResult = $this->findPageInNavigation($pageId, $links, $parentPageId);
+            if ($childLinkResult) {
+                return $childLinkResult;
+            }
+        }
+
+        return null;
     }
 
     /**
