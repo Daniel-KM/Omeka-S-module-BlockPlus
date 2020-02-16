@@ -81,7 +81,12 @@ return [
     ],
     'blockplus' => [
         'site_settings' => [
-            'blockplus_page_types' => [],
+            'blockplus_page_types' => [
+                'home' => 'Home',
+                'exhibit' => 'Exhibit',
+                'exhibit_page' => 'Exhibit page',
+                'simple' => 'Simple page',
+            ],
         ],
         'block_settings' => [
             'assets' => [
