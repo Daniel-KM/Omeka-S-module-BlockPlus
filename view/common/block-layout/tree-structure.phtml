@@ -1,0 +1,68 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $heading
+ * @var int $root
+ * @var string $term
+ * @var string $resource
+ * @var bool $expanded
+ */
+
+$escape = $this->plugin('escapeHtml');
+$api = $this->api();
+
+// Avoid infinite loop.
+$maxLevel = 20;
+// Allow to get url quickly.
+$tempPlaceholder = '00999999990999999001';
+$url = str_replace(['controller', $tempPlaceholder], ['{controller}', '{reference}'], $this->url('site/resource-id', ['controller' => 'controller', 'action' => 'show', 'id' => $tempPlaceholder], true));
+$resourceNames = [
+    'items' => 'item',
+    'item_sets' => 'item-set',
+    'media' => 'media',
+];
+
+$treeMenu = function ($resource, $level = 0) use (&$treeMenu, $term, $api, $escape, $expanded, $maxLevel, $url, $resourceNames) {
+    if (!$resource || $level > $maxLevel):
+        return;
+    endif;
+
+    $title = $resource->displayTitle();
+
+    // Omeka doesn't allow to search multiple type once ('resource', 'resource:item', 'resource:media', 'resource:item-set').
+    $children = $resource->value($term, ['all' => true]) ?: [];
+    foreach ($children as $key => $child):
+        if (substr($child->type(), 0, 8) !== 'resource'):
+            unset($children[$key]);
+        endif;
+    endforeach;
+    ?>
+    <li class="nav-item has-treeview">
+        <i class="nav-icon fas <?= $children ? 'fa-plus' : 'fa-minus' ?>"></i>
+        <a href="<?= str_replace(['{controller}', '{reference}'], [$resourceNames[$resource->resourceName()], $resource->id()], $url) ?>" class="nav-link">
+            <span class="ml-2"><?= $escape($title) ?></span>
+        </a>
+        <ul class="nav nav-treeview"<?= $level || $expanded ? '': ' style="display: block;"' ?>>
+            <?php
+            foreach ($children as $child):
+                $treeMenu($child->valueResource(), $level + 1);
+            endforeach;
+            ?>
+        </ul>
+    </li>
+    <?php
+}
+?>
+
+<div class="block-tree-structure">
+<?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+    <?php $current = $api->read('resources', ['id' => $root])->getContent(); ?>
+    <?php if ($current): ?>
+    <ul class="nav flex-column treeview mb-3">
+    <?= $treeMenu($current, 0, $expanded) ?>
+    </ul>
+    <?php endif; ?>
+</div>

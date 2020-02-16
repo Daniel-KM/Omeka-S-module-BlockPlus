@@ -20,7 +20,8 @@
         "feature",
         "theme",
         "admin",
-        "gallery"
+        "gallery",
+        "tree structure"
     ],
     "require": {
         "slowprog/composer-copy-file": "~0.3",

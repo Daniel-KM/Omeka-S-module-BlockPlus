@@ -1,0 +1,78 @@
+<?php
+namespace BlockPlus\Form;
+
+use BlockPlus\Form\Element\TemplateSelect;
+use Omeka\Form\Element\PropertySelect;
+use Zend\Form\Element;
+use Zend\Form\Fieldset;
+
+class TreeStructureFieldset extends Fieldset
+{
+    public function init()
+    {
+        $this
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][heading]',
+                'type' => Element\Text::class,
+                'options' => [
+                    'label' => 'Block title', // @translate
+                    'info' => 'Heading for the block, if any.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'tree-structure-heading',
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][root]',
+                'type' => Element\Number::class,
+                'options' => [
+                    'label' => 'Root resource id', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'tree-structure-root',
+                    'required' => true,
+                    'min' => 1,
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][term]',
+                'type' => PropertySelect::class,
+                'options' => [
+                    'label' => 'Property for structure', // @translate
+                    'info' => 'Generally, it is "dcterms:hasPart".', // @translate
+                    'empty_option' => '',
+                    'term_as_value' => true,
+                ],
+                'attributes' => [
+                    'id' => 'tree-structure-term',
+                    'required' => true,
+                    'multiple' => false,
+                    'class' => 'chosen-select',
+                    'data-placeholder' => 'Select property…', // @translate
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][expanded]',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'label' => 'Expanded', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'tree-structure-expanded',
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][template]',
+                'type' => TemplateSelect::class,
+                'options' => [
+                    'label' => 'Template to display', // @translate
+                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "tree-structure".', // @translate
+                    'template' => 'common/block-layout/tree-structure',
+                ],
+                'attributes' => [
+                    'class' => 'chosen-select',
+                ],
+            ])
+        ;
+    }
+}

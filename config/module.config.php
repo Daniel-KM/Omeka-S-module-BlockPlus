@@ -29,6 +29,7 @@ return [
             'searchResults' => Site\BlockLayout\SearchResults::class,
             'separator' => Site\BlockLayout\Separator::class,
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
+            'treeStructure' => Site\BlockLayout\TreeStructure::class,
         ],
         'factories' => [
             'assets' => Service\BlockLayout\AssetsFactory::class,
@@ -59,6 +60,7 @@ return [
             Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
             Form\SimplePageFieldset::class => Form\SimplePageFieldset::class,
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
+            Form\TreeStructureFieldset::class => Form\TreeStructureFieldset::class,
             // Site config.
             Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldset::class,
         ],
@@ -215,6 +217,13 @@ return [
                 'depth' => null,
                 'heading' => '',
                 'root' => false,
+                'template' => '',
+            ],
+            'treeStructure' => [
+                'heading' => '',
+                'root' => '',
+                'term' => 'dcterms:hasPart',
+                'expanded' => true,
                 'template' => '',
             ],
         ],
