@@ -1,0 +1,45 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var \Omeka\Api\Representation\ItemSetRepresentation[] $itemSets
+ * @var string $thumbnailType
+ * @var string $showTitleOption
+ * @var string $heading
+ */
+
+$plugins = $this->getHelperPluginManager();
+$thumbnail = $plugins->get('thumbnail');
+
+$defaultThumbnail = $this->assetUrl('thumbnails/default.png', 'Omeka');
+$defaultThumbnail = '<img src="' . $defaultThumbnail . '"/>';
+?>
+
+<div class="item-set-showcase">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
+
+    <?php
+    foreach ($itemSets as $itemSet):
+        $render = null;
+        $title = null;
+        $link = null;
+
+        $itemSetThumbnail = $thumbnail($itemSet, $thumbnailType) ?: $defaultThumbnail;
+        $render = $itemSet->linkRaw($itemSetThumbnail);
+
+        if ($showTitleOption !== 'no_title'):
+            $title = $itemSet->displayTitle();
+            $link = $itemSet->link($title);
+        endif;
+    ?>
+    <div class="item-set resource">
+        <?= $render ?>
+        <?= $link ?>
+        <div class="caption">
+            <?= $itemSet->displayDescription() ?>
+        </div>
+    </div>
+<?php endforeach; ?>
+</div>

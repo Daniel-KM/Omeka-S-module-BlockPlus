@@ -12,6 +12,7 @@ return [
             'block' => Site\BlockLayout\Block::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             'column' => Site\BlockLayout\Column::class,
+            'itemSetShowcase' => Site\BlockLayout\ItemSetShowcase::class,
             // Omeka core uses "itemShowCase" instead of "itemShowcase". Won't fix: https://github.com/omeka/omeka-s/pull/1431
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
@@ -40,6 +41,7 @@ return [
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\EmbedTextFieldset::class => Form\EmbedTextFieldset::class,
             Form\HtmlFieldset::class => Form\HtmlFieldset::class,
+            Form\ItemSetShowcaseFieldset::class => Form\ItemSetShowcaseFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\ItemWithMetadataFieldset::class => Form\ItemWithMetadataFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
@@ -117,6 +119,13 @@ return [
             'html' => [
                 'heading' => '',
                 'html' => '',
+                'template' => '',
+            ],
+            'itemSetShowcase' => [
+                'heading' => '',
+                'item_sets' => [],
+                'thumbnail_type' => 'square',
+                'show_title_option' => 'item_set_title',
                 'template' => '',
             ],
             'itemShowcase' => [
