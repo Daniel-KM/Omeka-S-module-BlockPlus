@@ -48,6 +48,10 @@ class Assets extends AbstractBlockLayout
     {
         $data = $block->getData();
 
+        if (!isset($data['assets'])) {
+            $data['assets'] = [];
+        }
+
         // Normalize values and purify html.
         $data['assets'] = array_map(function ($v) {
             $v += ['asset' => null, 'caption' => null, 'title' => null, 'url' => null, 'class' => null];
