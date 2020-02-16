@@ -112,6 +112,12 @@ class PageMetadata extends AbstractHelper
                     default:
                         return null;
                 }
+            case 'exhibit_nav':
+                /** @var \Omeka\Api\Representation\SitePageRepresentation $exhibit */
+                $exhibit = $view->pageMetadata('exhibit', $page);
+                return $exhibit
+                    ? $this->navigationForPage($exhibit)
+                    : null;
 
             case is_null($metadata):
                 return $block;
@@ -138,6 +144,22 @@ class PageMetadata extends AbstractHelper
                     ? $list[$metadata]
                     : null;
         }
+    }
+
+    protected function navigationForPage(SitePageRepresentation $page)
+    {
+        $nav = $page->site()->publicNav();
+        /** @var \Zend\Navigation\Navigation $container */
+        $container = $nav->getContainer();
+        $navPage = $container->findOneBy('params', ['site-slug' => $page->site()->slug(), 'page-slug' => $page->slug()]);
+
+        // See \Omeka\Site\BlockLayout\TableOfContents::render()
+        // Make new copies of the pages so we don't disturb the regular nav
+        $pages = [];
+        foreach ($navPage->getPages() as $page) {
+            $pages[] = $page->toArray();
+        }
+        return new Navigation($pages);
     }
 
     protected function sitePages(SiteRepresentation $site)
