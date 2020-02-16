@@ -98,7 +98,7 @@ class Module extends AbstractModule
         foreach ($list as $keyValue) {
             list($key, $value) = array_map('trim', explode('=', $keyValue, 2));
             if ($key !== '') {
-                $result[$key] = strlen($value) ? $value : $key;
+                $result[$key] = mb_strlen($value) ? $value : $key;
             }
         }
         return $result;

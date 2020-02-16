@@ -42,7 +42,7 @@ class TemplateSelect extends Select
         }
 
         // Check filenames in the theme.
-        if (strlen($this->theme)) {
+        if (mb_strlen($this->theme)) {
             $directory = OMEKA_PATH . '/themes/' . $this->theme . '/view/';
             $recursiveList = $this->filteredFilesInFolder($directory, $layout, 'phtml');
             $templates += $recursiveList;
@@ -64,7 +64,7 @@ class TemplateSelect extends Select
         $base = rtrim($dir, '\\/') ?: '/';
         $layout = ltrim($layout, '\\/');
 
-        $isLayoutDir = $layout === '' || substr($layout, -1) === '/';
+        $isLayoutDir = $layout === '' || mb_substr($layout, -1) === '/';
         $dir = $isLayoutDir
             ? $base . '/' . $layout
             : dirname($base . '/' . $layout);
@@ -88,10 +88,10 @@ class TemplateSelect extends Select
         foreach ($RegexIterator as $file) {
             $file = reset($file);
             $extension = pathinfo($file, PATHINFO_EXTENSION);
-            if (strlen($extension)) {
-                $file = substr($file, 0, -1 - strlen($extension));
+            if (mb_strlen($extension)) {
+                $file = mb_substr($file, 0, -1 - mb_strlen($extension));
             }
-            $files[$file] = substr($file, strlen($dirLayout));
+            $files[$file] = mb_substr($file, mb_strlen($dirLayout));
         }
         natcasesort($files);
 
