@@ -97,6 +97,22 @@ class PageMetadata extends AbstractHelper
             case 'parents':
                 return $this->parentPages($page);
 
+            case 'exhibit':
+                switch ($block->dataValue('type')) {
+                    case 'exhibit_page':
+                        $parentPages = $this->parentPages($page);
+                        foreach ($parentPages as $parentPage) {
+                            if ($view->pageMetadata('type', $parentPage) === 'exhibit') {
+                                return $parentPage;
+                            }
+                        }
+                        return null;
+                    case 'exhibit':
+                        return $page;
+                    default:
+                        return null;
+                }
+
             case is_null($metadata):
                 return $block;
 
