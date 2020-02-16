@@ -196,14 +196,14 @@ class Column extends AbstractBlockLayout
             switch ($dta['type']) {
                 case 'end':
                     if (empty($tagStack)) {
-                        $view->logger()->error('Type "intermediate" and "end" columns must be after a block "start" or "intermediate".'); // @translate
+                        $view->logger()->err('Type "intermediate" and "end" columns must be after a block "start" or "intermediate".'); // @translate
                         return false;
                     }
                     $column['close'] = array_pop($tagStack);
                     break;
                 case 'inter':
                     if (empty($tagStack)) {
-                        $view->logger()->error('Type "intermediate" and "end" columns must be after a block "start" or "intermediate".'); // @translate
+                        $view->logger()->err('Type "intermediate" and "end" columns must be after a block "start" or "intermediate".'); // @translate
                         return false;
                     }
                     $column['close'] = array_pop($tagStack);
@@ -212,7 +212,7 @@ class Column extends AbstractBlockLayout
                     $tagStack[] = $dta['tag'];
                     break;
                 default:
-                    $view->logger()->error('Unauthorized type for block column.'); // @translate
+                    $view->logger()->err('Unauthorized type for block column.'); // @translate
                     return false;
             }
             $columns[++$position] = $column;
@@ -222,24 +222,24 @@ class Column extends AbstractBlockLayout
         }
 
         if (count($columns) < 2) {
-            $view->logger()->error('A block "column" cannot be single.'); // @translate
+            $view->logger()->err('A block "column" cannot be single.'); // @translate
             return false;
         }
 
         ksort($columns);
         $first = reset($columns);
         if ($first['type'] !== 'start') {
-            $view->logger()->error('The first column block must be of type "start".'); // @translate
+            $view->logger()->err('The first column block must be of type "start".'); // @translate
             return false;
         }
         $last = end($columns);
         if ($last['type'] !== 'end') {
-            $view->logger()->error('The last column block must be of type "end".'); // @translate
+            $view->logger()->err('The last column block must be of type "end".'); // @translate
             return false;
         }
 
         if (!empty($tagStack)) {
-            $view->logger()->error('Some columns have no end.'); // @translate
+            $view->logger()->err('Some columns have no end.'); // @translate
             return false;
         }
 
