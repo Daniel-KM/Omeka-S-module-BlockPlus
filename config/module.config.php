@@ -7,6 +7,11 @@ return [
             dirname(__DIR__) . '/view',
         ],
     ],
+    'view_helpers' => [
+        'invokables' => [
+            'pageMetadata' => View\Helper\PageMetadata::class,
+        ],
+    ],
     'block_layouts' => [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
