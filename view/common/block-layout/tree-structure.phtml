@@ -6,7 +6,7 @@
  * @var int $root
  * @var string $term
  * @var string $resource
- * @var bool $expanded
+ * @var int $expanded
  */
 
 $escape = $this->plugin('escapeHtml');
@@ -38,12 +38,12 @@ $treeMenu = function ($resource, $level = 0) use (&$treeMenu, $term, $api, $esca
         endif;
     endforeach;
     ?>
-    <li class="nav-item has-treeview">
+    <li class="nav-item has-treeview<?php if ($level < $expanded): ?> menu-open<?php endif; ?>">
         <i class="nav-icon fas <?= $children ? 'fa-plus' : 'fa-minus' ?>"></i>
         <a href="<?= str_replace(['{controller}', '{reference}'], [$resourceNames[$resource->resourceName()], $resource->id()], $url) ?>" class="nav-link">
             <span class="ml-2"><?= $escape($title) ?></span>
         </a>
-        <ul class="nav nav-treeview"<?= $level || $expanded ? '': ' style="display: block;"' ?>>
+        <ul class="nav nav-treeview"<?php if ($level >= $expanded): ?> style="display: none;"<?php endif; ?>>
             <?php
             foreach ($children as $child):
                 $treeMenu($child->valueResource(), $level + 1);

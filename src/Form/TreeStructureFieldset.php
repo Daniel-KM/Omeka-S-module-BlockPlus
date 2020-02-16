@@ -27,6 +27,7 @@ class TreeStructureFieldset extends Fieldset
                 'type' => Element\Number::class,
                 'options' => [
                     'label' => 'Root resource id', // @translate
+                    'info' => 'The root of the structure. Can be an item, an item set or any other resource type.', // @translate
                 ],
                 'attributes' => [
                     'id' => 'tree-structure-root',
@@ -53,9 +54,10 @@ class TreeStructureFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][expanded]',
-                'type' => Element\Checkbox::class,
+                'type' => Element\Number::class,
                 'options' => [
-                    'label' => 'Expanded', // @translate
+                    'label' => 'Level expanded', // @translate
+                    'info' => 'Set 0 to start closed, a big number to display all levels.', // @translate
                 ],
                 'attributes' => [
                     'id' => 'tree-structure-expanded',

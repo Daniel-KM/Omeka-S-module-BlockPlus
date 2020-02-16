@@ -224,7 +224,7 @@ return [
                 'heading' => '',
                 'root' => '',
                 'term' => 'dcterms:hasPart',
-                'expanded' => true,
+                'expanded' => 0,
                 'template' => '',
             ],
         ],
