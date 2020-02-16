@@ -83,7 +83,7 @@ class Module extends AbstractModule
                     [
                         'name' => \Zend\Filter\Callback::class,
                         'options' => [
-                            'callback' => [$this, 'stringToKeyValues'],
+                            'callback' => [$this, 'stringToKeyValuesPlusDefault'],
                         ],
                     ],
                 ],
@@ -91,7 +91,7 @@ class Module extends AbstractModule
         ;
     }
 
-    public function stringToKeyValues($string)
+    public function stringToKeyValuesPlusDefault($string)
     {
         $result = [];
         $list = $this->stringToList($string);
@@ -101,6 +101,14 @@ class Module extends AbstractModule
                 $result[$key] = mb_strlen($value) ? $value : $key;
             }
         }
-        return $result;
+
+        $defaults = [
+            'home' => 'Home', // @translate
+            'exhibit' => 'Exhibit', // @translate
+            'exhibit_page' => 'Exhibit page', // @translate
+            'simple' => 'Simple page', // @translate
+        ];
+
+        return $result + $defaults;
     }
 }

@@ -84,10 +84,10 @@ return [
     'blockplus' => [
         'site_settings' => [
             'blockplus_page_types' => [
-                'home' => 'Home',
-                'exhibit' => 'Exhibit',
-                'exhibit_page' => 'Exhibit page',
-                'simple' => 'Simple page',
+                'home' => 'Home', // @translate
+                'exhibit' => 'Exhibit', // @translate
+                'exhibit_page' => 'Exhibit page', // @translate
+                'simple' => 'Simple page', // @translate
             ],
         ],
         'block_settings' => [

@@ -55,6 +55,12 @@ $treeMenu = function ($resource, $level = 0) use (&$treeMenu, $term, $api, $esca
 }
 ?>
 
+<style>
+    .block-tree-structure ul {
+        list-style: none;
+    }
+</style>
+
 <div class="block-tree-structure">
 <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
