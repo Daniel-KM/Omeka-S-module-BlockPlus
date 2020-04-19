@@ -46,6 +46,49 @@ Select them in the view "Page edit". You may theme them too: copy the block
 templates that are in `view/common/block-layout/` in the same place of your
 theme.
 
+### Page Metadata
+
+Allow to add a type to the page, so it’s simpler to have different templates for
+different pages. It allows in particular to create exhibits inside a site,
+without creating a new site.
+
+You can add new types in the settings of the site. Then, in your theme, you can
+get the page type `$pageType = $this->pageMetadata('type');` and many other data
+about the page. If the page is an exhibit, it is possible to build a specific
+navigation menu of this exhibit too, like in the site [Fondation de la Maison de Salins].
+
+To manage multiple types, it’s generally required to edit the template "view/omeka/site/page/show.phtml"
+of your theme and to add a check:
+
+```php
+$pageMetadata = $plugins->has('pageMetadata') ? $plugins->get('pageMetadata') : null;
+$type = $pageMetadata('type') ?: null;
+switch ($type):
+    case 'home':
+        $class = 'home';
+        // Specific html code…
+        break;
+    case 'exhibit':
+        $class = 'exhibit';
+        // Specific html code…
+        break;
+    case 'exhibit_page':
+        $class = 'exhibit-page';
+        // Specific html code…
+        break;
+    case 'simple':
+        $class = 'simple-page';
+        // Specific html code…
+        break;
+    default:
+        // Generic html code…
+        $class = 'page';
+        break;
+endswitch;
+$this->htmlElement('body')->appendAttribute('class', $class);
+// …
+```
+
 ### Assets
 
 Display a list of assets with optional urls and labels. It’s useful to build a
@@ -58,7 +101,7 @@ A simple block allow to display a template from the theme. It may be used for a
 static html content, like a list of partners, or a complex layout, since any
 Omeka feature is available in a view.
 
-### Simple page
+### Mirror page
 
 Allow to use a page as a block, so the same page can be use in multiple sites,
 for example the page "About" or "Privacy". Of course, the page is a standard
@@ -70,7 +113,7 @@ This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
 Simplify the display of a media on the left or the right (see [user guide]). It
 is the same block that existed in [Omeka Classic] [Exhibit `file-text`].
 
-### Embedded asset with html
+### External content
 
 Similar to media with html, but to display an external asset that is not a
 resource neither an asset file, so currently not manageable inside Omeka. It may
@@ -188,6 +231,7 @@ Copyright
 [shortcode as a page]: https://github.com/omeka/plugin-SimplePages/pull/24
 [Omeka Classic]: https://omeka.org/classic
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
+[Fondation de la Maison de Salins]: https://collections.maison-salins.fr
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
