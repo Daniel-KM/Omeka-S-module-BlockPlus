@@ -35,8 +35,8 @@ return [
             'assets' => Service\BlockLayout\AssetsFactory::class,
             'embedText' => Service\BlockLayout\EmbedTextFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
+            'mirrorPage' => Service\BlockLayout\MirrorPageFactory::class,
             'resourceText' => Service\BlockLayout\ResourceTextFactory::class,
-            'simplePage' => Service\BlockLayout\SimplePageFactory::class,
         ],
         'aliases' => [
             'itemShowcase' => 'itemShowCase',
@@ -53,12 +53,12 @@ return [
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\ItemWithMetadataFieldset::class => Form\ItemWithMetadataFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
+            Form\MirrorPageFieldset::class => Form\MirrorPageFieldset::class,
             Form\PageTitleFieldset::class => Form\PageTitleFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
             Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
             Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
-            Form\SimplePageFieldset::class => Form\SimplePageFieldset::class,
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
             Form\TreeStructureFieldset::class => Form\TreeStructureFieldset::class,
             // Site config.
@@ -211,7 +211,7 @@ return [
             'separator' => [
                 'class' => '',
             ],
-            'simplePage' => [
+            'mirrorPage' => [
                 'page' => null,
             ],
             'tableOfContents' => [

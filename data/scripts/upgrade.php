@@ -41,3 +41,12 @@ WHERE
 SQL;
     $connection->exec($sql);
 }
+
+if (version_compare($oldVersion, '3.0.10', '<')) {
+    $sql = <<<'SQL'
+UPDATE site_page_block
+SET layout = "mirrorPage"
+WHERE layout = "simplePage";
+SQL;
+    $connection->exec($sql);
+}

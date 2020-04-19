@@ -4,7 +4,7 @@ namespace BlockPlus\Form;
 use BlockPlus\Form\Element\SitesPageSelect;
 use Zend\Form\Fieldset;
 
-class SimplePageFieldset extends Fieldset
+class MirrorPageFieldset extends Fieldset
 {
     public function init()
     {

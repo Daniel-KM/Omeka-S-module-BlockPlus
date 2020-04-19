@@ -20,9 +20,10 @@ class SiteSettingsFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'blockplus_page_types',
-                    'placeholder' => 'exhibit = Exhibit
+                    'placeholder' => 'home = Home
+exhibit = Exhibit
 exhibit_page = Exhibit page
-publication = Publication', // @translate
+simple = Simple page', // @translate
                     'rows' => 5,
                 ],
             ])
