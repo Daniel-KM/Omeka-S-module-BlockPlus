@@ -88,6 +88,35 @@ class PageMetadata extends AbstractHelper
             case 'attachments':
                 return $block->attachments();
 
+            case 'first_image':
+                // First image of the page or of the page metadata ?
+                // TODO Managed item set and other blocks.
+                $asset = $block->dataValue('cover');
+                if ($asset) {
+                    return $view->api()->searchOne('assets', ['id' => $asset])->getContent();
+                }
+                $thumbnailUrl = null;
+                foreach ($page->blocks() as $block) {
+                    foreach ($block->attachments() as $attachment) {
+                        $thumbnailUrl = $this->thumbnailUrlForAttachment($attachment);
+                        if ($thumbnailUrl) {
+                            break 2;
+                        }
+                    }
+                }
+                if (!$thumbnailUrl) {
+                    return null;
+                }
+                $media = $attachment->media();
+                if (!$media || (!$media->hasThumbnails() && !$media->thumbnail())) {
+                    $item = $attachment->item();
+                    $media = $item->primaryMedia();
+                    if (!$media || (!$media->hasThumbnails() && !$media->thumbnail())) {
+                        return null;
+                    }
+                }
+                return $media;
+
             case 'root':
                 $parents = $this->parentPages($page);
                 return empty($parents) ? $page : array_pop($parents);
