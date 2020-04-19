@@ -49,4 +49,10 @@ SET layout = "mirrorPage"
 WHERE layout = "simplePage";
 SQL;
     $connection->exec($sql);
+    $sql = <<<'SQL'
+UPDATE site_page_block
+SET layout = "embedText"
+WHERE layout = "externalContent";
+SQL;
+    $connection->exec($sql);
 }

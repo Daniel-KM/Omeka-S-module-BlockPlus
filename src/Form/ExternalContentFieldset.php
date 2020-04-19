@@ -5,7 +5,7 @@ use BlockPlus\Form\Element\TemplateSelect;
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
 
-class EmbedTextFieldset extends Fieldset
+class ExternalContentFieldset extends Fieldset
 {
     public function init()
     {
@@ -21,7 +21,7 @@ class EmbedTextFieldset extends Fieldset
             'name' => 'o:block[__blockIndex__][o:data][embeds]',
             'type' => Element\Url::class,
             'options' => [
-                'label' => 'Embedded url', // @translate
+                'label' => 'Url (oEmbed or iframe)', // @translate
                 'info' => 'The standard "oEmbed" normalizes the integration of external resources. Main third parties are supported. Set the url to be used for the iframe.', // @translate
             ],
         ]);
@@ -29,7 +29,7 @@ class EmbedTextFieldset extends Fieldset
             'name' => 'o:block[__blockIndex__][o:data][alignment]',
             'type' => Element\Radio::class,
             'options' => [
-                'label' => 'Embedded alignment', // @translate
+                'label' => 'Alignment', // @translate
                 'value_options' => [
                     'left' => 'left', // @translate
                     'right' => 'right', // @translate
@@ -85,8 +85,8 @@ class EmbedTextFieldset extends Fieldset
             'type' => TemplateSelect::class,
             'options' => [
                 'label' => 'Template to display', // @translate
-                'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "embed-text".', // @translate
-                'template' => 'common/block-layout/embed-text',
+                'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "external-content".', // @translate
+                'template' => 'common/block-layout/external-content',
             ],
             'attributes' => [
                 'class' => 'chosen-select',

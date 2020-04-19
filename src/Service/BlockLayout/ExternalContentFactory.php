@@ -1,21 +1,21 @@
 <?php
 namespace BlockPlus\Service\BlockLayout;
 
-use BlockPlus\Site\BlockLayout\EmbedText;
+use BlockPlus\Site\BlockLayout\ExternalContent;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class EmbedTextFactory implements FactoryInterface
+class ExternalContentFactory implements FactoryInterface
 {
     /**
-     * Create the EmbedText block layout service.
+     * Create the ExternalContent block layout service.
      *
      * @param ContainerInterface $serviceLocator
-     * @return EmbedText
+     * @return ExternalContent
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new EmbedText(
+        return new ExternalContent(
             $services->get('Omeka\HtmlPurifier'),
             $services->get('Config')['oembed']['whitelist'],
             $services->get('Omeka\HttpClient'),

@@ -19,14 +19,14 @@ use Zend\View\Renderer\PhpRenderer;
  *
  * @link https://omeka.org/s/docs/user-manual/sites/site_pages/#media
  */
-class EmbedText extends AbstractBlockLayout
+class ExternalContent extends AbstractBlockLayout
 {
     use CommonTrait;
 
     /**
      * The default partial view script.
      */
-    const PARTIAL_NAME = 'common/block-layout/embed-text';
+    const PARTIAL_NAME = 'common/block-layout/external-content';
 
     /**
      * @var HtmlPurifier
@@ -62,7 +62,7 @@ class EmbedText extends AbstractBlockLayout
 
     public function getLabel()
     {
-        return 'Embedded with text'; // @translate
+        return 'External content'; // @translate
     }
 
     public function prepareRender(PhpRenderer $view)
@@ -149,8 +149,8 @@ class EmbedText extends AbstractBlockLayout
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
-        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['embedText'];
-        $blockFieldset = \BlockPlus\Form\EmbedTextFieldset::class;
+        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['externalContent'];
+        $blockFieldset = \BlockPlus\Form\ExternalContentFieldset::class;
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 

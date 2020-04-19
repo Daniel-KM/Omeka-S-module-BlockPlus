@@ -33,7 +33,7 @@ return [
         ],
         'factories' => [
             'assets' => Service\BlockLayout\AssetsFactory::class,
-            'embedText' => Service\BlockLayout\EmbedTextFactory::class,
+            'externalContent' => Service\BlockLayout\ExternalContentFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
             'mirrorPage' => Service\BlockLayout\MirrorPageFactory::class,
             'resourceText' => Service\BlockLayout\ResourceTextFactory::class,
@@ -47,7 +47,7 @@ return [
             Form\AssetsFieldset::class => Form\AssetsFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
-            Form\EmbedTextFieldset::class => Form\EmbedTextFieldset::class,
+            Form\ExternalContentFieldset::class => Form\ExternalContentFieldset::class,
             Form\HtmlFieldset::class => Form\HtmlFieldset::class,
             Form\ItemSetShowcaseFieldset::class => Form\ItemSetShowcaseFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
@@ -125,7 +125,7 @@ return [
                 'tag' => 'div',
                 'class' => 'column',
             ],
-            'embedText' => [
+            'externalContent' => [
                 'heading' => '',
                 'embeds' => [],
                 'html' => '',
