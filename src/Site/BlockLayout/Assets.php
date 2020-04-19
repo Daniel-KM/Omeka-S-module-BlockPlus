@@ -141,6 +141,7 @@ class Assets extends AbstractBlockLayout
         $assets = $block->dataValue('assets', []);
 
         foreach ($assets as $key => &$assetData) {
+            // Get the asset.
             if (empty($assetData['asset'])) {
                 continue;
             }
@@ -169,8 +170,12 @@ class Assets extends AbstractBlockLayout
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        // TODO Add captions (they are not added in the core)?
-        return $block->dataValue('heading', '')
-            . ' ' . $block->dataValue('html', '');
+        $fulltext = $block->dataValue('heading', '');
+        foreach ($block->dataValue('slides', []) as $slide) {
+            $fulltext .= ' ' . $slide['start_date']
+                . ' ' . $slide['title']
+                . ' ' . $slide['caption'];
+        }
+        return $fulltext;
     }
 }
