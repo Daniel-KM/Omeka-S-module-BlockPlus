@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-20 00:00+0100\n"
+"POT-Creation-Date: 2020-04-20 00:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,26 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Module.php:31
+#: Module.php:33
 #, php-format
 msgid "The library \"%s\" should be installed."
 msgstr ""
 
-#: Module.php:34
+#: Module.php:36
 msgid "See module’s installation documentation."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:518
+#: src/Generic/AbstractModule.php:598
 #, php-format
 msgid "This module requires the module \"%s\"."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:538
+#: src/Generic/AbstractModule.php:618
 #, php-format
 msgid "This module requires modules \"%s\"."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:606
+#: src/Generic/AbstractModule.php:686
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
@@ -60,49 +60,74 @@ msgid ""
 "nested."
 msgstr ""
 
-#: src/Site/BlockLayout/SimplePage.php:91
+#: src/Site/BlockLayout/MirrorPage.php:91
 msgid "Choose any page from any site."
 msgstr ""
 
-#: src/Site/BlockLayout/SimplePage.php:92
+#: src/Site/BlockLayout/MirrorPage.php:92
 msgid ""
 "If a page of a private site is selected, it will be hidden on the public "
 "side."
 msgstr ""
 
-#: src/Site/BlockLayout/SimplePage.php:93
+#: src/Site/BlockLayout/MirrorPage.php:93
 msgid "The current page and recursive pages are forbidden."
+msgstr ""
+
+#: src/Site/BlockLayout/PageMetadata.php:56
+msgid ""
+"This block doesn’t display anything, but store the type and various metadata "
+"about this page for themes."
+msgstr ""
+
+#: src/Site/BlockLayout/PageMetadata.php:66
+msgid "expand"
 msgstr ""
 
 #: view/common/block-layout/browse-preview-gallery.phtml:86
 msgid "More information"
 msgstr ""
 
+#: Module.php:114 config/module.config.php:88
+msgid "Exhibit"
+msgstr ""
+
+#: Module.php:115 config/module.config.php:89
+msgid "Exhibit page"
+msgstr ""
+
+#: Module.php:116 config/module.config.php:90
+msgid "Simple page"
+msgstr ""
+
 #: src/Form/ItemWithMetadataFieldset.php:19 src/Form/SearchFormFieldset.php:17
 #: src/Form/SearchResultsFieldset.php:19 src/Form/AssetsFieldset.php:18
-#: src/Form/EmbedTextFieldset.php:16 src/Form/ListOfSitesFieldset.php:27
+#: src/Form/ExternalContentFieldset.php:16 src/Form/ListOfSitesFieldset.php:27
 #: src/Form/TableOfContentsFieldset.php:17 src/Form/ItemShowcaseFieldset.php:20
 #: src/Form/BrowsePreviewFieldset.php:19 src/Form/ResourceTextFieldset.php:74
-#: src/Form/HtmlFieldset.php:17 src/Form/BlockFieldset.php:17
+#: src/Form/HtmlFieldset.php:17 src/Form/ItemSetShowcaseFieldset.php:19
+#: src/Form/TreeStructureFieldset.php:18 src/Form/BlockFieldset.php:17
 msgid "Block title"
 msgstr ""
 
 #: src/Form/ItemWithMetadataFieldset.php:20 src/Form/SearchFormFieldset.php:18
 #: src/Form/SearchResultsFieldset.php:20 src/Form/AssetsFieldset.php:19
-#: src/Form/EmbedTextFieldset.php:17 src/Form/ListOfSitesFieldset.php:28
+#: src/Form/ExternalContentFieldset.php:17 src/Form/ListOfSitesFieldset.php:28
 #: src/Form/TableOfContentsFieldset.php:18 src/Form/ItemShowcaseFieldset.php:21
 #: src/Form/BrowsePreviewFieldset.php:20 src/Form/ResourceTextFieldset.php:75
-#: src/Form/HtmlFieldset.php:18 src/Form/BlockFieldset.php:18
+#: src/Form/HtmlFieldset.php:18 src/Form/ItemSetShowcaseFieldset.php:20
+#: src/Form/TreeStructureFieldset.php:19 src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
 msgstr ""
 
 #: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
 #: src/Form/SearchResultsFieldset.php:114 src/Form/AssetsFieldset.php:37
-#: src/Form/EmbedTextFieldset.php:87 src/Form/PageTitleFieldset.php:16
+#: src/Form/ExternalContentFieldset.php:87 src/Form/PageTitleFieldset.php:16
 #: src/Form/ListOfSitesFieldset.php:95 src/Form/TableOfContentsFieldset.php:44
 #: src/Form/ItemShowcaseFieldset.php:38 src/Form/BrowsePreviewFieldset.php:125
 #: src/Form/ResourceTextFieldset.php:89 src/Form/HtmlFieldset.php:32
-#: src/Form/BlockFieldset.php:33
+#: src/Form/ItemSetShowcaseFieldset.php:61
+#: src/Form/TreeStructureFieldset.php:70 src/Form/BlockFieldset.php:33
 msgid "Template to display"
 msgstr ""
 
@@ -122,6 +147,46 @@ msgstr ""
 msgid ""
 "Set the class or the name of the separator. Default is \"transparent\". "
 "Other ones depends on the theme."
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:17
+msgid "Set types in the parameters of the site."
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:26
+msgid "Page type"
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:34
+msgid "Select the page type…"
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:41
+msgid "Credits"
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:63
+msgid "Featured"
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:73
+msgid "Tags"
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:74
+msgid "Comma-separated list of keywords"
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:85 src/Form/BlockFieldset.php:25
+msgid "Params"
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:86
+msgid "The params can be fetched as raw text, key/value pairs, or json."
+msgstr ""
+
+#: src/Form/PageMetadataFieldset.php:97
+msgid "Cover image"
 msgstr ""
 
 #: src/Form/SearchResultsFieldset.php:47
@@ -198,57 +263,49 @@ msgstr ""
 msgid "Add another"
 msgstr ""
 
-#: src/Form/SimplePageFieldset.php:16
-msgid ""
-"Private sites are marked with a \"*\". If a private page is selected, it "
-"will be hidden on the public site. The current page and recursive pages are "
-"forbidden."
+#: src/Form/ExternalContentFieldset.php:24
+msgid "Url (oEmbed or iframe)"
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:24
-msgid "Embedded url"
-msgstr ""
-
-#: src/Form/EmbedTextFieldset.php:25
+#: src/Form/ExternalContentFieldset.php:25
 msgid ""
 "The standard \"oEmbed\" normalizes the integration of external resources. "
 "Main third parties are supported. Set the url to be used for the iframe."
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:32
-msgid "Embedded alignment"
-msgstr ""
-
-#: src/Form/EmbedTextFieldset.php:34 src/Form/EmbedTextFieldset.php:57
-#: src/Form/ResourceTextFieldset.php:32 src/Form/ResourceTextFieldset.php:62
+#: src/Form/ExternalContentFieldset.php:34
+#: src/Form/ExternalContentFieldset.php:57 src/Form/ResourceTextFieldset.php:32
+#: src/Form/ResourceTextFieldset.php:62
 msgid "left"
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:35 src/Form/EmbedTextFieldset.php:58
-#: src/Form/ResourceTextFieldset.php:33 src/Form/ResourceTextFieldset.php:63
+#: src/Form/ExternalContentFieldset.php:35
+#: src/Form/ExternalContentFieldset.php:58 src/Form/ResourceTextFieldset.php:33
+#: src/Form/ResourceTextFieldset.php:63
 msgid "right"
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:43
+#: src/Form/ExternalContentFieldset.php:43
+#: src/Form/ItemSetShowcaseFieldset.php:51
 msgid "Show title"
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:54 src/Form/ResourceTextFieldset.php:59
+#: src/Form/ExternalContentFieldset.php:54 src/Form/ResourceTextFieldset.php:59
 msgid "Captions position"
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:56 src/Form/ResourceTextFieldset.php:61
+#: src/Form/ExternalContentFieldset.php:56 src/Form/ResourceTextFieldset.php:61
 msgid "center"
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:80
+#: src/Form/ExternalContentFieldset.php:80
 msgid "Link url"
 msgstr ""
 
-#: src/Form/EmbedTextFieldset.php:88
+#: src/Form/ExternalContentFieldset.php:88
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
-"start with \"embed-text\"."
+"start with \"external-content\"."
 msgstr ""
 
 #: src/Form/PageTitleFieldset.php:17
@@ -315,6 +372,10 @@ msgid ""
 "start with \"browse-preview\"."
 msgstr ""
 
+#: src/Form/ResourceTextFieldset.php:30
+msgid "Thumbnail alignment"
+msgstr ""
+
 #: src/Form/ResourceTextFieldset.php:90
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
@@ -329,6 +390,65 @@ msgstr ""
 
 #: src/Form/Element/AbstractGroupBySiteSelect.php:166
 msgid "[No site]"
+msgstr ""
+
+#: src/Form/ItemSetShowcaseFieldset.php:62
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"item-set-showcase\"."
+msgstr ""
+
+#: src/Form/TreeStructureFieldset.php:29
+msgid "Root resource id"
+msgstr ""
+
+#: src/Form/TreeStructureFieldset.php:30
+msgid ""
+"The root of the structure. Can be an item, an item set or any other resource "
+"type."
+msgstr ""
+
+#: src/Form/TreeStructureFieldset.php:42
+msgid "Property for structure"
+msgstr ""
+
+#: src/Form/TreeStructureFieldset.php:43
+msgid "Generally, it is \"dcterms:hasPart\"."
+msgstr ""
+
+#: src/Form/TreeStructureFieldset.php:59
+msgid "Level expanded"
+msgstr ""
+
+#: src/Form/TreeStructureFieldset.php:60
+msgid "Set 0 to start closed, a big number to display all levels."
+msgstr ""
+
+#: src/Form/TreeStructureFieldset.php:71
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"tree-structure\"."
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:9
+msgid "Block Plus"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:18
+msgid "Page types"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:19
+msgid ""
+"Specify the list of types that will be available to build specific pages."
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:23
+msgid ""
+"home = Home\n"
+"exhibit = Exhibit\n"
+"exhibit_page = Exhibit page\n"
+"simple = Simple page"
 msgstr ""
 
 #: src/Form/ColumnFieldset.php:21
@@ -365,8 +485,11 @@ msgid ""
 "and \"column\" are managed."
 msgstr ""
 
-#: src/Form/BlockFieldset.php:25
-msgid "Params"
+#: src/Form/MirrorPageFieldset.php:16
+msgid ""
+"Private sites are marked with a \"*\". If a private page is selected, it "
+"will be hidden on the public site. The current page and recursive pages are "
+"forbidden."
 msgstr ""
 
 #: src/Form/BlockFieldset.php:26
@@ -381,6 +504,34 @@ msgstr ""
 
 #: src/Site/BlockLayout/Block.php:19
 msgid "Simple Block"
+msgstr ""
+
+#: src/Site/BlockLayout/MirrorPage.php:36
+msgid "Mirror page"
+msgstr ""
+
+#: src/Site/BlockLayout/MirrorPage.php:44
+msgid "A page should be selected to create a mirror page."
+msgstr ""
+
+#: src/Site/BlockLayout/MirrorPage.php:49
+msgid "A mirror page cannot be inside itself."
+msgstr ""
+
+#: src/Site/BlockLayout/MirrorPage.php:57
+#: src/Site/BlockLayout/MirrorPage.php:63
+msgid "A mirror page cannot use a page that uses it recursively as a block."
+msgstr ""
+
+#: src/Site/BlockLayout/MirrorPage.php:108
+#, php-format
+msgid ""
+"Mirror page block #%d of page \"%s\" of site \"%s\" should be updated: it "
+"refers to a removed page."
+msgstr ""
+
+#: src/Site/BlockLayout/TreeStructure.php:19
+msgid "Tree structure of resources"
 msgstr ""
 
 #: src/Site/BlockLayout/SearchForm.php:19
@@ -426,76 +577,60 @@ msgstr ""
 msgid "Separator"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:65
-msgid "Embedded with text"
+#: src/Site/BlockLayout/ItemSetShowcase.php:19
+msgid "Item set showcase"
 msgstr ""
 
-#: src/Site/BlockLayout/EmbedText.php:94
-msgid "Invalid OEmbed URL"
-msgstr ""
-
-#: src/Site/BlockLayout/EmbedText.php:100
-msgid "OEmbed URL"
-msgstr ""
-
-#: src/Site/BlockLayout/EmbedText.php:102
-msgid "OEmbed URL unavailable"
-msgstr ""
-
-#: src/Site/BlockLayout/EmbedText.php:110
-msgid "No OEmbed links were found at the given URI"
-msgstr ""
-
-#: src/Site/BlockLayout/EmbedText.php:116
-msgid "OEmbed link URL"
-msgstr ""
-
-#: src/Site/BlockLayout/EmbedText.php:118
-msgid "OEmbed link URL unavailable"
-msgstr ""
-
-#: src/Site/BlockLayout/EmbedText.php:124
-msgid "Error decoding OEmbed JSON"
-msgstr ""
-
-#: src/Site/BlockLayout/EmbedText.php:216
-#, php-format
-msgid "Invalid \"%s\" specified"
-msgstr ""
-
-#: src/Site/BlockLayout/EmbedText.php:227
-#, php-format
-msgid "Error reading %s: %s (%s)"
-msgstr ""
-
-#: src/Site/BlockLayout/SimplePage.php:36
-msgid "Simple page"
-msgstr ""
-
-#: src/Site/BlockLayout/SimplePage.php:44
-msgid "A page should be selected to create a simple page."
-msgstr ""
-
-#: src/Site/BlockLayout/SimplePage.php:49
-msgid "A simple page cannot be inside itself."
-msgstr ""
-
-#: src/Site/BlockLayout/SimplePage.php:57
-#: src/Site/BlockLayout/SimplePage.php:63
-msgid "A simple page cannot use a page that uses it recursively as a block."
-msgstr ""
-
-#: src/Site/BlockLayout/SimplePage.php:108
-#, php-format
-msgid ""
-"Simple page block #%d of page \"%s\" of site \"%s\" should be updated: it "
-"refers to a removed page."
+#: src/Site/BlockLayout/PageMetadata.php:16
+msgid "Page metadata"
 msgstr ""
 
 #: src/Site/BlockLayout/ResourceText.php:43
 msgid "Resource with text"
 msgstr ""
 
-#: config/module.config.php:113
+#: src/Site/BlockLayout/ExternalContent.php:65
+msgid "External content"
+msgstr ""
+
+#: src/Site/BlockLayout/ExternalContent.php:94
+msgid "Invalid OEmbed URL"
+msgstr ""
+
+#: src/Site/BlockLayout/ExternalContent.php:100
+msgid "OEmbed URL"
+msgstr ""
+
+#: src/Site/BlockLayout/ExternalContent.php:102
+msgid "OEmbed URL unavailable"
+msgstr ""
+
+#: src/Site/BlockLayout/ExternalContent.php:110
+msgid "No OEmbed links were found at the given URI"
+msgstr ""
+
+#: src/Site/BlockLayout/ExternalContent.php:116
+msgid "OEmbed link URL"
+msgstr ""
+
+#: src/Site/BlockLayout/ExternalContent.php:118
+msgid "OEmbed link URL unavailable"
+msgstr ""
+
+#: src/Site/BlockLayout/ExternalContent.php:124
+msgid "Error decoding OEmbed JSON"
+msgstr ""
+
+#: src/Site/BlockLayout/ExternalContent.php:216
+#, php-format
+msgid "Invalid \"%s\" specified"
+msgstr ""
+
+#: src/Site/BlockLayout/ExternalContent.php:227
+#, php-format
+msgid "Error reading %s: %s (%s)"
+msgstr ""
+
+#: config/module.config.php:135
 msgid "Know more"
 msgstr ""
