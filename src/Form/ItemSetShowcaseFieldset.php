@@ -31,7 +31,7 @@ class ItemSetShowcaseFieldset extends Fieldset
                     'id' => 'item-set-showcase-item-sets',
                     'multiple' => true,
                     'class' => 'chosen-select',
-                    'data-placeholder' => 'Select item sets…'
+                    'data-placeholder' => 'Select item sets…',
                 ],
             ])
             ->add([
