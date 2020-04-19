@@ -96,6 +96,11 @@ class PageMetadata extends AbstractHelper
                 return empty($parents) ? null : reset($parents);
             case 'parents':
                 return $this->parentPages($page);
+            case 'prev':
+            case 'previous':
+                return $this->previousNextPages($page, 'previous');
+            case 'next':
+                return $this->previousNextPages($page, 'next');
 
             case 'exhibit':
                 switch ($block->dataValue('type')) {
@@ -178,7 +183,7 @@ class PageMetadata extends AbstractHelper
     }
 
     /**
-     * Get the parent pages of a page,
+     * Get the parent pages of a page.
      *
      * @todo Improve the process to get the parent pages.
      *
@@ -201,6 +206,41 @@ class PageMetadata extends AbstractHelper
             $pageId = $pageData['parent_id'];
         }
         return $pages;
+    }
+
+    /**
+     * Get the previous or next page.
+     *
+     * @param SitePageRepresentation $page
+     * @param string $sibling "previous" or "next"
+     * @return SitePageRepresentation|null
+     */
+    protected function previousNextPages(SitePageRepresentation $page, $sibling)
+    {
+        static $pages = [];
+
+        $pageId = $page->id();
+        if (!isset($pages[$pageId][$sibling])) {
+            $pages[$pageId]['previous'] = null;
+            $pages[$pageId]['next'] = null;
+
+            // @see \Omeka\View\Helper\SitePagePagination::setPage()
+            $linkedPages = $page->site()->linkedPages();
+            // Find page in navigation. Don't attempt to find prev/next else.
+            if (array_key_exists($pageId, $linkedPages)) {
+                // Iterate the linked pages, setting the previous and next pages, if any.
+                while ($linkedPage = current($linkedPages)) {
+                    if ($pageId === $linkedPage->id()) {
+                        $pages[$pageId]['next'] = next($linkedPages);
+                        break;
+                    }
+                    $pages[$pageId]['previous'] = $linkedPage;
+                    next($linkedPages);
+                }
+            }
+        }
+
+        return $pages[$pageId][$sibling];
     }
 
     /**
