@@ -39,16 +39,23 @@ class Module extends AbstractModule
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
+        // Order blocks alphabetically (translated), except html.
+        $sharedEventManager->attach(
+            \Omeka\Site\BlockLayout\Manager::class,
+            'service.registered_names',
+            [$this, 'handleRegisteredNamesBlockLayout']
+        );
+
         $sharedEventManager->attach(
             \Omeka\Form\SiteSettingsForm::class,
             'form.add_elements',
             [$this, 'handleSiteSettings']
-            );
+        );
         $sharedEventManager->attach(
             \Omeka\Form\SiteSettingsForm::class,
             'form.add_input_filters',
             [$this, 'handleSiteSettingsFilters']
-            );
+        );
     }
 
     public function handleSiteSettings(Event $event)
@@ -110,5 +117,25 @@ class Module extends AbstractModule
         ];
 
         return $result + $defaults;
+    }
+
+    public function handleRegisteredNamesBlockLayout(Event $event)
+    {
+        $services = $this->getServiceLocator();
+        $manager = $services->get('Omeka\BlockLayoutManager');
+        $translator = $services->get('MvcTranslator');
+        $registeredNames = $event->getParam('registered_names');
+
+        $result = [];
+        foreach ($registeredNames as $registeredName) {
+            $result[$registeredName] = $translator->translate($manager->get($registeredName)->getLabel());
+        }
+        natcasesort($result);
+
+        // Keep configured names prepended.
+        $prepended = $services->get('Config')['block_layouts']['sorted_names'];
+        $result = array_keys(array_flip($prepended) + $result);
+
+        $event->setParam('registered_names', $result);
     }
 }
