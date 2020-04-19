@@ -101,6 +101,8 @@ class PageMetadata extends AbstractHelper
                 return $this->previousNextPages($page, 'previous');
             case 'next':
                 return $this->previousNextPages($page, 'next');
+            case 'children':
+                return $this->childrenPages($page);
 
             case 'exhibit':
                 switch ($block->dataValue('type')) {
@@ -117,6 +119,7 @@ class PageMetadata extends AbstractHelper
                     default:
                         return null;
                 }
+                break;
             case 'exhibit_nav':
                 /** @var \Omeka\Api\Representation\SitePageRepresentation $exhibit */
                 $exhibit = $view->pageMetadata('exhibit', $page);
@@ -199,7 +202,7 @@ class PageMetadata extends AbstractHelper
         $pageId = $page->id();
         while (true) {
             $pageData = $this->findPageInNavigation($pageId, $navigation);
-            if (!$pageData || empty($pageData['parent_id'])) {
+            if (empty($pageData['parent_id'])) {
                 return $pages;
             }
             $pages[] = $sitePages[$pageData['parent_id']];
@@ -244,6 +247,22 @@ class PageMetadata extends AbstractHelper
     }
 
     /**
+     * Get the children pages of a page.
+     *
+     * @param SitePageRepresentation $page
+     * @return SitePageRepresentation[]
+     */
+    protected function childrenPages(SitePageRepresentation $page)
+    {
+        $site = $page->site();
+        $pageData = $this->findPageInNavigation($page->id(), $site->navigation());
+        return array_intersect_key(
+            $this->sitePages($site),
+            array_flip($pageData['children'])
+        );
+    }
+
+    /**
      * Find data about a page from the navigation.
      *
      * FIXME Use nav container, not the static site navigation (even if it should be the same because no page are private).
@@ -276,6 +295,11 @@ class PageMetadata extends AbstractHelper
                         'id' => $pageId,
                         'parent_id' => $parentPageId,
                         'siblings' => $siblings,
+                        'children' => empty($navItem['links'])
+                            ? []
+                            : array_values(array_filter(array_map(function ($v) {
+                                return $v['type'] === 'page' ? $v['data']['id'] : null;
+                            }, $navItem['links']))),
                     ];
                 }
 
@@ -292,7 +316,7 @@ class PageMetadata extends AbstractHelper
             }
         }
 
-        return null;
+        return [];
     }
 
     /**
