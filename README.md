@@ -170,6 +170,7 @@ TODO
 ----
 
 - Merge some similar blocks into a main block (with automatic upgrade).
+- Integrates Shortcodes
 
 
 Warning
@@ -213,7 +214,7 @@ altered, and that no provisions are either added or removed herefrom.
 
 ### Gallery of images
 
-See non standard but open source license here: http://tympanus.net/codrops/licensing/
+See MIT license here: http://tympanus.net/codrops/licensing/
 The original template was fixed by KevinMwangi and updated for newer version of
 components (modernizr, smartresize, imagesloaded).
 
@@ -233,6 +234,7 @@ Copyright
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
+[`BlockPlus.zip`]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
