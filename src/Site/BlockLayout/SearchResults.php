@@ -25,7 +25,7 @@ class SearchResults extends AbstractBlockLayout
     {
         $data = $block->getData();
         $query = [];
-        parse_str(ltrim($data['query'], '? '), $query);
+        parse_str(ltrim($data['query'], "? \t\n\r\0\x0B"), $query);
         $data['query'] = $query;
         $block->setData($data);
     }
