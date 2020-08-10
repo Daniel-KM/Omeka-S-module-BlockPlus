@@ -18,7 +18,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 <?php if ($assets): ?>
 <?php // The hero use the first asset. ?>
 <?php $asset = reset($assets); ?>
-<div class="header-wrapper <?= $escapeAttr($asset['class']) ?>" style="background-image:url(<?= $asset['asset']->assetUrl() ?>);">
+<div class="block header-wrapper <?= $escapeAttr($asset['class']) ?>" style="background-image:url(<?= $asset['asset']->assetUrl() ?>);">
     <?php if ($asset['caption']): ?>
     <div class="container mt-5">
         <div class="row mt-5">
