@@ -15,7 +15,7 @@ install it, or use and init the source.
 
 * From the zip
 
-Download the last release [`BlockPlus.zip`] from the list of releases (the
+Download the last release [BlockPlus.zip] from the list of releases (the
 master does not contain the dependency), and uncompress it in the `modules`
 directory.
 
@@ -131,6 +131,11 @@ same page. All options should be managed via the theme. To replace item/browse,
 item-set/browse and even media/browse, you may need to set the page as default
 action for the search in default template `common/search-form`.
 
+### Twitter
+
+Display the last message from an account on [Twitter]. The data are directly
+fetched from the mobile site, so any tweet can be fetched, without credentials.
+
 ### Separator
 
 Allow to set a div with a specific class between two blocks. May be useful to
@@ -233,8 +238,9 @@ Copyright
 [Omeka Classic]: https://omeka.org/classic
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr
+|Twitter]: https://twitter.com
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
-[`BlockPlus.zip`]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases
+[BlockPlus.zip]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
