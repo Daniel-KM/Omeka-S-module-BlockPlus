@@ -62,8 +62,11 @@ class Twitter extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $vars = $block->data();
-        unset($vars['template']);
-        $vars['messages'] = $this->fetchMessages($vars['account']);
+        $vars = [
+            'heading' => $vars['heading'],
+            'account' => $vars['account'],
+            'messages' => $this->fetchMessages($vars['account'], $vars['limit'], $vars['retweet']),
+        ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);
         return $view->resolver($template)
             ? $view->partial($template, $vars)
@@ -76,9 +79,9 @@ class Twitter extends AbstractBlockLayout
         return $block->dataValue('title', '');
     }
 
-    protected function fetchMessages($account)
+    protected function fetchMessages($account, $limit = 1, $retweet = false)
     {
-        if (empty($account)) {
+        if (empty($account) || $limit <= 0) {
             return [];
         }
 
@@ -110,10 +113,15 @@ class Twitter extends AbstractBlockLayout
         }
 
         foreach ($nodeList as $key => $node) {
+            if (count($result) >= $limit) {
+                break;
+            }
+
+            /** @var \DOMNodeList $text */
             $text = $xpath->query('//div[@class="timeline"]/table[normalize-space(@class)="tweet"]'
                 . '[' . ($key + 1) . ']'
                 . '//div[@class="tweet-text"]');
-            if (!$text->count()) {
+            if (!$text->length) {
                 continue;
             }
 
@@ -133,8 +141,13 @@ class Twitter extends AbstractBlockLayout
             $simpleXmlNode = simplexml_import_dom($node);
             $simple = json_decode(json_encode($simpleXmlNode), true);
 
-            // Manage retweet.
-            if (isset($simple['tr'][0]['td'][1]['span']) && strpos($simple['tr'][0]['td'][1]['span'], 'retweeted') !== false) {
+            // Manage retweets.
+            $isRetweet = isset($simple['tr'][0]['td'][1]['span']) && strpos($simple['tr'][0]['td'][1]['span'], 'retweeted') !== false;
+            if ($isRetweet && !$retweet) {
+                continue;
+            }
+
+            if ($isRetweet) {
                 $content = [
                     'node' => $node,
                     'context' => 'retweet',

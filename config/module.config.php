@@ -232,6 +232,8 @@ return [
             'twitter' => [
                 'heading' => '',
                 'account' => '',
+                'limit' => 1,
+                'retweet' => false,
                 'template' => '',
             ],
         ],

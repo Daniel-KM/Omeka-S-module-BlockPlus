@@ -32,6 +32,27 @@ class TwitterFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][limit]',
+                'type' => Element\Number::class,
+                'options' => [
+                    'label' => 'Number of messages ', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'twitter-limit',
+                    'min' => '0',
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][retweet]',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'label' => 'Display retweets', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'twitter-retweet',
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
                 'type' => TemplateSelect::class,
                 'options' => [
