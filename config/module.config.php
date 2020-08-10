@@ -30,6 +30,7 @@ return [
             'separator' => Site\BlockLayout\Separator::class,
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
             'treeStructure' => Site\BlockLayout\TreeStructure::class,
+            'twitter' => Site\BlockLayout\Twitter::class,
         ],
         'factories' => [
             'assets' => Service\BlockLayout\AssetsFactory::class,
@@ -61,6 +62,7 @@ return [
             Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
             Form\TreeStructureFieldset::class => Form\TreeStructureFieldset::class,
+            Form\TwitterFieldset::class => Form\TwitterFieldset::class,
             // Site config.
             Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldset::class,
         ],
@@ -225,6 +227,11 @@ return [
                 'root' => '',
                 'term' => 'dcterms:hasPart',
                 'expanded' => 0,
+                'template' => '',
+            ],
+            'twitter' => [
+                'heading' => '',
+                'account' => '',
                 'template' => '',
             ],
         ],

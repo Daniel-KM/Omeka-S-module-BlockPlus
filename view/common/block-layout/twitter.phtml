@@ -1,0 +1,31 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $heading
+ * @var string $account
+ * @var array $messages
+ */
+
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
+?>
+
+<div class="block block-twitter">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+    <?php if (!count($messages)): ?>
+    <p><?= $translate('No message.') ?></p>
+    <?php else: ?>
+    <ul class="messages">
+    <?php foreach ($messages as $message): ?>
+        <li data-id="<?= $message['id'] ?>">
+            <h4><?= $hyperlink->raw('<span>@</span>' . $message['account']['fullname'], $message['account']['url'], ['rel' => 'nofollow noopener', 'target' => '_blank']) ?></h4>
+            <div class="message"><?= $message['content'] ?></div>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    <?php endif; ?>
+</div>
