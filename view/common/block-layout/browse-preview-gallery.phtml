@@ -73,12 +73,19 @@ $assetUrl = $plugins->get('assetUrl');
             $thumbnailSize = @$query['thumbnail_size'] ?: 'square';
             $untitled = $translate('[Untitled]');
             foreach ($resources as $resource):
+                $thumbnail = $resource->thumbnail($thumbnailSize);
                 $media = $resource->primaryMedia();
-                if (!$media) continue;
+                if (!$thumbnail && !$media) continue;
 
-                $mediaThumbnail = $media->thumbnailUrl($thumbnailSize);
-                // Speedup process.
-                $mediaLarge = str_replace('/' . $thumbnailSize . '/', '/large/', $mediaThumbnail);
+                if ($thumbnail):
+                    $mediaThumbnail = $thumbnail->assetUrl();
+                    $mediaLarge = $mediaThumbnail;
+                else:
+                    $mediaThumbnail = $media->thumbnailUrl($thumbnailSize);
+                    // Speedup process.
+                    $mediaLarge = str_replace('/' . $thumbnailSize . '/', '/large/', $mediaThumbnail);
+                endif;
+
                 $heading = $resource->displayTitle($untitled);
 
                 $body = $resource->displayDescription();
