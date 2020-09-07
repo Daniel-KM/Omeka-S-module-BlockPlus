@@ -88,7 +88,7 @@ class Twitter extends AbstractBlockLayout
         // The process fetched directly the web page in order to avoid to add a
         // specific package and to avoid to create credential keys in Twitter.
         // It is possible only with the mobile page, that doesn't use ajax.
-        $url =  'https://mobile.twitter.com/' . $account;
+        $url = 'https://mobile.twitter.com/' . $account;
         $html = file_get_contents($url);
         if (empty($html)) {
             return [];

@@ -89,7 +89,7 @@ class ResourceText extends AbstractBlockLayout
         $html .= $view->blockAttachmentsForm($block);
         $element = $fieldset->get('o:block[__blockIndex__][o:data][html]');
         $html .= $formRow($element);
-        $html .= '<a href="#" class="expand" aria-label="' . $translate('Expand') . '"><h4>' . $translate('Options'). '</h4></a>';
+        $html .= '<a href="#" class="expand" aria-label="' . $translate('Expand') . '"><h4>' . $translate('Options') . '</h4></a>';
         $html .= '<div class="collapsible no-override">';
         $html .= '<style>.collapsible.no-override {overflow:visible;}</style>';
         $optionsElements = [

@@ -75,7 +75,7 @@ class PageMetadata extends AbstractHelper
                 $pageTypes = $view->siteSetting('blockplus_page_types', []);
                 return isset($pageTypes[$type])
                     ? $pageTypes[$type]
-                    : null;;
+                    : null;
 
             case 'featured':
                 return (bool) $block->dataValue('featured');

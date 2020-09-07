@@ -63,7 +63,7 @@ class PageMetadata extends AbstractBlockLayout
     <div class="field-meta">
         <label for="page-metadata-credits">
 HTML;
-        $advancedOptionsHtml = '<a href="#" class="expand" title="' . $translate('expand') . '" aria-label="' . $translate('expand') . '"><h4>' . $translate('Metadata'). '</h4></a>';
+        $advancedOptionsHtml = '<a href="#" class="expand" title="' . $translate('expand') . '" aria-label="' . $translate('expand') . '"><h4>' . $translate('Metadata') . '</h4></a>';
         $advancedOptionsHtml .= '<div class="collapsible no-override">';
         $advancedOptionsHtml .= '<style>.collapsible.no-override {overflow:visible;}</style>';
         $html = str_replace($posHtml, $advancedOptionsHtml . $posHtml, $html);
