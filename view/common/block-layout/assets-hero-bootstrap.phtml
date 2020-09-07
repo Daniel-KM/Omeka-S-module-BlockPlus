@@ -23,7 +23,7 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
     <div class="container mt-5">
         <div class="row mt-5">
             <div class="col-md-6  offset-3 mt-5">
-                <h1 class="lorem text-uppercase text-center text-justify"><?= $escape($asset['caption']) ?></h1>
+                <h1 class="lorem text-uppercase text-center text-justify"><?= $asset['caption'] ?></h1>
                 <?php if ($asset['title'] && $asset['url']): ?>
                 <a href="<?= $escapeAttr($asset['url']) ?>"><button class="btn knowmore"><?= $escape($asset['title']) ?></button></a>
                 <?php endif; ?>
