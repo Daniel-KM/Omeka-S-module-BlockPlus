@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-20 00:00+0200\n"
+"POT-Creation-Date: 2020-09-14 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,17 +26,17 @@ msgstr ""
 msgid "See module’s installation documentation."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:598
+#: src/Generic/AbstractModule.php:601
 #, php-format
 msgid "This module requires the module \"%s\"."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:618
+#: src/Generic/AbstractModule.php:621
 #, php-format
 msgid "This module requires modules \"%s\"."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:686
+#: src/Generic/AbstractModule.php:689
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
@@ -60,62 +60,68 @@ msgid ""
 "nested."
 msgstr ""
 
-#: src/Site/BlockLayout/MirrorPage.php:91
+#: src/Site/BlockLayout/MirrorPage.php:95
 msgid "Choose any page from any site."
 msgstr ""
 
-#: src/Site/BlockLayout/MirrorPage.php:92
+#: src/Site/BlockLayout/MirrorPage.php:96
 msgid ""
 "If a page of a private site is selected, it will be hidden on the public "
 "side."
 msgstr ""
 
-#: src/Site/BlockLayout/MirrorPage.php:93
+#: src/Site/BlockLayout/MirrorPage.php:97
 msgid "The current page and recursive pages are forbidden."
 msgstr ""
 
-#: src/Site/BlockLayout/PageMetadata.php:56
+#: src/Site/BlockLayout/PageMetadata.php:60
 msgid ""
 "This block doesn’t display anything, but store the type and various metadata "
 "about this page for themes."
 msgstr ""
 
-#: src/Site/BlockLayout/PageMetadata.php:66
+#: src/Site/BlockLayout/PageMetadata.php:70
 msgid "expand"
 msgstr ""
 
-#: view/common/block-layout/browse-preview-gallery.phtml:86
+#: view/common/block-layout/browse-preview-gallery.phtml:93
 msgid "More information"
 msgstr ""
 
-#: Module.php:114 config/module.config.php:88
+#: view/common/block-layout/twitter.phtml:20
+msgid "No message."
+msgstr ""
+
+#: Module.php:114 config/module.config.php:90
 msgid "Exhibit"
 msgstr ""
 
-#: Module.php:115 config/module.config.php:89
+#: Module.php:115 config/module.config.php:91
 msgid "Exhibit page"
 msgstr ""
 
-#: Module.php:116 config/module.config.php:90
+#: Module.php:116 config/module.config.php:92
 msgid "Simple page"
 msgstr ""
 
 #: src/Form/ItemWithMetadataFieldset.php:19 src/Form/SearchFormFieldset.php:17
 #: src/Form/SearchResultsFieldset.php:19 src/Form/AssetsFieldset.php:18
-#: src/Form/ExternalContentFieldset.php:16 src/Form/ListOfSitesFieldset.php:27
-#: src/Form/TableOfContentsFieldset.php:17 src/Form/ItemShowcaseFieldset.php:20
-#: src/Form/BrowsePreviewFieldset.php:19 src/Form/ResourceTextFieldset.php:74
-#: src/Form/HtmlFieldset.php:17 src/Form/ItemSetShowcaseFieldset.php:19
+#: src/Form/ExternalContentFieldset.php:16 src/Form/TwitterFieldset.php:17
+#: src/Form/ListOfSitesFieldset.php:27 src/Form/TableOfContentsFieldset.php:17
+#: src/Form/ItemShowcaseFieldset.php:20 src/Form/BrowsePreviewFieldset.php:19
+#: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:17
+#: src/Form/ItemSetShowcaseFieldset.php:19
 #: src/Form/TreeStructureFieldset.php:18 src/Form/BlockFieldset.php:17
 msgid "Block title"
 msgstr ""
 
 #: src/Form/ItemWithMetadataFieldset.php:20 src/Form/SearchFormFieldset.php:18
 #: src/Form/SearchResultsFieldset.php:20 src/Form/AssetsFieldset.php:19
-#: src/Form/ExternalContentFieldset.php:17 src/Form/ListOfSitesFieldset.php:28
-#: src/Form/TableOfContentsFieldset.php:18 src/Form/ItemShowcaseFieldset.php:21
-#: src/Form/BrowsePreviewFieldset.php:20 src/Form/ResourceTextFieldset.php:75
-#: src/Form/HtmlFieldset.php:18 src/Form/ItemSetShowcaseFieldset.php:20
+#: src/Form/ExternalContentFieldset.php:17 src/Form/TwitterFieldset.php:18
+#: src/Form/ListOfSitesFieldset.php:28 src/Form/TableOfContentsFieldset.php:18
+#: src/Form/ItemShowcaseFieldset.php:21 src/Form/BrowsePreviewFieldset.php:20
+#: src/Form/ResourceTextFieldset.php:75 src/Form/HtmlFieldset.php:18
+#: src/Form/ItemSetShowcaseFieldset.php:20
 #: src/Form/TreeStructureFieldset.php:19 src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
 msgstr ""
@@ -123,10 +129,10 @@ msgstr ""
 #: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
 #: src/Form/SearchResultsFieldset.php:114 src/Form/AssetsFieldset.php:37
 #: src/Form/ExternalContentFieldset.php:87 src/Form/PageTitleFieldset.php:16
-#: src/Form/ListOfSitesFieldset.php:95 src/Form/TableOfContentsFieldset.php:44
-#: src/Form/ItemShowcaseFieldset.php:38 src/Form/BrowsePreviewFieldset.php:125
-#: src/Form/ResourceTextFieldset.php:89 src/Form/HtmlFieldset.php:32
-#: src/Form/ItemSetShowcaseFieldset.php:61
+#: src/Form/TwitterFieldset.php:59 src/Form/ListOfSitesFieldset.php:95
+#: src/Form/TableOfContentsFieldset.php:44 src/Form/ItemShowcaseFieldset.php:38
+#: src/Form/BrowsePreviewFieldset.php:125 src/Form/ResourceTextFieldset.php:89
+#: src/Form/HtmlFieldset.php:32 src/Form/ItemSetShowcaseFieldset.php:61
 #: src/Form/TreeStructureFieldset.php:70 src/Form/BlockFieldset.php:33
 msgid "Template to display"
 msgstr ""
@@ -312,6 +318,24 @@ msgstr ""
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"page-title\"."
+msgstr ""
+
+#: src/Form/TwitterFieldset.php:28
+msgid "Account"
+msgstr ""
+
+#: src/Form/TwitterFieldset.php:38
+msgid "Number of messages"
+msgstr ""
+
+#: src/Form/TwitterFieldset.php:49
+msgid "Display retweets"
+msgstr ""
+
+#: src/Form/TwitterFieldset.php:60
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"twitter\"."
 msgstr ""
 
 #: src/Form/ListOfSitesFieldset.php:15
@@ -506,24 +530,24 @@ msgstr ""
 msgid "Simple Block"
 msgstr ""
 
-#: src/Site/BlockLayout/MirrorPage.php:36
+#: src/Site/BlockLayout/MirrorPage.php:40
 msgid "Mirror page"
 msgstr ""
 
-#: src/Site/BlockLayout/MirrorPage.php:44
+#: src/Site/BlockLayout/MirrorPage.php:48
 msgid "A page should be selected to create a mirror page."
 msgstr ""
 
-#: src/Site/BlockLayout/MirrorPage.php:49
+#: src/Site/BlockLayout/MirrorPage.php:53
 msgid "A mirror page cannot be inside itself."
 msgstr ""
 
-#: src/Site/BlockLayout/MirrorPage.php:57
-#: src/Site/BlockLayout/MirrorPage.php:63
+#: src/Site/BlockLayout/MirrorPage.php:61
+#: src/Site/BlockLayout/MirrorPage.php:67
 msgid "A mirror page cannot use a page that uses it recursively as a block."
 msgstr ""
 
-#: src/Site/BlockLayout/MirrorPage.php:108
+#: src/Site/BlockLayout/MirrorPage.php:112
 #, php-format
 msgid ""
 "Mirror page block #%d of page \"%s\" of site \"%s\" should be updated: it "
@@ -589,6 +613,15 @@ msgstr ""
 msgid "Resource with text"
 msgstr ""
 
+#: src/Site/BlockLayout/Twitter.php:23
+msgid "Twitter"
+msgstr ""
+
+#: src/Site/BlockLayout/Twitter.php:33
+#, php-format
+msgid "The Twitter account \"%s\" has no message currently."
+msgstr ""
+
 #: src/Site/BlockLayout/ExternalContent.php:65
 msgid "External content"
 msgstr ""
@@ -631,6 +664,6 @@ msgstr ""
 msgid "Error reading %s: %s (%s)"
 msgstr ""
 
-#: config/module.config.php:135
+#: config/module.config.php:137
 msgid "Know more"
 msgstr ""

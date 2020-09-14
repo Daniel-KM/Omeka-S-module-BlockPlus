@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-20 00:00+0200\n"
-"PO-Revision-Date: 2020-04-20 00:00+0200\n"
+"POT-Creation-Date: 2020-09-14 00:00+0000\n"
+"PO-Revision-Date: 2020-09-14 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: Module.php:33
 #, php-format
@@ -26,17 +26,17 @@ msgstr "La bibliothèque \"%s\" doit être installée."
 msgid "See module’s installation documentation."
 msgstr "Consulter la documentation d’installation du module."
 
-#: src/Generic/AbstractModule.php:598
+#: src/Generic/AbstractModule.php:601
 #, php-format
 msgid "This module requires the module \"%s\"."
 msgstr "Ce module requiert le module \"%s\"."
 
-#: src/Generic/AbstractModule.php:618
+#: src/Generic/AbstractModule.php:621
 #, php-format
 msgid "This module requires modules \"%s\"."
 msgstr "Ce module requiert les modules \"%s\"."
 
-#: src/Generic/AbstractModule.php:686
+#: src/Generic/AbstractModule.php:689
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
@@ -68,11 +68,11 @@ msgstr ""
 "le début et l’autre pour la fin, pour éviter les problèmes. Les colonnes "
 "peuvent être imbriquées."
 
-#: src/Site/BlockLayout/MirrorPage.php:91
+#: src/Site/BlockLayout/MirrorPage.php:95
 msgid "Choose any page from any site."
 msgstr "Choisir une page de n’importe quel site."
 
-#: src/Site/BlockLayout/MirrorPage.php:92
+#: src/Site/BlockLayout/MirrorPage.php:96
 msgid ""
 "If a page of a private site is selected, it will be hidden on the public "
 "side."
@@ -80,56 +80,62 @@ msgstr ""
 "Si une page d’un site privé est choisie, elle sera cachée dans la partie "
 "publique."
 
-#: src/Site/BlockLayout/MirrorPage.php:93
+#: src/Site/BlockLayout/MirrorPage.php:97
 msgid "The current page and recursive pages are forbidden."
 msgstr ""
 "La page en cours ou qui se trouve récursivement dans une autre page ne peut "
 "être choisie."
 
-#: src/Site/BlockLayout/PageMetadata.php:56
+#: src/Site/BlockLayout/PageMetadata.php:60
 msgid ""
 "This block doesn’t display anything, but store the type and various metadata "
 "about this page for themes."
 msgstr ""
-"Ce bloc n’affiche rien, mais permet d’enregistrer le type de d’autres "
+"Ce bloc n’affiche rien, mais permet d’enregistrer le type et d’autres "
 "métadonnées sur cette page pour les thèmes."
 
-#: src/Site/BlockLayout/PageMetadata.php:66
+#: src/Site/BlockLayout/PageMetadata.php:70
 msgid "expand"
 msgstr "déplier"
 
-#: view/common/block-layout/browse-preview-gallery.phtml:86
+#: view/common/block-layout/browse-preview-gallery.phtml:93
 msgid "More information"
 msgstr "Plus d’infos"
 
-#: Module.php:114 config/module.config.php:88
+#: view/common/block-layout/twitter.phtml:20
+msgid "No message."
+msgstr "Pas de message."
+
+#: Module.php:114 config/module.config.php:90
 msgid "Exhibit"
 msgstr "Exposition"
 
-#: Module.php:115 config/module.config.php:89
+#: Module.php:115 config/module.config.php:91
 msgid "Exhibit page"
 msgstr "Page d’exposition"
 
-#: Module.php:116 config/module.config.php:90
+#: Module.php:116 config/module.config.php:92
 msgid "Simple page"
 msgstr "Simple page"
 
 #: src/Form/ItemWithMetadataFieldset.php:19 src/Form/SearchFormFieldset.php:17
 #: src/Form/SearchResultsFieldset.php:19 src/Form/AssetsFieldset.php:18
-#: src/Form/ExternalContentFieldset.php:16 src/Form/ListOfSitesFieldset.php:27
-#: src/Form/TableOfContentsFieldset.php:17 src/Form/ItemShowcaseFieldset.php:20
-#: src/Form/BrowsePreviewFieldset.php:19 src/Form/ResourceTextFieldset.php:74
-#: src/Form/HtmlFieldset.php:17 src/Form/ItemSetShowcaseFieldset.php:19
+#: src/Form/ExternalContentFieldset.php:16 src/Form/TwitterFieldset.php:17
+#: src/Form/ListOfSitesFieldset.php:27 src/Form/TableOfContentsFieldset.php:17
+#: src/Form/ItemShowcaseFieldset.php:20 src/Form/BrowsePreviewFieldset.php:19
+#: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:17
+#: src/Form/ItemSetShowcaseFieldset.php:19
 #: src/Form/TreeStructureFieldset.php:18 src/Form/BlockFieldset.php:17
 msgid "Block title"
 msgstr "Titre du bloc"
 
 #: src/Form/ItemWithMetadataFieldset.php:20 src/Form/SearchFormFieldset.php:18
 #: src/Form/SearchResultsFieldset.php:20 src/Form/AssetsFieldset.php:19
-#: src/Form/ExternalContentFieldset.php:17 src/Form/ListOfSitesFieldset.php:28
-#: src/Form/TableOfContentsFieldset.php:18 src/Form/ItemShowcaseFieldset.php:21
-#: src/Form/BrowsePreviewFieldset.php:20 src/Form/ResourceTextFieldset.php:75
-#: src/Form/HtmlFieldset.php:18 src/Form/ItemSetShowcaseFieldset.php:20
+#: src/Form/ExternalContentFieldset.php:17 src/Form/TwitterFieldset.php:18
+#: src/Form/ListOfSitesFieldset.php:28 src/Form/TableOfContentsFieldset.php:18
+#: src/Form/ItemShowcaseFieldset.php:21 src/Form/BrowsePreviewFieldset.php:20
+#: src/Form/ResourceTextFieldset.php:75 src/Form/HtmlFieldset.php:18
+#: src/Form/ItemSetShowcaseFieldset.php:20
 #: src/Form/TreeStructureFieldset.php:19 src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
 msgstr "Entête du bloc, si présent."
@@ -137,10 +143,10 @@ msgstr "Entête du bloc, si présent."
 #: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
 #: src/Form/SearchResultsFieldset.php:114 src/Form/AssetsFieldset.php:37
 #: src/Form/ExternalContentFieldset.php:87 src/Form/PageTitleFieldset.php:16
-#: src/Form/ListOfSitesFieldset.php:95 src/Form/TableOfContentsFieldset.php:44
-#: src/Form/ItemShowcaseFieldset.php:38 src/Form/BrowsePreviewFieldset.php:125
-#: src/Form/ResourceTextFieldset.php:89 src/Form/HtmlFieldset.php:32
-#: src/Form/ItemSetShowcaseFieldset.php:61
+#: src/Form/TwitterFieldset.php:59 src/Form/ListOfSitesFieldset.php:95
+#: src/Form/TableOfContentsFieldset.php:44 src/Form/ItemShowcaseFieldset.php:38
+#: src/Form/BrowsePreviewFieldset.php:125 src/Form/ResourceTextFieldset.php:89
+#: src/Form/HtmlFieldset.php:32 src/Form/ItemSetShowcaseFieldset.php:61
 #: src/Form/TreeStructureFieldset.php:70 src/Form/BlockFieldset.php:33
 msgid "Template to display"
 msgstr "Gabarit à afficher"
@@ -350,6 +356,26 @@ msgid ""
 msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"page-title\"."
+
+#: src/Form/TwitterFieldset.php:28
+msgid "Account"
+msgstr "Compte"
+
+#: src/Form/TwitterFieldset.php:38
+msgid "Number of messages"
+msgstr "Nombre de messages"
+
+#: src/Form/TwitterFieldset.php:49
+msgid "Display retweets"
+msgstr "Afficher les retweets"
+
+#: src/Form/TwitterFieldset.php:60
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"twitter\"."
+msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
+"doivent commencer avec \"twitter\"."
 
 #: src/Form/ListOfSitesFieldset.php:15
 msgid "Main site"
@@ -580,26 +606,26 @@ msgstr ""
 msgid "Simple Block"
 msgstr "Bloc simple"
 
-#: src/Site/BlockLayout/MirrorPage.php:36
+#: src/Site/BlockLayout/MirrorPage.php:40
 msgid "Mirror page"
 msgstr "Page miroir"
 
-#: src/Site/BlockLayout/MirrorPage.php:44
+#: src/Site/BlockLayout/MirrorPage.php:48
 msgid "A page should be selected to create a mirror page."
 msgstr "Une page doit être sélectionnée pour créer un bloc Page miroir."
 
-#: src/Site/BlockLayout/MirrorPage.php:49
+#: src/Site/BlockLayout/MirrorPage.php:53
 msgid "A mirror page cannot be inside itself."
 msgstr "Une page mirroir ne peut pas être à l’intérieur d’elle-même."
 
-#: src/Site/BlockLayout/MirrorPage.php:57
-#: src/Site/BlockLayout/MirrorPage.php:63
+#: src/Site/BlockLayout/MirrorPage.php:61
+#: src/Site/BlockLayout/MirrorPage.php:67
 msgid "A mirror page cannot use a page that uses it recursively as a block."
 msgstr ""
 "Une page miroir ne peut pas utiliser une page qui l’utilise récursivement "
 "dans un bloc."
 
-#: src/Site/BlockLayout/MirrorPage.php:108
+#: src/Site/BlockLayout/MirrorPage.php:112
 #, php-format
 msgid ""
 "Mirror page block #%d of page \"%s\" of site \"%s\" should be updated: it "
@@ -669,6 +695,15 @@ msgstr "Métadonnées de la page"
 msgid "Resource with text"
 msgstr "Ressource avec texte"
 
+#: src/Site/BlockLayout/Twitter.php:23
+msgid "Twitter"
+msgstr "Twitter"
+
+#: src/Site/BlockLayout/Twitter.php:33
+#, php-format
+msgid "The Twitter account \"%s\" has no message currently."
+msgstr "Le compte Twitter \"%s\" n’a pas de message actuellement."
+
 #: src/Site/BlockLayout/ExternalContent.php:65
 msgid "External content"
 msgstr "Contenu externe"
@@ -711,7 +746,7 @@ msgstr "Spécification \"%s\" invalide"
 msgid "Error reading %s: %s (%s)"
 msgstr "Erreur lors de la lecture %s: %s (%s)"
 
-#: config/module.config.php:135
+#: config/module.config.php:137
 msgid "Know more"
 msgstr "En savoir plus"
 

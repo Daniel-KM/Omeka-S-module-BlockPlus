@@ -35,7 +35,7 @@ class TwitterFieldset extends Fieldset
                 'name' => 'o:block[__blockIndex__][o:data][limit]',
                 'type' => Element\Number::class,
                 'options' => [
-                    'label' => 'Number of messages ', // @translate
+                    'label' => 'Number of messages', // @translate
                 ],
                 'attributes' => [
                     'id' => 'twitter-limit',
