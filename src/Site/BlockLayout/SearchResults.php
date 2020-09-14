@@ -23,10 +23,14 @@ class SearchResults extends AbstractBlockLayout
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {
-        $data = $block->getData();
-        $query = [];
-        parse_str(ltrim($data['query'], "? \t\n\r\0\x0B"), $query);
-        $data['query'] = $query;
+        $data = $block->getData() + ['query' => []];
+        if (empty($data['query'])) {
+            $data['query'] = [];
+        } elseif (!is_array($data['query'])) {
+            $query = [];
+            parse_str(ltrim($data['query'], "? \t\n\r\0\x0B"), $query);
+            $data['query'] = $query;
+        }
         $block->setData($data);
     }
 

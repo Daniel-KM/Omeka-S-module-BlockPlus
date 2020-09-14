@@ -1,4 +1,5 @@
 <?php
+
 namespace BlockPlus\Site\BlockLayout;
 
 use Omeka\Api\Manager as ApiManager;
@@ -11,6 +12,9 @@ use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 
+/**
+ * This block is copied in \Internationalisation\Site\BlockLayout\MirrorPage.
+ */
 class MirrorPage extends AbstractBlockLayout
 {
     /**
