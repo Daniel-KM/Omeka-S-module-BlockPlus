@@ -96,14 +96,33 @@ class PageMetadata extends AbstractHelper
             case 'main_image':
             // @deprecated Use "main_image", not "first_image".
             case 'first_image':
+                $api = $view->api();
                 $asset = $block->dataValue('cover');
                 if ($asset) {
                     try {
-                        return $view->api()->read('assets', ['id' => $asset])->getContent();
+                        return $api->read('assets', ['id' => $asset])->getContent();
                     } catch (NotFoundException $e) {
                     }
                 }
                 foreach ($page->blocks() as $block) {
+                    $layout = $block->layout();
+                    if ($layout === 'pageMetadata') {
+                        $asset = $block->dataValue('cover');
+                        if ($asset) {
+                            try {
+                                return $api->read('assets', ['id' => $asset])->getContent();
+                            } catch (\Omeka\Api\Exception\NotFoundException $e) {
+                            }
+                        }
+                    } elseif ($layout === 'assets') {
+                        foreach ($block->dataValue('assets', []) as $asset) {
+                            try {
+                                return $api->read('assets', ['id' => $asset['asset']])->getContent();
+                            } catch (\Omeka\Api\Exception\NotFoundException $e) {
+                            }
+                        }
+                        continue;
+                    }
                     foreach ($block->attachments() as $attachment) {
                         $media = $attachment->media();
                         if ($media && ($media->hasThumbnails() || $media->thumbnail())) {
