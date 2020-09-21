@@ -93,9 +93,9 @@ class PageMetadata extends AbstractHelper
             case 'attachments':
                 return $block->attachments();
 
+            case 'main_image':
+            // @deprecated Use "main_image", not "first_image".
             case 'first_image':
-                // First image of the page or of the page metadata ?
-                // TODO Managed item set and other blocks.
                 $asset = $block->dataValue('cover');
                 if ($asset) {
                     try {
@@ -103,27 +103,25 @@ class PageMetadata extends AbstractHelper
                     } catch (NotFoundException $e) {
                     }
                 }
-                $thumbnailUrl = null;
                 foreach ($page->blocks() as $block) {
                     foreach ($block->attachments() as $attachment) {
-                        $thumbnailUrl = $this->thumbnailUrlForAttachment($attachment);
-                        if ($thumbnailUrl) {
-                            break 2;
+                        $media = $attachment->media();
+                        if ($media && ($media->hasThumbnails() || $media->thumbnail())) {
+                            return $media;
+                        }
+                        $item = $attachment->item();
+                        if ($item) {
+                            if ($thumbnail = $item->thumbnail()) {
+                                return $thumbnail;
+                            }
+                            $media = $item->primaryMedia();
+                            if ($media && ($media->hasThumbnails() || $media->thumbnail())) {
+                                return $media;
+                            }
                         }
                     }
                 }
-                if (!$thumbnailUrl) {
-                    return null;
-                }
-                $media = $attachment->media();
-                if (!$media || (!$media->hasThumbnails() && !$media->thumbnail())) {
-                    $item = $attachment->item();
-                    $media = $item->primaryMedia();
-                    if (!$media || (!$media->hasThumbnails() && !$media->thumbnail())) {
-                        return null;
-                    }
-                }
-                return $media;
+                return null;
 
             case 'root':
                 $parents = $this->parentPages($page);
