@@ -24,14 +24,8 @@ directory.
 If the module was installed from the source, rename the name of the folder of
 the module to `BlockPlus`, and go to the root module, and run:
 
-```
-    composer install
-```
-
-The next times:
-
-```
-    composer update
+```sh
+composer install --no-dev
 ```
 
 Then install it like any other Omeka module.
@@ -174,8 +168,8 @@ the pages that use it.
 TODO
 ----
 
-- Merge some similar blocks into a main block (with automatic upgrade).
-- Integrates Shortcodes
+- [ ] Merge some similar blocks into a main block (with automatic upgrade).
+- [ ] Integrates Shortcodes
 
 
 Warning
@@ -238,7 +232,7 @@ Copyright
 [Omeka Classic]: https://omeka.org/classic
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr
-|Twitter]: https://twitter.com
+[Twitter]: https://twitter.com
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
 [BlockPlus.zip]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/issues
