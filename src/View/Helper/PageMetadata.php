@@ -81,9 +81,14 @@ class PageMetadata extends AbstractHelper
                 return (bool) $block->dataValue('featured');
             case 'cover':
                 $asset = $block->dataValue('cover');
-                return $asset
-                    ? $view->api()->searchOne('assets', ['id' => $asset])->getContent()
-                    : null;
+                if (!$asset) {
+                    return null;
+                }
+                try {
+                    return $view->api()->read('assets', ['id' => $asset])->getContent();
+                } catch (NotFoundException $e) {
+                    return null;
+                }
 
             case 'attachments':
                 return $block->attachments();
@@ -93,7 +98,10 @@ class PageMetadata extends AbstractHelper
                 // TODO Managed item set and other blocks.
                 $asset = $block->dataValue('cover');
                 if ($asset) {
-                    return $view->api()->searchOne('assets', ['id' => $asset])->getContent();
+                    try {
+                        return $view->api()->read('assets', ['id' => $asset])->getContent();
+                    } catch (NotFoundException $e) {
+                    }
                 }
                 $thumbnailUrl = null;
                 foreach ($page->blocks() as $block) {
