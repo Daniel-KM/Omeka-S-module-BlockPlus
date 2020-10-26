@@ -187,7 +187,7 @@ your archives regularly so you can roll back if needed.
 Troubleshooting
 ---------------
 
-See online issues on the [module issues] page on GitHub.
+See online issues on the [module issues] page on GitLab.
 
 
 License
@@ -224,11 +224,11 @@ components (modernizr, smartresize, imagesloaded).
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2018-2019 (see [Daniel-KM] on GitHub)
+* Copyright Daniel Berthereau, 2018-2019 (see [Daniel-KM] on GitLab)
 * Copyright Codrops, 2013 ([image gallery], see vendor/ for more infos)
 
 
-[Block Plus]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus
+[Block Plus]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus
 [Omeka S]: https://omeka.org/s
 [Installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
 [shortcode as a page]: https://github.com/omeka/plugin-SimplePages/pull/24
@@ -237,8 +237,8 @@ Copyright
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr
 [Twitter]: https://twitter.com
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
-[BlockPlus.zip]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases
-[module issues]: https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/issues
+[BlockPlus.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/releases
+[module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [FSF]: https://www.fsf.org
@@ -246,4 +246,4 @@ Copyright
 [MIT]: http://http://opensource.org/licenses/MIT
 [image Gallery]: https://github.com/codrops/ThumbnailGridExpandingPreview
 [GitLab]: https://gitlab.com/Daniel-KM
-[Daniel-KM]: https://github.com/Daniel-KM "Daniel Berthereau"
+[Daniel-KM]: https://gitlab.com/Daniel-KM "Daniel Berthereau"
