@@ -2,7 +2,7 @@
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
-use Zend\Form\Fieldset;
+use Laminas\Form\Fieldset;
 
 class PageTitleFieldset extends Fieldset
 {

@@ -5,8 +5,8 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
-use Zend\Navigation\Navigation;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\Navigation\Navigation;
+use Laminas\View\Renderer\PhpRenderer;
 
 class TableOfContents extends AbstractBlockLayout
 {
@@ -50,7 +50,7 @@ class TableOfContents extends AbstractBlockLayout
         $view->pageViewModel->setVariable('displayNavigation', false);
         $nav = $block->page()->site()->publicNav();
 
-        /** @var \Zend\View\Helper\Navigation $container */
+        /** @var \Laminas\View\Helper\Navigation $container */
         $container = $nav->getContainer();
         if ($block->dataValue('root')) {
             $activePage = ['page' => $container, 'depth' => 0];

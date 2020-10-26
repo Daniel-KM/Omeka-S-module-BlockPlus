@@ -1,7 +1,7 @@
 <?php
 namespace BlockPlus\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper to get metadata for all pages of the specified type.
@@ -44,6 +44,6 @@ class PagesMetadata extends AbstractHelper
         $view = $this->getView();
         return isset($view->site)
             ? $view->site
-            : $view->getHelperPluginManager()->get('Zend\View\Helper\ViewModel')->getRoot()->getVariable('site');
+            : $view->getHelperPluginManager()->get('Laminas\View\Helper\ViewModel')->getRoot()->getVariable('site');
     }
 }

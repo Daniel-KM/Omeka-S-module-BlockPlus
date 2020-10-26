@@ -2,8 +2,8 @@
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
-use Zend\Form\Element;
-use Zend\Form\Fieldset;
+use Laminas\Form\Element;
+use Laminas\Form\Fieldset;
 
 class TableOfContentsFieldset extends Fieldset
 {

@@ -3,8 +3,8 @@ namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
 use Omeka\Form\Element\PropertySelect;
-use Zend\Form\Element;
-use Zend\Form\Fieldset;
+use Laminas\Form\Element;
+use Laminas\Form\Fieldset;
 
 class TreeStructureFieldset extends Fieldset
 {

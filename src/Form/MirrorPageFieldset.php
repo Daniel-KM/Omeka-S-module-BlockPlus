@@ -2,7 +2,7 @@
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\SitesPageSelect;
-use Zend\Form\Fieldset;
+use Laminas\Form\Fieldset;
 
 class MirrorPageFieldset extends Fieldset
 {

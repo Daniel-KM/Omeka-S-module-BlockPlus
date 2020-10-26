@@ -3,7 +3,7 @@ namespace BlockPlus\Service\Form\Element;
 
 use BlockPlus\Form\Element\TemplateSelect;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class TemplateSelectFactory implements FactoryInterface
 {

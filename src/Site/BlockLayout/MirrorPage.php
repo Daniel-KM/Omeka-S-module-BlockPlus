@@ -10,7 +10,7 @@ use Omeka\Entity\SitePage;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 
 /**
  * This block is copied in \Internationalisation\Site\BlockLayout\MirrorPage.
@@ -126,7 +126,7 @@ class MirrorPage extends AbstractBlockLayout
         // cases should be fixed.
 
         // @see \Omeka\Controller\Site\PageController::showAction()
-        $contentView = new \Zend\View\Model\ViewModel;
+        $contentView = new \Laminas\View\Model\ViewModel;
         $contentView->setVariable('site', $mirrorPage->site());
         $contentView->setVariable('page', $mirrorPage);
         $contentView->setTemplate('omeka/site/page/content');

@@ -3,7 +3,7 @@ namespace BlockPlus\Service\BlockLayout;
 
 use BlockPlus\Site\BlockLayout\ExternalContent;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class ExternalContentFactory implements FactoryInterface
 {

@@ -4,8 +4,8 @@ namespace BlockPlus\Form;
 use BlockPlus\Form\Element\TemplateSelect;
 use BlockPlus\Form\Element\ThumbnailTypeSelect;
 use Omeka\Form\Element\ItemSetSelect;
-use Zend\Form\Element;
-use Zend\Form\Fieldset;
+use Laminas\Form\Element;
+use Laminas\Form\Fieldset;
 
 class ItemSetShowcaseFieldset extends Fieldset
 {

@@ -9,7 +9,7 @@ use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 
 class Twitter extends AbstractBlockLayout
 {

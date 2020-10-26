@@ -9,8 +9,8 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 
 use Generic\AbstractModule;
 use Omeka\Module\Exception\ModuleCannotInstallException;
-use Zend\EventManager\Event;
-use Zend\EventManager\SharedEventManagerInterface;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\SharedEventManagerInterface;
 
 /**
  * BlockPlus
@@ -88,7 +88,7 @@ class Module extends AbstractModule
                 'required' => false,
                 'filters' => [
                     [
-                        'name' => \Zend\Filter\Callback::class,
+                        'name' => \Laminas\Filter\Callback::class,
                         'options' => [
                             'callback' => [$this, 'stringToKeyValuesPlusDefault'],
                         ],

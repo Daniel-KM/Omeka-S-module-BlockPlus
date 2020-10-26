@@ -9,10 +9,10 @@ use Omeka\File\Downloader;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\HtmlPurifier;
-use Zend\Dom\Query;
-use Zend\Http\Client as HttpClient;
-use Zend\Uri\Http as HttpUri;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\Dom\Query;
+use Laminas\Http\Client as HttpClient;
+use Laminas\Uri\Http as HttpUri;
+use Laminas\View\Renderer\PhpRenderer;
 
 /**
  * Allow to display an external asset that is not a resource or an asset file.

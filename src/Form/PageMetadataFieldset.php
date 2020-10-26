@@ -2,8 +2,8 @@
 namespace BlockPlus\Form;
 
 use Omeka\Form\Element\Asset;
-use Zend\Form\Element;
-use Zend\Form\Fieldset;
+use Laminas\Form\Element;
+use Laminas\Form\Fieldset;
 
 class PageMetadataFieldset extends Fieldset
 {

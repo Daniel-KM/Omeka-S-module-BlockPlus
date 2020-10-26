@@ -4,7 +4,7 @@ namespace BlockPlus\Site\BlockLayout;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 
 class Html extends \Omeka\Site\BlockLayout\Html
 {

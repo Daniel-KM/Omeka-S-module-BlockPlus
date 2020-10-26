@@ -4,8 +4,8 @@ namespace BlockPlus\View\Helper;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
-use Zend\Navigation\Navigation;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Navigation\Navigation;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper to get metadata about the current page.
@@ -211,7 +211,7 @@ class PageMetadata extends AbstractHelper
     protected function navigationForPage(SitePageRepresentation $page)
     {
         $nav = $page->site()->publicNav();
-        /** @var \Zend\Navigation\Navigation $container */
+        /** @var \Laminas\Navigation\Navigation $container */
         $container = $nav->getContainer();
         $navPage = $container->findOneBy('params', ['site-slug' => $page->site()->slug(), 'page-slug' => $page->slug()]);
 
@@ -381,6 +381,6 @@ class PageMetadata extends AbstractHelper
         $view = $this->getView();
         return isset($view->site)
             ? $view->site
-            : $view->getHelperPluginManager()->get('Zend\View\Helper\ViewModel')->getRoot()->getVariable('site');
+            : $view->getHelperPluginManager()->get('Laminas\View\Helper\ViewModel')->getRoot()->getVariable('site');
     }
 }

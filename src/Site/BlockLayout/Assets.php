@@ -8,7 +8,7 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\HtmlPurifier;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 
 class Assets extends AbstractBlockLayout
 {
@@ -96,14 +96,14 @@ class Assets extends AbstractBlockLayout
             // Add fields for repeatable fieldsets with multiple fields.
             if (is_array($value)) {
                 $subFieldsetName = "o:block[__blockIndex__][o:data][$key]";
-                /** @var \Zend\Form\Fieldset $subFieldset */
+                /** @var \Laminas\Form\Fieldset $subFieldset */
                 $subFieldset = $fieldset->get($subFieldsetName);
                 $subFieldsetBaseName = $subFieldsetName . '[__' . substr($key, 0, -1) . 'Index__]';
-                /** @var \Zend\Form\Fieldset $subFieldsetBase */
+                /** @var \Laminas\Form\Fieldset $subFieldsetBase */
                 $subFieldsetBase = $subFieldset->get($subFieldsetBaseName);
                 foreach (array_values($value) as $subKey => $subValue) {
                     $newSubFieldsetName = $subFieldsetName . "[$subKey]";
-                    /** @var \Zend\Form\Fieldset $newSubFieldset */
+                    /** @var \Laminas\Form\Fieldset $newSubFieldset */
                     $newSubFieldset = clone $subFieldsetBase;
                     $newSubFieldset
                         ->setName($newSubFieldsetName)

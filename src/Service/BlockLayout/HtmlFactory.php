@@ -3,7 +3,7 @@ namespace BlockPlus\Service\BlockLayout;
 
 use BlockPlus\Site\BlockLayout\Html;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class HtmlFactory implements FactoryInterface
 {

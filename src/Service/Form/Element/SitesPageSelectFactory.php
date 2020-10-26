@@ -3,7 +3,7 @@ namespace BlockPlus\Service\Form\Element;
 
 use BlockPlus\Form\Element\SitesPageSelect;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class SitesPageSelectFactory implements FactoryInterface
 {
