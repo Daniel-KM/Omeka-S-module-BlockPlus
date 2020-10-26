@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\View\Helper;
 
+use Laminas\Navigation\Navigation;
+use Laminas\View\Helper\AbstractHelper;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
-use Laminas\Navigation\Navigation;
-use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper to get metadata about the current page.
@@ -73,9 +73,8 @@ class PageMetadata extends AbstractHelper
             case 'type_label':
                 $type = $block->dataValue('type');
                 $pageTypes = $view->siteSetting('blockplus_page_types', []);
-                return isset($pageTypes[$type])
-                    ? $pageTypes[$type]
-                    : null;
+                return $pageTypes[$type]
+                    ?? null;
 
             case 'featured':
                 return (bool) $block->dataValue('featured');
@@ -202,9 +201,8 @@ class PageMetadata extends AbstractHelper
                 if ($metadata === 'params_key_value') {
                     return $list;
                 }
-                return isset($list[$metadata])
-                    ? $list[$metadata]
-                    : null;
+                return $list[$metadata]
+                    ?? null;
         }
     }
 

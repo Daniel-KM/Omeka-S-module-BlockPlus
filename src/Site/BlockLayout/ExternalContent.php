@@ -1,6 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Site\BlockLayout;
 
+use Laminas\Dom\Query;
+use Laminas\Http\Client as HttpClient;
+use Laminas\Uri\Http as HttpUri;
+use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
@@ -9,10 +13,6 @@ use Omeka\File\Downloader;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\HtmlPurifier;
-use Laminas\Dom\Query;
-use Laminas\Http\Client as HttpClient;
-use Laminas\Uri\Http as HttpUri;
-use Laminas\View\Renderer\PhpRenderer;
 
 /**
  * Allow to display an external asset that is not a resource or an asset file.
@@ -65,12 +65,12 @@ class ExternalContent extends AbstractBlockLayout
         return 'External content'; // @translate
     }
 
-    public function prepareRender(PhpRenderer $view)
+    public function prepareRender(PhpRenderer $view): void
     {
         $view->headLink()->appendStylesheet($view->assetUrl('css/block-plus.css', 'BlockPlus'));
     }
 
-    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
         /**
          * @see \Omeka\Media\Ingester\OEmbed

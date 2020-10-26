@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Site\BlockLayout;
 
+use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
@@ -8,7 +9,6 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\HtmlPurifier;
-use Laminas\View\Renderer\PhpRenderer;
 
 /**
  * Replace media + html and simplify management of right/left media beside text.
@@ -43,12 +43,12 @@ class ResourceText extends AbstractBlockLayout
         return 'Resource with text'; // @translate
     }
 
-    public function prepareRender(PhpRenderer $view)
+    public function prepareRender(PhpRenderer $view): void
     {
         $view->headLink()->appendStylesheet($view->assetUrl('css/block-plus.css', 'BlockPlus'));
     }
 
-    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
         $data = $block->getData();
         $data['html'] = isset($data['html'])

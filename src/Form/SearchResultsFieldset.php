@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
-use Omeka\Form\Element\PropertySelect;
-use Omeka\Form\Element\ResourceTemplateSelect;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
+use Omeka\Form\Element\PropertySelect;
+use Omeka\Form\Element\ResourceTemplateSelect;
 
 class SearchResultsFieldset extends Fieldset
 {
-    public function init()
+    public function init(): void
     {
         $this
             ->add([

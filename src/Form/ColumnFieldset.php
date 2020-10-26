@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Form;
 
 use Laminas\Form\Element;
@@ -6,7 +6,7 @@ use Laminas\Form\Fieldset;
 
 class ColumnFieldset extends Fieldset
 {
-    public function init()
+    public function init(): void
     {
         // TODO Use radio, but they are not automatically populated, except last one.
 

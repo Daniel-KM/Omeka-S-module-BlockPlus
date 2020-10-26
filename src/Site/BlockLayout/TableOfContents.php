@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Site\BlockLayout;
 
+use Laminas\Navigation\Navigation;
+use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
-use Laminas\Navigation\Navigation;
-use Laminas\View\Renderer\PhpRenderer;
 
 class TableOfContents extends AbstractBlockLayout
 {

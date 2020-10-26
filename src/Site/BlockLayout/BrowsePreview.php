@@ -1,13 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Site\BlockLayout;
 
+use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
-use Laminas\View\Renderer\PhpRenderer;
 
 class BrowsePreview extends AbstractBlockLayout
 {
@@ -21,7 +21,7 @@ class BrowsePreview extends AbstractBlockLayout
         return 'Browse preview'; // @translate
     }
 
-    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
         $data = $block->getData();
         $data['query'] = ltrim($data['query'], "? \t\n\r\0\x0B");

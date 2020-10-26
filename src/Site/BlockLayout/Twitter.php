@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Site\BlockLayout;
 
+use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
@@ -9,7 +10,6 @@ use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
-use Laminas\View\Renderer\PhpRenderer;
 
 class Twitter extends AbstractBlockLayout
 {
@@ -23,10 +23,10 @@ class Twitter extends AbstractBlockLayout
         return 'Twitter'; // @translate
     }
 
-    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
         $data = $block->getData();
-        $account = isset($data['account']) ? $data['account'] : '';
+        $account = $data['account'] ?? '';
         $messages = $this->fetchMessages($account);
         if ($account && !count($messages)) {
             $messenger = new Messenger;

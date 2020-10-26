@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
@@ -7,7 +7,7 @@ use Laminas\Form\Fieldset;
 
 class BlockFieldset extends Fieldset
 {
-    public function init()
+    public function init(): void
     {
         $this
             ->add([

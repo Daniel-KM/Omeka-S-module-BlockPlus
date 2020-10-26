@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus;
 
 if (!class_exists(\Generic\AbstractModule::class)) {
@@ -8,9 +8,9 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 }
 
 use Generic\AbstractModule;
-use Omeka\Module\Exception\ModuleCannotInstallException;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
+use Omeka\Module\Exception\ModuleCannotInstallException;
 
 /**
  * BlockPlus
@@ -22,7 +22,7 @@ class Module extends AbstractModule
 {
     const NAMESPACE = __NAMESPACE__;
 
-    protected function preInstall()
+    protected function preInstall(): void
     {
         $js = __DIR__ . '/asset/vendor/ThumbnailGridExpandingPreview/js/grid.js';
         if (!file_exists($js)) {
@@ -37,7 +37,7 @@ class Module extends AbstractModule
         }
     }
 
-    public function attachListeners(SharedEventManagerInterface $sharedEventManager)
+    public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
         // Order blocks alphabetically (translated), except html.
         $sharedEventManager->attach(
@@ -58,7 +58,7 @@ class Module extends AbstractModule
         );
     }
 
-    public function handleSiteSettings(Event $event)
+    public function handleSiteSettings(Event $event): void
     {
         parent::handleSiteSettings($event);
 
@@ -79,7 +79,7 @@ class Module extends AbstractModule
             ->setValue($value);
     }
 
-    public function handleSiteSettingsFilters(Event $event)
+    public function handleSiteSettingsFilters(Event $event): void
     {
         $inputFilter = $event->getParam('inputFilter');
         $inputFilter->get('blockplus')
@@ -119,7 +119,7 @@ class Module extends AbstractModule
         return $result + $defaults;
     }
 
-    public function handleRegisteredNamesBlockLayout(Event $event)
+    public function handleRegisteredNamesBlockLayout(Event $event): void
     {
         $services = $this->getServiceLocator();
         $manager = $services->get('Omeka\BlockLayoutManager');

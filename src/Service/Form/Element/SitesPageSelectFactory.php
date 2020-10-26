@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Service\Form\Element;
 
 use BlockPlus\Form\Element\SitesPageSelect;

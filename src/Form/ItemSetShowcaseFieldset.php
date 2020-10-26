@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
 use BlockPlus\Form\Element\ThumbnailTypeSelect;
-use Omeka\Form\Element\ItemSetSelect;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
+use Omeka\Form\Element\ItemSetSelect;
 
 class ItemSetShowcaseFieldset extends Fieldset
 {
-    public function init()
+    public function init(): void
     {
         $this
             ->add([

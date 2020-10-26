@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace BlockPlus\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
