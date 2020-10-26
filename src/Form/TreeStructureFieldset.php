@@ -72,6 +72,7 @@ class TreeStructureFieldset extends Fieldset
                     'template' => 'common/block-layout/tree-structure',
                 ],
                 'attributes' => [
+                    'id' => 'tree-structure-template',
                     'class' => 'chosen-select',
                 ],
             ])
