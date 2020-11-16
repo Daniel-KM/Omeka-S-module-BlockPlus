@@ -61,7 +61,7 @@ class BrowsePreview extends AbstractBlockLayout
 
         // The trim is kept for compatibility with old core blocks.
         $query = [];
-        parse_str(ltrim($block->dataValue('query'), "? \t\n\r\0\x0B"), $query);
+        parse_str(ltrim((string) $block->dataValue('query'), "? \t\n\r\0\x0B"), $query);
         $originalQuery = $query;
 
         $site = $block->page()->site();
