@@ -15,7 +15,7 @@ $thumbnail = $plugins->get('thumbnail');
     <h2><?= $heading ?></h2>
     <?php endif; ?>
 
-<?php foreach($attachments as $attachment): ?>
+<?php foreach ($attachments as $attachment): ?>
     <?php $item = $attachment->item(); ?>
     <?php if (empty($item)) continue; ?>
     <div class="resource show">
@@ -35,7 +35,7 @@ $thumbnail = $plugins->get('thumbnail');
         <?php
         foreach ($medias as $media):
             echo $media->linkRaw($thumbnail($media, 'medium', ['title' => $media->displayTitle()]), null, [
-                'class' => 'media resource'
+                'class' => 'media resource',
             ]);
         endforeach;
         ?>

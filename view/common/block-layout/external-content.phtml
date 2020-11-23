@@ -25,7 +25,7 @@ $hyperlink = $plugins->get('hyperlink');
 
 <div class="<?= $alignmentClass . ' captions-' . $captionPosition ?> media file">
     <div class="embeds attachments">
-<?php foreach($embeds as $embed): ?>
+<?php foreach ($embeds as $embed): ?>
     <div class="item resource">
     <?php
     $data = $embed['data'];
@@ -56,7 +56,7 @@ $hyperlink = $plugins->get('hyperlink');
         <?php endif; ?>
     <?php endif; ?>
 
-    <?php $caption = isset($data['caption']) ? $data['caption'] : null; ?>
+    <?php $caption = $data['caption'] ?? null; ?>
     <?php if ($caption): ?>
         <div class="caption">
             <?= $caption ?>
