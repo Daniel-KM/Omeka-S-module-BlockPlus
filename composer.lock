@@ -11,7 +11,7 @@
             "version": "0.1",
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.1.zip"
+                "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.1.zip"
             },
             "type": "library"
         },
