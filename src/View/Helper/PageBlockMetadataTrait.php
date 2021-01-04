@@ -33,6 +33,9 @@ trait PageBlockMetadataTrait
             case 'slug':
                 return $page()->slug();
 
+            case 'theme_dir':
+                return OMEKA_PATH . '/themes/' . $this->currentSite()->theme();
+
             case 'type':
             case 'credits':
             case 'summary':
