@@ -2,7 +2,8 @@ Block Plus (module for Omeka S)
 ===============================
 
 > __New versions of this module and support for Omeka S version 3.0 and above
-> are available on [GitLab], which seems to respect users and privacy better.__
+> are available on [GitLab], which seems to respect users and privacy better
+> than the previous repository.__
 
 [Block Plus ] is a module for [Omeka S] that adds some new blocks for the static
 pages and improves some of the existing ones.
@@ -58,32 +59,62 @@ To manage multiple types, it’s generally required to edit the template "view/o
 of your theme and to add a check:
 
 ```php
+// A simple check is done to make the theme more generic.
 $pageMetadata = $plugins->has('pageMetadata') ? $plugins->get('pageMetadata') : null;
-$type = $pageMetadata('type') ?: null;
-switch ($type):
-    case 'home':
-        $class = 'home';
-        // Specific html code…
-        break;
-    case 'exhibit':
-        $class = 'exhibit';
-        // Specific html code…
-        break;
-    case 'exhibit_page':
-        $class = 'exhibit-page';
-        // Specific html code…
-        break;
-    case 'simple':
-        $class = 'simple-page';
-        // Specific html code…
-        break;
-    default:
-        // Generic html code…
-        $class = 'page';
-        break;
-endswitch;
-$this->htmlElement('body')->appendAttribute('class', $class);
-// …
+if ($pageMetadata):
+    $type = $pageMetadata('type') ?: null;
+    switch ($type):
+        case 'home':
+            $class = 'home';
+            // Specific html code…
+            break;
+        case 'exhibit':
+            $class = 'exhibit';
+            // Specific html code…
+            break;
+        case 'exhibit_page':
+            $class = 'exhibit-page';
+            // Specific html code…
+            break;
+        case 'simple':
+            $class = 'simple-page';
+            // Specific html code…
+            break;
+        default:
+            // Generic html code…
+            $class = 'page';
+            break;
+    endswitch;
+    $this->htmlElement('body')->appendAttribute('class', $class);
+    // …
+endif;
+```
+
+### Pages Metadata
+
+This view helper allows to get the data of all pages of the same type in the
+current site. For example, you can get all "exhibit_page". Multiple types can be
+retrieved at once.
+
+```php
+// A simple check is done to make the theme more generic.
+$pagesMetadata = $plugins->has('pagesMetadata') ? $plugins->get('pagesMetadata') : null;
+if ($pagesMetadata):
+    $data = $pagesMetadata('exhibit_page');
+endif;
+```
+
+### Block Metadata
+
+This view helper provides the same information than `pageMetadata()`, but from a
+block. It is usefull with the simple block to extract params.
+
+```php
+// A simple check is done to make the theme more generic.
+$blockMetadata = $plugins->has('blockMetadata') ? $plugins->get('blockMetadata') : null;
+if ($blockMetadata):
+    $data = $blockMetadata('params_key_value');
+endif;
 ```
 
 ### Assets
@@ -97,6 +128,21 @@ allow to display any list of contents.
 A simple block allow to display a template from the theme. It may be used for a
 static html content, like a list of partners, or a complex layout, since any
 Omeka feature is available in a view.
+
+An example layout is provided to display a dynamic tree view from a tsv/csv
+file. The file should be one value by a row, with the offset matching the depth:
+
+```
+Asia
+        Japan
+                Tokyo
+Europe
+        France
+                Paris
+        Italy
+                Roma
+                Florence
+```
 
 ### Mirror page
 
@@ -224,7 +270,7 @@ components (modernizr, smartresize, imagesloaded).
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2018-2019 (see [Daniel-KM] on GitLab)
+* Copyright Daniel Berthereau, 2018-2021 (see [Daniel-KM] on GitLab)
 * Copyright Codrops, 2013 ([image gallery], see vendor/ for more infos)
 
 
