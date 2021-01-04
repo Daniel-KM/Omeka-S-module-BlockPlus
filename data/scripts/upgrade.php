@@ -42,7 +42,7 @@ SQL;
     $connection->exec($sql);
 }
 
-if (version_compare($oldVersion, '3.0.10', '<')) {
+if (version_compare($oldVersion, '3.3.11.3', '<')) {
     $sql = <<<'SQL'
 UPDATE site_page_block
 SET layout = "mirrorPage"
@@ -51,7 +51,13 @@ SQL;
     $connection->exec($sql);
     $sql = <<<'SQL'
 UPDATE site_page_block
-SET layout = "embedText"
+SET layout = "externalContent"
+WHERE layout = "embedText";
+SQL;
+    $connection->exec($sql);
+    $sql = <<<'SQL'
+UPDATE site_page_block
+SET data = REPLACE(data, "/embed-text", "/external-content")
 WHERE layout = "externalContent";
 SQL;
     $connection->exec($sql);
