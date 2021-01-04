@@ -5,6 +5,7 @@
  * @var string $resourceType
  * @var string $heading
  * @var string $linkText
+ * @var array $components
  * @var array $query
  * @var array $sortHeadings
  * @var array|false $pagination
@@ -22,6 +23,10 @@ $hyperlink = $plugins->get('hyperlink');
 $url = $plugins->get('url');
 // Append in header is not possible with browse preview, so css and js are set in body, even if it is not standard.
 $assetUrl = $plugins->get('assetUrl');
+
+// $showThumbnail = in_array('thumbnail', $components);
+$showHeading = in_array('resource-heading', $components);
+$showBody = in_array('resource-body', $components);
 ?>
 
 <div class="block preview-block">
@@ -86,14 +91,18 @@ $assetUrl = $plugins->get('assetUrl');
                     $mediaLarge = str_replace('/' . $thumbnailSize . '/', '/large/', $mediaThumbnail);
                 endif;
 
-                $heading = $resource->displayTitle($untitled);
+                $heading = $showHeading ? $resource->displayTitle($untitled) : '';
 
-                $body = $resource->displayDescription();
-                $body .= '<p>'
-                    . $translate('More information')
-                    . '<br/>'
-                    . $resource->linkPretty()
-                    . '</p>';
+                if ($showBody):
+                    $body = $resource->displayDescription();
+                    $body .= '<p>'
+                        . $translate('More information')
+                        . '<br/>'
+                        . $resource->linkPretty()
+                        . '</p>';
+                else:
+                    $body = '';
+                endif;
             ?>
             <li>
                 <a href="#" data-largesrc="<?= $mediaLarge ?>" data-title="<?= $heading ?>" data-description="<?= $escapeAttr($body) ?>">

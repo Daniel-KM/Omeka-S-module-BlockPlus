@@ -50,6 +50,8 @@ class ListOfSites extends AbstractBlockLayout
         $limit = $block->dataValue('limit');
         $pagination = $limit && $block->dataValue('pagination', false);
         $summaries = $block->dataValue('summaries', true);
+        // Support of default settings in case of an update.
+        $excludeCurrent = $block->dataValue('exclude_current', $this->defaults['exclude_current']);
 
         $data = [];
         if ($pagination) {
@@ -58,6 +60,10 @@ class ListOfSites extends AbstractBlockLayout
             $data['per_page'] = $limit;
         } elseif ($limit) {
             $data['limit'] = $limit;
+        }
+
+        if ($excludeCurrent) {
+            $data['exclude_id'] = $block->page()->site()->id();
         }
 
         switch ($sort) {
@@ -74,24 +80,29 @@ class ListOfSites extends AbstractBlockLayout
                 break;
         }
 
+        // The standard block uses exclude_current only, but it is possible to
+        // exclude main, current, and translated sites here.
         $exclude = $block->dataValue('exclude');
         if ($exclude) {
-            $sites = $this->limitSites($view, $data, $exclude);
-        } else {
-            $response = $view->api()->search('sites', $data);
-            if ($pagination) {
-                $totalCount = $response->getTotalResults();
-                $view->pagination(null, $totalCount, $currentPage, $limit);
-            }
-            $sites = $response->getContent();
+            $data = $this->includedSites($view, $data, $exclude, $block);
+            $data = count($data) ? ['id' => $data] : ['id' => 0];
         }
+
+        $response = $view->api()->search('sites', $data);
+
+        if ($pagination) {
+            $totalCount = $response->getTotalResults();
+            $view->pagination(null, $totalCount, $currentPage, $limit);
+        }
+
+        $sites = $response->getContent();
 
         $vars = [
             'heading' => $block->dataValue('heading', ''),
             'sites' => $sites,
-            'currentSite' => $block->page()->site(),
-            'summaries' => $summaries,
             'pagination' => $pagination,
+            'summaries' => $summaries,
+            'currentSite' => $block->page()->site(),
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);
         return $view->resolver($template)
@@ -100,14 +111,17 @@ class ListOfSites extends AbstractBlockLayout
     }
 
     /**
-     * Get the list of sites without excluded sites.
+     * Get the list of sites without excluded sites (main, current, translateds).
+     *
+     * Standard site adapter can exclude only one site.
      *
      * @param PhpRenderer $view
      * @param array $query
      * @param array $exclude
-     * @return \Omeka\Api\Representation\SiteRepresentation[]
+     * @param SitePageBlockRepresentation $block
+     * @return int[]
      */
-    protected function limitSites(PhpRenderer $view, array $query, array $exclude)
+    protected function includedSites(PhpRenderer $view, array $query, array $exclude, SitePageBlockRepresentation $block): array
     {
         // Because the number of sites is generally small (less than 100),
         // because when the number of sites is bigger (more than 1000) the
@@ -119,7 +133,7 @@ class ListOfSites extends AbstractBlockLayout
         $sitesToExclude = [];
 
         /** @var \Omeka\Api\Representation\SiteRepresentation $currentSite */
-        $currentSite = $view->vars('site');
+        $currentSite = $block->page()->site();
 
         // The view api() doesn't allow to return scalar or any other options,
         // so the full api is used.
@@ -127,8 +141,6 @@ class ListOfSites extends AbstractBlockLayout
         $api = $services->get('Omeka\ApiManager');
 
         $data = $query;
-        $pagination = !empty($query['page']);
-        $limit = $pagination ? (int) $query['per_page'] : (int) @$query['limit'];
 
         unset($data['page']);
         unset($data['per_page']);
@@ -188,28 +200,6 @@ class ListOfSites extends AbstractBlockLayout
         }
 
         $sitesToExclude = array_unique($sitesToExclude);
-        $siteIds = array_diff($siteIds, $sitesToExclude);
-
-        if ($pagination) {
-            $page = $query['page'];
-            $offset = ($page - 1) * $limit;
-            $view->pagination(null, count($siteIds), $page, $limit);
-            $siteIds = array_slice($siteIds, $offset, $limit);
-        } elseif ($limit) {
-            $siteIds = array_slice($siteIds, 0, $limit);
-        }
-
-        /** @var \Omeka\Api\Adapter\SiteAdapter $siteAdapter */
-        $adapter = $services->get('Omeka\ApiAdapterManager')->get('sites');
-        $repository = $adapter->getEntityManager()->getRepository(\Omeka\Entity\Site::class);
-        $order = [$query['sort_by'] => empty($query['sort_order']) ? 'asc' : $query['sort_order']];
-        $sites = $repository->findBy(['id' => $siteIds], $order);
-
-        // Convert to an array of representations.
-        $sites = array_map(function ($v) use ($adapter) {
-            return $adapter->getRepresentation($v);
-        }, $sites);
-
-        return $sites;
+        return array_diff($siteIds, $sitesToExclude);
     }
 }

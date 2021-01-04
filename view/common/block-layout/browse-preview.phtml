@@ -5,6 +5,7 @@
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var string $heading
  * @var string $linkText
+ * @var array $components
  * @var array $query
  * @var array $sortHeadings
  * @var array|false $pagination
@@ -12,8 +13,8 @@
 
 $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
+$escape = $plugins->get('escapeHtml');
 $thumbnail = $plugins->get('thumbnail');
-$siteSetting = $plugins->get('siteSetting');
 ?>
 
 <div class="block preview-block">
@@ -30,18 +31,25 @@ $siteSetting = $plugins->get('siteSetting');
 
 <ul class="resource-list preview">
 <?php
-$headingTerm = $siteSetting('browse_heading_property_term', 'dcterms:title');
-$bodyTerm = $siteSetting('browse_body_property_term', 'dcterms:description');
+$showThumbnail = in_array('thumbnail', $components);
+$showHeading = in_array('resource-heading', $components);
+$showBody = in_array('resource-body', $components);
+$headingTerm = $this->siteSetting('browse_heading_property_term');
+$bodyTerm = $this->siteSetting('browse_body_property_term');
 $untitled = $translate('[Untitled]');
 foreach ($resources as $resource):
-    $heading = $resource->value($headingTerm, ['default' => $untitled]);
-    $body = $resource->value($bodyTerm);
+    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled]) : $resource->displayTitle();
+    $body = $bodyTerm ? $resource->value($bodyTerm) : $resource->displayDescription();
 ?>
     <li class="<?= $resourceType ?> resource">
+        <?php if ($showThumbnail): ?>
         <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
+        <?php endif; ?>
+        <?php if ($showHeading): ?>
         <h4><?= $resource->link($heading) ?></h4>
-        <?php if ($body): ?>
-        <div class="description"><?= $body ?></div>
+        <?php endif; ?>
+        <?php if ($showBody && $body): ?>
+        <div class="description"><?= $escape($body) ?></div>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>

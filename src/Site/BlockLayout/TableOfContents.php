@@ -67,7 +67,12 @@ class TableOfContents extends AbstractBlockLayout
         foreach ($pages as $page) {
             $newPages[] = $page->toArray();
         }
-        $subNav = new Navigation($newPages);
+        try {
+            $subNav = new Navigation($newPages);
+        } catch (\Laminas\Navigation\Exception\InvalidArgumentException $e) {
+            $view->logger()->err($e->getMessage());
+            $subNav = new Navigation([]);
+        }
 
         $depth = (int) $block->dataValue('depth', 1);
 

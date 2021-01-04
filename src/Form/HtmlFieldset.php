@@ -26,6 +26,14 @@ class HtmlFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][divclass]',
+                'type' => Element\Text::class,
+                'options' => [
+                    'label' => 'Class', // @translate
+                    'info' => 'Optional CSS class for styling HTML.', // @translate
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
                 'type' => TemplateSelect::class,
                 'options' => [

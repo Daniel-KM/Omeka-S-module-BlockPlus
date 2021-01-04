@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
@@ -60,6 +61,28 @@ class BrowsePreviewFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'browse-preview-limit',
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][components]',
+                'type' => Element\MultiCheckbox::class,
+                'options' => [
+                    'label' => 'Components', // @translate
+                    'info' => 'Components to display for each resource. If not set in Site Settings, Heading defaults to resource Title and Body to resource Description', // @translate
+                    'value_options' => [
+                        [
+                            'value' => 'resource-heading',
+                            'label' => 'Heading', // @translate
+                        ],
+                        [
+                            'value' => 'resource-body',
+                            'label' => 'Body', // @translate
+                        ],
+                        [
+                            'value' => 'thumbnail',
+                            'label' => 'Thumbnail', // @translate
+                        ],
+                    ],
                 ],
             ])
             ->add([

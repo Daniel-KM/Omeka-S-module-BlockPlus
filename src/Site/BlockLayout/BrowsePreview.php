@@ -98,6 +98,13 @@ class BrowsePreview extends AbstractBlockLayout
             $query['sort_order'] = 'desc';
         }
 
+        //Show all resource components if none set
+        if (empty($block->dataValue('components'))) {
+            $components = ['resource-heading', 'resource-body', 'thumbnail'];
+        } else {
+            $components = $block->dataValue('components');
+        }
+
         /** @var \Omeka\Api\Response $response */
         $api = $view->api();
         $response = $api->search($resourceType, $query);
@@ -174,6 +181,7 @@ class BrowsePreview extends AbstractBlockLayout
             'resources' => $resources,
             'heading' => $block->dataValue('heading'),
             'linkText' => $linkText,
+            'components' => $components,
             'query' => $originalQuery,
             'pagination' => $pagination,
             'sortHeadings' => $sortHeadings,

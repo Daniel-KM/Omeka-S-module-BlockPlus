@@ -116,6 +116,11 @@ return [
                 'resource_type' => 'items',
                 'query' => '',
                 'limit' => 12,
+                'components' => [
+                    'resource-heading',
+                    'resource-body',
+                    'thumbnail',
+                ],
                 'pagination' => false,
                 'sort_headings' => [],
                 'resource_template' => null,
@@ -141,6 +146,7 @@ return [
             'html' => [
                 'heading' => '',
                 'html' => '',
+                'divclass' => '',
                 'template' => '',
             ],
             'itemSetShowcase' => [
@@ -166,12 +172,18 @@ return [
                 'heading' => '',
                 'sort' => 'alpha',
                 'limit' => null,
+                // The standard block uses exclude_current only.
                 'exclude' => [
+                    // 'current',
+                    // 'main',
+                    // 'translated',
                 ],
                 'pagination' => false,
                 'summaries' => true,
                 'template' => '',
             ],
+            // Media embed is not available in BlockPlus.
+            // 'media' => [],
             'pageMetadata' => [
                 'type' => '',
                 'credits' => '',
