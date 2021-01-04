@@ -6,9 +6,17 @@
  * @var string $params
  */
 
-// Fill this partial as you want. Use params if any.
-// The view is available, so any feature can be used.
-// Warning: check security of any user input.
+/*
+ Fill this partial as you want. The view is available, so any feature can be used.
+
+ Use params if any. Access to them:
+ - as a whole: $params
+ - as a decoded json: $this->blockMetadata('params_json', $block)
+ - as a list of keys-values: $this->blockMetadata('params_key_value', $block)
+ - a specific key of the list of keys-values: $this->blockMetadata('my_key', $block)
+
+ Warning: check security of any user input.
+ */
 
 $escape = $this->plugin('escapeHtml');
 ?>

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus;
 
 return [
@@ -9,6 +10,7 @@ return [
     ],
     'view_helpers' => [
         'invokables' => [
+            'blockMetadata' => View\Helper\BlockMetadata::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
         ],
