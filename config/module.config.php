@@ -249,7 +249,10 @@ return [
                 'account' => '',
                 'limit' => 1,
                 'retweet' => false,
+                'authorization' => '',
                 'template' => '',
+                // Account data are stored because the id is required in Twitter api v2.
+                'account_data' => [],
             ],
         ],
     ],

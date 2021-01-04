@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Site\BlockLayout;
 
+use Laminas\Http\ClientStatic;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
@@ -18,6 +20,21 @@ class Twitter extends AbstractBlockLayout
      */
     const PARTIAL_NAME = 'common/block-layout/twitter';
 
+    /**
+     * The user agent should be allowed by Twitter.
+     */
+    const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/96.0';
+
+    /**
+     * From https://github.com/TufayelLUS/Twitter-Tweet-Scraper-API-PHP
+     */
+    const AUTHORIZATION_BEARER_TOKEN = 'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA';
+
+    /**
+     * @var string
+     */
+    protected $token;
+
     public function getLabel()
     {
         return 'Twitter'; // @translate
@@ -25,13 +42,37 @@ class Twitter extends AbstractBlockLayout
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
+        $messenger = new Messenger;
+
         $data = $block->getData();
-        $account = $data['account'] ?? '';
-        $messages = $this->fetchMessages($account);
-        if ($account && !count($messages)) {
-            $messenger = new Messenger;
-            $messenger->addWarning(new Message('The Twitter account "%s" has no message currently.', $account)); // @translate
+
+        if (empty(empty($data['authorization']))) {
+            $messenger->addWarning('No authorization token is set, so the default one is used.'); // @translate
+        } else {
+            $this->token = $data['authorization'];
         }
+
+        $account = $data['account'] ?? '';
+        if ($account) {
+            $accountData = $this->fetchAccountData($account);
+            if (empty($accountData)) {
+                $messenger->addError(new Message('The Twitter account "%s" is not available.', $account)); // @translate
+            } elseif (isset($accountData['error'])) {
+                $messenger->addError(new Message('The Twitter account "%s" is not available: %s', $account, $accountData['error'])); // @translate
+            } else {
+                $messages = $this->fetchMessages($accountData);
+                if (count($messages)) {
+                    $messenger->addSuccess(new Message('The Twitter account "%s" is available and have messages.', $account)); // @translate
+                } else {
+                    $messenger->addWarning(new Message('The Twitter account "%s" is available, but has no message currently, or the rate limit has been reached.', $account)); // @translate
+                }
+            }
+        } else {
+            $messenger->addError(new Message('A Twitter account is required to fetch messages.', $account)); // @translate
+            $accountData = null;
+        }
+        $data['account_data'] = $accountData;
+        $block->setData($data);
     }
 
     public function form(
@@ -62,10 +103,25 @@ class Twitter extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $vars = $block->data();
+
+        $this->token = $vars['authorization'] ?? null;
+
+        $accountData = empty($vars['account_data'])
+            ? $this->fetchAccountData(empty($vars['account']) ? null : $vars['account'])
+            : $vars['account_data'];
+        if (empty($accountData) || !empty($accountData['error'])) {
+            $view->logger()->err(new Message(
+                'The twitter block for page "%s" in site "%s" has no account set.', // @translate
+                $block->page()->slug(),
+                $block->page()->site()->slug()
+            ));
+            return '';
+        }
+
         $vars = [
             'heading' => $vars['heading'],
-            'account' => $vars['account'],
-            'messages' => $this->fetchMessages($vars['account'], $vars['limit'], $vars['retweet']),
+            'account' => $accountData,
+            'messages' => $this->fetchMessages($accountData, $vars['limit'], $vars['retweet'], $view),
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);
         return $view->resolver($template)
@@ -79,112 +135,191 @@ class Twitter extends AbstractBlockLayout
         return $block->dataValue('title', '');
     }
 
-    protected function fetchMessages($account, $limit = 1, $retweet = false)
+    protected function fetchAccountData(?string $account, ?PhpRenderer $view = null): ?array
     {
-        if (empty($account) || $limit <= 0) {
+        if (empty($account)) {
+            return null;
+        }
+
+        // TODO Use twitter api v2.
+        $response = $this->fetchTwitterUrl(
+            'https://api.twitter.com/graphql/jMaTS-_Ea8vh9rpKggJbCQ/UserByScreenName',
+            [
+                'variables' => json_encode([
+                    'screen_name' => (string) $account,
+                    'withHighlightedLabel' => true,
+                ]),
+            ],
+            $view
+        );
+
+        if (empty($response)) {
+            return null;
+        }
+
+        if (!empty($response['error'])) {
+            return $response;
+        }
+
+        return [
+            'account' => $account,
+            'id' => $response['data']['user']['rest_id'],
+            'url' => 'https://twitter.com/' . $response['data']['user']['legacy']['screen_name'],
+            'fullname' => $response['data']['user']['legacy']['screen_name'],
+            'avatar' => [
+                'img' => $response['data']['user']['legacy']['profile_image_url_https'],
+            ],
+        ];
+    }
+
+    protected function fetchMessages(array $accountData, $limit = 1, $retweet = false, PhpRenderer $view = null): array
+    {
+        if (empty($accountData['id']) || $limit <= 0) {
             return [];
         }
+
+        $accountId = $accountData['id'];
+        $account = $accountData['account'];
 
         // The process fetched directly the web page in order to avoid to add a
         // specific package and to avoid to create credential keys in Twitter.
         // It is possible only with the mobile page, that doesn't use ajax.
-        $url = 'https://mobile.twitter.com/' . $account;
-        $html = file_get_contents($url);
-        if (empty($html)) {
+        // This is no more supported since December 2020, neither any direct
+        // query without javascript.
+        // @see https://stackoverflow.com/questions/65403350/how-can-i-scrape-twitter-now-that-they-require-javascript
+
+        // See previous version for extraction of last tweets from the xml of
+        // mobile.
+
+        // The canonical url is lower case.
+        // $url = 'https://mobile.twitter.com/' . mb_strtolower($account);
+        // $html = @file_get_contents($url);
+
+        $response = $this->fetchTwitterUrl(
+            'https://api.twitter.com/2/timeline/profile/' . $accountId . '.json',
+            [
+                'variables' => json_encode([
+                    'include_profile_interstitial_type' => 1,
+                    'include_blocking' => 1,
+                    'include_blocked_by' => 1,
+                    'include_followed_by' => 1,
+                    'include_want_retweets' => $retweet,
+                    'include_mute_edge' => 1,
+                    'include_can_dm' => 1,
+                    'include_can_media_tag' => 1,
+                    'skip_status' => 1,
+                    'cards_platform' => 'Web-12',
+                    'include_cards' => 1,
+                    'include_ext_alt_text' => 1,
+                    'include_quote_count' => 1,
+                    'include_reply_count' => 1,
+                    'tweet_mode' => 'extended',
+                    'include_entities' => 1,
+                    'include_user_entities' => 1,
+                    'include_ext_media_color' => 1,
+                    'include_ext_media_availability' => 1,
+                    'send_error_codes' => 1,
+                    'simple_quoted_tweet' => 1,
+                    'include_tweet_replies' => 0,
+                    'count' => $limit,
+                    'userId' => $accountId,
+                    'ext' => 'mediaStats,highlightedLabel',
+                ]),
+            ],
+            $view
+        );
+        if (empty($response) || empty($response['timeline']['instruction'][0]['addEntries']['entries'])) {
             return [];
         }
 
-        $result = [];
-
-        // The links are rebuild for the main site.
-        $baseUrl = 'https://twitter.com';
-
-        libxml_use_internal_errors(true);
-        $doc = new \DOMDocument();
-        $doc->loadHTML($html, LIBXML_BIGLINES | LIBXML_COMPACT | LIBXML_NOENT | LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_NOCDATA);
-        $doc->preserveWhiteSpace = false;
-        $xpath = new \DOMXPath($doc);
+        $escape = $view->plugin('escapeHtml');
+        $baseUrl = 'https://twitter.com/';
 
         $result = [];
-        $query = '//div[@class="timeline"]/table[normalize-space(@class)="tweet"]';
-        $nodeList = $xpath->query($query);
-        if (!$nodeList || !$nodeList->length) {
-            return [];
-        }
 
-        foreach ($nodeList as $key => $node) {
-            if (count($result) >= $limit) {
-                break;
+        // The tweets are unordered in the main list, so use the sort index.
+        foreach (array_slice($response['timeline']['instruction'][0]['addEntries']['entries'], 0, $limit) as $id => $entry) {
+            if (empty($entry['sortIndex']) || empty($response['globalObjects']['tweets'][$entry['sortIndex']])) {
+                continue;
             }
-
-            /** @var \DOMNodeList $text */
-            $text = $xpath->query('//div[@class="timeline"]/table[normalize-space(@class)="tweet"]'
-                . '[' . ($key + 1) . ']'
-                . '//div[@class="tweet-text"]');
-            if (!$text->length) {
+            $tweet = $response['globalObjects']['tweets'][$entry['sortIndex']];
+            if (empty($tweet['full_text']) && empty($tweet['text'])) {
                 continue;
             }
 
-            // Use absolute urls.
-            // TODO Use the dom to create external link!
-            $content = str_replace(
-                [' href="/', '<a '],
-                [' href="' . $baseUrl . '/', '<a rel="nofollow noopener" target="_blank" '],
-                $text->item(0)->C14N()
-            );
+            $text = $tweet['full_text'] ?? $tweet['text'];
 
-            $id = $xpath->query('//div[@class="timeline"]/table[normalize-space(@class)="tweet"]'
-                . '[' . ($key + 1) . ']'
-                . '//div[@class="tweet-text"]/@data-id')->item(0)->nodeValue;
-
-            // The simplest process is to convert the xml into an array.
-            $simpleXmlNode = simplexml_import_dom($node);
-            $simple = json_decode(json_encode($simpleXmlNode), true);
-
-            // Manage retweets.
-            $isRetweet = isset($simple['tr'][0]['td'][1]['span']) && strpos($simple['tr'][0]['td'][1]['span'], 'retweeted') !== false;
-            if ($isRetweet && !$retweet) {
-                continue;
+            $replace = [];
+            foreach ($tweet['entities'] ?? [] as $entityType => $entities) {
+                foreach ($entities as $entity) {
+                    switch ($entityType) {
+                        case 'hashtags':
+                            $replace['#' . $entity['text']] = sprintf(
+                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                $baseUrl . 'hashtag/' . rawurlencode($entity['text']),
+                                $escape('#' . $entity['text'])
+                            );
+                            break;
+                        case 'user_mentions':
+                            $replace['@' . $entity['screen_name']] = sprintf(
+                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                $baseUrl . $escape($entity['screen_name']),
+                                $escape('@' . $entity['screen_name'])
+                            );
+                            break;
+                        case 'urls':
+                            $replace[$entity['url']] = sprintf(
+                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                $entity['url'],
+                                $entity['expanded_url']
+                            );
+                            break;
+                        case 'media':
+                            break;
+                        default:
+                            continue 2;
+                    }
+                }
             }
+            $message = str_replace(array_keys($replace), array_values($replace), $text);
 
-            if ($isRetweet) {
-                $content = [
-                    'node' => $node,
-                    'context' => 'retweet',
-                    'account' => [
-                        'fullname' => $simple['tr'][1]['td'][0]['a']['img']['@attributes']['alt'],
-                        'url' => $baseUrl . $simple['tr'][1]['td'][0]['a']['@attributes']['href'],
-                        'avatar' => [
-                            'url' => $baseUrl . $simple['tr'][1]['td'][0]['a']['@attributes']['href'],
-                            'img' => $simple['tr'][1]['td'][0]['a']['img']['@attributes']['src'],
-                        ],
-                    ],
-                    'id' => $id,
-                    'url' => $baseUrl . $simple['@attributes']['href'],
-                    'timestamp' => $simple['tr'][1]['td'][2]['a'],
-                    'content' => $content,
-                ];
-            } else {
-                $content = [
-                    'node' => $node,
-                    'context' => null,
-                    'account' => [
-                        'fullname' => $simple['tr'][0]['td'][0]['a']['img']['@attributes']['alt'],
-                        'url' => $baseUrl . $simple['tr'][0]['td'][0]['a']['@attributes']['href'],
-                        'avatar' => [
-                            'url' => $baseUrl . $simple['tr'][0]['td'][0]['a']['@attributes']['href'],
-                            'img' => $simple['tr'][0]['td'][0]['a']['img']['@attributes']['src'],
-                        ],
-                    ],
-                    'id' => $id,
-                    'url' => $baseUrl . $simple['@attributes']['href'],
-                    'timestamp' => $simple['tr'][0]['td'][2]['a'],
-                    'content' => $content,
-                ];
-            }
+            $content = [
+                'tweet' => $tweet,
+                'id' => $id,
+                'url' => $baseUrl . $account, '/status/' . $id,
+                'created_at' => $entity['created_at'],
+                'timestamp' => (new \DateTime($entity['created_at']))->format('U'),
+                'content' => $message,
+            ];
             $result[] = $content;
         }
 
         return $result;
+    }
+
+    protected function fetchTwitterUrl(string $url, array $query = [], ?PhpRenderer $view = null): array
+    {
+        $response = ClientStatic::get(
+            $url,
+            $query,
+            [
+                'User-Agent' => self::USER_AGENT,
+                'authorization' => 'Bearer ' . (empty($this->token) ? self::AUTHORIZATION_BEARER_TOKEN : $this->token),
+                'x-twitter-active-user' => 'no',
+                'x-twitter-client-language' => $view ? ($view->siteSetting('locale') ?: $view->setting('locale')) : 'en',
+            ]
+        );
+        $body = $response->getBody();
+        if (empty($body)) {
+            return [];
+        }
+
+        $body = json_decode($body, true);
+        if (isset($body['errors'][0]['message'])) {
+            $this->error = $body['errors'][0]['message'];
+            return ['error' => $body['errors'][0]['message']];
+        }
+
+        return $body;
     }
 }

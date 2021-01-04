@@ -3,7 +3,7 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var string $heading
- * @var string $account
+ * @var array $account
  * @var array $messages
  */
 
@@ -22,7 +22,7 @@ $hyperlink = $this->plugin('hyperlink');
     <ul class="messages">
     <?php foreach ($messages as $message): ?>
         <li data-id="<?= $message['id'] ?>">
-            <h4><?= $hyperlink->raw('<span>@</span>' . $message['account']['fullname'], $message['account']['url'], ['rel' => 'nofollow noopener', 'target' => '_blank']) ?></h4>
+            <h4><?= $hyperlink->raw('<span>@</span>' . $account['fullname'], $account['url'], ['rel' => 'nofollow noopener', 'target' => '_blank']) ?></h4>
             <div class="message"><?= $message['content'] ?></div>
         </li>
     <?php endforeach; ?>

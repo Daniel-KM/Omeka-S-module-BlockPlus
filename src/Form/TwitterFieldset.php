@@ -32,6 +32,18 @@ class TwitterFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][authorization]',
+                'type' => Element\Text::class,
+                'options' => [
+                    'label' => 'Authorization bearer token', // @translate
+                    'info' => 'A default account is provided, but if your site exceeds the rates, you need to set your own token.', // @translate
+                    'documentation' => 'https://developer.twitter.com/en/docs/twitter-api/rate-limits#table',
+                ],
+                'attributes' => [
+                    'id' => 'twitter-authorization',
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][limit]',
                 'type' => Element\Number::class,
                 'options' => [
