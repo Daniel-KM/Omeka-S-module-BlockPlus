@@ -43,7 +43,7 @@ class Block extends AbstractBlockLayout
 
         $html = '<p>'
             . $view->translate('A simple block allow to display a partial from the theme.') // @translate
-            . ' ' . $view->translate('It may be used for a static html content, like a list of partners, or a complex layout, since any Omeka feature is available in a view.') // @translate
+            . ' ' . $view->translate('Provided samples are a block to display the config, and a block to display the tree view from a tsv/csv file.') // @translate
             . '</p>';
         $html .= $view->formCollection($fieldset, false);
         return $html;

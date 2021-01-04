@@ -1,0 +1,139 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $heading
+ * @var string $params
+ */
+
+/*
+ Fill this partial as you want. The view is available, so any feature can be used.
+
+ Use params if any. Access to them:
+ - as a whole: $params
+ - as a decoded json: $this->blockMetadata('params_json', $block)
+ - as a list of keys-values: $this->blockMetadata('params_key_value', $block)
+ - a specific key of the list of keys-values: $this->blockMetadata('my_key', $block)
+
+ Warning: check security of any user input.
+ */
+
+$escape = $this->plugin('escapeHtml');
+$assetUrl = $this->plugin('assetUrl');
+
+$file = $this->blockMetadata('file');
+if (empty($file)) echo $this->translate('No file defined. Set the param in the block: "file = filename.tsv" (use a file inside /asset/data/) or "file = https://example.com/file.tsv".');
+
+$isUrl = substr($file, 0, 8) === 'https://' || substr($file, 0, 7) === 'http://';
+if ($isUrl):
+    $filepath = $file;
+    $file = basename(parse_url($filepath, PHP_URL_PATH));
+else:
+    // A security check.
+    if (strpos($file, '../') !== false) return;
+    $filepath = $this->blockMetadata('theme_dir') . '/asset/data/' . $file;
+    if (!file_exists($filepath) || !is_readable($filepath)) return;
+    $file = basename($filepath);
+endif;
+
+ini_set('auto_detect_line_endings', '1');
+$handle = fopen($filepath, 'rb');
+if ($handle === false) return;
+
+$extension = pathinfo($file, PATHINFO_EXTENSION);
+if ($extension === 'tsv'):
+    $delimiter = "\t";
+    $enclosure = '"';
+    $escaper = chr(0);
+else:
+    $delimiter = ',';
+    $enclosure = '"';
+    $escaper = '\\';
+endif;
+
+// In order to separate folder and leaf, the data are loaded first. It avoids a recursive process too.
+$tree = [];
+$row = 0;
+$parents = [];
+$parent = null;
+while (($data = fgetcsv($handle, 100000, $delimiter, $enclosure, $escaper)) !== false) {
+    $data = array_map('trim', $data);
+    // Skip empty rows.
+    if (!count(array_filter($data, 'strlen'))) continue;
+
+    ++$row;
+
+    $countColumns = count($data);
+    $depth = -1;
+    while (++$depth < $countColumns && !strlen($data[$depth])) {};
+
+    if ($depth === 0) {
+        $parents = [0 => $row];
+        $parent = null;
+    } elseif (isset($parents[$depth - 1])) {
+        $parents = array_slice($parents, 0, $depth + 1);
+        $parents[$depth] = $row;
+        $parent = $parents[$depth - 1];
+        $tree[$parent]['children'][] = $row;
+    } else {
+        // Sometime the row is not well built.
+        $parents = array_fill(0, $depth - 1, $row);
+        $parent = null;
+    }
+
+    $tree[$row] = [
+        'row' => $row,
+        'depth' => $depth,
+        'self' => $data[$depth],
+        'parent' => $parent,
+        'children' => [],
+    ];
+}
+fclose($handle);
+
+$this->headLink()
+    ->appendStylesheet($assetUrl('vendor/jslists/jsLists.css', 'BlockPlus'))
+    ->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus'));
+$this->headScript()
+    // Not deferable and script should be set after the div.
+    ->appendFile($assetUrl('vendor/jslists/jsLists.js', 'BlockPlus'));
+
+$liBranch = '
+<li data-row="%d">
+    <i class="fas fa-folder-o" aria-hidden="true"></i>
+    <span class="folder">%s</span>
+    <ul>';
+$liLeaf = '
+<li data-row="%d" data-type="leaf"><i class="fas fa-file-text-o" aria-hidden="true"></i> %s</li>';
+$liBranchEnd = '
+</ul>
+</li>';
+?>
+
+<div class="block block-simple">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+    <ul id="arborescence">
+    <?php
+    $prev = null;
+    foreach ($tree as $row => $element):
+        echo str_repeat('    ', $element['depth'] + 1);
+        $isLeaf = !count($element['children']);
+        $hasNext = isset($tree[$row + 1]);
+        if ($prev && $element['depth'] < $prev['depth']):
+            echo str_repeat($liBranchEnd, $prev['depth'] - $element['depth']);
+        endif;
+        $li = $isLeaf ? $liLeaf : $liBranch;
+        echo sprintf($li, $row, $element['self']);
+        if (!$hasNext):
+            echo str_repeat($liBranchEnd, $element['depth']);
+        endif;
+        $prev = $element;
+    endforeach;
+    ?>
+    </ul>
+<script>
+JSLists.applyToList('arborescence', 'ALL');
+</script>
+</div>

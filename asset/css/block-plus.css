@@ -59,3 +59,14 @@ aside.column {
         width: 100%;
     }
 }
+
+.block #arborescence {
+    margin-top: 24px;
+}
+.block #arborescence li {
+    line-height: 24px;
+    list-style-type: none;
+    list-style-position: outside;
+    margin-bottom: 0;
+    margin-left: 12px;
+}
