@@ -175,6 +175,7 @@ return [
                 'sort' => 'alpha',
                 'limit' => null,
                 // The standard block uses exclude_current only.
+                'exclude_current' => true,
                 'exclude' => [
                     // 'current',
                     // 'main',

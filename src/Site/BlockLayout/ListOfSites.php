@@ -5,7 +5,9 @@ use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Stdlib\ErrorStore;
 
 class ListOfSites extends AbstractBlockLayout
 {
@@ -17,6 +19,14 @@ class ListOfSites extends AbstractBlockLayout
     public function getLabel()
     {
         return 'List of sites'; // @translate
+    }
+
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
+    {
+        $data = $block->getData();
+        // Support of default settings in case of an update.
+        $data['exclude_current'] = in_array('current', $data['exclude'] ?? []);
+        $block->setData($data);
     }
 
     public function form(
@@ -51,7 +61,7 @@ class ListOfSites extends AbstractBlockLayout
         $pagination = $limit && $block->dataValue('pagination', false);
         $summaries = $block->dataValue('summaries', true);
         // Support of default settings in case of an update.
-        $excludeCurrent = $block->dataValue('exclude_current', $this->defaults['exclude_current']);
+        $exclude = $block->dataValue('exclude', $block->dataValue('exclude_current', true) ? ['current'] : []);
 
         $data = [];
         if ($pagination) {
@@ -62,9 +72,9 @@ class ListOfSites extends AbstractBlockLayout
             $data['limit'] = $limit;
         }
 
-        if ($excludeCurrent) {
-            $data['exclude_id'] = $block->page()->site()->id();
-        }
+        // if ($excludeCurrent) {
+        //     $data['exclude_id'] = $block->page()->site()->id();
+        // }
 
         switch ($sort) {
             case 'oldest':
@@ -82,10 +92,9 @@ class ListOfSites extends AbstractBlockLayout
 
         // The standard block uses exclude_current only, but it is possible to
         // exclude main, current, and translated sites here.
-        $exclude = $block->dataValue('exclude');
         if ($exclude) {
             $data = $this->includedSites($view, $data, $exclude, $block);
-            $data = count($data) ? ['id' => $data] : ['id' => 0];
+            $data = count($data) ? ['id' => array_values($data)] : ['id' => 0];
         }
 
         $response = $view->api()->search('sites', $data);

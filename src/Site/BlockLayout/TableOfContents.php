@@ -70,7 +70,10 @@ class TableOfContents extends AbstractBlockLayout
         try {
             $subNav = new Navigation($newPages);
         } catch (\Laminas\Navigation\Exception\InvalidArgumentException $e) {
-            $view->logger()->err($e->getMessage());
+            $view->logger()->warn(sprintf(
+                'Cannot index and/or render a table of contents block in a mirror page for now: %s.', // @translate
+                $e
+            ));
             $subNav = new Navigation([]);
         }
 

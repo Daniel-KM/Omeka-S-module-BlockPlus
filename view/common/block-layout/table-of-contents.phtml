@@ -12,5 +12,5 @@
     <?php if (!empty($heading)): ?>
     <h2><?= $this->escapeHtml($heading) ?></h2>
     <?php endif; ?>
-    <?= $this->navigation($subNav)->menu()->renderMenu(null, ['maxDepth' => $maxDepth]) ?>
+    <?= $subNav ? $this->navigation($subNav)->menu()->renderMenu(null, ['maxDepth' => $maxDepth]) : '' ?>
 </nav>
