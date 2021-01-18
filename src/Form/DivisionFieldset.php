@@ -4,7 +4,7 @@ namespace BlockPlus\Form;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
-class ColumnFieldset extends Fieldset
+class DivisionFieldset extends Fieldset
 {
     public function init(): void
     {
@@ -13,34 +13,32 @@ class ColumnFieldset extends Fieldset
         $this
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][type]',
-                'type' => Element\Select::class,
+                'type' => Element\Radio::class,
                 'options' => [
                     'label' => 'Type', // @translate
-                    'empty_option' => '',
                     'value_options' => [
-                        'start' => 'New column', // @translate
+                        'start' => 'New division', // @translate
                         'inter' => 'End previous and start new', // @translate
-                        'end' => 'End column', // @translate
+                        'end' => 'End division', // @translate
                     ],
                 ],
                 'attributes' => [
                     'required' => true,
-                    'class' => 'chosen-select',
-                    'data-placeholder' => 'Select below…', // @translate
+                    'value' => 'start',
                 ],
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][tag]',
-                'type' => Element\Select::class,
+                'type' => Element\Radio::class,
                 'options' => [
-                    'label' => 'Tag for new column', // @translate
+                    'label' => 'Tag', // @translate
                     'value_options' => [
                         'div' => 'div', // @translate
                         'aside' => 'aside', // @translate
                     ],
                 ],
                 'attributes' => [
-                    'class' => 'chosen-select',
+                    'value' => 'div',
                 ],
             ])
             ->add([
@@ -55,7 +53,10 @@ class ColumnFieldset extends Fieldset
                 ],
             ]);
 
-        // Set the value of the optional radio.
+        // Set the value of the radio to avoid issues with form and Laminas.
+        $this
+            ->get('o:block[__blockIndex__][o:data][type]')
+            ->setValue('start');
         $this
             ->get('o:block[__blockIndex__][o:data][tag]')
             ->setValue('div');

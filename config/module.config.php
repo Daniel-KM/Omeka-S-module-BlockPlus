@@ -19,7 +19,7 @@ return [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
-            'column' => Site\BlockLayout\Column::class,
+            'division' => Site\BlockLayout\Division::class,
             'itemSetShowcase' => Site\BlockLayout\ItemSetShowcase::class,
             // Omeka core uses "itemShowCase" instead of "itemShowcase". Won't fix: https://github.com/omeka/omeka-s/pull/1431
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
@@ -50,6 +50,7 @@ return [
             Form\AssetsFieldset::class => Form\AssetsFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
+            Form\DivisionFieldset::class => Form\DivisionFieldset::class,
             Form\ExternalContentFieldset::class => Form\ExternalContentFieldset::class,
             Form\HtmlFieldset::class => Form\HtmlFieldset::class,
             Form\ItemSetShowcaseFieldset::class => Form\ItemSetShowcaseFieldset::class,
@@ -129,7 +130,7 @@ return [
                 'link-text' => 'Browse all', // @translate
                 'template' => '',
             ],
-            'column' => [
+            'division' => [
                 'type' => '',
                 'tag' => 'div',
                 'class' => 'column',

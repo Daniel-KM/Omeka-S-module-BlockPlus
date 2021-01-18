@@ -62,3 +62,12 @@ WHERE layout = "externalContent";
 SQL;
     $connection->exec($sql);
 }
+
+if (version_compare($oldVersion, '3.3.11.4', '<')) {
+    $sql = <<<'SQL'
+UPDATE site_page_block
+SET layout = "division"
+WHERE layout = "column";
+SQL;
+    $connection->exec($sql);
+}

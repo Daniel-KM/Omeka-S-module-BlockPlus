@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Site\BlockLayout;
 
 use Laminas\View\Renderer\PhpRenderer;
@@ -9,11 +10,11 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 
-class Column extends AbstractBlockLayout
+class Division extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Column'; // @translate
+        return 'Division'; // @translate
     }
 
     public function prepareRender(PhpRenderer $view): void
@@ -31,7 +32,7 @@ class Column extends AbstractBlockLayout
             // Stricter than w3c standard.
             : preg_replace('/[^A-Za-z0-9_ -]/', '', $data['class']);
 
-        // TODO Find a way to check columns during hydration, with new blocks. May be possible at least for the last block of the page.
+        // TODO Find a way to check divisions during hydration, with new blocks. May be possible at least for the last block of the page.
         $block->setData($data);
 
         if (!$block->getId()) {
@@ -43,15 +44,15 @@ class Column extends AbstractBlockLayout
         // Check and save the previous tag to close elements quickly.
         // Blocks are automatically ordered by position (see entity SitePage).
         $blocks = $block->getPage()->getBlocks();
-        $columns = [];
+        $divisions = [];
         $tagStack = [];
         foreach ($blocks as $blk) {
-            if ($blk->getLayout() !== 'column') {
+            if ($blk->getLayout() !== 'division') {
                 continue;
             }
 
             $dta = $blk->getData();
-            $column = [
+            $division = [
                 'type' => $dta['type'],
                 'tag' => $dta['tag'] ?: 'div',
                 'class' => $dta['class'],
@@ -61,10 +62,10 @@ class Column extends AbstractBlockLayout
                 case 'end':
                 case 'inter':
                     if (empty($tagStack)) {
-                        $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'Type "intermediate" and "end" columns must be after a block "start" or "intermediate".'); // @translate
+                        $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'Type "intermediate" and "end" divisions must be after a block "start" or "intermediate".'); // @translate
                         return;
                     }
-                    $column['close'] = array_pop($tagStack);
+                    $division['close'] = array_pop($tagStack);
                     if ($dta['type'] === 'end') {
                         break;
                     }
@@ -73,36 +74,36 @@ class Column extends AbstractBlockLayout
                     $tagStack[] = $dta['tag'];
                     break;
                 default:
-                    $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'Unauthorized type for block column.'); // @translate
+                    $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'Unauthorized type for block division.'); // @translate
                     return;
             }
-            $columns[$blk->getPosition()] = $column;
+            $divisions[$blk->getPosition()] = $division;
         }
 
-        if (count($columns) < 2) {
-            $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'A block "column" cannot be single.'); // @translate
+        if (count($divisions) < 2) {
+            $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'A block "division" cannot be single.'); // @translate
             return;
         }
 
-        ksort($columns);
-        $first = reset($columns);
+        ksort($divisions);
+        $first = reset($divisions);
         if ($first['type'] !== 'start') {
-            $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'The first column block must be of type "start".'); // @translate
+            $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'The first division block must be of type "start".'); // @translate
             return;
         }
-        $last = end($columns);
+        $last = end($divisions);
         if ($last['type'] !== 'end') {
-            $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'The last column block must be of type "end".'); // @translate
+            $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'The last division block must be of type "end".'); // @translate
             return;
         }
 
         if (!empty($tagStack)) {
-            $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'Some columns have no end.'); // @translate
+            $errorStore->addError('o:block[__blockIndex__][o:data][type]', 'Some divisions have no end.'); // @translate
             return;
         }
 
         // Update only close, other keys are fixed above.
-        $data['close'] = $columns[$block->getPosition()]['close'];
+        $data['close'] = $divisions[$block->getPosition()]['close'];
 
         $block->setData($data);
     }
@@ -116,8 +117,8 @@ class Column extends AbstractBlockLayout
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
-        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['column'];
-        $blockFieldset = \BlockPlus\Form\ColumnFieldset::class;
+        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['division'];
+        $blockFieldset = \BlockPlus\Form\DivisionFieldset::class;
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
@@ -130,7 +131,7 @@ class Column extends AbstractBlockLayout
         $fieldset->populateValues($dataForm);
 
         $html = '<p>'
-            . $view->translate('Divide the page into columns. There must be at least two blocks, one for the start and one for the end. Multiple columns can be nested.') // @translate
+            . $view->translate('Add divisions and classes to wrap one or multiple block.') // @translate
             . '</p>';
         $html .= $view->formCollection($fieldset, false);
         return $html;
@@ -165,7 +166,7 @@ class Column extends AbstractBlockLayout
     }
 
     /**
-     * @todo Make checks of column blocks during hydration.
+     * @todo Make checks of division blocks during hydration.
      *
      * @param SitePageBlockRepresentation $block
      * @param PhpRenderer $view
@@ -178,16 +179,16 @@ class Column extends AbstractBlockLayout
 
         // Check and save the previous tag to close elements quickly.
         $blocks = $block->page()->blocks();
-        $columns = [];
+        $divisions = [];
         $tagStack = [];
         // Block representation doesn't know its position.
         $position = 0;
         foreach ($blocks as $blk) {
-            if ($blk->layout() !== 'column') {
+            if ($blk->layout() !== 'division') {
                 continue;
             }
             $dta = $blk->data();
-            $column = [
+            $division = [
                 'type' => $dta['type'],
                 'tag' => $dta['tag'],
                 'class' => $dta['class'],
@@ -196,53 +197,53 @@ class Column extends AbstractBlockLayout
             switch ($dta['type']) {
                 case 'end':
                     if (empty($tagStack)) {
-                        $view->logger()->err('Type "intermediate" and "end" columns must be after a block "start" or "intermediate".'); // @translate
+                        $view->logger()->err('Type "intermediate" and "end" divisions must be after a block "start" or "intermediate".'); // @translate
                         return false;
                     }
-                    $column['close'] = array_pop($tagStack);
+                    $division['close'] = array_pop($tagStack);
                     break;
                 case 'inter':
                     if (empty($tagStack)) {
-                        $view->logger()->err('Type "intermediate" and "end" columns must be after a block "start" or "intermediate".'); // @translate
+                        $view->logger()->err('Type "intermediate" and "end" divisions must be after a block "start" or "intermediate".'); // @translate
                         return false;
                     }
-                    $column['close'] = array_pop($tagStack);
+                    $division['close'] = array_pop($tagStack);
                     // no break.
                 case 'start':
                     $tagStack[] = $dta['tag'];
                     break;
                 default:
-                    $view->logger()->err('Unauthorized type for block column.'); // @translate
+                    $view->logger()->err('Unauthorized type for block division.'); // @translate
                     return false;
             }
-            $columns[++$position] = $column;
+            $divisions[++$position] = $division;
             if ($blockId === $blk->id()) {
                 $blockPosition = $position;
             }
         }
 
-        if (count($columns) < 2) {
-            $view->logger()->err('A block "column" cannot be single.'); // @translate
+        if (count($divisions) < 2) {
+            $view->logger()->err('A block "division" cannot be single.'); // @translate
             return false;
         }
 
-        ksort($columns);
-        $first = reset($columns);
+        ksort($divisions);
+        $first = reset($divisions);
         if ($first['type'] !== 'start') {
-            $view->logger()->err('The first column block must be of type "start".'); // @translate
+            $view->logger()->err('The first division block must be of type "start".'); // @translate
             return false;
         }
-        $last = end($columns);
+        $last = end($divisions);
         if ($last['type'] !== 'end') {
-            $view->logger()->err('The last column block must be of type "end".'); // @translate
+            $view->logger()->err('The last division block must be of type "end".'); // @translate
             return false;
         }
 
         if (!empty($tagStack)) {
-            $view->logger()->err('Some columns have no end.'); // @translate
+            $view->logger()->err('Some divisions have no end.'); // @translate
             return false;
         }
 
-        return $columns[$blockPosition];
+        return $divisions[$blockPosition];
     }
 }
