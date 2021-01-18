@@ -5,7 +5,7 @@ Block Plus (module for Omeka S)
 > are available on [GitLab], which seems to respect users and privacy better
 > than the previous repository.__
 
-[Block Plus ] is a module for [Omeka S] that adds some new blocks for the static
+[Block Plus] is a module for [Omeka S] that adds some new blocks for the static
 pages and improves some of the existing ones.
 
 
@@ -176,19 +176,23 @@ action for the search in default template `common/search-form`.
 
 ### Twitter
 
-Display the last message from an account on [Twitter]. The data are directly
-fetched from the mobile site, so any tweet can be fetched, without credentials.
+Display the last message from an account on [Twitter]. Since December 2020, it
+is required [to get a dev account] to use this block, since Twitter disabled any
+standard html endpoint (see [this issue on StackOverflow]). The dev account is
+not necessarely the one of the thread to follow. If you don't have one, it works
+nevertheless with the module [Block Plus: Twitter].
 
 ### Separator
 
 Allow to set a div with a specific class between two blocks. May be useful to
 fix some css issues, or to increase space between some blocks.
 
-### Column
+### Division
 
-Allow to group blocks in one or multiple columns. Columns can be nested. The
-css should be prepared in the theme to managed them. By default, only a simple
-`aside` column of 30% is available with class `column align-right` (or left).
+Allow to wrap a block or multiple block with a `div`. in particular to create
+columns. Divisions can be nested. The css should be prepared in the theme to
+managed them. By default, only a simple `aside` column of 30% is available with
+class `column align-right` (or left).
 
 ### Improvements for Browse preview, Html, Item metadata, Item showcase, List of sites, Page title, Table of contents
 
@@ -199,9 +203,13 @@ the root is added too.
 
 Furthermore, the block Browse preview has new fields to display sort headings
 and pagination, so it's now possible to have a specific list of items, like the
-main browse view. It has another template for gallery display with a quick
-viewer too (browse-preview-gallery). This one has a specific option to add to
-the query to display thumbnails as square or medium: `thumbnail_size=medium`.
+main browse view.
+It has some specific templates too:
+- simple carousel: this is an upgrade of the plugin [Shortcode Carousel] for
+  [Omeka Classic].
+- gallery display with a quick viewer too (browse-preview-gallery). This one has
+  a specific option to add to the query to display thumbnails as square or
+  medium: `thumbnail_size=medium`.
 
 **Warning**
 
@@ -266,12 +274,17 @@ See MIT license here: http://tympanus.net/codrops/licensing/
 The original template was fixed by KevinMwangi and updated for newer version of
 components (modernizr, smartresize, imagesloaded).
 
+### Carousel
+
+Mit license.
+
 
 Copyright
 ---------
 
 * Copyright Daniel Berthereau, 2018-2021 (see [Daniel-KM] on GitLab)
 * Copyright Codrops, 2013 ([image gallery], see vendor/ for more infos)
+* Copyright Jan Sorgalla, 2014 (See http://sorgalla.com/jcarousel)
 
 
 [Block Plus]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus
@@ -282,6 +295,10 @@ Copyright
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr
 [Twitter]: https://twitter.com
+[Shortcode Carousel]: https://github.com/omeka/plugin-ShortcodeCarousel
+[to get a dev account]: https://developer.twitter.com/en/apply-for-access
+[this issue on StackOverflow]: https://stackoverflow.com/questions/65403350/how-can-i-scrape-twitter-now-that-they-require-javascript
+[Block Plus: Twitter]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlusTwitter
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
 [BlockPlus.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/releases
 [module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/issues

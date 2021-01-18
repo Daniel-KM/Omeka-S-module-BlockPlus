@@ -98,7 +98,10 @@ class Twitter extends AbstractBlockLayout
         $fieldset = $formElementManager->get($blockFieldset);
         $fieldset->populateValues($dataForm);
 
-        return $view->formCollection($fieldset, false);
+        return '<p>'
+            . $view->translate('If you don’t have a dev account, use the module Block Plus Twitter')
+            . '</p>'
+            . $view->formCollection($fieldset, false);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
