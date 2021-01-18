@@ -130,7 +130,7 @@ class Column extends AbstractBlockLayout
         $fieldset->populateValues($dataForm);
 
         $html = '<p>'
-            . $view->translate('Divide the page into columns. There must be at least two blocks, one for the start and one for the end, to avoid html issues. Multiple columns can be nested.') // @translate
+            . $view->translate('Divide the page into columns. There must be at least two blocks, one for the start and one for the end. Multiple columns can be nested.') // @translate
             . '</p>';
         $html .= $view->formCollection($fieldset, false);
         return $html;
