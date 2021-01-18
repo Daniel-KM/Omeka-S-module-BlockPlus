@@ -46,7 +46,7 @@ class Twitter extends AbstractBlockLayout
 
         $data = $block->getData();
 
-        if (empty(empty($data['authorization']))) {
+        if (empty($data['authorization'])) {
             $messenger->addWarning('No authorization token is set, so the default one is used.'); // @translate
         } else {
             $this->token = $data['authorization'];
@@ -59,6 +59,7 @@ class Twitter extends AbstractBlockLayout
                 $messenger->addError(new Message('The Twitter account "%s" is not available.', $account)); // @translate
             } elseif (isset($accountData['error'])) {
                 $messenger->addError(new Message('The Twitter account "%s" is not available: %s', $account, $accountData['error'])); // @translate
+                $accountData = null;
             } else {
                 $messages = $this->fetchMessages($accountData);
                 if (count($messages)) {
@@ -118,10 +119,12 @@ class Twitter extends AbstractBlockLayout
             return '';
         }
 
+        $messages =$this->fetchMessages($accountData, $vars['limit'], $vars['retweet'], $view);
+
         $vars = [
             'heading' => $vars['heading'],
             'account' => $accountData,
-            'messages' => $this->fetchMessages($accountData, $vars['limit'], $vars['retweet'], $view),
+            'messages' => $messages,
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);
         return $view->resolver($template)
