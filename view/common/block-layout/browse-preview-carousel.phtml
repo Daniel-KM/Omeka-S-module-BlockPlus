@@ -1,0 +1,88 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $resourceType
+ * @var string $heading
+ * @var string $linkText
+ * @var array $components
+ * @var array $query
+ * @var array $sortHeadings
+ * @var array|false $pagination
+ *
+ * @link http://sorgalla.com/jcarousel
+ * @copyright 2014, Jan Sorgalla
+ * @license MIT
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$escape = $plugins->get('escapeHtml');
+// $escapeAttr = $plugins->get('escapeHtmlAttr');
+// $hyperlink = $plugins->get('hyperlink');
+$thumbnail = $plugins->get('thumbnail');
+// $url = $plugins->get('url');
+// Append in header is not possible with browse preview, so css and js are set in body, even if it is not standard.
+$assetUrl = $plugins->get('assetUrl');
+
+// $showThumbnail = in_array('thumbnail', $components);
+// $showHeading = in_array('resource-heading', $components);
+// $showBody = in_array('resource-body', $components);
+$headingTerm = $this->siteSetting('browse_heading_property_term');
+// $bodyTerm = $this->siteSetting('browse_body_property_term');
+$untitled = $translate('[Untitled]');
+
+$idSuffix = substr(str_replace(['+', '/', '='], ['', '', ''], base64_encode(random_bytes(12))), 0, 6);
+$configs = [
+    'carousel' => [
+        'showTitles' => false,
+        'animation' => 1000,
+        'wrap' => 'circular',
+    ],
+    'autoscroll' => [
+        'interval' => 5000,
+    ],
+];
+?>
+
+<link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/jcarousel/css/jcarousel.responsive.css', 'BlockPlus') ?>" />
+<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/jcarousel/javascripts/jquery.jcarousel.min.js', 'BlockPlus') ?>"></script>
+<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/jcarousel/javascripts/jcarousel.responsive.js', 'BlockPlus') ?>"></script>
+<script type='text/javascript'>
+jQuery(function() {
+    var carouselConfig = <?= json_encode($configs['carousel']) ?>;
+    var configs = <?= json_encode($configs) ?>;
+    var carousel = jQuery('#jcarousel-<?= $idSuffix ?>').jcarousel(carouselConfig);
+    <?php if (isset($configs['autoscroll'])): ?>
+    var autoscrollConfig = <?= json_encode($configs['autoscroll']) ?>;
+    carousel.jcarouselAutoscroll(autoscrollConfig);
+    <?php endif; ?>
+});
+</script>
+
+<div class="block preview-block">
+<div class="jcarousel-wrapper">
+    <div class="jcarousel" id="jcarousel-<?php echo $idSuffix; ?>">
+        <ul>
+            <?php foreach ($resources as $resource):
+                $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled]) : $resource->displayTitle();
+                $resourceUrl = $resource->siteUrl();
+            ?>
+            <li>
+                <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading]), $resourceUrl, ['class' => 'shortcode-carousel-image']) ?>
+                <?php if (isset($configs['carousel']['showTitles']) && $configs['carousel']['showTitles']): ?>
+                <p class="shortcode-carousel-title">
+                    <?= $resource->linkRaw($escape($heading), $resourceUrl) ?>
+                </p>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
+
+    <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+    <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+
+    <p class="jcarousel-pagination"></p>
+</div>
+</div>
