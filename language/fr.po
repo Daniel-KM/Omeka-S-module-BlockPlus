@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-14 00:00+0000\n"
-"PO-Revision-Date: 2020-09-14 00:00+0000\n"
+"POT-Creation-Date: 2021-01-18 00:00+0000\n"
+"PO-Revision-Date: 2021-01-18 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: Module.php:33
 #, php-format
@@ -26,23 +26,27 @@ msgstr "La bibliothèque \"%s\" doit être installée."
 msgid "See module’s installation documentation."
 msgstr "Consulter la documentation d’installation du module."
 
-#: src/Generic/AbstractModule.php:601
+#: src/Generic/AbstractModule.php:66
 #, php-format
 msgid "This module requires the module \"%s\"."
 msgstr "Ce module requiert le module \"%s\"."
 
-#: src/Generic/AbstractModule.php:621
+#: src/Generic/AbstractModule.php:73
 #, php-format
 msgid "This module requires modules \"%s\"."
 msgstr "Ce module requiert les modules \"%s\"."
 
-#: src/Generic/AbstractModule.php:689
+#: src/Generic/AbstractModule.php:80
+msgid "This module has resources that connot be installed."
+msgstr "Ce module a des ressources qui ne peuvent pas être installées."
+
+#: src/Generic/AbstractModule.php:707
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
 "unavailable."
 msgstr ""
-"Le module %s\" a été automatiquement désactivé car ses dépendances ne sont "
+"Le module \"%s\" a été automatiquement désactivé car ses dépendances ne sont "
 "plus disponibles."
 
 #: src/Site/BlockLayout/Block.php:45
@@ -51,22 +55,15 @@ msgstr "Un bloc simple pour afficher un gabarit du thème."
 
 #: src/Site/BlockLayout/Block.php:46
 msgid ""
-"It may be used for a static html content, like a list of partners, or a "
-"complex layout, since any Omeka feature is available in a view."
+"Provided samples are a block to display the config, and a block to display "
+"the tree view from a tsv/csv file."
 msgstr ""
-"Il peut être utilisé pour du contenu statique, telle qu’une liste de "
-"partenaires, ou un modèle complexe, puisque toutes les fonctionnalités "
-"d’Omeka sont disponibles dans les vues."
+"Les exemples sont un bloc pour afficher une configuration, ou un block pour "
+"afficher une arborescence à partir d’un fichier tsv/csv."
 
-#: src/Site/BlockLayout/Column.php:133
-msgid ""
-"Divide the page into columns. There must be at least two blocks, one for the "
-"start and one for the end, to avoid html issues. Multiple columns can be "
-"nested."
-msgstr ""
-"Divise la page en colonnes. Il doit y avoir au moins deux blocs, l’un pour "
-"le début et l’autre pour la fin, pour éviter les problèmes. Les colonnes "
-"peuvent être imbriquées."
+#: src/Site/BlockLayout/Division.php:134
+msgid "Add divisions and classes to wrap one or multiple block."
+msgstr "Ajouter des divisions et des classes autour d’un ou plusieurs blocs."
 
 #: src/Site/BlockLayout/MirrorPage.php:95
 msgid "Choose any page from any site."
@@ -98,7 +95,21 @@ msgstr ""
 msgid "expand"
 msgstr "déplier"
 
-#: view/common/block-layout/browse-preview-gallery.phtml:93
+#: src/Site/BlockLayout/Twitter.php:102
+msgid "If you don’t have a dev account, use the module Block Plus Twitter"
+msgstr ""
+"Si vous n’avez pas de compte dev, utilisez le module Block Plus Twitter"
+
+#: view/common/block-layout/block-arborescence.phtml:25
+msgid ""
+"No file defined. Set the param in the block: \"file = filename.tsv\" (use a "
+"file inside /asset/data/) or \"file = https://example.com/file.tsv\"."
+msgstr ""
+"Aucun fichier défini. Indiquer le paramètre dans le block : \"file = "
+"filename.tsv\" (utilise le fichier dans /asset/data/) ou \"file = https://"
+"example.com/file.tsv\"."
+
+#: view/common/block-layout/browse-preview-gallery.phtml:99
 msgid "More information"
 msgstr "Plus d’infos"
 
@@ -106,15 +117,15 @@ msgstr "Plus d’infos"
 msgid "No message."
 msgstr "Pas de message."
 
-#: Module.php:114 config/module.config.php:90
+#: Module.php:114 config/module.config.php:93
 msgid "Exhibit"
 msgstr "Exposition"
 
-#: Module.php:115 config/module.config.php:91
+#: Module.php:115 config/module.config.php:94
 msgid "Exhibit page"
 msgstr "Page d’exposition"
 
-#: Module.php:116 config/module.config.php:92
+#: Module.php:116 config/module.config.php:95
 msgid "Simple page"
 msgstr "Simple page"
 
@@ -122,7 +133,7 @@ msgstr "Simple page"
 #: src/Form/SearchResultsFieldset.php:19 src/Form/AssetsFieldset.php:18
 #: src/Form/ExternalContentFieldset.php:16 src/Form/TwitterFieldset.php:17
 #: src/Form/ListOfSitesFieldset.php:27 src/Form/TableOfContentsFieldset.php:17
-#: src/Form/ItemShowcaseFieldset.php:20 src/Form/BrowsePreviewFieldset.php:19
+#: src/Form/ItemShowcaseFieldset.php:20 src/Form/BrowsePreviewFieldset.php:20
 #: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:17
 #: src/Form/ItemSetShowcaseFieldset.php:19
 #: src/Form/TreeStructureFieldset.php:18 src/Form/BlockFieldset.php:17
@@ -133,7 +144,7 @@ msgstr "Titre du bloc"
 #: src/Form/SearchResultsFieldset.php:20 src/Form/AssetsFieldset.php:19
 #: src/Form/ExternalContentFieldset.php:17 src/Form/TwitterFieldset.php:18
 #: src/Form/ListOfSitesFieldset.php:28 src/Form/TableOfContentsFieldset.php:18
-#: src/Form/ItemShowcaseFieldset.php:21 src/Form/BrowsePreviewFieldset.php:20
+#: src/Form/ItemShowcaseFieldset.php:21 src/Form/BrowsePreviewFieldset.php:21
 #: src/Form/ResourceTextFieldset.php:75 src/Form/HtmlFieldset.php:18
 #: src/Form/ItemSetShowcaseFieldset.php:20
 #: src/Form/TreeStructureFieldset.php:19 src/Form/BlockFieldset.php:18
@@ -143,10 +154,10 @@ msgstr "Entête du bloc, si présent."
 #: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
 #: src/Form/SearchResultsFieldset.php:114 src/Form/AssetsFieldset.php:37
 #: src/Form/ExternalContentFieldset.php:87 src/Form/PageTitleFieldset.php:16
-#: src/Form/TwitterFieldset.php:59 src/Form/ListOfSitesFieldset.php:95
+#: src/Form/TwitterFieldset.php:71 src/Form/ListOfSitesFieldset.php:95
 #: src/Form/TableOfContentsFieldset.php:44 src/Form/ItemShowcaseFieldset.php:38
-#: src/Form/BrowsePreviewFieldset.php:125 src/Form/ResourceTextFieldset.php:89
-#: src/Form/HtmlFieldset.php:32 src/Form/ItemSetShowcaseFieldset.php:61
+#: src/Form/BrowsePreviewFieldset.php:148 src/Form/ResourceTextFieldset.php:89
+#: src/Form/HtmlFieldset.php:40 src/Form/ItemSetShowcaseFieldset.php:61
 #: src/Form/TreeStructureFieldset.php:70 src/Form/BlockFieldset.php:33
 msgid "Template to display"
 msgstr "Gabarit à afficher"
@@ -225,29 +236,29 @@ msgstr ""
 "Permet de limiter les ressources, par exemple à une collection. Laisser vide "
 "pour aucune limite. Utiliser \"=\" pour limiter aux ressources du site."
 
-#: src/Form/SearchResultsFieldset.php:70 src/Form/BrowsePreviewFieldset.php:70
+#: src/Form/SearchResultsFieldset.php:70 src/Form/BrowsePreviewFieldset.php:93
 msgid "Show pagination to browse all resources on the same page."
 msgstr ""
 "Afficher la pagination pour afficher toutes les ressources sur la même page."
 
-#: src/Form/SearchResultsFieldset.php:80 src/Form/BrowsePreviewFieldset.php:80
+#: src/Form/SearchResultsFieldset.php:80 src/Form/BrowsePreviewFieldset.php:103
 msgid "Sort headings"
 msgstr "Entêtes de tri"
 
-#: src/Form/SearchResultsFieldset.php:81 src/Form/BrowsePreviewFieldset.php:81
+#: src/Form/SearchResultsFieldset.php:81 src/Form/BrowsePreviewFieldset.php:104
 msgid "Display sort links for the list of results."
 msgstr "Afficher les liens de tri pour les résultats."
 
-#: src/Form/SearchResultsFieldset.php:85 src/Form/BrowsePreviewFieldset.php:85
+#: src/Form/SearchResultsFieldset.php:85 src/Form/BrowsePreviewFieldset.php:108
 msgid "Resource class"
 msgstr "Classe de ressource"
 
-#: src/Form/SearchResultsFieldset.php:99 src/Form/BrowsePreviewFieldset.php:99
+#: src/Form/SearchResultsFieldset.php:99 src/Form/BrowsePreviewFieldset.php:122
 msgid "Resource template for sort headings"
 msgstr "Modèle de ressource pour le tri"
 
 #: src/Form/SearchResultsFieldset.php:100
-#: src/Form/BrowsePreviewFieldset.php:100
+#: src/Form/BrowsePreviewFieldset.php:123
 msgid ""
 "If set, the alternative labels of this resource template will be used to "
 "display the sort headings."
@@ -256,7 +267,7 @@ msgstr ""
 "pour le tri."
 
 #: src/Form/SearchResultsFieldset.php:107
-#: src/Form/BrowsePreviewFieldset.php:107
+#: src/Form/BrowsePreviewFieldset.php:130
 msgid "Select resource template…"
 msgstr "Choisir un modèle de ressource…"
 
@@ -292,7 +303,7 @@ msgstr "Fichier média"
 msgid "Url"
 msgstr "Url"
 
-#: src/Form/AssetsFieldset.php:97 src/Form/ColumnFieldset.php:50
+#: src/Form/AssetsFieldset.php:97 src/Form/DivisionFieldset.php:48
 msgid "CSS class"
 msgstr "Classe CSS"
 
@@ -362,14 +373,26 @@ msgid "Account"
 msgstr "Compte"
 
 #: src/Form/TwitterFieldset.php:38
+msgid "Authorization token"
+msgstr "Jeton d’autorisation"
+
+#: src/Form/TwitterFieldset.php:39
+msgid ""
+"You need to set your own token, not necessarely the account one. Use module "
+"Block Plus Twitter to bypass this token."
+msgstr ""
+"Vous devez définir votre jeton personnel, pas forcément celui du compte. "
+"Utiliser le module Block Plus Twitter en l’'absence de jeton."
+
+#: src/Form/TwitterFieldset.php:50
 msgid "Number of messages"
 msgstr "Nombre de messages"
 
-#: src/Form/TwitterFieldset.php:49
+#: src/Form/TwitterFieldset.php:61
 msgid "Display retweets"
 msgstr "Afficher les retweets"
 
-#: src/Form/TwitterFieldset.php:60
+#: src/Form/TwitterFieldset.php:72
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"twitter\"."
@@ -429,17 +452,38 @@ msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"item-showcase\"."
 
-#: src/Form/BrowsePreviewFieldset.php:92
+#: src/Form/BrowsePreviewFieldset.php:70
+msgid "Components"
+msgstr "Composants"
+
+#: src/Form/BrowsePreviewFieldset.php:71
+msgid ""
+"Components to display for each resource. If not set in Site Settings, "
+"Heading defaults to resource Title and Body to resource Description"
+msgstr ""
+"Métadonnées à afficher pour chaque ressource. Si non spécifié dans les "
+"paramètres du site, l'entête sera le titre de la ressource et le corps sera "
+"la description"
+
+#: src/Form/BrowsePreviewFieldset.php:75
+msgid "Heading"
+msgstr "Entête"
+
+#: src/Form/BrowsePreviewFieldset.php:79
+msgid "Body"
+msgstr "Corps"
+
+#: src/Form/BrowsePreviewFieldset.php:115
 msgid "Select properties…"
 msgstr "Choisir des propriétés…"
 
-#: src/Form/BrowsePreviewFieldset.php:115
+#: src/Form/BrowsePreviewFieldset.php:138
 msgid "Text for link to full browse view, if any. There is no link for media."
 msgstr ""
 "Texte pour le lien vers la page \"tout parcourir\". Il n’y a pas de lien "
 "pour les médias."
 
-#: src/Form/BrowsePreviewFieldset.php:126
+#: src/Form/BrowsePreviewFieldset.php:149
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"browse-preview\"."
@@ -460,6 +504,10 @@ msgstr ""
 "doivent commencer avec \"resource-text\"."
 
 #: src/Form/HtmlFieldset.php:33
+msgid "Optional CSS class for styling HTML."
+msgstr "Classe css facultative pour styler le html."
+
+#: src/Form/HtmlFieldset.php:41
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"html\"."
@@ -544,35 +592,32 @@ msgstr ""
 "exhibit_page = Page d’exposition\n"
 "simple = Page simple"
 
-#: src/Form/ColumnFieldset.php:21
-msgid "New column"
-msgstr "Nouvelle colonne"
+#: src/Form/DivisionFieldset.php:20
+msgid "New division"
+msgstr "Nouvelle division"
 
-#: src/Form/ColumnFieldset.php:22
+#: src/Form/DivisionFieldset.php:21
 msgid "End previous and start new"
-msgstr "Clore la précédente colonne et en commencer une autre"
+msgstr "Clore et commencer une autre"
 
-#: src/Form/ColumnFieldset.php:23
-msgid "End column"
-msgstr "Clore la colonne"
+#: src/Form/DivisionFieldset.php:22
+msgid "End division"
+msgstr "Fin de la division"
 
-#: src/Form/ColumnFieldset.php:29
-msgid "Select below…"
-msgstr "Choisir ci-dessous…"
+# "Balise" n'est pas utilisé pour conserver "Tag" dans d'autres module
+#: src/Form/DivisionFieldset.php:34
+msgid "Tag"
+msgstr "Tag"
 
-#: src/Form/ColumnFieldset.php:36
-msgid "Tag for new column"
-msgstr "Balise pour la nouvelle colonne"
-
-#: src/Form/ColumnFieldset.php:38
+#: src/Form/DivisionFieldset.php:36
 msgid "div"
 msgstr "div"
 
-#: src/Form/ColumnFieldset.php:39
+#: src/Form/DivisionFieldset.php:37
 msgid "aside"
 msgstr "aside"
 
-#: src/Form/ColumnFieldset.php:51
+#: src/Form/DivisionFieldset.php:49
 msgid ""
 "Set the classes according to the css of your theme. Only classes \"main\" "
 "and \"column\" are managed."
@@ -625,7 +670,7 @@ msgstr ""
 "Une page miroir ne peut pas utiliser une page qui l’utilise récursivement "
 "dans un bloc."
 
-#: src/Site/BlockLayout/MirrorPage.php:112
+#: src/Site/BlockLayout/MirrorPage.php:111
 #, php-format
 msgid ""
 "Mirror page block #%d of page \"%s\" of site \"%s\" should be updated: it "
@@ -634,46 +679,27 @@ msgstr ""
 "Le bloc Page miroir #%d de la page \"%s\" du site \"%s\" doit être mis à "
 "jour : il fait référence à une page supprimée."
 
+#: src/Site/BlockLayout/MirrorPage.php:139
+#, php-format
+msgid "Cannot render this mirror page for now: %s."
+msgstr "Impossible de rendre la page miroir actuellement : %s."
+
 #: src/Site/BlockLayout/TreeStructure.php:19
 msgid "Tree structure of resources"
 msgstr "Arborescence de ressources"
 
+#: src/Site/BlockLayout/TableOfContents.php:74
+#, php-format
+msgid ""
+"Cannot index and/or render a table of contents block in a mirror page for "
+"now: %s."
+msgstr ""
+"Impossible d’indexer ou de rendre un bloc \"table des matières\" dans une "
+"page miroir actuellement : %s."
+
 #: src/Site/BlockLayout/SearchForm.php:19
 msgid "Search form"
 msgstr "Champ de recherche"
-
-#: src/Site/BlockLayout/Column.php:16
-msgid "Column"
-msgstr "Colonne"
-
-#: src/Site/BlockLayout/Column.php:64 src/Site/BlockLayout/Column.php:199
-#: src/Site/BlockLayout/Column.php:206
-msgid ""
-"Type \"intermediate\" and \"end\" columns must be after a block \"start\" or "
-"\"intermediate\"."
-msgstr ""
-"Les colonnes de type \"intermédiaire\" et \"fin\" doivent être situées après "
-"un bloc \"début\" ou \"intermédiaire\"."
-
-#: src/Site/BlockLayout/Column.php:76 src/Site/BlockLayout/Column.php:215
-msgid "Unauthorized type for block column."
-msgstr "Type non autorisé pour le bloc de colonne."
-
-#: src/Site/BlockLayout/Column.php:83 src/Site/BlockLayout/Column.php:225
-msgid "A block \"column\" cannot be single."
-msgstr "Un bloc \"colonne\" ne peut pas être utilisé seul."
-
-#: src/Site/BlockLayout/Column.php:90 src/Site/BlockLayout/Column.php:232
-msgid "The first column block must be of type \"start\"."
-msgstr "Le premier bloc de colonne doit être de type \"début\"."
-
-#: src/Site/BlockLayout/Column.php:95 src/Site/BlockLayout/Column.php:237
-msgid "The last column block must be of type \"end\"."
-msgstr "Le dernier bloc de colonne doit être de type \"fin\"."
-
-#: src/Site/BlockLayout/Column.php:100 src/Site/BlockLayout/Column.php:242
-msgid "Some columns have no end."
-msgstr "Certaines colonnes n’ont pas de fin."
 
 #: src/Site/BlockLayout/SearchResults.php:21
 msgid "Search form and results"
@@ -682,6 +708,39 @@ msgstr "Champ de recherche et résultats"
 #: src/Site/BlockLayout/Separator.php:16
 msgid "Separator"
 msgstr "Séparateur"
+
+#: src/Site/BlockLayout/Division.php:17
+msgid "Division"
+msgstr "Division"
+
+#: src/Site/BlockLayout/Division.php:65 src/Site/BlockLayout/Division.php:200
+#: src/Site/BlockLayout/Division.php:207
+msgid ""
+"Type \"intermediate\" and \"end\" divisions must be after a block \"start\" "
+"or \"intermediate\"."
+msgstr ""
+"Les divisions de type \"intermédiaire\" et \"fin\" doivent être situées "
+"après un bloc \"début\" ou \"intermédiaire\"."
+
+#: src/Site/BlockLayout/Division.php:77 src/Site/BlockLayout/Division.php:216
+msgid "Unauthorized type for block division."
+msgstr "Type non autorisé pour le bloc de division."
+
+#: src/Site/BlockLayout/Division.php:84 src/Site/BlockLayout/Division.php:226
+msgid "A block \"division\" cannot be single."
+msgstr "Un bloc \"division\" ne peut pas être utilisé seul."
+
+#: src/Site/BlockLayout/Division.php:91 src/Site/BlockLayout/Division.php:233
+msgid "The first division block must be of type \"start\"."
+msgstr "Le premier bloc de division doit être de type \"début\"."
+
+#: src/Site/BlockLayout/Division.php:96 src/Site/BlockLayout/Division.php:238
+msgid "The last division block must be of type \"end\"."
+msgstr "Le dernier bloc de division doit être de type \"fin\"."
+
+#: src/Site/BlockLayout/Division.php:101 src/Site/BlockLayout/Division.php:243
+msgid "Some divisions have no end."
+msgstr "Certaines divisions n’ont pas de fin."
 
 #: src/Site/BlockLayout/ItemSetShowcase.php:19
 msgid "Item set showcase"
@@ -695,14 +754,45 @@ msgstr "Métadonnées de la page"
 msgid "Resource with text"
 msgstr "Ressource avec texte"
 
-#: src/Site/BlockLayout/Twitter.php:23
+#: src/Site/BlockLayout/Twitter.php:40
 msgid "Twitter"
 msgstr "Twitter"
 
-#: src/Site/BlockLayout/Twitter.php:33
+#: src/Site/BlockLayout/Twitter.php:50
+msgid "No authorization token is set, so the default one is used."
+msgstr ""
+"Aucun jeton d’autorisation n’est défini, le jeton par défaut est donc "
+"utilisé."
+
+#: src/Site/BlockLayout/Twitter.php:59
 #, php-format
-msgid "The Twitter account \"%s\" has no message currently."
-msgstr "Le compte Twitter \"%s\" n’a pas de message actuellement."
+msgid "The Twitter account \"%s\" is not available."
+msgstr "Le compte Twitter \"%s\" est indisponible."
+
+#: src/Site/BlockLayout/Twitter.php:66
+#, php-format
+msgid "The Twitter account \"%s\" is available and have messages."
+msgstr "Le compte Twitter \"%s\" est disponible et a des messages."
+
+#: src/Site/BlockLayout/Twitter.php:68
+#, php-format
+msgid ""
+"The Twitter account \"%s\" is available, but has no message currently, or "
+"the rate limit has been reached."
+msgstr ""
+"Le compte Twitter \"%s\" est disponible, mais n'a pas de message "
+"actuellement ou le seuil maximum a été atteint."
+
+#: src/Site/BlockLayout/Twitter.php:72
+msgid "A Twitter account is required to fetch messages."
+msgstr "Un compte Twitter est nécessaire pour récupérer des messages."
+
+#: src/Site/BlockLayout/Twitter.php:118
+#, php-format
+msgid "The twitter block for page \"%s\" in site \"%s\" has no account set."
+msgstr ""
+"Le block Twitter pour la page \"%s\" dans le site \"%s\" n’a pas de compte "
+"défini."
 
 #: src/Site/BlockLayout/ExternalContent.php:65
 msgid "External content"
@@ -746,9 +836,45 @@ msgstr "Spécification \"%s\" invalide"
 msgid "Error reading %s: %s (%s)"
 msgstr "Erreur lors de la lecture %s: %s (%s)"
 
-#: config/module.config.php:137
+#: config/module.config.php:145
 msgid "Know more"
 msgstr "En savoir plus"
+
+#, fuzzy
+#~| msgid ""
+#~| "Divide the page into columns. There must be at least two blocks, one for "
+#~| "the start and one for the end, to avoid html issues. Multiple columns "
+#~| "can be nested."
+#~ msgid ""
+#~ "Divide the page into columns. There must be at least two blocks, one for "
+#~ "the start and one for the end. Multiple columns can be nested."
+#~ msgstr ""
+#~ "Divise la page en colonnes. Il doit y avoir au moins deux blocs, l’un "
+#~ "pour le début et l’autre pour la fin, pour éviter les problèmes. Les "
+#~ "colonnes peuvent être imbriquées."
+
+#~ msgid "Column"
+#~ msgstr "Colonne"
+
+#~ msgid ""
+#~ "It may be used for a static html content, like a list of partners, or a "
+#~ "complex layout, since any Omeka feature is available in a view."
+#~ msgstr ""
+#~ "Il peut être utilisé pour du contenu statique, telle qu’une liste de "
+#~ "partenaires, ou un modèle complexe, puisque toutes les fonctionnalités "
+#~ "d’Omeka sont disponibles dans les vues."
+
+#~ msgid "New column"
+#~ msgstr "Nouvelle colonne"
+
+#~ msgid "End column"
+#~ msgstr "Clore la colonne"
+
+#~ msgid "Select below…"
+#~ msgstr "Choisir ci-dessous…"
+
+#~ msgid "Tag for new column"
+#~ msgstr "Balise pour la nouvelle colonne"
 
 #~ msgid "Embedded url"
 #~ msgstr "Url embarquée"
