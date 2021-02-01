@@ -35,9 +35,9 @@ class TwitterFieldset extends Fieldset
                 'name' => 'o:block[__blockIndex__][o:data][authorization]',
                 'type' => Element\Text::class,
                 'options' => [
-                    'label' => 'Authorization token', // @translate
-                    'info' => 'You need to set your own token, not necessarely the account one. Use module Block Plus Twitter to bypass this token.', // @translate
-                    'documentation' => 'https://developer.twitter.com/en/docs/twitter-api/rate-limits#table',
+                    'label' => 'Authorization token (bearer)', // @translate
+                    'info' => 'You may need to set a token, not necessarily the account one. It may be an anonymous one.', // @translate
+                    'documentation' => 'https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus#Twitter',
                 ],
                 'attributes' => [
                     'id' => 'twitter-authorization',

@@ -254,6 +254,10 @@ return [
                 'template' => '',
                 // Account data are stored because the id is required in Twitter api v2.
                 'account_data' => [],
+                // The bearer token is saved separately when it is an automatic one.
+                'authorization_bearer' => '',
+                // The guest token may be needed too.
+                'guest_token' => '',
             ],
         ],
     ],
