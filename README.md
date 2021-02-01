@@ -176,11 +176,25 @@ action for the search in default template `common/search-form`.
 
 ### Twitter
 
-Display the last message from an account on [Twitter]. Since December 2020, it
-is required [to get a dev account] to use this block, since Twitter disabled any
-standard html endpoint (see [this issue on StackOverflow]). The dev account is
-not necessarely the one of the thread to follow. If you don't have one, it works
-nevertheless with the module [Block Plus: Twitter].
+Display the last messages from an account on [Twitter]. To use it, you may use
+your own developer bearer token, else the module will try to use an anonymous
+one.
+
+Technical note: Since December 2020, it is required [to get a dev account] to
+fetch messages of a user, because Twitter disabled any standard html endpoint
+(see [this issue on StackOverflow]). If you use a dev account, it is not
+necessarily the one of the thread to follow.
+
+Nevertheless, it is still possible to fetch them with an anonymous bearer token.
+To get it, check the urls in the dev tools of your browser in the "network" tab.
+The token is set in the header of the requests to https://api.twitter.com with
+the key `Authorization`, for example `AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA`.
+This token will be available for the next two years, _or less_. Anyway, the
+module fetches it automagically. Nevertheless, it uses some hard coded urls that
+may change.
+
+In all cases, there is a [rate limit], but generally largely enough for a common
+digital library.
 
 ### Separator
 
@@ -298,6 +312,7 @@ Copyright
 [Shortcode Carousel]: https://github.com/omeka/plugin-ShortcodeCarousel
 [to get a dev account]: https://developer.twitter.com/en/apply-for-access
 [this issue on StackOverflow]: https://stackoverflow.com/questions/65403350/how-can-i-scrape-twitter-now-that-they-require-javascript
+[rate limit]: https://developer.twitter.com/en/docs/twitter-api/rate-limits#table
 [Block Plus: Twitter]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlusTwitter
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
 [BlockPlus.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/releases
