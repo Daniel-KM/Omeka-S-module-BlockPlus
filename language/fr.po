@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-18 00:00+0000\n"
-"PO-Revision-Date: 2021-01-18 00:00+0000\n"
+"POT-Creation-Date: 2021-01-25 00:00+0000\n"
+"PO-Revision-Date: 2021-01-25 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -94,11 +94,6 @@ msgstr ""
 #: src/Site/BlockLayout/PageMetadata.php:70
 msgid "expand"
 msgstr "déplier"
-
-#: src/Site/BlockLayout/Twitter.php:102
-msgid "If you don’t have a dev account, use the module Block Plus Twitter"
-msgstr ""
-"Si vous n’avez pas de compte dev, utilisez le module Block Plus Twitter"
 
 #: view/common/block-layout/block-arborescence.phtml:25
 msgid ""
@@ -373,16 +368,16 @@ msgid "Account"
 msgstr "Compte"
 
 #: src/Form/TwitterFieldset.php:38
-msgid "Authorization token"
-msgstr "Jeton d’autorisation"
+msgid "Authorization token (bearer)"
+msgstr "Jeton d’autorisation (bearer)"
 
 #: src/Form/TwitterFieldset.php:39
 msgid ""
-"You need to set your own token, not necessarely the account one. Use module "
-"Block Plus Twitter to bypass this token."
+"You may need to set a token, not necessarily the account one. It may be an "
+"anonymous one."
 msgstr ""
 "Vous devez définir votre jeton personnel, pas forcément celui du compte. "
-"Utiliser le module Block Plus Twitter en l’'absence de jeton."
+"Cela peut être un jeton anonyme."
 
 #: src/Form/TwitterFieldset.php:50
 msgid "Number of messages"
@@ -754,27 +749,22 @@ msgstr "Métadonnées de la page"
 msgid "Resource with text"
 msgstr "Ressource avec texte"
 
-#: src/Site/BlockLayout/Twitter.php:40
+#: src/Site/BlockLayout/Twitter.php:50
 msgid "Twitter"
 msgstr "Twitter"
 
-#: src/Site/BlockLayout/Twitter.php:50
+#: src/Site/BlockLayout/Twitter.php:60
 msgid "No authorization token is set, so the default one is used."
 msgstr ""
 "Aucun jeton d’autorisation n’est défini, le jeton par défaut est donc "
 "utilisé."
 
-#: src/Site/BlockLayout/Twitter.php:59
+#: src/Site/BlockLayout/Twitter.php:75
 #, php-format
 msgid "The Twitter account \"%s\" is not available."
 msgstr "Le compte Twitter \"%s\" est indisponible."
 
-#: src/Site/BlockLayout/Twitter.php:66
-#, php-format
-msgid "The Twitter account \"%s\" is available and have messages."
-msgstr "Le compte Twitter \"%s\" est disponible et a des messages."
-
-#: src/Site/BlockLayout/Twitter.php:68
+#: src/Site/BlockLayout/Twitter.php:82
 #, php-format
 msgid ""
 "The Twitter account \"%s\" is available, but has no message currently, or "
@@ -783,11 +773,16 @@ msgstr ""
 "Le compte Twitter \"%s\" est disponible, mais n'a pas de message "
 "actuellement ou le seuil maximum a été atteint."
 
-#: src/Site/BlockLayout/Twitter.php:72
+#: src/Site/BlockLayout/Twitter.php:84
+#, php-format
+msgid "The Twitter account \"%s\" is available and have messages."
+msgstr "Le compte Twitter \"%s\" est disponible et a des messages."
+
+#: src/Site/BlockLayout/Twitter.php:88
 msgid "A Twitter account is required to fetch messages."
 msgstr "Un compte Twitter est nécessaire pour récupérer des messages."
 
-#: src/Site/BlockLayout/Twitter.php:118
+#: src/Site/BlockLayout/Twitter.php:131
 #, php-format
 msgid "The twitter block for page \"%s\" in site \"%s\" has no account set."
 msgstr ""
@@ -839,6 +834,10 @@ msgstr "Erreur lors de la lecture %s: %s (%s)"
 #: config/module.config.php:145
 msgid "Know more"
 msgstr "En savoir plus"
+
+#~ msgid "If you don’t have a dev account, use the module Block Plus Twitter"
+#~ msgstr ""
+#~ "Si vous n’avez pas de compte dev, utilisez le module Block Plus Twitter"
 
 #, fuzzy
 #~| msgid ""

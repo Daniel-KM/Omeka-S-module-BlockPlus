@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-18 00:00+0000\n"
+"POT-Creation-Date: 2021-01-25 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,10 +83,6 @@ msgstr ""
 
 #: src/Site/BlockLayout/PageMetadata.php:70
 msgid "expand"
-msgstr ""
-
-#: src/Site/BlockLayout/Twitter.php:102
-msgid "If you don’t have a dev account, use the module Block Plus Twitter"
 msgstr ""
 
 #: view/common/block-layout/block-arborescence.phtml:25
@@ -336,13 +332,13 @@ msgid "Account"
 msgstr ""
 
 #: src/Form/TwitterFieldset.php:38
-msgid "Authorization token"
+msgid "Authorization token (bearer)"
 msgstr ""
 
 #: src/Form/TwitterFieldset.php:39
 msgid ""
-"You need to set your own token, not necessarely the account one. Use module "
-"Block Plus Twitter to bypass this token."
+"You may need to set a token, not necessarily the account one. It may be an "
+"anonymous one."
 msgstr ""
 
 #: src/Form/TwitterFieldset.php:50
@@ -664,36 +660,36 @@ msgstr ""
 msgid "Resource with text"
 msgstr ""
 
-#: src/Site/BlockLayout/Twitter.php:40
+#: src/Site/BlockLayout/Twitter.php:50
 msgid "Twitter"
 msgstr ""
 
-#: src/Site/BlockLayout/Twitter.php:50
+#: src/Site/BlockLayout/Twitter.php:60
 msgid "No authorization token is set, so the default one is used."
 msgstr ""
 
-#: src/Site/BlockLayout/Twitter.php:59
+#: src/Site/BlockLayout/Twitter.php:75
 #, php-format
 msgid "The Twitter account \"%s\" is not available."
 msgstr ""
 
-#: src/Site/BlockLayout/Twitter.php:66
-#, php-format
-msgid "The Twitter account \"%s\" is available and have messages."
-msgstr ""
-
-#: src/Site/BlockLayout/Twitter.php:68
+#: src/Site/BlockLayout/Twitter.php:82
 #, php-format
 msgid ""
 "The Twitter account \"%s\" is available, but has no message currently, or "
 "the rate limit has been reached."
 msgstr ""
 
-#: src/Site/BlockLayout/Twitter.php:72
+#: src/Site/BlockLayout/Twitter.php:84
+#, php-format
+msgid "The Twitter account \"%s\" is available and have messages."
+msgstr ""
+
+#: src/Site/BlockLayout/Twitter.php:88
 msgid "A Twitter account is required to fetch messages."
 msgstr ""
 
-#: src/Site/BlockLayout/Twitter.php:118
+#: src/Site/BlockLayout/Twitter.php:131
 #, php-format
 msgid "The twitter block for page \"%s\" in site \"%s\" has no account set."
 msgstr ""
