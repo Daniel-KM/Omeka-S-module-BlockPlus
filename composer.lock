@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fd4bfc913a806c7873652e8c4d988a3",
+    "content-hash": "a8102b58c4422b42b71e6e1ff99623db",
     "packages": [
         {
             "name": "asset/thumbnail-grid-expanding-preview",
@@ -12,6 +12,15 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.1.zip"
+            },
+            "type": "library"
+        },
+        {
+            "name": "jsor/jcarousel",
+            "version": "0.3.9",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/jsor/jcarousel/archive/refs/heads/master.zip"
             },
             "type": "library"
         },
@@ -61,7 +70,20 @@
             "keywords": [
                 "copy file"
             ],
+            "support": {
+                "issues": "https://github.com/slowprog/CopyFile/issues",
+                "source": "https://github.com/slowprog/CopyFile/tree/0.3.3"
+            },
             "time": "2020-07-02T14:44:41+00:00"
+        },
+        {
+            "name": "thetechy/jslists",
+            "version": "0.4.5",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.zip"
+            },
+            "type": "library"
         }
     ],
     "packages-dev": [],
@@ -72,5 +94,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

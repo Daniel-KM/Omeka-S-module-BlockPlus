@@ -25,7 +25,9 @@
     ],
     "require": {
         "slowprog/composer-copy-file": "~0.3",
-        "asset/thumbnail-grid-expanding-preview": "*"
+        "asset/thumbnail-grid-expanding-preview": "0.1",
+        "jsor/jcarousel": "0.3.9",
+        "thetechy/jslists": "0.4.5"
     },
     "autoload": {
         "psr-4": {
@@ -45,6 +47,28 @@
                 "version": "0.1",
                 "dist": {
                     "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.1.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "jsor/jcarousel",
+                "version": "0.3.9",
+                "dist": {
+                    "url": "https://github.com/jsor/jcarousel/archive/refs/heads/master.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "thetechy/jslists",
+                "version": "0.4.5",
+                "dist": {
+                    "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.zip",
                     "type": "zip"
                 }
             }
@@ -68,7 +92,11 @@
             "vendor/asset/thumbnail-grid-expanding-preview/README.md": "asset/vendor/ThumbnailGridExpandingPreview/",
             "vendor/asset/thumbnail-grid-expanding-preview/vendor/imagesloaded/": "asset/vendor/imagesloaded/",
             "vendor/asset/thumbnail-grid-expanding-preview/vendor/jquery-smartresize/": "asset/vendor/jquery-smartresize/",
-            "vendor/asset/thumbnail-grid-expanding-preview/vendor/modernizr/": "asset/vendor/modernizr/"
+            "vendor/asset/thumbnail-grid-expanding-preview/vendor/modernizr/": "asset/vendor/modernizr/",
+            "vendor/jsor/jcarousel/dist/jquery.jcarousel.min.js": "asset/vendor/jcarousel/javascripts/",
+            "vendor/jsor/jcarousel/examples/responsive/jcarousel.responsive.js": "asset/vendor/jcarousel/javascripts/",
+            "vendor/jsor/jcarousel/examples/responsive/jcarousel.responsive.css": "asset/vendor/jcarousel/css/",
+            "vendor/thetechy/jslists/": "asset/vendor/jslists/"
         }
     }
 }
