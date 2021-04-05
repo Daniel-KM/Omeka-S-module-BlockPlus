@@ -218,12 +218,17 @@ the root is added too.
 Furthermore, the block Browse preview has new fields to display sort headings
 and pagination, so it's now possible to have a specific list of items, like the
 main browse view.
+
 It has some specific templates too:
 - simple carousel: this is an upgrade of the plugin [Shortcode Carousel] for
   [Omeka Classic].
 - gallery display with a quick viewer too (browse-preview-gallery). This one has
   a specific option to add to the query to display thumbnails as square or
   medium: `thumbnail_size=medium`.
+
+To use them, simply select the wanted template:
+
+![browse-preview-carousel](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/raw/master/data/images/browse-preview-carousel.png)
 
 **Warning**
 
