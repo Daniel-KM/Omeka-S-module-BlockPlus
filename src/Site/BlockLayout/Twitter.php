@@ -106,6 +106,7 @@ class Twitter extends AbstractBlockLayout
             $accountData = null;
         }
         $data['account_data'] = $accountData;
+        $data['cache'] = [];
         $block->setData($data);
     }
 
@@ -154,6 +155,14 @@ class Twitter extends AbstractBlockLayout
         }
 
         $messages = $this->fetchMessages($accountData, (int) $vars['limit'], (bool) $vars['retweet'], $view);
+
+        // Cache the messages to avoid the request limitation.
+        $cache = $vars['cache'] ?? [];
+        if (empty($messages)) {
+            $messages = $cache;
+        } elseif ($messages !== $cache) {
+            $this->cacheMessagesForBlock($block, $messages);
+        }
 
         $vars = [
             'heading' => $vars['heading'],
@@ -586,5 +595,18 @@ class Twitter extends AbstractBlockLayout
             }
         }
         return $this->guestToken;
+    }
+
+    protected function cacheMessagesForBlock(SitePageBlockRepresentation $block, array $messages)
+    {
+        // The user may be anonymous, so use the entity manager.
+        /** @var \Doctrine\ORM\EntityManager $entityManager */
+        $entityManager = $block->getServiceLocator()->get('Omeka\EntityManager');
+        /** @var \Omeka\Entity\SitePageBlock $block */
+        $block = $entityManager->find(\Omeka\Entity\SitePageBlock::class, $block->id());
+        $data = $block->getData();
+        $data['cache'] = $messages;
+        $block->setData($data);
+        $entityManager->flush($block);
     }
 }
