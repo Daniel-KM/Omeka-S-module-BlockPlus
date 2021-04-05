@@ -193,6 +193,9 @@ This token will be available for the next two years, _or less_. Anyway, the
 module fetches it automagically. Nevertheless, it uses some hard coded urls that
 may change.
 
+Check how to generate a [bear token]. You need to create an app in your account
+too. If you can't, try to check the option to use the Api version 1.1.
+
 In all cases, there is a [rate limit], but generally largely enough for a common
 digital library.
 
@@ -317,6 +320,7 @@ Copyright
 [Shortcode Carousel]: https://github.com/omeka/plugin-ShortcodeCarousel
 [to get a dev account]: https://developer.twitter.com/en/apply-for-access
 [this issue on StackOverflow]: https://stackoverflow.com/questions/65403350/how-can-i-scrape-twitter-now-that-they-require-javascript
+[bear token]: https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens
 [rate limit]: https://developer.twitter.com/en/docs/twitter-api/rate-limits#table
 [Block Plus: Twitter]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlusTwitter
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media

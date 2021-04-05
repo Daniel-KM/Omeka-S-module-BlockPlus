@@ -44,6 +44,17 @@ class TwitterFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][use_api_v1]',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'label' => 'Use Twitter api version 1.1', // @translate
+                    'info' => 'According to Twitter, you may require to create an app inside dev account. In some cases, api 1.1 doesn’t require it.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'twitter-use_api_v1',
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][limit]',
                 'type' => Element\Number::class,
                 'options' => [

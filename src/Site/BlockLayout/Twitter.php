@@ -28,17 +28,22 @@ class Twitter extends AbstractBlockLayout
     /**
      * The url to get the user id.
      */
-    const URL_GRAPHQL = 'https://api.twitter.com/graphql/jMaTS-_Ea8vh9rpKggJbCQ/UserByScreenName';
+    const URL_GRAPHQL = 'https://twitter.com/i/api/graphql/hc-pka9A7gyS3xODIafnrQ/UserByScreenName';
 
     /**
      * The url to get the authorization bearer.
      */
-    const URL_JS = 'https://abs.twimg.com/responsive-web/client-web/main.90f9e505.js';
+    const URL_JS = 'https://abs.twimg.com/responsive-web/client-web/main.390d5055.js';
 
     /**
      * @var string
      */
     protected $authorizationToken;
+
+    /**
+     * @var bool
+     */
+    protected $useApi1 = false;
 
     /**
      * @var string
@@ -56,8 +61,10 @@ class Twitter extends AbstractBlockLayout
 
         $data = $block->getData();
 
+        $this->useApi1 = !empty($data['use_api_v1']);
+
         if (empty($data['authorization'])) {
-            $messenger->addWarning('No authorization token is set, so the default one is used.'); // @translate
+            $messenger->addWarning('No Twitter authorization token is set, so the default one is used.'); // @translate
             // Save the automatic token separately.
             $data['authorization_bearer'] = $this->getAuthorizationToken();
         } else {
@@ -75,11 +82,21 @@ class Twitter extends AbstractBlockLayout
                 $messenger->addError(new Message('The Twitter account "%s" is not available.', $account)); // @translate
             } elseif (isset($accountData['error'])) {
                 $messenger->addError(new Message('The Twitter account "%s" is not available: %s', $account, $accountData['error'])); // @translate
+                // TODO Automatically define if the api v1.1 should be used.
+                if (!$this->useApi1 && $data['authorization']) {
+                    $messenger->addWarning(new Message('The token may be restricted to v2 or no app may be defined: try api v1.1.')); // @translate
+                }
                 $accountData = null;
             } else {
                 $response = $this->fetchMessages($accountData);
-                if (empty($response) || empty($response['globalObjects']['tweets'])) {
+                if (empty($response)
+                    || ($this->useApi1 && !count($response))
+                    || (!$this->useApi1 && !count($response['globalObjects']['tweets']))
+                ) {
                     $messenger->addWarning(new Message('The Twitter account "%s" is available, but has no message currently, or the rate limit has been reached.', $account)); // @translate
+                    if (!$this->useApi1 && $data['authorization']) {
+                        $messenger->addWarning(new Message('The token may be restricted to v2 or no app may be defined: try api v1.1.')); // @translate
+                    }
                 } else {
                     $messenger->addSuccess(new Message('The Twitter account "%s" is available and have messages.', $account)); // @translate
                 }
@@ -121,6 +138,7 @@ class Twitter extends AbstractBlockLayout
     {
         $vars = $block->data();
 
+        $this->useApi1 = !empty($vars['use_api_v1']);
         $this->authorizationToken = empty($vars['authorization']) ? null : ($vars['authorization_bearer'] ?? null);
         $this->guestToken = empty($vars['guest_token']) ? null : $vars['guest_token'];
         $accountData = empty($vars['account_data'])
@@ -135,7 +153,7 @@ class Twitter extends AbstractBlockLayout
             return '';
         }
 
-        $messages = $this->fetchMessages($accountData, $vars['limit'], $vars['retweet'], $view);
+        $messages = $this->fetchMessages($accountData, (int) $vars['limit'], (bool) $vars['retweet'], $view);
 
         $vars = [
             'heading' => $vars['heading'],
@@ -160,7 +178,6 @@ class Twitter extends AbstractBlockLayout
             return null;
         }
 
-        // TODO Use twitter api v2.
         $response = $this->fetchTwitterUrl(
             self::URL_GRAPHQL,
             [
@@ -169,6 +186,7 @@ class Twitter extends AbstractBlockLayout
                     'withHighlightedLabel' => true,
                 ]),
             ],
+            true,
             $view
         );
 
@@ -197,6 +215,150 @@ class Twitter extends AbstractBlockLayout
             return [];
         }
 
+        return $this->useApi1
+            ? $this->fetchMessagesApi1($accountData, $limit, $retweet, $view)
+            : $this->fetchMessagesApi2($accountData, $limit, $retweet, $view);
+    }
+
+    protected function fetchMessagesApi1(array $accountData, $limit = 1, $retweet = false, PhpRenderer $view = null): array
+    {
+        $accountId = $accountData['id'];
+        $account = $accountData['account'];
+
+        // The process fetched directly the web page in order to avoid to add a
+        // specific package and to avoid to create credential keys in Twitter.
+        // It is possible only with the mobile page, that doesn't use ajax.
+        // This is no more supported since December 2020, neither any direct
+        // query without javascript.
+        // @see https://stackoverflow.com/questions/65403350/how-can-i-scrape-twitter-now-that-they-require-javascript
+
+        // See previous version for extraction of last tweets from the xml of
+        // mobile.
+
+        // The canonical url is lower case.
+        // $url = 'https://mobile.twitter.com/' . mb_strtolower($account);
+        // $html = @file_get_contents($url);
+
+        // This uses the user timeline. Max is 15 requests / 15 min, or
+        // 900 requests / 15 min when there is an app, but in that case, the v2
+        // should be used.
+        // @link https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-user_timeline
+
+        $response = $this->fetchTwitterUrl(
+            'https://api.twitter.com/1.1/statuses/user_timeline.json',
+            [
+                'user_id' => $accountId,
+                // 'screen_name' => '',
+                // The count is not used in the query, because the replies/retweet are
+                // filtered after the count by twitter.
+                // 'count' => $limit,
+                'count' => 200,
+                // @link https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/guides/working-with-timelines
+                // 'since_id' => '',
+                // 'max_id' => '',
+                'trim_user' => 0,
+                'exclude_replies' => 1,
+                'include_rts' => (int) $retweet,
+                // Output full sized tweets (280 characters), not official argument.
+                // @link https://stackoverflow.com/questions/64001237/how-to-obtain-full-text-field-value-from-twitter-api-with-twythonstreamer
+                'tweet_mode' => 'extended',
+            ],
+            false,
+            $view
+        );
+
+        if ($view && empty($response)) {
+            $view->logger()->err(new Message(
+                'Error for block Twitter: No response.' // @translate
+            ));
+            return [];
+        }
+
+        if ($view && (!empty($response['error']) || !empty($response['errors'][0]['message']))) {
+            $view->logger()->err(new Message(
+                'Error for block Twitter: %s. Check token.', // @translate
+                $response['error'] ?? $response['errors'][0]['message']
+            ));
+            return [];
+        }
+
+        if (!count($response)) {
+            return [];
+        }
+
+        if (!$view) {
+            return $response;
+        }
+
+        $escape = $view->plugin('escapeHtml');
+        $baseUrl = 'https://twitter.com/';
+
+        $result = [];
+
+        foreach ($response as $tweet) {
+            if (empty($tweet['full_text']) && empty($tweet['text'])) {
+                continue;
+            }
+            $id = $tweet['id'];
+            $text = $tweet['full_text'] ?? $tweet['text'];
+
+            $replace = [];
+            foreach ($tweet['entities'] ?? [] as $entityType => $entities) {
+                foreach ($entities as $entity) {
+                    switch ($entityType) {
+                        case 'hashtags':
+                            $replace['#' . $entity['text']] = sprintf(
+                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                $baseUrl . 'hashtag/' . rawurlencode($entity['text']),
+                                $escape('#' . $entity['text'])
+                            );
+                            break;
+                        case 'user_mentions':
+                            $replace['@' . $entity['screen_name']] = sprintf(
+                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                $baseUrl . $escape($entity['screen_name']),
+                                $escape('@' . $entity['screen_name'])
+                            );
+                            break;
+                        case 'urls':
+                            $replace[$entity['url']] = sprintf(
+                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                $entity['url'],
+                                $entity['expanded_url']
+                            );
+                            break;
+                        case 'media':
+                            break;
+                        case 'symbols':
+                            break;
+                        default:
+                            continue 2;
+                    }
+                }
+            }
+            $message = str_replace(array_keys($replace), array_values($replace), $text);
+            $content = [
+                'tweet' => $tweet,
+                'id' => $id,
+                'url' => $baseUrl . $account, '/status/' . $id,
+                'created_at' => $tweet['created_at'],
+                'timestamp' => (new \DateTime($tweet['created_at']))->format('U'),
+                'content' => $message,
+            ];
+            $result[] = $content;
+
+            // With api v1.1, the limit is not set in query, but here to get the
+            // proper count.
+            if (count($result) >= $limit) {
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+    protected function fetchMessagesApi2(array $accountData, $limit = 1, $retweet = false, PhpRenderer $view = null): array
+    {
         $accountId = $accountData['id'];
         $account = $accountData['account'];
 
@@ -243,10 +405,26 @@ class Twitter extends AbstractBlockLayout
                 'userId' => $accountId,
                 'ext' => 'mediaStats,highlightedLabel',
             ],
+            false,
             $view
         );
 
-        if (empty($response) || empty($response['timeline']['instructions'][0]['addEntries']['entries'])) {
+        if ($view && empty($response)) {
+            $view->logger()->err(new Message(
+                'Error for block Twitter: No response.' // @translate
+            ));
+            return [];
+        }
+
+        if ($view && (!empty($response['error']) || !empty($response['errors'][0]['message']))) {
+            $view->logger()->err(new Message(
+                'Error for block Twitter: %s. Check token or use api v1.', // @translate
+                $response['error'] ?? $response['errors'][0]['message']
+            ));
+            return [];
+        }
+
+        if (empty($response['timeline']['instructions'][0]['addEntries']['entries'])) {
             return [];
         }
 
@@ -327,13 +505,22 @@ class Twitter extends AbstractBlockLayout
         return $result;
     }
 
-    protected function fetchTwitterUrl(string $url, array $query = [], ?PhpRenderer $view = null): array
-    {
+    /**
+     * Fetch data from a twitter url with credentials.
+     *
+     *  The default credentials are used when option $forceNoSave is set.
+     */
+    protected function fetchTwitterUrl(
+        string $url,
+        array $query = [],
+        bool $forceNoSave = false,
+        ?PhpRenderer $view = null
+    ): array {
         $headers = [
             'User-Agent' => self::USER_AGENT,
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->getAuthorizationToken(),
-            'x-guest-token' => $this->getGuestToken(),
+            'Authorization' => 'Bearer ' . $this->getAuthorizationToken($forceNoSave),
+            'x-guest-token' => $this->getGuestToken($forceNoSave),
             'x-twitter-active-user' => 'no',
             'x-twitter-client-language' => $view ? ($view->siteSetting('locale') ?: $view->setting('locale')) : 'en',
         ];
@@ -344,6 +531,10 @@ class Twitter extends AbstractBlockLayout
         }
 
         $body = json_decode($body, true);
+        if (isset($body['error'])) {
+            $this->error = $body['error'];
+            return ['error' => $body['error']];
+        }
         if (isset($body['errors'][0]['message'])) {
             $this->error = $body['errors'][0]['message'];
             return ['error' => $body['errors'][0]['message']];
@@ -352,22 +543,26 @@ class Twitter extends AbstractBlockLayout
         return $body;
     }
 
-    protected function getAuthorizationToken(): ?string
+    protected function getAuthorizationToken(bool $forceNoSave = false): ?string
     {
-        if (empty($this->authorizationToken)) {
+        if (empty($this->authorizationToken) || $forceNoSave) {
             $response = ClientStatic::get(self::URL_JS);
             $body = $response->getBody();
             $matches = [];
             preg_match('/s=\"AAAAA[^\"]+\"/', $body, $matches, PREG_OFFSET_CAPTURE);
-            $this->authorizationToken = empty($matches[0][0]) ? null : mb_substr($matches[0][0], 3, -1);
+            $token = empty($matches[0][0]) ? null : mb_substr($matches[0][0], 3, -1);
+            if ($forceNoSave) {
+                return $token;
+            }
+            $this->authorizationToken = $token;
         }
         return $this->authorizationToken;
     }
 
-    protected function getGuestToken()
+    protected function getGuestToken(bool $forceNoSave = false): ?string
     {
         // TODO Disable when the authorization token is a dev one.
-        if (empty($this->guestToken)) {
+        if (empty($this->guestToken) || $forceNoSave) {
             $baseUrl = 'https://api.twitter.com/1.1/guest/activate.json';
             $response = ClientStatic::post(
                 $baseUrl,
@@ -375,14 +570,18 @@ class Twitter extends AbstractBlockLayout
                 [
                     'User-Agent' => self::USER_AGENT,
                     // 'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $this->getAuthorizationToken(),
+                    'Authorization' => 'Bearer ' . $this->getAuthorizationToken($forceNoSave),
                 ]
             );
             $body = $response->getBody();
             if ($body) {
                 $body = json_decode($body, true);
                 if ($body) {
-                    $this->guestToken = $body['guest_token'] ?? null;
+                    $token = $body['guest_token'] ?? null;
+                    if ($forceNoSave) {
+                        return $token;
+                    }
+                    $this->guestToken = $token;
                 }
             }
         }
