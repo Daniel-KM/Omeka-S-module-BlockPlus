@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
@@ -44,14 +45,20 @@ class TwitterFieldset extends Fieldset
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][use_api_v1]',
-                'type' => Element\Checkbox::class,
+                'name' => 'o:block[__blockIndex__][o:data][api]',
+                'type' => Element\Radio::class,
                 'options' => [
-                    'label' => 'Use Twitter api version 1.1', // @translate
+                    'label' => 'Twitter api version', // @translate
                     'info' => 'According to Twitter, you may require to create an app inside dev account. In some cases, api 1.1 doesn’t require it.', // @translate
+                    'value_options' => [
+                        '1.1-home' => '1.1 (home timeline)', // @translate
+                        '1.1' => '1.1',
+                        '2.0' => '2.0',
+                    ],
                 ],
                 'attributes' => [
-                    'id' => 'twitter-use_api_v1',
+                    'id' => 'twitter-api',
+                    'value' => '1.1',
                 ],
             ])
             ->add([

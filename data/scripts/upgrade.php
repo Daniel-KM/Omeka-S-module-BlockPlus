@@ -71,3 +71,22 @@ WHERE layout = "column";
 SQL;
     $connection->exec($sql);
 }
+
+if (version_compare($oldVersion, '3.3.11.7', '<')) {
+    $sql = <<<'SQL'
+UPDATE site_page_block
+SET
+    data = REPLACE(
+        REPLACE(
+            data,
+            '"use_api_v1":"0"',
+            '"api":"2.0"'
+        ),
+        '"use_api_v1":"1"',
+        '"api":"1.1"'
+    )
+WHERE
+    layout = "twitter";
+SQL;
+    $connection->exec($sql);
+}

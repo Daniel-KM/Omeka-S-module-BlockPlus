@@ -41,9 +41,14 @@ class Twitter extends AbstractBlockLayout
     protected $authorizationToken;
 
     /**
+     * @var string
+     */
+    protected $twitterApi = '1.1';
+
+    /**
      * @var bool
      */
-    protected $useApi1 = false;
+    protected $useTwitterApi1 = true;
 
     /**
      * @var string
@@ -61,7 +66,8 @@ class Twitter extends AbstractBlockLayout
 
         $data = $block->getData();
 
-        $this->useApi1 = !empty($data['use_api_v1']);
+        $this->twitterApi = empty($data['api']) ? '1.1' : $data['api'];
+        $this->useTwitterApi1 = $this->twitterApi !== '2.0';
 
         if (empty($data['authorization'])) {
             $messenger->addWarning('No Twitter authorization token is set, so the default one is used.'); // @translate
@@ -83,18 +89,20 @@ class Twitter extends AbstractBlockLayout
             } elseif (isset($accountData['error'])) {
                 $messenger->addError(new Message('The Twitter account "%s" is not available: %s', $account, $accountData['error'])); // @translate
                 // TODO Automatically define if the api v1.1 should be used.
-                if (!$this->useApi1 && $data['authorization']) {
+                if (!$this->useTwitterApi1 && $data['authorization']) {
                     $messenger->addWarning(new Message('The token may be restricted to v2 or no app may be defined: try api v1.1.')); // @translate
                 }
                 $accountData = null;
             } else {
                 $response = $this->fetchMessages($accountData);
-                if (empty($response)
-                    || ($this->useApi1 && !count($response))
-                    || (!$this->useApi1 && !count($response['globalObjects']['tweets']))
+                if (!empty($response['error'])) {
+                    $messenger->addSuccess(new Message('The Twitter account "%s" is available but there is an error: %s', $account, $response['error'])); // @translate
+                } elseif (empty($response)
+                    || ($this->useTwitterApi1 && !count($response))
+                    || (!$this->useTwitterApi1 && !count($response['globalObjects']['tweets']))
                 ) {
                     $messenger->addWarning(new Message('The Twitter account "%s" is available, but has no message currently, or the rate limit has been reached.', $account)); // @translate
-                    if (!$this->useApi1 && $data['authorization']) {
+                    if (!$this->useTwitterApi1 && $data['authorization']) {
                         $messenger->addWarning(new Message('The token may be restricted to v2 or no app may be defined: try api v1.1.')); // @translate
                     }
                 } else {
@@ -102,7 +110,7 @@ class Twitter extends AbstractBlockLayout
                 }
             }
         } else {
-            $messenger->addError(new Message('A Twitter account is required to fetch messages.', $account)); // @translate
+            $messenger->addError(new Message('A Twitter account is required to fetch messages.')); // @translate
             $accountData = null;
         }
         $data['account_data'] = $accountData;
@@ -139,7 +147,8 @@ class Twitter extends AbstractBlockLayout
     {
         $vars = $block->data();
 
-        $this->useApi1 = !empty($vars['use_api_v1']);
+        $this->twitterApi = empty($vars['api']) ? '1.1' : $vars['api'];
+        $this->useTwitterApi1 = $this->twitterApi !== '2.0';
         $this->authorizationToken = empty($vars['authorization']) ? null : ($vars['authorization_bearer'] ?? null);
         $this->guestToken = empty($vars['guest_token']) ? null : $vars['guest_token'];
         $accountData = empty($vars['account_data'])
@@ -224,7 +233,7 @@ class Twitter extends AbstractBlockLayout
             return [];
         }
 
-        return $this->useApi1
+        return $this->useTwitterApi1
             ? $this->fetchMessagesApi1($accountData, $limit, $retweet, $view)
             : $this->fetchMessagesApi2($accountData, $limit, $retweet, $view);
     }
@@ -251,13 +260,16 @@ class Twitter extends AbstractBlockLayout
         // This uses the user timeline. Max is 15 requests / 15 min, or
         // 900 requests / 15 min when there is an app, but in that case, the v2
         // should be used.
+        // @link https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-home_timeline
         // @link https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-user_timeline
 
         $response = $this->fetchTwitterUrl(
-            'https://api.twitter.com/1.1/statuses/user_timeline.json',
+            $this->twitterApi === '1.1-home'
+                ? 'https://api.twitter.com/1.1/statuses/home_timeline.json'
+                : 'https://api.twitter.com/1.1/statuses/user_timeline.json',
             [
                 'user_id' => $accountId,
-                // 'screen_name' => '',
+                'screen_name' => $accountData['fullname'],
                 // The count is not used in the query, because the replies/retweet are
                 // filtered after the count by twitter.
                 // 'count' => $limit,

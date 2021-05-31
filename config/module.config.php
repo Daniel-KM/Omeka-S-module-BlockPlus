@@ -251,7 +251,7 @@ return [
                 'limit' => 1,
                 'retweet' => false,
                 'authorization' => '',
-                'use_api_v1' => false,
+                'api' => '1.1',
                 'template' => '',
                 // Account data are stored because the id is required in Twitter api v2.
                 'account_data' => [],

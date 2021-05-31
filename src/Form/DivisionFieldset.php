@@ -23,6 +23,7 @@ class DivisionFieldset extends Fieldset
                     ],
                 ],
                 'attributes' => [
+                    'id' => 'division-type',
                     'required' => true,
                     'value' => 'start',
                 ],
@@ -38,6 +39,7 @@ class DivisionFieldset extends Fieldset
                     ],
                 ],
                 'attributes' => [
+                    'id' => 'division-div',
                     'value' => 'div',
                 ],
             ])
@@ -49,6 +51,7 @@ class DivisionFieldset extends Fieldset
                     'info' => 'Set the classes according to the css of your theme. Only classes "main" and "column" are managed.', // @translate
                 ],
                 'attributes' => [
+                    'id' => 'division-class',
                     'placeholder' => 'main column align-left',
                 ],
             ]);
