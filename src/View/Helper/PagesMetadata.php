@@ -36,14 +36,12 @@ class PagesMetadata extends AbstractHelper
         return $pageBlocks;
     }
 
-    /**
-     * @return \Omeka\Api\Representation\SiteRepresentation
-     */
-    protected function currentSite()
+    protected function currentSite(): ?\Omeka\Api\Representation\SiteRepresentation
     {
-        $view = $this->getView();
-        return isset($view->site)
-            ? $view->site
-            : $view->getHelperPluginManager()->get('Laminas\View\Helper\ViewModel')->getRoot()->getVariable('site');
+        return $this->view->site ?? $this->view
+            ->getHelperPluginManager()
+            ->get('Laminas\View\Helper\ViewModel')
+            ->getRoot()
+            ->getVariable('site');
     }
 }
