@@ -80,7 +80,7 @@ class SearchResults extends AbstractBlockLayout
             $query['site_id'] = $site->id();
         }
 
-        $limit = $block->dataValue('limit', 12);
+        $limit = $block->dataValue('limit', 12) ?: 12;
 
         // Unlike browse preview, the pagination is always prepared, even if it
         // not displayed in the view.
