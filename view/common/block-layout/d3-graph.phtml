@@ -1,0 +1,198 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $heading
+ * @var string $params
+ */
+
+// Example of full json params:
+/*
+{
+    "items": {
+        "limit": 100,
+        "property": [
+            { "joiner": "and", "property": "dcterms:type", "type": "res", "text": 40380 }
+        ]
+    } ,
+    "item_sets": null,
+    "relations": [
+        "item_sets"
+    ],
+    "config": {
+        "height": 800,
+        "forceCharge": -100,
+        "forceLinkDistance": 100,
+        "baseCirclePow": 0.6,
+        "baseCircleMin": 5,
+        "fontSizeTop": 35,
+        "fontSizeMin": ".1px",
+        "fontSizeMax": "16px"
+    }
+}
+*/
+
+// When a resource is null (here, item_sets), there is not links for it (but some are
+// added here anyway, since the relations includes it.
+
+// Possible relations: items, item_sets, objects, subjects.
+
+// Example of config for a smaller set of relations:
+/*
+    "config": {
+        "height": 800,
+        "forceCharge": -400,
+        "forceLinkDistance": 200,
+        "baseCirclePow": 0.9,
+        "baseCircleMin": 5,
+        "fontSizeTop": 5,
+        "fontSizeMin": ".1px",
+        "fontSizeMax": "16px"
+    }
+*/
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$api = $plugins->get('api');
+
+$limitItemsByItemSet = 100;
+
+$params = $this->blockMetadata('params_json', $block) ?: [];
+if (empty($params)) {
+    echo '<p>';
+    echo 'A list of resources as json queries by resource name should be defined.';
+    echo '<br/>';
+    echo 'Example:';
+    echo '<br/>';
+    $query = ['items' => [
+        'property' => [[
+            'property' => 'dcterms:type',
+            'type' => 'res',
+            'text' => "40380",
+        ]]
+    ]];
+    echo sprintf('<code>%s</code></p>', json_encode($query, 448));
+    echo '<p>';
+    echo 'Key "config" for "forceCharge", "forceLinkDistance", "baseCircle", "topSize" is supported too.';
+    echo '</p>';
+    return;
+}
+
+$types = [
+    'items' => 'item',
+    'item_sets' => 'item-set',
+    'media' => 'media',
+    'annotations' => 'annotation',
+];
+
+// TODO Add links with the same values (like references or indexes).
+$relationTypes = $params['relations'] ?? ['objects', 'subjects', 'item_sets', 'items'];
+
+/** @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources */
+$resources = [];
+foreach (array_filter(array_intersect_key($params, $types), 'is_array') as $resourceType => $query) {
+    $resources[] = $api->search($resourceType, $query)->getContent();
+}
+$resources = array_merge(...$resources);
+
+// The links sources and targets should be the keys of the nodes.
+// TODO Extract the table from the database in one or two sql queries.
+// TODO Use /api or /api/infos.
+$data = [
+    'nodes' => [],
+    'links' => [],
+];
+$mapKeysToIds = [];
+foreach ($resources as $resource) {
+    $resourceId = $resource->id();
+    $resourceName = $resource->resourceName();
+    $relations  = [
+        'objects' => [],
+        'subjects' => [],
+        'item_sets' => [],
+        'items' => [],
+    ];
+    $relationItems = 0;
+    foreach ($relationTypes as $relationType) switch ($relationType) {
+        case 'objects':
+            $relations['objects'] = $resource->objectValues();
+            break;
+        case 'subjects':
+            $relations['subjects'] = array_merge(...array_values($resource->subjectValues()));
+            break;
+        case 'item_sets':
+            if ($resourceName === 'items') {
+                $relations['item_sets'] = $resource->itemSets();
+            }
+            break;
+        case 'items':
+            if ($resourceName === 'item_sets') {
+                $relationItems = $api->search('items', ['item_set_id' => $resourceId, 'limit' => 0])->getTotalResults();
+                $relations['items'] = $api->search('items', ['item_set_id' => $resourceId, 'limit' => $limitItemsByItemSet])->getContent();
+            }
+            break;
+    }
+
+    $orderSource = array_search($resourceId, $mapKeysToIds);
+    if ($orderSource === false) {
+        $orderSource = array_push($mapKeysToIds, $resourceId) - 1;
+        $type = $types[$resourceName];
+        $data['nodes'][$orderSource] = [
+            'id' => $resourceId,
+            'title' => (string) $resource->displayTitle(),
+            'type' => $type,
+            'class' => $resource->resourceClass() ? $resource->resourceClass()->label() : null,
+            'total' => count($relations['objects'])
+                + count($relations['subjects'])
+                + count($relations['item_sets'])
+                + $relationItems,
+        ];
+    }
+
+    foreach ($relations as $relationType => $rrelations) foreach ($rrelations as $relation) {
+        $relation = $relation instanceof \Omeka\Api\Representation\AbstractResourceEntityRepresentation ? $relation : $relation->valueResource();
+        $relationId = $relation->id();
+        $orderTarget = array_search($relationId, $mapKeysToIds);
+        if ($orderTarget === false) {
+            $orderTarget = array_push($mapKeysToIds, $relationId) - 1;
+            $relationResourceName = $relation->resourceName();
+            $type = $types[$relationResourceName];
+            $data['nodes'][$orderTarget] = [
+                'id' => $relationId,
+                'title' => (string) $relation->displayTitle(),
+                'type' => $type,
+                'class' => $relation->resourceClass() ? $relation->resourceClass()->label() : null,
+                // TODO Fetch all totals in one sql query for all resources.
+                'total' => (in_array('objects', $relationTypes) ? count($relation->objectValues()) : 0)
+                    + (in_array('subjects', $relationTypes) ? count(array_merge(...array_values($relation->subjectValues()))) : 0)
+                    + (in_array('item_sets', $relationTypes) && $relationResourceName === 'item_sets' ? $api->search('items', ['item_set_id' => $relationId, 'limit' => 0])->getTotalResults() : 0)
+                    + (in_array('items', $relationTypes) && $relationResourceName === 'items' ? count($relation->itemSets()) : 0),
+            ];
+        }
+        $data['links'][] = [
+            'source' => $orderSource,
+            'target' => $orderTarget,
+            // TODO Compute value.
+            'value' => 1,
+        ];
+    }
+}
+
+$jsonUrlSite = json_encode($this->url('site', [], true), 320);
+$jsonData = json_encode($data, 448);
+$jsonConfig = json_encode($params['config'] ?? [], 448);
+$script = <<<JS
+var d3GraphbaseUrl = $jsonUrlSite;
+var d3GraphData = $jsonData;
+var d3GraphConfig = $jsonConfig;
+JS;
+$this->headScript()->appendScript($script);
+
+?>
+
+<div class="block d3-graph">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+    <div id="d3-graph" class="graph bg-loading"></div>
+</div>

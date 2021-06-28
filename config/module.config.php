@@ -21,6 +21,7 @@ return [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
+            'd3Graph' => Site\BlockLayout\D3Graph::class,
             'division' => Site\BlockLayout\Division::class,
             'itemSetShowcase' => Site\BlockLayout\ItemSetShowcase::class,
             // Omeka core uses "itemShowCase" instead of "itemShowcase". Won't fix: https://github.com/omeka/omeka-s/pull/1431
@@ -52,6 +53,7 @@ return [
             Form\AssetsFieldset::class => Form\AssetsFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
+            Form\D3GraphFieldset::class => Form\D3GraphFieldset::class,
             Form\DivisionFieldset::class => Form\DivisionFieldset::class,
             Form\ExternalContentFieldset::class => Form\ExternalContentFieldset::class,
             Form\HtmlFieldset::class => Form\HtmlFieldset::class,
@@ -130,6 +132,32 @@ return [
                 'sort_headings' => [],
                 'resource_template' => null,
                 'link-text' => 'Browse all', // @translate
+                'template' => '',
+            ],
+            'd3Graph' => [
+                'heading' => '',
+                'params' => '{
+    "items": {
+        "limit": 100
+    } ,
+    "item_sets": null,
+    "relations": [
+        "objects",
+        "subjects",
+        "item_sets"
+    ],
+    "config": {
+        "height": 800,
+        "forceCharge": -100,
+        "forceLinkDistance": 100,
+        "baseCirclePow": 0.6,
+        "baseCircleMin": 5,
+        "fontSizeTop": 35,
+        "fontSizeMin": ".1px",
+        "fontSizeMax": "16px"
+    }
+}
+',
                 'template' => '',
             ],
             'division' => [

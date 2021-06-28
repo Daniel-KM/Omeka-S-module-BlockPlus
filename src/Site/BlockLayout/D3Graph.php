@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Site\BlockLayout;
 
 use Laminas\View\Renderer\PhpRenderer;
@@ -7,16 +8,26 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 
-class Block extends AbstractBlockLayout
+class D3Graph extends AbstractBlockLayout
 {
     /**
      * The default partial view script.
      */
-    const PARTIAL_NAME = 'common/block-layout/block';
+    const PARTIAL_NAME = 'common/block-layout/d3-graph';
 
     public function getLabel()
     {
-        return 'Simple Block'; // @translate
+        return 'D3 Graph'; // @translate
+    }
+
+    public function prepareRender(PhpRenderer $view): void
+    {
+        $assetUrl = $view->plugin('assetUrl');
+        $view->headLink()
+            ->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus'));
+        $view->headScript()
+            ->appendFile($assetUrl('vendor/d3/d3.v3.min.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($assetUrl('js/d3-graph.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
     }
 
     public function form(
@@ -28,8 +39,8 @@ class Block extends AbstractBlockLayout
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
         $formElementManager = $services->get('FormElementManager');
-        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['block'];
-        $blockFieldset = \BlockPlus\Form\BlockFieldset::class;
+        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['d3Graph'];
+        $blockFieldset = \BlockPlus\Form\D3GraphFieldset::class;
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
@@ -41,12 +52,7 @@ class Block extends AbstractBlockLayout
         $fieldset = $formElementManager->get($blockFieldset);
         $fieldset->populateValues($dataForm);
 
-        $html = '<p>'
-            . $view->translate('A simple block allows to display a partial from the theme.') // @translate
-            . ' ' . $view->translate('Provided samples are a block to display the config, and a block to display the tree view from a tsv/csv file.') // @translate
-            . '</p>';
-        $html .= $view->formCollection($fieldset, false);
-        return $html;
+        return $view->formCollection($fieldset, false);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
@@ -60,10 +66,5 @@ class Block extends AbstractBlockLayout
         return $view->resolver($template)
             ? $view->partial($template, $vars)
             : $view->partial(self::PARTIAL_NAME, $vars);
-    }
-
-    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
-    {
-        return strip_tags($this->render($view, $block));
     }
 }

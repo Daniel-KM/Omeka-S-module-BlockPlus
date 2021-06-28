@@ -70,3 +70,40 @@ aside.column {
     margin-bottom: 0;
     margin-left: 12px;
 }
+
+.block.d3-graph .graph .bg-loading {
+    min-height: 600px;
+    background-image: url(../img/loading-content.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+.block.d3-graph .graph svg {
+    background-color: transparent;
+}
+.block.d3-graph .graph .node circle {
+    fill: #e2e0d6;
+    transition: all 0.2s ease;
+}
+.block.d3-graph .graph .node.item-set circle {
+    fill: #f9ea9e;
+    transition: all 0.2s ease;
+}
+.block.d3-graph .graph .node:hover circle {
+    /*r: 9;*/
+    fill: #A7A97E;
+}
+.block.d3-graph .graph .node text {
+    font-weight: bold;
+    fill: #666;
+    z-index: 1000;
+    transition: all 0.2s ease;
+}
+.block.d3-graph .graph .node:hover text {
+    font-size: 16px !important;
+}
+.block.d3-graph .graph .link {
+    fill: none;
+    stroke: #aaa;
+    stroke-opacity: .3;
+}

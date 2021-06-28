@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "055950ad4f1f4b56870c2167a2e545f5",
+    "content-hash": "c160260d4186761fe1966edc7078a4ec",
     "packages": [
         {
             "name": "asset/thumbnail-grid-expanding-preview",
@@ -165,6 +165,16 @@
                 }
             ],
             "time": "2021-04-28T06:42:17+00:00"
+        },
+        {
+            "name": "d3/d3",
+            "version": "3.5.17",
+            "dist": {
+                "type": "file",
+                "url": "https://d3js.org/d3.v3.min.js",
+                "reference": ""
+            },
+            "type": "omeka-addon-asset"
         },
         {
             "name": "oomphinc/composer-installers-extender",

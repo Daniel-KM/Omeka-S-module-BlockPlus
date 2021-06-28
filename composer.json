@@ -26,6 +26,7 @@
     "require": {
         "oomphinc/composer-installers-extender": "^2.0",
         "asset/thumbnail-grid-expanding-preview": "0.1",
+        "d3/d3": "3.5.17",
         "thetechy/jslists": "0.4.5"
     },
     "replace": {
@@ -52,6 +53,19 @@
                     "type": "zip",
                     "reference": "",
                     "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.1.zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "type": "omeka-addon-asset",
+                "name": "d3/d3",
+                "version": "3.5.17",
+                "dist": {
+                    "type": "file",
+                    "reference": "",
+                    "url": "https://d3js.org/d3.v3.min.js"
                 }
             }
         },
