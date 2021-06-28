@@ -158,6 +158,9 @@ trait PageBlockMetadataTrait
             case 'params_raw':
                 return $block->dataValue('params', '');
             case 'params_json':
+            case 'params_json_array':
+                return @json_decode($block->dataValue('params', ''), true);
+            case 'params_json_object':
                 return @json_decode($block->dataValue('params', ''));
             case 'params_key_value':
             default:

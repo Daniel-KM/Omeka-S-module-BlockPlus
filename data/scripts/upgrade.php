@@ -1,5 +1,9 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus;
+
+use Omeka\Stdlib\Message;
+use Omeka\Mvc\Controller\Plugin\Messenger;
 
 /**
  * @var Module $this
@@ -89,4 +93,12 @@ WHERE
     layout = "twitter";
 SQL;
     $connection->exec($sql);
+}
+
+if (version_compare($oldVersion, '3.3.11.8', '<')) {
+    $message = new Message(
+        'Change: The method "blockMetadata()" returns an array by default for key "params_json". Use key "params_json_object" to keep object output.' // @translate
+    );
+    $messenger = new Messenger();
+    $messenger->addWarning($message);
 }
