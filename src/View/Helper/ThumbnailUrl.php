@@ -22,7 +22,7 @@ class ThumbnailUrl extends AbstractHelper
      *
      * @see \Omeka\View\Helper\Thumbnail
      */
-    public function __invoke(AbstractRepresentation $representation, string $type = 'square'): ?string
+    public function __invoke(AbstractRepresentation $representation, ?string $type = 'square'): ?string
     {
         if ($representation instanceof SitePageRepresentation) {
             $representation = $this->thumbnailUrlPage($representation);
@@ -35,7 +35,7 @@ class ThumbnailUrl extends AbstractHelper
                 return null;
             }
         }
-        return $representation->thumbnailDisplayUrl($type);
+        return $representation->thumbnailDisplayUrl($type ?: 'square');
     }
 
     protected function thumbnailUrlSite(SiteRepresentation $site): ?AbstractRepresentation

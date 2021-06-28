@@ -57,13 +57,13 @@ class Block extends AbstractBlockLayout
             'params' => $block->dataValue('params', ''),
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);
-        return $view->resolver($template)
+        return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)
             : $view->partial(self::PARTIAL_NAME, $vars);
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        return strip_tags($this->render($view, $block));
+        return strip_tags((string) $this->render($view, $block));
     }
 }

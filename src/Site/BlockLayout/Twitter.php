@@ -179,7 +179,7 @@ class Twitter extends AbstractBlockLayout
             'messages' => $messages,
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);
-        return $view->resolver($template)
+        return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)
             : $view->partial(self::PARTIAL_NAME, $vars);
     }
