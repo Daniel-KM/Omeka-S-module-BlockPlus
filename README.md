@@ -6,7 +6,8 @@ Block Plus (module for Omeka S)
 > than the previous repository.__
 
 [Block Plus] is a module for [Omeka S] that adds some new blocks for the static
-pages and improves some of the existing ones.
+pages and improves some of the existing ones: image gallery, D3 graph, mirror
+page, search form, assets, item set showcase, exhibits, etc.
 
 
 Installation
@@ -123,6 +124,41 @@ Display a list of assets with optional urls and labels. It’s useful to build a
 block of partners, for example. The assets are not required to be filled, so it
 allow to display any list of contents.
 
+### D3 Graph
+
+The D3 graph adds the [D3 library] to display relations between items in a graph:
+links between subjects and objects, links between items and item sets, etc.
+
+### External content
+
+Similar to media with html, but to display an external asset that is not a
+resource neither an asset file, so currently not manageable inside Omeka. It may
+be used to display a html text with a video on the home page.
+
+### Mirror page
+
+Allow to use a page as a block, so the same page can be use in multiple sites,
+for example the page "About" or "Privacy". Of course, the page is a standard
+page and can be more complex with multiple blocks. May be fun.
+This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
+
+### Resource with html
+
+Simplify the display of a media on the left or the right (see [user guide]). It
+is the same block that existed in [Omeka Classic] [Exhibit `file-text`].
+
+### Search form
+
+Include a specific search form in a specific page. The default query may be
+adapted to the page via the theme.
+
+### Search form and results
+
+Create a full search page with a simple or complex form and the results on the
+same page. All options should be managed via the theme. To replace item/browse,
+item-set/browse and even media/browse, you may need to set the page as default
+action for the search in default template `common/search-form`.
+
 ### Simple block
 
 A simple block allow to display a template from the theme. It may be used for a
@@ -143,36 +179,6 @@ Europe
                 Roma
                 Florence
 ```
-
-### Mirror page
-
-Allow to use a page as a block, so the same page can be use in multiple sites,
-for example the page "About" or "Privacy". Of course, the page is a standard
-page and can be more complex with multiple blocks. May be fun.
-This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
-
-### Resource with html
-
-Simplify the display of a media on the left or the right (see [user guide]). It
-is the same block that existed in [Omeka Classic] [Exhibit `file-text`].
-
-### External content
-
-Similar to media with html, but to display an external asset that is not a
-resource neither an asset file, so currently not manageable inside Omeka. It may
-be used to display a html text with a video on the home page.
-
-### Search form
-
-Include a specific search form in a specific page. The default query may be
-adapted to the page via the theme.
-
-### Search and results
-
-Create a full search page with a simple or complex form and the results on the
-same page. All options should be managed via the theme. To replace item/browse,
-item-set/browse and even media/browse, you may need to set the page as default
-action for the search in default template `common/search-form`.
 
 ### Twitter
 
@@ -204,7 +210,7 @@ digital library.
 Allow to set a div with a specific class between two blocks. May be useful to
 fix some css issues, or to increase space between some blocks.
 
-### Division
+### Separator/Division
 
 Allow to wrap a block or multiple block with a `div`. in particular to create
 columns. Divisions can be nested. The css should be prepared in the theme to
@@ -290,15 +296,19 @@ and, more generally, to use and operate it in the same conditions of security.
 This Agreement may be freely reproduced and published, provided it is not
 altered, and that no provisions are either added or removed herefrom.
 
+### Carousel
+
+Mit license.
+
+### D3
+
+[ISC License] (equivalent to MIT)
+
 ### Gallery of images
 
 See MIT license here: http://tympanus.net/codrops/licensing/
 The original template was fixed by KevinMwangi and updated for newer version of
 components (modernizr, smartresize, imagesloaded).
-
-### Carousel
-
-Mit license.
 
 
 Copyright
@@ -316,6 +326,7 @@ Copyright
 [Omeka Classic]: https://omeka.org/classic
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr
+[D3 library]: https://d3js.org
 [Twitter]: https://twitter.com
 [Shortcode Carousel]: https://github.com/omeka/plugin-ShortcodeCarousel
 [to get a dev account]: https://developer.twitter.com/en/apply-for-access
@@ -331,6 +342,7 @@ Copyright
 [FSF]: https://www.fsf.org
 [OSI]: http://opensource.org
 [MIT]: http://http://opensource.org/licenses/MIT
+[ISC License]: https://github.com/d3/d3/blob/main/LICENSE
 [image Gallery]: https://github.com/codrops/ThumbnailGridExpandingPreview
 [GitLab]: https://gitlab.com/Daniel-KM
 [Daniel-KM]: https://gitlab.com/Daniel-KM "Daniel Berthereau"
