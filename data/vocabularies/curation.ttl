@@ -1,0 +1,33 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix curation: <https://curation.omeka.org/> .
+
+<https://curation.omeka.org/> a owl:Ontology ;
+    dcterms:title "Curation"@en ;
+    dcterms:title "Curation"@fr ;
+    dcterms:description "Curation of Omeka resources."@en ;
+    dcterms:description "Curation des ressources Omeka."@fr .
+
+curation:reservedAccess a rdf:Property ;
+    rdfs:label "Is reserved Access"@en ;
+    rdfs:label "Est en accès réservé"@fr ;
+    rdfs:comment "Gives an ability for private resource to be previewed."@en ;
+    rdfs:comment "Rend possible la prévisualisation d’une ressource privée."@fr ;
+    vs:term_status "experimental" .
+
+curation:newResource a rdf:Property ;
+    rdfs:label "Is new resource"@en ;
+    rdfs:label "Est une nouvelle ressource"@fr ;
+    rdfs:comment "Allows to identify a resource as a new one."@en ;
+    rdfs:comment "Permet d’identifier la ressource comme nouvelle."@fr ;
+    vs:term_status "experimental" .
+
+curation:category a rdf:Property ;
+    rdfs:label "Category"@en ;
+    rdfs:label "Catégorie"@fr ;
+    rdfs:comment "Non-standard topic that can be used for some purposes."@en ;
+    rdfs:comment "Thème non-standard pouvant être utilisé dans certains cas."@fr ;
+    vs:term_status "experimental" .

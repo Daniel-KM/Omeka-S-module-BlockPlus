@@ -1,0 +1,11 @@
+{
+    "vocabulary": {
+        "o:namespace_uri": "https://curation.omeka.org/",
+        "o:prefix": "curation",
+        "o:label": "Curation",
+        "o:comment": "Specific properties for the management of resources."
+    },
+    "strategy": "file",
+    "file": "curation.ttl",
+    "format": "turtle"
+}

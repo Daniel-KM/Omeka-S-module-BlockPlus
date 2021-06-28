@@ -13,15 +13,15 @@ use Omeka\Mvc\Controller\Plugin\Messenger;
  *
  * @var \Doctrine\DBAL\Connection $connection
  * @var \Doctrine\ORM\EntityManager $entityManager
- * @var \Omeka\Api\Manager $api
+ * @var \Omeka\Mvc\Controller\Plugin\Api $api
  */
 $services = $serviceLocator;
 // $settings = $services->get('Omeka\Settings');
 // $config = require dirname(dirname(__DIR__)) . '/config/module.config.php';
 $connection = $services->get('Omeka\Connection');
 // $entityManager = $services->get('Omeka\EntityManager');
-// $plugins = $services->get('ControllerPluginManager');
-// $api = $plugins->get('api');
+$plugins = $services->get('ControllerPluginManager');
+$api = $plugins->get('api');
 // $space = strtolower(__NAMESPACE__);
 
 if (version_compare($oldVersion, '3.0.3', '<')) {
@@ -101,4 +101,54 @@ if (version_compare($oldVersion, '3.3.11.8', '<')) {
     );
     $messenger = new Messenger();
     $messenger->addWarning($message);
+
+    $this->installAllResources();
+
+    /** @var \Omeka\Api\Representation\VocabularyRepresentation $vocabulary */
+    $vocabulary = $api->searchOne('vocabularies', ['prefix' => 'curation'])->getContent();
+    if (!$vocabulary) {
+        throw new \Omeka\Module\Exception\ModuleCannotInstallException(
+            sprintf(
+                'The vocabulary "%s" is not installed.', // @translate
+                'curation'
+            )
+        );
+    }
+
+    // Check if the vocabulary was not updated.
+    if ($vocabulary->propertyCount() < 3) {
+        $vocabularyId = $vocabulary->id();
+        $ownerId = $vocabulary->owner() ? $vocabulary->owner()->id() : 'NULL';
+        // TODO Use rdf import process (see VocabularyController).
+        $properties = [
+            [
+                'local_name' => 'reservedAccess',
+                'label' => 'Is reserved Access', // @translate
+                'comment' => 'Gives an ability for private resource to be previewed.', // @translate
+            ],
+            [
+                'local_name' => 'newResource',
+                'label' => 'Is new resource', // @translate
+                'comment' => 'Allows to identify a resource as a new one.', // @translate
+            ],
+            [
+                'local_name' => 'category',
+                'label' => 'Category', // @translate
+                'comment' => 'Non-standard topic that can be used for some purposes.', // @translate
+            ],
+        ];
+        foreach ($properties as $property) {
+            $sql = <<<SQL
+INSERT INTO property
+    (owner_id, vocabulary_id, local_name, label, comment)
+VALUES
+    ($ownerId, $vocabularyId, "{$property['local_name']}", "{$property['label']}", "{$property['comment']}")
+ON DUPLICATE KEY UPDATE
+   label = "{$property['label']}",
+   comment = "{$property['comment']}"
+;
+SQL;
+            $connection->exec($sql);
+        }
+    }
 }
