@@ -14,6 +14,7 @@ return [
             'blockMetadata' => View\Helper\BlockMetadata::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
+            'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
         ],
     ],
     'block_layouts' => [
