@@ -24,10 +24,12 @@
         "tree structure"
     ],
     "require": {
-        "slowprog/composer-copy-file": "~0.3",
+        "oomphinc/composer-installers-extender": "^2.0",
         "asset/thumbnail-grid-expanding-preview": "0.1",
-        "jsor/jcarousel": "0.3.9",
         "thetechy/jslists": "0.4.5"
+    },
+    "replace": {
+        "jsor/jcarousel": "*"
     },
     "autoload": {
         "psr-4": {
@@ -43,60 +45,68 @@
         {
             "type": "package",
             "package": {
+                "type": "omeka-addon-asset",
                 "name": "asset/thumbnail-grid-expanding-preview",
                 "version": "0.1",
                 "dist": {
-                    "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.1.zip",
-                    "type": "zip"
+                    "type": "zip",
+                    "reference": "",
+                    "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.1.zip"
                 }
             }
         },
         {
             "type": "package",
             "package": {
+                "type": "omeka-addon-asset",
                 "name": "jsor/jcarousel",
                 "version": "0.3.9",
                 "dist": {
-                    "url": "https://github.com/jsor/jcarousel/archive/refs/heads/master.zip",
-                    "type": "zip"
+                    "type": "zip",
+                    "reference": "",
+                    "url": "https://github.com/jsor/jcarousel/archive/refs/heads/master.zip"
                 }
             }
         },
         {
             "type": "package",
             "package": {
+                "type": "omeka-addon-asset",
                 "name": "thetechy/jslists",
                 "version": "0.4.5",
                 "dist": {
-                    "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.zip",
-                    "type": "zip"
+                    "type": "zip",
+                    "reference": "",
+                    "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.zip"
                 }
             }
         }
     ],
-    "scripts": {
-        "post-install-cmd": [
-            "SlowProg\\CopyFile\\ScriptHandler::copy"
-        ],
-        "post-update-cmd": [
-            "SlowProg\\CopyFile\\ScriptHandler::copy"
-        ]
-    },
     "extra": {
-        "copy-file": {
-            "vendor/asset/thumbnail-grid-expanding-preview/css/": "asset/vendor/ThumbnailGridExpandingPreview/css/",
-            "vendor/asset/thumbnail-grid-expanding-preview/images/": "asset/vendor/ThumbnailGridExpandingPreview/images/",
-            "vendor/asset/thumbnail-grid-expanding-preview/js/": "asset/vendor/ThumbnailGridExpandingPreview/js/",
-            "vendor/asset/thumbnail-grid-expanding-preview/add.html": "asset/vendor/ThumbnailGridExpandingPreview/",
-            "vendor/asset/thumbnail-grid-expanding-preview/index.html": "asset/vendor/ThumbnailGridExpandingPreview/",
-            "vendor/asset/thumbnail-grid-expanding-preview/README.md": "asset/vendor/ThumbnailGridExpandingPreview/",
-            "vendor/asset/thumbnail-grid-expanding-preview/vendor/imagesloaded/": "asset/vendor/imagesloaded/",
-            "vendor/asset/thumbnail-grid-expanding-preview/vendor/jquery-smartresize/": "asset/vendor/jquery-smartresize/",
-            "vendor/asset/thumbnail-grid-expanding-preview/vendor/modernizr/": "asset/vendor/modernizr/",
-            "vendor/jsor/jcarousel/dist/jquery.jcarousel.min.js": "asset/vendor/jcarousel/javascripts/",
-            "vendor/jsor/jcarousel/examples/responsive/jcarousel.responsive.js": "asset/vendor/jcarousel/javascripts/",
-            "vendor/jsor/jcarousel/examples/responsive/jcarousel.responsive.css": "asset/vendor/jcarousel/css/",
-            "vendor/thetechy/jslists/": "asset/vendor/jslists/"
+        "installer-types": ["omeka-addon-asset"],
+        "installer-paths": {
+            "asset/vendor/{$name}/": [
+                "type:omeka-addon-asset"
+            ]
         }
+    },
+    "scripts": {
+        "pre-install-cmd": "@build-pre",
+        "pre-update-cmd": "@build-pre",
+        "post-install-cmd": "@build",
+        "post-update-cmd": "@build",
+        "build-pre": [
+            "@php -r 'shell_exec(\"rm -rf ./asset/vendor/thumbnail-grid-expanding-preview\");'"
+        ],
+        "build": [
+            "@php -r '@rename(__DIR__ . \"/asset/vendor/thumbnail-grid-expanding-preview\", __DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview\");'",
+            "@php -r '@rename(__DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview/vendor/imagesloaded\", __DIR__ . \"/asset/vendor/imagesloaded\");'",
+            "@php -r '@rename(__DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview/vendor/jquery-smartresize\", __DIR__ . \"/asset/vendor/jquery-smartresize\");'",
+            "@php -r '@rename(__DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview/vendor/modernizr\", __DIR__ . \"/asset/vendor/modernizr/\");'",
+
+            "#@php -r 'sleep(1);'",
+            "@php -r '@rmdir(__DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview/vendor\");'",
+            "@php -r 'shell_exec(\"rm -rf ./asset/vendor/thumbnail-grid-expanding-preview\");'"
+        ]
     }
 }
