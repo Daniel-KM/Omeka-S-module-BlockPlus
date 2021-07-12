@@ -48,7 +48,7 @@ class SearchResults extends AbstractBlockLayout
 
         $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
 
-        $data['query'] = http_build_query($data['query']);
+        $data['query'] = http_build_query($data['query'], '', '&', PHP_QUERY_RFC3986);
 
         $dataForm = [];
         foreach ($data as $key => $value) {
