@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-25 00:00+0000\n"
-"PO-Revision-Date: 2021-01-25 00:00+0000\n"
+"POT-Creation-Date: 2021-06-28 00:00+0000\n"
+"PO-Revision-Date: 2021-06-28 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 
 #: Module.php:33
 #, php-format
@@ -37,7 +37,7 @@ msgid "This module requires modules \"%s\"."
 msgstr "Ce module requiert les modules \"%s\"."
 
 #: src/Generic/AbstractModule.php:80
-msgid "This module has resources that connot be installed."
+msgid "This module has resources that cannot be installed."
 msgstr "Ce module a des ressources qui ne peuvent pas être installées."
 
 #: src/Generic/AbstractModule.php:707
@@ -50,7 +50,7 @@ msgstr ""
 "plus disponibles."
 
 #: src/Site/BlockLayout/Block.php:45
-msgid "A simple block allow to display a partial from the theme."
+msgid "A simple block allows to display a partial from the theme."
 msgstr "Un bloc simple pour afficher un gabarit du thème."
 
 #: src/Site/BlockLayout/Block.php:46
@@ -95,6 +95,12 @@ msgstr ""
 msgid "expand"
 msgstr "déplier"
 
+#: src/Site/BlockLayout/RedirectToUrl.php:51
+#: src/Site/BlockLayout/RedirectToUrl.php:62
+#, php-format
+msgid "Redirect to %s"
+msgstr "Rediriger vers %s"
+
 #: view/common/block-layout/block-arborescence.phtml:25
 msgid ""
 "No file defined. Set the param in the block: \"file = filename.tsv\" (use a "
@@ -112,36 +118,74 @@ msgstr "Plus d’infos"
 msgid "No message."
 msgstr "Pas de message."
 
-#: Module.php:114 config/module.config.php:93
+#: data/scripts/upgrade.php:100
+msgid ""
+"Change: The method \"blockMetadata()\" returns an array by default for key "
+"\"params_json\". Use key \"params_json_object\" to keep object output."
+msgstr ""
+"Changement : la méthode \"blockMetadata()\" retourne désormais un \"array\" "
+"par défaut pour la clé \"params_json\". Utilisé la clé \"params_json_object"
+"\" pour garder la sortie objet."
+
+#: data/scripts/upgrade.php:112
+#, php-format
+msgid "The vocabulary \"%s\" is not installed."
+msgstr "Le vocabulaire \"%s\" a déjà été installé et a été conservé."
+
+#: data/scripts/upgrade.php:126
+msgid "Is reserved Access"
+msgstr "Est en accès restreint"
+
+#: data/scripts/upgrade.php:127
+msgid "Gives an ability for private resource to be previewed."
+msgstr "Permet aux ressources privées d’être listées (prévisualisées)."
+
+#: data/scripts/upgrade.php:131
+msgid "Is new resource"
+msgstr "Est une nouvelle ressource"
+
+#: data/scripts/upgrade.php:132
+msgid "Allows to identify a resource as a new one."
+msgstr "Permet d’identifier la ressource comme nouvelle."
+
+#: data/scripts/upgrade.php:136
+msgid "Category"
+msgstr "Catégorie"
+
+#: data/scripts/upgrade.php:137
+msgid "Non-standard topic that can be used for some purposes."
+msgstr "Thème non-standard pouvant être utilisé dans certains cas."
+
+#: Module.php:114 config/module.config.php:99
 msgid "Exhibit"
 msgstr "Exposition"
 
-#: Module.php:115 config/module.config.php:94
+#: Module.php:115 config/module.config.php:100
 msgid "Exhibit page"
 msgstr "Page d’exposition"
 
-#: Module.php:116 config/module.config.php:95
+#: Module.php:116 config/module.config.php:101
 msgid "Simple page"
 msgstr "Simple page"
 
 #: src/Form/ItemWithMetadataFieldset.php:19 src/Form/SearchFormFieldset.php:17
 #: src/Form/SearchResultsFieldset.php:19 src/Form/AssetsFieldset.php:18
-#: src/Form/ExternalContentFieldset.php:16 src/Form/TwitterFieldset.php:17
+#: src/Form/ExternalContentFieldset.php:16 src/Form/TwitterFieldset.php:18
 #: src/Form/ListOfSitesFieldset.php:27 src/Form/TableOfContentsFieldset.php:17
-#: src/Form/ItemShowcaseFieldset.php:20 src/Form/BrowsePreviewFieldset.php:20
-#: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:17
-#: src/Form/ItemSetShowcaseFieldset.php:19
+#: src/Form/D3GraphFieldset.php:18 src/Form/ItemShowcaseFieldset.php:20
+#: src/Form/BrowsePreviewFieldset.php:20 src/Form/ResourceTextFieldset.php:74
+#: src/Form/HtmlFieldset.php:17 src/Form/ItemSetShowcaseFieldset.php:19
 #: src/Form/TreeStructureFieldset.php:18 src/Form/BlockFieldset.php:17
 msgid "Block title"
 msgstr "Titre du bloc"
 
 #: src/Form/ItemWithMetadataFieldset.php:20 src/Form/SearchFormFieldset.php:18
 #: src/Form/SearchResultsFieldset.php:20 src/Form/AssetsFieldset.php:19
-#: src/Form/ExternalContentFieldset.php:17 src/Form/TwitterFieldset.php:18
+#: src/Form/ExternalContentFieldset.php:17 src/Form/TwitterFieldset.php:19
 #: src/Form/ListOfSitesFieldset.php:28 src/Form/TableOfContentsFieldset.php:18
-#: src/Form/ItemShowcaseFieldset.php:21 src/Form/BrowsePreviewFieldset.php:21
-#: src/Form/ResourceTextFieldset.php:75 src/Form/HtmlFieldset.php:18
-#: src/Form/ItemSetShowcaseFieldset.php:20
+#: src/Form/D3GraphFieldset.php:19 src/Form/ItemShowcaseFieldset.php:21
+#: src/Form/BrowsePreviewFieldset.php:21 src/Form/ResourceTextFieldset.php:75
+#: src/Form/HtmlFieldset.php:18 src/Form/ItemSetShowcaseFieldset.php:20
 #: src/Form/TreeStructureFieldset.php:19 src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
 msgstr "Entête du bloc, si présent."
@@ -149,10 +193,11 @@ msgstr "Entête du bloc, si présent."
 #: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
 #: src/Form/SearchResultsFieldset.php:114 src/Form/AssetsFieldset.php:37
 #: src/Form/ExternalContentFieldset.php:87 src/Form/PageTitleFieldset.php:16
-#: src/Form/TwitterFieldset.php:71 src/Form/ListOfSitesFieldset.php:95
-#: src/Form/TableOfContentsFieldset.php:44 src/Form/ItemShowcaseFieldset.php:38
-#: src/Form/BrowsePreviewFieldset.php:148 src/Form/ResourceTextFieldset.php:89
-#: src/Form/HtmlFieldset.php:40 src/Form/ItemSetShowcaseFieldset.php:61
+#: src/Form/TwitterFieldset.php:89 src/Form/ListOfSitesFieldset.php:95
+#: src/Form/TableOfContentsFieldset.php:44 src/Form/D3GraphFieldset.php:59
+#: src/Form/ItemShowcaseFieldset.php:38 src/Form/BrowsePreviewFieldset.php:148
+#: src/Form/ResourceTextFieldset.php:89 src/Form/HtmlFieldset.php:40
+#: src/Form/ItemSetShowcaseFieldset.php:61
 #: src/Form/TreeStructureFieldset.php:70 src/Form/BlockFieldset.php:33
 msgid "Template to display"
 msgstr "Gabarit à afficher"
@@ -209,7 +254,8 @@ msgstr "Mots-clés"
 msgid "Comma-separated list of keywords"
 msgstr "Liste de mots-clés séparés par des virgules"
 
-#: src/Form/PageMetadataFieldset.php:85 src/Form/BlockFieldset.php:25
+#: src/Form/PageMetadataFieldset.php:85 src/Form/D3GraphFieldset.php:26
+#: src/Form/BlockFieldset.php:25
 msgid "Params"
 msgstr "Paramètres"
 
@@ -298,7 +344,7 @@ msgstr "Fichier média"
 msgid "Url"
 msgstr "Url"
 
-#: src/Form/AssetsFieldset.php:97 src/Form/DivisionFieldset.php:48
+#: src/Form/AssetsFieldset.php:97 src/Form/DivisionFieldset.php:50
 msgid "CSS class"
 msgstr "Classe CSS"
 
@@ -363,15 +409,15 @@ msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"page-title\"."
 
-#: src/Form/TwitterFieldset.php:28
+#: src/Form/TwitterFieldset.php:29
 msgid "Account"
 msgstr "Compte"
 
-#: src/Form/TwitterFieldset.php:38
+#: src/Form/TwitterFieldset.php:39
 msgid "Authorization token (bearer)"
 msgstr "Jeton d’autorisation (bearer)"
 
-#: src/Form/TwitterFieldset.php:39
+#: src/Form/TwitterFieldset.php:40
 msgid ""
 "You may need to set a token, not necessarily the account one. It may be an "
 "anonymous one."
@@ -379,15 +425,32 @@ msgstr ""
 "Vous devez définir votre jeton personnel, pas forcément celui du compte. "
 "Cela peut être un jeton anonyme."
 
-#: src/Form/TwitterFieldset.php:50
+#: src/Form/TwitterFieldset.php:51
+msgid "Twitter api version"
+msgstr "Version de l’api Twitter"
+
+#: src/Form/TwitterFieldset.php:52
+msgid ""
+"According to Twitter, you may require to create an app inside dev account. "
+"In some cases, api 1.1 doesn’t require it."
+msgstr ""
+"Selon Twitter, il peut être nécessaire de créer une application dans le "
+"compte développeur. Dans certains cas, ce n’est pas nécessaire avec l’api "
+"1.1."
+
+#: src/Form/TwitterFieldset.php:54
+msgid "1.1 (home timeline)"
+msgstr "1.1 (home timeline)"
+
+#: src/Form/TwitterFieldset.php:68
 msgid "Number of messages"
 msgstr "Nombre de messages"
 
-#: src/Form/TwitterFieldset.php:61
+#: src/Form/TwitterFieldset.php:79
 msgid "Display retweets"
 msgstr "Afficher les retweets"
 
-#: src/Form/TwitterFieldset.php:72
+#: src/Form/TwitterFieldset.php:90
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"twitter\"."
@@ -438,6 +501,18 @@ msgid ""
 msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"table-of-contents\"."
+
+#: src/Form/D3GraphFieldset.php:27 src/Form/BlockFieldset.php:26
+msgid "The params are passed directly to the block layout."
+msgstr "Les paramètres sont passés directement au gabarit du bloc."
+
+#: src/Form/D3GraphFieldset.php:60
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"d3-graph\"."
+msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
+"doivent commencer avec \"d3-graph\"."
 
 #: src/Form/ItemShowcaseFieldset.php:39
 msgid ""
@@ -522,6 +597,10 @@ msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"item-set-showcase\"."
 
+#: src/Form/RedirectToUrlFieldset.php:17
+msgid "Redirect the current page to this url"
+msgstr "Rediriger la page vers cette url"
+
 #: src/Form/TreeStructureFieldset.php:29
 msgid "Root resource id"
 msgstr "Id de la ressource racine"
@@ -600,19 +679,19 @@ msgid "End division"
 msgstr "Fin de la division"
 
 # "Balise" n'est pas utilisé pour conserver "Tag" dans d'autres module
-#: src/Form/DivisionFieldset.php:34
+#: src/Form/DivisionFieldset.php:35
 msgid "Tag"
 msgstr "Tag"
 
-#: src/Form/DivisionFieldset.php:36
+#: src/Form/DivisionFieldset.php:37
 msgid "div"
 msgstr "div"
 
-#: src/Form/DivisionFieldset.php:37
+#: src/Form/DivisionFieldset.php:38
 msgid "aside"
 msgstr "aside"
 
-#: src/Form/DivisionFieldset.php:49
+#: src/Form/DivisionFieldset.php:51
 msgid ""
 "Set the classes according to the css of your theme. Only classes \"main\" "
 "and \"column\" are managed."
@@ -629,10 +708,6 @@ msgstr ""
 "Les sites privés sont indiqués avec une \"*\". Si une page privée est "
 "choisie, elle sera cachée au public. La pacte courante et les pages qui la "
 "contiennent récursivement sont interdites."
-
-#: src/Form/BlockFieldset.php:26
-msgid "The params are passed directly to the block layout."
-msgstr "Les paramètres sont passés directement au gabarit du bloc."
 
 #: src/Form/BlockFieldset.php:34
 msgid ""
@@ -683,6 +758,10 @@ msgstr "Impossible de rendre la page miroir actuellement : %s."
 msgid "Tree structure of resources"
 msgstr "Arborescence de ressources"
 
+#: src/Site/BlockLayout/RedirectToUrl.php:15
+msgid "Redirect to url"
+msgstr "Rediriger vers l’url"
+
 #: src/Site/BlockLayout/TableOfContents.php:74
 #, php-format
 msgid ""
@@ -699,6 +778,10 @@ msgstr "Champ de recherche"
 #: src/Site/BlockLayout/SearchResults.php:21
 msgid "Search form and results"
 msgstr "Champ de recherche et résultats"
+
+#: src/Site/BlockLayout/D3Graph.php:20
+msgid "D3 Graph"
+msgstr "D3 Graphe"
 
 #: src/Site/BlockLayout/Separator.php:16
 msgid "Separator"
@@ -749,22 +832,29 @@ msgstr "Métadonnées de la page"
 msgid "Resource with text"
 msgstr "Ressource avec texte"
 
-#: src/Site/BlockLayout/Twitter.php:50
+#: src/Site/BlockLayout/Twitter.php:60
 msgid "Twitter"
 msgstr "Twitter"
 
-#: src/Site/BlockLayout/Twitter.php:60
-msgid "No authorization token is set, so the default one is used."
+#: src/Site/BlockLayout/Twitter.php:73
+msgid "No Twitter authorization token is set, so the default one is used."
 msgstr ""
 "Aucun jeton d’autorisation n’est défini, le jeton par défaut est donc "
 "utilisé."
 
-#: src/Site/BlockLayout/Twitter.php:75
+#: src/Site/BlockLayout/Twitter.php:88
 #, php-format
 msgid "The Twitter account \"%s\" is not available."
 msgstr "Le compte Twitter \"%s\" est indisponible."
 
-#: src/Site/BlockLayout/Twitter.php:82
+#: src/Site/BlockLayout/Twitter.php:93 src/Site/BlockLayout/Twitter.php:106
+msgid ""
+"The token may be restricted to v2 or no app may be defined: try api v1.1."
+msgstr ""
+"Le jeton peut être restreint à la v2 ou aucune application n’est définie : "
+"merci d’essayer l’api v1.1."
+
+#: src/Site/BlockLayout/Twitter.php:104
 #, php-format
 msgid ""
 "The Twitter account \"%s\" is available, but has no message currently, or "
@@ -773,21 +863,37 @@ msgstr ""
 "Le compte Twitter \"%s\" est disponible, mais n'a pas de message "
 "actuellement ou le seuil maximum a été atteint."
 
-#: src/Site/BlockLayout/Twitter.php:84
+#: src/Site/BlockLayout/Twitter.php:109
 #, php-format
 msgid "The Twitter account \"%s\" is available and have messages."
 msgstr "Le compte Twitter \"%s\" est disponible et a des messages."
 
-#: src/Site/BlockLayout/Twitter.php:88
+#: src/Site/BlockLayout/Twitter.php:113
 msgid "A Twitter account is required to fetch messages."
 msgstr "Un compte Twitter est nécessaire pour récupérer des messages."
 
-#: src/Site/BlockLayout/Twitter.php:131
+#: src/Site/BlockLayout/Twitter.php:159
 #, php-format
 msgid "The twitter block for page \"%s\" in site \"%s\" has no account set."
 msgstr ""
 "Le block Twitter pour la page \"%s\" dans le site \"%s\" n’a pas de compte "
 "défini."
+
+#: src/Site/BlockLayout/Twitter.php:293 src/Site/BlockLayout/Twitter.php:435
+msgid "Error for block Twitter: No response."
+msgstr "Erreur pour le block Twitter : pas de réponse."
+
+#: src/Site/BlockLayout/Twitter.php:300
+#, php-format
+msgid "Error for block Twitter: %s. Check token."
+msgstr "Erreur pour le block Twitter : %s. Merci de vérifier le jeton."
+
+#: src/Site/BlockLayout/Twitter.php:442
+#, php-format
+msgid "Error for block Twitter: %s. Check token or use api v1."
+msgstr ""
+"Erreur pour le block Twitter : %s. Merci de vérifier le jeton ou d’utiliser "
+"l’api v1."
 
 #: src/Site/BlockLayout/ExternalContent.php:65
 msgid "External content"
@@ -831,7 +937,81 @@ msgstr "Spécification \"%s\" invalide"
 msgid "Error reading %s: %s (%s)"
 msgstr "Erreur lors de la lecture %s: %s (%s)"
 
-#: config/module.config.php:145
+#: src/Generic/InstallResources.php:108
+#, php-format
+msgid ""
+"A resource template named exists for %s: rename it or remove it before "
+"installing this module."
+msgstr ""
+"Un modèle de ressource nommé \"%s\" existe : merci de le renommer ou de le "
+"supprimer avant d'installer ce module."
+
+#: src/Generic/InstallResources.php:173
+#, php-format
+msgid "The file \"%s\" cannot be read. Check your file system or the url."
+msgstr ""
+"Le fichier \"%s\" ne peut pas être lu. Merci de vérifier le système de "
+"fichiers ou l’url."
+
+#: src/Generic/InstallResources.php:198
+#, php-format
+msgid ""
+"An error occured when adding the prefix \"%s\": another vocabulary exists. "
+"Resolve the conflict before installing this module."
+msgstr ""
+"Une erreur est survenue en ajoutant le préfixe \"%s\" : un autre vocabulaire "
+"existe. Merci de résoudre le conflit avant d'installer ce module."
+
+#: src/Generic/InstallResources.php:280
+msgid "The current version of this module requires the module Custom Vocab."
+msgstr "Cette version du module requiert le module Custom Vocab."
+
+#: src/Generic/InstallResources.php:287
+#, php-format
+msgid ""
+"A custom vocab named \"%s\" exists and has not the needed language (\"%s\"): "
+"check it or remove it before installing this module."
+msgstr ""
+"Un vocabulaire personnalisé nommé \"%s\" existe et n'utilise pas la même "
+"langue (\"%s\") : merci de vérifier ou de le supprimer avant d'installer ce "
+"module."
+
+#: src/Generic/InstallResources.php:332
+#, php-format
+msgid "The vocabulary \"%s\" was already installed and was kept."
+msgstr "Le vocabulaire \"%s\" a déjà été installé et a été conservé."
+
+#: src/Generic/InstallResources.php:342
+#, php-format
+msgid ""
+"An error occured when adding the prefix \"%s\": another vocabulary exists "
+"with the same prefix. Resolve the conflict before installing this module."
+msgstr ""
+"Une erreur est survenue lors de l'ajout du préfixe \"%s\" : un autre "
+"vocabulaire existe avec le même préfixe. Merci de résoudre le conflit avant "
+"d'installer ce module."
+
+#: src/Generic/InstallResources.php:362
+#, php-format
+msgid ""
+"An error occured when adding the prefix \"%s\" and the associated "
+"properties: %s"
+msgstr ""
+"Une erreur est survenue en ajoutant le préfixe \"%s\" et les propriétés "
+"associées : %s"
+
+#: src/Generic/InstallResources.php:390
+#, php-format
+msgid "The resource template named \"%s\" is already available and is skipped."
+msgstr ""
+"Le modèle de ressource nommé \"%s\" est déjà disponible et a été conservé."
+
+#: src/Generic/InstallResources.php:652
+#, php-format
+msgid "The custom vocab named \"%s\" is not available."
+msgstr "Le vocabulaire personnalisé nommé \"%s\" n'est pas disponible."
+
+#: config/module.config.php:177
 msgid "Know more"
 msgstr "En savoir plus"
 
