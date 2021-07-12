@@ -142,6 +142,12 @@ for example the page "About" or "Privacy". Of course, the page is a standard
 page and can be more complex with multiple blocks. May be fun.
 This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
 
+### Redirect to URL
+
+Allow to redirect the page to another page, inside or outside Omeka. It is useful
+for hard coded links in the footer, to keep track of some clicks, to use the page
+item/browse as a the home page, or some other use cases.
+
 ### Resource with html
 
 Simplify the display of a media on the left or the right (see [user guide]). It
