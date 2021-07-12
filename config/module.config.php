@@ -30,6 +30,7 @@ return [
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'pageMetadata' => Site\BlockLayout\PageMetadata::class,
             'pageTitle' => Site\BlockLayout\PageTitle::class,
+            'redirectToUrl' => Site\BlockLayout\RedirectToUrl::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
             'searchResults' => Site\BlockLayout\SearchResults::class,
             'separator' => Site\BlockLayout\Separator::class,
@@ -63,6 +64,7 @@ return [
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\MirrorPageFieldset::class => Form\MirrorPageFieldset::class,
             Form\PageTitleFieldset::class => Form\PageTitleFieldset::class,
+            Form\RedirectToUrlFieldset::class => Form\RedirectToUrlFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
             Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
@@ -230,6 +232,9 @@ return [
             ],
             'pageTitle' => [
                 'template' => '',
+            ],
+            'redirectToUrl' => [
+                'url' => '',
             ],
             'resourceText' => [
                 'heading' => '',
