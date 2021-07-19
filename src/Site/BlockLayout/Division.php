@@ -167,12 +167,8 @@ class Division extends AbstractBlockLayout
 
     /**
      * @todo Make checks of division blocks during hydration.
-     *
-     * @param SitePageBlockRepresentation $block
-     * @param PhpRenderer $view
-     * @return array|false
      */
-    protected function checkBlockData(SitePageBlockRepresentation $block, PhpRenderer $view)
+    protected function checkBlockData(SitePageBlockRepresentation $block, PhpRenderer $view): ?array
     {
         $blockId = $block->id();
         $blockPosition = 0;
@@ -198,14 +194,14 @@ class Division extends AbstractBlockLayout
                 case 'end':
                     if (empty($tagStack)) {
                         $view->logger()->err('Type "intermediate" and "end" divisions must be after a block "start" or "intermediate".'); // @translate
-                        return false;
+                        return null;
                     }
                     $division['close'] = array_pop($tagStack);
                     break;
                 case 'inter':
                     if (empty($tagStack)) {
                         $view->logger()->err('Type "intermediate" and "end" divisions must be after a block "start" or "intermediate".'); // @translate
-                        return false;
+                        return null;
                     }
                     $division['close'] = array_pop($tagStack);
                     // no break.
@@ -214,7 +210,7 @@ class Division extends AbstractBlockLayout
                     break;
                 default:
                     $view->logger()->err('Unauthorized type for block division.'); // @translate
-                    return false;
+                    return null;
             }
             $divisions[++$position] = $division;
             if ($blockId === $blk->id()) {
@@ -224,24 +220,24 @@ class Division extends AbstractBlockLayout
 
         if (count($divisions) < 2) {
             $view->logger()->err('A block "division" cannot be single.'); // @translate
-            return false;
+            return null;
         }
 
         ksort($divisions);
         $first = reset($divisions);
         if ($first['type'] !== 'start') {
             $view->logger()->err('The first division block must be of type "start".'); // @translate
-            return false;
+            return null;
         }
         $last = end($divisions);
         if ($last['type'] !== 'end') {
             $view->logger()->err('The last division block must be of type "end".'); // @translate
-            return false;
+            return null;
         }
 
         if (!empty($tagStack)) {
             $view->logger()->err('Some divisions have no end.'); // @translate
-            return false;
+            return null;
         }
 
         return $divisions[$blockPosition];
