@@ -17,6 +17,13 @@ class Division extends AbstractBlockLayout
         return 'Division'; // @translate
     }
 
+    public function prepareForm(PhpRenderer $view): void
+    {
+        $assetUrl = $view->plugin('assetUrl');
+        $view->headScript()
+            ->appendFile($assetUrl('js/block-plus.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
+    }
+
     public function prepareRender(PhpRenderer $view): void
     {
         $view->headLink()->appendStylesheet($view->assetUrl('css/block-plus.css', 'BlockPlus'));
@@ -26,7 +33,8 @@ class Division extends AbstractBlockLayout
     {
         $data = $block->getData();
 
-        $data['tag'] = $data['tag'] ?: 'div';
+        $data['type'] = empty($data['type']) ? 'start' : $data['type'];
+        $data['tag'] = empty($data['tag']) ? 'div' : $data['tag'];
         $data['class'] = $data['type'] === 'end'
             ? ''
             // Stricter than w3c standard.

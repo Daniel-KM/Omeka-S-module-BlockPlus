@@ -1,5 +1,7 @@
 (function ($) {
+
     $(document).ready(function () {
+
         // TODO Make multiple assets form sortable.
         // TODO Use the removed base fieldset as a hidden base.
         $('#content').on('click', '.asset-form-add', function () {
@@ -55,5 +57,12 @@
         $('#content').on('click', '.asset-form-remove', function () {
             $(this).closest('.asset-data').remove();
         });
+
+        // Fix issue with radios.
+        $('.block.value .inputs input:radio').each(function() {
+            $(this).prop('checked', $(this).prop('checked') || $(this).attr('checked') === 'checked');
+        });
+
     });
+
 })(jQuery);

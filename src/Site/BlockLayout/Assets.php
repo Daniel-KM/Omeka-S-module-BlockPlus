@@ -41,7 +41,7 @@ class Assets extends AbstractBlockLayout
         $view->headLink()->appendStylesheet($assetUrl('css/asset-form.css', 'Omeka'));
         $view->headScript()
             ->appendFile($assetUrl('js/asset-form.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
-            ->appendFile($assetUrl('js/assets-form.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
+            ->appendFile($assetUrl('js/block-plus.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
     }
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void

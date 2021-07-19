@@ -51,6 +51,7 @@ return [
     ],
     'form_elements' => [
         'invokables' => [
+            Form\Element\OptionalRadio::class => Form\Element\OptionalRadio::class,
             Form\AssetsFieldset::class => Form\AssetsFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
@@ -163,7 +164,7 @@ return [
                 'template' => '',
             ],
             'division' => [
-                'type' => '',
+                'type' => 'start',
                 'tag' => 'div',
                 'class' => 'column',
             ],

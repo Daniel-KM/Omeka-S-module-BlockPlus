@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Form;
 
+use BlockPlus\Form\Element\OptionalRadio;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
@@ -13,7 +15,7 @@ class DivisionFieldset extends Fieldset
         $this
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][type]',
-                'type' => Element\Radio::class,
+                'type' => OptionalRadio::class,
                 'options' => [
                     'label' => 'Type', // @translate
                     'value_options' => [
@@ -30,7 +32,7 @@ class DivisionFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][tag]',
-                'type' => Element\Radio::class,
+                'type' => OptionalRadio::class,
                 'options' => [
                     'label' => 'Tag', // @translate
                     'value_options' => [
@@ -39,7 +41,7 @@ class DivisionFieldset extends Fieldset
                     ],
                 ],
                 'attributes' => [
-                    'id' => 'division-div',
+                    'id' => 'division-tag',
                     'value' => 'div',
                 ],
             ])
@@ -55,13 +57,5 @@ class DivisionFieldset extends Fieldset
                     'placeholder' => 'main column align-left',
                 ],
             ]);
-
-        // Set the value of the radio to avoid issues with form and Laminas.
-        $this
-            ->get('o:block[__blockIndex__][o:data][type]')
-            ->setValue('start');
-        $this
-            ->get('o:block[__blockIndex__][o:data][tag]')
-            ->setValue('div');
     }
 }
