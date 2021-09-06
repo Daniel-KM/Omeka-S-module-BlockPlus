@@ -133,7 +133,8 @@ class Module extends AbstractModule
         natcasesort($result);
 
         // Keep configured names prepended.
-        $prepended = $services->get('Config')['block_layouts']['sorted_names'];
+        // TODO Upgrade block list for Omeka v3.1.
+        $prepended = $services->get('Config')['block_layouts']['sorted_names'] ?? [];
         $result = array_keys(array_flip($prepended) + $result);
 
         $event->setParam('registered_names', $result);
