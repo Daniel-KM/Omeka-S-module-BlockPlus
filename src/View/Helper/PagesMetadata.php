@@ -38,7 +38,7 @@ class PagesMetadata extends AbstractHelper
 
     protected function currentSite(): ?\Omeka\Api\Representation\SiteRepresentation
     {
-        return $this->view->site ?? $this->view
+        return $this->view->site ?? $this->view->site = $this->view
             ->getHelperPluginManager()
             ->get('Laminas\View\Helper\ViewModel')
             ->getRoot()

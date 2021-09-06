@@ -346,15 +346,11 @@ trait PageBlockMetadataTrait
 
     protected function currentSite(): ?SiteRepresentation
     {
-        static $site;
-        if (is_null($site)) {
-            $site = $this->view->site ?? $this->view
-                ->getHelperPluginManager()
-                ->get('Laminas\View\Helper\ViewModel')
-                ->getRoot()
-                ->getVariable('site');
-        }
-        return $site;
+        return $this->view->site ?? $this->view->site = $this->view
+            ->getHelperPluginManager()
+            ->get('Laminas\View\Helper\ViewModel')
+            ->getRoot()
+            ->getVariable('site');
     }
 
     protected function currentPage(): ?SitePageRepresentation
