@@ -217,7 +217,11 @@ return [
                 ],
                 'pagination' => false,
                 'summaries' => true,
+                'thumbnails' => true,
                 'template' => '',
+            ],
+            'mirrorPage' => [
+                'page' => null,
             ],
             // Media embed is not available in BlockPlus.
             // 'media' => [],
@@ -264,9 +268,6 @@ return [
             ],
             'separator' => [
                 'class' => '',
-            ],
-            'mirrorPage' => [
-                'page' => null,
             ],
             'tableOfContents' => [
                 'depth' => null,

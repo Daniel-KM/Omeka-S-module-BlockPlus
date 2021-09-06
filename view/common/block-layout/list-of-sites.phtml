@@ -6,10 +6,12 @@
  * @var string $heading
  * @var bool $pagination
  * @var bool $summaries
+ * @var bool $thumbnails
  */
 
-$escape = $this->plugin('escapeHtml');
-$partial = $this->plugin('partial');
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$partial = $plugins->get('partial');
 ?>
 
 <div class="block list-of-sites">
@@ -20,7 +22,7 @@ $partial = $this->plugin('partial');
     <div class="site-list">
         <?php
         foreach ($sites as $site):
-            echo $partial('common/site-list-entry', ['site' => $site, 'showSummary' => $summaries]);
+            echo $partial('common/site-list-entry', ['site' => $site, 'showSummary' => $summaries, 'showThumbnail' => $thumbnails]);
         endforeach;
         ?>
     </div>
