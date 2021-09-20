@@ -152,3 +152,7 @@ SQL;
         }
     }
 }
+
+if (version_compare($oldVersion, '3.3.13.0', '<')) {
+    require_once __DIR__ . '/upgrade_vocabulary.php';
+}
