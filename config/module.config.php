@@ -27,6 +27,7 @@ return [
             // Omeka core uses "itemShowCase" instead of "itemShowcase". Won't fix: https://github.com/omeka/omeka-s/pull/1431
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
+            'links' => Site\BlockLayout\Links::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'pageMetadata' => Site\BlockLayout\PageMetadata::class,
             'pageTitle' => Site\BlockLayout\PageTitle::class,
@@ -202,6 +203,11 @@ return [
             'itemWithMetadata' => [
                 'attachments' => [],
                 'heading' => '',
+                'template' => '',
+            ],
+            'links' => [
+                'heading' => '',
+                'links' => [],
                 'template' => '',
             ],
             'listOfSites' => [
