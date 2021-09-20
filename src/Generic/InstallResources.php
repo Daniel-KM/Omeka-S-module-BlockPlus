@@ -32,6 +32,7 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Exception\RuntimeException;
 use Omeka\Api\Representation\ResourceTemplateRepresentation;
+use Omeka\Entity\Vocabulary;
 use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Stdlib\Message;
@@ -166,9 +167,9 @@ class InstallResources
     {
         $vocabularyData = $this->prepareVocabularyData($vocabularyData, $module);
 
-        if (!empty($vocabularyData['old_namespace_uri'])) {
+        if (!empty($vocabularyData['update']['namespace_uri'])) {
             /** @var \Omeka\Api\Representation\VocabularyRepresentation $vocabularyRepresentation */
-            $vocabularyRepresentation = $this->api->searchOne('vocabularies', ['namespace_uri' => $vocabularyData['old_namespace_uri']])->getContent();
+            $vocabularyRepresentation = $this->api->searchOne('vocabularies', ['namespace_uri' => $vocabularyData['update']['namespace_uri']])->getContent();
             if ($vocabularyRepresentation) {
                 return true;
             }
@@ -338,7 +339,7 @@ class InstallResources
 
         $prefix = $vocabularyData['vocabulary']['o:prefix'];
         $namespaceUri = $vocabularyData['vocabulary']['o:namespace_uri'];
-        $oldNameSpaceUri = $vocabularyData['old_namespace_uri'] ?? null;
+        $oldNameSpaceUri = $vocabularyData['update']['namespace_uri'] ?? null;
 
         /** @var \Omeka\Entity\Vocabulary $vocabulary */
         if ($oldNameSpaceUri) {
@@ -363,7 +364,37 @@ class InstallResources
         $entityManager->persist($vocabulary);
         $entityManager->flush();
 
-        // Upgrade the properties.
+        // Update the names first.
+        foreach (['resource_classes', 'properties'] as $name) {
+            if (empty($vocabularyData['update'][$name])) {
+                continue;
+            }
+            foreach ($vocabularyData['update'][$name] as $oldLocalName => $newLocalName) {
+                if ($oldLocalName === $newLocalName) {
+                    continue;
+                }
+                $old = $this->api->searchOne($name, [
+                    'vocabulary_id' => $vocabulary->getId(),
+                    'local_name' => $oldLocalName,
+                ], ['responseContent' => 'resource'])->getContent();
+                if (!$old) {
+                    continue;
+                }
+                $new = $this->api->searchOne($name, [
+                    'vocabulary_id' => $vocabulary->getId(),
+                    'local_name' => $newLocalName,
+                ], ['responseContent' => 'resource'])->getContent();
+                if ($new) {
+                    $vocabularyData['replace'][$name][$oldLocalName] = $newLocalName;
+                    continue;
+                }
+                $old->setLocalName($newLocalName);
+                $entityManager->persist($old);
+            }
+        }
+        $entityManager->flush();
+
+        // Upgrade the classes and the properties.
         /** @var \Omeka\Stdlib\RdfImporter $rdfImporter */
         $rdfImporter = $this->services->get('Omeka\RdfImporter');
 
@@ -389,11 +420,104 @@ class InstallResources
 
         /** @var \Omeka\Entity\Property[] $properties */
         $owner = $vocabulary->getOwner();
-        $properties = $this->api->search('properties', ['vocabulary_id' => $vocabulary->getId()], ['responseContent' => 'resource'])->getContent();
-        foreach ($properties as $property) {
-            $property->setOwner($owner);
+        foreach (['resource_classes', 'properties'] as $name) {
+            $members = $this->api->search($name, ['vocabulary_id' => $vocabulary->getId()], ['responseContent' => 'resource'])->getContent();
+            foreach ($members as $member) {
+                $member->setOwner($owner);
+            }
         }
+
         $entityManager->flush();
+
+        $this->replaceVocabularyMembers($vocabulary, $vocabularyData);
+
+        return true;
+    }
+
+    protected function replaceVocabularyMembers(Vocabulary $vocabulary, array $vocabularyData): bool
+    {
+        $membersByLocalName = [];
+        foreach (['resource_classes', 'properties'] as $name) {
+            $membersByLocalName[$name] = $this->api->search($name, ['vocabulary_id' => $vocabulary->getId()], ['returnScalar' => 'localName'])->getContent();
+            $membersByLocalName[$name] = array_flip($membersByLocalName[$name]);
+        }
+
+        // Update names of classes and properties in the case where they where
+        // not updated before diff.
+        $messenger = new Messenger();
+        /** @var \Doctrine\DBAL\Connection $connection */
+        $connection = $this->services->get('Omeka\Connection');
+        $hasReplace = false;
+        foreach (['resource_classes', 'properties'] as $name) {
+            if (empty($vocabularyData['replace'][$name])) {
+                continue;
+            }
+            // Keep only members with good old local names and good new names.
+            $members = array_intersect(
+                array_intersect_key($vocabularyData['replace'][$name], $membersByLocalName[$name]),
+                array_flip($membersByLocalName[$name])
+            );
+            if (empty($members)) {
+                continue;
+            }
+            foreach ($members as $oldLocalName => $newLocalName) {
+                if ($oldLocalName === $newLocalName
+                    || empty($membersByLocalName[$name][$oldLocalName])
+                    || empty($membersByLocalName[$name][$newLocalName])
+                ) {
+                    continue;
+                }
+                $oldMemberId = $membersByLocalName[$name][$oldLocalName];
+                $newMemberId = $membersByLocalName[$name][$newLocalName];
+                // Update all places that uses the old name with new name, then
+                // remove the old member.
+                if ($name === 'resource_classes') {
+                    $sqls = <<<SQL
+UPDATE `resource`
+SET `resource_class_id` = $newMemberId
+WHERE `resource_class_id` = $oldMemberId;
+
+UPDATE `resource_template`
+SET `resource_class_id` = $newMemberId
+WHERE `resource_class_id` = $oldMemberId;
+
+DELETE FROM `resource_class`
+WHERE `id` = $oldMemberId;
+
+SQL;
+                } else {
+                    $sqls = <<<SQL
+UPDATE `value`
+SET `property_id` = $newMemberId
+WHERE `property_id` = $oldMemberId;
+
+UPDATE `resource_template_property`
+SET `property_id` = $newMemberId
+WHERE `property_id` = $oldMemberId;
+
+DELETE FROM `property`
+WHERE `id` = $oldMemberId;
+
+SQL;
+                }
+                foreach (array_filter(explode(";\n", $sqls)) as $sql) {
+                    $connection->executeQuery($sql);
+                }
+            }
+            $hasReplace = true;
+            // TODO Ideally, anywhere this option is used in the setting should be updated too.
+            $message = new Message('The following "%1$s" of the vocabulary "%2$s" were replaced: %3$s', // @translate
+                $name, $vocabularyData['vocabulary']['o:label'], json_encode($members, 448)
+            );
+            $messenger->addWarning($message);
+        }
+        if ($hasReplace) {
+            $entityManager = $this->services->get('Omeka\EntityManager');
+            $entityManager->flush();
+
+            $message = new Message('Resources, values and templates were updated, but you may check settings where the old ones were used.'); // @translate
+            $messenger->addWarning($message);
+        }
 
         return true;
     }
