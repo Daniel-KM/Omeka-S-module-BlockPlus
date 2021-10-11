@@ -621,6 +621,7 @@ class Twitter extends AbstractBlockLayout
         $data = $block->getData();
         $data['cache'] = $messages;
         $block->setData($data);
-        $entityManager->flush($block);
+        $entityManager->persist($block);
+        $entityManager->flush();
     }
 }
