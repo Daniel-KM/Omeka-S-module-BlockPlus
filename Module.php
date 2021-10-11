@@ -135,7 +135,7 @@ class Module extends AbstractModule
         // Keep configured names prepended.
         // TODO Upgrade block list for Omeka v3.1.
         $prepended = $services->get('Config')['block_layouts']['sorted_names'] ?? [];
-        $result = array_keys(array_flip($prepended) + $result);
+        $result = $prepended ? array_keys(array_flip($prepended) + $result) : $result;
 
         $event->setParam('registered_names', $result);
     }
