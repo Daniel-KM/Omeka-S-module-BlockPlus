@@ -39,13 +39,6 @@ class Module extends AbstractModule
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
-        // Order blocks alphabetically (translated), except html.
-        $sharedEventManager->attach(
-            \Omeka\Site\BlockLayout\Manager::class,
-            'service.registered_names',
-            [$this, 'handleRegisteredNamesBlockLayout']
-        );
-
         $sharedEventManager->attach(
             \Omeka\Form\SiteSettingsForm::class,
             'form.add_elements',
@@ -117,26 +110,5 @@ class Module extends AbstractModule
         ];
 
         return $result + $defaults;
-    }
-
-    public function handleRegisteredNamesBlockLayout(Event $event): void
-    {
-        $services = $this->getServiceLocator();
-        $manager = $services->get('Omeka\BlockLayoutManager');
-        $translator = $services->get('MvcTranslator');
-        $registeredNames = $event->getParam('registered_names');
-
-        $result = [];
-        foreach ($registeredNames as $registeredName) {
-            $result[$registeredName] = $translator->translate($manager->get($registeredName)->getLabel());
-        }
-        natcasesort($result);
-
-        // Keep configured names prepended.
-        // TODO Upgrade block list for Omeka v3.1.
-        $prepended = $services->get('Config')['block_layouts']['sorted_names'] ?? [];
-        $result = $prepended ? array_keys(array_flip($prepended) + $result) : $result;
-
-        $event->setParam('registered_names', $result);
     }
 }
