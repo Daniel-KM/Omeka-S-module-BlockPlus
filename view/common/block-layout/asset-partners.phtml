@@ -1,0 +1,58 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var array $attachments Contains keys:
+ *   - asset (AssetRepresentation)
+ *   - page" (PageRepresentation)
+ *   - caption (string): the html is purified according to settings
+ *   - alt_link_title (string)
+ *   Specific to the module version:
+ *   - class (string)
+ *   - title (string): deprecated alias of "alt_link_title"
+ *   - url (string): deprecated, will be removed. Use "page", "caption", alt title, or original asset alt value instead.
+ * @var array $assets Deprecated, alias of attachments.
+ * @var string $heading
+ * @var string $className
+ * @var string $alignment
+ */
+
+// Caption is not used in this template.
+// TODO "url" is deprecated: use caption or asset title or alt_link_title instead.
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+?>
+
+<style>
+.partners {
+    text-align: center;
+}
+.partner-logo img {
+    margin: 12px;
+    height: 128px;
+    max-height: 128px;
+    width: auto;
+}
+</style>
+
+<div class="block block-assets partners assets <?= $escape($className . ' ' . $alignment) ?>">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+    <div class="asset partners-logos">
+    <?php foreach ($attachments as $attachment): ?>
+        <?php if (!$attachment['asset']) continue; ?>
+        <?php $attachmentUrl = $attachment['page'] ? $attachment['page']->siteUrl() : $attachment['url']; ?>
+        <?php if ($attachmentUrl): ?>
+        <a class="partner-logo <?= $escapeAttr($attachment['class']) ?>" href="<?= $escapeAttr($attachmentUrl) ?>" target="_blank">
+            <img src="<?= $attachment['asset']->assetUrl() ?>" alt="<?= $escapeAttr($attachment['alt_link_title']) ?>"/>
+        </a>
+        <?php else: ?>
+        <span class="partner-logo <?= $escapeAttr($attachment['class']) ?>">
+            <img src="<?= $attachment['asset']->assetUrl() ?>" alt="<?= $escapeAttr($attachment['alt_link_title']) ?>"/>
+        </span>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    </div>
+</div>

@@ -32,7 +32,7 @@ SET
     data = REPLACE(data, '"partial":"common\\/block-layout\\/media-text', '"partial":"common\\/block-layout\\/resource-text')
 WHERE layout = "mediaText";
 SQL;
-    $connection->exec($sql);
+    $connection->executeQuery($sql);
 }
 
 if (version_compare($oldVersion, '3.0.5', '<')) {
@@ -43,7 +43,7 @@ SET
 WHERE
     layout IN ('block', 'browsePreview', 'column', 'itemShowCase', 'itemWithMetadata', 'listOfSites', 'pageTitle', 'searchForm', 'separator', 'tableOfContents', 'assets', 'embedText', 'html', 'resourceText', 'simplePage');
 SQL;
-    $connection->exec($sql);
+    $connection->executeQuery($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.3', '<')) {
@@ -52,19 +52,19 @@ UPDATE site_page_block
 SET layout = "mirrorPage"
 WHERE layout = "simplePage";
 SQL;
-    $connection->exec($sql);
+    $connection->executeQuery($sql);
     $sql = <<<'SQL'
 UPDATE site_page_block
 SET layout = "externalContent"
 WHERE layout = "embedText";
 SQL;
-    $connection->exec($sql);
+    $connection->executeQuery($sql);
     $sql = <<<'SQL'
 UPDATE site_page_block
 SET data = REPLACE(data, "/embed-text", "/external-content")
 WHERE layout = "externalContent";
 SQL;
-    $connection->exec($sql);
+    $connection->executeQuery($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.4', '<')) {
@@ -73,7 +73,7 @@ UPDATE site_page_block
 SET layout = "division"
 WHERE layout = "column";
 SQL;
-    $connection->exec($sql);
+    $connection->executeQuery($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.7', '<')) {
@@ -92,7 +92,7 @@ SET
 WHERE
     layout = "twitter";
 SQL;
-    $connection->exec($sql);
+    $connection->executeQuery($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.8', '<')) {
@@ -148,11 +148,79 @@ ON DUPLICATE KEY UPDATE
    comment = "{$property['comment']}"
 ;
 SQL;
-            $connection->exec($sql);
+            $connection->executeQuery($sql);
         }
     }
 }
 
 if (version_compare($oldVersion, '3.3.13.0', '<')) {
     require_once __DIR__ . '/upgrade_vocabulary.php';
+}
+
+if (version_compare($oldVersion, '3.3.13.1', '<')) {
+    // Convert assets into "assets" to merge with new upstream feature.
+    $qb = $connection->createQueryBuilder();
+    $qb
+        ->select(
+            'id',
+            'data'
+        )
+        ->from('site_page_block', 'site_page_block')
+        ->orderBy('site_page_block.id', 'asc')
+        ->where('site_page_block.layout = "assets"')
+    ;
+    $blockDatas = $connection->executeQuery($qb)->fetchAllKeyValue();
+    foreach ($blockDatas as $id => $blockData) {
+        $blockData = json_decode($blockData, true);
+        $attachments = $blockData['assets'] ?? [];
+        $blockData['attachments'] = [];
+        foreach ($attachments as $attachment) {
+            $newAttachment = [];
+            $newAttachment['id'] = $attachment['asset'] ?? '';
+            $newAttachment['page'] = '';
+            $newAttachment['alt_link_title'] = $attachment['title'] ?? '';
+            $newAttachment['caption'] = $attachment['caption'] ?? '';
+            $newAttachment['class'] = $attachment['class'] ?? '';
+            $newAttachment['url'] = $attachment['url'] ?? '';
+            $blockData['attachments'][] = $newAttachment;
+        }
+        // The upstream version stores attachment in root.
+        foreach ($blockData['attachments'] as $attachment) {
+            $blockData[] = $attachment;
+        }
+        $blockData['template'] = empty($blockData['template'])
+            ? 'common/block-layout/asset-block'
+            : str_replace('/assets-', '/asset-', $blockData['template']);
+        $blockData['className'] = '';
+        $blockData['alignment'] = 'default';
+        unset($blockData['assets']);
+
+        $quotedBlock = $connection->quote(json_encode($blockData));
+        $sql = <<<SQL
+UPDATE `site_page_block`
+SET
+    `layout` = "asset",
+    `data` = $quotedBlock
+WHERE `id` = $id;
+SQL;
+        $connection->executeStatement($sql);
+    }
+
+    $messenger = new Messenger();
+    $message = new Message(
+        'The block "Assets" was merged with the new upstream block "Asset".' // @translate
+    );
+    $messenger->addSuccess($message);
+    $message = new Message(
+        'You may have to check the pages when a specific template is used, in particular for deprecated keys "title", replaced by "alt_link_title", and "url", replaced by "page" (or hacked with caption, or alt link title, or asset title).' // @translate
+    );
+    $messenger->addWarning($message);
+    $message = new Message(
+        'Furthermore, it is recommended to rename "assets" templates as "asset-xxx" and to update pages accordingly. You may replace the default template with "asset-block" too.' // @translate
+    );
+    $messenger->addWarning($message);
+    $message = new Message(
+        'The block still supports html captions and media assets.' // @translate
+    );
+    $messenger->addSuccess($message);
 }

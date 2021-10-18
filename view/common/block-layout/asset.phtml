@@ -1,0 +1,51 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var array $attachments Contains keys:
+ *   - asset (AssetRepresentation)
+ *   - page" (PageRepresentation)
+ *   - caption (string): the html is purified according to settings
+ *   - alt_link_title (string)
+ *   Specific to the module version:
+ *   - class (string)
+ *   - title (string): deprecated alias of "alt_link_title"
+ *   - url (string): deprecated, will be removed. Use "page", "caption", alt title, or original asset alt value instead.
+ * @var array $assets Deprecated, alias of attachments.
+ * @var string $heading
+ * @var string $className
+ * @var string $alignment
+ */
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$thumbnail = $plugins->get('thumbnail');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+$assetElement = $plugins->get('assetElement');
+?>
+
+<div class="block block-assets assets <?= $escape($className . ' ' . $alignment) ?>">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+    <?php foreach ($attachments as $attachment):
+        $assetHtml = $attachment['asset'] ? $assetElement($attachment['asset']) : '';
+    ?>
+    <div class="asset<?= empty($attachment['class']) ? '' : ' ' . $escapeAttr($attachment['class']) ?>">
+        <?php if (isset($attachment['page'])): ?>
+            <a href="<?= $escape($attachment['page']->siteUrl()) ?>">
+                <?= $assetHtml ?>
+                <span class="link-title">
+                    <?= $attachment['alt_link_title'] === '' ? $escape($attachment['page']->title()) : $escape($attachment['alt_link_title']) ?>
+                </span>
+            </a>
+        <?php else: ?>
+             <?= $assetHtml ?>
+        <?php endif; ?>
+        <?php if ($attachment['caption'] !== ''): ?>
+        <div class="caption">
+            <?= $attachment['caption'] ?>
+        </div>
+        <?php endif; ?>
+    </div>
+    <?php endforeach; ?>
+</div>

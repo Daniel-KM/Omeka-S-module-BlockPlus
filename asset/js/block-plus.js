@@ -2,60 +2,33 @@
 
     $(document).ready(function () {
 
-        // TODO Make multiple assets form sortable.
-        // TODO Use the removed base fieldset as a hidden base.
-        $('#content').on('click', '.asset-form-add', function () {
-            var assets = $(this).closest('.assets-list');
-            var current = $(this).closest('.asset-data');
-            var next = current.clone();
-            var nextIndex = assets.attr('data-next-index');
-            $(next)
-                .attr('data-index', nextIndex)
-                .find('.asset-form-element input[type=hidden]').val('').end()
-                .find('.asset-form-element img.selected-asset-image').attr('src', '').end()
-                .find('.asset-form-element .selected-asset-name').html('').end()
-                .find('.asset-form-element .selected-asset').hide().end();
+        // Manage fields "class" and "url" (deprecated) for block Asset.
+        // Other blocks that use the helper don't need these fields.
+        // TODO Check validity with timeline.
+        // FIXME First load of the block.
+        const blockAsset = `
+<div class="attachment-class">
+    <h3 id="attachment-class-label">${Omeka.jsTranslate('Class')}</h3>
+    <input type="text" name="asset-class" aria-labelledby="attachment-class-label" class="asset-option"/>
+</div>
+<div class="attachment-url">
+    <h3 id="attachment-url-label">${Omeka.jsTranslate('Url (deprecated)')}</h3>
+    <input type="text" name="asset-url" aria-labelledby="attachment-url-label" class="asset-option"/>
+</div>
+`;
+        $('#asset-options .sidebar-content').append(blockAsset);
 
-            // Increment the index or each label and field.
-            next
-                .find('.inputs input, .inputs textarea').each(function() {
-                    var name = $(this).attr('name');
-                    var regex = /\[o:data\]\[assets\]\[\d+\]/gm;
-                    var replace = '[o:data][assets][' + nextIndex + ']';
-                    name = name.replace(regex, replace);
-                    $(this)
-                        .attr('id', name)
-                        .attr('name', name);
-                });
+        // $('#asset-options .sidebar-content .description texarea').addClass('block-html full wysiwyg');
 
-            next
-                .find('.field-meta label').each(function() {
-                    var name = $(this).attr('for');
-                    var regex = /\[o:data\]\[assets\]\[\d+\]/gm;
-                    var replace = '[o:data][assets][' + nextIndex + ']';
-                    name = name.replace(regex, replace);
-                    $(this)
-                        .attr('for', name);
-                });
-            // Reset all values and content.
-            next
-                .find('.inputs input').val('').end()
-                .find('.inputs textarea').html('');
-
-            current.after(next);
-
-            // TODO Use the standard Omeka editor (trigger on body; allow caption without asset).
-            next
-                .find('.cke').remove().end()
-                .find('.inputs textarea').hide().removeClass('block-html full wysiwyg')
-                .closest('.inputs').find('.cke_textarea_inline').remove();
-            window.CKEDITOR.replace(next.find('textarea').attr('name'));
-
-            assets.attr('data-next-index', parseInt(nextIndex) + 1);
+        $(document).on('o:sidebar-opened', '.sidebar', function () {
+            $('#asset-options .sidebar-content').find('.attachment-class, .attachment-url').show();
+            // TODO Ckeditor for assets.
+            // window.CKEDITOR.replace($('#asset-options .sidebar-content').find('.description textarea'));
         });
 
-        $('#content').on('click', '.asset-form-remove', function () {
-            $(this).closest('.asset-data').remove();
+        // See js/site-page-edit.js.
+        $(document).on('o:sidebar-closed', '.sidebar', function () {
+            $('#asset-options .sidebar-content').find('.attachment-class, .attachment-url').hide();
         });
 
         // Fix issue with radios.

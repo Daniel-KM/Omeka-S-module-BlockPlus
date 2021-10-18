@@ -40,7 +40,7 @@ return [
             'twitter' => Site\BlockLayout\Twitter::class,
         ],
         'factories' => [
-            'assets' => Service\BlockLayout\AssetsFactory::class,
+            'asset' => Service\BlockLayout\AssetFactory::class,
             'externalContent' => Service\BlockLayout\ExternalContentFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
             'listOfPages' => Service\BlockLayout\ListOfPagesFactory::class,
@@ -54,7 +54,7 @@ return [
     'form_elements' => [
         'invokables' => [
             Form\Element\OptionalRadio::class => Form\Element\OptionalRadio::class,
-            Form\AssetsFieldset::class => Form\AssetsFieldset::class,
+            Form\AssetFieldset::class => Form\AssetFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\D3GraphFieldset::class => Form\D3GraphFieldset::class,
@@ -96,6 +96,10 @@ return [
             ],
         ],
     ],
+    'js_translate_strings' => [
+        'Class', // @translate
+        'Url (deprecated)', // @translate
+    ],
     'blockplus' => [
         'site_settings' => [
             'blockplus_page_types' => [
@@ -106,17 +110,21 @@ return [
             ],
         ],
         'block_settings' => [
-            'assets' => [
+            // The new source upstream "asset" block stores assets as attachments.
+            'asset' => [
                 'heading' => '',
                 'assets' => [
                     [
-                        'asset' => null,
-                        'title' => '',
+                        'id' => null,
+                        'page' => null,
+                        'alt_link_title' => '',
                         'caption' => '',
                         'url' => '',
                         'class' => '',
                     ],
                 ],
+                'className' => '',
+                'alignment' => 'default',
                 'template' => '',
             ],
             'block' => [
