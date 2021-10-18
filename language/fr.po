@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 00:00+0000\n"
-"PO-Revision-Date: 2021-06-28 00:00+0000\n"
+"POT-Creation-Date: 2021-10-18 00:00+0000\n"
+"PO-Revision-Date: 2021-10-18 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -40,7 +40,7 @@ msgstr "Ce module requiert les modules \"%s\"."
 msgid "This module has resources that cannot be installed."
 msgstr "Ce module a des ressources qui ne peuvent pas être installées."
 
-#: src/Generic/AbstractModule.php:707
+#: src/Generic/AbstractModule.php:725
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
@@ -61,7 +61,7 @@ msgstr ""
 "Les exemples sont un bloc pour afficher une configuration, ou un block pour "
 "afficher une arborescence à partir d’un fichier tsv/csv."
 
-#: src/Site/BlockLayout/Division.php:134
+#: src/Site/BlockLayout/Division.php:142
 msgid "Add divisions and classes to wrap one or multiple block."
 msgstr "Ajouter des divisions et des classes autour d’un ou plusieurs blocs."
 
@@ -110,13 +110,23 @@ msgstr ""
 "filename.tsv\" (utilise le fichier dans /asset/data/) ou \"file = https://"
 "example.com/file.tsv\"."
 
-#: view/common/block-layout/browse-preview-gallery.phtml:99
+#: view/common/block-layout/browse-preview-gallery.phtml:102
 msgid "More information"
 msgstr "Plus d’infos"
 
 #: view/common/block-layout/twitter.phtml:20
 msgid "No message."
 msgstr "Pas de message."
+
+#: data/scripts/upgrade_vocabulary.php:16
+#, php-format
+msgid "This module requires module %s version %s or greater."
+msgstr "Ce module requiert le module %s version %s ou supérieur."
+
+#: data/scripts/upgrade_vocabulary.php:32
+#, php-format
+msgid "The vocabulary \"%s\" was updated successfully."
+msgstr "Le vocabulaire \"%s\" a déjà été installé et a été conservé."
 
 #: data/scripts/upgrade.php:100
 msgid ""
@@ -156,49 +166,83 @@ msgstr "Catégorie"
 msgid "Non-standard topic that can be used for some purposes."
 msgstr "Thème non-standard pouvant être utilisé dans certains cas."
 
-#: Module.php:114 config/module.config.php:99
+#: data/scripts/upgrade.php:211
+msgid "The block \"Assets\" was merged with the new upstream block \"Asset\"."
+msgstr ""
+"Le bloc \"Fichiers\" a été fusionné avec le nouveau bloc Omeka \"Fichier\"."
+
+#: data/scripts/upgrade.php:215
+msgid ""
+"You may have to check the pages when a specific template is used, in "
+"particular for deprecated keys \"title\", replaced by \"alt_link_title\", "
+"and \"url\", replaced by \"page\" (or hacked with caption, or alt link "
+"title, or asset title)."
+msgstr ""
+"Il est recommandé de vérifier les pages où un modèle spécifique \"assets\" "
+"est utilisé, en particulier pour les options \"title\", remplacée par "
+"\"alt_link_title\", et \"url\", remplacé par \"page\" (ou contourné avec "
+"\"caption\", \"alt_link_title\" ou le titre du fichier)."
+
+#: data/scripts/upgrade.php:219
+msgid ""
+"Furthermore, it is recommended to rename \"assets\" templates as \"asset-xxx"
+"\" and to update pages accordingly. You may replace the default template "
+"with \"asset-block\" too."
+msgstr ""
+"De plus, il est recommandé de renommer les gabarits \"assets\" en \"asset-xxx"
+"\" et de mettre à jour les pages. Vous pouvez également remplacer le modèle "
+"par défaut avec \"asset-block\"."
+
+#: data/scripts/upgrade.php:223
+msgid "The block still supports html captions and media assets."
+msgstr "Le bloc supporte toujours les légendes html et les fichiers médias."
+
+#: Module.php:107 config/module.config.php:107
 msgid "Exhibit"
 msgstr "Exposition"
 
-#: Module.php:115 config/module.config.php:100
+#: Module.php:108 config/module.config.php:108
 msgid "Exhibit page"
 msgstr "Page d’exposition"
 
-#: Module.php:116 config/module.config.php:101
+#: Module.php:109 config/module.config.php:109
 msgid "Simple page"
 msgstr "Simple page"
 
-#: src/Form/ItemWithMetadataFieldset.php:19 src/Form/SearchFormFieldset.php:17
-#: src/Form/SearchResultsFieldset.php:19 src/Form/AssetsFieldset.php:18
+#: src/Form/ItemWithMetadataFieldset.php:19 src/Form/ListOfPagesFieldset.php:18
+#: src/Form/SearchFormFieldset.php:17 src/Form/SearchResultsFieldset.php:19
 #: src/Form/ExternalContentFieldset.php:16 src/Form/TwitterFieldset.php:18
 #: src/Form/ListOfSitesFieldset.php:27 src/Form/TableOfContentsFieldset.php:17
-#: src/Form/D3GraphFieldset.php:18 src/Form/ItemShowcaseFieldset.php:20
-#: src/Form/BrowsePreviewFieldset.php:20 src/Form/ResourceTextFieldset.php:74
-#: src/Form/HtmlFieldset.php:17 src/Form/ItemSetShowcaseFieldset.php:19
+#: src/Form/AssetFieldset.php:19 src/Form/D3GraphFieldset.php:18
+#: src/Form/ItemShowcaseFieldset.php:20 src/Form/BrowsePreviewFieldset.php:19
+#: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:17
+#: src/Form/ItemSetShowcaseFieldset.php:20 src/Form/LinksFieldset.php:19
 #: src/Form/TreeStructureFieldset.php:18 src/Form/BlockFieldset.php:17
 msgid "Block title"
 msgstr "Titre du bloc"
 
-#: src/Form/ItemWithMetadataFieldset.php:20 src/Form/SearchFormFieldset.php:18
-#: src/Form/SearchResultsFieldset.php:20 src/Form/AssetsFieldset.php:19
+#: src/Form/ItemWithMetadataFieldset.php:20 src/Form/ListOfPagesFieldset.php:19
+#: src/Form/SearchFormFieldset.php:18 src/Form/SearchResultsFieldset.php:20
 #: src/Form/ExternalContentFieldset.php:17 src/Form/TwitterFieldset.php:19
 #: src/Form/ListOfSitesFieldset.php:28 src/Form/TableOfContentsFieldset.php:18
-#: src/Form/D3GraphFieldset.php:19 src/Form/ItemShowcaseFieldset.php:21
-#: src/Form/BrowsePreviewFieldset.php:21 src/Form/ResourceTextFieldset.php:75
-#: src/Form/HtmlFieldset.php:18 src/Form/ItemSetShowcaseFieldset.php:20
+#: src/Form/AssetFieldset.php:20 src/Form/D3GraphFieldset.php:19
+#: src/Form/ItemShowcaseFieldset.php:21 src/Form/BrowsePreviewFieldset.php:20
+#: src/Form/ResourceTextFieldset.php:75 src/Form/HtmlFieldset.php:18
+#: src/Form/ItemSetShowcaseFieldset.php:21 src/Form/LinksFieldset.php:20
 #: src/Form/TreeStructureFieldset.php:19 src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
 msgstr "Entête du bloc, si présent."
 
-#: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
-#: src/Form/SearchResultsFieldset.php:114 src/Form/AssetsFieldset.php:37
+#: src/Form/ItemWithMetadataFieldset.php:27 src/Form/ListOfPagesFieldset.php:36
+#: src/Form/SearchFormFieldset.php:25 src/Form/SearchResultsFieldset.php:115
 #: src/Form/ExternalContentFieldset.php:87 src/Form/PageTitleFieldset.php:16
-#: src/Form/TwitterFieldset.php:89 src/Form/ListOfSitesFieldset.php:95
-#: src/Form/TableOfContentsFieldset.php:44 src/Form/D3GraphFieldset.php:59
-#: src/Form/ItemShowcaseFieldset.php:38 src/Form/BrowsePreviewFieldset.php:148
-#: src/Form/ResourceTextFieldset.php:89 src/Form/HtmlFieldset.php:40
-#: src/Form/ItemSetShowcaseFieldset.php:61
-#: src/Form/TreeStructureFieldset.php:70 src/Form/BlockFieldset.php:33
+#: src/Form/TwitterFieldset.php:89 src/Form/ListOfSitesFieldset.php:105
+#: src/Form/TableOfContentsFieldset.php:44 src/Form/AssetFieldset.php:64
+#: src/Form/D3GraphFieldset.php:59 src/Form/ItemShowcaseFieldset.php:38
+#: src/Form/BrowsePreviewFieldset.php:148 src/Form/ResourceTextFieldset.php:89
+#: src/Form/HtmlFieldset.php:40 src/Form/ItemSetShowcaseFieldset.php:63
+#: src/Form/LinksFieldset.php:41 src/Form/TreeStructureFieldset.php:70
+#: src/Form/BlockFieldset.php:33
 msgid "Template to display"
 msgstr "Gabarit à afficher"
 
@@ -209,6 +253,14 @@ msgid ""
 msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"item-with-metadata\"."
+
+#: src/Form/ListOfPagesFieldset.php:37
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"list-of-pages\"."
+msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
+"doivent commencer avec \"list-of-pages\"."
 
 #: src/Form/SearchFormFieldset.php:26
 msgid ""
@@ -269,36 +321,37 @@ msgstr ""
 msgid "Cover image"
 msgstr "Images principale"
 
-#: src/Form/SearchResultsFieldset.php:47
-msgid ""
-"Used to restrict resources, for example on an item set. Let empty for none, "
-"use \"=\" for any resource in the site."
-msgstr ""
-"Permet de limiter les ressources, par exemple à une collection. Laisser vide "
-"pour aucune limite. Utiliser \"=\" pour limiter aux ressources du site."
+#: src/Form/SearchResultsFieldset.php:46
+msgid "Search pool query"
+msgstr "Requête de recherche"
 
-#: src/Form/SearchResultsFieldset.php:70 src/Form/BrowsePreviewFieldset.php:93
+#: src/Form/SearchResultsFieldset.php:47
+msgid "Used to restrict resources to search, for example on an item set."
+msgstr "Permet de limiter les ressources, par exemple à une collection."
+
+#: src/Form/SearchResultsFieldset.php:71 src/Form/BrowsePreviewFieldset.php:93
 msgid "Show pagination to browse all resources on the same page."
 msgstr ""
 "Afficher la pagination pour afficher toutes les ressources sur la même page."
 
-#: src/Form/SearchResultsFieldset.php:80 src/Form/BrowsePreviewFieldset.php:103
+#: src/Form/SearchResultsFieldset.php:81 src/Form/BrowsePreviewFieldset.php:103
 msgid "Sort headings"
 msgstr "Entêtes de tri"
 
-#: src/Form/SearchResultsFieldset.php:81 src/Form/BrowsePreviewFieldset.php:104
+#: src/Form/SearchResultsFieldset.php:82 src/Form/BrowsePreviewFieldset.php:104
 msgid "Display sort links for the list of results."
 msgstr "Afficher les liens de tri pour les résultats."
 
-#: src/Form/SearchResultsFieldset.php:85 src/Form/BrowsePreviewFieldset.php:108
+#: src/Form/SearchResultsFieldset.php:86 src/Form/BrowsePreviewFieldset.php:108
 msgid "Resource class"
 msgstr "Classe de ressource"
 
-#: src/Form/SearchResultsFieldset.php:99 src/Form/BrowsePreviewFieldset.php:122
+#: src/Form/SearchResultsFieldset.php:100
+#: src/Form/BrowsePreviewFieldset.php:122
 msgid "Resource template for sort headings"
 msgstr "Modèle de ressource pour le tri"
 
-#: src/Form/SearchResultsFieldset.php:100
+#: src/Form/SearchResultsFieldset.php:101
 #: src/Form/BrowsePreviewFieldset.php:123
 msgid ""
 "If set, the alternative labels of this resource template will be used to "
@@ -307,50 +360,18 @@ msgstr ""
 "Si indiqué, les labels alternatifs du modèle de ressource seront utilisés "
 "pour le tri."
 
-#: src/Form/SearchResultsFieldset.php:107
+#: src/Form/SearchResultsFieldset.php:108
 #: src/Form/BrowsePreviewFieldset.php:130
 msgid "Select resource template…"
 msgstr "Choisir un modèle de ressource…"
 
-#: src/Form/SearchResultsFieldset.php:115
+#: src/Form/SearchResultsFieldset.php:116
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"search-results\"."
 msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"search-results\"."
-
-#: src/Form/AssetsFieldset.php:26 src/Site/BlockLayout/Assets.php:35
-msgid "Assets"
-msgstr "Fichiers"
-
-#: src/Form/AssetsFieldset.php:38
-msgid ""
-"Templates are in folder \"common/block-layout\" of the theme and should "
-"start with \"assets\"."
-msgstr ""
-"Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
-"doivent commencer avec \"assets\"."
-
-#: src/Form/AssetsFieldset.php:52
-msgid "Asset"
-msgstr "Fichier"
-
-#: src/Form/AssetsFieldset.php:66
-msgid "Asset file"
-msgstr "Fichier média"
-
-#: src/Form/AssetsFieldset.php:80
-msgid "Url"
-msgstr "Url"
-
-#: src/Form/AssetsFieldset.php:97 src/Form/DivisionFieldset.php:50
-msgid "CSS class"
-msgstr "Classe CSS"
-
-#: src/Form/AssetsFieldset.php:105
-msgid "Add another"
-msgstr "Ajouter un autre"
 
 #: src/Form/ExternalContentFieldset.php:24
 msgid "Url (oEmbed or iframe)"
@@ -364,30 +385,14 @@ msgstr ""
 "Le standard \"oEmbed\" normalise l’integration des ressources externes. Les "
 "principaux sites tiers sont gérés. Indiquer l’url à utiliser pour l’iframe."
 
-#: src/Form/ExternalContentFieldset.php:34
-#: src/Form/ExternalContentFieldset.php:57 src/Form/ResourceTextFieldset.php:32
-#: src/Form/ResourceTextFieldset.php:62
-msgid "left"
-msgstr "gauche"
-
-#: src/Form/ExternalContentFieldset.php:35
-#: src/Form/ExternalContentFieldset.php:58 src/Form/ResourceTextFieldset.php:33
-#: src/Form/ResourceTextFieldset.php:63
-msgid "right"
-msgstr "droite"
-
 #: src/Form/ExternalContentFieldset.php:43
-#: src/Form/ItemSetShowcaseFieldset.php:51
+#: src/Form/ItemSetShowcaseFieldset.php:53
 msgid "Show title"
 msgstr "Afficher le titre"
 
 #: src/Form/ExternalContentFieldset.php:54 src/Form/ResourceTextFieldset.php:59
 msgid "Captions position"
 msgstr "Position des légendes"
-
-#: src/Form/ExternalContentFieldset.php:56 src/Form/ResourceTextFieldset.php:61
-msgid "center"
-msgstr "centre"
 
 #: src/Form/ExternalContentFieldset.php:80
 msgid "Link url"
@@ -474,7 +479,7 @@ msgstr "Sites traduits"
 msgid "Exclude sites"
 msgstr "Exclure des sites"
 
-#: src/Form/ListOfSitesFieldset.php:96
+#: src/Form/ListOfSitesFieldset.php:106
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"list-of-sites\"."
@@ -502,6 +507,14 @@ msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"table-of-contents\"."
 
+#: src/Form/AssetFieldset.php:65
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"asset\"."
+msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
+"doivent commencer avec \"asset\"."
+
 #: src/Form/D3GraphFieldset.php:27 src/Form/BlockFieldset.php:26
 msgid "The params are passed directly to the block layout."
 msgstr "Les paramètres sont passés directement au gabarit du bloc."
@@ -521,27 +534,6 @@ msgid ""
 msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"item-showcase\"."
-
-#: src/Form/BrowsePreviewFieldset.php:70
-msgid "Components"
-msgstr "Composants"
-
-#: src/Form/BrowsePreviewFieldset.php:71
-msgid ""
-"Components to display for each resource. If not set in Site Settings, "
-"Heading defaults to resource Title and Body to resource Description"
-msgstr ""
-"Métadonnées à afficher pour chaque ressource. Si non spécifié dans les "
-"paramètres du site, l'entête sera le titre de la ressource et le corps sera "
-"la description"
-
-#: src/Form/BrowsePreviewFieldset.php:75
-msgid "Heading"
-msgstr "Entête"
-
-#: src/Form/BrowsePreviewFieldset.php:79
-msgid "Body"
-msgstr "Corps"
 
 #: src/Form/BrowsePreviewFieldset.php:115
 msgid "Select properties…"
@@ -573,10 +565,6 @@ msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"resource-text\"."
 
-#: src/Form/HtmlFieldset.php:33
-msgid "Optional CSS class for styling HTML."
-msgstr "Classe css facultative pour styler le html."
-
 #: src/Form/HtmlFieldset.php:41
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
@@ -589,7 +577,7 @@ msgstr ""
 msgid "[No site]"
 msgstr "[Pas de site]"
 
-#: src/Form/ItemSetShowcaseFieldset.php:62
+#: src/Form/ItemSetShowcaseFieldset.php:64
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"item-set-showcase\"."
@@ -600,6 +588,18 @@ msgstr ""
 #: src/Form/RedirectToUrlFieldset.php:17
 msgid "Redirect the current page to this url"
 msgstr "Rediriger la page vers cette url"
+
+#: src/Form/LinksFieldset.php:27 src/Site/BlockLayout/Links.php:22
+msgid "Links"
+msgstr "Liens"
+
+#: src/Form/LinksFieldset.php:42
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"links\"."
+msgstr ""
+"Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
+"doivent commencer avec \"liens\"."
 
 #: src/Form/TreeStructureFieldset.php:29
 msgid "Root resource id"
@@ -666,32 +666,36 @@ msgstr ""
 "exhibit_page = Page d’exposition\n"
 "simple = Page simple"
 
-#: src/Form/DivisionFieldset.php:20
+#: src/Form/DivisionFieldset.php:22
 msgid "New division"
 msgstr "Nouvelle division"
 
-#: src/Form/DivisionFieldset.php:21
+#: src/Form/DivisionFieldset.php:23
 msgid "End previous and start new"
 msgstr "Clore et commencer une autre"
 
-#: src/Form/DivisionFieldset.php:22
+#: src/Form/DivisionFieldset.php:24
 msgid "End division"
 msgstr "Fin de la division"
 
 # "Balise" n'est pas utilisé pour conserver "Tag" dans d'autres module
-#: src/Form/DivisionFieldset.php:35
+#: src/Form/DivisionFieldset.php:37
 msgid "Tag"
 msgstr "Tag"
 
-#: src/Form/DivisionFieldset.php:37
+#: src/Form/DivisionFieldset.php:39
 msgid "div"
 msgstr "div"
 
-#: src/Form/DivisionFieldset.php:38
+#: src/Form/DivisionFieldset.php:40
 msgid "aside"
 msgstr "aside"
 
-#: src/Form/DivisionFieldset.php:51
+#: src/Form/DivisionFieldset.php:52
+msgid "CSS class"
+msgstr "Classe CSS"
+
+#: src/Form/DivisionFieldset.php:53
 msgid ""
 "Set the classes according to the css of your theme. Only classes \"main\" "
 "and \"column\" are managed."
@@ -775,7 +779,7 @@ msgstr ""
 msgid "Search form"
 msgstr "Champ de recherche"
 
-#: src/Site/BlockLayout/SearchResults.php:21
+#: src/Site/BlockLayout/SearchResults.php:22
 msgid "Search form and results"
 msgstr "Champ de recherche et résultats"
 
@@ -791,8 +795,8 @@ msgstr "Séparateur"
 msgid "Division"
 msgstr "Division"
 
-#: src/Site/BlockLayout/Division.php:65 src/Site/BlockLayout/Division.php:200
-#: src/Site/BlockLayout/Division.php:207
+#: src/Site/BlockLayout/Division.php:73 src/Site/BlockLayout/Division.php:204
+#: src/Site/BlockLayout/Division.php:211
 msgid ""
 "Type \"intermediate\" and \"end\" divisions must be after a block \"start\" "
 "or \"intermediate\"."
@@ -800,23 +804,23 @@ msgstr ""
 "Les divisions de type \"intermédiaire\" et \"fin\" doivent être situées "
 "après un bloc \"début\" ou \"intermédiaire\"."
 
-#: src/Site/BlockLayout/Division.php:77 src/Site/BlockLayout/Division.php:216
+#: src/Site/BlockLayout/Division.php:85 src/Site/BlockLayout/Division.php:220
 msgid "Unauthorized type for block division."
 msgstr "Type non autorisé pour le bloc de division."
 
-#: src/Site/BlockLayout/Division.php:84 src/Site/BlockLayout/Division.php:226
+#: src/Site/BlockLayout/Division.php:92 src/Site/BlockLayout/Division.php:230
 msgid "A block \"division\" cannot be single."
 msgstr "Un bloc \"division\" ne peut pas être utilisé seul."
 
-#: src/Site/BlockLayout/Division.php:91 src/Site/BlockLayout/Division.php:233
+#: src/Site/BlockLayout/Division.php:99 src/Site/BlockLayout/Division.php:237
 msgid "The first division block must be of type \"start\"."
 msgstr "Le premier bloc de division doit être de type \"début\"."
 
-#: src/Site/BlockLayout/Division.php:96 src/Site/BlockLayout/Division.php:238
+#: src/Site/BlockLayout/Division.php:104 src/Site/BlockLayout/Division.php:242
 msgid "The last division block must be of type \"end\"."
 msgstr "Le dernier bloc de division doit être de type \"fin\"."
 
-#: src/Site/BlockLayout/Division.php:101 src/Site/BlockLayout/Division.php:243
+#: src/Site/BlockLayout/Division.php:109 src/Site/BlockLayout/Division.php:247
 msgid "Some divisions have no end."
 msgstr "Certaines divisions n’ont pas de fin."
 
@@ -937,23 +941,15 @@ msgstr "Spécification \"%s\" invalide"
 msgid "Error reading %s: %s (%s)"
 msgstr "Erreur lors de la lecture %s: %s (%s)"
 
-#: src/Generic/InstallResources.php:108
+#: src/Generic/InstallResources.php:85
 #, php-format
 msgid ""
-"A resource template named exists for %s: rename it or remove it before "
-"installing this module."
+"An error occured when loading vocabulary \"%s\": file has no json content."
 msgstr ""
-"Un modèle de ressource nommé \"%s\" existe : merci de le renommer ou de le "
-"supprimer avant d'installer ce module."
+"Une erreur est survenue en chargeant le vocabulaire \"%s\" : le fichier n’a "
+"pas de contenu json."
 
-#: src/Generic/InstallResources.php:173
-#, php-format
-msgid "The file \"%s\" cannot be read. Check your file system or the url."
-msgstr ""
-"Le fichier \"%s\" ne peut pas être lu. Merci de vérifier le système de "
-"fichiers ou l’url."
-
-#: src/Generic/InstallResources.php:198
+#: src/Generic/InstallResources.php:92
 #, php-format
 msgid ""
 "An error occured when adding the prefix \"%s\": another vocabulary exists. "
@@ -962,26 +958,30 @@ msgstr ""
 "Une erreur est survenue en ajoutant le préfixe \"%s\" : un autre vocabulaire "
 "existe. Merci de résoudre le conflit avant d'installer ce module."
 
-#: src/Generic/InstallResources.php:280
-msgid "The current version of this module requires the module Custom Vocab."
-msgstr "Cette version du module requiert le module Custom Vocab."
-
-#: src/Generic/InstallResources.php:287
+#: src/Generic/InstallResources.php:104
 #, php-format
 msgid ""
-"A custom vocab named \"%s\" exists and has not the needed language (\"%s\"): "
-"check it or remove it before installing this module."
+"A custom vocab exists for \"%s\". Remove it or rename it before installing "
+"this module."
 msgstr ""
-"Un vocabulaire personnalisé nommé \"%s\" existe et n'utilise pas la même "
-"langue (\"%s\") : merci de vérifier ou de le supprimer avant d'installer ce "
-"module."
+"Un vocabulaire personnalisé existe pour %s : renommez-le ou supprimez-le "
+"avant d’installer ce module."
 
-#: src/Generic/InstallResources.php:332
+#: src/Generic/InstallResources.php:115
+#, php-format
+msgid ""
+"A resource template exists for %s. Rename it or remove it before installing "
+"this module."
+msgstr ""
+"Un modèle de ressource nommé \"%s\" existe : merci de le renommer ou de le "
+"supprimer avant d'installer ce module."
+
+#: src/Generic/InstallResources.php:304
 #, php-format
 msgid "The vocabulary \"%s\" was already installed and was kept."
 msgstr "Le vocabulaire \"%s\" a déjà été installé et a été conservé."
 
-#: src/Generic/InstallResources.php:342
+#: src/Generic/InstallResources.php:313
 #, php-format
 msgid ""
 "An error occured when adding the prefix \"%s\": another vocabulary exists "
@@ -991,7 +991,7 @@ msgstr ""
 "vocabulaire existe avec le même préfixe. Merci de résoudre le conflit avant "
 "d'installer ce module."
 
-#: src/Generic/InstallResources.php:362
+#: src/Generic/InstallResources.php:325
 #, php-format
 msgid ""
 "An error occured when adding the prefix \"%s\" and the associated "
@@ -1000,20 +1000,125 @@ msgstr ""
 "Une erreur est survenue en ajoutant le préfixe \"%s\" et les propriétés "
 "associées : %s"
 
-#: src/Generic/InstallResources.php:390
+#: src/Generic/InstallResources.php:405 src/Generic/InstallResources.php:415
+#, php-format
+msgid ""
+"An error occured when updating vocabulary \"%s\" and the associated "
+"properties: %s"
+msgstr ""
+"Une erreur est survenue lors de la mise à jour du vocabulaire \"%s\" et des "
+"propriétés associées : %s"
+
+#: src/Generic/InstallResources.php:509
+#, php-format
+msgid "The following \"%1$s\" of the vocabulary \"%2$s\" were replaced: %3$s"
+msgstr ""
+"Les \"%1$s\" suivantes du vocabulaire \"%2$s\" ont été remplacées : %3$s"
+
+#: src/Generic/InstallResources.php:518
+msgid ""
+"Resources, values and templates were updated, but you may check settings "
+"where the old ones were used."
+msgstr ""
+"Les ressources, valeurs et modèles ont été mis à jour, mais vous pouvez "
+"vérifier les paramètres où les anciennes valeurs étaient utilisées."
+
+#: src/Generic/InstallResources.php:543
 #, php-format
 msgid "The resource template named \"%s\" is already available and is skipped."
 msgstr ""
 "Le modèle de ressource nommé \"%s\" est déjà disponible et a été conservé."
 
-#: src/Generic/InstallResources.php:652
+#: src/Generic/InstallResources.php:805
 #, php-format
 msgid "The custom vocab named \"%s\" is not available."
 msgstr "Le vocabulaire personnalisé nommé \"%s\" n'est pas disponible."
 
-#: config/module.config.php:177
+#: src/Generic/InstallResources.php:911
+msgid "No file or url set for the vocabulary."
+msgstr "Pas de fichier ou d’url pour le vocabulaire."
+
+#: src/Generic/InstallResources.php:921
+#, php-format
+msgid "The file \"%s\" cannot be read. Check the url."
+msgstr ""
+"Le fichier \"%s\" ne peut pas être lu. Merci de vérifier le système de "
+"fichiers ou l’url."
+
+#: src/Generic/InstallResources.php:931
+#, php-format
+msgid "The file \"%s\" cannot be read. Check the file."
+msgstr ""
+"Le fichier \"%s\" ne peut pas être lu. Merci de vérifier le système de "
+"fichiers."
+
+#: src/Generic/InstallResources.php:952
+msgid "A vocabulary must have a namespace uri and a prefix."
+msgstr "Un vocabulaire doit avoir une uri pour l’espace de nom et un préfixe."
+
+#: config/module.config.php:101
+msgid "Url (deprecated)"
+msgstr "Url (obsolète)"
+
+#: config/module.config.php:189
 msgid "Know more"
 msgstr "En savoir plus"
+
+#~ msgid "Assets"
+#~ msgstr "Fichiers"
+
+#~ msgid "Asset"
+#~ msgstr "Fichier"
+
+#~ msgid "Asset file"
+#~ msgstr "Fichier média"
+
+#~ msgid "Url"
+#~ msgstr "Url"
+
+#~ msgid "Add another"
+#~ msgstr "Ajouter un autre"
+
+#~ msgid "left"
+#~ msgstr "gauche"
+
+#~ msgid "right"
+#~ msgstr "droite"
+
+#~ msgid "center"
+#~ msgstr "centre"
+
+#~ msgid "Components"
+#~ msgstr "Composants"
+
+#~ msgid ""
+#~ "Components to display for each resource. If not set in Site Settings, "
+#~ "Heading defaults to resource Title and Body to resource Description"
+#~ msgstr ""
+#~ "Métadonnées à afficher pour chaque ressource. Si non spécifié dans les "
+#~ "paramètres du site, l'entête sera le titre de la ressource et le corps "
+#~ "sera la description"
+
+#~ msgid "Heading"
+#~ msgstr "Entête"
+
+#~ msgid "Body"
+#~ msgstr "Corps"
+
+#~ msgid "Optional CSS class for styling HTML."
+#~ msgstr "Classe css facultative pour styler le html."
+
+#~ msgid "The current version of this module requires the module Custom Vocab."
+#~ msgstr "Cette version du module requiert le module Custom Vocab."
+
+#, php-format
+#~ msgid ""
+#~ "A custom vocab named \"%s\" exists and has not the needed language (\"%s"
+#~ "\"): check it or remove it before installing this module."
+#~ msgstr ""
+#~ "Un vocabulaire personnalisé nommé \"%s\" existe et n'utilise pas la même "
+#~ "langue (\"%s\") : merci de vérifier ou de le supprimer avant d'installer "
+#~ "ce module."
 
 #~ msgid "If you don’t have a dev account, use the module Block Plus Twitter"
 #~ msgstr ""

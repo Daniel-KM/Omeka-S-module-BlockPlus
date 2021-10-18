@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 00:00+0000\n"
+"POT-Creation-Date: 2021-10-18 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr ""
 msgid "This module has resources that cannot be installed."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:707
+#: src/Generic/AbstractModule.php:725
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
@@ -57,7 +57,7 @@ msgid ""
 "the tree view from a tsv/csv file."
 msgstr ""
 
-#: src/Site/BlockLayout/Division.php:134
+#: src/Site/BlockLayout/Division.php:142
 msgid "Add divisions and classes to wrap one or multiple block."
 msgstr ""
 
@@ -97,12 +97,22 @@ msgid ""
 "file inside /asset/data/) or \"file = https://example.com/file.tsv\"."
 msgstr ""
 
-#: view/common/block-layout/browse-preview-gallery.phtml:99
+#: view/common/block-layout/browse-preview-gallery.phtml:102
 msgid "More information"
 msgstr ""
 
 #: view/common/block-layout/twitter.phtml:20
 msgid "No message."
+msgstr ""
+
+#: data/scripts/upgrade_vocabulary.php:16
+#, php-format
+msgid "This module requires module %s version %s or greater."
+msgstr ""
+
+#: data/scripts/upgrade_vocabulary.php:32
+#, php-format
+msgid "The vocabulary \"%s\" was updated successfully."
 msgstr ""
 
 #: data/scripts/upgrade.php:100
@@ -140,49 +150,75 @@ msgstr ""
 msgid "Non-standard topic that can be used for some purposes."
 msgstr ""
 
-#: Module.php:114 config/module.config.php:99
+#: data/scripts/upgrade.php:211
+msgid "The block \"Assets\" was merged with the new upstream block \"Asset\"."
+msgstr ""
+
+#: data/scripts/upgrade.php:215
+msgid ""
+"You may have to check the pages when a specific template is used, in "
+"particular for deprecated keys \"title\", replaced by \"alt_link_title\", "
+"and \"url\", replaced by \"page\" (or hacked with caption, or alt link "
+"title, or asset title)."
+msgstr ""
+
+#: data/scripts/upgrade.php:219
+msgid ""
+"Furthermore, it is recommended to rename \"assets\" templates as \"asset-xxx"
+"\" and to update pages accordingly. You may replace the default template "
+"with \"asset-block\" too."
+msgstr ""
+
+#: data/scripts/upgrade.php:223
+msgid "The block still supports html captions and media assets."
+msgstr ""
+
+#: Module.php:107 config/module.config.php:107
 msgid "Exhibit"
 msgstr ""
 
-#: Module.php:115 config/module.config.php:100
+#: Module.php:108 config/module.config.php:108
 msgid "Exhibit page"
 msgstr ""
 
-#: Module.php:116 config/module.config.php:101
+#: Module.php:109 config/module.config.php:109
 msgid "Simple page"
 msgstr ""
 
-#: src/Form/ItemWithMetadataFieldset.php:19 src/Form/SearchFormFieldset.php:17
-#: src/Form/SearchResultsFieldset.php:19 src/Form/AssetsFieldset.php:18
+#: src/Form/ItemWithMetadataFieldset.php:19 src/Form/ListOfPagesFieldset.php:18
+#: src/Form/SearchFormFieldset.php:17 src/Form/SearchResultsFieldset.php:19
 #: src/Form/ExternalContentFieldset.php:16 src/Form/TwitterFieldset.php:18
 #: src/Form/ListOfSitesFieldset.php:27 src/Form/TableOfContentsFieldset.php:17
-#: src/Form/D3GraphFieldset.php:18 src/Form/ItemShowcaseFieldset.php:20
-#: src/Form/BrowsePreviewFieldset.php:20 src/Form/ResourceTextFieldset.php:74
-#: src/Form/HtmlFieldset.php:17 src/Form/ItemSetShowcaseFieldset.php:19
+#: src/Form/AssetFieldset.php:19 src/Form/D3GraphFieldset.php:18
+#: src/Form/ItemShowcaseFieldset.php:20 src/Form/BrowsePreviewFieldset.php:19
+#: src/Form/ResourceTextFieldset.php:74 src/Form/HtmlFieldset.php:17
+#: src/Form/ItemSetShowcaseFieldset.php:20 src/Form/LinksFieldset.php:19
 #: src/Form/TreeStructureFieldset.php:18 src/Form/BlockFieldset.php:17
 msgid "Block title"
 msgstr ""
 
-#: src/Form/ItemWithMetadataFieldset.php:20 src/Form/SearchFormFieldset.php:18
-#: src/Form/SearchResultsFieldset.php:20 src/Form/AssetsFieldset.php:19
+#: src/Form/ItemWithMetadataFieldset.php:20 src/Form/ListOfPagesFieldset.php:19
+#: src/Form/SearchFormFieldset.php:18 src/Form/SearchResultsFieldset.php:20
 #: src/Form/ExternalContentFieldset.php:17 src/Form/TwitterFieldset.php:19
 #: src/Form/ListOfSitesFieldset.php:28 src/Form/TableOfContentsFieldset.php:18
-#: src/Form/D3GraphFieldset.php:19 src/Form/ItemShowcaseFieldset.php:21
-#: src/Form/BrowsePreviewFieldset.php:21 src/Form/ResourceTextFieldset.php:75
-#: src/Form/HtmlFieldset.php:18 src/Form/ItemSetShowcaseFieldset.php:20
+#: src/Form/AssetFieldset.php:20 src/Form/D3GraphFieldset.php:19
+#: src/Form/ItemShowcaseFieldset.php:21 src/Form/BrowsePreviewFieldset.php:20
+#: src/Form/ResourceTextFieldset.php:75 src/Form/HtmlFieldset.php:18
+#: src/Form/ItemSetShowcaseFieldset.php:21 src/Form/LinksFieldset.php:20
 #: src/Form/TreeStructureFieldset.php:19 src/Form/BlockFieldset.php:18
 msgid "Heading for the block, if any."
 msgstr ""
 
-#: src/Form/ItemWithMetadataFieldset.php:27 src/Form/SearchFormFieldset.php:25
-#: src/Form/SearchResultsFieldset.php:114 src/Form/AssetsFieldset.php:37
+#: src/Form/ItemWithMetadataFieldset.php:27 src/Form/ListOfPagesFieldset.php:36
+#: src/Form/SearchFormFieldset.php:25 src/Form/SearchResultsFieldset.php:115
 #: src/Form/ExternalContentFieldset.php:87 src/Form/PageTitleFieldset.php:16
-#: src/Form/TwitterFieldset.php:89 src/Form/ListOfSitesFieldset.php:95
-#: src/Form/TableOfContentsFieldset.php:44 src/Form/D3GraphFieldset.php:59
-#: src/Form/ItemShowcaseFieldset.php:38 src/Form/BrowsePreviewFieldset.php:148
-#: src/Form/ResourceTextFieldset.php:89 src/Form/HtmlFieldset.php:40
-#: src/Form/ItemSetShowcaseFieldset.php:61
-#: src/Form/TreeStructureFieldset.php:70 src/Form/BlockFieldset.php:33
+#: src/Form/TwitterFieldset.php:89 src/Form/ListOfSitesFieldset.php:105
+#: src/Form/TableOfContentsFieldset.php:44 src/Form/AssetFieldset.php:64
+#: src/Form/D3GraphFieldset.php:59 src/Form/ItemShowcaseFieldset.php:38
+#: src/Form/BrowsePreviewFieldset.php:148 src/Form/ResourceTextFieldset.php:89
+#: src/Form/HtmlFieldset.php:40 src/Form/ItemSetShowcaseFieldset.php:63
+#: src/Form/LinksFieldset.php:41 src/Form/TreeStructureFieldset.php:70
+#: src/Form/BlockFieldset.php:33
 msgid "Template to display"
 msgstr ""
 
@@ -190,6 +226,12 @@ msgstr ""
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"item-with-metadata\"."
+msgstr ""
+
+#: src/Form/ListOfPagesFieldset.php:37
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"list-of-pages\"."
 msgstr ""
 
 #: src/Form/SearchFormFieldset.php:26
@@ -245,78 +287,51 @@ msgstr ""
 msgid "Cover image"
 msgstr ""
 
-#: src/Form/SearchResultsFieldset.php:47
-msgid ""
-"Used to restrict resources, for example on an item set. Let empty for none, "
-"use \"=\" for any resource in the site."
+#: src/Form/SearchResultsFieldset.php:46
+msgid "Search pool query"
 msgstr ""
 
-#: src/Form/SearchResultsFieldset.php:70 src/Form/BrowsePreviewFieldset.php:93
+#: src/Form/SearchResultsFieldset.php:47
+msgid "Used to restrict resources to search, for example on an item set."
+msgstr ""
+
+#: src/Form/SearchResultsFieldset.php:71 src/Form/BrowsePreviewFieldset.php:93
 msgid "Show pagination to browse all resources on the same page."
 msgstr ""
 
-#: src/Form/SearchResultsFieldset.php:80 src/Form/BrowsePreviewFieldset.php:103
+#: src/Form/SearchResultsFieldset.php:81 src/Form/BrowsePreviewFieldset.php:103
 msgid "Sort headings"
 msgstr ""
 
-#: src/Form/SearchResultsFieldset.php:81 src/Form/BrowsePreviewFieldset.php:104
+#: src/Form/SearchResultsFieldset.php:82 src/Form/BrowsePreviewFieldset.php:104
 msgid "Display sort links for the list of results."
 msgstr ""
 
-#: src/Form/SearchResultsFieldset.php:85 src/Form/BrowsePreviewFieldset.php:108
+#: src/Form/SearchResultsFieldset.php:86 src/Form/BrowsePreviewFieldset.php:108
 msgid "Resource class"
 msgstr ""
 
-#: src/Form/SearchResultsFieldset.php:99 src/Form/BrowsePreviewFieldset.php:122
+#: src/Form/SearchResultsFieldset.php:100
+#: src/Form/BrowsePreviewFieldset.php:122
 msgid "Resource template for sort headings"
 msgstr ""
 
-#: src/Form/SearchResultsFieldset.php:100
+#: src/Form/SearchResultsFieldset.php:101
 #: src/Form/BrowsePreviewFieldset.php:123
 msgid ""
 "If set, the alternative labels of this resource template will be used to "
 "display the sort headings."
 msgstr ""
 
-#: src/Form/SearchResultsFieldset.php:107
+#: src/Form/SearchResultsFieldset.php:108
 #: src/Form/BrowsePreviewFieldset.php:130
 msgid "Select resource template…"
 msgstr ""
 
-#: src/Form/SearchResultsFieldset.php:115
+#: src/Form/SearchResultsFieldset.php:116
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"search-results\"."
-msgstr ""
-
-#: src/Form/AssetsFieldset.php:26 src/Site/BlockLayout/Assets.php:35
-msgid "Assets"
-msgstr ""
-
-#: src/Form/AssetsFieldset.php:38
-msgid ""
-"Templates are in folder \"common/block-layout\" of the theme and should "
-"start with \"assets\"."
-msgstr ""
-
-#: src/Form/AssetsFieldset.php:52
-msgid "Asset"
-msgstr ""
-
-#: src/Form/AssetsFieldset.php:66
-msgid "Asset file"
-msgstr ""
-
-#: src/Form/AssetsFieldset.php:80
-msgid "Url"
-msgstr ""
-
-#: src/Form/AssetsFieldset.php:97 src/Form/DivisionFieldset.php:50
-msgid "CSS class"
-msgstr ""
-
-#: src/Form/AssetsFieldset.php:105
-msgid "Add another"
 msgstr ""
 
 #: src/Form/ExternalContentFieldset.php:24
@@ -329,29 +344,13 @@ msgid ""
 "Main third parties are supported. Set the url to be used for the iframe."
 msgstr ""
 
-#: src/Form/ExternalContentFieldset.php:34
-#: src/Form/ExternalContentFieldset.php:57 src/Form/ResourceTextFieldset.php:32
-#: src/Form/ResourceTextFieldset.php:62
-msgid "left"
-msgstr ""
-
-#: src/Form/ExternalContentFieldset.php:35
-#: src/Form/ExternalContentFieldset.php:58 src/Form/ResourceTextFieldset.php:33
-#: src/Form/ResourceTextFieldset.php:63
-msgid "right"
-msgstr ""
-
 #: src/Form/ExternalContentFieldset.php:43
-#: src/Form/ItemSetShowcaseFieldset.php:51
+#: src/Form/ItemSetShowcaseFieldset.php:53
 msgid "Show title"
 msgstr ""
 
 #: src/Form/ExternalContentFieldset.php:54 src/Form/ResourceTextFieldset.php:59
 msgid "Captions position"
-msgstr ""
-
-#: src/Form/ExternalContentFieldset.php:56 src/Form/ResourceTextFieldset.php:61
-msgid "center"
 msgstr ""
 
 #: src/Form/ExternalContentFieldset.php:80
@@ -428,7 +427,7 @@ msgstr ""
 msgid "Exclude sites"
 msgstr ""
 
-#: src/Form/ListOfSitesFieldset.php:96
+#: src/Form/ListOfSitesFieldset.php:106
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"list-of-sites\"."
@@ -450,6 +449,12 @@ msgid ""
 "start with \"table-of-contents\"."
 msgstr ""
 
+#: src/Form/AssetFieldset.php:65
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"asset\"."
+msgstr ""
+
 #: src/Form/D3GraphFieldset.php:27 src/Form/BlockFieldset.php:26
 msgid "The params are passed directly to the block layout."
 msgstr ""
@@ -464,24 +469,6 @@ msgstr ""
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"item-showcase\"."
-msgstr ""
-
-#: src/Form/BrowsePreviewFieldset.php:70
-msgid "Components"
-msgstr ""
-
-#: src/Form/BrowsePreviewFieldset.php:71
-msgid ""
-"Components to display for each resource. If not set in Site Settings, "
-"Heading defaults to resource Title and Body to resource Description"
-msgstr ""
-
-#: src/Form/BrowsePreviewFieldset.php:75
-msgid "Heading"
-msgstr ""
-
-#: src/Form/BrowsePreviewFieldset.php:79
-msgid "Body"
 msgstr ""
 
 #: src/Form/BrowsePreviewFieldset.php:115
@@ -508,10 +495,6 @@ msgid ""
 "start with \"resource-text\"."
 msgstr ""
 
-#: src/Form/HtmlFieldset.php:33
-msgid "Optional CSS class for styling HTML."
-msgstr ""
-
 #: src/Form/HtmlFieldset.php:41
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
@@ -522,7 +505,7 @@ msgstr ""
 msgid "[No site]"
 msgstr ""
 
-#: src/Form/ItemSetShowcaseFieldset.php:62
+#: src/Form/ItemSetShowcaseFieldset.php:64
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"item-set-showcase\"."
@@ -530,6 +513,16 @@ msgstr ""
 
 #: src/Form/RedirectToUrlFieldset.php:17
 msgid "Redirect the current page to this url"
+msgstr ""
+
+#: src/Form/LinksFieldset.php:27 src/Site/BlockLayout/Links.php:22
+msgid "Links"
+msgstr ""
+
+#: src/Form/LinksFieldset.php:42
+msgid ""
+"Templates are in folder \"common/block-layout\" of the theme and should "
+"start with \"links\"."
 msgstr ""
 
 #: src/Form/TreeStructureFieldset.php:29
@@ -585,31 +578,35 @@ msgid ""
 "simple = Simple page"
 msgstr ""
 
-#: src/Form/DivisionFieldset.php:20
+#: src/Form/DivisionFieldset.php:22
 msgid "New division"
 msgstr ""
 
-#: src/Form/DivisionFieldset.php:21
+#: src/Form/DivisionFieldset.php:23
 msgid "End previous and start new"
 msgstr ""
 
-#: src/Form/DivisionFieldset.php:22
+#: src/Form/DivisionFieldset.php:24
 msgid "End division"
 msgstr ""
 
-#: src/Form/DivisionFieldset.php:35
+#: src/Form/DivisionFieldset.php:37
 msgid "Tag"
 msgstr ""
 
-#: src/Form/DivisionFieldset.php:37
+#: src/Form/DivisionFieldset.php:39
 msgid "div"
 msgstr ""
 
-#: src/Form/DivisionFieldset.php:38
+#: src/Form/DivisionFieldset.php:40
 msgid "aside"
 msgstr ""
 
-#: src/Form/DivisionFieldset.php:51
+#: src/Form/DivisionFieldset.php:52
+msgid "CSS class"
+msgstr ""
+
+#: src/Form/DivisionFieldset.php:53
 msgid ""
 "Set the classes according to the css of your theme. Only classes \"main\" "
 "and \"column\" are managed."
@@ -680,7 +677,7 @@ msgstr ""
 msgid "Search form"
 msgstr ""
 
-#: src/Site/BlockLayout/SearchResults.php:21
+#: src/Site/BlockLayout/SearchResults.php:22
 msgid "Search form and results"
 msgstr ""
 
@@ -696,30 +693,30 @@ msgstr ""
 msgid "Division"
 msgstr ""
 
-#: src/Site/BlockLayout/Division.php:65 src/Site/BlockLayout/Division.php:200
-#: src/Site/BlockLayout/Division.php:207
+#: src/Site/BlockLayout/Division.php:73 src/Site/BlockLayout/Division.php:204
+#: src/Site/BlockLayout/Division.php:211
 msgid ""
 "Type \"intermediate\" and \"end\" divisions must be after a block \"start\" "
 "or \"intermediate\"."
 msgstr ""
 
-#: src/Site/BlockLayout/Division.php:77 src/Site/BlockLayout/Division.php:216
+#: src/Site/BlockLayout/Division.php:85 src/Site/BlockLayout/Division.php:220
 msgid "Unauthorized type for block division."
 msgstr ""
 
-#: src/Site/BlockLayout/Division.php:84 src/Site/BlockLayout/Division.php:226
+#: src/Site/BlockLayout/Division.php:92 src/Site/BlockLayout/Division.php:230
 msgid "A block \"division\" cannot be single."
 msgstr ""
 
-#: src/Site/BlockLayout/Division.php:91 src/Site/BlockLayout/Division.php:233
+#: src/Site/BlockLayout/Division.php:99 src/Site/BlockLayout/Division.php:237
 msgid "The first division block must be of type \"start\"."
 msgstr ""
 
-#: src/Site/BlockLayout/Division.php:96 src/Site/BlockLayout/Division.php:238
+#: src/Site/BlockLayout/Division.php:104 src/Site/BlockLayout/Division.php:242
 msgid "The last division block must be of type \"end\"."
 msgstr ""
 
-#: src/Site/BlockLayout/Division.php:101 src/Site/BlockLayout/Division.php:243
+#: src/Site/BlockLayout/Division.php:109 src/Site/BlockLayout/Division.php:247
 msgid "Some divisions have no end."
 msgstr ""
 
@@ -830,65 +827,102 @@ msgstr ""
 msgid "Error reading %s: %s (%s)"
 msgstr ""
 
-#: src/Generic/InstallResources.php:108
+#: src/Generic/InstallResources.php:85
 #, php-format
 msgid ""
-"A resource template named exists for %s: rename it or remove it before "
-"installing this module."
+"An error occured when loading vocabulary \"%s\": file has no json content."
 msgstr ""
 
-#: src/Generic/InstallResources.php:173
-#, php-format
-msgid "The file \"%s\" cannot be read. Check your file system or the url."
-msgstr ""
-
-#: src/Generic/InstallResources.php:198
+#: src/Generic/InstallResources.php:92
 #, php-format
 msgid ""
 "An error occured when adding the prefix \"%s\": another vocabulary exists. "
 "Resolve the conflict before installing this module."
 msgstr ""
 
-#: src/Generic/InstallResources.php:280
-msgid "The current version of this module requires the module Custom Vocab."
-msgstr ""
-
-#: src/Generic/InstallResources.php:287
+#: src/Generic/InstallResources.php:104
 #, php-format
 msgid ""
-"A custom vocab named \"%s\" exists and has not the needed language (\"%s\"): "
-"check it or remove it before installing this module."
+"A custom vocab exists for \"%s\". Remove it or rename it before installing "
+"this module."
 msgstr ""
 
-#: src/Generic/InstallResources.php:332
+#: src/Generic/InstallResources.php:115
+#, php-format
+msgid ""
+"A resource template exists for %s. Rename it or remove it before installing "
+"this module."
+msgstr ""
+
+#: src/Generic/InstallResources.php:304
 #, php-format
 msgid "The vocabulary \"%s\" was already installed and was kept."
 msgstr ""
 
-#: src/Generic/InstallResources.php:342
+#: src/Generic/InstallResources.php:313
 #, php-format
 msgid ""
 "An error occured when adding the prefix \"%s\": another vocabulary exists "
 "with the same prefix. Resolve the conflict before installing this module."
 msgstr ""
 
-#: src/Generic/InstallResources.php:362
+#: src/Generic/InstallResources.php:325
 #, php-format
 msgid ""
 "An error occured when adding the prefix \"%s\" and the associated "
 "properties: %s"
 msgstr ""
 
-#: src/Generic/InstallResources.php:390
+#: src/Generic/InstallResources.php:405 src/Generic/InstallResources.php:415
+#, php-format
+msgid ""
+"An error occured when updating vocabulary \"%s\" and the associated "
+"properties: %s"
+msgstr ""
+
+#: src/Generic/InstallResources.php:509
+#, php-format
+msgid "The following \"%1$s\" of the vocabulary \"%2$s\" were replaced: %3$s"
+msgstr ""
+
+#: src/Generic/InstallResources.php:518
+msgid ""
+"Resources, values and templates were updated, but you may check settings "
+"where the old ones were used."
+msgstr ""
+
+#: src/Generic/InstallResources.php:543
 #, php-format
 msgid "The resource template named \"%s\" is already available and is skipped."
 msgstr ""
 
-#: src/Generic/InstallResources.php:652
+#: src/Generic/InstallResources.php:805
 #, php-format
 msgid "The custom vocab named \"%s\" is not available."
 msgstr ""
 
-#: config/module.config.php:177
+#: src/Generic/InstallResources.php:911
+msgid "No file or url set for the vocabulary."
+msgstr ""
+
+#: src/Generic/InstallResources.php:921
+#, php-format
+msgid "The file \"%s\" cannot be read. Check the url."
+msgstr ""
+
+#: src/Generic/InstallResources.php:931
+#, php-format
+msgid "The file \"%s\" cannot be read. Check the file."
+msgstr ""
+
+#: src/Generic/InstallResources.php:952
+msgid "A vocabulary must have a namespace uri and a prefix."
+msgstr ""
+
+#: config/module.config.php:101
+msgid "Url (deprecated)"
+msgstr ""
+
+#: config/module.config.php:189
 msgid "Know more"
 msgstr ""
