@@ -28,6 +28,18 @@ class BrowsePreview extends AbstractBlockLayout
         $block->setData($data);
     }
 
+    public function prepareForm(PhpRenderer $view)
+    {
+        $assetUrl = $view->plugin('assetUrl');
+        $view->headLink()
+            ->prependStylesheet($assetUrl('css/advanced-search.css', 'Omeka'))
+            ->appendStylesheet($assetUrl('css/query-form.css', 'Omeka'));
+        $view->headScript()
+            ->appendFile($assetUrl('js/advanced-search.js', 'Omeka'))
+            ->appendFile($assetUrl('js/query-form.js', 'Omeka'))
+            ->appendFile($assetUrl('js/browse-preview-block-layout.js', 'Omeka'));
+    }
+
     public function form(
         PhpRenderer $view,
         SiteRepresentation $site,
@@ -48,6 +60,8 @@ class BrowsePreview extends AbstractBlockLayout
         }
 
         $fieldset = $formElementManager->get($blockFieldset);
+        $fieldset->get('o:block[__blockIndex__][o:data][query]')
+            ->setOption('query_resource_type', $data['resource_type'] ?? 'items');
         $fieldset->populateValues($dataForm);
 
         return $view->formCollection($fieldset);

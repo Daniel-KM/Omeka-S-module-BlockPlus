@@ -5,8 +5,7 @@ namespace BlockPlus\Form;
 use BlockPlus\Form\Element\TemplateSelect;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
-use Omeka\Form\Element\PropertySelect;
-use Omeka\Form\Element\ResourceTemplateSelect;
+use Omeka\Form\Element as OmekaElement;
 
 class BrowsePreviewFieldset extends Fieldset
 {
@@ -42,11 +41,12 @@ class BrowsePreviewFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][query]',
-                'type' => Element\Text::class,
+                'type' => OmekaElement\Query::class,
                 'options' => [
                     'label' => 'Query', // @translate
                     'info' => 'Display resources using this search query', // @translate
-                    'documentation' => 'https://omeka.org/s/docs/user-manual/sites/site_pages/#browse-preview',
+                    'query_resource_type' => null,
+                    'query_partial_excludelist' => ['common/advanced-search/site'],
                 ],
                 'attributes' => [
                     'id' => 'browse-preview-query',
@@ -98,7 +98,7 @@ class BrowsePreviewFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][sort_headings]',
-                'type' => PropertySelect::class,
+                'type' => OmekaElement\PropertySelect::class,
                 'options' => [
                     'label' => 'Sort headings', // @translate
                     'info' => 'Display sort links for the list of results.', // @translate
@@ -117,7 +117,7 @@ class BrowsePreviewFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][resource_template]',
-                'type' => ResourceTemplateSelect::class,
+                'type' => OmekaElement\ResourceTemplateSelect::class,
                 'options' => [
                     'label' => 'Resource template for sort headings', // @translate
                     'info' => 'If set, the alternative labels of this resource template will be used to display the sort headings.', // @translate

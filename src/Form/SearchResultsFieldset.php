@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
-use Omeka\Form\Element\PropertySelect;
-use Omeka\Form\Element\ResourceTemplateSelect;
+use Omeka\Form\Element as OmekaElement;
 
 class SearchResultsFieldset extends Fieldset
 {
@@ -20,7 +20,7 @@ class SearchResultsFieldset extends Fieldset
                     'info' => 'Heading for the block, if any.', // @translate
                 ],
                 'attributes' => [
-                    'id' => 'browse-preview-heading',
+                    'id' => 'search-results-heading',
                 ],
             ])
             ->add([
@@ -35,20 +35,21 @@ class SearchResultsFieldset extends Fieldset
                     ],
                 ],
                 'attributes' => [
-                    'id' => 'browse-preview-resource-type',
+                    'id' => 'search-results-resource-type',
                     'class' => 'chosen-select',
                 ],
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][query]',
-                'type' => Element\Text::class,
+                'type' => OmekaElement\Query::class,
                 'options' => [
-                    'label' => 'Query', // @translate
-                    'info' => 'Used to restrict resources, for example on an item set. Let empty for none, use "=" for any resource in the site.', // @translate
-                    'documentation' => 'https://omeka.org/s/docs/user-manual/sites/site_pages/#browse-preview',
+                    'label' => 'Search pool query', // @translate
+                    'info' => 'Used to restrict resources to search, for example on an item set.', // @translate
+                    'query_resource_type' => null,
+                    'query_partial_excludelist' => ['common/advanced-search/site'],
                 ],
                 'attributes' => [
-                    'id' => 'browse-preview-query',
+                    'id' => 'search-results-query',
                 ],
             ])
             ->add([
@@ -59,7 +60,7 @@ class SearchResultsFieldset extends Fieldset
                     'info' => 'Maximum number of resources to display in the preview.', // @translate
                 ],
                 'attributes' => [
-                    'id' => 'browse-preview-limit',
+                    'id' => 'search-results-limit',
                 ],
             ])
             ->add([
@@ -70,12 +71,12 @@ class SearchResultsFieldset extends Fieldset
                     'info' => 'Show pagination to browse all resources on the same page.', // @translate
                 ],
                 'attributes' => [
-                    'id' => 'browse-preview-pagination',
+                    'id' => 'search-results-pagination',
                 ],
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][sort_headings]',
-                'type' => PropertySelect::class,
+                'type' => OmekaElement\PropertySelect::class,
                 'options' => [
                     'label' => 'Sort headings', // @translate
                     'info' => 'Display sort links for the list of results.', // @translate
@@ -86,7 +87,7 @@ class SearchResultsFieldset extends Fieldset
                     ],
                 ],
                 'attributes' => [
-                    'id' => 'browse-preview-sort-headings',
+                    'id' => 'search-results-sort-headings',
                     'class' => 'chosen-select',
                     'multiple' => true,
                     'data-placeholder' => 'Select properties', // @translate
@@ -94,14 +95,14 @@ class SearchResultsFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][resource_template]',
-                'type' => ResourceTemplateSelect::class,
+                'type' => OmekaElement\ResourceTemplateSelect::class,
                 'options' => [
                     'label' => 'Resource template for sort headings', // @translate
                     'info' => 'If set, the alternative labels of this resource template will be used to display the sort headings.', // @translate
                     'empty_option' => '',
                 ],
                 'attributes' => [
-                    'id' => 'browse-preview-resource-template',
+                    'id' => 'search-results-resource-template',
                     'class' => 'chosen-select',
                     'multiple' => false,
                     'data-placeholder' => 'Select resource template…', // @translate
@@ -116,7 +117,7 @@ class SearchResultsFieldset extends Fieldset
                     'template' => 'common/block-layout/search-results',
                 ],
                 'attributes' => [
-                    'id' => 'browse-preview-template',
+                    'id' => 'search-results-template',
                     'class' => 'chosen-select',
                 ],
             ])
