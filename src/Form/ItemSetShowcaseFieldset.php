@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
@@ -26,6 +27,7 @@ class ItemSetShowcaseFieldset extends Fieldset
                 'options' => [
                     'label' => 'Item sets', // @translate
                     // 'disable_group_by_owner' => true,
+                    'query' => null,
                 ],
                 'attributes' => [
                     'id' => 'item-set-showcase-item-sets',

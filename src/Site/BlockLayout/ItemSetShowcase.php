@@ -39,6 +39,8 @@ class ItemSetShowcase extends AbstractBlockLayout
         }
 
         $fieldset = $formElementManager->get($blockFieldset);
+        $fieldset->get('o:block[__blockIndex__][o:data][item_sets]')
+            ->setOption('query', ['site_id' => $site->id()]);
         $fieldset->populateValues($dataForm);
 
         return $view->formCollection($fieldset, false);
