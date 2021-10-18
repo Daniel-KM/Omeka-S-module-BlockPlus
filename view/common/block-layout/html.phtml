@@ -6,11 +6,10 @@
  * @var string $heading
  */
 
-$escape = $this->plugin('escapeHtml');
 ?>
 
 <?php if (!empty($heading)): ?>
-<h2><?= $escape($heading) ?></h2>
+<h2><?= $this->escapeHtml($heading) ?></h2>
 <?php endif; ?>
 <?php if (empty($divclass)): ?>
 <?= $html ?>
