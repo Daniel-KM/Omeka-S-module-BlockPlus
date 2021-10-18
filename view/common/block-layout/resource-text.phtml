@@ -16,6 +16,9 @@ $hyperlink = $this->plugin('hyperlink');
 $siteSetting = $this->plugin('siteSetting');
 
 $linkType = $siteSetting('attachment_link_type', 'item');
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
 ?>
 
 <div class="block media-text">
@@ -41,9 +44,9 @@ $linkType = $siteSetting('attachment_link_type', 'item');
                     endif;
 
                     if ($showTitleOption == 'item_title'):
-                        $title = $item->displayTitle();
+                        $title = $item->displayTitle(null, $lang);
                     elseif ($media && $showTitleOption == 'file_name'):
-                        $title = $media->displayTitle();
+                        $title = $media->displayTitle(null, $lang);
                     endif;
 
                     if ($title):

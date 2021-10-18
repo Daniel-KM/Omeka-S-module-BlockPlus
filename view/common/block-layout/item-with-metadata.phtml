@@ -8,6 +8,9 @@
 $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
 $thumbnail = $plugins->get('thumbnail');
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
 ?>
 
 <div class="block item-with-metadata">
@@ -25,7 +28,7 @@ $thumbnail = $plugins->get('thumbnail');
         <div class="property">
             <h4><?php echo $translate('Item sets'); ?></h4>
             <?php foreach ($itemSets as $itemSet): ?>
-            <div class="value"><?php echo $itemSet->link($itemSet->displayTitle()); ?></div>
+            <div class="value"><?php echo $itemSet->link($itemSet->displayTitle(null, $lang)); ?></div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
@@ -34,7 +37,7 @@ $thumbnail = $plugins->get('thumbnail');
         <div class="media-list">
         <?php
         foreach ($medias as $media):
-            echo $media->linkRaw($thumbnail($media, 'medium', ['title' => $media->displayTitle()]), null, [
+            echo $media->linkRaw($thumbnail($media, 'medium', ['title' => $media->displayTitle(null, $lang)]), null, [
                 'class' => 'media resource',
             ]);
         endforeach;

@@ -27,6 +27,9 @@ $assetUrl = $plugins->get('assetUrl');
 // $showThumbnail = in_array('thumbnail', $components);
 $showHeading = in_array('resource-heading', $components);
 $showBody = in_array('resource-body', $components);
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
 ?>
 
 <div class="block preview-block">
@@ -91,10 +94,10 @@ $showBody = in_array('resource-body', $components);
                     $mediaLarge = str_replace('/' . $thumbnailSize . '/', '/large/', $mediaThumbnail);
                 endif;
 
-                $heading = $showHeading ? $resource->displayTitle($untitled) : '';
+                $heading = $showHeading ? $resource->displayTitle($untitled, $lang) : '';
 
                 if ($showBody):
-                    $body = $resource->displayDescription();
+                    $body = $resource->displayDescription(null, $lang);
                     $body .= '<p>'
                         . $translate('More information')
                         . '<br/>'

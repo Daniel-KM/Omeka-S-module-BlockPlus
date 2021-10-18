@@ -13,6 +13,9 @@ $thumbnail = $plugins->get('thumbnail');
 
 $defaultThumbnail = $this->assetUrl('thumbnails/default.png', 'Omeka');
 $defaultThumbnail = '<img src="' . $defaultThumbnail . '"/>';
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
 ?>
 
 <div class="block item-set-showcase">
@@ -30,7 +33,7 @@ $defaultThumbnail = '<img src="' . $defaultThumbnail . '"/>';
         $render = $itemSet->linkRaw($itemSetThumbnail);
 
         if ($showTitleOption !== 'no_title'):
-            $title = $itemSet->displayTitle();
+            $title = $itemSet->displayTitle(null, $lang);
             $link = $itemSet->link($title);
         endif;
     ?>
@@ -38,7 +41,7 @@ $defaultThumbnail = '<img src="' . $defaultThumbnail . '"/>';
         <?= $render ?>
         <?= $link ?>
         <div class="caption">
-            <?= $itemSet->displayDescription() ?>
+            <?= $itemSet->displayDescription(null, $lang) ?>
         </div>
     </div>
 <?php endforeach; ?>

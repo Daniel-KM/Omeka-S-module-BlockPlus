@@ -9,11 +9,15 @@
  */
 
 $plugins = $this->getHelperPluginManager();
-$thumbnail = $plugins->get('thumbnail');
+$siteLang = $plugins->get('lang')();
 $hyperlink = $plugins->get('hyperlink');
+$thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
 
 $linkType = $siteSetting('attachment_link_type', 'item');
+
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $filterLocale ? $siteLang : null;
 ?>
 
 <div class="block item-showcase">
@@ -27,16 +31,17 @@ $linkType = $siteSetting('attachment_link_type', 'item');
         $title = null;
         $link = null;
         $item = $attachment->item();
+        $media = null;
         if ($item):
             $media = $attachment->media() ?: $item->primaryMedia();
             if ($media):
                 $render = $item->linkRaw($thumbnail($media, $thumbnailType));
             endif;
 
-            if ($showTitleOption == 'item_title'):
-                $title = $item->displayTitle();
+            if ($showTitleOption === 'item_title'):
+                $title = $item->displayTitle(null, $lang);
             elseif ($media && $showTitleOption == 'file_name'):
-                $title = $media->displayTitle();
+                $title = $media->displayTitle(null, $lang);
             endif;
 
             if ($title):
@@ -54,7 +59,9 @@ $linkType = $siteSetting('attachment_link_type', 'item');
     ?>
     <div class="item resource">
         <?= $render ?>
-        <?= $link ?>
+        <?php if ($link): ?>
+        <h3><?= $link ?></h3>
+        <?php endif; ?>
         <?php if ($caption): ?>
         <div class="caption">
             <?= $caption ?>

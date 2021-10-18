@@ -55,6 +55,9 @@ $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
 $api = $plugins->get('api');
 
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
+
 $limitItemsByItemSet = 100;
 
 $params = $this->blockMetadata('params_json', $block) ?: [];
@@ -139,7 +142,7 @@ foreach ($resources as $resource) {
         $type = $types[$resourceName];
         $data['nodes'][$orderSource] = [
             'id' => $resourceId,
-            'title' => (string) $resource->displayTitle(),
+            'title' => (string) $resource->displayTitle(null, $lang),
             'type' => $type,
             'class' => $resource->resourceClass() ? $resource->resourceClass()->label() : null,
             'total' => count($relations['objects'])
@@ -159,7 +162,7 @@ foreach ($resources as $resource) {
             $type = $types[$relationResourceName];
             $data['nodes'][$orderTarget] = [
                 'id' => $relationId,
-                'title' => (string) $relation->displayTitle(),
+                'title' => (string) $relation->displayTitle(null, $lang),
                 'type' => $type,
                 'class' => $relation->resourceClass() ? $relation->resourceClass()->label() : null,
                 // TODO Fetch all totals in one sql query for all resources.

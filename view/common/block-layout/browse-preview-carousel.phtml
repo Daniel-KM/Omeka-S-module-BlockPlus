@@ -45,6 +45,11 @@ $configs = [
         'interval' => 5000,
     ],
 ];
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
+$langValue = $filterLocale ? [$this->lang(), ''] : null;
+
 ?>
 
 <link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/jcarousel/css/jcarousel.responsive.css', 'BlockPlus') ?>" />
@@ -77,7 +82,7 @@ jQuery(function() {
     <div class="jcarousel" id="jcarousel-<?php echo $idSuffix; ?>">
         <ul>
             <?php foreach ($resources as $resource):
-                $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled]) : $resource->displayTitle();
+                $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle(null, $lang);
                 $resourceUrl = $resource->siteUrl($siteSlug);
             ?>
             <li>
