@@ -1,0 +1,34 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var array $pageList
+ * @var string $heading
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$missingPage = $translate('[Missing Page]');
+?>
+
+<div class="block list-of-pages">
+    <ul>
+        <?php $iterate = function ($pages) use (&$iterate, $translate, $hyperlink, $missingPage) {
+            foreach ($pages as $page) {
+                $pageName = $page['text'];
+                $pageLink = $page['data']['url'];
+                if (empty($pageLink)) {
+                    echo '<li>' . $missingPage . '</li>';
+                } else {
+                    echo '<li>' . $hyperlink($pageName, $pageLink) . '</li>';
+                }
+                if (isset($page['children'])) {
+                    echo '<ul>';
+                    $iterate($page['children']);
+                    echo '</ul>';
+                }
+            }
+        };
+        $iterate($pageList); ?>
+    </ul>
+</div>

@@ -43,6 +43,7 @@ return [
             'assets' => Service\BlockLayout\AssetsFactory::class,
             'externalContent' => Service\BlockLayout\ExternalContentFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
+            'listOfPages' => Service\BlockLayout\ListOfPagesFactory::class,
             'mirrorPage' => Service\BlockLayout\MirrorPageFactory::class,
             'resourceText' => Service\BlockLayout\ResourceTextFactory::class,
         ],
@@ -63,6 +64,7 @@ return [
             Form\ItemSetShowcaseFieldset::class => Form\ItemSetShowcaseFieldset::class,
             Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
             Form\ItemWithMetadataFieldset::class => Form\ItemWithMetadataFieldset::class,
+            Form\ListOfPagesFieldset::class => Form\ListOfPagesFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\MirrorPageFieldset::class => Form\MirrorPageFieldset::class,
             Form\PageTitleFieldset::class => Form\PageTitleFieldset::class,
@@ -208,6 +210,12 @@ return [
             'links' => [
                 'heading' => '',
                 'links' => [],
+                'template' => '',
+            ],
+            // Use block Menu of module Menu is cleaner.
+            'listOfPages' => [
+                'heading' => '',
+                'pagelist' => '',
                 'template' => '',
             ],
             'listOfSites' => [
