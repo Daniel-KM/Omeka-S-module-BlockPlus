@@ -11,7 +11,7 @@
 $plugins = $this->getHelperPluginManager();
 $thumbnail = $plugins->get('thumbnail');
 
-$defaultThumbnail = $this->assetUrl('thumbnails/default.png', 'Omeka');
+$defaultThumbnail = $this->assetUrl('thumbnails/default.png', 'Omeka', true);
 $defaultThumbnail = '<img src="' . $defaultThumbnail . '"/>';
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
