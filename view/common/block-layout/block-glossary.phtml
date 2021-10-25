@@ -1,0 +1,157 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $heading
+ * @var string $params
+ */
+
+// To use this block: set a list of key-value separated by "=" in params.
+
+$plugins = $this->getHelperPluginManager();
+$partial = $plugins->get('partial');
+$escape = $plugins->get('escapeHtml');
+$assetUrl = $plugins->get('assetUrl');
+$translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
+$glossary = $this->blockMetadata('params_key_value_array', $block);
+
+// Use null for unlimited.
+$defaultPerPage = 4;
+$reorder = true;
+
+// There may be multiple start letters.
+// TODO Js to manage multiple start letters.
+$query = $this->params()->fromQuery();
+$currentPage = (int) ($query['page'] ?? 1) ?: 1;
+$perPage = (int) ($query['per_page'] ?? 0) ?: $defaultPerPage;
+// On the first load, the first letter is the first available one: see below.
+// There may be multiple first letters to consolidate small lists.
+$startWith = array_filter((array) ($startWith['startwith'] ?? []), 'strlen');
+
+// Create the glossary alphabet, the list of current letters and current definitions and prepare first letters.
+$letters = [];
+$currents = [];
+$currentLetters = [];
+foreach ($glossary as $key => $termDefinition) {
+    $term = str_replace("\t", '    ', (string) reset($termDefinition));
+    if ($term === '') {
+        unset($glossary[$key]);
+        continue;
+    }
+
+    $initial = mb_strtoupper(mb_substr($term, 0, 1));
+    $skipLink = preg_match('/\W|\d/u', $initial) ? '0-9' : $initial;
+    $letters[$skipLink] = true;
+
+    $definition = $termDefinition[1] ?? '';
+    $definition = str_replace("\t", '    ', $definition);
+    $glossary[$key] = [
+        'term' => $term,
+        'definition' => $definition,
+        'initial' => $initial,
+        'skiplink' => $skipLink,
+    ];
+}
+$glossary = array_values($glossary);
+
+// Order glossary and current definition list if wanted.
+if ($reorder) {
+    if (extension_loaded('intl')) {
+        $collator = new \Collator(null);
+        usort($glossary, function($a, $b) use ($collator) {
+            return $collator->compare($a['term'], $b['term']);
+        });
+    } else {
+        usort($glossary, function($a, $b) {
+            return strcmp($a['term'], $b['term']);
+        });
+    }
+}
+
+// Add the empty letters.
+// Get the default list of initials for latin. To be updated for non-latin references.
+// Anyway, even in latin, some characters are not transcoded, like Œ.
+$alphabet = ['0-9' => false] + array_fill_keys(range('A', 'Z'), false);
+$letters = array_merge($alphabet, $letters);
+// Don't display symbols if useless.
+if (empty($letters['0-9'])) unset($letters['0-9']);
+
+// Set first letter if not set and prepare the list of currents definitions.
+if (empty($startWith) && count($letters)) $startWith = [key(array_filter($letters))];
+foreach ($glossary as $key => $termDefinition) {
+    if (in_array($termDefinition['initial'], $startWith, true) || in_array($termDefinition['skiplink'], $startWith, true)) {
+        $currentLetters[] = $skipLink;
+        $currents[] = $key;
+    }
+}
+
+// TODO Use Laminas Paginator?
+// Prepare the paginator for the current definition list.
+$totalCount = count($currents);
+$pageCount = $perPage ? (int) ceil($totalCount / $perPage) : 1;
+$currentPage = $currentPage <= 1 ? 1 : $currentPage;
+$currentPage = $currentPage >= $pageCount ? $pageCount : $currentPage;
+if ($perPage && $pageCount > 1) {
+    $offset = ($currentPage - 1) * $perPage;
+    $previousPage = $currentPage <= 1 ? null : $currentPage - 1;
+    $nextPage = $currentPage >= $pageCount ? null : $currentPage + 1;
+    $currents = array_slice($currents, $offset, $perPage);
+} else {
+    $offset = 0;
+    $previousPage = null;
+    $nextPage = null;
+}
+
+$this->headScript()
+    ->appendFile($assetUrl('js/block-plus-glossary.js', 'BlockPlus', 'text/javascript', ['defer' => 'defer']));
+?>
+
+<div class="block glossary">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+
+    <ul class="glossary-alphabet">
+        <?php foreach ($letters as $letter => $isSet): ?>
+        <li><?= $isSet
+            ? sprintf('<a data-letter="%s" %shref="#%s">%s</a>', $letter, in_array($letter, $currentLetters) ? 'class="current" ' : '', $letter, $letter)
+            : sprintf('<span class="inactive">%s</span>', $letter)
+        ?></li>
+        <?php endforeach; ?>
+    </ul>
+
+    <?php if ($perPage): ?>
+    <nav data-per-page="<?= $perPage ?>" class="pagination glossary-pagination" role="navigation">
+        <a data-page="1" class="pagination-first" href="" title="<?= $translate('First') ?>" aria-label="<?= $translate('First') ?>"></a>
+        <?php if ($currentPage <= 1): ?>
+        <span class="pagination-previous" title="<?= $translate('No previous') ?>" aria-label="<?= $translate('No previous') ?>"></span>
+        <?php else: ?>
+        <a data-page="<?= $previousPage ?>" class="pagination-previous" href="" title="<?= $translate('Previous') ?>" aria-label="<?= $translate('Previous') ?>"></a>
+        <?php endif; ?>
+
+        <form action="">
+            <input class="pagination-current" name="page" type="tel" value="<?= $currentPage ?>"/>
+        </form>
+        <span class="pagination-total"><?= $pageCount ?></span>
+
+        <?php if ($currentPage >= $pageCount): ?>
+        <span class="pagination-next" title="<?= $translate('No next') ?>" aria-label="<?= $translate('No next') ?>"></span>
+        <?php else: ?>
+        <a data-page="<?= $nextPage ?>" class="pagination-next" href="" title="<?= $translate('Next') ?>" aria-label="<?= $translate('Next') ?>"></a>
+        <?php endif; ?>
+        <a data-page="<?= $pageCount ?>" class="pagination-last" href="" title="<?= $translate('Last') ?>" aria-label="<?= $translate('Last') ?>"></a>
+    </nav>
+    <?php endif; ?>
+
+    <dl class="glossary-items">
+        <?php foreach ($glossary as $key => $termDefinition): ?>
+        <div class="glossary-item" data-initial="<?= $termDefinition['initial'] ?>" data-skiplink="<?= $termDefinition['skiplink'] ?>" <?= in_array($key, $currents) ? '' : ' style="display:none;"' ?>>
+            <dt class="glossary-term"><?= $escape($termDefinition['term']) ?></dt>
+            <dd class="glossary-definition"><?= $escape($termDefinition['definition']) ?></dd>
+        </div>
+        <?php endforeach; ?>
+    </dl>
+
+</div>

@@ -108,6 +108,139 @@ aside.column {
     stroke-opacity: .3;
 }
 
+/** Glossary */
+@media screen {
+    .glossary-alphabet {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 32px 0;
+        list-style: none;
+    }
+
+    .glossary-alphabet > li {
+        padding-top: 10px;
+    }
+
+    .glossary-alphabet > li > span,
+    .glossary-alphabet > li > a {
+        font-weight: 600;
+        font-size: 2.1875em;
+        margin-right: 20px;
+        text-decoration: none;
+    }
+
+    .glossary-alphabet > li:last-child > span,
+    .glossary-alphabet > li:last-child > a {
+        margin-right: 0;
+    }
+
+    .glossary-alphabet > li > a:hover,
+    .glossary-alphabet > li > a.current {
+        box-shadow: 0 3px 0 0;
+    }
+
+    .glossary-alphabet > li > span.inactive,
+    .glossary-alphabet > li > a.inactive {
+        color: #B2B2B2;
+        pointer-events: none;
+    }
+
+    .glossary-items {
+        column-count: 2;
+        column-gap: 56px;
+        padding-bottom: 25px;
+    }
+
+    .glossary-pagination {
+        margin: 32px 0 70px;
+    }
+    .glossary-pagination .pagination-first::before {
+        content: '<< ';
+        min-width: 20px;
+        display: inline-block;
+    }
+    .glossary-pagination .pagination-previous::before {
+        content: '< ';
+        min-width: 20px;
+        display: inline-block;
+    }
+    .glossary-pagination .pagination-next::after {
+        content: ' >';
+        min-width: 20px;
+        display: inline-block;
+    }
+    .glossary-pagination .pagination-last::after {
+        content: ' >>';
+        min-width: 20px;
+        display: inline-block;
+    }
+    .glossary-pagination .pagination-last::after {
+        content: ' >>';
+        min-width: 20px;
+        display: inline-block;
+    }
+    .glossary-pagination form::after {
+        content: '|';
+        margin: 0 8px 0 3px;
+    }
+
+    .glossary-items > dt,
+    .glossary-items > dd,
+    .glossary-items > div,
+    .glossary-items > div > dt,
+    .glossary-items > div > dd,
+    .glossary-items > li,
+    .glossary-items > li > div {
+        break-inside: avoid;
+    }
+
+    .glossary-items > .glossary-term,
+    .glossary-items > div > .glossary-term,
+    .glossary-items > li > .glossary-term {
+        font-weight: 500;
+        font-size: 1.375em;
+        line-height: 1.2;
+        margin-bottom: 5px;
+    }
+
+    .glossary-items > .glossary-definition,
+    .glossary-items > div > .glossary-definition,
+    .glossary-items > li > .glossary-definition {
+        font-weight: 300;
+        font-size: 1.0625em;
+        line-height: 1.2;
+        margin-bottom: 45px;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .glossary-alphabet > li > span,
+    .glossary-alphabet > li > a {
+        font-size: 1.375em;
+        margin-right: 10px;
+    }
+
+    .glossary-items > .glossary-term,
+    .glossary-items > div > .glossary-term,
+    .glossary-items > li > .glossary-term {
+        font-size: 1.0625em;
+        line-height: 1.2;
+    }
+
+    .glossary-items > .glossary-definition,
+    .glossary-items > div > .glossary-definition,
+    .glossary-items > li > .glossary-definition {
+        font-size: 0.875em;
+        line-height: 1.35;
+    }
+
+    .glossary-results .glossary-pagination {
+        margin: 32px 0 50px;
+    }
+}
+
+
 /* Genericization of omeka item-showcase */
 .showcase .entries {
     margin: 1rem 0;
