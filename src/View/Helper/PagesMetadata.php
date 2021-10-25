@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
@@ -14,7 +15,7 @@ class PagesMetadata extends AbstractHelper
      * @param string|array $pageType
      * @return \Omeka\Api\Representation\SitePageBlockRepresentation[]
      */
-    public function __invoke($pageType)
+    public function __invoke($pageType): array
     {
         $pageTypes = is_array($pageType) ? $pageType : [$pageType];
 

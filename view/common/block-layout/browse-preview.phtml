@@ -13,9 +13,22 @@
  */
 
 $plugins = $this->getHelperPluginManager();
-$translate = $plugins->get('translate');
 $escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
 $thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
+
+$showThumbnail = in_array('thumbnail', $components);
+$showHeading = in_array('resource-heading', $components);
+$showBody = in_array('resource-body', $components);
+$headingTerm = $siteSetting('browse_heading_property_term');
+$bodyTerm = $siteSetting('browse_body_property_term');
+
+$untitled = $translate('[Untitled]');
+
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
+$langValue = $filterLocale ? [$this->lang(), ''] : null;
 ?>
 
 <div class="block preview-block">
@@ -32,18 +45,6 @@ $thumbnail = $plugins->get('thumbnail');
 
 <ul class="resource-list preview">
 <?php
-$showThumbnail = in_array('thumbnail', $components);
-$showHeading = in_array('resource-heading', $components);
-$showBody = in_array('resource-body', $components);
-$headingTerm = $this->siteSetting('browse_heading_property_term');
-$bodyTerm = $this->siteSetting('browse_body_property_term');
-
-$untitled = $translate('[Untitled]');
-
-$filterLocale = (bool) $this->siteSetting('filter_locale_values');
-$lang = $filterLocale ? $this->lang() : null;
-$langValue = $filterLocale ? [$this->lang(), ''] : null;
-
 foreach ($resources as $resource):
     $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle(null, $lang);
     $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : $resource->displayDescription(null, $lang);
@@ -68,12 +69,10 @@ if (!empty($pagination)):
 endif;
 ?>
 
-<?php
-if ($linkText):
-    echo $this->hyperlink($linkText, $this->url(
+<?php if ($linkText): ?>
+    <?php $this->hyperlink($linkText, $this->url(
         'site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $site->slug()], ['query' => $query], true
-    ));
-endif;
-?>
+    )) ?>
+<?php endif; ?>
 
 </div>

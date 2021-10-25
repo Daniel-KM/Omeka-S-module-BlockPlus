@@ -18,8 +18,6 @@ class ThumbnailUrl extends AbstractHelper
      * The thumbnail may be specified directly, or be the primary media one.
      * More generic than the default method of representation "thumbnailDisplayUrl()".
      *
-     * This helper is available in the module Next.
-     *
      * @see \Omeka\View\Helper\Thumbnail
      */
     public function __invoke(AbstractRepresentation $representation, ?string $type = 'square'): ?string
