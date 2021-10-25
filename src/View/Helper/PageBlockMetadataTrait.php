@@ -159,9 +159,9 @@ trait PageBlockMetadataTrait
                 return $block->dataValue('params', '');
             case 'params_json':
             case 'params_json_array':
-                return @json_decode($block->dataValue('params', ''), true);
+                return @json_decode($block->dataValue('params', ''), true) ?: [];
             case 'params_json_object':
-                return @json_decode($block->dataValue('params', ''));
+                return @json_decode($block->dataValue('params', '')) ?: (object) [];
             case 'params_key_value':
             default:
                 $params = array_filter(array_map('trim', explode("\n", $block->dataValue('params', ''))));
