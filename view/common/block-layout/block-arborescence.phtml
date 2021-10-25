@@ -6,20 +6,9 @@
  * @var string $params
  */
 
-/*
- Fill this partial as you want. The view is available, so any feature can be used.
-
- Use params if any. Access to them:
- - as a whole: $params
- - as a decoded json: $this->blockMetadata('params_json', $block)
- - as a list of keys-values: $this->blockMetadata('params_key_value', $block)
- - a specific key of the list of keys-values: $this->blockMetadata('my_key', $block)
-
- Warning: check security of any user input.
- */
-
-$escape = $this->plugin('escapeHtml');
-$assetUrl = $this->plugin('assetUrl');
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$assetUrl = $plugins->get('assetUrl');
 
 $file = $this->blockMetadata('file');
 if (empty($file)) echo $this->translate('No file defined. Set the param in the block: "file = filename.tsv" (use a file inside /asset/data/) or "file = https://example.com/file.tsv".');

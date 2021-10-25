@@ -162,9 +162,16 @@ trait PageBlockMetadataTrait
                 return @json_decode($block->dataValue('params', ''), true) ?: [];
             case 'params_json_object':
                 return @json_decode($block->dataValue('params', '')) ?: (object) [];
+            case 'params_key_value_array':
+                $params = array_map('trim', explode("\n", trim($block->dataValue('params', ''))));
+                $list = [];
+                foreach ($params as $keyValue) {
+                    $list[] = array_map('trim', explode('=', $keyValue, 2));
+                }
+                return $list;
             case 'params_key_value':
             default:
-                $params = array_filter(array_map('trim', explode("\n", $block->dataValue('params', ''))));
+                $params = array_filter(array_map('trim', explode("\n", trim($block->dataValue('params', '')))));
                 $list = [];
                 foreach ($params as $keyValue) {
                     list($key, $value) = array_map('trim', explode('=', $keyValue, 2));
