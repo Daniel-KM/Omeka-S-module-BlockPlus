@@ -16,7 +16,6 @@ class D3GraphFieldset extends Fieldset
                 'type' => Element\Text::class,
                 'options' => [
                     'label' => 'Block title', // @translate
-                    'info' => 'Heading for the block, if any.', // @translate
                 ],
             ])
             ->add([

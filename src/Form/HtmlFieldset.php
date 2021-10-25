@@ -16,7 +16,6 @@ class HtmlFieldset extends Fieldset
                 'type' => Element\Text::class,
                 'options' => [
                     'label' => 'Block title', // @translate
-                    'info' => 'Heading for the block, if any.', // @translate
                 ],
                 'attributes' => [
                     'id' => 'html-heading',
