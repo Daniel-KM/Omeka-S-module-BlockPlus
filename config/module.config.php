@@ -53,6 +53,7 @@ return [
     ],
     'form_elements' => [
         'invokables' => [
+            Form\Element\BlockShowTitleSelect::class => Form\Element\BlockShowTitleSelect::class,
             Form\Element\OptionalRadio::class => Form\Element\OptionalRadio::class,
             Form\AssetFieldset::class => Form\AssetFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
