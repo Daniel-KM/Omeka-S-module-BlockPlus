@@ -27,11 +27,11 @@ trait PageBlockMetadataTrait
 
         switch ($metadata) {
             case 'page':
-                return $page();
+                return $page;
             case 'title':
-                return $page()->title();
+                return $page->title();
             case 'slug':
-                return $page()->slug();
+                return $page->slug();
 
             case 'theme_dir':
                 return OMEKA_PATH . '/themes/' . $this->currentSite()->theme();
