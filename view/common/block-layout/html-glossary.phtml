@@ -1,0 +1,58 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var string $html
+ * @var string $divclass
+ * @var string $heading
+ */
+
+/**
+ * To use this template: set a list of term and definition separated by an empty line,
+ * so it is possible for a definition to have multiple lines.
+ *
+ * ```
+ * term
+ * definition...
+ * same definition continued…
+ *
+ * term 2
+ * definition 2…
+ * ```
+ */
+
+$plugins = $this->getHelperPluginManager();
+$partial = $plugins->get('partial');
+$blockMetadata = $plugins->get('blockMetadata');
+
+// Fix html purification.
+$html = str_replace(['<p><br />', '<p><br/>'], ['<p>&nbsp;</p><p><br />', '<p>&nbsp;</p><p><br />'], $html);
+$glossary = array_map('trim', explode('<p>&nbsp;</p>', $html));
+
+// Create the glossary alphabet, the list of current letters and current definitions and prepare first letters.
+$list = [];
+foreach ($glossary as $key => $termDefinition) {
+    $pos = mb_strpos($termDefinition, '</p>');
+    if (!$pos) {
+        unset($glossary[$key]);
+        continue;
+    }
+    $term = trim(mb_substr($termDefinition, 0, $pos + 4));
+    if (strip_tags($term) === '') {
+        unset($glossary[$key]);
+        continue;
+    }
+    $definition = trim(mb_substr($termDefinition, $pos + 5));
+    $glossary[$key] = [
+        'term' => $term,
+        'definition' => $definition,
+    ];
+}
+$glossary = array_values($glossary);
+?>
+
+<?= $partial('common/glossary', [
+    'heading' => $heading,
+    'glossary' => $glossary,
+    'isHtml' => true,
+    'divclass' => $divclass,
+]) ?>
