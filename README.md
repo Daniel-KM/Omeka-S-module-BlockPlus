@@ -85,6 +85,10 @@ Similar to media with html, but to display an external asset that is not a
 resource neither an asset file, so currently not manageable inside Omeka. It may
 be used to display a html text with a video on the home page.
 
+#### Item Set showcase
+
+This is similar to the block Item Showcase, but for item sets.
+
 #### Mirror page
 
 Allow to use a page as a block, so the same page can be use in multiple sites,
@@ -133,6 +137,8 @@ A simple block allow to display a template from the theme. It may be used for a
 static html content, like a list of partners, or a complex layout, since any
 Omeka feature is available in a view.
 
+##### Tree view
+
 An example layout is provided to display a dynamic tree view from a tsv/csv
 file. The file should be one value by a row, with the offset matching the depth:
 
@@ -147,6 +153,34 @@ Europe
                 Roma
                 Florence
 ```
+
+##### Glossary
+
+A second example is a template to create a standard glossary (definition list):
+
+```
+alpha = First letter of Greek alphabet
+beta = Second letter of Greek alphabet
+```
+
+The glossary can be created with html too with the block `html` and template `html-glossary`.
+In that case, set a list of term and definition separated by an empty line:
+
+```
+alpha
+definition of alpha
+
+beta
+definition of beta
+definition of beta continued…
+```
+
+To insert a line, it is recommended to set the cursor at the start of the line.
+It will avoid possible issues.
+
+#### Showcase
+
+This is a showcase for any resource, site, page, asset or url.
 
 #### Twitter
 
@@ -275,6 +309,8 @@ TODO
 - [ ] Merge more similar blocks into a main block (with automatic upgrade).
 - [x] Integrates Shortcodes (module [Shortcode])
 - [x] Integrates Menu (module [Menu])
+- [ ] Integrates attachments for block Showcase
+- [ ] Integrates sidebar forms for block Showcase
 
 
 Warning
