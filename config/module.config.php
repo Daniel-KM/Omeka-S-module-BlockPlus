@@ -46,6 +46,7 @@ return [
             'listOfPages' => Service\BlockLayout\ListOfPagesFactory::class,
             'mirrorPage' => Service\BlockLayout\MirrorPageFactory::class,
             'resourceText' => Service\BlockLayout\ResourceTextFactory::class,
+            'showcase' => Service\BlockLayout\ShowcaseFactory::class,
         ],
         'aliases' => [
             'itemShowcase' => 'itemShowCase',
@@ -74,6 +75,7 @@ return [
             Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
             Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
             Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
+            Form\ShowcaseFieldset::class => Form\ShowcaseFieldset::class,
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
             Form\TreeStructureFieldset::class => Form\TreeStructureFieldset::class,
             Form\TwitterFieldset::class => Form\TwitterFieldset::class,
@@ -291,6 +293,15 @@ return [
             ],
             'separator' => [
                 'class' => '',
+            ],
+            'showcase' => [
+                'heading' => '',
+                'html' => '',
+                'entries' => [],
+                'thumbnail_type' => 'square',
+                'show_title_option' => 'item_title',
+                'divclass' => '',
+                'template' => '',
             ],
             'tableOfContents' => [
                 'depth' => null,

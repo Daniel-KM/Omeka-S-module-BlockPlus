@@ -1,7 +1,7 @@
 .media-text::after {
-  content: "";
-  display: block;
-  clear: both;
+    content: "";
+    display: block;
+    clear: both;
 }
 .media-text .captions-center .resource h3,
 .media-text .captions-center .resource .caption {
@@ -106,4 +106,57 @@ aside.column {
     fill: none;
     stroke: #aaa;
     stroke-opacity: .3;
+}
+
+/* Genericization of omeka item-showcase */
+.showcase .entries {
+    margin: 1rem 0;
+    border-top: 1px solid #dfdfdf;
+    border-bottom: 1px solid #dfdfdf;
+    padding: calc(1rem - 1px) 0 0;
+    overflow: hidden;
+    text-align: center;
+    clear: both;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.showcase .entry .caption {
+    font-size:.875rem;
+    line-height:1.5rem;
+}
+.showcase .entry .caption * {
+    margin:0 0 1rem 0;
+}
+.showcase .entry .caption > *:last-child {
+    margin-bottom: 0;
+}
+.showcase .entry {
+    vertical-align: top;
+    margin-bottom: 1rem;
+}
+.showcase .entry img {
+    margin-right: .5rem;
+    max-width: 100%;
+}
+.showcase .entry:only-child img {
+    margin:0 auto;
+}
+.showcase .entry:not(:only-child) {
+    width: 25%;
+    clear: none;
+    padding: 0 .5rem;
+}
+.showcase .entry:not(:only-child) h3 {
+    clear: left;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    margin: .5rem 0 0;
+}
+.showcase .entry:not(:only-child) img {
+    max-height: 7rem;
+    width: auto;
+    float: none;
+    margin-right: 0;
+    vertical-align: top;
 }

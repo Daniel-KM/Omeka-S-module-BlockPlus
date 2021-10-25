@@ -1,0 +1,129 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $heading
+ * @var string $html
+ * @var array $entries Array with keys "entry", "resource_name", "resource", and "site".
+ * @var string $thumbnailType
+ * @var string $showTitleOption
+ * @var string $divclass
+ */
+
+$plugins = $this->getHelperPluginManager();
+$siteLang = $plugins->get('lang')();
+$hyperlink = $plugins->get('hyperlink');
+$thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+$pageMetadata = $plugins->get('pageMetadata');
+
+// TODO Use link type only for attachments.
+$linkType = $siteSetting('attachment_link_type', 'item');
+$showTitle = $showTitleOption !== 'no_title';
+
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $filterLocale ? $siteLang : null;
+
+$siteSlug = $site->slug();
+?>
+
+<div class="block showcase <?= $divclass ? ' ' . $escapeAttr($divclass) : '' ?>">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
+    <?php if (!empty($html)): ?>
+    <div class="content">
+        <?= $html ?>
+    </div>
+    <?php endif; ?>
+    <div class="entries">
+        <?php
+        // TODO Move to a function.
+        foreach ($entries as $entry):
+            if (empty($entry['entry'])) continue;
+            $resource = $entry['resource'];
+            $resourceName = $entry['resource_name'];
+            $resourceType = null;
+            $render = null;
+            $title = null;
+            $url = null;
+            $linkClass = null;
+            $caption = null;
+            if (empty($resource)) {
+                $resourceType = 'link';
+                $linkClass = 'link';
+                [$url, $title] = explode(' ', $entry['entry'] . ' ', 2);
+                if (!$showTitle) $title = null;
+                if (mb_substr($url, 0, 1) !== '/' && mb_substr($url, 0, 8) !== 'https://' && mb_substr($url, 0, 7) !== 'http://') $url = null;
+            } elseif (!is_object($resource)) {
+                // In the case that the resource is private, or it may be an
+                // unidentified relative url.
+                continue;
+            } elseif ($resource instanceof \Omeka\Api\Representation\SiteRepresentation) {
+                $resourceType = 'site';
+                $linkClass = 'site-link';
+                if ($showTitle) $title = $resource->title();
+                $url = $resource->siteUrl();
+                $caption = $resource->summary();
+                $entryThumbnail = $resource->thumbnail();
+                if ($entryThumbnail) $render = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-thumbnail-image']);
+            } elseif ($resource instanceof \Omeka\Api\Representation\SitePageRepresentation) {
+                $resourceType = 'site-page';
+                $linkClass = 'site-page-link';
+                if ($showTitle) $title = $resource->title();
+                $url = $resource->siteUrl();
+                $caption = $pageMetadata('summary', $resource);
+                $entryThumbnail = $pageMetadata('main_image', $resource);
+                if ($entryThumbnail) $render = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-page-thumbnail-image']);
+            } elseif ($resource instanceof \Omeka\Api\Representation\AssetRepresentation) {
+                $resourceType = 'asset';
+                $linkClass = 'asset-link';
+                if ($showTitle) $title = $resource->altText();
+                // $url = $resource->assetUrl();
+                $render = $thumbnail($resource, $thumbnailType);
+            } else {
+                $resourceType = $resource->getControllerName();
+                $render = $thumbnail($resource, $thumbnailType);
+                $media = $resource->primaryMedia();
+                if ($showTitleOption === 'no_title') {
+                    $linkClass = 'resource-link';
+                } elseif ($resourceType === 'media' && $showTitleOption == 'file_name') {
+                    $linkClass = 'media-file';
+                    $title = $media->displayTitle(null, $lang);
+                } else {
+                    $linkClass = 'resource-link';
+                    $title = $resourceType === 'media'
+                        ? $resource->item()->displayTitle(null, $lang)
+                        : $resource->displayTitle(null, $lang);
+                }
+                $resourceSiteSlug = is_object($entry['site']) ? $entry['site']->slug() : $siteSlug;
+                if ($resourceType === 'media') {
+                    if ($linkType === 'media') {
+                        $url = $media->siteUrl($resourceSiteSlug);
+                    } elseif ($linkType === 'original' && $media->hasOriginal()) {
+                        $url = $media->originalUrl();
+                    } else {
+                        $url = $resource->siteUrl($resourceSiteSlug);
+                    }
+                } else {
+                    $url = $resource->siteUrl($resourceSiteSlug);
+                }
+                $caption = $resource->displayDescription(null, $lang);
+            };
+        ?>
+        <div class="entry entry-<?= $resourceType ?>">
+            <?= $render ?>
+            <?php if ($title && $url): ?>
+            <h3><?= $hyperlink($title, $url, ['class' => $linkClass]) ?></h3>
+            <?php endif; ?>
+            <?php if ($caption): ?>
+            <div class="caption">
+                <?= $caption ?>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
