@@ -20,7 +20,8 @@ $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
 $thumbnail = $plugins->get('thumbnail');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
-$assetElement = $plugins->get('assetElement');
+// Support assetElement when available, that may not be the case when the module is disabled.
+$thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
 ?>
 
 <div class="block block-assets assets <?= $escape($className . ' ' . $alignment) ?>">
@@ -28,7 +29,7 @@ $assetElement = $plugins->get('assetElement');
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
     <?php foreach ($attachments as $attachment):
-        $assetHtml = $attachment['asset'] ? $assetElement($attachment['asset']) : '';
+        $assetHtml = $attachment['asset'] ? $thumbnail($attachment['asset']) : '';
     ?>
     <div class="asset<?= empty($attachment['class']) ? '' : ' ' . $escapeAttr($attachment['class']) ?>">
         <?php if (isset($attachment['page'])): ?>
