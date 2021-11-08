@@ -142,6 +142,7 @@ class Showcase extends AbstractBlockLayout
                 $result[] = $normEntry;
                 continue;
             }
+
             $cleanEntry = trim($entry, '/');
             // Resource?
             if (is_numeric($cleanEntry)) {
@@ -155,8 +156,15 @@ class Showcase extends AbstractBlockLayout
                 continue;
             }
 
-            // TODO External url: add label, image, description…
             if (mb_substr($entry, 0, 8) === 'https://' || mb_substr($entry, 0, 7) === 'http://') {
+                [$url, $asset, $title, $caption, $body] = array_map('trim', explode('=', $entry, 5));
+                $normEntry['data'] = [
+                    'url' => $url,
+                    'asset' => $asset,
+                    'title' => $title,
+                    'caption' => $caption,
+                    'body' => $body,
+                ];
                 $result[] = $normEntry;
                 continue;
             }
@@ -252,21 +260,30 @@ class Showcase extends AbstractBlockLayout
                 try {
                     $entry['site'] = $this->api->read('sites', ['id' => $entry['site']])->getContent();
                 } catch (NotFoundException $e) {
-                    continue;
+                    $entry['site'] = null;
                 }
             }
 
-            if (empty($entry['resource_name']) || empty($entry['resource'])) {
-                continue;
+            if (!empty($entry['resource_name']) && !empty($entry['resource'])) {
+                try {
+                    $entry['resource'] = $this->api->read($entry['resource_name'], ['id' => $entry['resource']])->getContent();
+                } catch (NotFoundException $e) {
+                    // Something else or private resource.
+                    $entry['resource_name'] = null;
+                    $entry['resource'] = null;
+                }
             }
 
-            try {
-                $entry['resource'] = $this->api->read($entry['resource_name'], ['id' => $entry['resource']])->getContent();
-            } catch (NotFoundException $e) {
-                // Something else or private resource.
+            if (!empty($entry['data']['asset']) && is_numeric($entry['data']['asset'])) {
+                try {
+                    $entry['data']['asset'] = $this->api->read('assets', ['id' => $entry['data']['asset']])->getContent();
+                } catch (NotFoundException $e) {
+                    $entry['data']['asset'] = null;
+                }
             }
         }
         unset($entry);
+
         return $entries;
     }
 }

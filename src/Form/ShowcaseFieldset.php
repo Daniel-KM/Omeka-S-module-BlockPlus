@@ -48,7 +48,7 @@ main-site
 /s/main-site/page/about
 /s/other-site/item/3
 asset/1
-https://example.org Example title
+https://example.org = assetId = Title = Caption = Body
 ',
                 ],
             ])

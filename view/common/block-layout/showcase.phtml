@@ -51,12 +51,17 @@ $siteSlug = $site->slug();
             $url = null;
             $linkClass = null;
             $caption = null;
+            $body = null;
             if (empty($resource)) {
+                if (empty($entry['data'])) continue;
                 $resourceType = 'link';
                 $linkClass = 'link';
-                [$url, $title] = explode(' ', $entry['entry'] . ' ', 2);
+                // Data contains url, asset, title, caption, body.
+                extract($entry['data']);
                 if (!$showTitle) $title = null;
-                if (mb_substr($url, 0, 1) !== '/' && mb_substr($url, 0, 8) !== 'https://' && mb_substr($url, 0, 7) !== 'http://') $url = null;
+                if (is_object($asset)) {
+                    $render = $thumbnail($asset, $thumbnailType);
+                }
             } elseif (!is_object($resource)) {
                 // In the case that the resource is private, or it may be an
                 // unidentified relative url.
@@ -121,6 +126,11 @@ $siteSlug = $site->slug();
             <?php if ($caption): ?>
             <div class="caption">
                 <?= $caption ?>
+            </div>
+            <?php endif; ?>
+            <?php if ($body): ?>
+            <div class="body">
+                <?= $body ?>
             </div>
             <?php endif; ?>
         </div>
