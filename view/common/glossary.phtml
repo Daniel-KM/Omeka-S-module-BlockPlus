@@ -36,6 +36,10 @@ $perPage = (int) ($query['per_page'] ?? 0) ?: $defaultPerPage;
 // There may be multiple first letters to consolidate small lists.
 $startWith = array_filter((array) ($startWith['startwith'] ?? []), 'strlen');
 
+$hasExtensionIntl = extension_loaded('intl');
+$hasExtensionIconv = extension_loaded('iconv');
+if ($hasExtensionIntl) $transliterator = \Transliterator::createFromRules(':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;');
+
 // Create the glossary alphabet, the list of current letters and current definitions and prepare first letters.
 $skiplinks = [];
 $currents = [];
@@ -52,6 +56,11 @@ foreach ($glossary as $key => $termDefinition) {
         continue;
     }
     $initial = mb_strtoupper(mb_substr($cleanTerm, 0, 1));
+    if ($hasExtensionIntl) {
+        $initial = $transliterator->transliterate($initial);
+    } elseif ($hasExtensionIconv) {
+        $initial = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $initial);
+    }
     $skipLink = preg_match('/\W|\d/u', $initial) ? '0-9' : $initial;
     $skiplinks[$skipLink] = true;
 
