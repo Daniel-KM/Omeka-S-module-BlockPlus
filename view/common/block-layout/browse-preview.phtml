@@ -46,8 +46,10 @@ $langValue = $filterLocale ? [$this->lang(), ''] : null;
 <ul class="resource-list preview">
 <?php
 foreach ($resources as $resource):
-    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle(null, $lang);
-    $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : $resource->displayDescription(null, $lang);
+    $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
+    $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($translate('[Untitled]'), $lang));
+    $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
+    $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
 ?>
     <li class="<?= $resourceType ?> resource">
         <?php if ($showThumbnail): ?>

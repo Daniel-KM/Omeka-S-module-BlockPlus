@@ -43,8 +43,10 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
     $bodyTerm = $siteSetting('browse_body_property_term', 'dcterms:description');
     $untitled = $translate('[Untitled]');
     foreach ($resources as $resource):
-        $heading = $resource->value($headingTerm, ['default' => $untitled]);
-        $body = $resource->value($bodyTerm);
+        $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
+        $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($translate('[Untitled]'), $lang));
+        $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
+        $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
     ?>
         <li class="<?= $resourceType ?> resource">
             <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
