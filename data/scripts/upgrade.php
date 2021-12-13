@@ -224,3 +224,15 @@ SQL;
     );
     $messenger->addSuccess($message);
 }
+
+if (version_compare($oldVersion, '3.3.14.0', '<')) {
+    $messenger = new Messenger();
+    $message = new Message(
+        'It’s now possible to maximize the field "Html" in page edition.' // @translate
+    );
+    $messenger->addSuccess($message);
+    $message = new Message(
+        'It’s now possible to add footnotes in fields "Html" in page edition.' // @translate
+    );
+    $messenger->addSuccess($message);
+}
