@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus;
 
 if (!class_exists(\Generic\AbstractModule::class)) {
@@ -15,7 +16,7 @@ use Omeka\Module\Exception\ModuleCannotInstallException;
 /**
  * BlockPlus
  *
- * @copyright Daniel Berthereau, 2018-2020
+ * @copyright Daniel Berthereau, 2018-2021
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule

@@ -7,7 +7,7 @@ Block Plus (module for Omeka S)
 
 [Block Plus] is a module for [Omeka S] that adds some new blocks for the static
 pages and improves some of the existing ones: image gallery, D3 graph, mirror
-page, search form, assets, item set showcase, exhibits, etc.
+page, search form, assets, item set showcase, exhibits, footnotes, etc.
 
 Furthermore, each block can use multiple templates, so it's possible to theme a
 block differently in different pages.
@@ -47,9 +47,34 @@ Select them in the view "Page edit". You may theme them too: copy the block
 templates that are in `view/common/block-layout/` in the same place of your
 theme.
 
-### Blocks
+### Improvements in all blocks
 
-#### Asset
+The core blocks (Browse preview, Html, Item metadata, Item showcase, List of pages,
+List of sites, Page title, Table of contents) are improved with two new options:
+
+#### Heading
+
+Most of the blocks have an option to set a title.
+
+#### Templates
+
+Most of block have an option to set a specific template, so it’s possible to
+display these blocks differently in the same page or on different pages.
+
+**Warning**
+
+When a block allows to select a template, the filename must start with the same
+string than the original template, for example "table-of-contents-pages.phtml"
+for the block "TableOfContents".
+
+Furthermore, it should exists in a module or in the current theme. When the
+template is missing, for example when switching into another theme, the default
+of the template is used. Thereby, when the module or the theme that has this
+template is replaced, you  have to check the pages that use it.
+
+### New blocks and specific improvements
+
+#### Asset (improvement)
 
 Since the integration of "asset" in Omeka 3.1, this block is an improved version
 of the [core block "asset"]. It can list assets with optional link to pages,
@@ -74,6 +99,23 @@ if ($blockMetadata):
 endif;
 ```
 
+### Browse preview (improvements)
+
+The block Browse preview has new fields to display sort headings and pagination,
+so it's now possible to have a specific list of items, like the main browse view.
+
+It has some specific templates too:
+- simple carousel ("browse-preview-carousel"): this is an upgrade of the plugin
+  [Shortcode Carousel] for [Omeka Classic].
+- gallery display with a quick viewer too ("browse-preview-gallery"). This one
+  has a specific option to add to the query to display thumbnails as square or
+  medium: `thumbnail_size=medium`. You can see an example on the site [Ontologie du christianisme médiéval en images],
+  from French [Institut national de l’histoire de l’art].
+
+To use them, simply select the wanted template:
+
+![browse-preview-carousel](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/raw/master/data/images/browse-preview-carousel.png)
+
 #### D3 Graph
 
 The D3 graph adds the [D3 library] to display relations between items in a graph:
@@ -84,6 +126,17 @@ links between subjects and objects, links between items and item sets, etc.
 Similar to media with html, but to display an external asset that is not a
 resource neither an asset file, so currently not manageable inside Omeka. It may
 be used to display a html text with a video on the home page.
+
+#### HTML (improvements)
+
+Two new options are added in main settings:
+
+- Display the html field as a document, that is a lot easier when editing long
+  articles. Furthermore, the field can be maximized.
+- Use the default or advanced toolbar. The advanced toolbar is the CKEditor one
+  and contains more possibilities to edit advanced text.
+
+Furthermore, it is possible to add footnotes inside each html field.
 
 #### Item Set showcase
 
@@ -180,7 +233,12 @@ It will avoid possible issues.
 
 #### Showcase
 
-This is a showcase for any resource, site, page, asset or url.
+This is a showcase for any resource, site, page, asset or url. It's an improved
+and genericized version of item showcase.
+
+#### Table of contents (improvement)
+
+The table can be displayed from the root if wanted.
 
 #### Twitter
 
@@ -206,39 +264,6 @@ too. If you can't, try to check the option to use the Api version 1.1.
 
 In all cases, there is a [rate limit], but generally largely enough for a common
 digital library.
-
-#### Improvements for Browse preview, Html, Item metadata, Item showcase, List of pages, List of sites, Page title, Table of contents
-
-Allow to use a specific template for some blocks, so it’s possible to display
-these blocks differently in the same page or on different pages. An heading is
-added too. For the table of contents, the possibility to display the table from
-the root is added too.
-
-Furthermore, the block Browse preview has new fields to display sort headings
-and pagination, so it's now possible to have a specific list of items, like the
-main browse view.
-
-It has some specific templates too:
-- simple carousel ("browse-preview-carousel"): this is an upgrade of the plugin
-  [Shortcode Carousel] for [Omeka Classic].
-- gallery display with a quick viewer too ("browse-preview-gallery"). This one
-  has a specific option to add to the query to display thumbnails as square or
-  medium: `thumbnail_size=medium`. You can see an example on the site [Ontologie du christianisme médiéval en images],
-  from French [Institut national de l’histoire de l’art].
-
-To use them, simply select the wanted template:
-
-![browse-preview-carousel](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/raw/master/data/images/browse-preview-carousel.png)
-
-**Warning**
-
-When a block allows to select a template, the filename must start with the same
-string than the original template, for example "table-of-contents-pages.phtml"
-for the block `TableOfContents`.
-
-Furthermore, it should exists in a module or in the current theme. Thereby, when
-the module or the theme that have this template are replaced, you have to check
-the pages that use it.
 
 ### Theme view helpers
 
@@ -307,11 +332,11 @@ TODO
 ----
 
 - [ ] Merge more similar blocks into a main block (with automatic upgrade).
-- [x] Integrates Shortcodes (module [Shortcode])
-- [x] Integrates Menu (module [Menu])
-- [ ] Integrates attachments for block Showcase
-- [ ] Integrates sidebar forms for block Showcase
-
+- [x] Integrate Shortcodes (module [Shortcode])
+- [x] Integrate Menu (module [Menu])
+- [ ] Integrate attachments for block Showcase
+- [ ] Integrate sidebar forms for block Showcase
+- [ ] Auto-create asset when image is uploaded in a Html field.
 
 Warning
 -------
@@ -354,15 +379,23 @@ altered, and that no provisions are either added or removed herefrom.
 
 ### Carousel
 
-Mit license.
+[MIT] license.
+
+### CKEditor 4
+
+One of the CKEditor ones [GPL].
+
+### CKEditor 4 footnotes
+
+One of the CKEditor ones [GPL]. See [CKEditor-Footnotes].
 
 ### D3
 
-[ISC License] (equivalent to MIT)
+[ISC License] (equivalent to [MIT])
 
 ### Gallery of images
 
-See MIT license here: http://tympanus.net/codrops/licensing/
+See [MIT] license here: http://tympanus.net/codrops/licensing/
 The original template was fixed by KevinMwangi and updated for newer version of
 components (modernizr, smartresize, imagesloaded).
 
@@ -372,6 +405,7 @@ Copyright
 
 * Copyright Daniel Berthereau, 2018-2021 (see [Daniel-KM] on GitLab)
 * Copyright Codrops, 2013 ([image gallery], see vendor/ for more infos)
+* Copyright Andy Kirk, 2014-2021 (See https://github.com/andykirk)
 * Copyright Jan Sorgalla, 2014 (See http://sorgalla.com/jcarousel)
 
 
@@ -385,6 +419,7 @@ Copyright
 [D3 library]: https://d3js.org
 [Twitter]: https://twitter.com
 [Shortcode Carousel]: https://github.com/omeka/plugin-ShortcodeCarousel
+[CKEditor Footnotes]: https://github.com/andykirk/CKEditorFootnotes
 [to get a dev account]: https://developer.twitter.com/en/apply-for-access
 [this issue on StackOverflow]: https://stackoverflow.com/questions/65403350/how-can-i-scrape-twitter-now-that-they-require-javascript
 [bear token]: https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens
@@ -402,7 +437,7 @@ Copyright
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [FSF]: https://www.fsf.org
 [OSI]: http://opensource.org
-[MIT]: http://http://opensource.org/licenses/MIT
+[MIT]: http://opensource.org/licenses/MIT
 [ISC License]: https://github.com/d3/d3/blob/main/LICENSE
 [image Gallery]: https://github.com/codrops/ThumbnailGridExpandingPreview
 [GitLab]: https://gitlab.com/Daniel-KM
