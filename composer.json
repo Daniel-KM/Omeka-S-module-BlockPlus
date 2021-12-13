@@ -92,7 +92,7 @@
                 "version": "0.4.5",
                 "dist": {
                     "type": "zip",
-                    "reference": "0.4.5",
+                    "reference": "",
                     "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.zip"
                 }
             }
@@ -104,7 +104,7 @@
                 "version": "1.0.10",
                 "type": "omeka-addon-asset",
                 "dist": {
-                    "type": "zip",
+                    "type": "tar",
                     "reference": "",
                     "url": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.3.14.0/ckeditor-footnotes-1.0.10-omeka.tar.gz"
                 }

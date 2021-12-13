@@ -4,13 +4,13 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c1082868ccd9aec5243263f27e475ff",
+    "content-hash": "0cd734ed4f32f74ccda3e49ce668c4c4",
     "packages": [
         {
             "name": "andykirk/ckeditor-footnotes",
             "version": "1.0.10",
             "dist": {
-                "type": "zip",
+                "type": "tar",
                 "url": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.3.14.0/ckeditor-footnotes-1.0.10-omeka.tar.gz",
                 "reference": ""
             },
@@ -242,7 +242,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.zip",
-                "reference": "0.4.5"
+                "reference": ""
             },
             "type": "omeka-addon-asset"
         }
