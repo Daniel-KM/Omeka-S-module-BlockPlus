@@ -17,6 +17,9 @@ return [
             'pagesMetadata' => View\Helper\PagesMetadata::class,
             'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
         ],
+        'factories' => [
+            'assetUrl' => Service\Service\ViewHelper\AssetUrlFactory::class,
+        ],
     ],
     'block_layouts' => [
         'invokables' => [
@@ -98,6 +101,11 @@ return [
                 'pattern' => '%s.mo',
                 'text_domain' => null,
             ],
+        ],
+    ],
+    'assets' => [
+        // Override internals assets. Only for Omeka assets: modules can use another filename.
+        'internals' => [
         ],
     ],
     'js_translate_strings' => [
