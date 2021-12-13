@@ -240,7 +240,6 @@ aside.column {
     }
 }
 
-
 /* Genericization of omeka item-showcase */
 .showcase .entries {
     margin: 1rem 0;
@@ -255,11 +254,11 @@ aside.column {
     justify-content: center;
 }
 .showcase .entry .caption {
-    font-size:.875rem;
-    line-height:1.5rem;
+    font-size: .875rem;
+    line-height: 1.5rem;
 }
 .showcase .entry .caption * {
-    margin:0 0 1rem 0;
+    margin: 0 0 1rem 0;
 }
 .showcase .entry .caption > *:last-child {
     margin-bottom: 0;
@@ -273,7 +272,7 @@ aside.column {
     max-width: 100%;
 }
 .showcase .entry:only-child img {
-    margin:0 auto;
+    margin: 0 auto;
 }
 .showcase .entry:not(:only-child) {
     width: 25%;

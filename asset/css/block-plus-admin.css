@@ -1,0 +1,24 @@
+/* Footnotes (against core styles) */
+section header {
+    background-color: inherit;
+    width: auto;
+    min-height: initial;
+    text-align: initial;
+    padding: initial;
+    color: initial;
+}
+
+@media screen and (max-width:640px) {
+    section header {
+        width: initial;
+        float: none;
+        text-align: initial;
+        position: initial;
+        top: 0;
+        left: 0;
+        padding: 0;
+        right: 0;
+        z-index: initial;
+        min-height: 0;
+    }
+}

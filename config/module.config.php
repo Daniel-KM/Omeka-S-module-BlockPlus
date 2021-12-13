@@ -12,6 +12,7 @@ return [
         'invokables' => [
             'assetElement' => View\Helper\AssetElement::class,
             'blockMetadata' => View\Helper\BlockMetadata::class,
+            'ckEditor' => View\Helper\CkEditor::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
             'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
@@ -102,6 +103,7 @@ return [
     'js_translate_strings' => [
         'Class', // @translate
         'Url (deprecated)', // @translate
+        'Insert Footnotes', // @translate
     ],
     'blockplus' => [
         'site_settings' => [

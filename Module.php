@@ -40,9 +40,64 @@ class Module extends AbstractModule
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
         $sharedEventManager->attach(
+            'Omeka\Controller\SiteAdmin\Page',
+            'view.edit.before',
+            [$this, 'handleSitePageEditBefore']
+        );
+        $sharedEventManager->attach(
+            \Omeka\Stdlib\HtmlPurifier::class,
+            'htmlpurifier_config',
+            [$this, 'handleHtmlPurifier']
+        );
+        $sharedEventManager->attach(
             \Omeka\Form\SiteSettingsForm::class,
             'form.add_elements',
             [$this, 'handleSiteSettings']
         );
+    }
+
+    public function handleSitePageEditBefore(Event $event): void
+    {
+        $view = $event->getTarget();
+        $assetUrl = $view->plugin('assetUrl');
+        $view->headLink()
+            ->appendStylesheet($assetUrl('css/block-plus-admin.css', 'BlockPlus'));
+    }
+
+    public function handleHtmlPurifier(Event $event): void
+    {
+        // CKEditor footnotes uses `<section class="footnotes">` and some other
+        // elements and attributes, but they are not in the default config, designed for html 4.
+        // The same for HTML Purifier, that is based on html 4, and won't be
+        // updated to support html 5.
+        // @see https://github.com/ezyang/htmlpurifier/issues/160
+
+        /** @var \HTMLPurifier_Config $config */
+        $config = $event->getParam('config');
+
+        $config->set('Attr.EnableID', true);
+        $config->set('HTML.AllowedAttributes', [
+            'a.id',
+            'a.rel',
+            'a.href',
+            'li.id',
+            'li.data-footnote-id',
+            'section.class',
+            'sup.data-footnote-id',
+        ]);
+
+        $def = $config->getHTMLDefinition(true);
+
+        $def->addElement('article', 'Block', 'Flow', 'Common');
+        $def->addElement('section', 'Block', 'Flow', 'Common');
+        $def->addElement('header', 'Block', 'Flow', 'Common');
+        $def->addElement('footer', 'Block', 'Flow', 'Common');
+
+        $def->addAttribute('sup', 'data-footnote-id', 'ID');
+        // This is the same id than sup, but Html Purifier ID should be unique
+        // among all the submitted html ids, so use Class.
+        $def->addAttribute('li', 'data-footnote-id', 'Class');
+
+        $event->setParam('config', $config);
     }
 }
