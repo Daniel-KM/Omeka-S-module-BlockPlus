@@ -119,6 +119,7 @@ return [
     'blockplus' => [
         'settings' => [
             'blockplus_html_mode' => '',
+            'blockplus_html_config' => '',
         ],
         'site_settings' => [
             'blockplus_page_types' => [

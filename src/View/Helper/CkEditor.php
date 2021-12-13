@@ -17,7 +17,10 @@ class CkEditor extends AbstractHelper
     public function __invoke(): void
     {
         $view = $this->getView();
-        $assetUrl = $view->plugin('assetUrl');
+        $plugins = $view->getHelperPluginManager();
+        $setting = $plugins->get('setting');
+        $assetUrl = $plugins->get('assetUrl');
+        $escapeJs = $plugins->get('escapeJs');
         $params = $view->params();
 
         $isSitePageAdmin = $params->fromRoute('__SITEADMIN__')
@@ -27,16 +30,23 @@ class CkEditor extends AbstractHelper
         // The html mode is used only in site page edition for now.
         $script = '';
         if ($isSitePageAdmin) {
-            $htmlMode = $view->setting('blockplus_html_mode') ?: '';
+            $htmlMode = $setting('blockplus_html_mode');
             if ($htmlMode && $htmlMode !== 'inline') {
                 $script = <<<JS
 CKEDITOR.config.customHtmlMode = '$htmlMode';
 
 JS;
             }
+
+            $htmlConfig = $setting('blockplus_html_config');
+            $customConfigUrl = $htmlConfig && $htmlConfig !== 'default'
+                ? 'js/ckeditor_config_' . $htmlConfig . '.js'
+                : 'js/ckeditor_config.js';
+        } else {
+            $customConfigUrl = 'js/ckeditor_config.js';
         }
 
-        $customConfigUrl = $view->escapeJs($assetUrl('js/ckeditor_config.js', 'BlockPlus'));
+        $customConfigUrl = $escapeJs($assetUrl($customConfigUrl, 'BlockPlus'));
         $script .= <<<JS
 CKEDITOR.config.customConfig = '$customConfigUrl';
 JS;

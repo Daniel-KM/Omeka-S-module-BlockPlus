@@ -16,7 +16,7 @@ class SettingsFieldset extends Fieldset
                 'name' => 'blockplus_html_mode',
                 'type' => BlockPlusElement\OptionalRadio::class,
                 'options' => [
-                    'label' => 'Html mode', // @translate
+                    'label' => 'Html edition mode for pages', // @translate
                     'value_options' => [
                         'inline' => 'Inline (default)', // @translate
                         'document' => 'Document (maximizable)', // @translate
@@ -24,6 +24,22 @@ class SettingsFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'blockplus_html_mode',
+                ],
+            ])
+            ->add([
+                'name' => 'blockplus_html_config',
+                'type' => BlockPlusElement\OptionalRadio::class,
+                'options' => [
+                    'label' => 'Html edition config and toolbar for pages', // @translate
+                    'value_options' => [
+                        // @see https://ckeditor.com/cke4/presets-all
+                        'default' => 'Default', // @translate
+                        'standard' => 'Standard', // @translate
+                        'full' => 'Full', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_html_config',
                 ],
             ])
         ;
