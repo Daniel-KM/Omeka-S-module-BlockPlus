@@ -80,11 +80,14 @@ class Module extends AbstractModule
             'a.id',
             'a.rel',
             'a.href',
+            'a.target',
             'li.id',
             'li.data-footnote-id',
             'section.class',
             'sup.data-footnote-id',
         ]);
+
+        $config->set('HTML.TargetBlank', true);
 
         $def = $config->getHTMLDefinition(true);
 
@@ -97,6 +100,8 @@ class Module extends AbstractModule
         // This is the same id than sup, but Html Purifier ID should be unique
         // among all the submitted html ids, so use Class.
         $def->addAttribute('li', 'data-footnote-id', 'Class');
+
+        $def->addAttribute('a', 'target', new \HTMLPurifier_AttrDef_Enum(['_blank', '_self', '_target', '_top']));
 
         $event->setParam('config', $config);
     }
