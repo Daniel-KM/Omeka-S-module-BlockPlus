@@ -18,7 +18,7 @@ return [
             'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
         ],
         'factories' => [
-            'assetUrl' => Service\Service\ViewHelper\AssetUrlFactory::class,
+            'assetUrl' => Service\ViewHelper\AssetUrlFactory::class,
         ],
     ],
     'block_layouts' => [
@@ -60,6 +60,7 @@ return [
         'invokables' => [
             Form\Element\BlockShowTitleSelect::class => Form\Element\BlockShowTitleSelect::class,
             Form\Element\OptionalRadio::class => Form\Element\OptionalRadio::class,
+            // Blocks.
             Form\AssetFieldset::class => Form\AssetFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
@@ -83,7 +84,8 @@ return [
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
             Form\TreeStructureFieldset::class => Form\TreeStructureFieldset::class,
             Form\TwitterFieldset::class => Form\TwitterFieldset::class,
-            // Site config.
+            // Main and site config.
+            Form\SettingsFieldset::class => Form\SettingsFieldset::class,
             Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldset::class,
         ],
         'factories' => [
@@ -106,6 +108,7 @@ return [
     'assets' => [
         // Override internals assets. Only for Omeka assets: modules can use another filename.
         'internals' => [
+            'js/site-page-edit.js' => 'BlockPlus',
         ],
     ],
     'js_translate_strings' => [
@@ -114,6 +117,9 @@ return [
         'Insert Footnotes', // @translate
     ],
     'blockplus' => [
+        'settings' => [
+            'blockplus_html_mode' => '',
+        ],
         'site_settings' => [
             'blockplus_page_types' => [
                 'home' => 'Home', // @translate
