@@ -9,8 +9,8 @@
 <https://omeka.org/s/vocabs/curation/> a owl:Ontology ;
     dcterms:title "Curation"@en ;
     dcterms:title "Curation"@fr ;
-    dcterms:description "Curation of resources."@en ;
-    dcterms:description "Curation des ressources."@fr .
+    dcterms:description "Properties designed to be used internally for the curation of resources."@en ;
+    dcterms:description "Propriétés destinées à être utilisées en interne pour la gestion des ressources."@fr .
 
 curation:featured a rdf:Property ;
     rdfs:label "Featured"@en ;
@@ -64,4 +64,26 @@ curation:theme a rdf:Property ;
     rdfs:comment "A domain that can be used for some purposes."@en ;
     rdfs:comment "Un domaine pouvant être utilisé dans certains cas."@fr ;
     rdfs:subPropertyOf dcterms:subject ;
+    vs:term_status "experimental" .
+
+curation:collection a rdf:Property ;
+    rdfs:label "Collection"@en ;
+    rdfs:label "Collection"@fr ;
+    rdfs:comment "A way to group resources."@en ;
+    rdfs:comment "Un moyen de grouper des ressources."@fr ;
+    rdfs:subPropertyOf dcterms:subject ;
+    vs:term_status "experimental" .
+
+curation:note a rdf:Property ;
+    rdfs:label "Note"@en ;
+    rdfs:label "Note"@fr ;
+    rdfs:comment "A specific or generic information on a resource, generally for internal purposes."@en ;
+    rdfs:comment "Une information spécifique ou générique sur une resource, généralement à usage interne."@fr ;
+    vs:term_status "experimental" .
+
+curation:data a rdf:Property ;
+    rdfs:label "Data"@en ;
+    rdfs:label "Données"@fr ;
+    rdfs:comment "Any data that can be used for any purpose."@en ;
+    rdfs:comment "Toute donnée pouvant être utilisée pour tout objet."@fr ;
     vs:term_status "experimental" .
