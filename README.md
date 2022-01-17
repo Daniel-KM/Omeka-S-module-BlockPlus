@@ -403,7 +403,7 @@ components (modernizr, smartresize, imagesloaded).
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2018-2021 (see [Daniel-KM] on GitLab)
+* Copyright Daniel Berthereau, 2018-2022 (see [Daniel-KM] on GitLab)
 * Copyright Codrops, 2013 ([image gallery], see vendor/ for more infos)
 * Copyright Andy Kirk, 2014-2021 (See https://github.com/andykirk)
 * Copyright Jan Sorgalla, 2014 (See http://sorgalla.com/jcarousel)

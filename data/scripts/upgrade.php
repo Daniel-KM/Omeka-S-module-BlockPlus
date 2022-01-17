@@ -236,3 +236,7 @@ if (version_compare($oldVersion, '3.3.14.0', '<')) {
     );
     $messenger->addSuccess($message);
 }
+
+if (version_compare($oldVersion, '3.3.14.1', '<')) {
+    require_once __DIR__ . '/upgrade_vocabulary.php';
+}
