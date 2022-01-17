@@ -137,5 +137,11 @@
             "@php -r '@rmdir(__DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview/vendor\");'",
             "@php -r 'shell_exec(\"rm -rf ./asset/vendor/thumbnail-grid-expanding-preview\");'"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "oomphinc/composer-installers-extender": true
+        }
     }
 }
