@@ -32,7 +32,7 @@ SET
     data = REPLACE(data, '"partial":"common\\/block-layout\\/media-text', '"partial":"common\\/block-layout\\/resource-text')
 WHERE layout = "mediaText";
 SQL;
-    $connection->executeQuery($sql);
+    $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.0.5', '<')) {
@@ -43,7 +43,7 @@ SET
 WHERE
     layout IN ('block', 'browsePreview', 'column', 'itemShowCase', 'itemWithMetadata', 'listOfSites', 'pageTitle', 'searchForm', 'separator', 'tableOfContents', 'assets', 'embedText', 'html', 'resourceText', 'simplePage');
 SQL;
-    $connection->executeQuery($sql);
+    $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.3', '<')) {
@@ -52,19 +52,19 @@ UPDATE site_page_block
 SET layout = "mirrorPage"
 WHERE layout = "simplePage";
 SQL;
-    $connection->executeQuery($sql);
+    $connection->executeStatement($sql);
     $sql = <<<'SQL'
 UPDATE site_page_block
 SET layout = "externalContent"
 WHERE layout = "embedText";
 SQL;
-    $connection->executeQuery($sql);
+    $connection->executeStatement($sql);
     $sql = <<<'SQL'
 UPDATE site_page_block
 SET data = REPLACE(data, "/embed-text", "/external-content")
 WHERE layout = "externalContent";
 SQL;
-    $connection->executeQuery($sql);
+    $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.4', '<')) {
@@ -73,7 +73,7 @@ UPDATE site_page_block
 SET layout = "division"
 WHERE layout = "column";
 SQL;
-    $connection->executeQuery($sql);
+    $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.7', '<')) {
@@ -92,7 +92,7 @@ SET
 WHERE
     layout = "twitter";
 SQL;
-    $connection->executeQuery($sql);
+    $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.8', '<')) {
@@ -148,7 +148,7 @@ ON DUPLICATE KEY UPDATE
    comment = "{$property['comment']}"
 ;
 SQL;
-            $connection->executeQuery($sql);
+            $connection->executeStatement($sql);
         }
     }
 }
