@@ -29,7 +29,7 @@ class Module extends AbstractModule
         if (!file_exists($js)) {
             $services = $this->getServiceLocator();
             $t = $services->get('MvcTranslator');
-            throw new ModuleCannotInstallException(
+            throw new \Omeka\Module\Exception\ModuleCannotInstallException(
                 sprintf(
                     $t->translate('The library "%s" should be installed.'), // @translate
                     'javascript'
