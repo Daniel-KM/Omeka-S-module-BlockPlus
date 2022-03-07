@@ -90,6 +90,13 @@ curation:collection a rdf:Property ;
     rdfs:comment "Un moyen de grouper des ressources."@fr ;
     vs:term_status "experimental" .
 
+curation:location a rdf:Property ;
+    rdfs:label "Location"@en ;
+    rdfs:label "Lieu"@fr ;
+    rdfs:comment "A location related to the resource, for example the place of publication."@en ;
+    rdfs:comment "Un lieu lié à la ressource, par exemple le lieu d’édition."@fr ;
+    vs:term_status "experimental" .
+
 curation:note a rdf:Property ;
     rdfs:label "Note"@en ;
     rdfs:label "Note"@fr ;
