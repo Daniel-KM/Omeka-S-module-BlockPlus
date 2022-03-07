@@ -1,9 +1,10 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix oc: <http://omeka.org/s/vocabs/oc#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
-@prefix oc: <http://omeka.org/s/vocabs/oc#> .
 @prefix curation: <https://omeka.org/s/vocabs/curation/> .
 
 <https://omeka.org/s/vocabs/curation/> a owl:Ontology ;
@@ -94,6 +95,14 @@ curation:note a rdf:Property ;
     rdfs:label "Note"@fr ;
     rdfs:comment "A specific or generic information on a resource, generally for internal purposes."@en ;
     rdfs:comment "Une information spécifique ou générique sur une resource, généralement à usage interne."@fr ;
+    vs:term_status "experimental" .
+
+curation:status a rdf:Property ;
+    rdfs:label "Status"@en ;
+    rdfs:label "statut"@fr ;
+    rdfs:comment "The status of the resource, generally for internal purposes."@en ;
+    rdfs:comment "Le statut de la ressource, généralement à usage interne."@fr ;
+    rdfs:subPropertyOf bibo:status ;
     vs:term_status "experimental" .
 
 curation:data a rdf:Property ;
