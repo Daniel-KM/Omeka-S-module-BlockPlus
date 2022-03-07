@@ -90,6 +90,13 @@ curation:collection a rdf:Property ;
     rdfs:comment "Un moyen de grouper des ressources."@fr ;
     vs:term_status "experimental" .
 
+curation:data a rdf:Property ;
+    rdfs:label "Data"@en ;
+    rdfs:label "Données"@fr ;
+    rdfs:comment "Any data that can be used for any purpose."@en ;
+    rdfs:comment "Toute donnée pouvant être utilisée pour tout objet."@fr ;
+    vs:term_status "experimental" .
+
 curation:location a rdf:Property ;
     rdfs:label "Location"@en ;
     rdfs:label "Lieu"@fr ;
@@ -104,17 +111,17 @@ curation:note a rdf:Property ;
     rdfs:comment "Une information spécifique ou générique sur une resource, généralement à usage interne."@fr ;
     vs:term_status "experimental" .
 
+curation:rank a rdf:Property ;
+    rdfs:label "Rank"@en ;
+    rdfs:label "Rang"@fr ;
+    rdfs:comment "A rank or a position related to the resource."@en ;
+    rdfs:comment "Un rang ou une position lié à la ressource."@fr ;
+    vs:term_status "experimental" .
+
 curation:status a rdf:Property ;
     rdfs:label "Status"@en ;
     rdfs:label "statut"@fr ;
     rdfs:comment "The status of the resource, generally for internal purposes."@en ;
     rdfs:comment "Le statut de la ressource, généralement à usage interne."@fr ;
     rdfs:subPropertyOf bibo:status ;
-    vs:term_status "experimental" .
-
-curation:data a rdf:Property ;
-    rdfs:label "Data"@en ;
-    rdfs:label "Données"@fr ;
-    rdfs:comment "Any data that can be used for any purpose."@en ;
-    rdfs:comment "Toute donnée pouvant être utilisée pour tout objet."@fr ;
     vs:term_status "experimental" .
