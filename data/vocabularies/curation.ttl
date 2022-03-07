@@ -111,6 +111,13 @@ curation:note a rdf:Property ;
     rdfs:comment "Une information spécifique ou générique sur une resource, généralement à usage interne."@fr ;
     vs:term_status "experimental" .
 
+curation:number a rdf:Property ;
+    rdfs:label "Number"@en ;
+    rdfs:label "Nombre"@fr ;
+    rdfs:comment "A number related to the resource."@en ;
+    rdfs:comment "Un nombre lié à la ressource."@fr ;
+    vs:term_status "experimental" .
+
 curation:rank a rdf:Property ;
     rdfs:label "Rank"@en ;
     rdfs:label "Rang"@fr ;
