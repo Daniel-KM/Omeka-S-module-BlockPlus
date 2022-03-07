@@ -14,6 +14,13 @@
     dcterms:description "Propriétés génériques et courantes utiles pour la gestion interne des ressources. Le recours à des ontologies plus courantes ou plus précises est recommandé lorsque cela est possible."@fr ;
     vs:term_status "experimental" .
 
+curation:access a rdf:Property ;
+    rdfs:label "Access"@en ;
+    rdfs:label "Accès"@fr ;
+    rdfs:comment "Define an access to the resource."@en ;
+    rdfs:comment "Définit un accès à la ressource."@fr ;
+    vs:term_status "experimental" .
+
 curation:featured a rdf:Property ;
     rdfs:label "Featured"@en ;
     rdfs:label "En vedette"@fr ;
