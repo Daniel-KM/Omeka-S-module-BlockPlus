@@ -16,7 +16,7 @@ block differently in different pages.
 Installation
 ------------
 
-First, install the optional module [Generic].
+First, install the optional module [Generic] if wanted.
 
 The module uses external js libraries for some blocks, so use the release zip to
 install it, or use and init the source.
@@ -148,6 +148,11 @@ Allow to use a page as a block, so the same page can be use in multiple sites,
 for example the page "About" or "Privacy". Of course, the page is a standard
 page and can be more complex with multiple blocks. May be fun.
 This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
+
+### Page date
+
+Display the date of the creation and/or modification of the current page.
+See Omeka issue [#1706].
 
 #### Redirect to URL
 
@@ -417,6 +422,7 @@ Copyright
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr
 [D3 library]: https://d3js.org
+[#1706]: https://github.com/omeka/omeka-s/issues/1706
 [Twitter]: https://twitter.com
 [Shortcode Carousel]: https://github.com/omeka/plugin-ShortcodeCarousel
 [CKEditor Footnotes]: https://github.com/andykirk/CKEditorFootnotes
