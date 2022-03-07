@@ -50,6 +50,20 @@ curation:category a rdf:Property ;
     rdfs:subPropertyOf dcterms:subject ;
     vs:term_status "experimental" .
 
+curation:collection a rdf:Property ;
+    rdfs:label "Collection"@en ;
+    rdfs:label "Collection"@fr ;
+    rdfs:comment "A way to group resources."@en ;
+    rdfs:comment "Un moyen de grouper des ressources."@fr ;
+    vs:term_status "experimental" .
+
+curation:set a rdf:Property ;
+    rdfs:label "Set"@en ;
+    rdfs:label "Lot"@fr ;
+    rdfs:comment "A set to group resources together."@en ;
+    rdfs:comment "Un lot pour grouper des ressources ensemble."@fr ;
+    vs:term_status "experimental" .
+
 curation:subject a rdf:Property ;
     rdfs:label "Subject"@en ;
     rdfs:label "Sujet"@fr ;
@@ -81,13 +95,6 @@ curation:type a rdf:Property ;
     rdfs:comment "A type that can be used for some purposes."@en ;
     rdfs:comment "Un type pouvant être utilisé dans certains cas."@fr ;
     rdfs:subPropertyOf dcterms:type ;
-    vs:term_status "experimental" .
-
-curation:collection a rdf:Property ;
-    rdfs:label "Collection"@en ;
-    rdfs:label "Collection"@fr ;
-    rdfs:comment "A way to group resources."@en ;
-    rdfs:comment "Un moyen de grouper des ressources."@fr ;
     vs:term_status "experimental" .
 
 curation:data a rdf:Property ;
