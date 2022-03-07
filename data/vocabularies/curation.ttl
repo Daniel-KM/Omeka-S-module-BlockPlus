@@ -9,8 +9,9 @@
 <https://omeka.org/s/vocabs/curation/> a owl:Ontology ;
     dcterms:title "Curation"@en ;
     dcterms:title "Curation"@fr ;
-    dcterms:description "Properties designed to be used internally for the curation of resources."@en ;
-    dcterms:description "Propriétés destinées à être utilisées en interne pour la gestion des ressources."@fr .
+    dcterms:description "Generic and common properties that are useful internally for the curation of resources. The use of more common or more precise ontologies is recommended when it is possible."@en ;
+    dcterms:description "Propriétés génériques et courantes utiles pour la gestion interne des ressources. Le recours à des ontologies plus courantes ou plus précises est recommandé lorsque cela est possible."@fr ;
+    vs:term_status "experimental" .
 
 curation:featured a rdf:Property ;
     rdfs:label "Featured"@en ;
@@ -38,7 +39,6 @@ curation:selected a rdf:Property ;
     rdfs:label "Sélectionné"@fr ;
     rdfs:comment "Mark the resource as a selected one as soon as a value is set, whatever it is."@en ;
     rdfs:comment "Marque la ressource comme sélectionnée dès qu‘une valeur quelconque est définie."@fr ;
-    rdfs:subPropertyOf dcterms:subject ;
     vs:term_status "experimental" .
 
 curation:category a rdf:Property ;
@@ -46,6 +46,14 @@ curation:category a rdf:Property ;
     rdfs:label "Catégorie"@fr ;
     rdfs:comment "A topic that can be used for some purposes."@en ;
     rdfs:comment "Un sujet pouvant être utilisé dans certains cas."@fr ;
+    rdfs:subPropertyOf dcterms:subject ;
+    vs:term_status "experimental" .
+
+curation:subject a rdf:Property ;
+    rdfs:label "Subject"@en ;
+    rdfs:label "Sujet"@fr ;
+    rdfs:comment "A subject to describe the resource."@en ;
+    rdfs:comment "Un sujet décrivant la ressoruce."@fr ;
     rdfs:subPropertyOf dcterms:subject ;
     vs:term_status "experimental" .
 
@@ -71,7 +79,6 @@ curation:collection a rdf:Property ;
     rdfs:label "Collection"@fr ;
     rdfs:comment "A way to group resources."@en ;
     rdfs:comment "Un moyen de grouper des ressources."@fr ;
-    rdfs:subPropertyOf dcterms:subject ;
     vs:term_status "experimental" .
 
 curation:note a rdf:Property ;
