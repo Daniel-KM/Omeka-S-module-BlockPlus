@@ -111,6 +111,20 @@ curation:data a rdf:Property ;
     rdfs:comment "Toute donnée pouvant être utilisée pour tout objet."@fr ;
     vs:term_status "experimental" .
 
+curation:dateStart a rdf:Property ;
+    rdfs:label "Date of start"@en ;
+    rdfs:label "Date de début"@fr ;
+    rdfs:comment "Start date related to the resource, for example an embargo."@en ;
+    rdfs:comment "Date d’un début lié à la ressource, par exemple un embargo."@fr ;
+    vs:term_status "experimental" .
+
+curation:dateEnd a rdf:Property ;
+    rdfs:label "Date of end"@en ;
+    rdfs:label "Date de fin"@fr ;
+    rdfs:comment "End date related to the resource, for example an embargo."@en ;
+    rdfs:comment "Date d’une fin liée à la ressource, par exemple un embargo."@fr ;
+    vs:term_status "experimental" .
+
 curation:location a rdf:Property ;
     rdfs:label "Location"@en ;
     rdfs:label "Lieu"@fr ;
