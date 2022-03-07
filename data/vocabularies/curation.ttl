@@ -74,6 +74,14 @@ curation:theme a rdf:Property ;
     rdfs:subPropertyOf dcterms:subject ;
     vs:term_status "experimental" .
 
+curation:type a rdf:Property ;
+    rdfs:label "Type"@en ;
+    rdfs:label "Type"@fr ;
+    rdfs:comment "A type that can be used for some purposes."@en ;
+    rdfs:comment "Un type pouvant être utilisé dans certains cas."@fr ;
+    rdfs:subPropertyOf dcterms:type ;
+    vs:term_status "experimental" .
+
 curation:collection a rdf:Property ;
     rdfs:label "Collection"@en ;
     rdfs:label "Collection"@fr ;
