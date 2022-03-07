@@ -240,3 +240,7 @@ if (version_compare($oldVersion, '3.3.14.0', '<')) {
 if (version_compare($oldVersion, '3.3.14.1', '<')) {
     require_once __DIR__ . '/upgrade_vocabulary.php';
 }
+
+if (version_compare($oldVersion, '3.3.14.2', '<')) {
+    require_once __DIR__ . '/upgrade_vocabulary.php';
+}
