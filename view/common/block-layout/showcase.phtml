@@ -44,7 +44,7 @@ $siteSlug = $site->slug();
         foreach ($entries as $entry):
             if (empty($entry['entry'])) continue;
             $resource = $entry['resource'];
-            $resourceName = $entry['resource_name'];
+            // $resourceName = $entry['resource_name'];
             $resourceType = null;
             $render = null;
             $title = null;
@@ -56,7 +56,13 @@ $siteSlug = $site->slug();
                 if (empty($entry['data'])) continue;
                 $resourceType = 'link';
                 $linkClass = 'link';
-                // Data contains url, asset, title, caption, body.
+                /**
+                 * @var string $url
+                 * @var \Omeka\Api\Representation\AssetRepresentation $asset
+                 * @var string $title
+                 * @var string $caption
+                 * @var string $body
+                 */
                 extract($entry['data']);
                 if (!$showTitle) $title = null;
                 if (is_object($asset)) {

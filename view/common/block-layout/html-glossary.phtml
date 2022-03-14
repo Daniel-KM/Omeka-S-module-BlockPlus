@@ -22,14 +22,12 @@
 
 $plugins = $this->getHelperPluginManager();
 $partial = $plugins->get('partial');
-$blockMetadata = $plugins->get('blockMetadata');
 
 // Fix html purification.
 $html = str_replace(['<p><br />', '<p><br/>'], ['<p>&nbsp;</p><p><br />', '<p>&nbsp;</p><p><br />'], $html);
 $glossary = array_map('trim', explode('<p>&nbsp;</p>', $html));
 
 // Create the glossary alphabet, the list of current letters and current definitions and prepare first letters.
-$list = [];
 foreach ($glossary as $key => $termDefinition) {
     $pos = mb_strpos($termDefinition, '</p>');
     if (!$pos) {

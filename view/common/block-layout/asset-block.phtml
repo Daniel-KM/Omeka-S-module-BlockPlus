@@ -3,7 +3,7 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var array $attachments Contains keys:
  *   - asset (AssetRepresentation)
- *   - page" (PageRepresentation)
+ *   - page (PageRepresentation)
  *   - caption (string): the html is purified according to settings
  *   - alt_link_title (string)
  *   Specific to the module version:
@@ -24,7 +24,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 $assetElement = $plugins->get('assetElement');
 ?>
 
-<div class="block block-assets assets <?= $escape($className . ' ' . $alignment) ?>">
+<div class="block block-asset assets <?= $escape($className . ' ' . $alignment) ?>">
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
