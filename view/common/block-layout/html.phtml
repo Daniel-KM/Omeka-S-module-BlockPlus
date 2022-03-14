@@ -7,14 +7,20 @@
  */
 
 ?>
+<?php if (empty($divclass)): ?>
 
 <?php if (!empty($heading)): ?>
 <h2><?= $this->escapeHtml($heading) ?></h2>
 <?php endif; ?>
-<?php if (empty($divclass)): ?>
 <?= $html ?>
+
 <?php else: ?>
+
 <div class="<?= $this->escapeHtmlAttr($divclass) ?>">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $this->escapeHtml($heading) ?></h2>
+    <?php endif; ?>
     <?= $html ?>
 </div>
+
 <?php endif; ?>
