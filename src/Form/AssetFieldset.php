@@ -54,6 +54,8 @@ class AssetFieldset extends Fieldset
                 'attributes' => [
                     'id' => 'asset-alignment',
                     'class' => 'chosen-select',
+                    'title' => 'Alignment',
+                    'aria-label' => 'Alignment',
                 ],
             ])
             ->add([

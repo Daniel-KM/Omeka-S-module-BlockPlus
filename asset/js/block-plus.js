@@ -4,6 +4,7 @@
 
         // Manage fields "class" and "url" (deprecated) for block Asset.
         // Other blocks that use the helper don't need these fields.
+        // See application/view/common/asset-options.phtml.
         // TODO Check validity with timeline.
         // FIXME First load of the block.
         const blockAsset = `

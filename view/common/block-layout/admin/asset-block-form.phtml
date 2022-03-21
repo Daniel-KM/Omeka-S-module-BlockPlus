@@ -1,71 +1,112 @@
 <?php
-$translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
-$attachmentRowTemplate = '
- <div class="attachment new">
+/**
+ * Adaptation of Omeka application/view/common/asset-block-form.phtml
+ *
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var array $block
+ * @var int $siteId
+ * @var string $apiUrl
+ * @var array $attachments Warning: not attachments, but array of data
+ * @var string $alignmentClassSelect
+ * Added:
+ * @var \Laminas\Form\Fieldset $fieldset
+ */
+
+$plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$formRow = $plugins->get('formRow');
+$thumbnail = $plugins->get('thumbnail');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
+$strings = [];
+$strings['openAssetOptions'] = $hyperlink('', '#', ['class' => 'asset-options-configure o-icon-configure button', 'title' => $translate('Open asset options'), 'aria-label' => $translate('Open asset options')]); // @translate
+$strings['deleteAttachment'] = $hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment'), 'aria-label' => $translate('Delete attachment')]); // @translate
+$strings['restoreAttachment'] = $hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment'), 'aria-label' => $translate('Restore attachment')]); // @translate
+$strings['collapse'] = $translate('Collapse'); // @translate
+$strings['assets'] = $translate('Assets'); // @translate
+$strings['urlSidebarSelect'] = $escape($url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select']));
+$strings['addAsset'] = $translate('Add asset'); // @translate
+$strings['options'] = $translate('Options'); // @translate
+$strings['noAssetSelected'] = $translate('No asset selected'); // @translate
+
+$attachmentRowTemplate = <<<HTML
+ <div class="attachment%s">
     <span class="sortable-handle"></span>
-    <div class="asset-title"><div class="thumbnail"></div>' . $translate('No asset selected') . '</div>
+    <div class="asset-title">
+        <div class="thumbnail">%s</div>
+        %s
+    </div>
     <ul class="actions">
-    <li>' . $this->hyperlink('', '#', ['class' => 'asset-options-configure o-icon-configure button', 'title' => $translate('Open asset options'), 'aria-label' => $translate('Open asset options')]) . '</li>
-    <li class="delete">' . $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment'), 'aria-label' => $translate('Delete attachment')]) . '</li>
-    <li class="undo">' . $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment'), 'aria-label' => $translate('Restore attachment')]) . '</li>
+        <li>{$strings['openAssetOptions']}</li>
+        <li class="delete">{$strings['deleteAttachment']}</li>
+        <li class="undo">{$strings['restoreAttachment']}</li>
     </ul>
-    <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" data-page-title="" data-page-url="" disabled>
-    <input type="hidden" class="asset asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" disabled>
-    <input type="hidden" class="alternative-link-title asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]" disabled>
-    <input type="hidden" class="asset-caption asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]" disabled>
-    ';
+    <input type="hidden" class="asset-option asset-page-id" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" data-page-title="%s" data-page-url="%s" %s value="%s"/>
+    <input type="hidden" class="asset-option asset" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" %s value="%s"/>
+    <input type="hidden" class="asset-option alternative-link-title" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]" %s value="%s"/>
+    <input type="hidden" class="asset-option asset-caption" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]" %s value="%s"/>
+    <input type="hidden" class="asset-option asset-class" name="o:block[__blockIndex__][o:data][__attachmentIndex__][class]" %s value="%s"/>
+    <input type="hidden" class="asset-option asset-url" name="o:block[__blockIndex__][o:data][__attachmentIndex__][url]" %s value="%s"/>
+</div>
+HTML;
+
+$strings['attachmentRowTemplateDefault'] = sprintf($attachmentRowTemplate, ' new', '', '', '', '', 'disabled', '', 'disabled', '', 'disabled', '', 'disabled', '', 'disabled', '', 'disabled', '');
 ?>
-<div class="asset-attachments-form" data-site-id="<?php echo $escape($siteId); ?>" data-page-api-url="<?php echo $escape($apiUrl); ?>">
-<a href="#" class="collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"><h4><?php echo $translate('Assets'); ?></h4></a>
-<div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
-  <?php if ($block !== ''): ?>
-    <?php foreach($attachments as $attachment): ?>
-      <div class="attachment">
-        <span class="sortable-handle"></span>
-        <?php
-                $asset = $attachment['asset'];
-                $assetId = ($asset) ? $escape($asset->id()) : '';
-                $page = (array_key_exists('page', $attachment)) ? $attachment['page'] : null;
-                $pageId = ($page) ? $escape($page->id()) : '';
-                $pageUrl = ($page) ? $page->siteUrl() : '';
-                $pageTitle = ($page) ? $escape($page->title()) : '';
-                $altLinkTitle = ($page) ? $escape($attachment['alt_link_title']) : '';
-                $caption = $escape($attachment['caption']);
-                ?>
-            <?php if ($asset): ?>
-              <?php $thumbnail = '<div class="thumbnail">' . $this->thumbnail($asset, 'square') . '</div>'; ?>
-              <div class="asset-title"><?php echo $thumbnail; ?><?php echo $escape($asset->name()); ?></div>
-              <?php else: ?>
-                <div class="asset-title"><div class="thumbnail"></div><?php echo $translate('No asset selected'); ?></div>
-              <?php endif; ?>
-              <ul class="actions">
-                <li><?php echo $this->hyperlink('', '#', ['class' => 'asset-options-configure o-icon-configure button', 'title' => $translate('Open asset options'), 'aria-label' => $translate('Open asset options')]); ?></li>
-                <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment'), 'aria-label' => $translate('Delete attachment')]); ?></li>
-                <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment'), 'aria-label' => $translate('Restore attachment')]); ?></li>
-              </ul>
-              <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" value="<?php echo $pageId; ?>" data-page-title="<?php echo $pageTitle; ?>" data-page-url="<?php echo $pageUrl; ?>">
-              <input type="hidden" class="asset" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" value="<?php echo $assetId; ?>">
-              <input type="hidden" class="alternative-link-title asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]" value="<?php echo $altLinkTitle; ?>">
-              <input type="hidden" class="asset-caption asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]" value="<?php echo $caption; ?>">
-            </div>
-        <?php endforeach; ?>
-        <?php endif; ?>
-        <button type="button" class="add-asset-attachment" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>
+
+<style>
+    .collapse + .collapsible { overflow: visible; }
+</style>
+<div class="asset-attachments-form" data-site-id="<?= $siteId ?>" data-page-api-url="<?= $escape($apiUrl) ?>">
+    <a href="#" class="collapse" title="<?= $escapeAttr($translate('Collapse')) ?>" aria-label="<?= $escapeAttr($strings['collapse']) ?>"><h4><?= $escapeAttr($strings['assets']) ?></h4></a>
+    <div class="attachments collapsible" data-template="<?= $escapeAttr($strings['attachmentRowTemplateDefault']) ?>">
+        <?php if ($block):
+        foreach($attachments as $attachment):
+            echo sprintf(
+                $attachmentRowTemplate,
+                '',
+                $attachment['asset'] ? $thumbnail($attachment['asset'], 'square') : '',
+                $attachment['asset'] ? $escape($attachment['asset']->name()) : $escape($strings['noAssetSelected']),
+                $attachment['page'] ? $escape($attachment['page']->title()) : '',
+                $attachment['page'] ? $escape($attachment['page']->siteUrl()) : '',
+                '',
+                $attachment['page'] ? $escape($attachment['page']->id()) : '',
+                '',
+                $attachment['asset'] ? $attachment['asset']->id() : '',
+                // Unlike upstream, the title is saved in any case.
+                '',
+                $escape($attachment['alt_link_title']),
+                '',
+                $escape($attachment['caption']),
+                // Managed via js.
+                '',
+                empty($attachment['class']) ? '' : $escape($attachment['class']),
+                '',
+                empty($attachment['url']) ? '' : $escape($attachment['url'])
+            ) . PHP_EOL;
+        endforeach;
+        endif; ?>
+        <button type="button" class="add-asset-attachment" data-sidebar-content-url="<?= $escapeAttr($strings['urlSidebarSelect']) ?>"><?= $escape($strings['addAsset']) ?></button>
     </div>
 </div>
-<a class="collapse" href="#" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>">
-    <h4><?php echo $translate('Options'); ?></h4>
+<a class="collapse" href="#" title="<?= $escapeAttr($strings['collapse']) ?>" aria-label="<?= $escapeAttr($strings['collapse']) ?>">
+    <h4><?= $escape($strings['options']) ?></h4>
 </a>
 <div class="collapsible">
-  <div class="field">
-    <div class="field-meta">
-      <label for="o:block[__blockIndex__][o:data][className]"><?php echo $translate('Class'); ?></label>
+    <div class="field">
+        <div class="field-meta">
+            <label for="o:block[__blockIndex__][o:data][className]"><?= $escape($translate('Class')) ?></label>
+        </div>
+        <div class="inputs">
+            <?php $className = $block['className'] ?? '' ?>
+            <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?= $escapeAttr($className) ?>">
+        </div>
     </div>
-    <div class="inputs">
-      <?php $className = (isset($block['className'])) ? $escape($block['className']) : ''; ?>
-      <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?php echo $className; ?>">
-    </div>
-  </div>
-  <?php echo $alignmentClassSelect; ?>
+    <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][heading]')) ?>
+    <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][className]')) ?>
+    <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][alignment]')) ?>
+    <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][template]')) ?>
+    <?php // Inputs "class" and "url" are managed by js because other blocks don't need them. ?>
 </div>

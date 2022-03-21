@@ -104,7 +104,17 @@ class Asset extends AbstractBlockLayout
 
         $fieldset->populateValues($dataForm);
 
-        return $this->adminForm($view, $site, $fieldset, $data, $block);
+        // Parent block is not a form, but complex, so it's simpler to use an
+        // adapted view.
+        // @todo Use a standard Laminas form. See previous version.
+        return $view->partial('common/block-layout/admin/asset-block-form', [
+            'fieldset' => $fieldset,
+            'block' => $dataForm,
+            'siteId' => $site->id(),
+            'apiUrl' => $site->apiUrl(),
+            'attachments' => $this->prepareAssetAttachments($view, $dataForm),
+            'alignmentClassSelect' => $fieldset->get('o:block[__blockIndex__][o:data][alignment]'),
+        ]);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
@@ -167,105 +177,5 @@ class Asset extends AbstractBlockLayout
         }
 
         return $data['attachments'];
-    }
-
-    /**
-     * @todo Use a standard Laminas form. See previous version.
-     */
-    protected function adminForm(
-        PhpRenderer $view,
-        SiteRepresentation $site,
-        \BlockPlus\Form\AssetFieldset $fieldset,
-        array $data,
-        ?SitePageBlockRepresentation $block = null
-    ) {
-        $plugins = $view->getHelperPluginManager();
-        $url = $plugins->get('url');
-        $escape = $plugins->get('escapeHtml');
-        $translate = $plugins->get('translate');
-        $hyperlink = $plugins->get('hyperlink');
-        $formRow = $plugins->get('formRow');
-        $thumbnail = $plugins->get('thumbnail');
-
-        $strings = [];
-        $strings['openAssetOptions'] = $hyperlink('', '#', ['class' => 'asset-options-configure o-icon-configure button', 'title' => $translate('Open asset options')]); // @translate
-        $strings['deleteAttachment'] = $hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]); // @translate
-        $strings['restoreAttachment'] = $hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]); // @translate
-        $strings['collapse'] = $translate('Collapse'); // @translate
-        $strings['assets'] = $translate('Assets'); // @translate
-        $strings['urlSidebarSelect'] = $escape($url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select']));
-        $strings['addAsset'] = $translate('Add asset'); // @translate
-        $strings['options'] = $translate('Options'); // @translate
-
-        $attachmentRowTemplate = <<<HTML
- <div class="attachment%s">
-    <span class="sortable-handle"></span>
-    <div class="asset-title"><div class="thumbnail">%s</div>%s</div>
-    <ul class="actions">
-        <li>{$strings['openAssetOptions']}</li>
-        <li class="delete">{$strings['deleteAttachment']}</li>
-        <li class="undo">{$strings['restoreAttachment']}</li>
-    </ul>
-    <input type="hidden" class="asset-option asset" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" value="%s"/>
-    <input type="hidden" class="asset-option asset-page-id" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" data-page-title="%s" data-page-url="%s" value="%s"/>
-    <input type="hidden" class="asset-option alternative-link-title" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]" value="%s"/>
-    <input type="hidden" class="asset-option asset-caption" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]" value="%s"/>
-    <input type="hidden" class="asset-option asset-class" name="o:block[__blockIndex__][o:data][__attachmentIndex__][class]" value="%s"/>
-    <input type="hidden" class="asset-option asset-url" name="o:block[__blockIndex__][o:data][__attachmentIndex__][url]" value="%s"/>
-</div>
-HTML;
-        $strings['attachmentRowTemplateDefault'] = $escape(sprintf($attachmentRowTemplate, ' new', '', '', '', '', '', '', '', '', '', ''));
-
-        $html = <<<HTML
-<style>
-.collapse + .collapsible { overflow: visible; }
-</style>
-<div class="asset-attachments-form" data-site-id="{$site->id()}" data-page-api-url="{$site->apiUrl()}">
-    <a href="#" class="collapse" aria-label="{$strings['collapse']}" title="{$strings['collapse']}"><h4>{$strings['assets']}</h4></a>
-    <div class="attachments collapsible" data-template="{$strings['attachmentRowTemplateDefault']}">
-        %s
-        <button type="button" class="add-asset-attachment" data-sidebar-content-url="{$strings['urlSidebarSelect']}">{$strings['addAsset']}</button>
-    </div>
-</div>
-<a class="collapse" href="#" aria-label="{$strings['collapse']}">
-    <h4>{$strings['options']}</h4>
-</a>
-<div class="collapsible">
-    %s
-    %s
-    %s
-    %s
-</div>
-HTML;
-
-        $attachs = '';
-        $attachments = $this->prepareAssetAttachments($view, $data);
-        foreach ($attachments as $attachment) {
-            $attachs .= sprintf(
-                $attachmentRowTemplate,
-                '',
-                $attachment['asset'] ? $thumbnail($attachment['asset'], 'square') : '',
-                $attachment['asset'] ? $escape($attachment['asset']->name()) : $escape($translate('No asset selected')), // @translate
-                $attachment['asset'] ? $attachment['asset']->id() : '',
-                $attachment['page'] ? $escape($attachment['page']->title()) : '',
-                $attachment['page'] ? $escape($attachment['page']->siteUrl()) : '',
-                $attachment['page'] ? $escape($attachment['page']->id()) : '',
-                // Unlike upstream, the title is saved in any case.
-                $escape($attachment['alt_link_title']),
-                $escape($attachment['caption']),
-                // Managed via js.
-                empty($attachment['class']) ? '' : $escape($attachment['class']),
-                empty($attachment['url']) ? '' : $escape($attachment['url'])
-            ) . PHP_EOL;
-        }
-
-        return sprintf(
-            $html,
-            $attachs,
-            $formRow($fieldset->get('o:block[__blockIndex__][o:data][heading]')),
-            $formRow($fieldset->get('o:block[__blockIndex__][o:data][className]')),
-            $formRow($fieldset->get('o:block[__blockIndex__][o:data][alignment]')),
-            $formRow($fieldset->get('o:block[__blockIndex__][o:data][template]'))
-        );
     }
 }
