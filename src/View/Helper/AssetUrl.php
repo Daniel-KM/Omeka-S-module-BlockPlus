@@ -2,13 +2,15 @@
 
 namespace BlockPlus\View\Helper;
 
-use Omeka\Module;
 use Laminas\View\Helper\AbstractHelper;
+use Omeka\Module;
 
 /**
  * View helper for returning a path to an asset.
  *
  * Override core helper to allow to override internal assets in a generic way.
+ *
+ * @see \AdvancedResourceTemplate\View\Helper\AssetUrl
  */
 class AssetUrl extends \Omeka\View\Helper\AssetUrl
 {

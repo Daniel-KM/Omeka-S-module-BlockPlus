@@ -72,13 +72,13 @@ class ThumbnailUrl extends AbstractHelper
         $layoutsWithResource = [
             // 'html',
             // Core.
-            'media',
+            'asset',
             'browsePreview',
             'itemShowcase',
             'itemShowCase',
             'itemWithMetadata',
+            'media',
             // BlockPlus.
-            'asset',
             'pageMetadata',
             'resourceText',
             // Deprecated from BlockPlus.
