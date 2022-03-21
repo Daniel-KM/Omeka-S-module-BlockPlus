@@ -6,9 +6,6 @@ use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
-use Omeka\Entity\SitePageBlock;
-use Omeka\Site\BlockLayout\AbstractBlockLayout;
-use Omeka\Stdlib\ErrorStore;
 
 class ListOfPages extends \Omeka\Site\BlockLayout\ListOfPages
 {
@@ -47,9 +44,10 @@ class ListOfPages extends \Omeka\Site\BlockLayout\ListOfPages
         $fieldset = $formElementManager->get($blockFieldset);
         $fieldset->populateValues($dataForm);
 
+        // The button is after the page list according to the js (list-of-pages-block-layout).
         $html = <<<'HTML'
-<button type="button" class="site-page-add" data-sidebar-content-url="%s">%s</button>
 <div class="block-pagelist-tree" data-jstree-data="%s"></div>
+<button type="button" class="site-page-add" data-sidebar-content-url="%s">%s</button>
 <div class="inputs">%s</div>
 
 HTML;
@@ -58,9 +56,9 @@ HTML;
         $html = sprintf(
             '%s' . $html . '%s',
             $formRow($fieldset->get('o:block[__blockIndex__][o:data][heading]')),
+            $escape($data['pagelist']),
             $escape($page->url('sidebar-pagelist')),
             $view->translate('Add pages'),
-            $escape($data['pagelist']),
             $formRow($fieldset->get('o:block[__blockIndex__][o:data][pagelist]')),
             $formRow($fieldset->get('o:block[__blockIndex__][o:data][template]'))
         );
