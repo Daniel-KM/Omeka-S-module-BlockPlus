@@ -63,9 +63,9 @@ trait PageBlockMetadataTrait
             case 'attachments':
                 return $block->attachments();
 
-            case 'main_image':
-            // @deprecated Use "main_image", not "first_image".
             case 'first_image':
+                // @deprecated Use "main_image", not "first_image".
+            case 'main_image':
                 $api = $view->api();
                 $asset = $block->dataValue('cover');
                 if ($asset) {
@@ -171,7 +171,7 @@ trait PageBlockMetadataTrait
                 return $list;
             case 'params_key_value':
             default:
-                $params = array_filter(array_map('trim', explode("\n", trim($block->dataValue('params', '')))));
+                $params = array_filter(array_map('trim', explode("\n", trim($block->dataValue('params', '')))), 'strlen');
                 $list = [];
                 foreach ($params as $keyValue) {
                     list($key, $value) = array_map('trim', explode('=', $keyValue, 2));

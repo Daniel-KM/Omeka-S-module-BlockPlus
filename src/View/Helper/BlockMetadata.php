@@ -13,7 +13,7 @@ class BlockMetadata extends AbstractHelper
     use PageBlockMetadataTrait;
 
     /**
-     * Get metadata of the current block.
+     * Get metadata of the current block through the block Page Metadata.
      *
      * @param string|SitePageBlockRepresentation $metadata
      * @param SitePageBlockRepresentation $block The block metadata if empty.
