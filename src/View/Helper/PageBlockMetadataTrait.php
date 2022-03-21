@@ -174,7 +174,9 @@ trait PageBlockMetadataTrait
                 $params = array_filter(array_map('trim', explode("\n", trim($block->dataValue('params', '')))), 'strlen');
                 $list = [];
                 foreach ($params as $keyValue) {
-                    list($key, $value) = array_map('trim', explode('=', $keyValue, 2));
+                    list($key, $value) = strpos($keyValue, '=') === false
+                        ? [$keyValue, null]
+                        : array_map('trim', explode('=', $keyValue, 2));
                     if ($key !== '') {
                         $list[$key] = $value;
                     }
