@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-07 00:00+0000\n"
-"PO-Revision-Date: 2022-03-07 00:00+0000\n"
+"POT-Creation-Date: 2022-03-21 00:00+0000\n"
+"PO-Revision-Date: 2022-03-21 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -361,12 +361,12 @@ msgstr "Paramètres"
 #: src/Form/PageMetadataFieldset.php:86
 msgid "The params can be fetched as raw text, key/value pairs, or json."
 msgstr ""
-"Les paramètres peuvent être récupérés en tant que texte brut, paires clés/"
-"valeurs et json."
+"Les paramètres peuvent être récupérés en tant que texte brut, paires clé/"
+"valeur et json."
 
 #: src/Form/PageMetadataFieldset.php:97
 msgid "Cover image"
-msgstr "Images principale"
+msgstr "Vignette de la page"
 
 #: src/Form/SearchResultsFieldset.php:45
 msgid "Search pool query"
