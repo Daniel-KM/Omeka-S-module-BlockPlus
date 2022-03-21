@@ -17,10 +17,9 @@ class PageMetadata extends AbstractHelper
      *
      * @param string|SitePageRepresentation $metadata
      * @param SitePageRepresentation $page Current page if empty.
-     * @return \Omeka\Api\Representation\SitePageRepresentation|mixed|false
-     * False means that the current page does not have a page block metadata.
+     * @return \Omeka\Api\Representation\SitePageRepresentation|mixed|null
      */
-    public function __invoke($metadata = null, SitePageRepresentation $page = null)
+    public function __invoke($metadata = null, ?SitePageRepresentation $page = null)
     {
         if (is_object($metadata) && $metadata instanceof SitePageRepresentation) {
             $page = $metadata;
@@ -33,8 +32,6 @@ class PageMetadata extends AbstractHelper
         }
 
         $block = $this->currentBlockMetadata($page);
-        return $block
-            ? $this->metadataBlock($metadata, $block)
-            : false;
+        return $this->metadataBlock($metadata, $block);
     }
 }

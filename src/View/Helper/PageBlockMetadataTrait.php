@@ -16,14 +16,15 @@ trait PageBlockMetadataTrait
     /**
      * Get metadata of a block.
      *
-     * @param string $metadata
-     * @param SitePageBlockRepresentation $page
-     * @return \Omeka\Api\Representation\SitePageBlockRepresentation|mixed|false
+     * If the block is not available, only common page metadata are available.
      */
-    protected function metadataBlock(?string $metadata, SitePageBlockRepresentation $block)
+    protected function metadataBlock(?string $metadata = null, ?SitePageBlockRepresentation $block = null)
     {
         $view = $this->getView();
-        $page = $block->page();
+        $page = $block ? $block->page() : $this->currentPage();
+        if (!$page) {
+            return null;
+        }
 
         switch ($metadata) {
             case 'page':
@@ -40,16 +41,26 @@ trait PageBlockMetadataTrait
             case 'credits':
             case 'summary':
             case 'tags':
-                return $block->dataValue($metadata);
+                return $block
+                    ? $block->dataValue($metadata)
+                    : null;
 
             case 'type_label':
+                if (!$block) {
+                    return null;
+                }
                 $type = $block->dataValue('type');
                 $pageTypes = $view->siteSetting('blockplus_page_types', []);
                 return $pageTypes[$type] ?? null;
 
             case 'featured':
-                return (bool) $block->dataValue('featured');
+                return $block
+                    ? (bool) $block->dataValue('featured')
+                    : false;
             case 'cover':
+                if (!$block) {
+                    return null;
+                }
                 $asset = $block->dataValue('cover');
                 if (!$asset) {
                     return null;
@@ -61,11 +72,17 @@ trait PageBlockMetadataTrait
                 }
 
             case 'attachments':
+                if (!$block) {
+                    return [];
+                }
                 return $block->attachments();
 
             case 'first_image':
                 // @deprecated Use "main_image", not "first_image".
             case 'main_image':
+                if (!$block) {
+                    return null;
+                }
                 $api = $view->api();
                 $asset = $block->dataValue('cover');
                 if ($asset) {
@@ -156,13 +173,25 @@ trait PageBlockMetadataTrait
 
             case 'params':
             case 'params_raw':
+                if (!$block) {
+                    return null;
+                }
                 return $block->dataValue('params', '');
             case 'params_json':
             case 'params_json_array':
+                if (!$block) {
+                    return [];
+                }
                 return @json_decode($block->dataValue('params', ''), true) ?: [];
             case 'params_json_object':
+                if (!$block) {
+                    return (object) [];
+                }
                 return @json_decode($block->dataValue('params', '')) ?: (object) [];
             case 'params_key_value_array':
+                if (!$block) {
+                    return [];
+                }
                 $params = array_map('trim', explode("\n", trim($block->dataValue('params', ''))));
                 $list = [];
                 foreach ($params as $keyValue) {
@@ -170,7 +199,13 @@ trait PageBlockMetadataTrait
                 }
                 return $list;
             case 'params_key_value':
+                if (!$block) {
+                    return [];
+                }
             default:
+                if (!$block) {
+                    return null;
+                }
                 $params = array_filter(array_map('trim', explode("\n", trim($block->dataValue('params', '')))), 'strlen');
                 $list = [];
                 foreach ($params as $keyValue) {

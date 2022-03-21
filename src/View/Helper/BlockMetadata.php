@@ -19,7 +19,7 @@ class BlockMetadata extends AbstractHelper
      * @param SitePageBlockRepresentation $block The block metadata if empty.
      * @return \Omeka\Api\Representation\SitePageBlockRepresentation|mixed
      */
-    public function __invoke($metadata = null, SitePageBlockRepresentation $block = null)
+    public function __invoke($metadata = null, ?SitePageBlockRepresentation $block = null)
     {
         $view = $this->getView();
 
@@ -33,9 +33,6 @@ class BlockMetadata extends AbstractHelper
                     return null;
                 }
                 $block = $this->currentBlockMetadata($page);
-                if (!$block) {
-                    return null;
-                }
             } else {
                 $block = $view->block;
             }
