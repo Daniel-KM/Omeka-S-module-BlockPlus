@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 00:00+0000\n"
-"PO-Revision-Date: 2022-03-21 00:00+0000\n"
+"POT-Creation-Date: 2022-05-09 00:00+0000\n"
+"PO-Revision-Date: 2022-05-09 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -272,7 +272,7 @@ msgstr "Titre du bloc"
 #: src/Form/SearchResultsFieldset.php:114
 #: src/Form/ExternalContentFieldset.php:86 src/Form/PageTitleFieldset.php:16
 #: src/Form/TwitterFieldset.php:88 src/Form/ListOfSitesFieldset.php:104
-#: src/Form/TableOfContentsFieldset.php:43 src/Form/AssetFieldset.php:63
+#: src/Form/TableOfContentsFieldset.php:43 src/Form/AssetFieldset.php:65
 #: src/Form/D3GraphFieldset.php:58 src/Form/ItemShowcaseFieldset.php:49
 #: src/Form/BrowsePreviewFieldset.php:147 src/Form/ResourceTextFieldset.php:88
 #: src/Form/HtmlFieldset.php:47 src/Form/PageDateFieldset.php:78
@@ -431,6 +431,18 @@ msgstr ""
 "Le standard \"oEmbed\" normalise l’integration des ressources externes. Les "
 "principaux sites tiers sont gérés. Indiquer l’url à utiliser pour l’iframe."
 
+#: src/Form/ExternalContentFieldset.php:33
+#: src/Form/ExternalContentFieldset.php:56 src/Form/ResourceTextFieldset.php:32
+#: src/Form/ResourceTextFieldset.php:62
+msgid "left"
+msgstr "gauche"
+
+#: src/Form/ExternalContentFieldset.php:34
+#: src/Form/ExternalContentFieldset.php:57 src/Form/ResourceTextFieldset.php:33
+#: src/Form/ResourceTextFieldset.php:63
+msgid "right"
+msgstr "droite"
+
 #: src/Form/ExternalContentFieldset.php:42
 #: src/Form/ItemSetShowcaseFieldset.php:52
 msgid "Show title"
@@ -553,7 +565,7 @@ msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"table-of-contents\"."
 
-#: src/Form/AssetFieldset.php:64
+#: src/Form/AssetFieldset.php:66
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"asset\"."
@@ -580,16 +592,6 @@ msgid ""
 msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"item-showcase\"."
-
-#: src/Form/BrowsePreviewFieldset.php:114
-msgid "Select properties…"
-msgstr "Choisir des propriétés…"
-
-#: src/Form/BrowsePreviewFieldset.php:137
-msgid "Text for link to full browse view, if any. There is no link for media."
-msgstr ""
-"Texte pour le lien vers la page \"tout parcourir\". Il n’y a pas de lien "
-"pour les médias."
 
 #: src/Form/BrowsePreviewFieldset.php:148
 msgid ""
@@ -1043,11 +1045,6 @@ msgstr "Erreur lors du décodage du json oEmbed"
 msgid "Invalid \"%s\" specified"
 msgstr "Spécification \"%s\" invalide"
 
-#: src/Site/BlockLayout/ExternalContent.php:227
-#, php-format
-msgid "Error reading %s: %s (%s)"
-msgstr "Erreur lors de la lecture %s: %s (%s)"
-
 #: src/Generic/InstallResources.php:85
 #, php-format
 msgid ""
@@ -1187,6 +1184,19 @@ msgstr "Simple page"
 msgid "Know more"
 msgstr "En savoir plus"
 
+#~ msgid "Select properties…"
+#~ msgstr "Choisir des propriétés…"
+
+#~ msgid ""
+#~ "Text for link to full browse view, if any. There is no link for media."
+#~ msgstr ""
+#~ "Texte pour le lien vers la page \"tout parcourir\". Il n’y a pas de lien "
+#~ "pour les médias."
+
+#, php-format
+#~ msgid "Error reading %s: %s (%s)"
+#~ msgstr "Erreur lors de la lecture %s: %s (%s)"
+
 #~ msgid "Heading for the block, if any."
 #~ msgstr "Entête du bloc, si présent."
 
@@ -1204,12 +1214,6 @@ msgstr "En savoir plus"
 
 #~ msgid "Add another"
 #~ msgstr "Ajouter un autre"
-
-#~ msgid "left"
-#~ msgstr "gauche"
-
-#~ msgid "right"
-#~ msgstr "droite"
 
 #~ msgid "center"
 #~ msgstr "centre"

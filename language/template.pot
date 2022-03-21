@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 00:00+0000\n"
+"POT-Creation-Date: 2022-05-09 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,7 +242,7 @@ msgstr ""
 #: src/Form/SearchResultsFieldset.php:114
 #: src/Form/ExternalContentFieldset.php:86 src/Form/PageTitleFieldset.php:16
 #: src/Form/TwitterFieldset.php:88 src/Form/ListOfSitesFieldset.php:104
-#: src/Form/TableOfContentsFieldset.php:43 src/Form/AssetFieldset.php:63
+#: src/Form/TableOfContentsFieldset.php:43 src/Form/AssetFieldset.php:65
 #: src/Form/D3GraphFieldset.php:58 src/Form/ItemShowcaseFieldset.php:49
 #: src/Form/BrowsePreviewFieldset.php:147 src/Form/ResourceTextFieldset.php:88
 #: src/Form/HtmlFieldset.php:47 src/Form/PageDateFieldset.php:78
@@ -382,6 +382,18 @@ msgid ""
 "Main third parties are supported. Set the url to be used for the iframe."
 msgstr ""
 
+#: src/Form/ExternalContentFieldset.php:33
+#: src/Form/ExternalContentFieldset.php:56 src/Form/ResourceTextFieldset.php:32
+#: src/Form/ResourceTextFieldset.php:62
+msgid "left"
+msgstr ""
+
+#: src/Form/ExternalContentFieldset.php:34
+#: src/Form/ExternalContentFieldset.php:57 src/Form/ResourceTextFieldset.php:33
+#: src/Form/ResourceTextFieldset.php:63
+msgid "right"
+msgstr ""
+
 #: src/Form/ExternalContentFieldset.php:42
 #: src/Form/ItemSetShowcaseFieldset.php:52
 msgid "Show title"
@@ -487,7 +499,7 @@ msgid ""
 "start with \"table-of-contents\"."
 msgstr ""
 
-#: src/Form/AssetFieldset.php:64
+#: src/Form/AssetFieldset.php:66
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"asset\"."
@@ -507,14 +519,6 @@ msgstr ""
 msgid ""
 "Templates are in folder \"common/block-layout\" of the theme and should "
 "start with \"item-showcase\"."
-msgstr ""
-
-#: src/Form/BrowsePreviewFieldset.php:114
-msgid "Select properties…"
-msgstr ""
-
-#: src/Form/BrowsePreviewFieldset.php:137
-msgid "Text for link to full browse view, if any. There is no link for media."
 msgstr ""
 
 #: src/Form/BrowsePreviewFieldset.php:148
@@ -917,11 +921,6 @@ msgstr ""
 #: src/Site/BlockLayout/ExternalContent.php:216
 #, php-format
 msgid "Invalid \"%s\" specified"
-msgstr ""
-
-#: src/Site/BlockLayout/ExternalContent.php:227
-#, php-format
-msgid "Error reading %s: %s (%s)"
 msgstr ""
 
 #: src/Generic/InstallResources.php:85
