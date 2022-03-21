@@ -124,7 +124,7 @@ class Asset extends AbstractBlockLayout
             : $view->partial(self::PARTIAL_NAME, $vars);
     }
 
-    protected function prepareAssetAttachments(PhpRenderer $view, array $data): array
+    public function prepareAssetAttachments(PhpRenderer $view, array $data): array
     {
         if (empty($data)) {
             return [];
@@ -150,13 +150,14 @@ class Asset extends AbstractBlockLayout
                 try {
                     $assetData['asset'] = $api->read('assets', $assetData['id'])->getContent();
                 } catch (\Omeka\Api\Exception\NotFoundException $e) {
+                    // Skip.
                 }
             }
             unset($assetData['id']);
             try {
                 $assetData['page'] = empty($assetData['page'])
-                ? null
-                : $api->read('site_pages', $assetData['page'])->getContent();
+                    ? null
+                    : $api->read('site_pages', $assetData['page'])->getContent();
             } catch (\Omeka\Api\Exception\NotFoundException $e) {
                 $assetData['page'] = null;
             }
