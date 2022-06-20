@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Service\Form;
 
 use BlockPlus\Form\PageMetadataFieldset;
