@@ -60,10 +60,22 @@ class TemplateSelect extends Select
      * @param string $extension
      * @return array Files are returned without extensions.
      */
-    protected function filteredFilesInFolder($dir, $layout = '', $extension = '')
+    protected function filteredFilesInFolder($dir, $layout = '', $extension = ''): array
     {
-        $base = rtrim($dir, '\\/') ?: '/';
-        $layout = ltrim($layout, '\\/');
+        $isWindows = PHP_OS_FAMILY === 'Windows';
+
+        if ($isWindows) {
+            $dir = str_replace('\\', '/', $dir);
+            $base = rtrim($dir, '/');
+            if (!$base) {
+                return [];
+            }
+            $layout = str_replace('\\', '/', $layout);
+            $layout = ltrim($layout, '/');
+        } else {
+            $base = rtrim($dir, '\\/') ?: '/';
+            $layout = ltrim($layout, '\\/');
+        }
 
         $isLayoutDir = $layout === '' || mb_substr($layout, -1) === '/';
         $dir = $isLayoutDir
@@ -83,16 +95,36 @@ class TemplateSelect extends Select
             . ($extension ? '\.' . preg_quote($extension, '~') : '')
             . '$~';
 
-        $Directory = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
-        $Iterator = new \RecursiveIteratorIterator($Directory);
-        $RegexIterator = new \RegexIterator($Iterator, $regex, \RecursiveRegexIterator::GET_MATCH);
-        foreach ($RegexIterator as $file) {
-            $file = reset($file);
-            $extension = pathinfo($file, PATHINFO_EXTENSION);
-            if (mb_strlen($extension)) {
-                $file = mb_substr($file, 0, -1 - mb_strlen($extension));
+        $directory = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
+        $iterator = new \RecursiveIteratorIterator($directory);
+
+        // RegexIterator has an issue on Windows, so skip it.
+        if ($isWindows) {
+            foreach ($iterator as $filepath => $file) {
+                if (!$file || !preg_match($regex, $filepath)) {
+                    continue;
+                }
+                $file = $filepath;
+                $extension = pathinfo($file, PATHINFO_EXTENSION);
+                if (mb_strlen((string) $extension)) {
+                    $file = mb_substr($file, 0, -1 - mb_strlen($extension));
+                }
+                $fileLayout = mb_substr($file, mb_strlen($base) + 1);
+                $files[$fileLayout] = mb_substr($fileLayout, mb_strlen($dirLayout));
             }
-            $files[$file] = mb_substr($file, mb_strlen($dirLayout));
+            natcasesort($files);
+
+            return $files;
+        }
+
+        $regexIterator = new \RegexIterator($iterator, $regex, \RecursiveRegexIterator::GET_MATCH);
+        foreach ($regexIterator as $file) {
+            $fileLayout = reset($file);
+            $extension = pathinfo($fileLayout, PATHINFO_EXTENSION);
+            if (mb_strlen($extension)) {
+                $fileLayout = mb_substr($fileLayout, 0, -1 - mb_strlen($extension));
+            }
+            $files[$fileLayout] = mb_substr($fileLayout, mb_strlen($dirLayout));
         }
         natcasesort($files);
 
