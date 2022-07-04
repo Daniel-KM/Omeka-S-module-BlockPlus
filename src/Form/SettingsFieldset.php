@@ -12,6 +12,7 @@ class SettingsFieldset extends Fieldset
     public function init(): void
     {
         $this
+            ->setAttribute('id', 'block-plus')
             ->add([
                 'name' => 'blockplus_html_mode',
                 'type' => BlockPlusElement\OptionalRadio::class,

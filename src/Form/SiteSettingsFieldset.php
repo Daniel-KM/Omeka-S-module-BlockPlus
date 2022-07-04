@@ -12,6 +12,7 @@ class SiteSettingsFieldset extends Fieldset
     public function init(): void
     {
         $this
+            ->setAttribute('id', 'block-plus')
             ->add([
                 'name' => 'blockplus_page_types',
                 'type' => OmekaElement\ArrayTextarea::class,

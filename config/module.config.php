@@ -18,6 +18,7 @@ return [
             'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
         ],
         'factories' => [
+            // Used in AdvancedResourceTemplate, AdvancedSearch and BlockPlus.
             'assetUrl' => Service\ViewHelper\AssetUrlFactory::class,
         ],
     ],
