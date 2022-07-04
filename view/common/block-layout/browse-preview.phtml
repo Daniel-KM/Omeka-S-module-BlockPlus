@@ -34,7 +34,7 @@ $langValue = $filterLocale ? [$this->lang(), ''] : null;
 <div class="block preview-block">
 
 <?php if (!empty($heading)): ?>
-<h2><?= $heading ?></h2>
+<h2><?= $escape($heading) ?></h2>
 <?php endif; ?>
 
 <?php if (!empty($sortHeadings)): ?>
@@ -46,20 +46,28 @@ $langValue = $filterLocale ? [$this->lang(), ''] : null;
 <ul class="resource-list preview">
 <?php
 foreach ($resources as $resource):
-    $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
-    $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
-    $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
-    $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
-?>
+    if ($showHeading) {
+        $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
+        $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
+    } else {
+        $heading = '';
+    }
+    if ($showBody) {
+        $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
+        $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
+    } else {
+        $body = '';
+    }
+    ?>
     <li class="<?= $resourceType ?> resource">
         <?php if ($showThumbnail): ?>
         <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
         <?php endif; ?>
-        <?php if ($showHeading): ?>
-        <h4><?= $resource->link($heading) ?></h4>
+        <?php if ($showHeading && $heading): ?>
+        <h4><?= $resource->linkRaw($heading) ?></h4>
         <?php endif; ?>
         <?php if ($showBody && $body): ?>
-        <div class="description"><?= $escape($body) ?></div>
+        <div class="description"><?= $body ?></div>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>
