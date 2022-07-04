@@ -104,6 +104,13 @@ curation:type a rdf:Property ;
     rdfs:subPropertyOf dcterms:type ;
     vs:term_status "experimental" .
 
+curation:coordinates a rdf:Property ;
+    rdfs:label "Coordinates"@en ;
+    rdfs:label "Coordonnées"@fr ;
+    rdfs:comment "Numerical coordinates related to the resource, generaly the geographic position."@en ;
+    rdfs:comment "Coordonnées numériques liées à la ressource, généralement la position géographique."@fr ;
+    vs:term_status "experimental" .
+
 curation:data a rdf:Property ;
     rdfs:label "Data"@en ;
     rdfs:label "Données"@fr ;
