@@ -121,7 +121,7 @@ foreach ($resources as $resource) {
             $relations['objects'] = $resource->objectValues();
             break;
         case 'subjects':
-            $relations['subjects'] = array_merge(...array_values($resource->subjectValues()));
+            $relations['subjects'] = ($rsv = $resource->subjectValues()) ? array_merge(...array_values($rsv)) : [];
             break;
         case 'item_sets':
             if ($resourceName === 'items') {
@@ -167,7 +167,7 @@ foreach ($resources as $resource) {
                 'class' => $relation->resourceClass() ? $relation->resourceClass()->label() : null,
                 // TODO Fetch all totals in one sql query for all resources.
                 'total' => (in_array('objects', $relationTypes) ? count($relation->objectValues()) : 0)
-                    + (in_array('subjects', $relationTypes) ? count(array_merge(...array_values($relation->subjectValues()))) : 0)
+                    + (in_array('subjects', $relationTypes) && ($rsv = $relation->subjectValues()) ? count(array_merge(...array_values($rsv))) : 0)
                     + (in_array('item_sets', $relationTypes) && $relationResourceName === 'item_sets' ? $api->search('items', ['item_set_id' => $relationId, 'limit' => 0])->getTotalResults() : 0)
                     + (in_array('items', $relationTypes) && $relationResourceName === 'items' ? count($relation->itemSets()) : 0),
             ];
