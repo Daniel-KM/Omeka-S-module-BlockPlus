@@ -95,15 +95,6 @@ $strings['attachmentRowTemplateDefault'] = sprintf($attachmentRowTemplate, ' new
     <h4><?= $escape($strings['options']) ?></h4>
 </a>
 <div class="collapsible">
-    <div class="field">
-        <div class="field-meta">
-            <label for="o:block[__blockIndex__][o:data][className]"><?= $escape($translate('Class')) ?></label>
-        </div>
-        <div class="inputs">
-            <?php $className = $block['className'] ?? '' ?>
-            <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?= $escapeAttr($className) ?>">
-        </div>
-    </div>
     <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][heading]')) ?>
     <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][className]')) ?>
     <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][alignment]')) ?>
