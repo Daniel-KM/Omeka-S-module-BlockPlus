@@ -1,24 +1,30 @@
-/* Footnotes (against core styles) */
-section header {
-    background-color: inherit;
-    width: auto;
-    min-height: initial;
-    text-align: initial;
-    padding: initial;
-    color: initial;
-}
+@media screen {
+    /* Footnotes (against core styles) */
+    section header {
+        background-color: inherit;
+        width: auto;
+        min-height: initial;
+        text-align: initial;
+        padding: initial;
+        color: initial;
+    }
 
-.block textarea.full.wysiwyg {
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
-}
-.block textarea.full.wysiwyg,
-.block textarea.full.wysiwyg + [contenteditable=true] {
-    height: 288px;
-    max-height: initial;
-}
+    .cke_button_icon.cke_button__footnotes_icon {
+        background-image: url("../vendor/ckeditor-footnotes/icons/footnotes.png");
+        background-size: auto;
+    }
 
+    .block textarea.full.wysiwyg {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+    }
+    .block textarea.full.wysiwyg,
+    .block textarea.full.wysiwyg + [contenteditable=true] {
+        height: 288px;
+        max-height: initial;
+    }
+}
 @media screen and (max-width:640px) {
     section header {
         width: initial;

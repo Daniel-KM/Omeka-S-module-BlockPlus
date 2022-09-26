@@ -10,6 +10,7 @@ use Laminas\View\Helper\AbstractHelper;
  * Override core view helper to load a specific config.
  *
  * Copy in module DataTypeRdf.
+ * @see \Omeka\View\Helper\CkEditor
  * @see \BlockPlus\View\Helper\CkEditor
  * @see \DataTypeRdf\View\Helper\CkEditor
  */
@@ -72,6 +73,11 @@ JS;
         $script .= <<<JS
 CKEDITOR.config.customConfig = '$customConfigUrl';
 JS;
+
+        // The footnotes icon is not loaded automaically, so add css.
+        // Only this css rule is needed.
+        $view->headLink()
+            ->appendStylesheet($assetUrl('css/block-plus-admin.css', 'BlockPlus'));
 
         $view->headScript()
             // Don't use defer for now.
