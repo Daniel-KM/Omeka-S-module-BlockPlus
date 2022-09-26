@@ -611,7 +611,7 @@ class Twitter extends AbstractBlockLayout
         return $this->guestToken;
     }
 
-    protected function cacheMessagesForBlock(SitePageBlockRepresentation $block, array $messages)
+    protected function cacheMessagesForBlock(SitePageBlockRepresentation $block, array $messages): void
     {
         // The user may be anonymous, so use the entity manager.
         /** @var \Doctrine\ORM\EntityManager $entityManager */

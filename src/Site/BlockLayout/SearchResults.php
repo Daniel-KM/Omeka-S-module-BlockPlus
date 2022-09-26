@@ -35,7 +35,7 @@ class SearchResults extends AbstractBlockLayout
         $block->setData($data);
     }
 
-    public function prepareForm(PhpRenderer $view)
+    public function prepareForm(PhpRenderer $view): void
     {
         $assetUrl = $view->plugin('assetUrl');
         $view->headLink()

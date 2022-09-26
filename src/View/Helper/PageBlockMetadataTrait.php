@@ -212,6 +212,7 @@ trait PageBlockMetadataTrait
                 if (!$block) {
                     return [];
                 }
+                // no break
             default:
                 if (!$block) {
                     return null;

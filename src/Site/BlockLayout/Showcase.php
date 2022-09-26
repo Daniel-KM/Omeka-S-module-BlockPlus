@@ -50,7 +50,7 @@ class Showcase extends AbstractBlockLayout
             ->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus'));
     }
 
-    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
+    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
         $data = $block->getData();
         if (empty($data['entries'])) {
@@ -218,7 +218,7 @@ class Showcase extends AbstractBlockLayout
                     continue;
                 }
             }
-            if ($matches[2] === 'page' || $matches[2] === 'pages' ) {
+            if ($matches[2] === 'page' || $matches[2] === 'pages') {
                 try {
                     $page = $this->api->read('site_pages', ['site' => $entrySiteId, 'slug' => $matches[3]])->getContent();
                     $normEntry['resource_name'] = 'site_pages';

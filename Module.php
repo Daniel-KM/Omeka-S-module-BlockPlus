@@ -11,12 +11,11 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 use Generic\AbstractModule;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
-use Omeka\Module\Exception\ModuleCannotInstallException;
 
 /**
  * BlockPlus
  *
- * @copyright Daniel Berthereau, 2018-2021
+ * @copyright Daniel Berthereau, 2018-2022
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule
