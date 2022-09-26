@@ -8,6 +8,10 @@ use Laminas\View\Helper\AbstractHelper;
  * View helper for loading scripts necessary to use CKEditor on a page.
  *
  * Override core view helper to load a specific config.
+ *
+ * Copy in module DataTypeRdf.
+ * @see \BlockPlus\View\Helper\CkEditor
+ * @see \DataTypeRdf\View\Helper\CkEditor
  */
 class CkEditor extends AbstractHelper
 {
@@ -47,7 +51,8 @@ class CkEditor extends AbstractHelper
         if ($isSiteAdminPage || $isSiteAdminResource) {
             $setting = $plugins->get('setting');
             $pageOrResource = $isSiteAdminPage ? 'page' : 'resource';
-            $htmlMode = $setting('blockplus_html_mode_' . $pageOrResource);
+            $module = $isSiteAdminPage ? 'blockplus' : 'datatyperdf';
+            $htmlMode = $setting($module . '_html_mode_' . $pageOrResource);
             if ($htmlMode && $htmlMode !== 'inline') {
                 $script = <<<JS
 CKEDITOR.config.customHtmlMode = '$htmlMode';
@@ -55,7 +60,7 @@ CKEDITOR.config.customHtmlMode = '$htmlMode';
 JS;
             }
 
-            $htmlConfig = $setting('blockplus_html_config_' . $pageOrResource);
+            $htmlConfig = $setting($module . '_html_config_' . $pageOrResource);
             $customConfigUrl = $htmlConfig && $htmlConfig !== 'default'
                 ? 'js/ckeditor_config_' . $htmlConfig . '.js'
                 : 'js/ckeditor_config.js';

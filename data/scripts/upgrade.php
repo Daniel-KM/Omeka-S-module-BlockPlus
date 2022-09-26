@@ -252,8 +252,8 @@ if (version_compare($oldVersion, '3.3.15.1', '<')) {
 if (version_compare($oldVersion, '3.3.15.2', '<')) {
     $settings->set('blockplus_html_mode_page', $settings->get('blockplus_html_mode') ?: 'inline');
     $settings->set('blockplus_html_config_page', $settings->get('blockplus_html_config') ?: 'default');
-    $settings->set('blockplus_html_mode_resource', $settings->get('blockplus_html_mode') ?: 'inline');
-    $settings->set('blockplus_html_config_resource', $settings->get('blockplus_html_config') ?: 'default');
+    $settings->set('datatyperdf_html_mode_resource', $settings->get('datatyperdf_html_mode_resource', $settings->get('blockplus_html_mode')) ?: 'inline');
+    $settings->set('datatyperdf_html_config_resource', $settings->get('datatyperdf_html_config_resource', $settings->get('blockplus_html_config')) ?: 'default');
     $settings->delete('blockplus_html_mode');
     $settings->delete('blockplus_html_config');
 }
