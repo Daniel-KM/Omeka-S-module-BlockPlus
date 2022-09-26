@@ -22,7 +22,6 @@ $connection = $services->get('Omeka\Connection');
 // $entityManager = $services->get('Omeka\EntityManager');
 $plugins = $services->get('ControllerPluginManager');
 $api = $plugins->get('api');
-// $space = strtolower(__NAMESPACE__);
 
 if (version_compare($oldVersion, '3.0.3', '<')) {
     $sql = <<<'SQL'
@@ -256,4 +255,10 @@ if (version_compare($oldVersion, '3.3.15.2', '<')) {
     $settings->set('datatyperdf_html_config_resource', $settings->get('datatyperdf_html_config_resource', $settings->get('blockplus_html_config')) ?: 'default');
     $settings->delete('blockplus_html_mode');
     $settings->delete('blockplus_html_config');
+
+    $messenger = new Messenger();
+    $message = new Message(
+        'It’s now possible to choose mode of display to edit html blocks of pages in main params.' // @translate
+    );
+    $messenger->addSuccess($message);
 }
