@@ -16,7 +16,7 @@ use Omeka\Mvc\Controller\Plugin\Messenger;
  * @var \Omeka\Mvc\Controller\Plugin\Api $api
  */
 $services = $serviceLocator;
-// $settings = $services->get('Omeka\Settings');
+$settings = $services->get('Omeka\Settings');
 // $config = require dirname(dirname(__DIR__)) . '/config/module.config.php';
 $connection = $services->get('Omeka\Connection');
 // $entityManager = $services->get('Omeka\EntityManager');
@@ -247,4 +247,13 @@ if (version_compare($oldVersion, '3.3.14.2', '<')) {
 
 if (version_compare($oldVersion, '3.3.15.1', '<')) {
     require_once __DIR__ . '/upgrade_vocabulary.php';
+}
+
+if (version_compare($oldVersion, '3.3.15.2', '<')) {
+    $settings->set('blockplus_html_mode_page', $settings->get('blockplus_html_mode') ?: 'inline');
+    $settings->set('blockplus_html_config_page', $settings->get('blockplus_html_config') ?: 'default');
+    $settings->set('blockplus_html_mode_resource', $settings->get('blockplus_html_mode') ?: 'inline');
+    $settings->set('blockplus_html_config_resource', $settings->get('blockplus_html_config') ?: 'default');
+    $settings->delete('blockplus_html_mode');
+    $settings->delete('blockplus_html_config');
 }

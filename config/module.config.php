@@ -121,8 +121,10 @@ return [
     ],
     'blockplus' => [
         'settings' => [
-            'blockplus_html_mode' => '',
-            'blockplus_html_config' => '',
+            'blockplus_html_mode_page' => 'inline',
+            'blockplus_html_config_page' => 'default',
+            'blockplus_html_mode_resource' => 'inline',
+            'blockplus_html_config_resource' => 'default',
         ],
         'site_settings' => [
             'blockplus_page_types' => [
