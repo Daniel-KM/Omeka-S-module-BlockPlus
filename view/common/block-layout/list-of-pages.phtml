@@ -12,6 +12,9 @@ $missingPage = $translate('[Missing Page]');
 ?>
 
 <div class="block list-of-pages">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $heading ?></h2>
+    <?php endif; ?>
     <ul>
         <?php $iterate = function ($pages) use (&$iterate, $translate, $hyperlink, $missingPage) {
             foreach ($pages as $page) {
