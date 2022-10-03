@@ -198,6 +198,9 @@ trait PageBlockMetadataTrait
                     return (object) [];
                 }
                 return @json_decode($block->dataValue('params', '')) ?: (object) [];
+            case 'params_ini':
+                $reader = new \Laminas\Config\Reader\Ini();
+                return $reader->fromString($block->dataValue('params', ''));
             case 'params_key_value_array':
                 if (!$block) {
                     return [];
