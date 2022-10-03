@@ -37,7 +37,8 @@ composer install --no-dev
 
 Then install it like any other Omeka module.
 
-See general end user documentation for [Installing a module].
+See general end user documentation for [Installing a module] and follow the
+config instructions.
 
 
 Usage
