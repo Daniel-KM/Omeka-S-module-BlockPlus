@@ -10,10 +10,15 @@
  */
 
 $plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
+
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
+$langValue = $filterLocale ? [$this->lang(), ''] : null;
 
 // Total is available through $this->pagination()->getPaginator().
 ?>
@@ -44,7 +49,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
     $untitled = $translate('[Untitled]');
     foreach ($resources as $resource):
         $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
-        $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($translate('[Untitled]'), $lang));
+        $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
         $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
         $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
     ?>
