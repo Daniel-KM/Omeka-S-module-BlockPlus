@@ -13,6 +13,7 @@ return [
             'assetElement' => View\Helper\AssetElement::class,
             'blockMetadata' => View\Helper\BlockMetadata::class,
             'ckEditor' => View\Helper\CkEditor::class,
+            'formNote' => Form\View\Helper\FormNote::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
             'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
@@ -20,6 +21,11 @@ return [
         'factories' => [
             // Used in AdvancedResourceTemplate, AdvancedSearch and BlockPlus.
             'assetUrl' => Service\ViewHelper\AssetUrlFactory::class,
+        ],
+        'delegators' => [
+            'Laminas\Form\View\Helper\FormElement' => [
+                Service\Delegator\FormElementDelegatorFactory::class,
+            ],
         ],
     ],
     'block_layouts' => [
@@ -61,6 +67,7 @@ return [
     'form_elements' => [
         'invokables' => [
             Form\Element\BlockShowTitleSelect::class => Form\Element\BlockShowTitleSelect::class,
+            Form\Element\Note::class => Form\Element\Note::class,
             Form\Element\OptionalRadio::class => Form\Element\OptionalRadio::class,
             // Blocks.
             Form\AssetFieldset::class => Form\AssetFieldset::class,
