@@ -60,6 +60,7 @@ trait PageBlockMetadataTrait
                     ? (bool) $block->dataValue('featured')
                     : false;
             case 'cover':
+            case 'cover_url':
                 if (!$block) {
                     return null;
                 }
@@ -68,10 +69,12 @@ trait PageBlockMetadataTrait
                     return null;
                 }
                 try {
-                    return $view->api()->read('assets', ['id' => $asset])->getContent();
+                    /** @var \Omeka\Api\Representation\AssetRepresentation $asset */
+                    $asset = $view->api()->read('assets', ['id' => $asset])->getContent();
                 } catch (NotFoundException $e) {
                     return null;
                 }
+                return $metadata === 'cover_url' ? $asset->assetUrl() : $asset;
 
             case 'attachments':
                 if (!$block) {
