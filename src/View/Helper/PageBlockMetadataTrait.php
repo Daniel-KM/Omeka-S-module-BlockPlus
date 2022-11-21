@@ -27,6 +27,8 @@ trait PageBlockMetadataTrait
         }
 
         switch ($metadata) {
+            case 'block':
+                return $block;
             case 'page':
                 return $page;
             case 'title':
