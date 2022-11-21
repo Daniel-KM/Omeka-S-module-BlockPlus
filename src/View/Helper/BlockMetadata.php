@@ -15,18 +15,15 @@ class BlockMetadata extends AbstractHelper
     /**
      * Get metadata of the current block through the block Page Metadata.
      *
-     * @param string|SitePageBlockRepresentation $metadata
+     * @param string $metadata
      * @param SitePageBlockRepresentation $block The block metadata if empty.
      * @return \Omeka\Api\Representation\SitePageBlockRepresentation|mixed
      */
-    public function __invoke($metadata = null, ?SitePageBlockRepresentation $block = null)
+    public function __invoke(?string $metadata = null, ?SitePageBlockRepresentation $block = null)
     {
         $view = $this->getView();
 
-        if (is_object($metadata) && $metadata instanceof SitePageBlockRepresentation) {
-            $block = $metadata;
-            $metadata = null;
-        } elseif (!$block) {
+        if (!$block) {
             if (empty($view->block)) {
                 $page = $this->currentPage();
                 if (!$page) {
