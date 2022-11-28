@@ -2,7 +2,6 @@
 
 namespace BlockPlus;
 
-use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Stdlib\Message;
 
 /**
@@ -14,14 +13,16 @@ use Omeka\Stdlib\Message;
  * @var \Doctrine\DBAL\Connection $connection
  * @var \Doctrine\ORM\EntityManager $entityManager
  * @var \Omeka\Mvc\Controller\Plugin\Api $api
+ * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
  */
 $services = $serviceLocator;
-$settings = $services->get('Omeka\Settings');
-// $config = require dirname(dirname(__DIR__)) . '/config/module.config.php';
-$connection = $services->get('Omeka\Connection');
-// $entityManager = $services->get('Omeka\EntityManager');
 $plugins = $services->get('ControllerPluginManager');
 $api = $plugins->get('api');
+// $config = require dirname(dirname(__DIR__)) . '/config/module.config.php';
+$settings = $services->get('Omeka\Settings');
+$connection = $services->get('Omeka\Connection');
+$messenger = $plugins->get('messenger');
+// $entityManager = $services->get('Omeka\EntityManager');
 
 if (version_compare($oldVersion, '3.0.3', '<')) {
     $sql = <<<'SQL'
@@ -98,7 +99,6 @@ if (version_compare($oldVersion, '3.3.11.8', '<')) {
     $message = new Message(
         'Change: The method "blockMetadata()" returns an array by default for key "params_json". Use key "params_json_object" to keep object output.' // @translate
     );
-    $messenger = new Messenger();
     $messenger->addWarning($message);
 
     $this->installAllResources();
@@ -205,7 +205,6 @@ SQL;
         $connection->executeStatement($sql);
     }
 
-    $messenger = new Messenger();
     $message = new Message(
         'The block "Assets" was merged with the new upstream block "Asset".' // @translate
     );
@@ -225,7 +224,6 @@ SQL;
 }
 
 if (version_compare($oldVersion, '3.3.14.0', '<')) {
-    $messenger = new Messenger();
     $message = new Message(
         'It’s now possible to maximize the field "Html" in page edition.' // @translate
     );
@@ -256,9 +254,15 @@ if (version_compare($oldVersion, '3.3.15.2', '<')) {
     $settings->delete('blockplus_html_mode');
     $settings->delete('blockplus_html_config');
 
-    $messenger = new Messenger();
     $message = new Message(
         'It’s now possible to choose mode of display to edit html blocks of pages in main params.' // @translate
     );
     $messenger->addSuccess($message);
+}
+
+if (version_compare($oldVersion, '3.3.15.5', '<')) {
+    $message = new Message(
+        'The output for block D3 Graph was modified. Check it if you modified the template in your theme.' // @translate
+    );
+    $messenger->addWarning($message);
 }
