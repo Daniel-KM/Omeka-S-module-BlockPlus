@@ -52,8 +52,8 @@
 */
 
 $plugins = $this->getHelperPluginManager();
-$escape = $plugins->get('escapeHtml');
 $api = $plugins->get('api');
+$escape = $plugins->get('escapeHtml');
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;
@@ -67,6 +67,8 @@ $types = [
     'annotations' => 'annotation',
 ];
 
+// TODO Extract the table from the database in one or two sql queries.
+// TODO Use /api or /api/infos.
 // TODO Add links with the same values (like references or indexes).
 $relationTypes = $params['relations'] ?? ['objects', 'subjects', 'item_sets', 'items'];
 
@@ -78,8 +80,6 @@ foreach (array_filter(array_intersect_key($params, $types), 'is_array') as $reso
 $resources = array_merge(...$resources);
 
 // The links sources and targets should be the keys of the nodes.
-// TODO Extract the table from the database in one or two sql queries.
-// TODO Use /api or /api/infos.
 $data = [
     'nodes' => [],
     'links' => [],
@@ -123,6 +123,7 @@ foreach ($resources as $resource) {
             'id' => $resourceId,
             'title' => (string) $resource->displayTitle(null, $lang),
             'type' => $type,
+            // Not used for now.
             'class' => $resource->resourceClass() ? $resource->resourceClass()->label() : null,
             'total' => count($relations['objects'])
                 + count($relations['subjects'])
@@ -154,7 +155,7 @@ foreach ($resources as $resource) {
         $data['links'][] = [
             'source' => $orderSource,
             'target' => $orderTarget,
-            // TODO Compute value.
+            // TODO Compute value here?
             'value' => 1,
         ];
     }

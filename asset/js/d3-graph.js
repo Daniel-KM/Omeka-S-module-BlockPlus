@@ -62,18 +62,37 @@ $(function() {
                 .append('g')
                 .attr('class', function(d) { return 'node ' + d.type; })
                 .call(force.drag);
+            var nodeResource = node
+                .filter(function(d) { return d.id > 0; });
+            var nodeValue = node
+                .filter(function(d) { return !d.id; });
 
             node.append('circle')
                 .attr('class', 'node cluster')
                 .attr('r', function(d) { return Math.pow(d.total, d3GraphConfig.baseCirclePow) + d3GraphConfig.baseCircleMin; });
 
-            node.append('svg:a')
+            nodeResource.append('svg:a')
                 .attr('xlink:href', function(d) { return d3GraphbaseUrl + '/' + d.type + '/' + d.id; })
                 .append('text')
                 .attr('dy', '.35em')
                 .text(function(d) { return d.title; })
                 .style('text-anchor', 'middle')
-                .style('font-size', function(d) { return d.type === 'item-set' || (d.total > d3GraphConfig.fontSizeTop) ? d3GraphConfig.fontSizeMax : d3GraphConfig.fontSizeMin; });
+                .style('font-size', function(d) {
+                    return ['item-set', 'resource-class', 'resource-template', 'value'].indexOf(d.type) >= 0 || (d.total > d3GraphConfig.fontSizeTop)
+                        ? d3GraphConfig.fontSizeMax
+                        : d3GraphConfig.fontSizeMin;
+                });
+
+            nodeValue.append('svg:a')
+                .append('text')
+                .attr('dy', '.35em')
+                .text(function(d) { return d.title; })
+                .style('text-anchor', 'middle')
+                .style('font-size', function(d) {
+                    return ['item-set', 'resource-class', 'resource-template', 'value'].indexOf(d.type) >= 0 || (d.total > d3GraphConfig.fontSizeTop)
+                        ? d3GraphConfig.fontSizeMax
+                        : d3GraphConfig.fontSizeMin;
+                });
 
             force.on('tick', function() {
                 link
