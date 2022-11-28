@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Site\BlockLayout;
 
 use Laminas\View\Renderer\PhpRenderer;
@@ -47,8 +48,8 @@ class SearchForm extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $vars = $block->data();
+        $template = $vars['template'] ?: self::PARTIAL_NAME;
         unset($vars['template']);
-        $template = $block->dataValue('template', self::PARTIAL_NAME);
         return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)
             : $view->partial(self::PARTIAL_NAME, $vars);

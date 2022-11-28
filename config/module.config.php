@@ -313,6 +313,7 @@ return [
             ],
             'searchForm' => [
                 'heading' => '',
+                'html' => '',
                 'template' => '',
             ],
             'searchResults' => [

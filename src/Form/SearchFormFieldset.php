@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element\TemplateSelect;
@@ -16,6 +17,21 @@ class SearchFormFieldset extends Fieldset
                 'options' => [
                     'label' => 'Block title', // @translate
                 ],
+                'attributes' => [
+                    'id' => 'search-form-heading',
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][html]',
+                'type' => Element\Textarea::class,
+                'options' => [
+                    'label' => 'Html to display', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'search-form-html',
+                    'class' => 'block-html full wysiwyg',
+                    'rows' => '5',
+                ],
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
@@ -26,6 +42,7 @@ class SearchFormFieldset extends Fieldset
                     'template' => 'common/block-layout/search-form',
                 ],
                 'attributes' => [
+                    'id' => 'search-form-template',
                     'class' => 'chosen-select',
                 ],
             ]);
