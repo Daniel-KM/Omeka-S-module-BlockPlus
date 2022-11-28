@@ -3,7 +3,7 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var string $heading
- * @var string $params
+ * @var array $params
  */
 
 // Example of full json params:
@@ -32,7 +32,7 @@
 }
 */
 
-// When a resource is null (here, item_sets), there is not links for it (but some are
+// When a resource is null (here, item_sets), there won't be links for it (but some are
 // added here anyway, since the relations includes it.
 
 // Possible relations: items, item_sets, objects, subjects.
@@ -59,27 +59,6 @@ $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;
 
 $limitItemsByItemSet = 100;
-
-$params = $this->blockMetadata('params_json', $block) ?: [];
-if (empty($params)) {
-    echo '<p>';
-    echo 'A list of resources as json queries by resource name should be defined.';
-    echo '<br/>';
-    echo 'Example:';
-    echo '<br/>';
-    $query = ['items' => [
-        'property' => [[
-            'property' => 'dcterms:type',
-            'type' => 'res',
-            'text' => "40380",
-        ]]
-    ]];
-    echo sprintf('<code>%s</code></p>', json_encode($query, 448));
-    echo '<p>';
-    echo 'Key "config" for "forceCharge", "forceLinkDistance", "baseCircle", "topSize" is supported too.';
-    echo '</p>';
-    return;
-}
 
 $types = [
     'items' => 'item',
@@ -190,7 +169,6 @@ var d3GraphData = $jsonData;
 var d3GraphConfig = $jsonConfig;
 JS;
 $this->headScript()->appendScript($script);
-
 ?>
 
 <div class="block d3-graph">
