@@ -314,6 +314,7 @@ return [
             'searchForm' => [
                 'heading' => '',
                 'html' => '',
+                'selector' => '',
                 'template' => '',
             ],
             'searchResults' => [

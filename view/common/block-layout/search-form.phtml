@@ -3,9 +3,27 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var string $heading
  * @var string $html
+ * @var string $selector
  */
 
-$escape = $this->plugin('escapeHtml');
+$plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
+$escape = $plugins->get('escapeHtml');
+$params = $plugins->get('params');
+$translate = $plugins->get('translate');
+$siteSetting = $plugins->get('siteSetting');
+
+$searchType = $siteSetting('search_type', 'sitewide');
+switch ($searchType) {
+    case 'cross-site':
+        $searchAction = $url('site/cross-site-search', ['action' => 'results'], true);
+        break;
+    case 'sitewide':
+    default:
+        $searchAction = $url('site/resource', ['controller' => 'index', 'action' => 'search'], true);
+}
+
+$searchValue = $params->fromQuery('fulltext_search', '');
 ?>
 
 <div class="block block-search">
@@ -13,5 +31,44 @@ $escape = $this->plugin('escapeHtml');
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
     <?= $html ?>
-    <?= $this->partial('common/search-form') ?>
+    <form action="<?= $escape($searchAction) ?>" id="search-form">
+        <?php if ($selector === 'item_sets'): ?>
+            <?= $this->itemSetSelect([
+                'name' => 'item_set_id[]',
+                'options' => [
+                    'empty_option' => 'Any',
+                    'disable_group_by_owner' => true,
+                ],
+                'attributes' => [
+                    'value' => $params->fromQuery('item_set_id[]', ''),
+                    // 'class' => 'chosen-select',
+                ],
+            ]) ?>
+        <?php elseif ($selector === 'resource_classes'): ?>
+            <?= $this->resourceClassSelect([
+                'name' => 'resource_class_id[]',
+                'options' => [
+                    'empty_option' => 'Any',
+                    'used_terms' => true,
+                ],
+                'attributes' => [
+                    'value' => $params->fromQuery('resource_class_id[]', ''),
+                    // 'class' => 'chosen-select',
+                ],
+            ]) ?>
+        <?php elseif ($selector === 'resource_templates'): ?>
+            <?= $this->resourceTemplateSelect([
+                'name' => 'resource_template_id[]',
+                'options' => [
+                    'empty_option' => 'Any',
+                ],
+                'attributes' => [
+                    'value' => $params->fromQuery('resource_template_id[]', ''),
+                    // 'class' => 'chosen-select',
+                ],
+            ]) ?>
+        <?php endif; ?>
+        <input type="text" name="fulltext_search" value="<?= $escape($searchValue) ?>" placeholder="<?= $translate('Search') ?>" aria-label="<?= $translate('Search') ?>">
+        <button type="submit"><?= $translate('Search') ?></button>
+    </form>
 </div>
