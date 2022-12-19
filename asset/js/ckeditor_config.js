@@ -19,8 +19,9 @@ CKEDITOR.editorConfig = function( config ) {
         '/',
         {
             items: [
-                    'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', '-',
+                    'Bold', 'Italic', 'Underline', 'Strike', '-',
                     'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote', '-',
+                    'RemoveFormat',
                     'Footnotes', '-',
                     'Maximize',
                 ],
