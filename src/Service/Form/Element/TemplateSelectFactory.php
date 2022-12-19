@@ -10,7 +10,7 @@ class TemplateSelectFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $element = new TemplateSelect(null, $options);
+        $element = new TemplateSelect;
         $element->setTemplatePathStack($services->get('Config')['view_manager']['template_path_stack']);
         $currentSite = $services->get('ControllerPluginManager')->get('currentSite');
         $currentSite = $currentSite();
