@@ -419,7 +419,7 @@ Copyright
 
 [Block Plus]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus
 [Omeka S]: https://omeka.org/s
-[Installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
+[Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [shortcode as a page]: https://github.com/omeka/plugin-SimplePages/pull/24
 [Omeka Classic]: https://omeka.org/classic
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder

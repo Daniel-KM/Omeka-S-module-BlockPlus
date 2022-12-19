@@ -62,6 +62,7 @@ class Twitter extends AbstractBlockLayout
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
+        // TODO Check why direct messenger is used and not plugin, and why error store is not used.
         $messenger = new Messenger;
 
         $data = $block->getData();
