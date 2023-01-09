@@ -21,7 +21,7 @@ class Division extends AbstractBlockLayout
     {
         $assetUrl = $view->plugin('assetUrl');
         $view->headScript()
-            ->appendFile($assetUrl('js/block-plus.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
+            ->appendFile($assetUrl('js/block-plus-admin.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
     }
 
     public function prepareRender(PhpRenderer $view): void
