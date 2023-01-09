@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /*
- * Copyright Daniel Berthereau, 2018-2022
+ * Copyright Daniel Berthereau, 2018-2023
  *
  * This software is governed by the CeCILL license under French law and abiding
  * by the rules of distribution of free software.  You can use, modify and/ or
@@ -57,7 +57,7 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
         return include $this->modulePath() . '/config/module.config.php';
     }
 
-    public function onBootstrap(MvcEvent $event)
+    public function onBootstrap(MvcEvent $event): void
     {
         parent::onBootstrap($event);
 
@@ -75,18 +75,18 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
         $this->setServiceLocator($services);
         $translator = $services->get('MvcTranslator');
         $this->preInstall();
-        if (!$this->checkDependency()) {
-            $message = new Message(
-                $translator->translate('This module requires the module "%s".'), // @translate
-                $this->dependency
-            );
-            throw new ModuleCannotInstallException((string) $message);
-        }
         if (!$this->checkDependencies()) {
-            $message = new Message(
-                $translator->translate('This module requires modules "%s".'), // @translate
-                implode('", "', $this->dependencies)
-            );
+            if (count($this->dependencies) === 1) {
+                $message = new Message(
+                    $translator->translate('This module requires the module "%s".'), // @translate
+                    reset($this->dependencies)
+                );
+            } else {
+                $message = new Message(
+                    $translator->translate('This module requires modules "%s".'), // @translate
+                    implode('", "', $this->dependencies)
+                );
+            }
             throw new ModuleCannotInstallException((string) $message);
         }
         if (!$this->checkAllResourcesToInstall()) {
@@ -674,9 +674,7 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
         // setting currently. So fill them via upgrade in that case or fill the
         // values.
         // TODO Find a way to save empty multi-checkboxes and multi-selects (core fix).
-        $defaultSettings = array_filter($defaultSettings, function ($v) {
-            return !is_array($v);
-        });
+        $defaultSettings = array_filter($defaultSettings, fn ($v) => !is_array($v));
         $missingSettings = array_diff_key($defaultSettings, $currentSettings);
 
         foreach ($missingSettings as $name => $value) {
@@ -715,19 +713,6 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
             $data[$name] = $val;
         }
         return $data;
-    }
-
-    /**
-     * Check if the module has a dependency.
-     *
-     * This method is distinct of checkDependencies() for performance purpose.
-     *
-     * @return bool
-     */
-    protected function checkDependency(): bool
-    {
-        return empty($this->dependency)
-            || $this->isModuleActive($this->dependency);
     }
 
     /**
@@ -872,31 +857,5 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
         $logger = $services->get('Omeka\Logger');
         $logger->warn($message);
         return true;
-    }
-
-    /**
-     * Get each line of a string separately.
-     *
-     * @deprecated Since 3.3.22. Use \Omeka\Form\Element\ArrayTextarea.
-     * @param string $string
-     * @return array
-     */
-    public function stringToList($string): array
-    {
-        return array_filter(array_map('trim', explode("\n", $this->fixEndOfLine($string))), 'strlen');
-    }
-
-    /**
-     * Clean the text area from end of lines.
-     *
-     * This method fixes Windows and Apple copy/paste from a textarea input.
-     *
-     * @deprecated Since 3.3.22. Use \Omeka\Form\Element\ArrayTextarea.
-     * @param string $string
-     * @return string
-     */
-    protected function fixEndOfLine($string): string
-    {
-        return str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], $string);
     }
 }
