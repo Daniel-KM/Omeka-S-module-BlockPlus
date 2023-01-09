@@ -8,9 +8,15 @@
 $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
 $thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
 
-$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;
+
+$options = [];
+if ($siteSetting('exclude_resources_not_in_site')) {
+    $options['siteId'] = $plugins->get('currentSite')()->id();
+}
 ?>
 
 <div class="block item-with-metadata">
@@ -22,27 +28,28 @@ $lang = $filterLocale ? $this->lang() : null;
     <?php $item = $attachment->item(); ?>
     <?php if (empty($item)) continue; ?>
     <div class="resource show">
-    <?php echo $item->displayValues(); ?>
+        <?= $item->displayValues($options) ?>
     <?php $itemSets = $item->itemSets(); ?>
     <?php if (count($itemSets)): ?>
-        <div class="property">
-            <h4><?php echo $translate('Item sets'); ?></h4>
-            <?php foreach ($itemSets as $itemSet): ?>
-            <div class="value"><?php echo $itemSet->link($itemSet->displayTitle(null, $lang)); ?></div>
-            <?php endforeach; ?>
-        </div>
+        <dl class="item-sets">
+            <div class="property">
+                <dt><?= $translate('Item sets') ?></dt>
+                <?php foreach ($itemSets as $itemSet): ?>
+                <dd class="value"><?= $itemSet->link($itemSet->displayTitle(null, $lang)) ?></dd>
+                <?php endforeach; ?>
+            </div>
+        </dl>
     <?php endif; ?>
     <?php $medias = $item->media(); ?>
     <?php if ($medias): ?>
-        <div class="media-list">
-        <?php
-        foreach ($medias as $media):
-            echo $media->linkRaw($thumbnail($media, 'medium', ['title' => $media->displayTitle(null, $lang)]), null, [
-                'class' => 'media resource',
-            ]);
-        endforeach;
-        ?>
-        </div>
+        <dl class="media-list">
+            <div class="property">
+                <dt><?= $translate('Media') ?></dt>
+                <?php foreach ($item->media() as $media): ?>
+                <dd class="value"><?= $media->linkRaw($thumbnail($media, 'medium', ['title' => $media->displayTitle(null, $lang)]), null, ['class' => 'media resource']) ?></dd>
+                <?php endforeach; ?>
+            </div>
+        </dl>
     <?php endif; ?>
     </div>
 <?php endforeach; ?>
