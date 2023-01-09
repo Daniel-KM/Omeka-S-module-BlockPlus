@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-19 00:00+0000\n"
-"PO-Revision-Date: 2022-12-19 00:00+0000\n"
+"POT-Creation-Date: 2023-01-09 00:00+0000\n"
+"PO-Revision-Date: 2023-01-09 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -26,12 +26,12 @@ msgstr "La bibliothèque \"%s\" doit être installée."
 msgid "See module’s installation documentation."
 msgstr "Consulter la documentation d’installation du module."
 
-#: src/Generic/AbstractModule.php:80 src/Generic/AbstractModule.php:774
+#: src/Generic/AbstractModule.php:81 src/Generic/AbstractModule.php:759
 #, php-format
 msgid "This module requires the module \"%s\"."
 msgstr "Ce module requiert le module \"%s\"."
 
-#: src/Generic/AbstractModule.php:87
+#: src/Generic/AbstractModule.php:86
 #, php-format
 msgid "This module requires modules \"%s\"."
 msgstr "Ce module requiert les modules \"%s\"."
@@ -54,12 +54,12 @@ msgid "The module removed tables \"%s\" from a previous broken install."
 msgstr ""
 "Le module a supprimé les tables « %s » depuis une installation échouée."
 
-#: src/Generic/AbstractModule.php:769
+#: src/Generic/AbstractModule.php:754
 #, php-format
 msgid "This module requires the module \"%1$s\", version %2$s or above."
 msgstr "Ce module requiert le module « %1$s », version %2$s ou supérieure."
 
-#: src/Generic/AbstractModule.php:866
+#: src/Generic/AbstractModule.php:851
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
@@ -68,11 +68,11 @@ msgstr ""
 "Le module \"%s\" a été automatiquement désactivé car ses dépendances ne sont "
 "plus disponibles."
 
-#: src/Site/BlockLayout/Block.php:45
+#: src/Site/BlockLayout/Block.php:46
 msgid "A simple block allows to display a partial from the theme."
 msgstr "Un bloc simple pour afficher un gabarit du thème."
 
-#: src/Site/BlockLayout/Block.php:46
+#: src/Site/BlockLayout/Block.php:47
 msgid ""
 "Provided samples are a block to display the config, and a block to display "
 "the tree view from a tsv/csv file."
@@ -102,7 +102,7 @@ msgstr ""
 "La page en cours ou qui se trouve récursivement dans une autre page ne peut "
 "être choisie."
 
-#: src/Site/BlockLayout/PageMetadata.php:60
+#: src/Site/BlockLayout/PageMetadata.php:61
 msgid ""
 "This block doesn’t display anything, but store the type and various metadata "
 "about this page for themes."
@@ -110,7 +110,7 @@ msgstr ""
 "Ce bloc n’affiche rien, mais permet d’enregistrer le type et d’autres "
 "métadonnées sur cette page pour les thèmes."
 
-#: src/Site/BlockLayout/PageMetadata.php:70
+#: src/Site/BlockLayout/PageMetadata.php:71
 msgid "expand"
 msgstr "déplier"
 
@@ -268,6 +268,25 @@ msgid ""
 msgstr ""
 "La sortie du bloc D3 Graph a été modifiée. Il convient de mettre à jour le "
 "thème si le fichier du thème a été modifié."
+
+#: data/scripts/upgrade.php:406
+msgid ""
+"Template \"Asset\": The variable $assets has been replaced by $attachments; "
+"attachment key \"title\" by \"alt_link_title\"; attachment key \"url\" was "
+"removed. Check it if you customized template."
+msgstr ""
+"Bloc \"Fichier\" : la variable $aassets a été remplacée par $attachments ; "
+"la clé \"title\" a été remplacée par \"alt_link_title\"; la clé \"url\" a "
+"été supprimée. Vérifiez si vous avez modifier les fichiers du thème."
+
+#: data/scripts/upgrade.php:412
+#, php-format
+msgid ""
+"The key \"url\" of attachments of block \"Asset\" was removed. The block "
+"template should be updated if you customized it in pages %s."
+msgstr ""
+"La clé \"url\" des fichiers attachés du bloc \"Fichier\" a été supprimée. "
+"Vérifiez le fichier du thème si vous l‘avez personnalisé dans les pages %s."
 
 #: src/Form/SiteSettingsFieldset.php:10 src/Form/SettingsFieldset.php:10
 msgid "Block Plus"
@@ -470,7 +489,7 @@ msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"browse-preview\"."
 
-#: src/Form/Element/AbstractGroupBySiteSelect.php:166
+#: src/Form/Element/AbstractGroupBySiteSelect.php:156
 msgid "[No site]"
 msgstr "[Pas de site]"
 
@@ -508,7 +527,7 @@ msgstr ""
 "Les gabarits sont dans le dossier \"common/block-layout\" du thème et "
 "doivent commencer avec \"search-results\"."
 
-#: src/Form/D3GraphFieldset.php:25 src/Form/PageMetadataFieldset.php:85
+#: src/Form/D3GraphFieldset.php:25 src/Form/PageMetadataFieldset.php:91
 #: src/Form/BlockFieldset.php:24
 msgid "Params"
 msgstr "Paramètres"
@@ -773,41 +792,41 @@ msgstr ""
 msgid "Redirect the current page to this url"
 msgstr "Rediriger la page vers cette url"
 
-#: src/Form/PageMetadataFieldset.php:17
+#: src/Form/PageMetadataFieldset.php:23
 msgid "Set types in the parameters of the site."
 msgstr "Indiquer les types de page dans les paramètres du site."
 
-#: src/Form/PageMetadataFieldset.php:26
+#: src/Form/PageMetadataFieldset.php:32
 msgid "Page type"
 msgstr "Type de page"
 
-#: src/Form/PageMetadataFieldset.php:34
+#: src/Form/PageMetadataFieldset.php:40
 msgid "Select the page type…"
 msgstr "Choisir le type de page…"
 
-#: src/Form/PageMetadataFieldset.php:41
+#: src/Form/PageMetadataFieldset.php:47
 msgid "Credits"
 msgstr "Crédits"
 
-#: src/Form/PageMetadataFieldset.php:63
+#: src/Form/PageMetadataFieldset.php:69
 msgid "Featured"
 msgstr "En vedette"
 
-#: src/Form/PageMetadataFieldset.php:73
+#: src/Form/PageMetadataFieldset.php:79
 msgid "Tags"
 msgstr "Mots-clés"
 
-#: src/Form/PageMetadataFieldset.php:74
+#: src/Form/PageMetadataFieldset.php:80
 msgid "Comma-separated list of keywords"
 msgstr "Liste de mots-clés séparés par des virgules"
 
-#: src/Form/PageMetadataFieldset.php:86
+#: src/Form/PageMetadataFieldset.php:92
 msgid "The params can be fetched as raw text, key/value pairs, or json."
 msgstr ""
 "Les paramètres peuvent être récupérés en tant que texte brut, paires clé/"
 "valeur et json."
 
-#: src/Form/PageMetadataFieldset.php:97
+#: src/Form/PageMetadataFieldset.php:103
 msgid "Cover image"
 msgstr "Vignette de la page"
 
@@ -884,12 +903,12 @@ msgstr ""
 "Un modèle de ressource nommé \"%s\" existe : merci de le renommer ou de le "
 "supprimer avant d'installer ce module."
 
-#: src/Generic/InstallResources.php:305
+#: src/Generic/InstallResources.php:314
 #, php-format
 msgid "The vocabulary \"%s\" was already installed and was kept."
 msgstr "Le vocabulaire \"%s\" a déjà été installé et a été conservé."
 
-#: src/Generic/InstallResources.php:314
+#: src/Generic/InstallResources.php:323
 #, php-format
 msgid ""
 "An error occured when adding the prefix \"%s\": another vocabulary exists "
@@ -899,7 +918,7 @@ msgstr ""
 "vocabulaire existe avec le même préfixe. Merci de résoudre le conflit avant "
 "d'installer ce module."
 
-#: src/Generic/InstallResources.php:326
+#: src/Generic/InstallResources.php:335
 #, php-format
 msgid ""
 "An error occured when adding the prefix \"%s\" and the associated "
@@ -908,7 +927,7 @@ msgstr ""
 "Une erreur est survenue en ajoutant le préfixe \"%s\" et les propriétés "
 "associées : %s"
 
-#: src/Generic/InstallResources.php:406 src/Generic/InstallResources.php:416
+#: src/Generic/InstallResources.php:415 src/Generic/InstallResources.php:425
 #, php-format
 msgid ""
 "An error occured when updating vocabulary \"%s\" and the associated "
@@ -917,13 +936,13 @@ msgstr ""
 "Une erreur est survenue lors de la mise à jour du vocabulaire \"%s\" et des "
 "propriétés associées : %s"
 
-#: src/Generic/InstallResources.php:510
+#: src/Generic/InstallResources.php:519
 #, php-format
 msgid "The following \"%1$s\" of the vocabulary \"%2$s\" were replaced: %3$s"
 msgstr ""
 "Les \"%1$s\" suivantes du vocabulaire \"%2$s\" ont été remplacées : %3$s"
 
-#: src/Generic/InstallResources.php:519
+#: src/Generic/InstallResources.php:528
 msgid ""
 "Resources, values and templates were updated, but you may check settings "
 "where the old ones were used."
@@ -931,36 +950,36 @@ msgstr ""
 "Les ressources, valeurs et modèles ont été mis à jour, mais vous pouvez "
 "vérifier les paramètres où les anciennes valeurs étaient utilisées."
 
-#: src/Generic/InstallResources.php:545
+#: src/Generic/InstallResources.php:554
 #, php-format
 msgid "The resource template named \"%s\" is already available and is skipped."
 msgstr ""
 "Le modèle de ressource nommé \"%s\" est déjà disponible et a été conservé."
 
-#: src/Generic/InstallResources.php:817
+#: src/Generic/InstallResources.php:822
 #, php-format
 msgid "The custom vocab named \"%s\" is not available."
 msgstr "Le vocabulaire personnalisé nommé \"%s\" n'est pas disponible."
 
-#: src/Generic/InstallResources.php:945
+#: src/Generic/InstallResources.php:968
 msgid "No file or url set for the vocabulary."
 msgstr "Pas de fichier ou d’url pour le vocabulaire."
 
-#: src/Generic/InstallResources.php:955
+#: src/Generic/InstallResources.php:978
 #, php-format
 msgid "The file \"%s\" cannot be read. Check the url."
 msgstr ""
 "Le fichier \"%s\" ne peut pas être lu. Merci de vérifier le système de "
 "fichiers ou l’url."
 
-#: src/Generic/InstallResources.php:965
+#: src/Generic/InstallResources.php:988
 #, php-format
 msgid "The file \"%s\" cannot be read. Check the file."
 msgstr ""
 "Le fichier \"%s\" ne peut pas être lu. Merci de vérifier le système de "
 "fichiers."
 
-#: src/Generic/InstallResources.php:986
+#: src/Generic/InstallResources.php:1009
 msgid "A vocabulary must have a namespace uri and a prefix."
 msgstr "Un vocabulaire doit avoir une uri pour l’espace de nom et un préfixe."
 
@@ -972,11 +991,11 @@ msgstr "Vitrine"
 msgid "Search form"
 msgstr "Champ de recherche"
 
-#: src/Site/BlockLayout/PageMetadata.php:16
+#: src/Site/BlockLayout/PageMetadata.php:17
 msgid "Page metadata"
 msgstr "Métadonnées de la page"
 
-#: src/Site/BlockLayout/ResourceText.php:43
+#: src/Site/BlockLayout/ResourceText.php:44
 msgid "Resource with text"
 msgstr "Ressource avec texte"
 
@@ -984,7 +1003,7 @@ msgstr "Ressource avec texte"
 msgid "Redirect to url"
 msgstr "Rediriger vers l’url"
 
-#: src/Site/BlockLayout/TableOfContents.php:74
+#: src/Site/BlockLayout/TableOfContents.php:75
 #, php-format
 msgid ""
 "Cannot index and/or render a table of contents block in a mirror page for "
@@ -1034,11 +1053,11 @@ msgstr "Champ de recherche et résultats"
 msgid "Page date"
 msgstr "Date de la page"
 
-#: src/Site/BlockLayout/Block.php:19
+#: src/Site/BlockLayout/Block.php:20
 msgid "Simple Block"
 msgstr "Bloc simple"
 
-#: src/Site/BlockLayout/TreeStructure.php:19
+#: src/Site/BlockLayout/TreeStructure.php:20
 msgid "Tree structure of resources"
 msgstr "Arborescence de ressources"
 
@@ -1102,16 +1121,16 @@ msgstr ""
 "Le block Twitter pour la page \"%s\" dans le site \"%s\" n’a pas de compte "
 "défini."
 
-#: src/Site/BlockLayout/Twitter.php:294 src/Site/BlockLayout/Twitter.php:436
+#: src/Site/BlockLayout/Twitter.php:295 src/Site/BlockLayout/Twitter.php:437
 msgid "Error for block Twitter: No response."
 msgstr "Erreur pour le block Twitter : pas de réponse."
 
-#: src/Site/BlockLayout/Twitter.php:301
+#: src/Site/BlockLayout/Twitter.php:302
 #, php-format
 msgid "Error for block Twitter: %s. Check token."
 msgstr "Erreur pour le block Twitter : %s. Merci de vérifier le jeton."
 
-#: src/Site/BlockLayout/Twitter.php:443
+#: src/Site/BlockLayout/Twitter.php:444
 #, php-format
 msgid "Error for block Twitter: %s. Check token or use api v1."
 msgstr ""
@@ -1151,39 +1170,39 @@ msgstr "Le dernier bloc de division doit être de type \"fin\"."
 msgid "Some divisions have no end."
 msgstr "Certaines divisions n’ont pas de fin."
 
-#: src/Site/BlockLayout/ItemSetShowcase.php:19
+#: src/Site/BlockLayout/ItemSetShowcase.php:20
 msgid "Item set showcase"
 msgstr "Vitrine de collections"
 
-#: src/Site/BlockLayout/ExternalContent.php:65
+#: src/Site/BlockLayout/ExternalContent.php:66
 msgid "External content"
 msgstr "Contenu externe"
 
-#: src/Site/BlockLayout/ExternalContent.php:94
+#: src/Site/BlockLayout/ExternalContent.php:95
 msgid "Invalid OEmbed URL"
 msgstr "Url oEmbed invalide"
 
-#: src/Site/BlockLayout/ExternalContent.php:100
+#: src/Site/BlockLayout/ExternalContent.php:101
 msgid "OEmbed URL"
 msgstr "Url oEmbed"
 
-#: src/Site/BlockLayout/ExternalContent.php:102
+#: src/Site/BlockLayout/ExternalContent.php:103
 msgid "OEmbed URL unavailable"
 msgstr "Url oEmbed indisponible"
 
-#: src/Site/BlockLayout/ExternalContent.php:110
+#: src/Site/BlockLayout/ExternalContent.php:111
 msgid "No OEmbed links were found at the given URI"
 msgstr "Aucun lien oEmbed n’a été trouvé dans l’uri indiquée"
 
-#: src/Site/BlockLayout/ExternalContent.php:116
+#: src/Site/BlockLayout/ExternalContent.php:117
 msgid "OEmbed link URL"
 msgstr "Lien url oEmbed"
 
-#: src/Site/BlockLayout/ExternalContent.php:118
+#: src/Site/BlockLayout/ExternalContent.php:119
 msgid "OEmbed link URL unavailable"
 msgstr "L’url du lien oEmbed est indisponible"
 
-#: src/Site/BlockLayout/ExternalContent.php:124
+#: src/Site/BlockLayout/ExternalContent.php:125
 msgid "Error decoding OEmbed JSON"
 msgstr "Erreur lors du décodage du json oEmbed"
 
@@ -1197,31 +1216,31 @@ msgstr "Spécification \"%s\" invalide"
 msgid "Error reading %s: %s (%s)"
 msgstr "Erreur lors de la lecture %s: %s (%s)"
 
-#: src/Site/BlockLayout/Separator.php:16
+#: src/Site/BlockLayout/Separator.php:17
 msgid "Separator"
 msgstr "Séparateur"
 
-#: config/module.config.php:126
+#: config/module.config.php:116
 msgid "Url (deprecated)"
 msgstr "Url (obsolète)"
 
-#: config/module.config.php:127
+#: config/module.config.php:117
 msgid "Insert Footnotes"
 msgstr "Insérer des pieds de page"
 
-#: config/module.config.php:137
+#: config/module.config.php:127
 msgid "Exhibit"
 msgstr "Exposition"
 
-#: config/module.config.php:138
+#: config/module.config.php:128
 msgid "Exhibit page"
 msgstr "Page d’exposition"
 
-#: config/module.config.php:139
+#: config/module.config.php:129
 msgid "Simple page"
 msgstr "Simple page"
 
-#: config/module.config.php:219
+#: config/module.config.php:209
 msgid "Know more"
 msgstr "En savoir plus"
 
