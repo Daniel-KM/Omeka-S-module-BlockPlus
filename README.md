@@ -344,6 +344,7 @@ TODO
 - [ ] Integrate sidebar forms for block Showcase
 - [ ] Auto-create asset when image is uploaded in a Html field.
 - [ ] Update site of mirror page to get good url for $resource->siteUrl().
+- [ ] Merge PageDate with upstream PageDateTime.
 
 
 Warning
