@@ -33,56 +33,57 @@ $langValue = $filterLocale ? [$this->lang(), ''] : null;
 
 <div class="block preview-block">
 
-<?php if (!empty($heading)): ?>
-<h2><?= $escape($heading) ?></h2>
-<?php endif; ?>
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
 
-<?php if (!empty($sortHeadings)): ?>
-<div class="browse-controls">
-    <?= $this->sortSelector($sortHeadings) ?>
-</div>
-<?php endif; ?>
+    <?php if (!empty($sortHeadings)): ?>
+    <div class="browse-controls">
+        <?= $this->sortSelector($sortHeadings) ?>
+    </div>
+    <?php endif; ?>
 
-<ul class="resource-list preview">
-<?php
-foreach ($resources as $resource):
-    if ($showHeading) {
-        $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
-        $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
-    } else {
-        $heading = '';
-    }
-    if ($showBody) {
-        $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
-        $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
-    } else {
-        $body = '';
-    }
+    <ul class="resource-list preview">
+    <?php
+    foreach ($resources as $resource):
+        if ($showHeading) {
+            $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
+            $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
+        } else {
+            $heading = '';
+        }
+        if ($showBody) {
+            $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
+            $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
+        } else {
+            $body = '';
+        }
+        $thumb = $showThumbnail ? $thumbnail($resource, 'medium', ['title' => $heading]) : null;
+        ?>
+        <li class="<?= $resourceType ?> resource">
+            <?php if ($thumb): ?>
+            <?= $resource->linkRaw($thumb) ?>
+            <?php endif; ?>
+            <?php if ($showHeading && $heading): ?>
+            <h4><?= $resource->linkRaw($heading) ?></h4>
+            <?php endif; ?>
+            <?php if ($showBody && $body): ?>
+            <div class="description"><?= $body ?></div>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+
+    <?php
+    if (!empty($pagination)):
+        echo $this->pagination();
+    endif;
     ?>
-    <li class="<?= $resourceType ?> resource">
-        <?php if ($showThumbnail): ?>
-        <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
-        <?php endif; ?>
-        <?php if ($showHeading && $heading): ?>
-        <h4><?= $resource->linkRaw($heading) ?></h4>
-        <?php endif; ?>
-        <?php if ($showBody && $body): ?>
-        <div class="description"><?= $body ?></div>
-        <?php endif; ?>
-    </li>
-<?php endforeach; ?>
-</ul>
 
-<?php
-if (!empty($pagination)):
-    echo $this->pagination();
-endif;
-?>
-
-<?php if ($linkText): ?>
-    <?= $this->hyperlink($linkText, $this->url(
-        'site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $site->slug()], ['query' => $query], true
-    )) ?>
-<?php endif; ?>
+    <?php if ($linkText): ?>
+        <?= $this->hyperlink($linkText, $this->url(
+            'site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $site->slug()], ['query' => $query], true
+        )) ?>
+    <?php endif; ?>
 
 </div>

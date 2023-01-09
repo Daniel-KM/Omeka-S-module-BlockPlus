@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Site\BlockLayout;
 
 use Laminas\View\Renderer\PhpRenderer;
@@ -9,6 +10,9 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 
+/**
+ * @see \Omeka\Site\BlockLayout\BrowsePreview
+ */
 class BrowsePreview extends AbstractBlockLayout
 {
     /**
@@ -71,11 +75,11 @@ class BrowsePreview extends AbstractBlockLayout
     {
         // Similar to SearchResults::render().
 
-        $resourceType = $block->dataValue('resource_type', 'items');
+        $data = $block->data();
+        $resourceType = $data['resource_type'] ?? 'items';
 
-        // The trim is kept for compatibility with old core blocks.
         $query = [];
-        parse_str(ltrim((string) $block->dataValue('query'), "? \t\n\r\0\x0B"), $query);
+        parse_str($data['query'] ?? '', $query);
         $originalQuery = $query;
 
         $site = $block->page()->site();
@@ -88,9 +92,10 @@ class BrowsePreview extends AbstractBlockLayout
             $query['site_id'] = $site->id();
         }
 
-        $limit = $block->dataValue('limit', 12);
-        $pagination = $limit && $block->dataValue('pagination');
-        if ($pagination) {
+        $pagination = null;
+        $limit = $data['limit'] ?? 12;
+        $usePagination = $limit && !empty($data['pagination']) ;
+        if ($usePagination) {
             $currentPage = $view->params()->fromQuery('page', 1);
             $query['page'] = $currentPage;
             $query['per_page'] = $limit;
@@ -113,18 +118,16 @@ class BrowsePreview extends AbstractBlockLayout
         }
 
         //Show all resource components if none set
-        if (empty($block->dataValue('components'))) {
-            $components = ['resource-heading', 'resource-body', 'thumbnail'];
-        } else {
-            $components = $block->dataValue('components');
-        }
+        $components = empty($data['components'])
+            ? ['resource-heading', 'resource-body', 'thumbnail']
+            : $data['components'];
 
         /** @var \Omeka\Api\Response $response */
         $api = $view->api();
         $response = $api->search($resourceType, $query);
 
         // TODO Currently, there can be only one pagination by page.
-        if ($pagination) {
+        if ($usePagination) {
             $totalCount = $response->getTotalResults();
             $pagination = [
                 'total_count' => $totalCount,
@@ -135,7 +138,7 @@ class BrowsePreview extends AbstractBlockLayout
         }
 
         /** @var \Omeka\Api\Representation\ResourceTemplateRepresentation $resourceTemplate */
-        $resourceTemplate = $block->dataValue('resource_template');
+        $resourceTemplate = $data['resource_template'] ?? null;
         if ($resourceTemplate) {
             try {
                 $resourceTemplate = $api->read('resource_templates', $resourceTemplate)->getContent();
@@ -143,7 +146,7 @@ class BrowsePreview extends AbstractBlockLayout
             }
         }
 
-        $sortHeadings = $block->dataValue('sort_headings', []);
+        $sortHeadings = $data['sort_headings'] ?? [];
         if ($sortHeadings) {
             $translate = $view->plugin('translate');
             foreach ($sortHeadings as $key => $sortHeading) {
@@ -188,20 +191,21 @@ class BrowsePreview extends AbstractBlockLayout
         ];
 
         // There is no list of media in public views.
-        $linkText = $resourceType === 'media' ? '' : $block->dataValue('link-text');
+        $linkText = $resourceType === 'media' ? '' : ($data['link-text'] ?? '');
 
         $vars = [
             'site' => $site,
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
-            'heading' => $block->dataValue('heading'),
+            'heading' => $data['heading'],
             'linkText' => $linkText,
             'components' => $components,
             'query' => $originalQuery,
             'pagination' => $pagination,
             'sortHeadings' => $sortHeadings,
         ];
-        $template = $block->dataValue('template', self::PARTIAL_NAME);
+
+        $template = $data['template'] ?? self::PARTIAL_NAME;
         return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)
             : $view->partial(self::PARTIAL_NAME, $vars);
