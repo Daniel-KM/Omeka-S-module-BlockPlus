@@ -12,7 +12,7 @@ class OptionalRadio extends Radio
      * {@inheritDoc}
      * @see \Laminas\Form\Element\Select::getInputSpecification()
      */
-    public function getInputSpecification()
+    public function getInputSpecification(): array
     {
         $inputSpecification = parent::getInputSpecification();
         $inputSpecification['required'] = isset($this->attributes['required'])
