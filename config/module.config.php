@@ -18,10 +18,6 @@ return [
             'pagesMetadata' => View\Helper\PagesMetadata::class,
             'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
         ],
-        'factories' => [
-            // Used in AdvancedResourceTemplate, AdvancedSearch and BlockPlus.
-            'assetUrl' => Service\ViewHelper\AssetUrlFactory::class,
-        ],
         'delegators' => [
             'Laminas\Form\View\Helper\FormElement' => [
                 Service\Delegator\FormElementDelegatorFactory::class,
@@ -113,12 +109,6 @@ return [
                 'pattern' => '%s.mo',
                 'text_domain' => null,
             ],
-        ],
-    ],
-    'assets' => [
-        // Override internals assets. Only for Omeka assets: modules can use another filename.
-        'internals' => [
-            'js/site-page-edit.js' => 'BlockPlus',
         ],
     ],
     'js_translate_strings' => [
