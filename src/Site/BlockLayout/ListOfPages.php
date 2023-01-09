@@ -47,7 +47,7 @@ class ListOfPages extends \Omeka\Site\BlockLayout\ListOfPages
         // The button is after the page list according to the js (list-of-pages-block-layout).
         $html = <<<'HTML'
 <div class="block-pagelist-tree" data-jstree-data="%s"></div>
-<button type="button" class="site-page-add" data-sidebar-content-url="%s">%s</button>
+<button type="button" class="site-page-add">%s</button>
 <div class="inputs">%s</div>
 
 HTML;
@@ -57,7 +57,6 @@ HTML;
             '%s' . $html . '%s',
             $formRow($fieldset->get('o:block[__blockIndex__][o:data][heading]')),
             $escape($data['pagelist']),
-            $escape($page->url('sidebar-pagelist')),
             $view->translate('Add pages'),
             $formRow($fieldset->get('o:block[__blockIndex__][o:data][pagelist]')),
             $formRow($fieldset->get('o:block[__blockIndex__][o:data][template]'))
