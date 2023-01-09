@@ -24,7 +24,19 @@
         height: 288px;
         max-height: initial;
     }
+
+    .asset-form-element .selected-asset {
+      display: block;
+      align-items: center;
+      max-width: 100%;
+      min-width: 0;
+    }
+    .asset-form-element .selected-asset img {
+        max-height: 36px;
+        max-width: 36px;
+    }
 }
+
 @media screen and (max-width:640px) {
     section header {
         width: initial;
