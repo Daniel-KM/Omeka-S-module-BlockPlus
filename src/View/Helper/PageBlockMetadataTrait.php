@@ -228,7 +228,7 @@ trait PageBlockMetadataTrait
                 $params = array_filter(array_map('trim', explode("\n", trim($block->dataValue('params', '')))), 'strlen');
                 $list = [];
                 foreach ($params as $keyValue) {
-                    list($key, $value) = strpos($keyValue, '=') === false
+                    [$key, $value] = strpos($keyValue, '=') === false
                         ? [$keyValue, null]
                         : array_map('trim', explode('=', $keyValue, 2));
                     if ($key !== '') {
@@ -385,9 +385,7 @@ trait PageBlockMetadataTrait
                         'siblings' => $siblings,
                         'children' => empty($navItem['links'])
                             ? []
-                            : array_values(array_filter(array_map(function ($v) {
-                                return $v['type'] === 'page' ? $v['data']['id'] : null;
-                            }, $navItem['links']))),
+                            : array_values(array_filter(array_map(fn ($v) => $v['type'] === 'page' ? $v['data']['id'] : null, $navItem['links']))),
                     ];
                 }
 

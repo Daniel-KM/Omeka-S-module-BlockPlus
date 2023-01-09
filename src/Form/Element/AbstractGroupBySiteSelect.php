@@ -4,8 +4,8 @@ namespace BlockPlus\Form\Element;
 
 use Laminas\Form\Element\Select;
 use Omeka\Api\Manager as ApiManager;
-use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
+use Omeka\Api\Representation\SiteRepresentation;
 
 /**
  * @see \Omeka\Form\Element\AbstractGroupByOwnerSelect

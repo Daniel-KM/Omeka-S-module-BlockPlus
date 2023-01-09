@@ -36,7 +36,7 @@ class Links extends AbstractBlockLayout
                 if (strpos($keyValue, '=') === false) {
                     $links[trim($keyValue)] = '';
                 } else {
-                    list($key, $value) = array_map('trim', explode('=', $keyValue, 2));
+                    [$key, $value] = array_map('trim', explode('=', $keyValue, 2));
                     $links[$key] = $value;
                 }
             }
