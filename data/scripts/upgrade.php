@@ -266,3 +266,153 @@ if (version_compare($oldVersion, '3.3.15.5', '<')) {
     );
     $messenger->addWarning($message);
 }
+
+if (version_compare($oldVersion, '3.4.15.7', '<')) {
+    // Remove "url" from old block plus version of asset, previously replaced by upstream version.
+    /** @var \Omeka\View\Helper\Hyperlink $hyperlink */
+    $hyperlink = $services->get('ViewHelperManager')->get('hyperlink');
+    $qb = $connection->createQueryBuilder();
+    $qb
+        ->select(
+            'id',
+            'data',
+            'page_id',
+        )
+        ->from('site_page_block', 'site_page_block')
+        ->orderBy('site_page_block.id', 'asc')
+        ->where('site_page_block.layout = "asset"')
+    ;
+    $pages = [];
+    $blocks = $connection->executeQuery($qb)->fetchAllAssociativeIndexed();
+    foreach ($blocks as $id => $block) {
+        $blockData = json_decode($block['data'], true);
+        $matches = [];
+        $attachments = $blockData['attachments'] ?? [];
+        // Don't update block if attachments are standard ones.
+        if (!$attachments) {
+            continue;
+        }
+        $blockData['attachments'] = [];
+        foreach ($attachments as $attachment) {
+            $newAttachment = [];
+            $newAttachment['id'] = $attachment['id'] ?? $attachment['asset'] ?? null;
+            $newAttachment['page'] = $attachments['page'] ?? null;
+            $newAttachment['caption'] = $attachment['caption'] ?? '';
+            $newAttachment['alt_link_title'] = isset($newAttachment['alt_link_title']) && $newAttachment['alt_link_title'] !== ''
+                ? $newAttachment['title'] ?? ''
+                : '';
+            $newAttachment['class'] = $attachment['class'] ?? '';
+            // Keep the url as page if possible, else as class, managed by
+            // special block.
+            $hasClassUrl = false;
+            if (!empty($attachment['url'])) {
+                // Absolute url = external url in most of cases.
+                // Require manual check.
+                if (filter_var($attachment['url'], FILTER_VALIDATE_URL) || $newAttachment['page']) {
+                    $newAttachment['class'] = trim($newAttachment['class'] . ' ' . $attachment['url']);
+                    $hasClassUrl = true;
+                }
+                // Relative url: check the page if none.
+                else {
+                    preg_match('~/s/(?<site>[\w_-]+)/page/(?<page>[\w_-]+)~', $attachment['url'], $matches);
+                    if ($matches['page']) {
+                        try {
+                            /** @var \Omeka\Api\Representation\SitePageRepresentation $page */
+                            $site = $api->read('sites', ['slug' => $matches['site']])->getContent();
+                            $page = $api->read('site_pages', ['site' => $site->id(), 'slug' => $matches['page']])->getContent();
+                            $newAttachment['page'] = $page->id();
+                        } catch (\Omeka\Api\Exception\NotFoundException $e) {
+                            $newAttachment['class'] = trim($newAttachment['class'] . ' ' . $attachment['url']);
+                            $hasClassUrl = true;
+                        }
+                    }
+                }
+            }
+            if ($hasClassUrl) {
+                $blockData['template'] = empty($blockData['template']) || $blockData['template'] === 'common/block-layout/asset'
+                    ? 'common/block-layout/asset-class-url'
+                    : $blockData['template'];
+            }
+            $blockData['attachments'][] = $newAttachment;
+            $pageId = (int) $block['page_id'];
+            if (!isset($pages[$pageId])) {
+                try {
+                    /** @var \Omeka\Api\Representation\SitePageRepresentation $page */
+                    $page = $api->read('site_pages', ['id' => $pageId])->getContent();
+                    $pages[$pageId] = $hyperlink->raw($page->title(), $page->siteUrl());
+                } catch (\Omeka\Api\Exception\NotFoundException $e) {
+                }
+            }
+        }
+        // The upstream version stores attachment in root.
+        foreach ($blockData['attachments'] as $attachment) {
+            $blockData[] = $attachment;
+        }
+        $blockData['heading'] ??= '';
+        $blockData['template'] = empty($blockData['template'])
+            ? 'common/block-layout/asset-block'
+            : $blockData['template'];
+        $blockData['className'] = '';
+        $blockData['alignment'] ??= 'default';
+        unset($blockData['assets']);
+        // Keep standard format for compatibility.
+        foreach ($blockData as $key => $value) {
+            if (is_array($value) && array_key_exists('id', $value)) {
+                unset($blockData[$key]);
+            }
+        }
+        foreach ($blockData['attachments'] as $attachment) {
+            $blockData[] = $attachment;
+        }
+        $quotedBlock = $connection->quote(json_encode($blockData));
+        $sql = <<<SQL
+UPDATE `site_page_block`
+SET
+    `data` = $quotedBlock
+WHERE `id` = $id;
+SQL;
+        $connection->executeStatement($sql);
+    }
+
+    // Fix query with "?" for old core blocks.
+    $qb
+        ->select(
+            'id',
+            'data',
+            'page_id',
+        )
+        ->from('site_page_block', 'site_page_block')
+        ->orderBy('site_page_block.id', 'asc')
+        ->where('site_page_block.layout = "browsePreview"')
+    ;
+    $pages = [];
+    $blocks = $connection->executeQuery($qb)->fetchAllAssociativeIndexed();
+    foreach ($blocks as $id => $block) {
+        $blockData = json_decode($block['data'], true);
+        $query = [];
+        parse_str(ltrim($blockData['query'] ?? '', "? \t\n\r\0\x0B"), $query);
+        $blockData['query'] = http_build_query($query, '', '&', PHP_QUERY_RFC3986);
+        $quotedBlock = $connection->quote(json_encode($blockData));
+        $sql = <<<SQL
+UPDATE `site_page_block`
+SET
+    `data` = $quotedBlock
+WHERE `id` = $id;
+SQL;
+        $connection->executeStatement($sql);
+    }
+
+    $message = new Message(
+        'Template "Asset": The variable $assets has been replaced by $attachments; attachment key "title" by "alt_link_title"; attachment key "url" was removed. Check it if you customized template.' // @translate
+    );
+    $messenger->addWarning($message);
+
+    if ($pages) {
+        $message = new Message(
+            'The key "url" of attachments of block "Asset" was removed. The block template should be updated if you customized it in pages %s.', // @translate
+            '<ul><li>' . implode('</li><li>', $pages) . '</li></ul>'
+        );
+        $message->setEscapeHtml(false);
+        $messenger->addWarning($message);
+    }
+}
