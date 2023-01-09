@@ -29,7 +29,7 @@ class PageMetadataFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'page-metadata-type',
-                    'required' => true,
+                    'required' => false,
                     'class' => 'chosen-select',
                     'data-placeholder' => 'Select the page type…', // @translate
                 ],

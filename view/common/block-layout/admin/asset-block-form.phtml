@@ -49,11 +49,10 @@ $attachmentRowTemplate = <<<HTML
     <input type="hidden" class="asset-option alternative-link-title" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]" %s value="%s"/>
     <input type="hidden" class="asset-option asset-caption" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]" %s value="%s"/>
     <input type="hidden" class="asset-option asset-class" name="o:block[__blockIndex__][o:data][__attachmentIndex__][class]" %s value="%s"/>
-    <input type="hidden" class="asset-option asset-url" name="o:block[__blockIndex__][o:data][__attachmentIndex__][url]" %s value="%s"/>
 </div>
 HTML;
 
-$strings['attachmentRowTemplateDefault'] = sprintf($attachmentRowTemplate, ' new', '', '', '', '', 'disabled', '', 'disabled', '', 'disabled', '', 'disabled', '', 'disabled', '', 'disabled', '');
+$strings['attachmentRowTemplateDefault'] = sprintf($attachmentRowTemplate, ' new', '', '', '', '', 'disabled', '', 'disabled', '', 'disabled', '', 'disabled', '', 'disabled', '');
 ?>
 
 <style>
@@ -83,8 +82,6 @@ $strings['attachmentRowTemplateDefault'] = sprintf($attachmentRowTemplate, ' new
                 // Managed via js.
                 '',
                 empty($attachment['class']) ? '' : $escape($attachment['class']),
-                '',
-                empty($attachment['url']) ? '' : $escape($attachment['url'])
             ) . PHP_EOL;
         endforeach;
         endif; ?>

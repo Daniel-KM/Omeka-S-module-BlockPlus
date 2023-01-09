@@ -1,35 +1,65 @@
 (function ($) {
 
-    $(document).ready(function () {
-
-        // Manage fields "class" and "url" (deprecated) for block Asset.
+        // Manage supplementary field "class" for block Asset.
         // Other blocks that use the helper don't need these fields.
         // See application/view/common/asset-options.phtml.
-        // TODO Check validity with timeline.
-        // FIXME First load of the block.
+        // See application/asset/js/site-page-edit.js.
+
         const blockAsset = `
 <div class="attachment-class">
     <h3 id="attachment-class-label">${Omeka.jsTranslate('Class')}</h3>
     <input type="text" name="asset-class" aria-labelledby="attachment-class-label" class="asset-option"/>
 </div>
-<div class="attachment-url">
-    <h3 id="attachment-url-label">${Omeka.jsTranslate('Url (deprecated)')}</h3>
-    <input type="text" name="asset-url" aria-labelledby="attachment-url-label" class="asset-option"/>
-</div>
 `;
-        $('#asset-options .sidebar-content').append(blockAsset);
 
-        // $('#asset-options .sidebar-content .description texarea').addClass('block-html full wysiwyg');
+    // Config copied from application/asset/js/site-page-edit.js for the sidebar asset.
+    function wysiwyg(context) {
+        var config = {
+            toolbar:
+            [
+                ['Sourcedialog', 'Bold', 'Italic', 'Underline', 'Link', 'Unlink', 'PasteFromWord'],
+            ],
+            height: '96px'
+        };
 
-        $(document).on('o:sidebar-opened', '.sidebar', function () {
-            $('#asset-options .sidebar-content').find('.attachment-class, .attachment-url').show();
-            // TODO Ckeditor for assets.
-            // window.CKEDITOR.replace($('#asset-options .sidebar-content').find('.description textarea'));
+        context.find('.wysiwyg').each(function () {
+            var editor = null;
+            if ($(this).is('.caption')) {
+                editor = CKEDITOR.inline(this, config)
+            } else {
+                editor = CKEDITOR.inline(this);
+            }
+            $(this).data('ckeditorInstance', editor);
+        })
+    }
+
+    function updateSidebarAssetForm() {
+        const sidebarContent = $('#asset-options .sidebar-content');
+        if (!sidebarContent.find('.attachment-class').length) {
+            sidebarContent.append(blockAsset);
+            const sidebarCaption = sidebarContent.find('.description textarea');
+            sidebarCaption.addClass('caption wysiwyg');
+            if (sidebarCaption.ckeditor().editor) {
+                sidebarCaption.ckeditor().editor.destroy();
+            }
+            wysiwyg(sidebarCaption.parent());
+        }
+    }
+
+    $(document).ready(function () {
+
+        $(document).on('o:sidebar-content-loaded', updateSidebarAssetForm);
+
+        $(document).on('click', '.block[data-block-layout="asset"] .asset-options-configure', function() {
+            updateSidebarAssetForm();
+            const sidebarContent = $('#asset-options .sidebar-content');
+            const  selectingAttachment = $(this).closest('.attachment');
+            sidebarContent.find('.attachment-class [name="asset-class"]').val(selectingAttachment.find('.asset-class').val());
         });
 
-        // See js/site-page-edit.js.
-        $(document).on('o:sidebar-closed', '.sidebar', function () {
-            $('#asset-options .sidebar-content').find('.attachment-class, .attachment-url').hide();
+        $(document).on('o:sidebar-opened', '.sidebar', function () {
+            updateSidebarAssetForm();
+            $('#asset-options .sidebar-content').find('.attachment-class').show();
         });
 
         // Fix issue with radios.

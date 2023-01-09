@@ -7,11 +7,18 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
-use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\HtmlPurifier;
 
-class Asset extends AbstractBlockLayout
+/**
+ * Differences with upstream:
+ *
+ * - site page link not limited to site.
+ * - html for caption
+ * - class for caption
+ * - and standard blockplus improvments: default settings, block title and template.
+ */
+class Asset extends \Omeka\Site\BlockLayout\Asset
 {
     use CommonTrait;
 
@@ -31,11 +38,6 @@ class Asset extends AbstractBlockLayout
         $this->htmlPurifier = $htmlPurifier;
     }
 
-    public function getLabel()
-    {
-        return 'Asset'; // @translate
-    }
-
     public function prepareForm(PhpRenderer $view): void
     {
         $assetUrl = $view->plugin('assetUrl');
@@ -50,28 +52,28 @@ class Asset extends AbstractBlockLayout
     {
         $data = $block->getData();
 
-        // Normalize values and purify html.
+        // Normalize values with a key for attachments and purify html.
         $defaultAttachment = [
             'id' => '',
             'page' => '',
             'alt_link_title' => '',
             'caption' => '',
             'class' => '',
-            'url' => '',
         ];
         $data['attachments'] = [];
         foreach ($data as &$dataValue) {
             if (is_array($dataValue) && array_key_exists('id', $dataValue)) {
                 $dataValue = array_intersect_key($dataValue, $defaultAttachment) + $defaultAttachment;
                 $dataValue = array_map('trim', array_map('strval', $dataValue));
+                $dataValue['id'] = (int) $dataValue['id'];
                 if ($dataValue['caption']) {
                     $dataValue['caption'] = $this->fixEndOfLine($this->htmlPurifier->purify($dataValue['caption']));
                 }
                 // Stricter than w3c standard.
                 $dataValue['class'] = preg_replace('/[^A-Za-z0-9_ -]/', '', $dataValue['class']);
                 // To be compatible with upstream storage and default templates,
-                // assets are stored on root too. They are skipped in old
-                // specific templates.
+                // in particular during upgrade or uninstall, assets are kept
+                // stored on root too.
                 $data['attachments'][] = $dataValue;
             }
         }
@@ -109,10 +111,12 @@ class Asset extends AbstractBlockLayout
         // @todo Use a standard Laminas form. See previous version.
         return $view->partial('common/block-layout/admin/asset-block-form', [
             'fieldset' => $fieldset,
-            'block' => $dataForm,
+            'blockData' => $dataForm,
+            // Like upstream.
+            'block' => $data,
             'siteId' => $site->id(),
             'apiUrl' => $site->apiUrl(),
-            'attachments' => $this->prepareAssetAttachments($view, $dataForm),
+            'attachments' => $this->prepareAssetAttachments($view, $data, $site),
             'alignmentClassSelect' => $fieldset->get('o:block[__blockIndex__][o:data][alignment]'),
         ]);
     }
@@ -121,61 +125,60 @@ class Asset extends AbstractBlockLayout
     {
         $data = $block->data();
 
-        $data['attachments'] = $this->prepareAssetAttachments($view, $data ?: []);
+        $data['attachments'] = $this->prepareAssetAttachments($view, $data, $view->site);
 
-        // For compatibility with old themees templates, key "assets" is kept.
         $vars = $data;
-        $vars['assets'] = $data['attachments'];
+        $template = $vars['template'] ?: self::PARTIAL_NAME;
         unset($vars['template']);
 
-        $template = $block->dataValue('template', self::PARTIAL_NAME);
         return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)
             : $view->partial(self::PARTIAL_NAME, $vars);
     }
 
-    public function prepareAssetAttachments(PhpRenderer $view, array $data): array
+    public function prepareAssetAttachments(PhpRenderer $view, $blockData, SiteRepresentation $site)
     {
-        if (empty($data)) {
+        if (empty($blockData)) {
             return [];
         }
 
         $api = $view->api();
 
         // Check if data are upstream one (without key "attachments").
-        if (!array_key_exists('attachments', $data)) {
-            $data['attachments'] = [];
-            foreach ($data as $value) {
-                if (is_array($value) && isset($value['id'])) {
-                    $data['attachments'][] = $value;
+        // Unconverted attachments are raw strings, not purified html.
+        if (!array_key_exists('attachments', $blockData)) {
+            $blockData['attachments'] = [];
+            foreach ($blockData as $key => $value) {
+                if (is_numeric($key) && is_array($value) && isset($value['id'])) {
+                    $value['raw'] = true;
+                    $blockData['attachments'][$key] = $value;
                 }
             }
         }
 
         // In new upstream version, the asset is not required, neither any data.
-        // In upstream version, exception are not caught.
-        foreach ($data['attachments'] as &$assetData) {
+        foreach ($blockData['attachments'] as &$assetData) {
             $assetData['asset'] = null;
             if (!empty($assetData['id'])) {
                 try {
                     $assetData['asset'] = $api->read('assets', $assetData['id'])->getContent();
                 } catch (\Omeka\Api\Exception\NotFoundException $e) {
-                    // Skip.
+                    $assetData['asset'] = null;
                 }
+            } else {
+                $assetData['asset'] = null;
             }
             unset($assetData['id']);
             try {
                 $assetData['page'] = empty($assetData['page'])
                     ? null
-                    : $api->read('site_pages', $assetData['page'])->getContent();
+                    : $api->read('site_pages', ['id' => $assetData['page']])->getContent();
             } catch (\Omeka\Api\Exception\NotFoundException $e) {
                 $assetData['page'] = null;
             }
-            // For compatibility with old themes templates, the key "title" and "url" are kept.
-            $assetData['title'] = (string) $assetData['alt_link_title'];
-            $assetData['url'] = empty($assetData['url']) ? null : $assetData['url'];
         }
+        unset($assetData);
 
-        return $data['attachments'];
+        return $blockData['attachments'];
     }
 }
