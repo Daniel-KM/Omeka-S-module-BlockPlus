@@ -14,6 +14,8 @@
  * @var string $heading
  * @var string $className
  * @var string $alignment
+ *
+ * @see \BlockPlus\View\Helper\AssetElement
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -29,7 +31,7 @@ $thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $pl
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
     <?php foreach ($attachments as $attachment):
-        $assetHtml = $attachment['asset'] ? $thumbnail($attachment['asset']) : '';
+        $assetHtml = $attachment['asset'] ? $thumbnail($attachment['asset'], 'square') : '';
     ?>
     <div class="asset<?= empty($attachment['class']) ? '' : ' ' . $escapeAttr($attachment['class']) ?>">
         <?php if (isset($attachment['page'])): ?>
