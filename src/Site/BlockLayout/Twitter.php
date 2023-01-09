@@ -175,6 +175,7 @@ class Twitter extends AbstractBlockLayout
         }
 
         $vars = [
+            'block' => $block,
             'heading' => $vars['heading'],
             'account' => $accountData,
             'messages' => $messages,

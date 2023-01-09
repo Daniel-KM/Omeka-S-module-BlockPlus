@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Site\BlockLayout;
 
 use Laminas\Dom\Query;
@@ -172,24 +173,23 @@ class ExternalContent extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $embeds = $block->dataValue('embeds', []);
-        $html = $block->dataValue('html', '');
-        if (!$embeds && !$html) {
+        $vars = ['block' => $block] + $block->data();
+
+        $vars['embeds'] ??= [];
+        $vars['html'] ??= '';
+        if (!$vars['embeds'] && !$vars['html']) {
             return '';
         }
 
-        $vars = [
-            'block' => $block,
-            'heading' => $block->dataValue('heading', ''),
-            'embeds' => $embeds,
-            'html' => $html,
-            'alignmentClass' => $block->dataValue('alignment', 'left'),
-            'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
-            'captionPosition' => $block->dataValue('caption_position', 'center'),
-            'linkText' => $block->dataValue('link_text', ''),
-            'linkUrl' => $block->dataValue('link_url', ''),
-        ];
-        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        $vars['alignmentClass'] = $vars['alignment'] ?? 'left';
+        $vars['showTitleOption'] = $vars['show_title_option'] ?? 'item_title';
+        $vars['captionPosition'] = $vars['caption_position'] ?? 'center';
+        $vars['linkText'] = $vars['link_text'] ?? '';
+        $vars['linkUrl'] = $vars['link_url'] ?? '';
+
+        $template = $vars['template'] ?: self::PARTIAL_NAME;
+        unset($vars['template'], $vars['alignment'], $vars['show_title_option'], $vars['caption_position'], $vars['link_text'], $vars['link_url']);
+
         return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)
             : $view->partial(self::PARTIAL_NAME, $vars);

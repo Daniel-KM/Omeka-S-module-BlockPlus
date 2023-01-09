@@ -42,7 +42,8 @@ class Html extends \Omeka\Site\BlockLayout\Html
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $vars = $block->data();
-        $template = $vars['template'] ?: self::PARTIAL_NAME;
+        $vars['block'] = $block;
+        $template = $vars['template'] ?? self::PARTIAL_NAME;
         unset($vars['template']);
         return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)

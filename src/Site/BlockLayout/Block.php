@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Site\BlockLayout;
 
 use Laminas\View\Renderer\PhpRenderer;
@@ -51,12 +52,11 @@ class Block extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $vars = [
-            'block' => $block,
-            'heading' => $block->dataValue('heading', ''),
-            'params' => $block->dataValue('params', ''),
-        ];
-        $template = $block->dataValue('template', self::PARTIAL_NAME);
+        $vars = $block->data();
+        $vars['block'] = $block;
+        $template = empty($vars['template']) ? self::PARTIAL_NAME : $vars['template'];
+        unset($vars['template']);
+
         return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)
             : $view->partial(self::PARTIAL_NAME, $vars);

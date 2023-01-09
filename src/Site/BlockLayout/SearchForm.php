@@ -48,6 +48,7 @@ class SearchForm extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $vars = $block->data();
+        $vars['block'] = $block;
         $template = $vars['template'] ?: self::PARTIAL_NAME;
         unset($vars['template']);
         return $template !== self::PARTIAL_NAME && $view->resolver($template)

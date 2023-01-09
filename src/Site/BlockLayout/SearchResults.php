@@ -181,6 +181,7 @@ class SearchResults extends AbstractBlockLayout
         ];
 
         $vars = [
+            'block' => $block,
             'heading' => $block->dataValue('heading'),
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,

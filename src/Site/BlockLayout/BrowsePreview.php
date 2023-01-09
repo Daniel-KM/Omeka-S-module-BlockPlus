@@ -194,6 +194,7 @@ class BrowsePreview extends AbstractBlockLayout
         $linkText = $resourceType === 'media' ? '' : ($data['link-text'] ?? '');
 
         $vars = [
+            'block' => $block,
             'site' => $site,
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,

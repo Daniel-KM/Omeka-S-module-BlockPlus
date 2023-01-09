@@ -76,6 +76,7 @@ HTML;
         $pageTree = $this->getPageNodeURLs($nodes, $block);
 
         $vars = [
+            'block' => $block,
             'heading' => $block->dataValue('heading'),
             'pageList' => $pageTree,
         ];
