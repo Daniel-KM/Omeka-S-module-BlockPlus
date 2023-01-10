@@ -23,13 +23,22 @@
         };
 
         context.find('.wysiwyg').each(function () {
-            var editor = null;
+            if ($(this).data('ckeditor-overridden')) {
+                return;
+            }
+            var editor = $(this).ckeditor().editor;
+            if (editor) {
+                editor.destroy();
+            }
             if ($(this).is('.caption')) {
                 editor = CKEDITOR.inline(this, config)
+            } else if (CKEDITOR.config.customHtmlMode === 'document') {
+                editor = CKEDITOR.replace(this);
             } else {
                 editor = CKEDITOR.inline(this);
             }
             $(this).data('ckeditorInstance', editor);
+            $(this).data('ckeditor-overridden', true);
         })
     }
 
@@ -48,6 +57,13 @@
 
     $(document).ready(function () {
 
+        // ckeditor for html textarea.
+        // Override the feature in site-page-edit.
+        $(document).on('o:ckeditor-config', function (e, config) {
+            wysiwyg($(this));
+        });
+
+        // Sidebar for asset form.
         $(document).on('o:sidebar-content-loaded', updateSidebarAssetForm);
 
         $(document).on('click', '.block[data-block-layout="asset"] .asset-options-configure', function() {

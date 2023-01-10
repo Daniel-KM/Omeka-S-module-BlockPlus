@@ -51,12 +51,21 @@ CKEDITOR.editorConfig = function( config ) {
 
     // Remove some buttons provided by the standard plugins, which are
     // not needed in the Standard(s) toolbar.
+    // config.removeButtons = 'Underline,Subscript,Superscript';
     config.removeButtons = 'Source,Scayt';
 
     // Disable content filtering
     config.allowedContent = true;
-    config.extraPlugins = 'footnotes,sourcedialog';
+    // Add extra plugins
+    config.extraPlugins = [
+        'sourcedialog' ,
+        'removeformat',
+        'footnotes',
+    ];
 
     // Add some css to support attributes to "section", "li" and "sup" for footnotes.
     config.extraAllowedContent = 'section(footnotes);header;li[id,data-footnote-id];a[href,id,rel];cite;sup[data-footnote-id]';
+
+    // Allow other scripts to modify configuration.
+    $(document).trigger('o:ckeditor-config', config);
 };
