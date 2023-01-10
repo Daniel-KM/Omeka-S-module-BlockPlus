@@ -265,6 +265,10 @@ class InstallResources
 
         $newTerms = $data['o:terms'] ?? [];
         $existingTerms = $customVocab->terms();
+        // Compatibility with Omeka S v3.
+        if (!is_array($existingTerms)) {
+            $existingTerms = explode("\n", $existingTerms);
+        }
         sort($newTerms);
         sort($existingTerms);
         return $newTerms === $existingTerms ? true : null;
@@ -671,6 +675,10 @@ SQL;
                 'geometry',
                 'geometry:coordinates',
                 'geometry:position',
+                // TODO Deprecated for v4.
+                'geometry:geometry',
+                'geometry:geography',
+                'geometry:geography:coordinates',
                 // DataTypeRdf.
                 'boolean',
                 'html',
@@ -828,6 +836,65 @@ SQL;
         $newItemSet = empty($data['o:item_set']) ? 0 : (int) $data['o:item_set'];
         $newUris = $data['o:uris'] ?? [];
         $newTerms = $data['o:terms'] ?? [];
+
+        $isV4 = version_compare(\Omeka\Module::VERSION, '4', '>=');
+        if (!$isV4) {
+            if ($newItemSet) {
+                $this->api->update('custom_vocabs', $customVocab->id(), [
+                    'o:label' => $label,
+                    'o:item_set' => $newItemSet,
+                    'o:terms' => '',
+                    'o:uris' => '',
+                ], [], ['isPartial' => true]);
+            } elseif ($newUris) {
+                $existingUris = $customVocab->uris();
+                if (!is_array($existingUris)) {
+                    $nu = [];
+                    foreach (explode("\n", $existingUris) as $existingUri) {
+                        [$uri, $uriLabel] = array_map('trim', explode("=", $existingUri, 2));
+                        $nu[$uri] = $uriLabel ?: $uri;
+                    }
+                    $existingUris = $nu;
+                }
+                if (!is_array($newUris)) {
+                    $nu = [];
+                    foreach (array_filter(explode("\n", $newUris)) as $newUri) {
+                        [$uri, $uriLabel] = array_map('trim', explode("=", $newUri, 2));
+                        $nu[$uri] = $uriLabel ?: $uri;
+                    }
+                    $newUris = $nu;
+                }
+                $newUris = array_replace($newUris, $existingUris, $newUris);
+                $newUrisString = '';
+                foreach ($newUris as $uri => $uriLabel) {
+                    $newUrisString .= $uri . ' = ' . $uriLabel . "\n";
+                }
+                $newUrisString = trim($newUrisString);
+                $this->api->update('custom_vocabs', $customVocab->id(), [
+                    'o:label' => $label,
+                    'o:item_set' => null,
+                    'o:terms' => '',
+                    'o:uris' => $newUrisString,
+                ], [], ['isPartial' => true]);
+            } elseif ($newTerms) {
+                $existingTerms = $customVocab->terms();
+                if (!is_array($existingTerms)) {
+                    $existingTerms = explode("\n", $existingTerms);
+                }
+                if (!is_array($newTerms)) {
+                    $newTerms = explode("\n", $newTerms);
+                }
+                $termsToStore = array_values(array_merge($existingTerms, $newTerms));
+                $this->api->update('custom_vocabs', $customVocab->id(), [
+                    'o:label' => $label,
+                    'o:item_set' => null,
+                    'o:terms' => implode("\n", $termsToStore),
+                    'o:uris' => '',
+                ], [], ['isPartial' => true]);
+            }
+            return $customVocab;
+        }
+
         if ($newItemSet) {
             $this->api->update('custom_vocabs', $customVocab->id(), [
                 'o:label' => $label,
@@ -840,13 +907,13 @@ SQL;
                 'o:label' => $label,
                 'o:item_set' => null,
                 'o:terms' => [],
-                'o:uris' => $newUris,
+                'o:uris' => array_replace($newUris, $customVocab->uris(), $newUris),
             ], [], ['isPartial' => true]);
         } elseif ($newTerms) {
             $this->api->update('custom_vocabs', $customVocab->id(), [
                 'o:label' => $label,
                 'o:item_set' => null,
-                'o:terms' => array_merge($customVocab->terms(), $newTerms),
+                'o:terms' => array_values(array_merge($customVocab->terms(), $newTerms)),
                 'o:uris' => [],
             ], [], ['isPartial' => true]);
         }
