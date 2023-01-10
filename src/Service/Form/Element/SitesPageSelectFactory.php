@@ -11,7 +11,7 @@ class SitesPageSelectFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $currentSite = $services->get('ControllerPluginManager')->get('currentSite');
-        $element = new SitesPageSelect;
+        $element = new SitesPageSelect(null, $options ?? []);
         return $element
             ->setApiManager($services->get('Omeka\ApiManager'))
             ->setSite($currentSite());

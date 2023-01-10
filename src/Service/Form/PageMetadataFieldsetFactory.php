@@ -11,7 +11,7 @@ class PageMetadataFieldsetFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $siteSettings = $services->get('Omeka\Settings\Site');
-        $fieldset = new PageMetadataFieldset();
+        $fieldset = new PageMetadataFieldset(null, $options ?? []);
         return $fieldset
             ->setPageTypes($siteSettings->get('blockplus_page_types', []));
     }

@@ -11,7 +11,7 @@ class ThumbnailTypeSelectFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $types = $services->get(\Omeka\File\ThumbnailManager::class)->getTypes();
-        $element = new ThumbnailTypeSelect;
+        $element = new ThumbnailTypeSelect(null, $options ?? []);
         return $element
             ->setValueOptions(array_combine($types, $types));
     }

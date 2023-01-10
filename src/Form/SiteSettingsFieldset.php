@@ -9,14 +9,20 @@ class SiteSettingsFieldset extends Fieldset
 {
     protected $label = 'Block Plus'; // @translate
 
+    protected $elementGroups = [
+        'site_pages' => 'Site pages', // @translate
+    ];
+
     public function init(): void
     {
         $this
             ->setAttribute('id', 'block-plus')
+            ->setOption('element_groups', $this->elementGroups)
             ->add([
                 'name' => 'blockplus_page_types',
                 'type' => OmekaElement\ArrayTextarea::class,
                 'options' => [
+                    'element_group' => 'site_pages',
                     'label' => 'Page types', // @translate
                     'info' => 'Specify the list of types that will be available to build specific pages.', // @translate
                     'as_key_value' => true,
