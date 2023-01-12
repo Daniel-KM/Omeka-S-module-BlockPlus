@@ -59,7 +59,7 @@
 
         // ckeditor for html textarea.
         // Override the feature in site-page-edit.
-        $(document).on('o:ckeditor-config', function (e, config) {
+        $(document).on('o:ckeditor-config', function () {
             wysiwyg($(this));
         });
 
