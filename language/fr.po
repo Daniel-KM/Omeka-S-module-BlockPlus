@@ -275,7 +275,7 @@ msgid ""
 "attachment key \"title\" by \"alt_link_title\"; attachment key \"url\" was "
 "removed. Check it if you customized template."
 msgstr ""
-"Bloc \"Fichier\" : la variable $aassets a été remplacée par $attachments ; "
+"Bloc \"Fichier\" : la variable $assets a été remplacée par $attachments ; "
 "la clé \"title\" a été remplacée par \"alt_link_title\"; la clé \"url\" a "
 "été supprimée. Vérifiez si vous avez modifier les fichiers du thème."
 
