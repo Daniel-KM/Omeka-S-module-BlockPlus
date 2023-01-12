@@ -15,7 +15,7 @@ use Laminas\EventManager\SharedEventManagerInterface;
 /**
  * BlockPlus
  *
- * @copyright Daniel Berthereau, 2018-2022
+ * @copyright Daniel Berthereau, 2018-2023
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule
