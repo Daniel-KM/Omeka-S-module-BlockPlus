@@ -13,7 +13,9 @@ use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 
 /**
- * This block is copied in \Internationalisation\Site\BlockLayout\MirrorPage.
+ * This block is copied in module Internationalisation.
+ *
+ * @see \Internationalisation\Site\BlockLayout\MirrorPage
  */
 class MirrorPage extends AbstractBlockLayout
 {
@@ -154,6 +156,11 @@ class MirrorPage extends AbstractBlockLayout
         $services = $block->getServiceLocator();
         $status = $services->get('Omeka\Status');
         $routeMatch = $status->getRouteMatch();
+        // There may be no route match for a job in backend.
+        // TODO Fix indexing full text for mirror page with the job run from Bulk Import. Normally already done in core.
+        if (!$routeMatch) {
+            return '';
+        }
         $routeMatch
             ->setParam('site-slug', $site->slug())
             ->setParam('page-slug', $page->slug());
