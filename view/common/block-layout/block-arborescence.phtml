@@ -9,9 +9,18 @@
 $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
 $assetUrl = $plugins->get('assetUrl');
+$translate = $plugins->get('translate');
 
 $file = $this->blockMetadata('file');
-if (empty($file)) echo $this->translate('No file defined. Set the param in the block: "file = filename.tsv" (use a file inside /asset/data/) or "file = https://example.com/file.tsv".');
+if (empty($file)): ?>
+    <div class="block block-simple">
+        <?php if (!empty($heading)): ?>
+        <h2><?= $escape($heading) ?></h2>
+        <?php endif; ?>
+        <?= $translate('No file defined. Set the param in the block: "file = filename.tsv" (use a file inside /asset/data/) or "file = https://example.com/file.tsv".') ?>
+    </div>
+    <?php return;
+endif;
 
 $isUrl = substr($file, 0, 8) === 'https://' || substr($file, 0, 7) === 'http://';
 if ($isUrl):

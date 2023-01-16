@@ -385,7 +385,9 @@ trait PageBlockMetadataTrait
                         'siblings' => $siblings,
                         'children' => empty($navItem['links'])
                             ? []
-                            : array_values(array_filter(array_map(fn ($v) => $v['type'] === 'page' ? $v['data']['id'] : null, $navItem['links']))),
+                            : array_values(array_filter(array_map(function ($v) {
+                                return $v['type'] === 'page' ? $v['data']['id'] : null;
+                            }, $navItem['links']))),
                     ];
                 }
 
