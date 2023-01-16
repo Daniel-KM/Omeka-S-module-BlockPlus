@@ -4,8 +4,8 @@
 /language/debug.mo
 /language/chef.po
 /language/chef.mo
-/vendor
 /node_modules
+/vendor
 .sass-cache/
 .bundle
 .DS_Store

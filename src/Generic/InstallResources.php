@@ -1095,12 +1095,15 @@ SQL;
         if (empty($dirpath) || !file_exists($dirpath) || !is_dir($dirpath) || !is_readable($dirpath)) {
             return [];
         }
-        $list = array_filter(
-            array_map(fn ($file) => $dirpath . DIRECTORY_SEPARATOR . $file, scandir($dirpath)),
-            fn ($file) => is_file($file) && is_readable($file) && filesize($file)
-        );
+        $list = array_filter(array_map(function ($file) use ($dirpath) {
+            return $dirpath . DIRECTORY_SEPARATOR . $file;
+        }, scandir($dirpath)), function ($file) {
+            return is_file($file) && is_readable($file) && filesize($file);
+        });
         if ($extensions) {
-            $list = array_filter($list, fn ($file) => in_array(pathinfo($file, PATHINFO_EXTENSION), $extensions));
+            $list = array_filter($list, function ($file) use ($extensions) {
+                return in_array(pathinfo($file, PATHINFO_EXTENSION), $extensions);
+            });
         }
         return array_values($list);
     }
