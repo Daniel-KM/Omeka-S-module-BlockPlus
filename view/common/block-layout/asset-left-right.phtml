@@ -36,7 +36,7 @@ $assetElement = $plugins->get('assetElement');
     <?php foreach ($attachments as $attachment): ?>
     <div class="asset<?= empty($attachment['class']) ? '' : ' ' . $escapeAttr($attachment['class']) ?>">
         <?php if ($attachment['asset']): ?>
-            <?php $attachmentUrl = $attachment['page'] ? $attachment['page']->siteUrl() : $attachment['url']; ?>
+            <?php $attachmentUrl = $attachment['page'] ? $attachment['page']->siteUrl() : ($attachment['url'] ?? null); ?>
             <?php if ($attachmentUrl): ?>
         <a class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>" href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (filter_var($attachmentUrl, FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
             <?= $assetElement($attachment['asset'], ['alt' => $attachment['alt_link_title']]) ?>
