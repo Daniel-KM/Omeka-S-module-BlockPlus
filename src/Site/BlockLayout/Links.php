@@ -33,7 +33,7 @@ class Links extends AbstractBlockLayout
             $array = array_filter(array_map('trim', explode("\n", $string)), 'strlen');
             $links = [];
             foreach ($array as $keyValue) {
-                if (strpos($keyValue, '=') === false) {
+                if (mb_strpos($keyValue, '=') === false) {
                     $links[trim($keyValue)] = '';
                 } else {
                     [$key, $value] = array_map('trim', explode('=', $keyValue, 2));
@@ -73,10 +73,8 @@ class Links extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $vars = $block->data();
-        $vars['block'] = $block;
-        unset($vars['template']);
-        $template = $vars['template'] ?? self::PARTIAL_NAME;
+        $vars = ['block' => $block] + $block->data();
+        $template = $vars['template'] ?: self::PARTIAL_NAME;
         unset($vars['template']);
         return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)

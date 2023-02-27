@@ -16,9 +16,14 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
     <?php endif; ?>
 
     <ul class="list-links">
-    <?php foreach ($links as $url => $label): ?>
+    <?php foreach ($links as $url => $label):
+        [$label, $description] = array_map('trim', explode('=', $label, 2)) + ['', ''];
+    ?>
         <li>
             <a href="<?= $escapeAttr($url) ?>"<?php if (filter_var($url, FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>><?= $escape($label) ?></a>
+            <?php if ($description):?>
+            <p><?= $escape($description) ?></p>
+            <?php endif; ?>
         </li>
     <?php endforeach; ?>
     </ul>

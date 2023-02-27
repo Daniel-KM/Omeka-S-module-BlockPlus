@@ -29,7 +29,7 @@ class LinksFieldset extends Fieldset
                 'attributes' => [
                     'rows' => 6,
                     'placeholder' => '/s/main/page/alpha = Alpha
-/s/main/page/beta = Beta
+/s/main/page/beta = Beta = short description
 ',
                 ],
             ])
