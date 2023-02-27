@@ -213,7 +213,7 @@ trait PageBlockMetadataTrait
                 $params = array_map('trim', explode("\n", trim($block->dataValue('params', ''))));
                 $list = [];
                 foreach ($params as $keyValue) {
-                    $list[] = array_map('trim', explode('=', $keyValue, 2));
+                    $list[] = array_map('trim', explode('=', $keyValue, 2)) + ['', ''];
                 }
                 return $list;
             case 'params_key_value':
@@ -228,8 +228,8 @@ trait PageBlockMetadataTrait
                 $params = array_filter(array_map('trim', explode("\n", trim($block->dataValue('params', '')))), 'strlen');
                 $list = [];
                 foreach ($params as $keyValue) {
-                    [$key, $value] = strpos($keyValue, '=') === false
-                        ? [$keyValue, null]
+                    [$key, $value] = mb_strpos($keyValue, '=') === false
+                        ? [trim($keyValue), '']
                         : array_map('trim', explode('=', $keyValue, 2));
                     if ($key !== '') {
                         $list[$key] = $value;

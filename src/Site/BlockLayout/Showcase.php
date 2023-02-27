@@ -157,7 +157,7 @@ class Showcase extends AbstractBlockLayout
             }
 
             if (mb_substr($entry, 0, 8) === 'https://' || mb_substr($entry, 0, 7) === 'http://') {
-                [$url, $asset, $title, $caption, $body] = array_map('trim', explode('=', $entry, 5));
+                [$url, $asset, $title, $caption, $body] = array_map('trim', explode('=', $entry, 5)) + ['', '', '', '', ''];
                 $normEntry['data'] = [
                     'url' => $url,
                     'asset' => $asset,
