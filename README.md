@@ -121,6 +121,7 @@ To use them, simply select the wanted template:
 
 The D3 graph adds the [D3 library] to display relations between items in a graph:
 links between subjects and objects, links between items and item sets, etc.
+An example of use can be seen on the digital library of the [Fondation de la Maison de Salins].
 
 #### External content
 
@@ -426,6 +427,7 @@ Copyright
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr
 [D3 library]: https://d3js.org
+[Fondation de la Maison de Salins]: https://cooparchives.maison-salins.fr/s/fr/page/carte-heuristique
 [#1706]: https://github.com/omeka/omeka-s/issues/1706
 [Twitter]: https://twitter.com
 [Shortcode Carousel]: https://github.com/omeka/plugin-ShortcodeCarousel
