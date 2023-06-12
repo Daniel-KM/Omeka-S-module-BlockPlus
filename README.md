@@ -334,6 +334,16 @@ if ($pagesMetadata):
 endif;
 ```
 
+#### Breadcrumbs
+
+A breadcrumb may be added on resources pages via the command `echo $this->breadcrumbs();`.
+The default template is `common/breadcrumbs.phtml`, so the breadcrumb can be
+themed. Some options are available too.
+By default, the breadcrumbs for an item use the first item set as the parent
+crumb. The first item set is the item set with the smallest id. If you want to
+use another item set, set it as resource in the property that is set in the main
+settings, or in the options of the view helper.
+
 
 TODO
 ----
@@ -341,6 +351,8 @@ TODO
 - [ ] Merge more similar blocks into a main block (with automatic upgrade).
 - [x] Integrate Shortcodes (module [Shortcode])
 - [x] Integrate Menu (module [Menu])
+- [ ] Merge module Menu inside BlockPlus?
+- [ ] Normalize breadcrumbs.
 - [ ] Integrate attachments for block Showcase
 - [ ] Integrate sidebar forms for block Showcase
 - [ ] Auto-create asset when image is uploaded in a Html field.
