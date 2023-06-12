@@ -1,4 +1,5 @@
 @media screen {
+
     /* Footnotes (against core styles) */
     section header {
         background-color: inherit;
@@ -25,15 +26,17 @@
         max-height: initial;
     }
 
-    .asset-form-element .selected-asset {
-      display: block;
-      align-items: center;
-      max-width: 100%;
-      min-width: 0;
+    .asset-form-element .selected-asset-page-metadata {
+        display: flex;
+        align-items: center;
+        max-width: 100%;
+        min-width: 0;
+        margin-top: 12px;
     }
-    .asset-form-element .selected-asset img {
-        max-height: 36px;
-        max-width: 36px;
+    .asset-form-element .selected-asset-page-metadata img {
+        max-height: 48px;
+        max-width: 48px;
+        margin-right: 12px;
     }
 }
 

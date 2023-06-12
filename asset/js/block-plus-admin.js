@@ -78,19 +78,6 @@
             $('#asset-options .sidebar-content').find('.attachment-class').show();
         });
 
-        // Page metadata.
-        // The asset has no specific data: store only the id as cover.
-        $(document).on('click', '#blocks [data-block-layout="pageMetadata"] .asset-form-select, #blocks [data-block-layout="asset"] .add-asset-attachment, #blocks [data-block-layout="asset"] .asset-options-configure', function () {
-            $('#blocks').data('asset-layout', $(this).closest('.block').data('block-layout'));
-        });
-
-        $('#content').on('click', '.asset-list .select-asset', function (e) {
-            if ($('#blocks').data('asset-layout') === 'pageMetadata') {
-                Omeka.closeSidebar($('#asset-options'));
-                $('#blocks').removeData('asset-layout');
-            }
-        });
-
         // Fix issue with radios.
         $('.block.value .inputs input:radio').each(function() {
             $(this).prop('checked', $(this).prop('checked') || $(this).attr('checked') === 'checked');
