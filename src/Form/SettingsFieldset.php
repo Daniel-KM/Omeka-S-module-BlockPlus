@@ -10,7 +10,7 @@ class SettingsFieldset extends Fieldset
     protected $label = 'Block Plus'; // @translate
 
     protected $elementGroups = [
-        'site_pages' => 'Site pages', // @translate
+        'block_plus' => 'Block plus', // @translate
     ];
 
     public function init(): void
@@ -22,7 +22,7 @@ class SettingsFieldset extends Fieldset
                 'name' => 'blockplus_html_mode_page',
                 'type' => BlockPlusElement\OptionalRadio::class,
                 'options' => [
-                    'element_group' => 'site_pages',
+                    'element_group' => 'block_plus',
                     'label' => 'Html edition mode for pages', // @translate
                     'value_options' => [
                         'inline' => 'Inline (default)', // @translate
@@ -37,7 +37,7 @@ class SettingsFieldset extends Fieldset
                 'name' => 'blockplus_html_config_page',
                 'type' => BlockPlusElement\OptionalRadio::class,
                 'options' => [
-                    'element_group' => 'site_pages',
+                    'element_group' => 'block_plus',
                     'label' => 'Html edition config and toolbar for pages', // @translate
                     'value_options' => [
                         // @see https://ckeditor.com/cke4/presets-all
@@ -48,6 +48,26 @@ class SettingsFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'blockplus_html_config_page',
+                ],
+            ])
+
+            // Other options.
+
+            ->add([
+                'name' => 'blockplus_property_itemset',
+                'type' => MenuElement\OptionalPropertySelect::class,
+                'options' => [
+                    'element_group' => 'block_plus',
+                    'label' => 'Property to set primary item set', // @translate
+                    'info' => 'When an item is included in multiple item sets, the main one may be determined by this property.', // @translate
+                    'empty_option' => '',
+                    'term_as_value' => true,
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_property_itemset',
+                    'class' => 'chosen-select',
+                    'multiple' => false,
+                    'data-placeholder' => 'Select a property…', // @translate
                 ],
             ])
         ;

@@ -12,11 +12,13 @@ return [
         'invokables' => [
             'assetElement' => View\Helper\AssetElement::class,
             'blockMetadata' => View\Helper\BlockMetadata::class,
+            'breadcrumbs' => View\Helper\Breadcrumbs::class,
             'ckEditor' => View\Helper\CkEditor::class,
             'formNote' => Form\View\Helper\FormNote::class,
             'isHomePage' => View\Helper\IsHomePage::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
+            'primaryItemSet' => View\Helper\PrimaryItemSet::class,
             'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
         ],
         'delegators' => [

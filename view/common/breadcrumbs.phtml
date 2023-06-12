@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Laminas\View\Helper\Navigation $nav
+ * @var array $options Options provided to the helper, merged with default values.
+ *
+ * When called from helper breadcrumbs():
+ * @var \Laminas\Navigation\Navigation $breadcrumbs
+ * @deprecated $crumbs is kept for old themes, not in this partial (see old releases).
+ * @var array $crumbs Flat list of crumb, that is an array with "label", "uri", "resource", if any.
+ *
+ * $nav is currently not available when called from view helper breadcrumbs.
+ */
+
+// Quick hack to insert a span for the last part instead nothing (simpler to theme and simpler than creating a specific partial).
+
+$separator = ' ' . $options['separator'] . " \n";
+$html = empty($nav)
+    ? $this->navigation()->breadcrumbs($breadcrumbs)->setSeparator($separator)
+    : $nav->breadcrumbs()->setSeparator($separator);
+if (empty($options['linkLast']) && $lastLinkPos = mb_strrpos($html, '</a>' . $separator)):
+    $html = mb_substr($html, 0, $lastLinkPos + 4 + mb_strlen($separator)) . '<span class="active">' . mb_substr($html, $lastLinkPos + 4 + mb_strlen($separator)) . '</span>';
+endif;
+?>
+
+<nav id="breadcrumb" class="breadcrumbs">
+    <?= $html ?>
+</nav>
