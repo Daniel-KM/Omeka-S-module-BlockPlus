@@ -77,6 +77,7 @@ return [
             Form\Element\Note::class => Form\Element\Note::class,
             Form\Element\OptionalMultiCheckbox::class => Form\Element\OptionalMultiCheckbox::class,
             Form\Element\OptionalRadio::class => Form\Element\OptionalRadio::class,
+            Form\Element\OptionalSelect::class => Form\Element\OptionalSelect::class,
             // Blocks.
             Form\AssetFieldset::class => Form\AssetFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
@@ -96,7 +97,6 @@ return [
             Form\PageTitleFieldset::class => Form\PageTitleFieldset::class,
             Form\RedirectToUrlFieldset::class => Form\RedirectToUrlFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
-            Form\SearchFormFieldset::class => Form\SearchFormFieldset::class,
             Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
             Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
             Form\ShowcaseFieldset::class => Form\ShowcaseFieldset::class,
@@ -113,6 +113,7 @@ return [
             Form\Element\TemplateSelect::class => Service\Form\Element\TemplateSelectFactory::class,
             Form\Element\ThumbnailTypeSelect::class => Service\Form\Element\ThumbnailTypeSelectFactory::class,
             Form\PageMetadataFieldset::class => Service\Form\PageMetadataFieldsetFactory::class,
+            Form\SearchFormFieldset::class => Service\Form\SearchFormFieldsetFactory::class,
         ],
     ],
     'translator' => [
@@ -337,6 +338,7 @@ return [
                 'heading' => '',
                 'html' => '',
                 'link' => '',
+                'search_config' => null,
                 'selector' => '',
                 'template' => '',
             ],

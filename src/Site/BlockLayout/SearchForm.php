@@ -50,6 +50,25 @@ class SearchForm extends AbstractBlockLayout
         $data = $block->data();
         $vars = ['block' => $block] + $data;
 
+        $searchConfig = $vars['search_config'] ?? '';
+        if ($searchConfig === 'omeka') {
+            $searchConfig = null;
+        } else {
+            $searchConfigId = empty($searchConfig) || $searchConfig === 'default' ? null : (int) $searchConfig;
+            /** @var \AdvancedSearch\Api\Representation\SearchConfigRepresentation $searchConfig */
+            $searchConfig = $view->getSearchConfig($searchConfigId);
+            if ($searchConfig && !$searchConfig->form()) {
+                $message = new \Omeka\Stdlib\Message(
+                    'The search config "%s" has no form associated.', // @translate
+                    $searchConfig->path()
+                );
+                $view->logger()->err($message);
+                return '';
+            }
+        }
+        $vars['searchConfig'] = $searchConfig;
+        unset($vars['search_config']);
+
         if (empty($data['link'])) {
             $link = [];
         } else {
