@@ -29,6 +29,7 @@
             var editor = $(this).ckeditor().editor;
             if (editor) {
                 editor.destroy();
+                $(this).next('.cke_textarea_inline').remove();
             }
             if ($(this).is('.caption')) {
                 editor = CKEDITOR.inline(this, config)
