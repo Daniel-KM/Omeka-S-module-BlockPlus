@@ -55,6 +55,7 @@ simple = Simple page', // @translate
                         'home' => 'Prepend home', // @translate
                         'collections' => 'Include "Collections"', // @translate,
                         'itemset' => 'Include main item set for item', // @translate,
+                        'itemsetstree' => 'Include item sets tree', // @translate,
                         'current' => 'Append current resource', // @translate
                     ],
                 ],

@@ -139,6 +139,7 @@ return [
                 'home',
                 'collections',
                 'itemset',
+                'itemsetstree',
                 'current',
             ],
             'blockplus_breadcrumbs_prepend' => [],

@@ -6,6 +6,9 @@ use Laminas\Navigation\Navigation;
 use Laminas\Navigation\Page\AbstractPage;
 use Laminas\Router\Http\RouteMatch;
 use Laminas\View\Helper\AbstractHelper;
+use Omeka\Api\Representation\ItemRepresentation;
+use Omeka\Api\Representation\ItemSetRepresentation;
+use Omeka\Api\Representation\SiteRepresentation;
 
 class Breadcrumbs extends AbstractHelper
 {
@@ -41,6 +44,8 @@ class Breadcrumbs extends AbstractHelper
      * - collections_url (string) Url to use for the link to collections
      * - itemset (bool) Insert the first item set as crumb for an item (true by
      *   default)
+     * - itemsetstree (bool) Insert the item set tree as crumb for an item (true
+     *   by default, require module ItemSetsTree)
      * - current (bool) Append current resource if any (true by default; always
      *   true for pages currently)
      * - property_itemset (string) Property where is set the first parent item
@@ -83,6 +88,7 @@ class Breadcrumbs extends AbstractHelper
                 'home' => false,
                 'collections' => false,
                 'itemset' => false,
+                'itemsetstree' => false,
                 'current' => false,
             ];
         } else {
@@ -91,12 +97,23 @@ class Breadcrumbs extends AbstractHelper
             $crumbsSettings = [];
         }
 
+        $hasItemSetsTree = $plugins->has('itemSetsTree');
+        if (!$hasItemSetsTree) {
+            $crumbsSettings['itemsetstree'] = false;
+        }
+
+        // Avoid duplication between main item set and item sets tree.
+        if (!empty($crumbsSettings['itemset']) && !empty($crumbsSettings['itemsetstree'])) {
+            $crumbsSettings['itemset'] = false;
+        }
+
         $defaults = $crumbsSettings + [
             'home' => true,
             'prepend' => [],
             'collections' => true,
             'collections_url' => $siteSetting('blockplus_breadcrumbs_collections_url'),
             'itemset' => true,
+            'itemsetstree' => true,
             'current' => true,
             'property_itemset' => $siteSetting('blockplus_breadcrumbs_property_itemset'),
             'homepage' => false,
@@ -218,6 +235,8 @@ class Breadcrumbs extends AbstractHelper
                         }
                         if ($options['itemset']) {
                             $this->crumbPrimaryItemSet($item, $site);
+                        } elseif ($options['itemsetstree']) {
+                            $this->crumbItemSetsTree($item, $site);
                         }
                         $this->crumbItem($item, $site);
                         break;
@@ -228,6 +247,8 @@ class Breadcrumbs extends AbstractHelper
                         }
                         if ($options['itemset']) {
                             $this->crumbPrimaryItemSet($resource, $site);
+                        } elseif ($options['itemsetstree']) {
+                            $this->crumbItemSetsTree($resource, $site);
                         }
                         break;
 
@@ -349,6 +370,7 @@ class Breadcrumbs extends AbstractHelper
                 }
                 // Manage the case where the search page is used for item set,
                 // like item/browse for item-set/show.
+                $itemSet = null;
                 if ($options['itemset']) {
                     $itemSetId = $routeMatch->getParam('item-set-id', null) ?: $view->params()->fromQuery('collection');
                     if ($itemSetId) {
@@ -356,9 +378,17 @@ class Breadcrumbs extends AbstractHelper
                         $this->crumbItemSet($itemSet, $site);
                         // Display page?
                     }
+                } elseif ($options['itemsetstree']) {
+                    $itemSetId = $routeMatch->getParam('item-set-id', null) ?: $view->params()->fromQuery('collection');
+                    if ($itemSetId) {
+                        $itemSet = $this->api->searchOne('item_sets', ['id' => $itemSetId])->getContent();
+                        $this->crumbItemSetsTree($itemSet, $site);
+                    }
                 }
                 if ($options['current']) {
-                    $label = $translate('Search'); // @translate
+                    $label = $itemSet
+                        ? (string) $itemSet->displayTitle()
+                        : $translate('Search'); // @translate
                 }
                 break;
 
@@ -561,6 +591,75 @@ class Breadcrumbs extends AbstractHelper
         }
     }
 
+    protected function crumbItemSetsTree($itemOrItemSet, SiteRepresentation $site): void
+    {
+        static $itemSetsTree;
+
+        if (is_null($itemSetsTree)) {
+            $itemSetsTree = $this->itemSetsTreeQuick();
+        }
+
+        // Get the item set that has the more ancestors: it will be the more
+        // precise one.
+        if ($itemOrItemSet instanceof ItemRepresentation) {
+            $item = $itemOrItemSet;
+            $itemSets = $item->itemSets();
+            if (!$itemSets) {
+                return;
+            }
+            $is = null;
+            $total = 0;
+            foreach ($itemSets as $itemSetId => $itemSet) {
+                if (isset($itemSetsTree[$itemSetId])
+                    && count($itemSetsTree[$itemSetId]['ancestors']) > $total
+                ) {
+                    $total = count($itemSetsTree[$itemSetId]['ancestors']);
+                    $is = $itemSet;
+                }
+            }
+            if (!$is) {
+                $this->crumbPrimaryItemSet($item, $site);
+                return;
+            }
+            $itemSet = $is;
+            $includeCurrent = true;
+        } elseif ($itemOrItemSet instanceof ItemSetRepresentation) {
+            $itemSet = $itemOrItemSet;
+            if (!isset($itemSetsTree[$itemSet->id()])) {
+                $this->crumbItemSet($itemSet, $site);
+                return;
+            }
+            $includeCurrent = false;
+        } else {
+            return;
+        }
+
+        $siteSlug = $site->slug();
+
+        // Prepare the crumbs for the item sets.
+        // Rights are already checked during building of the tree.
+        foreach (array_reverse($itemSetsTree[$itemSet->id()]['ancestors']) as $ancestorItemSetId) {
+            try {
+                $ancestorItemSet = $this->api->read('item_sets', ['id' => $ancestorItemSetId])->getContent();
+            } catch (\Exception $e) {
+                continue;
+            }
+            $this->crumbs[] = [
+                'label' => (string) $ancestorItemSet->displayTitle(),
+                'uri' => $ancestorItemSet->siteUrl($siteSlug),
+                'resource' => $ancestorItemSet,
+            ];
+        }
+
+        if ($includeCurrent) {
+            $this->crumbs[] = [
+                'label' => (string) $itemSet->displayTitle(),
+                'uri' => $itemSet->siteUrl($siteSlug),
+                'resource' => $itemSet,
+            ];
+        }
+    }
+
     protected function crumbItem(ItemRepresentation $item, SiteRepresentation $site): void
     {
         $this->crumbs[] = [
@@ -643,5 +742,186 @@ class Breadcrumbs extends AbstractHelper
             ->get('Laminas\View\Helper\ViewModel')
             ->getRoot()
             ->getVariable('site');
+    }
+
+    /**
+     * Get flat tree of item sets quickly.
+     *
+     * Use a quick connection request instead of a long procedure.
+     *
+     * @see \AdvancedSearch\View\Helper\AbstractFacet::itemsSetsTreeQuick()
+     * @see \BlockPlus\View\Helper\Breadcrumbs::itemsSetsTreeQuick()
+     * @see \SearchSolr\ValueExtractor\AbstractResourceEntityValueExtractor::itemSetsTreeQuick()
+     *
+     * @todo Simplify ordering: by sql (for children too) or store.
+     *
+     * @return array
+     */
+    protected function itemSetsTreeQuick(): array
+    {
+        // Run an api request to check rights.
+        $site = $this->currentSite();
+        $itemSetTitles = $this->api->search('item_sets', ['site_id' => $site->id(), 'return_scalar' => 'title'])->getContent();
+        if (!count($itemSetTitles)) {
+            return [];
+        }
+
+        /** @var \Doctrine\DBAL\Connection $connection */
+        $connection = $site->getServiceLocator()->get('Omeka\Connection');
+
+        $sortingMethod = $this->getView()->setting('itemsetstree_sorting_method', 'title') === 'rank' ? 'rank' : 'title';
+        $sortingMethodSql = $sortingMethod === 'rank'
+            ? 'item_sets_tree_edge.rank'
+            : 'resource.title';
+
+            // TODO Use query builder.
+            $sql = <<<SQL
+SELECT
+    item_sets_tree_edge.item_set_id,
+    item_sets_tree_edge.item_set_id AS "id",
+    item_sets_tree_edge.parent_item_set_id AS "parent",
+    item_sets_tree_edge.rank AS "rank",
+    resource.title as "title"
+FROM item_sets_tree_edge
+JOIN resource ON resource.id = item_sets_tree_edge.item_set_id
+WHERE item_sets_tree_edge.item_set_id IN (:ids)
+GROUP BY resource.id
+ORDER BY $sortingMethodSql;
+SQL;
+        $flatTree = $connection->executeQuery($sql, ['ids' => array_keys($itemSetTitles)], ['ids' => $connection::PARAM_INT_ARRAY])->fetchAllAssociativeIndexed();
+
+        // Use integers or string to simplify comparaisons.
+        foreach ($flatTree as &$node) {
+            $node['id'] = (int) $node['id'];
+            $node['parent'] = (int) $node['parent'] ?: null;
+            $node['rank'] = (int) $node['rank'];
+            $node['title'] = (string) $node['title'];
+        }
+        unset($node);
+
+        $structure = [];
+        foreach ($flatTree as $id => $node) {
+            $children = [];
+            foreach ($flatTree as $subId => $subNode) {
+                if ($subNode['parent'] === $id) {
+                    $children[$subId] = $subId;
+                }
+            }
+            $ancestors = [];
+            $nodeWhile = $node;
+            while ($parentId = $nodeWhile['parent']) {
+                $ancestors[$parentId] = $parentId;
+                $nodeWhile = $flatTree[$parentId] ?? null;
+                if (!$nodeWhile) {
+                    break;
+                }
+            }
+            $structure[$id] = $node;
+            $structure[$id]['children'] = $children;
+            $structure[$id]['ancestors'] = $ancestors;
+            $structure[$id]['level'] = count($ancestors);
+        }
+
+        // Order by sorting method.
+        if ($sortingMethod === 'rank') {
+            $sortingFunction = function ($a, $b) use ($structure) {
+                return $structure[$a]['rank'] - $structure[$b]['rank'];
+            };
+        } else {
+            $sortingFunction = function ($a, $b) use ($structure) {
+                return strcmp($structure[$a]['title'], $structure[$b]['title']);
+            };
+        }
+
+        foreach ($structure as &$node) {
+            usort($node['children'], $sortingFunction);
+        }
+        unset($node);
+
+        // Get and order root nodes.
+        $roots = [];
+        foreach ($structure as $id => $node) {
+            if (!$node['level']) {
+                $roots[$id] = $node;
+            }
+        }
+
+        // Root is already ordered via sql.
+
+        // TODO The children are useless here.
+
+        // Reorder whole structure.
+        // TODO Use a while loop.
+        $result = [];
+        foreach ($roots as $id => $root) {
+            $result[$id] = $root;
+            foreach ($root['children'] ?? [] as $child1) {
+                $child1 = $structure[$child1];
+                $result[$child1['id']] = $child1;
+                foreach ($child1['children'] ?? [] as $child2) {
+                    $child2 = $structure[$child2];
+                    $result[$child2['id']] = $child2;
+                    foreach ($child2['children'] ?? [] as $child3) {
+                        $child3 = $structure[$child3];
+                        $result[$child3['id']] = $child3;
+                        foreach ($child3['children'] ?? [] as $child4) {
+                            $child4 = $structure[$child4];
+                            $result[$child4['id']] = $child4;
+                            foreach ($child4['children'] ?? [] as $child5) {
+                                $child5 = $structure[$child5];
+                                $result[$child5['id']] = $child5;
+                                foreach ($child5['children'] ?? [] as $child6) {
+                                    $child6 = $structure[$child6];
+                                    $result[$child6['id']] = $child6;
+                                    foreach ($child6['children'] ?? [] as $child7) {
+                                        $child7 = $structure[$child7];
+                                        $result[$child7['id']] = $child7;
+                                        foreach ($child7['children'] ?? [] as $child8) {
+                                            $child8 = $structure[$child8];
+                                            $result[$child8['id']] = $child8;
+                                            foreach ($child8['children'] ?? [] as $child9) {
+                                                $child9 = $structure[$child9];
+                                                $result[$child9['id']] = $child9;
+                                                foreach ($child9['children'] ?? [] as $child10) {
+                                                    $child10 = $structure[$child10];
+                                                    $result[$child10['id']] = $child10;
+                                                    foreach ($child10['children'] ?? [] as $child11) {
+                                                        $child11 = $structure[$child11];
+                                                        $result[$child11['id']] = $child11;
+                                                        foreach ($child11['children'] ?? [] as $child12) {
+                                                            $child12 = $structure[$child12];
+                                                            $result[$child12['id']] = $child12;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $structure = $result;
+
+        // Append missing item sets.
+        foreach (array_diff_key($itemSetTitles, $flatTree) as $id => $title) {
+            if (isset($structure[$id])) {
+                continue;
+            }
+            $structure[$id] = [
+                'id' => $id,
+                'parent' => null,
+                'rank' => 0,
+                'title' => $title,
+                'children' => [],
+                'ancestors' => [],
+                'level' => 0,
+            ];
+        }
+
+        return $structure;
     }
 }
