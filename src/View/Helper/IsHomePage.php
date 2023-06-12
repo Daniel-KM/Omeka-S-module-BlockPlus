@@ -3,26 +3,38 @@
 namespace BlockPlus\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
+use Omeka\Api\Representation\SitePageRepresentation;
+use Omeka\Api\Representation\SiteRepresentation;
 
-/**
- * Identical helper available:
- * @see \BlockPlus\View\Helper\IsHomePage
- * @see \Menu\View\Helper\IsHomePage
- */
 class IsHomePage extends AbstractHelper
 {
     /**
-     * Check if the current page is the home page (first page in main menu).
+     * Check if a page or the current one is the home page.
      *
-     * @return bool
+     * The main page is the one set in the config of the navigation of the site
+     * or the first site page in the menu.
+     *
+     * Only a site page can be a home page. Nevertheless, when there is no
+     * navigation the home page may be a resource page.
      */
-    public function __invoke(): bool
+    public function __invoke(?SitePageRepresentation $page = null): bool
     {
         $view = $this->getView();
 
-        $site = $view->currentSite();
+        $site = $page ? $page->site() : $view->currentSite();
         if (empty($site)) {
             return false;
+        }
+
+        if (!$page) {
+            $page = $this->getCurrentPage($site);
+        }
+
+        if ($page) {
+            $homePage = $this->getHomePage($page->site());
+            if ($homePage) {
+                return $page->id() === $homePage->id();
+            }
         }
 
         // Check the alias of the root of Omeka S with rerouting.
@@ -30,38 +42,46 @@ class IsHomePage extends AbstractHelper
             return true;
         }
 
-        // Since 1.4, there is a site setting for home page.
-        $homepage = $site->homepage();
-        if ($homepage) {
-            $params = $view->params()->fromRoute();
-            return isset($params['__CONTROLLER__'])
-                && $params['__CONTROLLER__'] === 'Page'
-                && $homepage->id() === $view->api()
-                ->read('site_pages', ['site' => $site->id(), 'slug' => $params['page-slug']])
-                ->getContent()->id();
-        }
-
-        // Check the first normal pages.
-        $linkedPages = $site->linkedPages();
-        if ($linkedPages) {
-            $firstPage = current($linkedPages);
-            $url = $view->url('site/page', [
-                 'site-slug' => $site->slug(),
-                 'page-slug' => $firstPage->slug(),
-             ]);
-
-            if ($this->isCurrentUrl($url)) {
-                return true;
-            }
-        }
-
         // Check the root of the site.
         $url = $view->url('site', ['site-slug' => $site->slug()]);
-        if ($this->isCurrentUrl($url)) {
-            return true;
+        return $this->isCurrentUrl($url);
+    }
+
+    protected function getCurrentPage(SiteRepresentation $site): ?SitePageRepresentation
+    {
+        $view = $this->getView();
+        $params = $view->params()->fromRoute();
+
+        if (!isset($params['__CONTROLLER__'])
+            || $params['__CONTROLLER__'] !== 'Page'
+            || !isset($params['page-slug'])
+            || !strlen((string) $params['page-slug'])
+        ) {
+            return null;
         }
 
-        return false;
+        try {
+            return $view->api()
+                ->read('site_pages', ['site' => $site->id(), 'slug' => $params['page-slug']])
+                ->getContent();
+        } catch (\Omeka\Api\Exception\NotFoundException $e) {
+            return null;
+        }
+    }
+
+    protected function getHomePage(SiteRepresentation $site): ?SitePageRepresentation
+    {
+        // Since Omeka S v1.4, there is a site setting for home page.
+        $homepage = $site->homepage();
+        if ($homepage) {
+            return $homepage;
+        }
+
+        // Check the first normal page.
+        $linkedPages = $site->linkedPages();
+        return $linkedPages
+            ? current($linkedPages)
+            : null;
     }
 
     /**
@@ -70,9 +90,8 @@ class IsHomePage extends AbstractHelper
      * Upgrade of a method of Omeka Classic / globals.php.
      *
      * @param string $url Relative or absolute
-     * @return bool
      */
-    protected function isCurrentUrl($url)
+    protected function isCurrentUrl($url): bool
     {
         $view = $this->getView();
         $currentUrl = $this->currentUrl();
@@ -85,19 +104,17 @@ class IsHomePage extends AbstractHelper
         $currentUrl = rtrim(str_replace($stripOut, '', $currentUrl), '/');
         $url = rtrim(str_replace($stripOut, '', $url), '/');
 
-        if (strlen($url) == 0) {
-            return strlen($currentUrl) == 0;
+        if (strlen($url) === 0) {
+            return strlen($currentUrl) === 0;
         }
         // Don't check if the url is part of the current url.
-        return $url == $currentUrl;
+        return $url === $currentUrl;
     }
 
     /**
      * Get the current URL.
-     *
-     * @return string
      */
-    protected function currentUrl($absolute = false)
+    protected function currentUrl($absolute = false): string
     {
         return $absolute
              ? $this->getView()->serverUrl(true)
