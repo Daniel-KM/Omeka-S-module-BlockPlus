@@ -336,6 +336,7 @@ return [
             'searchForm' => [
                 'heading' => '',
                 'html' => '',
+                'link' => '',
                 'selector' => '',
                 'template' => '',
             ],

@@ -34,6 +34,17 @@ class SearchFormFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][link]',
+                'type' => Element\Text::class,
+                'options' => [
+                    'label' => 'Link to display', // @translate
+                    'info' => 'Formatted as "/url/full/path Label of the link".', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'search-form-link',
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][selector]',
                 'type' => BlockPlusElement\OptionalRadio::class,
                 'options' => [

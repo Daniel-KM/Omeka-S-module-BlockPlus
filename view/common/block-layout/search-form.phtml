@@ -3,6 +3,7 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var string $heading
  * @var string $html
+ * @var array $link
  * @var string $selector
  */
 
@@ -11,6 +12,7 @@ $url = $plugins->get('url');
 $escape = $plugins->get('escapeHtml');
 $params = $plugins->get('params');
 $translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
 $siteSetting = $plugins->get('siteSetting');
 
 $searchType = $siteSetting('search_type', 'sitewide');
@@ -71,4 +73,9 @@ $searchValue = $params->fromQuery('fulltext_search', '');
         <input type="text" name="fulltext_search" value="<?= $escape($searchValue) ?>" placeholder="<?= $translate('Search') ?>" aria-label="<?= $translate('Search') ?>">
         <button type="submit"><?= $translate('Search') ?></button>
     </form>
+    <?php if ($link): ?>
+    <div class="block-search-link">
+    <?= $hyperlink($link['label'], $link['url']) ?>
+    </div>
+    <?php endif; ?>
 </div>
