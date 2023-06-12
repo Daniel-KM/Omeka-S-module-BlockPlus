@@ -127,8 +127,7 @@ class Asset extends \Omeka\Site\BlockLayout\Asset
 
         $data['attachments'] = $this->prepareAssetAttachments($view, $data, $view->site);
 
-        $vars = $data;
-        $vars['block'] = $block;
+        $vars = ['block' => $block] + $data;
         $template = empty($vars['template']) ? self::PARTIAL_NAME : $vars['template'];
         unset($vars['template']);
 

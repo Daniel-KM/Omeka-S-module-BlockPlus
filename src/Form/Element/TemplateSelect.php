@@ -26,8 +26,9 @@ class TemplateSelect extends Select
      */
     protected function findTemplates($layout)
     {
-        // Hacky way to get all filenames for the asset. Theme first, then
-        // modules, then core.
+        // Hacky way to get all filenames for the templates. Core first
+        // (default), then all modules, then the current theme.
+
         $templates = [$layout => 'Default']; // @translate
 
         // Check filenames in core.

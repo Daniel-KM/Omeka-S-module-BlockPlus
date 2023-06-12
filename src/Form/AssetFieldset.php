@@ -2,10 +2,9 @@
 
 namespace BlockPlus\Form;
 
-use BlockPlus\Form\Element\TemplateSelect;
+use BlockPlus\Form\Element as BlockPlusElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
-use Omeka\Form\Element\Asset;
 
 class AssetFieldset extends Fieldset
 {
@@ -60,7 +59,7 @@ class AssetFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
-                'type' => TemplateSelect::class,
+                'type' => BlockPlusElement\TemplateSelect::class,
                 'options' => [
                     'label' => 'Template to display', // @translate
                     'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "asset".', // @translate
