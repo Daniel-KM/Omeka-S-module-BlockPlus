@@ -30,6 +30,8 @@ return [
     'block_layouts' => [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
+            // Use a delegator instead of a factory in order to inject HtmlPurifier.
+            // 'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             'buttons' => Site\BlockLayout\Buttons::class,
             'd3Graph' => Site\BlockLayout\D3Graph::class,
             'division' => Site\BlockLayout\Division::class,
@@ -52,13 +54,17 @@ return [
         ],
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,
-            'browsePreview' => Service\BlockLayout\BrowsePreviewFactory::class,
             'externalContent' => Service\BlockLayout\ExternalContentFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
             'listOfPages' => Service\BlockLayout\ListOfPagesFactory::class,
             'mirrorPage' => Service\BlockLayout\MirrorPageFactory::class,
             'resourceText' => Service\BlockLayout\ResourceTextFactory::class,
             'showcase' => Service\BlockLayout\ShowcaseFactory::class,
+        ],
+        'delegators' => [
+            \Omeka\Site\BlockLayout\BrowsePreview::class => [
+                Service\BlockLayout\BrowsePreviewDelegatorFactory::class
+            ],
         ],
         'aliases' => [
             'itemShowcase' => 'itemShowCase',

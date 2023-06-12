@@ -7,14 +7,16 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
-use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\HtmlPurifier;
+use Omeka\Site\BlockLayout\BrowsePreview as OmekaBrowsePreview;
 
 /**
- * @see \Omeka\Site\BlockLayout\BrowsePreview
+ * This is a laminas delegator to be able to inject HtmlPurifier.
+ * Indeed, a constructor is needed to prepare HtmlPurifier, but it cannot be
+ * loaded,because browsePreview is already an invokable.
  */
-class BrowsePreview extends AbstractBlockLayout
+class BrowsePreview extends OmekaBrowsePreview
 {
     use CommonTrait;
 
@@ -24,13 +26,18 @@ class BrowsePreview extends AbstractBlockLayout
     const PARTIAL_NAME = 'common/block-layout/browse-preview';
 
     /**
+     * @var \Omeka\Site\BlockLayout\BrowsePreview
+     */
+    protected $browsePreview;
+
+    /**
      * @var HtmlPurifier
      */
     protected $htmlPurifier;
 
-    public function __construct(
-        HtmlPurifier $htmlPurifier
-    ) {
+    public function __construct(OmekaBrowsePreview $browsePreview, HtmlPurifier $htmlPurifier)
+    {
+        $this->browsePreview = $browsePreview;
         $this->htmlPurifier = $htmlPurifier;
     }
 

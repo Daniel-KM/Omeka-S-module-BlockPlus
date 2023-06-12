@@ -4,7 +4,7 @@
     .block.value .collapse + .collapsible {
         display: block;
         clear: both;
-        overflow: hidden;
+        overflow: inherit;
     }
 
     /* Footnotes (against core styles) */
@@ -34,6 +34,12 @@
     .block textarea.full.wysiwyg + [contenteditable=true] {
         height: 288px;
         max-height: initial;
+    }
+
+    .block[data-block-layout="browsePreview"] textarea.full.wysiwyg,
+    .block[data-block-layout="browsePreview"] textarea.full.wysiwyg + [contenteditable=true] {
+        height: inherit;
+        max-height: inherit;
     }
 
     .asset-form-element .selected-asset-page-metadata {
