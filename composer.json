@@ -22,14 +22,16 @@
         "admin",
         "gallery",
         "tree structure",
-        "footnotes"
+        "footnotes",
+        "carousel"
     ],
     "require": {
         "oomphinc/composer-installers-extender": "^2.0",
+        "andykirk/ckeditor-footnotes": "1.0.10",
         "asset/thumbnail-grid-expanding-preview": "0.1",
         "d3/d3": "3.5.17",
-        "thetechy/jslists": "0.4.5",
-        "andykirk/ckeditor-footnotes": "1.0.10"
+        "kenwheeler/slick": "1.8.1",
+        "thetechy/jslists": "0.4.5"
     },
     "replace": {
         "jsor/jcarousel": "*"
@@ -45,6 +47,19 @@
         }
     },
     "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "type": "omeka-addon-asset",
+                "name": "andykirk/ckeditor-footnotes",
+                "version": "1.0.10",
+                "dist": {
+                    "type": "tar",
+                    "reference": "",
+                    "url": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.3.14.0/ckeditor-footnotes-1.0.10-omeka.tar.gz"
+                }
+            }
+        },
         {
             "type": "package",
             "package": {
@@ -88,25 +103,25 @@
             "type": "package",
             "package": {
                 "type": "omeka-addon-asset",
-                "name": "thetechy/jslists",
-                "version": "0.4.5",
+                "name": "kenwheeler/slick",
+                "version": "1.8.1",
                 "dist": {
                     "type": "zip",
                     "reference": "",
-                    "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.zip"
+                    "url": "https://github.com/kenwheeler/slick/archive/refs/heads/master.zip"
                 }
             }
         },
         {
             "type": "package",
             "package": {
-                "name": "andykirk/ckeditor-footnotes",
-                "version": "1.0.10",
                 "type": "omeka-addon-asset",
+                "name": "thetechy/jslists",
+                "version": "0.4.5",
                 "dist": {
-                    "type": "tar",
+                    "type": "zip",
                     "reference": "",
-                    "url": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.3.14.0/ckeditor-footnotes-1.0.10-omeka.tar.gz"
+                    "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.zip"
                 }
             }
         }
