@@ -4,6 +4,7 @@
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var string $resourceType
  * @var string $heading
+ * @var string $html
  * @var string $linkText
  * @var array $components
  * @var array $query
@@ -78,28 +79,37 @@ jQuery(function() {
 </style>
 
 <div class="block preview-block">
-<div class="jcarousel-wrapper">
-    <div class="jcarousel" id="jcarousel-<?php echo $idSuffix; ?>">
-        <ul>
-            <?php foreach ($resources as $resource):
-                $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle(null, $lang);
-                $resourceUrl = $resource->siteUrl($siteSlug);
-            ?>
-            <li>
-                <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading]), $resourceUrl, ['class' => 'shortcode-carousel-image']) ?>
-                <?php if (isset($configs['carousel']['showTitles']) && $configs['carousel']['showTitles']): ?>
-                <p class="shortcode-carousel-title">
-                    <?= $resource->linkRaw($escape($heading), $resourceUrl) ?>
-                </p>
-                <?php endif; ?>
-            </li>
-        <?php endforeach; ?>
-        </ul>
+
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+
+    <?php if (!empty($html)): ?>
+    <?= $html ?>
+    <?php endif; ?>
+
+    <div class="jcarousel-wrapper">
+        <div class="jcarousel" id="jcarousel-<?php echo $idSuffix; ?>">
+            <ul>
+                <?php foreach ($resources as $resource):
+                    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle(null, $lang);
+                    $resourceUrl = $resource->siteUrl($siteSlug);
+                ?>
+                <li>
+                    <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading]), $resourceUrl, ['class' => 'shortcode-carousel-image']) ?>
+                    <?php if (isset($configs['carousel']['showTitles']) && $configs['carousel']['showTitles']): ?>
+                    <p class="shortcode-carousel-title">
+                        <?= $resource->linkRaw($escape($heading), $resourceUrl) ?>
+                    </p>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+
+        <p class="jcarousel-pagination"></p>
     </div>
-
-    <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-    <a href="#" class="jcarousel-control-next">&rsaquo;</a>
-
-    <p class="jcarousel-pagination"></p>
-</div>
 </div>

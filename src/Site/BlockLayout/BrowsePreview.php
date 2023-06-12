@@ -9,16 +9,30 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\HtmlPurifier;
 
 /**
  * @see \Omeka\Site\BlockLayout\BrowsePreview
  */
 class BrowsePreview extends AbstractBlockLayout
 {
+    use CommonTrait;
+
     /**
      * The default partial view script.
      */
     const PARTIAL_NAME = 'common/block-layout/browse-preview';
+
+    /**
+     * @var HtmlPurifier
+     */
+    protected $htmlPurifier;
+
+    public function __construct(
+        HtmlPurifier $htmlPurifier
+    ) {
+        $this->htmlPurifier = $htmlPurifier;
+    }
 
     public function getLabel()
     {
@@ -28,7 +42,13 @@ class BrowsePreview extends AbstractBlockLayout
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
         $data = $block->getData();
+
         $data['query'] = ltrim($data['query'], "? \t\n\r\0\x0B");
+
+        $data['html'] = isset($data['html'])
+            ? $this->fixEndOfLine($this->htmlPurifier->purify($data['html']))
+            : '';
+
         $block->setData($data);
     }
 
@@ -198,6 +218,7 @@ class BrowsePreview extends AbstractBlockLayout
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
             'heading' => $data['heading'],
+            'html' => $data['html'],
             'linkText' => $linkText,
             'components' => $components,
             'query' => $originalQuery,

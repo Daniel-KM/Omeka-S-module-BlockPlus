@@ -30,7 +30,6 @@ return [
     'block_layouts' => [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
-            'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             'buttons' => Site\BlockLayout\Buttons::class,
             'd3Graph' => Site\BlockLayout\D3Graph::class,
             'division' => Site\BlockLayout\Division::class,
@@ -53,6 +52,7 @@ return [
         ],
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,
+            'browsePreview' => Service\BlockLayout\BrowsePreviewFactory::class,
             'externalContent' => Service\BlockLayout\ExternalContentFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
             'listOfPages' => Service\BlockLayout\ListOfPagesFactory::class,
@@ -174,6 +174,7 @@ return [
             ],
             'browsePreview' => [
                 'heading' => '',
+                'html' => '',
                 'resource_type' => 'items',
                 'query' => '',
                 'limit' => 12,

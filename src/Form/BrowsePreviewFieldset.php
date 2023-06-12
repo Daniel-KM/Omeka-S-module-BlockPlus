@@ -23,6 +23,14 @@ class BrowsePreviewFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][html]',
+                'type' => Element\Textarea::class,
+                'attributes' => [
+                    'id' => 'browse-preview-html',
+                    'class' => 'block-html full wysiwyg',
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][resource_type]',
                 'type' => Element\Select::class,
                 'options' => [
