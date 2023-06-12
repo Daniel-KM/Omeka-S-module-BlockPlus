@@ -31,6 +31,7 @@ return [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
+            'buttons' => Site\BlockLayout\Buttons::class,
             'd3Graph' => Site\BlockLayout\D3Graph::class,
             'division' => Site\BlockLayout\Division::class,
             'itemSetShowcase' => Site\BlockLayout\ItemSetShowcase::class,
@@ -74,6 +75,7 @@ return [
             Form\AssetFieldset::class => Form\AssetFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
+            Form\ButtonsFieldset::class => Form\ButtonsFieldset::class,
             Form\D3GraphFieldset::class => Form\D3GraphFieldset::class,
             Form\DivisionFieldset::class => Form\DivisionFieldset::class,
             Form\ExternalContentFieldset::class => Form\ExternalContentFieldset::class,
@@ -184,6 +186,11 @@ return [
                 'sort_headings' => [],
                 'resource_template' => null,
                 'link-text' => 'Browse all', // @translate
+                'template' => '',
+            ],
+            'buttons' => [
+                'heading' => '',
+                'buttons' => [],
                 'template' => '',
             ],
             'd3Graph' => [

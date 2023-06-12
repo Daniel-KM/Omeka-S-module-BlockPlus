@@ -1,0 +1,40 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $heading
+ * @var array $buttons
+ * @var string $params
+ */
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$htmlAttributes = $plugins->get('htmlAttributes');
+?>
+
+<div class="block block-buttons">
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+    <?php if ($buttons): ?>
+    <ul class="share-buttons">
+    <?php foreach ($buttons as $button => $data): ?>
+    <li>
+        <?php switch ($button):
+            case 'download':
+            case 'email':
+            case 'facebook':
+            case 'twitter':
+            default:
+            ?>
+        <a <?= $htmlAttributes($data['attrs']) ?>>
+            <?= $translate($data['label']) ?>
+        </a>
+        <?php break;
+            endswitch; ?>
+    </li>
+    <?php endforeach; ?>
+    <?php endif; ?>
+    </ul>
+</div>
