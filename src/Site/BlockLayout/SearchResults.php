@@ -39,8 +39,7 @@ class SearchResults extends AbstractBlockLayout
     {
         $assetUrl = $view->plugin('assetUrl');
         $view->headLink()
-            ->prependStylesheet($assetUrl('css/advanced-search.css', 'Omeka'))
-            ->appendStylesheet($assetUrl('css/query-form.css', 'Omeka'));
+            ->prependStylesheet($assetUrl('css/advanced-search.css', 'Omeka'));
         $view->headScript()
             ->appendFile($assetUrl('js/advanced-search.js', 'Omeka'))
             ->appendFile($assetUrl('js/query-form.js', 'Omeka'))
