@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Menu\Service\Form\Element;
+namespace BlockPlus\Service\Form\Element;
 
-use Menu\Form\Element\OptionalPropertySelect;
+use BlockPlus\Form\Element\OptionalPropertySelect;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Menu\View\Helper;
+namespace BlockPlus\View\Helper;
 
 use Laminas\Navigation\Navigation;
 use Laminas\Navigation\Page\AbstractPage;
@@ -64,7 +64,7 @@ class Breadcrumbs extends AbstractHelper
         $url = $plugins->get('url');
         $siteSetting = $plugins->get('siteSetting');
 
-        $crumbsSettings = $siteSetting('menu_breadcrumbs_crumbs', false);
+        $crumbsSettings = $siteSetting('blockplus_breadcrumbs_crumbs', false);
         // The multicheckbox skips keys of unset boxes, so they are added.
         if (is_array($crumbsSettings)) {
             $crumbsSettings = array_fill_keys($crumbsSettings, true) + [
@@ -83,12 +83,12 @@ class Breadcrumbs extends AbstractHelper
             'home' => true,
             'prepend' => [],
             'collections' => true,
-            'collections_url' => $siteSetting('menu_breadcrumbs_collections_url'),
+            'collections_url' => $siteSetting('blockplus_breadcrumbs_collections_url'),
             'itemset' => true,
             'current' => true,
-            'property_itemset' => $siteSetting('menu_breadcrumbs_property_itemset'),
+            'property_itemset' => $siteSetting('blockplus_breadcrumbs_property_itemset'),
             'homepage' => false,
-            'separator' => $siteSetting('menu_breadcrumbs_separator', '&gt;'),
+            'separator' => $siteSetting('blockplus_breadcrumbs_separator', '&gt;'),
             'template' => $this->defaultTemplate,
         ];
         $options += $defaults;
@@ -109,7 +109,7 @@ class Breadcrumbs extends AbstractHelper
             ];
         }
 
-        $prepend = $siteSetting('menu_breadcrumbs_prepend', []);
+        $prepend = $siteSetting('blockplus_breadcrumbs_prepend', []);
         if ($prepend) {
             $this->crumbs = array_merge($this->crumbs, $prepend);
         }

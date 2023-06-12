@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Menu\View\Helper;
+namespace BlockPlus\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
 use Omeka\Api\Representation\ItemRepresentation;
@@ -57,7 +57,7 @@ class PrimaryItemSet extends AbstractHelper
             return reset($itemSets);
         }
 
-        $propertyItemSet = $this->getView()->setting('menu_property_itemset');
+        $propertyItemSet = $this->getView()->setting('blockplus_property_itemset');
         if ($propertyItemSet) {
             // Omeka manages differently the datatype when there is a resource
             // template, so a check should be done for "resource:itemset" and

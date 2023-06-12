@@ -66,7 +66,9 @@ return [
     'form_elements' => [
         'invokables' => [
             Form\Element\BlockShowTitleSelect::class => Form\Element\BlockShowTitleSelect::class,
+            Form\Element\DataTextarea::class => Form\Element\DataTextarea::class,
             Form\Element\Note::class => Form\Element\Note::class,
+            Form\Element\OptionalMultiCheckbox::class => Form\Element\OptionalMultiCheckbox::class,
             Form\Element\OptionalRadio::class => Form\Element\OptionalRadio::class,
             // Blocks.
             Form\AssetFieldset::class => Form\AssetFieldset::class,
@@ -98,6 +100,7 @@ return [
             Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldset::class,
         ],
         'factories' => [
+            Form\Element\OptionalPropertySelect::class => Service\Form\Element\OptionalPropertySelectFactory::class,
             Form\Element\SitesPageSelect::class => Service\Form\Element\SitesPageSelectFactory::class,
             Form\Element\TemplateSelect::class => Service\Form\Element\TemplateSelectFactory::class,
             Form\Element\ThumbnailTypeSelect::class => Service\Form\Element\ThumbnailTypeSelectFactory::class,
@@ -123,6 +126,7 @@ return [
         'settings' => [
             'blockplus_html_mode_page' => 'inline',
             'blockplus_html_config_page' => 'default',
+            'blockplus_property_itemset' => '',
         ],
         'site_settings' => [
             'blockplus_page_types' => [
@@ -131,6 +135,16 @@ return [
                 'exhibit_page' => 'Exhibit page', // @translate
                 'simple' => 'Simple page', // @translate
             ],
+            'blockplus_breadcrumbs_crumbs' => [
+                'home',
+                'collections',
+                'itemset',
+                'current',
+            ],
+            'blockplus_breadcrumbs_prepend' => [],
+            'blockplus_breadcrumbs_collections_url' => '',
+            'blockplus_breadcrumbs_separator' => '&gt;',
+            'blockplus_breadcrumbs_homepage' => false,
         ],
         'block_settings' => [
             // The new source upstream "asset" block stores assets as attachments.

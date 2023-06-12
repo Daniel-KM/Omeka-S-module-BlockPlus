@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Menu\Form\Element;
+namespace BlockPlus\Form\Element;
 
 trait TraitOptionalElement
 {

@@ -55,7 +55,7 @@ class SettingsFieldset extends Fieldset
 
             ->add([
                 'name' => 'blockplus_property_itemset',
-                'type' => MenuElement\OptionalPropertySelect::class,
+                'type' => BlockPlusElement\OptionalPropertySelect::class,
                 'options' => [
                     'element_group' => 'block_plus',
                     'label' => 'Property to set primary item set', // @translate
