@@ -399,6 +399,15 @@ SET
 WHERE `id` = $id;
 SQL;
         $connection->executeStatement($sql);
+        $pageId = (int) $block['page_id'];
+        if (!isset($pages[$pageId])) {
+            try {
+                /** @var \Omeka\Api\Representation\SitePageRepresentation $page */
+                $page = $api->read('site_pages', ['id' => $pageId])->getContent();
+                $pages[$pageId] = $hyperlink->raw($page->title(), $page->siteUrl());
+            } catch (\Omeka\Api\Exception\NotFoundException $e) {
+            }
+        }
     }
 
     $message = new Message(
@@ -408,7 +417,7 @@ SQL;
 
     if ($pages) {
         $message = new Message(
-            'The key "url" of attachments of block "Asset" was removed. The block template should be updated if you customized it in pages %s.', // @translate
+            'The key "url" of attachments of block "Asset" was removed. The block template should be updated if you customized it in pages: %s', // @translate
             '<ul><li>' . implode('</li><li>', $pages) . '</li></ul>'
         );
         $message->setEscapeHtml(false);
