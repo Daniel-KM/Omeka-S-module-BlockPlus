@@ -143,7 +143,7 @@ return [
             ],
             'blockplus_breadcrumbs_prepend' => [],
             'blockplus_breadcrumbs_collections_url' => '',
-            'blockplus_breadcrumbs_separator' => '&gt;',
+            'blockplus_breadcrumbs_separator' => '',
             'blockplus_breadcrumbs_homepage' => false,
         ],
         'block_settings' => [

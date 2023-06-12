@@ -36,7 +36,7 @@ class Breadcrumbs extends AbstractHelper
      *   set of an item when they are multiple.
      * - homepage (bool) Display the breadcrumbs on the home page (false by
      *   default)
-     * - separator (string) Separator, escaped for html (default is "&gt;")
+     * - separator (string) Separator, escaped for html (no default: use css)
      * - template (string) The partial to use (default: "common/breadcrumbs")
      * Options are passed to the partial too.
      * @return string The html breadcrumb.
@@ -88,7 +88,7 @@ class Breadcrumbs extends AbstractHelper
             'current' => true,
             'property_itemset' => $siteSetting('blockplus_breadcrumbs_property_itemset'),
             'homepage' => false,
-            'separator' => $siteSetting('blockplus_breadcrumbs_separator', '&gt;'),
+            'separator' => $siteSetting('blockplus_breadcrumbs_separator', ''),
             'template' => $this->defaultTemplate,
         ];
         $options += $defaults;
