@@ -9,7 +9,7 @@ use Laminas\View\Helper\AbstractHelper;
  *
  * Override core view helper to load a specific config.
  *
- * Copy in module DataTypeRdf.
+ * Used in various modules:
  * @see \Omeka\View\Helper\CkEditor
  * @see \BlockPlus\View\Helper\CkEditor
  * @see \DataTypeRdf\View\Helper\CkEditor

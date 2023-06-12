@@ -58,6 +58,7 @@ CKEDITOR.editorConfig = function( config ) {
     // Simplify the dialog windows.
     config.removeDialogTabs = 'image:advanced;link:advanced';
 
+    config.stylesSet = 'default:../../../../application/asset/js/custom-ckeditor-styles.js';
     // Disable content filtering
     config.allowedContent = true;
     // Add extra plugins

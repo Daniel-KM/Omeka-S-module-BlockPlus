@@ -28,7 +28,7 @@ CKEDITOR.editorConfig = function( config ) {
         },
     ];
 
-    config.stylesSet = 'default:../../js/custom-ckeditor-styles.js';
+    config.stylesSet = 'default:../../../../application/asset/js/custom-ckeditor-styles.js';
     // Disable content filtering
     config.allowedContent = true;
     // Add extra plugins

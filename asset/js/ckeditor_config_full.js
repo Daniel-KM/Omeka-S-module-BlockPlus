@@ -54,6 +54,7 @@ CKEDITOR.editorConfig = function( config ) {
     // config.removeButtons = 'Underline,Subscript,Superscript';
     config.removeButtons = 'Source,Scayt';
 
+    config.stylesSet = 'default:../../../../application/asset/js/custom-ckeditor-styles.js';
     // Disable content filtering
     config.allowedContent = true;
     // Add extra plugins
