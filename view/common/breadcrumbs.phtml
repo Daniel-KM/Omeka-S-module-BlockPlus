@@ -15,6 +15,7 @@
 
 // Quick hack to insert a span for the last part instead nothing (simpler to theme and simpler than creating a specific partial).
 
+// The separator should be a string, else the default one (" &gt; ") is used.
 $separator = ' ' . $options['separator'] . " \n";
 $html = empty($nav)
     ? $this->navigation()->breadcrumbs($breadcrumbs)->setSeparator($separator)

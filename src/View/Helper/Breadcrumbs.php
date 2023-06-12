@@ -9,9 +9,20 @@ use Laminas\View\Helper\AbstractHelper;
 
 class Breadcrumbs extends AbstractHelper
 {
+    /**
+     * @var string
+     */
     protected $defaultTemplate = 'common/breadcrumbs';
 
+    /**
+     * @var array
+     */
     protected $crumbs;
+
+    /**
+     * @var \Omeka\View\Helper\Api
+     */
+    protected $api;
 
     /**
      * Prepare the breadcrumb via a partial for resources and pages.
@@ -60,8 +71,9 @@ class Breadcrumbs extends AbstractHelper
         $vars = $view->vars();
 
         $plugins = $view->getHelperPluginManager();
-        $translate = $plugins->get('translate');
+        $this->api = $plugins->get('api');
         $url = $plugins->get('url');
+        $translate = $plugins->get('translate');
         $siteSetting = $plugins->get('siteSetting');
 
         $crumbsSettings = $siteSetting('blockplus_breadcrumbs_crumbs', false);
@@ -129,11 +141,7 @@ class Breadcrumbs extends AbstractHelper
                 }
 
                 if (!$options['home'] != $options['current']) {
-                    $this->crumbs[] = [
-                        'label' => $translate('Home'),
-                        'uri' => $site->siteUrl($siteSlug),
-                        'resource' => $site,
-                    ];
+                    $this->crumbHome($site);
                 }
                 break;
 
@@ -205,41 +213,21 @@ class Breadcrumbs extends AbstractHelper
                 switch ($type) {
                     case 'media':
                         $item = $resource->item();
-                        if ($options['itemset']) {
-                            if ($options['collections']) {
-                                $this->crumbCollections($options, $translate, $url, $siteSlug);
-                            }
-
-                            $itemSet = $view->primaryItemSet($item, $site);
-                            if ($itemSet) {
-                                $this->crumbs[] = [
-                                    'label' => (string) $itemSet->displayTitle(),
-                                    'uri' => $itemSet->siteUrl($siteSlug),
-                                    'resource' => $itemSet,
-                                ];
-                            }
+                        if ($options['collections']) {
+                            $this->crumbCollections($options, $translate, $url, $siteSlug);
                         }
-                        $this->crumbs[] = [
-                            'label' => (string) $item->displayTitle(),
-                            'uri' => $item->siteUrl($siteSlug),
-                            'resource' => $item,
-                        ];
+                        if ($options['itemset']) {
+                            $this->crumbPrimaryItemSet($item, $site);
+                        }
+                        $this->crumbItem($item, $site);
                         break;
 
                     case 'items':
                         if ($options['collections']) {
                             $this->crumbCollections($options, $translate, $url, $siteSlug);
                         }
-
                         if ($options['itemset']) {
-                            $itemSet = $view->primaryItemSet($resource, $site);
-                            if ($itemSet) {
-                                $this->crumbs[] = [
-                                    'label' => (string) $itemSet->displayTitle(),
-                                    'uri' => $itemSet->siteUrl($siteSlug),
-                                    'resource' => $itemSet,
-                                ];
-                            }
+                            $this->crumbPrimaryItemSet($resource, $site);
                         }
                         break;
 
@@ -282,7 +270,7 @@ class Breadcrumbs extends AbstractHelper
                 try {
                     // Api doesn't allow to search one page by slug.
                     /** @var \Omeka\Api\Representation\SitePageRepresentation $page */
-                    $page = $view->api()->read('site_pages', ['site' => $site->id(), 'slug' => $view->params()->fromRoute('page-slug')])->getContent();
+                    $page = $this->api->read('site_pages', ['site' => $site->id(), 'slug' => $view->params()->fromRoute('page-slug')])->getContent();
                 } catch (\Omeka\Api\Exception\NotFoundException $e) {
                     $this->crumbs[] = [
                         'label' => 'Error', // @translate
@@ -362,18 +350,12 @@ class Breadcrumbs extends AbstractHelper
                 // Manage the case where the search page is used for item set,
                 // like item/browse for item-set/show.
                 if ($options['itemset']) {
-                    $itemSet = $routeMatch->getParam('item-set-id', null) ?: $view->params()->fromQuery('collection');
-                } else {
-                    $itemSet = null;
-                }
-                if ($itemSet) {
-                    $itemSet = $view->api()->read('item_sets', ['id' => $itemSet])->getContent();
-                    $this->crumbs[] = [
-                        'label' => (string) $itemSet->displayTitle(),
-                        'uri' => $itemSet->siteUrl($siteSlug),
-                        'resource' => $itemSet,
-                    ];
-                    // Display page?
+                    $itemSetId = $routeMatch->getParam('item-set-id', null) ?: $view->params()->fromQuery('collection');
+                    if ($itemSetId) {
+                        $itemSet = $this->api->searchOne('item_sets', ['id' => $itemSetId])->getContent();
+                        $this->crumbItemSet($itemSet, $site);
+                        // Display page?
+                    }
                 }
                 if ($options['current']) {
                     $label = $translate('Search'); // @translate
@@ -537,6 +519,15 @@ class Breadcrumbs extends AbstractHelper
         );
     }
 
+    protected function crumbHome(SiteRepresentation $site): void
+    {
+        $this->crumbs[] = [
+            'label' => $this->getView()->translate('Home'),
+            'uri' => $site->siteUrl($site->slug()),
+            'resource' => $site,
+        ];
+    }
+
     protected function crumbCollections(array $options, $translate, $url, $siteSlug): void
     {
         $this->crumbs[] = [
@@ -546,6 +537,36 @@ class Breadcrumbs extends AbstractHelper
                 ['site-slug' => $siteSlug, 'controller' => 'item-set', 'action' => 'browse']
             ),
             'resource' => null,
+        ];
+    }
+
+    protected function crumbItemSet(ItemSetRepresentation $itemSet, SiteRepresentation $site): void
+    {
+        $this->crumbs[] = [
+            'label' => (string) $itemSet->displayTitle(),
+            'uri' => $itemSet->siteUrl($site->slug()),
+            'resource' => $itemSet,
+        ];
+    }
+
+    protected function crumbPrimaryItemSet(ItemRepresentation $item, SiteRepresentation $site): void
+    {
+        $itemSet = $this->getView()->primaryItemSet($item, $site);
+        if ($itemSet) {
+            $this->crumbs[] = [
+                'label' => (string) $itemSet->displayTitle(),
+                'uri' => $itemSet->siteUrl($site->slug()),
+                'resource' => $itemSet,
+            ];
+        }
+    }
+
+    protected function crumbItem(ItemRepresentation $item, SiteRepresentation $site): void
+    {
+        $this->crumbs[] = [
+            'label' => (string) $item->displayTitle(),
+            'uri' => $item->siteUrl($site->slug()),
+            'resource' => $item,
         ];
     }
 
