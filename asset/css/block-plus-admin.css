@@ -1,5 +1,12 @@
 @media screen {
 
+    /* Allows to display chosen-select in the bottom of a block. */
+    .block.value .collapse + .collapsible {
+        display: block;
+        clear: both;
+        overflow: hidden;
+    }
+
     /* Footnotes (against core styles) */
     section header {
         background-color: inherit;
