@@ -134,6 +134,9 @@ trait PageBlockMetadataTrait
                 }
                 return null;
 
+            case 'is_home_page':
+                return $view->isHomePage($page);
+
             case 'root':
                 $parents = $this->parentPages($page);
                 return empty($parents) ? $page : array_pop($parents);

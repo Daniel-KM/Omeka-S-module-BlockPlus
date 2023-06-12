@@ -21,7 +21,9 @@ class IsHomePage extends AbstractHelper
     {
         $view = $this->getView();
 
-        $site = $page ? $page->site() : $view->currentSite();
+        $hasPage = $page !== null;
+
+        $site = $hasPage ? $page->site() : $view->currentSite();
         if (empty($site)) {
             return false;
         }
@@ -34,6 +36,9 @@ class IsHomePage extends AbstractHelper
             $homePage = $this->getHomePage($page->site());
             if ($homePage) {
                 return $page->id() === $homePage->id();
+            }
+            if ($hasPage) {
+                return false;
             }
         }
 
