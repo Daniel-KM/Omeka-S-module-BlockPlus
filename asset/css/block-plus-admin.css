@@ -8,13 +8,16 @@
     }
 
     /* Footnotes (against core styles) */
-    section header {
+    section.footnotes header {
         background-color: inherit;
         width: auto;
         min-height: initial;
         text-align: initial;
         padding: initial;
         color: initial;
+    }
+    section.footnotes header h2 {
+        font-size: 16px;
     }
 
     .cke_button_icon.cke_button__footnotes_icon {

@@ -46,9 +46,13 @@ class CkEditor extends AbstractHelper
 
         $isSiteAdminResource = $isAdmin
             && in_array($controller, ['Item', 'ItemSet', 'Media', 'Annotation', 'item', 'item-set', 'media', 'annotation'])
-            && ($action === 'edit' || $action === 'add');
+            && ($action === 'edit' || $action === 'add')
+            // To avoid to prepare a factory to check if module DataTypeRdf
+            // is enabled, just check the class.
+            && class_exists('DataTypeRdf\Module');
 
         $script = '';
+        $customConfigJs = 'js/ckeditor_config.js';
         if ($isSiteAdminPage || $isSiteAdminResource) {
             $setting = $plugins->get('setting');
             $pageOrResource = $isSiteAdminPage ? 'page' : 'resource';
@@ -62,20 +66,21 @@ JS;
             }
 
             $htmlConfig = $setting($module . '_html_config_' . $pageOrResource);
-            $customConfigUrl = $htmlConfig && $htmlConfig !== 'default'
-                ? 'js/ckeditor_config_' . $htmlConfig . '.js'
-                : 'js/ckeditor_config.js';
-        } else {
-            $customConfigUrl = 'js/ckeditor_config.js';
+            if ($htmlConfig && $htmlConfig !== 'default') {
+                $customConfigJs = $htmlConfig && $htmlConfig !== 'default'
+                    ? 'js/ckeditor_config_' . $htmlConfig . '.js'
+                    : 'js/ckeditor_config.js';
+            }
         }
 
-        $customConfigUrl = $escapeJs($assetUrl($customConfigUrl, 'BlockPlus'));
+        $customConfigUrl = $escapeJs($assetUrl($customConfigJs, 'BlockPlus'));
         $script .= <<<JS
 CKEDITOR.config.customConfig = '$customConfigUrl';
 JS;
 
         // The footnotes icon is not loaded automaically, so add css.
         // Only this css rule is needed.
+        // The js for block-plus-admin is already loaded with the blocks.
         $view->headLink()
             ->appendStylesheet($assetUrl('css/block-plus-admin.css', 'BlockPlus'));
 
