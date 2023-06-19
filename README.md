@@ -400,9 +400,10 @@ $hasPreviousNext = $plugins->has('previousNext');
 
 #### Last browse page
 
-Allow to go back to the last list of results in order to browse inside item sets,
-items or media after a search without losing the search results. The helper is
-used by default in admin resources pages.
+Allow to go back to the last list of results in order to browse inside item
+sets, items or media after a search without losing the search results. It can be
+appended automatically with helper "previousNext()" and option "back" set to
+true.
 
 
 TODO
