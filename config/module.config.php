@@ -3,6 +3,14 @@
 namespace BlockPlus;
 
 return [
+    'service_manager' => [
+        'invokables' => [
+            Mvc\MvcListeners::class => Mvc\MvcListeners::class,
+        ],
+    ],
+    'listeners' => [
+        Mvc\MvcListeners::class,
+    ],
     'view_manager' => [
         'template_path_stack' => [
             dirname(__DIR__) . '/view',
@@ -143,12 +151,14 @@ return [
             'blockplus_property_itemset' => '',
         ],
         'site_settings' => [
+            // Page metadata.
             'blockplus_page_types' => [
                 'home' => 'Home', // @translate
                 'exhibit' => 'Exhibit', // @translate
                 'exhibit_page' => 'Exhibit page', // @translate
                 'simple' => 'Simple page', // @translate
             ],
+            // Breadcrumbs.
             'blockplus_breadcrumbs_crumbs' => [
                 'home',
                 'collections',
@@ -160,6 +170,10 @@ return [
             'blockplus_breadcrumbs_collections_url' => '',
             'blockplus_breadcrumbs_separator' => '',
             'blockplus_breadcrumbs_homepage' => false,
+            // Previous/Next resources.
+            'blockplus_items_order_for_itemsets' => [],
+            'blockplus_prevnext_items_query' => '',
+            'blockplus_prevnext_item_sets_query' => '',
         ],
         'block_settings' => [
             // The new source upstream "asset" block stores assets as attachments.

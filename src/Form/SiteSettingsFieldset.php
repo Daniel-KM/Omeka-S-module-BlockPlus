@@ -14,6 +14,7 @@ class SiteSettingsFieldset extends Fieldset
     protected $elementGroups = [
         'block_plus' => 'Block plus', // @translate
         'breadcrumbs' => 'Breadcrumbs', // @translate
+        'block_plus_resources' => 'Block plus resources', // @translate
     ];
 
     public function init(): void
@@ -116,6 +117,51 @@ simple = Simple page', // @translate
                 ],
                 'attributes' => [
                     'id' => 'blockplus_breadcrumbs_homepage',
+                ],
+            ])
+
+            // Previous/Next resources.
+
+            ->add([
+                'name' => 'blockplus_items_order_for_itemsets',
+                'type' => Element\Textarea::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Default items order in each item set', // @translate
+                    'info' => 'Set order for item set, one by row, format "id,id,id property order". Use "0" for the default.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_items_order_for_itemsets',
+                    'placeholder' => '0 dcterms:identifier asc
+17,24 created desc
+73 dcterms:title asc',
+                ],
+            ])
+            // TODO Use omeka element query, but check compatibility with module Advanced Search.
+            ->add([
+                'name' => 'blockplus_prevnext_items_query',
+                'type' => Element\Text::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Query to limit and sort the list of items for the previous/next buttons', // @translate
+                    'info' => 'Use a standard query. Arguments from module Advanced Search are supported if present and needed.', // @translate
+                    'documentation' => 'https://omeka.org/s/docs/user-manual/sites/site_pages/#browse-preview',
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_prevnext_items_query',
+                ],
+            ])
+            ->add([
+                'name' => 'blockplus_prevnext_item_sets_query',
+                'type' => Element\Text::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Query to limit and sort the list of item sets for the previous/next buttons', // @translate
+                    'info' => 'Use a standard query. Arguments from module Advanced Search are supported if present and needed.', // @translate
+                    'documentation' => 'https://omeka.org/s/docs/user-manual/sites/site_pages/#browse-preview',
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_prevnext_item_sets_query',
                 ],
             ])
 
