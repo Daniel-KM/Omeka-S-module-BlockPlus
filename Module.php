@@ -90,7 +90,7 @@ class Module extends AbstractModule
             $session->lastQuery = [];
         }
         $params = $event->getTarget()->params();
-        // $ui = $params->fromRoute('__ADMIN__') ? 'admin' : 'public';
+        // $ui = $params->fromRoute('__SITE__') ? 'public' : 'admin';
         $ui = 'public';
         // Why not use $this->getServiceLocator()->get('Request')->getServer()->get('REQUEST_URI')?
         $session->lastBrowsePage[$ui] = $_SERVER['REQUEST_URI'];

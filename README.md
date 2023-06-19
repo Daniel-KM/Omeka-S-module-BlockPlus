@@ -12,6 +12,8 @@ page, search form, assets, item set showcase, exhibits, footnotes, etc.
 Furthermore, each block can use multiple templates, so it's possible to theme a
 block differently in different pages.
 
+Some resource page blocks are implemented too.
+
 
 Installation
 ------------
@@ -272,6 +274,23 @@ too. If you can't, try to check the option to use the Api version 1.1.
 In all cases, there is a [rate limit], but generally largely enough for a common
 digital library.
 
+### Resource page blocks (Omeka S v4)
+
+#### Block simple
+
+A block to customize in theme.
+
+#### Buttons Previous/Next
+
+This block requires the module [Easy Admin].
+
+Allow to display buttons previous resource and next resource in the list. The
+list is built from the user last browse query, else from natural order. The
+default order without previous browse or search can be set in site settings for
+items and item sets. For media, the order is defined in item.
+
+It can be used as a theme helper too (see below).
+
 ### Theme view helpers
 
 #### Page Metadata
@@ -343,6 +362,47 @@ By default, the breadcrumbs for an item use the first item set as the parent
 crumb. The first item set is the item set with the smallest id. If you want to
 use another item set, set it as resource in the property that is set in the main
 settings, or in the options of the view helper.
+
+#### Buttons Previous/Next
+
+These helpers require the module [Easy Admin].
+
+To use it, add the following code in the item, item set, or media show page:
+
+```php
+<?php
+$plugins = $this->getHelperPluginManager();
+$previousNext = $plugins->has('previousNext') ? $plugins->get('previousNext') : null;
+?>
+
+<?= $previousNext ? $previousNext($resource) : '' ?>
+```
+
+Two other helpers can be used to manually build the html code:
+
+```php
+<?php
+$plugins = $this->getHelperPluginManager();
+$hasPreviousNext = $plugins->has('previousNext');
+?>
+
+<?php if ($hasPreviousNext): ?>
+<div class="previous-next-items">
+    <?php if ($previous = $this->previousResource($resource)): ?>
+    <?= $previous->link($translate('Previous item'), null, ['class' => 'previous-item']) ?>
+    <?php endif; ?>
+    <?php if ($next = $this->nextResource($resource)): ?>
+    <?= $next->link($translate('Next item'), null, ['class' => 'next-item']) ?>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
+```
+
+#### Last browse page
+
+Allow to go back to the last list of results in order to browse inside item sets,
+items or media after a search without losing the search results. The helper is
+used by default in admin resources pages.
 
 
 TODO
@@ -456,6 +516,7 @@ Copyright
 [Shortcode]: https://gitlab.com/Daniel-KM/Omeka-S-module-Shortcode
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
 [BlockPlus.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/releases
+[Easy Admin]: https://gitlab.com/Daniel-KM/Omeka-S-module-EasyAdmin
 [module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html

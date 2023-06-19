@@ -81,6 +81,7 @@ return [
     'resource_page_block_layouts' => [
         'invokables' => [
             'block' => Site\ResourcePageBlockLayout\Block::class,
+            'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
         ],
     ],
     'form_elements' => [
