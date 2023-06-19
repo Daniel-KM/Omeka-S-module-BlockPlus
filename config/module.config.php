@@ -70,6 +70,11 @@ return [
             'itemShowcase' => 'itemShowCase',
         ],
     ],
+    'resource_page_block_layouts' => [
+        'invokables' => [
+            'block' => Site\ResourcePageBlockLayout\Block::class,
+        ],
+    ],
     'form_elements' => [
         'invokables' => [
             Form\Element\BlockShowTitleSelect::class => Form\Element\BlockShowTitleSelect::class,
