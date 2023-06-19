@@ -462,3 +462,8 @@ WHERE `layout` = 'searchForm'
 SQL;
     $connection->executeStatement($sql);
 }
+
+if (version_compare($oldVersion, '3.4.17', '<')) {
+    $message = new Message('Two new resource page blocks has been added, in particular to display buttons to previous and next resource (require module Easy Admin).'); // @translate
+    $messenger->addSuccess($message);
+}
