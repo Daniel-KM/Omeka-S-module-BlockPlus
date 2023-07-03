@@ -82,6 +82,11 @@ class Module extends AbstractModule
         );
     }
 
+    /**
+     * Copy in:
+     * @see \BlockPlus\Module::handleViewBrowse()
+     * @see \EasyAdmin\Module::handleViewBrowse()
+     */
     public function handleViewBrowse(Event $event): void
     {
         $session = new Container('EasyAdmin');
@@ -93,15 +98,10 @@ class Module extends AbstractModule
         // $ui = $params->fromRoute('__SITE__') ? 'public' : 'admin';
         $ui = 'public';
         // Why not use $this->getServiceLocator()->get('Request')->getServer()->get('REQUEST_URI')?
-        $session->lastBrowsePage[$ui] = $_SERVER['REQUEST_URI'];
-        // Remove any csrf key.
-        $query = $params->fromQuery();
-        foreach (array_keys($query) as $key) {
-            if (substr($key, -4) === 'csrf') {
-                unset($query[$key]);
-            }
-        }
-        $session->lastQuery[$ui] = $query;
+        $session->lastBrowsePage[$ui]['items'] = $_SERVER['REQUEST_URI'];
+        // Store the processed query too for quicker process later and because
+        // the controller may modify it (default sort order).
+        $session->lastQuery[$ui]['items'] = $params->fromQuery();
     }
 
     public function handleSitePageEditBefore(Event $event): void

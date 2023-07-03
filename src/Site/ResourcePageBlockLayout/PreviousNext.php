@@ -36,6 +36,7 @@ class PreviousNext implements ResourcePageBlockLayoutInterface
         }
         $previousNext = $plugins->get('previousNext');
         return $previousNext($resource, [
+            'source_query' => 'session',
             'template' => 'common/resource-page-block-layout/previous-next',
         ]);
     }
