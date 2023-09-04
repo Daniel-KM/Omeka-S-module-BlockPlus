@@ -20,7 +20,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
         [$label, $description] = array_map('trim', explode('=', $label, 2)) + ['', ''];
     ?>
         <li>
-            <a href="<?= $escapeAttr($url) ?>"<?php if (filter_var($url, FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>><?= $escape($label) ?></a>
+            <a href="<?= $escapeAttr($url) ?>"<?php if (filter_var($url, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>><?= $escape($label) ?></a>
             <?php if ($description):?>
             <p><?= $escape($description) ?></p>
             <?php endif; ?>

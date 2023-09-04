@@ -331,21 +331,21 @@ class Twitter extends AbstractBlockLayout
                     switch ($entityType) {
                         case 'hashtags':
                             $replace['#' . $entity['text']] = sprintf(
-                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                '<a href="%s" rel="nofollow noopener" target="_blank" rel="noopener">%s</a>',
                                 $baseUrl . 'hashtag/' . rawurlencode($entity['text']),
                                 $escape('#' . $entity['text'])
                             );
                             break;
                         case 'user_mentions':
                             $replace['@' . $entity['screen_name']] = sprintf(
-                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                '<a href="%s" rel="nofollow noopener" target="_blank" rel="noopener">%s</a>',
                                 $baseUrl . $escape($entity['screen_name']),
                                 $escape('@' . $entity['screen_name'])
                             );
                             break;
                         case 'urls':
                             $replace[$entity['url']] = sprintf(
-                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                '<a href="%s" rel="nofollow noopener" target="_blank" rel="noopener">%s</a>',
                                 $entity['url'],
                                 $entity['expanded_url']
                             );
@@ -487,21 +487,21 @@ class Twitter extends AbstractBlockLayout
                     switch ($entityType) {
                         case 'hashtags':
                             $replace['#' . $entity['text']] = sprintf(
-                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                '<a href="%s" rel="nofollow noopener" target="_blank" rel="noopener">%s</a>',
                                 $baseUrl . 'hashtag/' . rawurlencode($entity['text']),
                                 $escape('#' . $entity['text'])
                             );
                             break;
                         case 'user_mentions':
                             $replace['@' . $entity['screen_name']] = sprintf(
-                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                '<a href="%s" rel="nofollow noopener" target="_blank" rel="noopener">%s</a>',
                                 $baseUrl . $escape($entity['screen_name']),
                                 $escape('@' . $entity['screen_name'])
                             );
                             break;
                         case 'urls':
                             $replace[$entity['url']] = sprintf(
-                                '<a href="%s" rel="nofollow noopener" target="_blank">%s</a>',
+                                '<a href="%s" rel="nofollow noopener" target="_blank" rel="noopener">%s</a>',
                                 $entity['url'],
                                 $entity['expanded_url']
                             );

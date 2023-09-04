@@ -54,7 +54,7 @@ $thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $pl
                 </span>
             </a>
         <?php elseif (isset($attachment['url'])): ?>
-            <a href="<?= $escapeAttr($attachment['url']) ?>"<?php if (filter_var($attachment['url'], FILTER_VALIDATE_URL)): ?> target="_blank"<?php endif; ?>>
+            <a href="<?= $escapeAttr($attachment['url']) ?>"<?php if (filter_var($attachment['url'], FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
                 <?= $assetHtml ?>
                 <span class="link-title">
                     <?= $attachment['alt_link_title'] === '' ? $escape($attachment['page']->title()) : $escape($attachment['alt_link_title']) ?>
