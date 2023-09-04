@@ -165,6 +165,9 @@ class Showcase extends AbstractBlockLayout
                     'caption' => $caption,
                     'body' => $body,
                 ];
+                if (($asset . $title . $caption . $body) === '' && strpos(trim($entry), ' ')) {
+                    [$normEntry['data']['url'], $normEntry['data']['title']] = explode(' ', $entry, 2);
+                }
                 $result[] = $normEntry;
                 continue;
             }
