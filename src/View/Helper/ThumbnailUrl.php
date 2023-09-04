@@ -97,7 +97,9 @@ class ThumbnailUrl extends AbstractHelper
                     // improved from the last version of block plus before
                     // integration.
                     // Note: This is not an array of attachements, but data.
-                    foreach ($block->getServiceLocator()->get('Omeka\BlockLayoutManager')->get('asset')->prepareAssetAttachments($view, $block->data()) as $attachmentData) {
+                    /** @var \Omeka\Site\BlockLayout\Asset $assetBlockLayout */
+                    $assetBlockLayout = $block->getServiceLocator()->get('Omeka\BlockLayoutManager')->get('asset');
+                    foreach ($assetBlockLayout->prepareAssetAttachments($view, $block->data(), $page->site()) as $attachmentData) {
                         if (!empty($attachmentData['asset'])) {
                             return $attachmentData['asset'];
                         }
