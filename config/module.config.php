@@ -22,7 +22,6 @@ return [
             'blockMetadata' => View\Helper\BlockMetadata::class,
             'breadcrumbs' => View\Helper\Breadcrumbs::class,
             'ckEditor' => View\Helper\CkEditor::class,
-            'formNote' => Form\View\Helper\FormNote::class,
             'isHomePage' => View\Helper\IsHomePage::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
@@ -88,7 +87,6 @@ return [
         'invokables' => [
             Form\Element\BlockShowTitleSelect::class => Form\Element\BlockShowTitleSelect::class,
             Form\Element\DataTextarea::class => Form\Element\DataTextarea::class,
-            Form\Element\Note::class => Form\Element\Note::class,
             Form\Element\OptionalMultiCheckbox::class => Form\Element\OptionalMultiCheckbox::class,
             Form\Element\OptionalRadio::class => Form\Element\OptionalRadio::class,
             Form\Element\OptionalSelect::class => Form\Element\OptionalSelect::class,
