@@ -41,7 +41,7 @@ class ShowcaseFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'showcase-entries',
-                    'rows' => 6,
+                    'rows' => 7,
                     'placeholder' => '1
 item-set/2
 main-site
