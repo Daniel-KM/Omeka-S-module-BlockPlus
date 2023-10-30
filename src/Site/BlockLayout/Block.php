@@ -32,7 +32,7 @@ class Block extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['block'];
         $blockFieldset = \BlockPlus\Form\BlockFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

@@ -94,7 +94,7 @@ class Asset extends \Omeka\Site\BlockLayout\Asset
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['asset'];
         $fieldset = $formElementManager->get(\BlockPlus\Form\AssetFieldset::class);
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

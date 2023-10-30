@@ -32,7 +32,7 @@ class PageTitle extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['pageTitle'];
         $blockFieldset = \BlockPlus\Form\PageTitleFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

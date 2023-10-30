@@ -42,7 +42,7 @@ class ListOfSites extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['listOfSites'];
         $blockFieldset = \BlockPlus\Form\ListOfSitesFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

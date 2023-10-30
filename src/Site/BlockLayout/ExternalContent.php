@@ -153,7 +153,7 @@ class ExternalContent extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['externalContent'];
         $blockFieldset = \BlockPlus\Form\ExternalContentFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         // TODO Manage multiple embedded resources with caption like media text.
         $data['embeds'] = empty($data['embeds'][0]['source'])

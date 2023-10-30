@@ -32,7 +32,7 @@ class Buttons extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['buttons'];
         $blockFieldset = \BlockPlus\Form\ButtonsFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

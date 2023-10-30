@@ -78,7 +78,7 @@ class Showcase extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['showcase'];
         $blockFieldset = \BlockPlus\Form\ShowcaseFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         foreach ($data['entries'] as &$entry) {
             $entry = $entry['entry'] ?? '';

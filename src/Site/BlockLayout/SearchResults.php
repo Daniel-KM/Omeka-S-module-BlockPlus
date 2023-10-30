@@ -58,7 +58,7 @@ class SearchResults extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['searchResults'];
         $blockFieldset = \BlockPlus\Form\SearchResultsFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $data['query'] = http_build_query($data['query'], '', '&', PHP_QUERY_RFC3986);
 

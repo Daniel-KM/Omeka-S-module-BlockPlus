@@ -131,7 +131,7 @@ class Twitter extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['twitter'];
         $blockFieldset = \BlockPlus\Form\TwitterFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

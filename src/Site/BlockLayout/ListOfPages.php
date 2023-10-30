@@ -26,7 +26,7 @@ class ListOfPages extends \Omeka\Site\BlockLayout\ListOfPages
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['listOfPages'];
         $blockFieldset = \BlockPlus\Form\ListOfPagesFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         if (empty($data['pagelist'])) {
             $data['pagelist'] = '';

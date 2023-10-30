@@ -32,7 +32,7 @@ class ItemSetShowcase extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['itemSetShowcase'];
         $blockFieldset = \BlockPlus\Form\ItemSetShowcaseFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

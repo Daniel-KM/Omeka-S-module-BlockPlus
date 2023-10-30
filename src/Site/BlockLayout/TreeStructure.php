@@ -32,7 +32,7 @@ class TreeStructure extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['treeStructure'];
         $blockFieldset = \BlockPlus\Form\TreeStructureFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

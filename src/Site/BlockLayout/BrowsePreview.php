@@ -82,7 +82,7 @@ class BrowsePreview extends OmekaBrowsePreview
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['browsePreview'];
         $blockFieldset = \BlockPlus\Form\BrowsePreviewFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

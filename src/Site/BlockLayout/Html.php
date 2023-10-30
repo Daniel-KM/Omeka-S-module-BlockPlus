@@ -26,7 +26,7 @@ class Html extends \Omeka\Site\BlockLayout\Html
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['html'];
         $blockFieldset = \BlockPlus\Form\HtmlFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

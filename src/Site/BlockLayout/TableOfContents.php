@@ -33,7 +33,7 @@ class TableOfContents extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['tableOfContents'];
         $blockFieldset = \BlockPlus\Form\TableOfContentsFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

@@ -70,7 +70,7 @@ class ResourceText extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['resourceText'];
         $blockFieldset = \BlockPlus\Form\ResourceTextFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

@@ -43,7 +43,7 @@ class D3Graph extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['d3Graph'];
         $blockFieldset = \BlockPlus\Form\D3GraphFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {

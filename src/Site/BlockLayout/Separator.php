@@ -39,7 +39,7 @@ class Separator extends AbstractBlockLayout
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['separator'];
         $blockFieldset = \BlockPlus\Form\SeparatorFieldset::class;
 
-        $data = $block ? $block->data() + $defaultSettings : $defaultSettings;
+        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
         foreach ($data as $key => $value) {
