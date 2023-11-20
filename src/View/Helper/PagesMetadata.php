@@ -12,12 +12,17 @@ class PagesMetadata extends AbstractHelper
     /**
      * Get data for all pages of the specified type in the current site.
      *
-     * @param string|array $pageType
+     * @param string|array|null $pageType Limit result to these page types. When
+     *   empty, return all pages metadata blocks.
      * @return \Omeka\Api\Representation\SitePageBlockRepresentation[]
      */
-    public function __invoke($pageType): array
+    public function __invoke($pageType = null): array
     {
-        $pageTypes = is_array($pageType) ? $pageType : [$pageType];
+        if (empty($pageType)) {
+            $pageTypes = false;
+        } else {
+            $pageTypes = is_array($pageType) ? $pageType : [(string) $pageType];
+        }
 
         $pageBlocks = [];
 
@@ -27,7 +32,9 @@ class PagesMetadata extends AbstractHelper
         foreach ($pages as $page) {
             foreach ($page->blocks() as $block) {
                 // A page can belong to multiple types…
-                if ($block->layout() === 'pageMetadata' && in_array($block->dataValue('type'), $pageTypes)) {
+                if ($block->layout() === 'pageMetadata'
+                    && (!$pageTypes || in_array($block->dataValue('type'), $pageTypes))
+                ) {
                     $pageBlocks[$page->slug()] = $block;
                     break;
                 }
