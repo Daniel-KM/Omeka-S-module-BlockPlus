@@ -8,8 +8,11 @@
  * @var string $heading
  */
 
+// Use hyperlink to allow to get resource url from api: method $resource->url() does not work for api.
+
 $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
+$hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
 
 $defaultThumbnail = $this->assetUrl('thumbnails/default.png', 'Omeka', true);
@@ -30,11 +33,11 @@ $lang = $filterLocale ? $this->lang() : null;
         $link = null;
 
         $itemSetThumbnail = $thumbnail($itemSet, $thumbnailType) ?: $defaultThumbnail;
-        $render = $itemSet->linkRaw($itemSetThumbnail);
+        $render = $hyperlink->raw($itemSetThumbnail, $itemSet->siteurl());
 
         if ($showTitleOption !== 'no_title'):
             $title = $itemSet->displayTitle(null, $lang);
-            $link = $itemSet->link($title);
+            $link = $hyperlink($title, $itemSet->siteurl());
         endif;
     ?>
     <div class="item-set resource">
