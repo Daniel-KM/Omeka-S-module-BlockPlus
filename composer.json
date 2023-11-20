@@ -27,7 +27,7 @@
     ],
     "require": {
         "oomphinc/composer-installers-extender": "^2.0",
-        "andykirk/ckeditor-footnotes": "1.0.10",
+        "andykirk/ckeditor-footnotes": "1.2.0",
         "asset/thumbnail-grid-expanding-preview": "0.1",
         "d3/d3": "3.5.17",
         "kenwheeler/slick": "1.8.1",
@@ -50,13 +50,17 @@
         {
             "type": "package",
             "package": {
-                "type": "omeka-addon-asset",
                 "name": "andykirk/ckeditor-footnotes",
-                "version": "1.0.10",
+                "version": "1.2.0",
+                "type": "omeka-addon-asset",
+                "source": {
+                    "type": "git",
+                    "reference": "v1.2.0",
+                    "url": "https://github.com/andykirk/CKEditor-Footnotes.git"
+                },
                 "dist": {
-                    "type": "tar",
-                    "reference": "",
-                    "url": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.3.14.0/ckeditor-footnotes-1.0.10-omeka.tar.gz"
+                    "type": "zip",
+                    "url": "https://github.com/andykirk/CKEditorFootnotes/archive/refs/tags/v1.2.0.zip"
                 }
             }
         },
@@ -132,6 +136,12 @@
             "asset/vendor/{$name}/": [
                 "type:omeka-addon-asset"
             ]
+        },
+        "installer-name" : "BlockPlus",
+        "patches": {
+            "andykirk/ckeditor-footnotes": {
+                "Fix footnotes": "patches/ckeditor-footnotes-omeka.patch"
+            }
         }
     },
     "scripts": {
