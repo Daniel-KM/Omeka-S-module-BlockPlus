@@ -535,3 +535,8 @@ WHERE
 SQL;
     $connection->executeStatement($sql);
 }
+
+if (version_compare($oldVersion, '3.4.21', '<')) {
+    $message = new Message('The versions of the module Block Plus lower than 3.4.22 don’t support Omeka S v4.1.'); // @translate
+    $messenger->addSuccess($message);
+}
