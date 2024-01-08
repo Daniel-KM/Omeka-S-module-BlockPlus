@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc53c2ceddb4b66ea696d16c042b7bae",
+    "content-hash": "d9fa165430dd39b50cfa642716424b74",
     "packages": [
         {
             "name": "andykirk/ckeditor-footnotes",
