@@ -156,7 +156,6 @@ class Breadcrumbs extends AbstractHelper
                 if (!$options['homepage']) {
                     return '';
                 }
-
                 if (!$options['home'] != $options['current']) {
                     $this->crumbHome($site);
                 }
@@ -271,14 +270,13 @@ class Breadcrumbs extends AbstractHelper
                 if ($options['collections']) {
                     $this->crumbCollections($options, $translate, $url, $siteSlug);
                 }
-
                 if ($options['current']) {
                     $action = $routeMatch->getParam('action', 'browse');
                     // In Omeka S, item set show is a redirect to item browse
                     // with a special partial, so normally, there is no "show",
                     // except with specific redirection.
                     /** @var \Omeka\Api\Representation\ItemSetRepresentation $resource */
-                    $resource = $vars->itemSet;
+                    $resource = $vars->itemSet ?? $vars->resource;
                     if ($resource) {
                         $label = (string) $resource->displayTitle();
                     }
@@ -375,14 +373,22 @@ class Breadcrumbs extends AbstractHelper
                     $itemSetId = $routeMatch->getParam('item-set-id', null) ?: $view->params()->fromQuery('collection');
                     if ($itemSetId) {
                         $itemSet = $this->api->searchOne('item_sets', ['id' => $itemSetId])->getContent();
-                        $this->crumbItemSet($itemSet, $site);
+                        // Don't add the item set if it is not search in order
+                        // to avoid to duplicate it when current is set.
+                        if (!$options['current']) {
+                            $this->crumbItemSet($itemSet, $site);
+                        }
                         // Display page?
                     }
                 } elseif ($options['itemsetstree']) {
                     $itemSetId = $routeMatch->getParam('item-set-id', null) ?: $view->params()->fromQuery('collection');
                     if ($itemSetId) {
                         $itemSet = $this->api->searchOne('item_sets', ['id' => $itemSetId])->getContent();
-                        $this->crumbItemSetsTree($itemSet, $site);
+                        // Don't add the item set if it is not search in order
+                        // to avoid to duplicate it when current is set.
+                        if (!$options['current']) {
+                            $this->crumbItemSetsTree($itemSet, $site);
+                        }
                     }
                 }
                 if ($options['current']) {
