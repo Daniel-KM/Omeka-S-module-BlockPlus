@@ -1,0 +1,18 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$siteSetting = $plugins->get('siteSetting');
+
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
+?>
+
+<p class="media-parent-item">
+    <?= sprintf($translate('Part of %s'), $item->link($item->displayTitle(null, $valueLang))); ?>
+</p>

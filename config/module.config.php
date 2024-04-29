@@ -76,6 +76,7 @@ return [
             'block' => Site\ResourcePageBlockLayout\Block::class,
             'breadcrumbs' => Site\ResourcePageBlockLayout\Breadcrumbs::class,
             'description' => Site\ResourcePageBlockLayout\Description::class,
+            'mediaPartOfItem' => Site\ResourcePageBlockLayout\MediaPartOfItem::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
             'resourceType' => Site\ResourcePageBlockLayout\ResourceType::class,
             'title' => Site\ResourcePageBlockLayout\Title::class,
