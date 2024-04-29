@@ -39,7 +39,7 @@ composer install --no-dev
 
 Then install it like any other Omeka module.
 
-See general end user documentation for [Installing a module] and follow the
+See general end user documentation for [installing a module] and follow the
 config instructions.
 
 
@@ -494,7 +494,7 @@ Copyright
 
 [Block Plus]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus
 [Omeka S]: https://omeka.org/s
-[Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
+[installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [shortcode as a page]: https://github.com/omeka/plugin-SimplePages/pull/24
 [Omeka Classic]: https://omeka.org/classic
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
