@@ -780,8 +780,8 @@ class Breadcrumbs extends AbstractHelper
             ? 'item_sets_tree_edge.rank'
             : 'resource.title';
 
-            // TODO Use query builder.
-            $sql = <<<SQL
+        // TODO Use query builder.
+        $sql = <<<SQL
 SELECT
     item_sets_tree_edge.item_set_id,
     item_sets_tree_edge.item_set_id AS "id",
@@ -830,13 +830,9 @@ SQL;
 
         // Order by sorting method.
         if ($sortingMethod === 'rank') {
-            $sortingFunction = function ($a, $b) use ($structure) {
-                return $structure[$a]['rank'] - $structure[$b]['rank'];
-            };
+            $sortingFunction = fn ($a, $b) => $structure[$a]['rank'] - $structure[$b]['rank'];
         } else {
-            $sortingFunction = function ($a, $b) use ($structure) {
-                return strcmp($structure[$a]['title'], $structure[$b]['title']);
-            };
+            $sortingFunction = fn ($a, $b) => strcmp($structure[$a]['title'], $structure[$b]['title']);
         }
 
         foreach ($structure as &$node) {

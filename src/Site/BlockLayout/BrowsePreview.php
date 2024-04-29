@@ -7,9 +7,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
+use Omeka\Site\BlockLayout\BrowsePreview as OmekaBrowsePreview;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\HtmlPurifier;
-use Omeka\Site\BlockLayout\BrowsePreview as OmekaBrowsePreview;
 
 /**
  * This is a laminas delegator to be able to inject HtmlPurifier.
