@@ -3,6 +3,7 @@
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element as BlockPlusElement;
+use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
@@ -25,7 +26,7 @@ class ItemShowcaseFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][thumbnail_type]',
-                'type' => BlockPlusElement\ThumbnailTypeSelect::class,
+                'type' => CommonElement\ThumbnailTypeSelect::class,
                 'options' => [
                     'label' => 'Thumbnail type', // @translate
                 ],

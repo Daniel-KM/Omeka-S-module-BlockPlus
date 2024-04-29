@@ -2,7 +2,7 @@
 
 namespace BlockPlus;
 
-use Omeka\Stdlib\Message;
+use Common\Stdlib\PsrMessage;
 
 /**
  * @var Module $this
@@ -11,6 +11,7 @@ use Omeka\Stdlib\Message;
  * @var string $oldVersion
  *
  * @var \Omeka\Api\Manager $api
+ * @var \Omeka\View\Helper\Url $url
  * @var \Omeka\Settings\Settings $settings
  * @var \Doctrine\DBAL\Connection $connection
  * @var \Doctrine\ORM\EntityManager $entityManager
@@ -19,9 +20,19 @@ use Omeka\Stdlib\Message;
 $plugins = $services->get('ControllerPluginManager');
 $api = $plugins->get('api');
 $settings = $services->get('Omeka\Settings');
+$translate = $plugins->get('translate');
+$translator = $services->get('MvcTranslator');
 $connection = $services->get('Omeka\Connection');
 $messenger = $plugins->get('messenger');
 $entityManager = $services->get('Omeka\EntityManager');
+
+if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.57')) {
+    $message = new \Omeka\Stdlib\Message(
+        $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
+        'Common', '3.4.57'
+    );
+    throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+}
 
 if (version_compare($oldVersion, '3.0.3', '<')) {
     $sql = <<<'SQL'
@@ -95,7 +106,7 @@ SQL;
 }
 
 if (version_compare($oldVersion, '3.3.11.8', '<')) {
-    $message = new Message(
+    $message = new PsrMessage(
         'Change: The method "blockMetadata()" returns an array by default for key "params_json". Use key "params_json_object" to keep object output.' // @translate
     );
     $messenger->addWarning($message);
@@ -105,12 +116,11 @@ if (version_compare($oldVersion, '3.3.11.8', '<')) {
     /** @var \Omeka\Api\Representation\VocabularyRepresentation $vocabulary */
     $vocabulary = $api->searchOne('vocabularies', ['prefix' => 'curation'])->getContent();
     if (!$vocabulary) {
-        throw new \Omeka\Module\Exception\ModuleCannotInstallException(
-            sprintf(
-                'The vocabulary "%s" is not installed.', // @translate
-                'curation'
-            )
+        $message = new PsrMessage(
+            'The vocabulary "{vocabulary}" is not installed.', // @translate
+            ['vocabulary' => 'curation']
         );
+        throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message->setTranslator($translator));
     }
 
     // Check if the vocabulary was not updated.
@@ -204,30 +214,30 @@ SQL;
         $connection->executeStatement($sql);
     }
 
-    $message = new Message(
+    $message = new PsrMessage(
         'The block "Assets" was merged with the new upstream block "Asset".' // @translate
     );
     $messenger->addSuccess($message);
-    $message = new Message(
+    $message = new PsrMessage(
         'You may have to check the pages when a specific template is used, in particular for deprecated keys "title", replaced by "alt_link_title", and "url", replaced by "page" (or hacked with caption, or alt link title, or asset title).' // @translate
     );
     $messenger->addWarning($message);
-    $message = new Message(
+    $message = new PsrMessage(
         'Furthermore, it is recommended to rename "assets" templates as "asset-xxx" and to update pages accordingly. You may replace the default template with "asset-block" too.' // @translate
     );
     $messenger->addWarning($message);
-    $message = new Message(
+    $message = new PsrMessage(
         'The block still supports html captions and media assets.' // @translate
     );
     $messenger->addSuccess($message);
 }
 
 if (version_compare($oldVersion, '3.3.14.0', '<')) {
-    $message = new Message(
+    $message = new PsrMessage(
         'It’s now possible to maximize the field "Html" in page edition.' // @translate
     );
     $messenger->addSuccess($message);
-    $message = new Message(
+    $message = new PsrMessage(
         'It’s now possible to add footnotes in fields "Html" in page edition.' // @translate
     );
     $messenger->addSuccess($message);
@@ -253,14 +263,14 @@ if (version_compare($oldVersion, '3.3.15.2', '<')) {
     $settings->delete('blockplus_html_mode');
     $settings->delete('blockplus_html_config');
 
-    $message = new Message(
+    $message = new PsrMessage(
         'It’s now possible to choose mode of display to edit html blocks of pages in main params.' // @translate
     );
     $messenger->addSuccess($message);
 }
 
 if (version_compare($oldVersion, '3.3.15.5', '<')) {
-    $message = new Message(
+    $message = new PsrMessage(
         'The output for block D3 Graph was modified. Check it if you modified the template in your theme.' // @translate
     );
     $messenger->addWarning($message);
@@ -410,15 +420,15 @@ SQL;
         }
     }
 
-    $message = new Message(
+    $message = new PsrMessage(
         'Template "Asset": The variable $assets has been replaced by $attachments; attachment key "title" by "alt_link_title"; attachment key "url" was removed. Check it if you customized template.' // @translate
     );
     $messenger->addWarning($message);
 
     if ($pages) {
-        $message = new Message(
-            'The key "url" of attachments of block "Asset" was removed. The block template should be updated if you customized it in pages: %s', // @translate
-            '<ul><li>' . implode('</li><li>', $pages) . '</li></ul>'
+        $message = new PsrMessage(
+            'The key "url" of attachments of block "Asset" was removed. The block template should be updated if you customized it in pages: {html}', // @translate
+            ['html' => '<ul><li>' . implode('</li><li>', $pages) . '</li></ul>']
         );
         $message->setEscapeHtml(false);
         $messenger->addWarning($message);
@@ -440,12 +450,12 @@ if (version_compare($oldVersion, '3.4.16', '<')) {
             $siteSettings->set('blockplus_breadcrumbs_homepage', $siteSettings->get('menu_breadcrumbs_homepage', false));
         }
 
-        $message = new Message(
+        $message = new PsrMessage(
             'The feature "Breadcrumbs" was moved from module "Menu" into this module. Upgrade is automatic. Check your options if you use it.' // @translate
         );
         $messenger->addWarning($message);
     } else {
-        $message = new Message(
+        $message = new PsrMessage(
             'it is now possible to define a breadcrumbs (may need to be added inside theme).' // @translate
         );
         $messenger->addWarning($message);
@@ -464,7 +474,7 @@ SQL;
 }
 
 if (version_compare($oldVersion, '3.4.17', '<')) {
-    $message = new Message('Two new resource page blocks has been added, in particular to display buttons to previous and next resource (require module Easy Admin).'); // @translate
+    $message = new PsrMessage('Two new resource page blocks has been added, in particular to display buttons to previous and next resource (require module Easy Admin).'); // @translate
     $messenger->addSuccess($message);
 }
 
@@ -536,7 +546,7 @@ SQL;
     $connection->executeStatement($sql);
 }
 
-if (version_compare($oldVersion, '3.4.21', '<')) {
-    $message = new Message('The versions of the module Block Plus lower than 3.4.22 don’t support Omeka S v4.1.'); // @translate
+if (version_compare($oldVersion, '3.4.21', '<') && version_compare($newVersion, '3.4.21', '<=')) {
+    $message = new PsrMessage('The versions of the module Block Plus lower than 3.4.22 don’t support Omeka S v4.1.'); // @translate
     $messenger->addSuccess($message);
 }

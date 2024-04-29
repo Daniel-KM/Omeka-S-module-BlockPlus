@@ -2,7 +2,7 @@
 
 namespace BlockPlus\Form;
 
-use BlockPlus\Form\Element\TemplateSelect;
+use BlockPlus\Form\Element as BlockPlusElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
@@ -30,7 +30,7 @@ class ListOfPagesFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
-                'type' => TemplateSelect::class,
+                'type' => BlockPlusElement\TemplateSelect::class,
                 'options' => [
                     'label' => 'Template to display', // @translate
                     'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "list-of-pages".', // @translate

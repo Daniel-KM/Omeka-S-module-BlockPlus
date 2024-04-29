@@ -3,6 +3,7 @@
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element as BlockPlusElement;
+use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
@@ -51,7 +52,7 @@ class SearchFormFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][selector]',
-                'type' => BlockPlusElement\OptionalRadio::class,
+                'type' => CommonElement\OptionalRadio::class,
                 'options' => [
                     'label' => 'Main filter', // @translate
                     'value_options' => [
@@ -67,7 +68,7 @@ class SearchFormFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][search_config]',
-                'type' => BlockPlusElement\OptionalSelect::class,
+                'type' => CommonElement\OptionalSelect::class,
                 'options' => [
                     'label' => 'Search config page (module Advanced Search)', // @translate
                     'value_options' => [

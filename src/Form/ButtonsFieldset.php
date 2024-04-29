@@ -3,6 +3,7 @@
 namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element as BlockPlusElement;
+use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
@@ -20,7 +21,7 @@ class ButtonsFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][buttons]',
-                'type' => BlockPlusElement\OptionalMultiCheckbox::class,
+                'type' => CommonElement\OptionalMultiCheckbox::class,
                 'options' => [
                     'label' => 'Buttons', // @translate
                     'value_options' => [

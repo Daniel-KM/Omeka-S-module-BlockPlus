@@ -2,7 +2,7 @@
 
 namespace BlockPlus\Form;
 
-use BlockPlus\Form\Element as BlockPlusElement;
+use Common\Form\Element as CommonElement;
 use Laminas\Form\Fieldset;
 
 class SettingsFieldset extends Fieldset
@@ -20,7 +20,7 @@ class SettingsFieldset extends Fieldset
             ->setOption('element_groups', $this->elementGroups)
             ->add([
                 'name' => 'blockplus_html_mode_page',
-                'type' => BlockPlusElement\OptionalRadio::class,
+                'type' => CommonElement\OptionalRadio::class,
                 'options' => [
                     'element_group' => 'block_plus',
                     'label' => 'Html edition mode for pages', // @translate
@@ -35,7 +35,7 @@ class SettingsFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'blockplus_html_config_page',
-                'type' => BlockPlusElement\OptionalRadio::class,
+                'type' => CommonElement\OptionalRadio::class,
                 'options' => [
                     'element_group' => 'block_plus',
                     'label' => 'Html edition config and toolbar for pages', // @translate
@@ -55,7 +55,7 @@ class SettingsFieldset extends Fieldset
 
             ->add([
                 'name' => 'blockplus_property_itemset',
-                'type' => BlockPlusElement\OptionalPropertySelect::class,
+                'type' => CommonElement\OptionalPropertySelect::class,
                 'options' => [
                     'element_group' => 'block_plus',
                     'label' => 'Property to set primary item set', // @translate

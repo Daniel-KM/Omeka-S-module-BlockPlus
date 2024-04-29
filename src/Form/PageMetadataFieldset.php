@@ -4,7 +4,7 @@ namespace BlockPlus\Form;
 
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
-use Omeka\Form\Element\Asset;
+use Omeka\Form\Element as OmekaElement;
 
 class PageMetadataFieldset extends Fieldset
 {
@@ -98,7 +98,7 @@ class PageMetadataFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][cover]',
-                'type' => Asset::class,
+                'type' => OmekaElement\Asset::class,
                 'options' => [
                     'label' => 'Cover image', // @translate
                 ],

@@ -2,7 +2,7 @@
 
 namespace BlockPlus\Form;
 
-use BlockPlus\Form\Element as BlockPlusElement;
+use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 use Omeka\Form\Element as OmekaElement;
@@ -48,7 +48,7 @@ simple = Simple page', // @translate
 
             ->add([
                 'name' => 'blockplus_breadcrumbs_crumbs',
-                'type' => BlockPlusElement\OptionalMultiCheckbox::class,
+                'type' => CommonElement\OptionalMultiCheckbox::class,
                 'options' => [
                     'element_group' => 'breadcrumbs',
                     'label' => 'Crumbs', // @translate
@@ -66,7 +66,7 @@ simple = Simple page', // @translate
             ])
             ->add([
                 'name' => 'blockplus_breadcrumbs_prepend',
-                'type' => BlockPlusElement\DataTextarea::class,
+                'type' => CommonElement\DataTextarea::class,
                 'options' => [
                     'element_group' => 'breadcrumbs',
                     'label' => 'Prepended links', // @translate
