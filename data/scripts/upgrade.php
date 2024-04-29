@@ -550,3 +550,8 @@ if (version_compare($oldVersion, '3.4.21', '<') && version_compare($newVersion, 
     $message = new PsrMessage('The versions of the module Block Plus lower than 3.4.22 don’t support Omeka S v4.1.'); // @translate
     $messenger->addSuccess($message);
 }
+
+if (version_compare($oldVersion, '3.4.22', '<')) {
+    $message = new PsrMessage('This alpha version does not manage new site pages and blocks templates of Omeka S v4.1, that integrates most of the features of this module. The upgrade to them will be implemented in final release.'); // @translate
+    $messenger->addWarning($message);
+}
