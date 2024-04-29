@@ -286,7 +286,7 @@ msgid ""
 "template should be updated if you customized it in pages %s."
 msgstr ""
 "La clé \"url\" des fichiers attachés du bloc \"Fichier\" a été supprimée. "
-"Vérifiez le fichier du thème si vous l‘avez personnalisé dans les pages %s."
+"Vérifiez le fichier du thème si vous l’avez personnalisé dans les pages %s."
 
 #: src/Form/SiteSettingsFieldset.php:10 src/Form/SettingsFieldset.php:10
 msgid "Block Plus"
