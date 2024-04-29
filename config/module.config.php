@@ -64,6 +64,7 @@ return [
         ],
         'delegators' => [
             \Omeka\Site\BlockLayout\BrowsePreview::class => [
+                // TODO No namespace?
                 Service\BlockLayout\BrowsePreviewDelegatorFactory::class
             ],
         ],

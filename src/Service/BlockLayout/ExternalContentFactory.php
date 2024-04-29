@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Service\BlockLayout;
 
 use BlockPlus\Site\BlockLayout\ExternalContent;
@@ -10,7 +11,7 @@ class ExternalContentFactory implements FactoryInterface
     /**
      * Create the ExternalContent block layout service.
      *
-     * @param ContainerInterface $serviceLocator
+     * @param ContainerInterface $services
      * @return ExternalContent
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)

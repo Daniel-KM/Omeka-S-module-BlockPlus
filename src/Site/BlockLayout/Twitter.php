@@ -24,7 +24,7 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
     /**
      * The user agent should be allowed by Twitter.
      */
-    const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101 Firefox/115.0';
+    const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0';
 
     /**
      * The url to get the user id.
@@ -63,7 +63,8 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
-        // TODO Check why direct messenger is used and not plugin, and why error store is not used.
+        // TODO Check why error store is not used.
+        // Service locator is not available, so use new Messenger.
         $messenger = new Messenger;
 
         $data = $block->getData();
