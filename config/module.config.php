@@ -22,7 +22,6 @@ return [
             'blockMetadata' => View\Helper\BlockMetadata::class,
             'breadcrumbs' => View\Helper\Breadcrumbs::class,
             'ckEditor' => View\Helper\CkEditor::class,
-            'isHomePage' => View\Helper\IsHomePage::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
             'primaryItemSet' => View\Helper\PrimaryItemSet::class,
