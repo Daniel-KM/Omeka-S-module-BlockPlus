@@ -16,7 +16,7 @@ $hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
 
 $defaultThumbnail = $this->assetUrl('thumbnails/default.png', 'Omeka', true);
-$defaultThumbnail = '<img src="' . $defaultThumbnail . '"/>';
+$defaultThumbnail = '<img loading="lazy" src="' . $defaultThumbnail . '"/>';
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;

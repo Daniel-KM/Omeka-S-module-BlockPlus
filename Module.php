@@ -144,6 +144,9 @@ class Module extends AbstractModule
             'li.data-footnote-id',
             'section.class',
             'sup.data-footnote-id',
+            'img.src',
+            'img.alt',
+            // 'img.loading',
         ]);
 
         $config->set('HTML.TargetBlank', true);

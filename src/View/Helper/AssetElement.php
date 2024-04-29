@@ -48,6 +48,12 @@ class AssetElement extends AbstractHtmlElementHelper
 
         switch ($mainType) {
             case 'image':
+                // Include element for lazy loading. See https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/loading
+                if (!isset($attribs['loading'])) {
+                    // Due to a bug in firefox, the attribute "loading" should be set
+                    // before src (see https://bugzilla.mozilla.org/show_bug.cgi?id=1647077).
+                    $attribs = ['loading' => 'lazy'] + $attribs;
+                }
                 return sprintf('<img%s>', $this->htmlAttribs($attribs));
 
             case 'video':

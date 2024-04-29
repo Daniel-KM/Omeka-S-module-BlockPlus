@@ -36,7 +36,7 @@ $hyperlink = $plugins->get('hyperlink');
             $height = $data['height'];
             $title = empty($data['title']) ? $url : $data['title'];
             echo sprintf(
-                '<img src="%s" width="%s" height="%s" alt="%s">',
+                '<img loading="lazy" src="%s" width="%s" height="%s" alt="%s">',
                 $escapeAttr($url),
                 $escapeAttr($width),
                 $escapeAttr($height),

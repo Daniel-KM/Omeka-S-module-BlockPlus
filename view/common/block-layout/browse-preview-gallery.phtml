@@ -114,7 +114,7 @@ $lang = $filterLocale ? $this->lang() : null;
             ?>
             <li>
                 <a href="#" data-largesrc="<?= $mediaLarge ?>" data-title="<?= $heading ?>" data-description="<?= $escapeAttr($body) ?>">
-                    <img class="medium-img" src="<?= $mediaThumbnail ?>" alt="<?= $heading ?>"/>
+                    <img loading="lazy" class="medium-img" src="<?= $mediaThumbnail ?>" alt="<?= $heading ?>"/>
                 </a>
             </li>
             <?php endforeach; ?>

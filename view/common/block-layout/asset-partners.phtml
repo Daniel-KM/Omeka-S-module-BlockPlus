@@ -45,11 +45,11 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
         <?php $attachmentUrl = $attachment['page'] ? $attachment['page']->siteUrl() : ($attachment['url'] ?? null); ?>
         <?php if ($attachmentUrl): ?>
         <a class="partner-logo <?= $escapeAttr($attachment['class']) ?>" href="<?= $escapeAttr($attachmentUrl) ?>" target="_blank" rel="noopener">
-            <img src="<?= $attachment['asset']->assetUrl() ?>" alt="<?= $escapeAttr($attachment['alt_link_title']) ?>"/>
+            <img loading="lazy" src="<?= $attachment['asset']->assetUrl() ?>" alt="<?= $escapeAttr($attachment['alt_link_title']) ?>"/>
         </a>
         <?php else: ?>
         <span class="partner-logo <?= $escapeAttr($attachment['class']) ?>">
-            <img src="<?= $attachment['asset']->assetUrl() ?>" alt="<?= $escapeAttr($attachment['alt_link_title']) ?>"/>
+            <img loading="lazy" src="<?= $attachment['asset']->assetUrl() ?>" alt="<?= $escapeAttr($attachment['alt_link_title']) ?>"/>
         </span>
         <?php endif; ?>
     <?php endforeach; ?>
