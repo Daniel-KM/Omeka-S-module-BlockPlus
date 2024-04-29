@@ -121,7 +121,7 @@ class Asset extends \Omeka\Site\BlockLayout\Asset
         ]);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $data = $block->data();
 

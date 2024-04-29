@@ -12,6 +12,7 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\File\Downloader;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\HtmlPurifier;
 
@@ -20,7 +21,7 @@ use Omeka\Stdlib\HtmlPurifier;
  *
  * @link https://omeka.org/s/docs/user-manual/sites/site_pages/#media
  */
-class ExternalContent extends AbstractBlockLayout
+class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     use CommonTrait;
 
@@ -171,7 +172,7 @@ class ExternalContent extends AbstractBlockLayout
         return $view->formCollection($fieldset);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $vars = ['block' => $block] + $block->data();
 

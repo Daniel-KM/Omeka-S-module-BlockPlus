@@ -7,8 +7,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 
-class RedirectToUrl extends AbstractBlockLayout
+class RedirectToUrl extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {
@@ -40,7 +41,7 @@ class RedirectToUrl extends AbstractBlockLayout
         return $view->formCollection($fieldset, false);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $url = (string) $block->dataValue('url');
         if (substr($url, 0, 4) !== 'http'

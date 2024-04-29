@@ -10,10 +10,11 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
 
-class Twitter extends AbstractBlockLayout
+class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * The default partial view script.
@@ -144,7 +145,7 @@ class Twitter extends AbstractBlockLayout
         return $view->formCollection($fieldset, false);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $vars = $block->data();
 

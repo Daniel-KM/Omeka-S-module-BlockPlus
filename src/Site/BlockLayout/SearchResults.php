@@ -8,9 +8,10 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 use Omeka\Stdlib\ErrorStore;
 
-class SearchResults extends AbstractBlockLayout
+class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * The default partial view script.
@@ -75,7 +76,7 @@ class SearchResults extends AbstractBlockLayout
         return $view->formCollection($fieldset);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         // Similar to BrowsePreview::render(), but with a different query.
 

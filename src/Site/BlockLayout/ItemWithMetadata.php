@@ -7,8 +7,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 
-class ItemWithMetadata extends AbstractBlockLayout
+class ItemWithMetadata extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * The default partial view script.
@@ -49,7 +50,7 @@ class ItemWithMetadata extends AbstractBlockLayout
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $attachments = $block->attachments();
         if (!$attachments) {

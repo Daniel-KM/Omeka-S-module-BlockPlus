@@ -7,8 +7,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 
-class ItemSetShowcase extends AbstractBlockLayout
+class ItemSetShowcase extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * The default partial view script.
@@ -47,7 +48,7 @@ class ItemSetShowcase extends AbstractBlockLayout
         return $view->formCollection($fieldset, false);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $api = $view->plugin('api');
 

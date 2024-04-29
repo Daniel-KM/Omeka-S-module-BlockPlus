@@ -8,6 +8,7 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\HtmlPurifier;
 
@@ -17,7 +18,7 @@ use Omeka\Stdlib\HtmlPurifier;
  * @link https://omeka.org/s/docs/user-manual/sites/site_pages/#media
  * @link https://omeka.org/s/docs/user-manual/sites/site_pages/#html
  */
-class ResourceText extends AbstractBlockLayout
+class ResourceText extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     use CommonTrait;
 
@@ -108,7 +109,7 @@ class ResourceText extends AbstractBlockLayout
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $attachments = $block->attachments();
         $html = $block->dataValue('html', '');

@@ -57,7 +57,7 @@ class ItemShowcase extends AbstractBlockLayout
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $attachments = $block->attachments();
         if (!$attachments) {

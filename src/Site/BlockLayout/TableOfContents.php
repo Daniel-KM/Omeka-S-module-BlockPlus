@@ -8,8 +8,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 
-class TableOfContents extends AbstractBlockLayout
+class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * The default partial view script.
@@ -46,7 +47,7 @@ class TableOfContents extends AbstractBlockLayout
         return $view->formCollection($fieldset);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $view->pageViewModel->setVariable('displayNavigation', false);
         $nav = $block->page()->site()->publicNav();

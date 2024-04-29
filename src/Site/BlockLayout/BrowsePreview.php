@@ -97,7 +97,7 @@ class BrowsePreview extends OmekaBrowsePreview
         return $view->formCollection($fieldset);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         // Similar to SearchResults::render().
 

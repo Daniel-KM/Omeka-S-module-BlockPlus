@@ -71,7 +71,7 @@ class Links extends AbstractBlockLayout
         return $view->formCollection($fieldset, false);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $vars = ['block' => $block] + $block->data();
         $template = $vars['template'] ?: self::PARTIAL_NAME;

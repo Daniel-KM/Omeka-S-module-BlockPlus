@@ -65,7 +65,7 @@ HTML;
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $nodes = json_decode($block->dataValue('pagelist'), true);
         if (!$nodes) {
