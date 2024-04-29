@@ -74,6 +74,7 @@ return [
     'resource_page_block_layouts' => [
         'invokables' => [
             'block' => Site\ResourcePageBlockLayout\Block::class,
+            'breadcrumbs' => Site\ResourcePageBlockLayout\Breadcrumbs::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
             'resourceType' => Site\ResourcePageBlockLayout\ResourceType::class,
         ],
