@@ -77,6 +77,7 @@ return [
             'breadcrumbs' => Site\ResourcePageBlockLayout\Breadcrumbs::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
             'resourceType' => Site\ResourcePageBlockLayout\ResourceType::class,
+            'title' => Site\ResourcePageBlockLayout\Title::class,
         ],
     ],
     'form_elements' => [
