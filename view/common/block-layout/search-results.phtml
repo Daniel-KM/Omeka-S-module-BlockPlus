@@ -44,8 +44,8 @@ $langValue = $filterLocale ? [$this->lang(), ''] : null;
 
     <ul class="resource-list preview">
     <?php
-    $headingTerm = $siteSetting('browse_heading_property_term', 'dcterms:title');
-    $bodyTerm = $siteSetting('browse_body_property_term', 'dcterms:description');
+    $headingTerm = $siteSetting('browse_heading_property_term');
+    $bodyTerm = $siteSetting('browse_body_property_term');
     $untitled = $translate('[Untitled]');
     foreach ($resources as $resource):
         $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
