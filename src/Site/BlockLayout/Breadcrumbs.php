@@ -59,10 +59,24 @@ class Breadcrumbs extends AbstractBlockLayout
 
         $vars = $block->data();
         $vars['site'] = $site;
+        $vars['page'] = $page;
         $vars['block'] = $block;
 
         $template = empty($vars['template']) ? self::PARTIAL_NAME : $vars['template'];
         unset($vars['template']);
+
+        // Check if the page is in the navigation menu, for example an isolated
+        // page "mentions légales" in the footer.
+        $vars['nav'] = $site->publicNav();
+        $vars['activePage'] = $vars['nav']->findActive($vars['nav']->getContainer());
+
+        $plugins = $view->getHelperPluginManager();
+        $siteSetting = $plugins->get('siteSetting');
+
+        $crumbs = $siteSetting('blockplus_breadcrumbs_crumbs', []);
+        $vars['prependHome'] = in_array('home', $crumbs);
+        $vars['appendCurrent'] = in_array('current', $crumbs);
+        $vars['separator'] = (string) $siteSetting('blockplus_breadcrumbs_separator');
 
         return $template !== self::PARTIAL_NAME && $view->resolver($template)
             ? $view->partial($template, $vars)

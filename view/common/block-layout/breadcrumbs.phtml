@@ -2,16 +2,37 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Api\Representation\SitePageRepresentation $page
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var \Laminas\View\Helper\Navigation $nav
+ * @var array $activePage
+ * @var bool $prependHome
+ * @var bool $appendCurrent
+ * @var string $separator
  */
 
-// Same structure than application/view/omeka/site/page/show.
-// So does not take care of module breadcrumbs settings, in particular separator.
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$siteSetting = $plugins->get('siteSetting');
+$isHomePage = $plugins->get('isHomePage')();
+
+$homePage = $isHomePage ? $page : $site->homepage();
+$displayOnHomePage = $isHomePage ? (bool) $siteSetting('blockplus_breadcrumbs_homepage') : false;
 
 $nav = $site->publicNav();
 $activePage = $nav->findActive($nav->getContainer());
 ?>
 
-<?php if ($activePage && $activePage['depth'] !== 0): ?>
-<nav class="breadcrumbs"><?= $nav->breadcrumbs() ?></nav>
+<?php if ($activePage): ?>
+    <?php if ($displayOnHomePage || !$isHomePage /* && $activePage['depth'] !== 0 */): ?>
+<nav class="breadcrumbs">
+    <?= $prependHome && $homePage ? $homePage->link($homePage->title()) . $separator : '' ?>
+    <?= $nav->breadcrumbs()->setSeparator($separator) ?>
+</nav>
+    <?php endif; ?>
+<?php elseif ($prependHome || $appendCurrent): // Isolated page. ?>
+<nav class="breadcrumbs">
+    <?= $prependHome && $homePage ? $homePage->link($homePage->title()) . ($appendCurrent ? $separator : '') : '' ?>
+    <?= $appendCurrent ? '<span>' . $this->escapeHtml($page->title()) . '</span>' : '' ?>
+</nav>
 <?php endif; ?>
