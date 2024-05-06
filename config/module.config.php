@@ -31,6 +31,7 @@ return [
     'block_layouts' => [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
+            'breadcrumbs' => Site\BlockLayout\Breadcrumbs::class,
             // Use a delegator instead of a factory in order to inject HtmlPurifier.
             // 'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             'buttons' => Site\BlockLayout\Buttons::class,
@@ -89,6 +90,7 @@ return [
             // Blocks.
             Form\AssetFieldset::class => Form\AssetFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
+            Form\BreadcrumbsFieldset::class => Form\BreadcrumbsFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\ButtonsFieldset::class => Form\ButtonsFieldset::class,
             Form\D3GraphFieldset::class => Form\D3GraphFieldset::class,
@@ -188,6 +190,9 @@ return [
             'block' => [
                 'heading' => '',
                 'params' => '',
+                'template' => '',
+            ],
+            'breadcrumbs' => [
                 'template' => '',
             ],
             'browsePreview' => [
