@@ -21,6 +21,9 @@ $thumbnail = $plugins->get('thumbnail');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 // Support assetElement when available, that may not be the case when the module is disabled.
 $thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
+
+$className ??= '';
+$alignment ??= '';
 ?>
 
 <div class="block block-asset assets <?= $escape($className . ' ' . $alignment) ?>">
