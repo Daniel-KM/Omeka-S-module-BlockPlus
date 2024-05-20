@@ -45,7 +45,7 @@ class Module extends AbstractModule
             $message = new PsrMessage(
                 'The javascript library should be installed. See module’s installation documentation.' // @translate
             );
-            throw new \Omeka\Module\Exception\ModuleCannotInstallException($message->setTranslator($translator));
+            throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message->setTranslator($translator));
         }
     }
 
