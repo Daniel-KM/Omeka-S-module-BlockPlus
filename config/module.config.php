@@ -81,6 +81,7 @@ return [
             'mediaPartOfItem' => Site\ResourcePageBlockLayout\MediaPartOfItem::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
             'resourceType' => Site\ResourcePageBlockLayout\ResourceType::class,
+            'thumbnail' => Site\ResourcePageBlockLayout\Thumbnail::class,
             'title' => Site\ResourcePageBlockLayout\Title::class,
         ],
     ],
