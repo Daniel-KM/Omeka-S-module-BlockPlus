@@ -106,6 +106,47 @@ return [
     'page_templates' => [
     ],
     'block_templates' => [
+        'asset' => [
+            'asset-hero-bootstrap' => 'Block Plus: Hero bootstrap', // @translate
+            'asset-partners' => 'Block Plus: Partners', // @translate
+            'asset-plus' => 'Block Plus: Asset (deprecated)', // @translate
+            'asset-class-url' => 'Block Plus: Asset class url (deprecated)', // @translate
+            'asset-left-right' => 'Block Plus: Left Right (deprecated)', // @translate
+        ],
+        'block' => [
+            'block-arborescence' => 'Block Plus: Arborescence', // @translate
+            'block-glossary' => 'Block Plus: Glossary', // @translate
+        ],
+        'breadcrumbs' => [
+            'breadcrumbs-standard' => 'Block Plus: Omeka breadcrumbs', // @translate
+        ],
+        'browsePreview' => [
+            'browse-preview-carousel' => 'Block Plus: Carousel', // @translate
+            'browse-preview-gallery' => 'Block Plus: Gallery', // @translate
+            'browse-preview-plus' => 'Block Plus: Browse preview (deprecated)', // @translate
+        ],
+        'media' => [
+            'media-item-showcase-plus' => 'Block Plus: Item showcase (deprecated)', // @translate
+        ],
+        'html' => [
+            'html-glossary' => 'Block Plus: Glossary', // @translate
+            'html-page-header' => 'Block Plus: Page header', // @translate
+        ],
+        'itemWithMetadata' => [
+            'item-with-metadata-plus' => 'Block Plus: Item with metadata (deprecated)', // @translate
+        ],
+        'listOfPages' => [
+            'list-of-pages-plus' => 'Block Plus: List of pages (deprecated)', // @translate
+        ],
+        'listOfSites' => [
+            'list-of-sites-plus' => 'Block Plus: List of sites (deprecated)', // @translate
+        ],
+        'pageDateTime' => [
+            'page-date-time-plus' => 'Block Plus: Page date time', // @translate
+        ],
+        'tableOfContents' => [
+            'table-of-contents-plus' => 'Block Plus: Table of contents (deprecated)', // @translate
+        ],
     ],
     'translator' => [
         'translation_file_patterns' => [
