@@ -36,7 +36,6 @@ return [
             // 'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             'buttons' => Site\BlockLayout\Buttons::class,
             'd3Graph' => Site\BlockLayout\D3Graph::class,
-            'division' => Site\BlockLayout\Division::class,
             'itemSetShowcase' => Site\BlockLayout\ItemSetShowcase::class,
             // Omeka core uses "itemShowCase" instead of "itemShowcase". Won't fix: https://github.com/omeka/omeka-s/pull/1431
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
@@ -95,7 +94,6 @@ return [
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\ButtonsFieldset::class => Form\ButtonsFieldset::class,
             Form\D3GraphFieldset::class => Form\D3GraphFieldset::class,
-            Form\DivisionFieldset::class => Form\DivisionFieldset::class,
             Form\ExternalContentFieldset::class => Form\ExternalContentFieldset::class,
             Form\HtmlFieldset::class => Form\HtmlFieldset::class,
             Form\ItemSetShowcaseFieldset::class => Form\ItemSetShowcaseFieldset::class,
@@ -240,11 +238,6 @@ return [
 }
 ',
                 'template' => '',
-            ],
-            'division' => [
-                'type' => 'start',
-                'tag' => 'div',
-                'class' => 'column',
             ],
             'externalContent' => [
                 'heading' => '',
