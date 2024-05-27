@@ -103,6 +103,8 @@ return [
             Form\SearchFormFieldset::class => Service\Form\SearchFormFieldsetFactory::class,
         ],
     ],
+    'page_templates' => [
+    ],
     'block_templates' => [
     ],
     'translator' => [

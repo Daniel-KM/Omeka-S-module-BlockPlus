@@ -23,6 +23,7 @@ class ThemeManagerFactory implements FactoryInterface
         // Prepare injection of module templates.
         $config = $serviceLocator->get('Config');
         $moduleBlockTemplates = $config['block_templates'];
+        $modulePageTemplates = $config['page_templates'];
 
         $manager = new ThemeManager;
         $iniReader = new IniReader;
@@ -77,6 +78,11 @@ class ThemeManagerFactory implements FactoryInterface
             $configSpec['block_templates'] = empty($configSpec['block_templates'])
                 ? $moduleBlockTemplates
                 : array_merge_recursive($configSpec['block_templates'], $moduleBlockTemplates);
+            if (count($modulePageTemplates)) {
+                $configSpec['page_templates'] = empty($configSpec['page_templates'])
+                    ? $modulePageTemplates
+                    : array_merge_recursive($configSpec['page_templates'], $modulePageTemplates);
+            }
             $theme->setConfigSpec($configSpec);
         }
 
