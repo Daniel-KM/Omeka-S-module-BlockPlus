@@ -555,11 +555,56 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     $message = new PsrMessage('This alpha version does not manage new site pages and blocks templates of Omeka S v4.1, that integrates most of the features of this module. The upgrade to them will be implemented in final release.'); // @translate
     $messenger->addWarning($message);
 
-    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
-    $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
+    // Migrate blocks of this module to new blocks of Omeka S v4.1.
 
     // The process can be run multiple times without issue: migrated blocks are
     // not remigrated.
+
+    // Upgrade is done only on blocks managed by this module.
+    $blockLayouts = [
+        // Overridden (but initially an original block).
+        'asset',
+        'block',
+        'breadcrumbs',
+        // Overridden.
+        'browsePreview',
+        'buttons',
+        'd3Graph',
+        'division',
+        'externalContent',
+        'itemSetShowcase',
+        // Overridden.
+        'itemShowcase',
+        // Overridden.
+        'itemShowCase',
+        // Overridden.
+        'itemWithMetadata',
+        // Overriden.
+        'html',
+        'links',
+        // Overridden.
+        'listOfPages',
+        // Overridden.
+        'listOfSites',
+        'mirrorPage',
+        'pageMetadata',
+        'pageDate',
+        // Overridden.
+        'pageTitle',
+        'redirectToUrl',
+        'resourceText',
+        'searchForm',
+        'searchResults',
+        'separator',
+        'showcase',
+        'tableOfContents',
+        'treeStructure',
+        'twitter',
+    ];
+    $blockLayouts = array_combine($blockLayouts, $blockLayouts);
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
 
     // Asset: move divclass to layout as class.
     // Asset: move alignment to layout as class.
@@ -647,6 +692,9 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     }
 
     $entityManager->flush();
+
+    $message = new PsrMessage('The options "alignment" and "divclass" of some blocks were moved to block layout.'); // @translate
+    $messenger->addWarning($message);
 
     // Division: replace by a group of blocks.
     $divisions = $blocksRepository->findBy(['layout' => 'division']);
@@ -890,6 +938,101 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
         $messenger->addWarning($message);
     }
 
-    $message = new PsrMessage('The options "alignment" and "divclass" of some blocks were moved to block layout.'); // @translate
-    $messenger->addWarning($message);
+    /**
+     * Replace filled element "heading" by a specific block "Heading".
+     *
+     * Because "itemShowcase" was renamed "media", append it to keep heading.
+     * @see \Omeka\Db\Migrations\ConvertItemShowcaseToMedia
+     */
+    $blockLayoutsHeading = $blockLayouts;
+    unset($blockLayoutsHeading['browsePreview']);
+    $blockLayoutsHeading['media'] = 'media';
+
+    // Check if there are filled headings in some blocks.
+    $dql = <<<'DQL'
+SELECT b
+FROM Omeka\Entity\SitePageBlock b
+WHERE b.data LIKE '%"heading":"%'
+    AND b.data NOT LIKE '%"heading":""%'
+    AND b.layout IN (:layouts)
+DQL;
+    $qb = $entityManager->createQuery($dql);
+    $qb->setParameter('layouts', $blockLayoutsHeading, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+    $blocksWithHeading = $qb->getResult();
+
+    if (count($blocksWithHeading)) {
+        /**
+         * @var \Omeka\Entity\SitePageBlock $block
+         * @var \Omeka\Entity\SitePageBlock $blk
+         */
+        $blockIdsWithHeading = [];
+        foreach ($blocksWithHeading as $block) {
+            $blockIdsWithHeading[] = $block->getId();
+        }
+
+        $pagesWithHeading = [];
+        foreach ($blocksWithHeading as $block) {
+            $page = $block->getPage();
+            $pageId = $page->getId();
+            $blockId = $block->getId();
+            $pageSlug = $page->getSlug();
+            $siteSlug = $page->getSite()->getSlug();
+            $position = 0;
+            foreach ($page->getBlocks() as $blk) {
+                ++$position;
+                $blk->setPosition($position);
+                $data = $blk->getData() ?: [];
+                $heading = $data['heading'] ?? '';
+                if (strlen($heading) && in_array($blk->getId(), $blockIdsWithHeading)) {
+                    $b = new \Omeka\Entity\SitePageBlock();
+                    $b->setLayout('heading');
+                    $b->setPage($page);
+                    $b->setPosition($position);
+                    $b->setData([
+                        'text' => $heading,
+                        'level' => 2,
+                    ]);
+                    $entityManager->persist($b);
+                    $blk->setPosition(++$position);
+                    $pagesWithHeading[$siteSlug][$pageSlug] = $pageSlug;
+                }
+                unset($data['heading']);
+                $blk->setData($data);
+            }
+            $entityManager->flush();
+        }
+    }
+
+    // In all cases, remove empty headings from all module blocks with heading.
+    $sql = <<<'SQL'
+UPDATE site_page_block
+SET
+    data = REPLACE(REPLACE(REPLACE(data,
+        ',"heading":""', ''),
+        '"heading":"",', ''),
+        '"heading":""', '')
+WHERE layout IN (:layouts)
+SQL;
+    $connection->executeStatement(
+        $sql,
+        ['layouts' => $blockLayoutsHeading],
+        ['layouts' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+    );
+
+    $entityManager->flush();
+
+    if (!empty($pagesWithHeading)) {
+        $pagesWithHeading = array_map('array_values', $pagesWithHeading);
+        $message = new PsrMessage(
+            'The element "heading" was removed from blocks. A new block "Heading" was prepended to all blocks that had a filled heading. You may check pages for styles: {json}', // @translate
+            ['json' => json_encode($pagesWithHeading, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    } else {
+        $message = new PsrMessage(
+            'A new block "Heading" allows to separate blocks with a html heading and replaces previous blocks with element "heading".' // @translate
+        );
+        $messenger->addWarning($message);
+    }
 }
