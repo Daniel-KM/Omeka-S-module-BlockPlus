@@ -12,7 +12,7 @@
  */
 
 $plugins = $this->getHelperPluginManager();
-$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
 $siteSetting = $plugins->get('siteSetting');
 $isHomePage = $plugins->get('isHomePage')();
 
@@ -25,13 +25,13 @@ $activePage = $nav->findActive($nav->getContainer());
 
 <?php if ($activePage): ?>
     <?php if ($displayOnHomePage || !$isHomePage /* && $activePage['depth'] !== 0 */): ?>
-<nav class="breadcrumbs">
+<nav class="breadcrumbs" aria-label="<?= $translate('Breadcrumb') ?>">
     <?= $prependHome && $homePage ? $homePage->link($homePage->title()) . $separator : '' ?>
     <?= $nav->breadcrumbs()->setSeparator($separator) ?>
 </nav>
     <?php endif; ?>
 <?php elseif ($prependHome || $appendCurrent): // Isolated page. ?>
-<nav class="breadcrumbs">
+<nav class="breadcrumbs" aria-label="<?= $translate('Breadcrumb') ?>">
     <?= $prependHome && $homePage ? $homePage->link($homePage->title()) . ($appendCurrent ? $separator : '') : '' ?>
     <?= $appendCurrent ? '<span>' . $this->escapeHtml($page->title()) . '</span>' : '' ?>
 </nav>

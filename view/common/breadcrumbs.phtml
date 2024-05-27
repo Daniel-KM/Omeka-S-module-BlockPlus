@@ -17,18 +17,21 @@
 // This span allows a simpler theming and avoit to create a specific partial.
 // Furthermore, the nav is wrapped in a main div to simplify global positionning.
 
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+
 // The separator should be a string, else the default one (" &gt; ") is used.
 $separator = ' ' . $options['separator'] . " \n";
 $html = empty($nav)
     ? $this->navigation()->breadcrumbs($breadcrumbs)->setSeparator($separator)
     : $nav->breadcrumbs()->setSeparator($separator);
 if (empty($options['linkLast']) && $lastLinkPos = mb_strrpos($html, '</a>' . $separator)):
-    $html = mb_substr($html, 0, $lastLinkPos + 4 + mb_strlen($separator)) . '<span class="active">' . mb_substr($html, $lastLinkPos + 4 + mb_strlen($separator)) . '</span>';
+    $html = mb_substr($html, 0, $lastLinkPos + 4 + mb_strlen($separator)) . '<span class="active" aria-currrent="page">' . mb_substr($html, $lastLinkPos + 4 + mb_strlen($separator)) . '</span>';
 endif;
 ?>
 
 <div class="breadcrumbs-parent">
-    <nav id="breadcrumb" class="breadcrumbs">
+    <nav id="breadcrumb" class="breadcrumbs" aria-label="<?= $translate('Breadcrumb') ?>">
         <?= $html ?>
     </nav>
 </div>

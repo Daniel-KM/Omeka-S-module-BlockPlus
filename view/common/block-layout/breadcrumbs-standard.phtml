@@ -14,10 +14,13 @@
 // Same structure than application/view/omeka/site/page/show.
 // So does not take care of module breadcrumbs settings, in particular separator.
 
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+
 $nav = $site->publicNav();
 $activePage = $nav->findActive($nav->getContainer());
 ?>
 
 <?php if ($activePage && $activePage['depth'] !== 0): ?>
-<nav class="breadcrumbs"><?= $nav->breadcrumbs() ?></nav>
+<nav class="breadcrumbs" aria-label="<?= $translate('Breadcrumb') ?>"><?= $nav->breadcrumbs() ?></nav>
 <?php endif; ?>
