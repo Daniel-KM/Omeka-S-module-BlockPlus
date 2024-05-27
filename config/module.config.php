@@ -38,6 +38,7 @@ return [
             'itemSetShowcase' => Site\BlockLayout\ItemSetShowcase::class,
             'links' => Site\BlockLayout\Links::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
+            'messages' => Site\BlockLayout\Messages::class,
             'pageMetadata' => Site\BlockLayout\PageMetadata::class,
             'redirectToUrl' => Site\BlockLayout\RedirectToUrl::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
@@ -211,6 +212,8 @@ return [
                 'pagination' => false,
                 'summaries' => true,
                 'thumbnails' => true,
+            ],
+            'messages' => [
             ],
             'mirrorPage' => [
                 'page' => null,
