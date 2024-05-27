@@ -120,7 +120,28 @@ simple = Simple page', // @translate
                 ],
             ])
 
-            // Previous/Next resources.
+            // Resource block buttons.
+
+            ->add([
+                'name' => 'blockplus_block_buttons',
+                'type' => CommonElement\OptionalMultiCheckbox::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Settings for the resource block Buttons', // @translate
+                    'value_options' => [
+                        'download' => 'Download', // @translate
+                        'email' => 'Share by email', // @translate
+                        'facebook' => 'Share on Facebook', // @translate
+                        'pinterest' => 'Share on Pinterest', // @translate
+                        'twitter' => 'Share on Twitter (now X)', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_block_buttons',
+                ],
+            ])
+
+            // Resource block Previous/Next resources.
 
             ->add([
                 'name' => 'blockplus_items_order_for_itemsets',

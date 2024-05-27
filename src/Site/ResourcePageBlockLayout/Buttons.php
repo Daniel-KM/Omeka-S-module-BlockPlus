@@ -1,56 +1,38 @@
 <?php declare(strict_types=1);
 
-namespace BlockPlus\Site\BlockLayout;
+namespace BlockPlus\Site\ResourcePageBlockLayout;
 
 use Laminas\View\Renderer\PhpRenderer;
-use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Omeka\Api\Representation\SitePageRepresentation;
-use Omeka\Api\Representation\SiteRepresentation;
-use Omeka\Site\BlockLayout\AbstractBlockLayout;
-use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Omeka\Site\ResourcePageBlockLayout\ResourcePageBlockLayoutInterface;
 
-class Buttons extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
+/**
+ * A button to display buttons to share current page.
+ */
+class Buttons implements ResourcePageBlockLayoutInterface
 {
-    /**
-     * The default partial view script.
-     */
-    const PARTIAL_NAME = 'common/block-layout/buttons';
-
-    public function getLabel()
+    public function getLabel() : string
     {
         return 'Buttons'; // @translate
     }
 
-    public function form(
-        PhpRenderer $view,
-        SiteRepresentation $site,
-        SitePageRepresentation $page = null,
-        SitePageBlockRepresentation $block = null
-    ) {
-        // Factory is not used to make rendering simpler.
-        $services = $site->getServiceLocator();
-        $formElementManager = $services->get('FormElementManager');
-        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['buttons'];
-        $blockFieldset = \BlockPlus\Form\ButtonsFieldset::class;
-
-        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
-
-        $dataForm = [];
-        foreach ($data as $key => $value) {
-            $dataForm['o:block[__blockIndex__][o:data][' . $key . ']'] = $value;
-        }
-
-        $fieldset = $formElementManager->get($blockFieldset);
-        $fieldset->populateValues($dataForm);
-
-        return $view->formCollection($fieldset, false);
+    public function getCompatibleResourceNames() : array
+    {
+        return [
+            'items',
+            'media',
+            'item_sets',
+        ];
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
     {
-        $vars = ['block' => $block] + $block->data();
-        $vars['buttons'] = $this->shareLinks($view, $block->page(), $vars['buttons'] ?? []);
-        return $view->partial($templateViewScript, $vars);
+        $buttons = $view->siteSetting('blockplus_block_buttons') ?: [];
+        $buttons = $this->shareLinks($buttons);
+        return $view->partial('common/resource-page-block-layout/buttons', [
+            'resource' => $resource,
+            'buttons' => $buttons,
+        ]);
     }
 
     /**
@@ -58,7 +40,7 @@ class Buttons extends AbstractBlockLayout implements TemplateableBlockLayoutInte
      * @see BlockPlus\Site\BlockLayout\Buttons::shareLinks()
      * @see BlockPlus\Site\ResourcePageBlockLayout\Buttons::shareLinks()
      */
-    public function shareLinks(PhpRenderer $view, SitePageRepresentation $page, array $buttons): array
+    public function shareLinks(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $buttons): array
     {
         if (!$buttons) {
             return [];
@@ -66,12 +48,19 @@ class Buttons extends AbstractBlockLayout implements TemplateableBlockLayoutInte
 
         $result = [];
 
-        $translate = $view->plugin('translate');
-        $site = $page->site();
+        $plugins = $view->getHelperPluginManager();
+        $site = $plugins->get('currentSite')();
+        $translate = $plugins->get('translate');
+        $siteSetting = $plugins->get('siteSetting');
+
+        $filterLocale = (bool) $siteSetting('filter_locale_values');
+        $lang = $filterLocale ? $this->lang() : null;
+        $langValue = $filterLocale ? [$lang, ''] : null;
+
         $siteSlug = $site->slug();
         $siteTitle = $site->title();
-        $url = $page->siteUrl($siteSlug, true);
-        $title = $page->title();
+        $url = $resource->siteUrl($siteSlug, true);
+        $title = $resource->displayTitle(null, $langValue);
 
         $encodedUrl = rawurlencode($url);
         $encodedTitle = rawurlencode($title);

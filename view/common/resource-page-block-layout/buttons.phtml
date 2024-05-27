@@ -1,8 +1,8 @@
 <?php
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
- * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
- * @var array $buttons
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ * @var array $buttons List of buttons.
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -11,7 +11,7 @@ $translate = $plugins->get('translate');
 $htmlAttributes = $plugins->get('htmlAttributes');
 ?>
 
-<div class="block block-buttons">
+<div class="block resource-block block-buttons">
     <?php if ($buttons): ?>
     <ul class="share-buttons">
     <?php foreach ($buttons as $button => $data): ?>

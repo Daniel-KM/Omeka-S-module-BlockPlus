@@ -22,7 +22,7 @@ class ButtonsFieldset extends Fieldset
                         'email' => 'Share by email', // @translate
                         'facebook' => 'Share on Facebook', // @translate
                         'pinterest' => 'Share on Pinterest', // @translate
-                        'twitter' => 'Share on Twitter', // @translate
+                        'twitter' => 'Share on Twitter (now X)', // @translate
                     ],
                 ],
             ])

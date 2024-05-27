@@ -59,6 +59,7 @@ return [
         'invokables' => [
             'block' => Site\ResourcePageBlockLayout\Block::class,
             'breadcrumbs' => Site\ResourcePageBlockLayout\Breadcrumbs::class,
+            'buttons' => Site\ResourcePageBlockLayout\Buttons::class,
             'description' => Site\ResourcePageBlockLayout\Description::class,
             'mediaPartOfItem' => Site\ResourcePageBlockLayout\MediaPartOfItem::class,
             'messages' => Site\ResourcePageBlockLayout\Messages::class,
@@ -139,6 +140,9 @@ return [
             'blockplus_breadcrumbs_collections_url' => '',
             'blockplus_breadcrumbs_separator' => '',
             'blockplus_breadcrumbs_homepage' => false,
+            // Resource blocks.
+            // Buttons.
+            'blockplus_block_buttons' => [],
             // Previous/Next resources.
             'blockplus_items_order_for_itemsets' => [],
             'blockplus_prevnext_items_query' => '',
