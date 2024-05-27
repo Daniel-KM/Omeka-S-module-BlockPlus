@@ -34,6 +34,15 @@ class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLa
         $defaultSettings = $services->get('Config')['blockplus']['block_settings']['tableOfContents'];
         $blockFieldset = \BlockPlus\Form\TableOfContentsFieldset::class;
 
+        // Force default value to 1.
+        $depthValue = 1;
+        if ($block) {
+            $blockDepth = (int) $block->dataValue('depth');
+            if ($blockDepth > 1) {
+                $depthValue = $blockDepth;
+            }
+        }
+
         $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
         $dataForm = [];
@@ -50,9 +59,11 @@ class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLa
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $view->pageViewModel->setVariable('displayNavigation', false);
-        $nav = $block->page()->site()->publicNav();
 
-        /** @var \Laminas\View\Helper\Navigation $container */
+        /**
+         * @var \Laminas\View\Helper\Navigation $container
+         */
+        $nav = $block->page()->site()->publicNav();
         $container = $nav->getContainer();
         if ($block->dataValue('root')) {
             $activePage = ['page' => $container, 'depth' => 0];
@@ -79,7 +90,11 @@ class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLa
             $subNav = new Navigation([]);
         }
 
-        $depth = (int) $block->dataValue('depth', 1);
+        // Don't use dataValue's default here; we need to handle empty/non-numerics anyway
+        $depth = (int) $block->dataValue('depth');
+        if ($depth < 1) {
+            $depth = 1;
+        }
 
         $vars = [
             'block' => $block,

@@ -259,7 +259,7 @@ return [
                 'show_title_option' => 'item_title',
             ],
             'tableOfContents' => [
-                'depth' => null,
+                'depth' => 1,
                 'root' => false,
             ],
             'treeStructure' => [
