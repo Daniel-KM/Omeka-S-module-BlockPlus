@@ -25,20 +25,6 @@ class ResourceTextFieldset extends Fieldset
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][alignment]',
-                'type' => Element\Select::class,
-                'options' => [
-                    'label' => 'Thumbnail alignment', // @translate
-                    'value_options' => [
-                        'left' => 'left', // @translate
-                        'right' => 'right', // @translate
-                    ],
-                ],
-                'attributes' => [
-                    'class' => 'chosen-select',
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][show_title_option]',
                 'type' => Element\Select::class,
                 'options' => [

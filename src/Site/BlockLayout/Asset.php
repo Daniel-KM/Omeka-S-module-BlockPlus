@@ -117,7 +117,6 @@ class Asset extends \Omeka\Site\BlockLayout\Asset
             'siteId' => $site->id(),
             'apiUrl' => $site->apiUrl(),
             'attachments' => $this->prepareAssetAttachments($view, $data, $site),
-            'alignmentClassSelect' => $fieldset->get('o:block[__blockIndex__][o:data][alignment]'),
         ]);
     }
 

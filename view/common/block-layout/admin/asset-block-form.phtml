@@ -7,7 +7,6 @@
  * @var int $siteId
  * @var string $apiUrl
  * @var array $attachments Warning: not attachments, but array of data
- * @var string $alignmentClassSelect
  * Added:
  * @var \Laminas\Form\Fieldset $fieldset
  */
@@ -94,7 +93,6 @@ $strings['attachmentRowTemplateDefault'] = sprintf($attachmentRowTemplate, ' new
 <div class="collapsible">
     <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][heading]')) ?>
     <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][className]')) ?>
-    <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][alignment]')) ?>
     <?= $formRow($fieldset->get('o:block[__blockIndex__][o:data][template]')) ?>
     <?php // Inputs "class" and "url" are managed by js because other blocks don't need them. ?>
 </div>

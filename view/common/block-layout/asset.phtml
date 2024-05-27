@@ -10,7 +10,6 @@
  *   - class (string)
  * @var string $heading
  * @var string $className
- * @var string $alignment
  *
  * @see \BlockPlus\View\Helper\AssetElement
  */
@@ -23,10 +22,9 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 $thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
 
 $className ??= '';
-$alignment ??= '';
 ?>
 
-<div class="block block-asset assets <?= $escape($className . ' ' . $alignment) ?>">
+<div class="block block-asset assets <?= $escape($className) ?>">
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>

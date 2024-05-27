@@ -26,17 +26,6 @@ class ExternalContentFieldset extends Fieldset
             ],
         ]);
         $this->add([
-            'name' => 'o:block[__blockIndex__][o:data][alignment]',
-            'type' => Element\Radio::class,
-            'options' => [
-                'label' => 'Alignment', // @translate
-                'value_options' => [
-                    'left' => 'left', // @translate
-                    'right' => 'right', // @translate
-                ],
-            ],
-        ]);
-        $this->add([
             'name' => 'o:block[__blockIndex__][o:data][show_title_option]',
             'type' => Element\Checkbox::class,
             'options' => [

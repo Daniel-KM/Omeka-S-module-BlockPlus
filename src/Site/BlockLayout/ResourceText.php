@@ -96,7 +96,6 @@ class ResourceText extends AbstractBlockLayout implements TemplateableBlockLayou
         $html .= '<style>.collapsible.no-override {overflow:visible;}</style>';
         $optionsElements = [
             'o:block[__blockIndex__][o:data][thumbnail_type]',
-            'o:block[__blockIndex__][o:data][alignment]',
             'o:block[__blockIndex__][o:data][show_title_option]',
             'o:block[__blockIndex__][o:data][caption_position]',
             'o:block[__blockIndex__][o:data][template]',
@@ -122,7 +121,6 @@ class ResourceText extends AbstractBlockLayout implements TemplateableBlockLayou
             'heading' => $block->dataValue('heading', ''),
             'attachments' => $attachments,
             'html' => $html,
-            'alignmentClass' => $block->dataValue('alignment', 'left'),
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
             'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
             'captionPosition' => $block->dataValue('caption_position', 'center'),

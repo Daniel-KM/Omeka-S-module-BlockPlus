@@ -12,7 +12,6 @@
  * @var array $assets Deprecated, alias of attachments.
  * @var string $heading
  * @var string $className
- * @var string $alignment
  */
 
 // Caption is not used in this template.
@@ -35,7 +34,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 }
 </style>
 
-<div class="block block-asset partners assets <?= $escape($className . ' ' . $alignment) ?>">
+<div class="block block-asset partners assets <?= $escape($className) ?>">
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>

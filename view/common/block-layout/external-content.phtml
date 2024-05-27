@@ -5,7 +5,6 @@
  * @var string $heading
  * @var array $embeds
  * @var string $html
- * @var string $alignmentClass
  * @var string $showTitleOption
  * @var string $captionPosition
  * @var string $linkText
@@ -23,7 +22,7 @@ $hyperlink = $plugins->get('hyperlink');
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
-<div class="<?= $alignmentClass . ' captions-' . $captionPosition ?> media file">
+<div class="<?= ' captions-' . $captionPosition ?> media file">
     <div class="embeds attachments">
 <?php foreach ($embeds as $embed): ?>
     <div class="item resource">

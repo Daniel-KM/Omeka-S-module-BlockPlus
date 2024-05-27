@@ -39,25 +39,6 @@ class AssetFieldset extends Fieldset
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][alignment]',
-                'type' => Element\Select::class,
-                'options' => [
-                    'label' => 'Alignment', // @translate
-                    'value_options' => [
-                        'default' => 'default', // @translate
-                        'left' => 'float left', // @translate
-                        'right' => 'float right', // @translate
-                        'center' => 'center', // @translate
-                    ],
-                ],
-                'attributes' => [
-                    'id' => 'asset-alignment',
-                    'class' => 'chosen-select',
-                    'title' => 'Alignment',
-                    'aria-label' => 'Alignment',
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
                 'type' => BlockPlusElement\TemplateSelect::class,
                 'options' => [

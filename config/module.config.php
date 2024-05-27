@@ -185,7 +185,6 @@ return [
                     ],
                 ],
                 'className' => '',
-                'alignment' => 'default',
                 'template' => '',
             ],
             'block' => [
@@ -253,7 +252,6 @@ return [
                 'heading' => '',
                 'embeds' => [],
                 'html' => '',
-                'alignment' => 'left',
                 'show_title_option' => 'title',
                 'caption_position' => 'center',
                 'link_text' => 'Know more', // @translate
@@ -345,7 +343,6 @@ return [
                 'attachments' => [],
                 'html' => '',
                 'thumbnail_type' => 'square',
-                'alignment' => 'left',
                 'show_title_option' => 'item_title',
                 // This option is mainly for compability with Omeka Classic exhibits.
                 'caption_position' => 'center',
