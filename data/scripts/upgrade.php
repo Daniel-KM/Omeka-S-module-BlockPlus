@@ -456,7 +456,7 @@ if (version_compare($oldVersion, '3.4.16', '<')) {
         $messenger->addWarning($message);
     } else {
         $message = new PsrMessage(
-            'it is now possible to define a breadcrumbs (may need to be added inside theme).' // @translate
+            'It is now possible to define a breadcrumbs (may need to be added inside theme).' // @translate
         );
         $messenger->addWarning($message);
     }
@@ -546,15 +546,7 @@ SQL;
     $connection->executeStatement($sql);
 }
 
-if (version_compare($oldVersion, '3.4.21', '<') && version_compare($newVersion, '3.4.21', '<=')) {
-    $message = new PsrMessage('The versions of the module Block Plus lower than 3.4.22 don’t support Omeka S v4.1.'); // @translate
-    $messenger->addSuccess($message);
-}
-
-if (version_compare($oldVersion, '3.4.22', '<')) {
-    $message = new PsrMessage('This alpha version does not manage new site pages and blocks templates of Omeka S v4.1, that integrates most of the features of this module. The upgrade to them will be implemented in final release.'); // @translate
-    $messenger->addWarning($message);
-
+if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Migrate blocks of this module to new blocks of Omeka S v4.1.
 
     $logger = $services->get('Omeka\Logger');
@@ -586,7 +578,7 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
         'links' => 'common/block-layout/links',
         // Overridden, so removed.
         'listOfPages' => 'common/block-layout/list-of-pages',
-        // Overridden, so removed.
+        // Overridden, so will be removed when pull request will be integrated.
         'listOfSites' => 'common/block-layout/list-of-sites',
         'mirrorPage' => null,
         'pageMetadata' => 'common/block-layout/page-metadata',
@@ -1241,12 +1233,49 @@ SQL;
 
     $entityManager->flush();
 
+    // TODO Add a list of pages with asset "class" and "url"?
+    $message = new PsrMessage(
+        'For block Asset, the keys "class" and "url" of assets were removed and not supported in the core version Omeka S v4.1.' // @translate
+    );
+    $messenger->addWarning($message);
+
+    $message = new PsrMessage(
+        'The block Item Showcase was renamed Media in Omeka S v4.1. The option "linkType" was renamed "link". Check your themes to update them.' // @translate
+    );
+    $messenger->addWarning($message);
+
+    $message = new PsrMessage(
+        'The templates item-showcase-xxx were renamed media-item-showcase-xxx. Check your themes to update them or to move them to common/block-template and to add them in theme.ini as templates for block "Media".' // @translate
+    );
+    $messenger->addWarning($message);
+
     $message = new PsrMessage(
         'The old template mechanism of the module BlockPlus was replaced by the new mechanism of Omeka S v4.1.' // @translate
     );
     $messenger->addWarning($message);
+
     $message = new PsrMessage(
-        'Because old features of the module were integrated inside Omeka S since v4.1, the blocks Asset, Browse Preview, Html, Item Showcase, Item With Metadata, List of Pages, List of Sites and Page Title are no more overridden.' // @translate
+        'It is recommended to check your themes and to move specific templates from "view/common/block-layout" to "view/common/block-template" and to declare them in the file theme.ini. This is not needed for the default template of a block. After moving, the option "template" of each block should be updated in each page.' // @translate
     );
+    $messenger->addWarning($message);
+
+    $message = new PsrMessage(
+        'Because old features of the module were integrated inside Omeka S since v4.1 ({link}user doc{link_end}, {link_2}dev doc{link_end}), the blocks Asset, Browse Preview, Html, Item Showcase, Item With Metadata, List of Pages, Page Date, and Page Title are no more overridden.', // @translate
+            [
+                'link' => '<a href="https://omeka.org/s/docs/user-manual/sites/site_pages/#edit-a-page" target="_blank" rel="noopener">',
+                'link_2' => '<a href="https://omeka.org/s/docs/developer/themes/theme_templates/" target="_blank" rel="noopener">',
+                'link_end' => '</a>',
+            ]
+    );
+    $message->setEscapeHtml(false);
     $messenger->addSuccess($message);
+
+    $message = new PsrMessage(
+        'Warning: It is important to check all site pages because the integration of the module features in Omeka S is a complex process and some features are not upgradable.' // @translate
+    );
+    $messenger->addError($message);
+    $message = new PsrMessage(
+        'In particular, check deprecated block templates and blocks Asset, Browse Preview and nested Division. Check styles too, because some html <div> and classes were added or removed by Omeka S and the module. Warning: as long as you do not re-save a page, old page settings will work. Once saved a new time, some old settings will be removed.' // @translate
+    );
+    $messenger->addError($message);
 }

@@ -10,6 +10,9 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 
+/**
+ * @todo Deprecated some features available since Omeka S v4.1.
+ */
 class PageMetadata extends AbstractBlockLayout
 {
     public function getLabel()
