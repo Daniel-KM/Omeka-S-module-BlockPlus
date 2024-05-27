@@ -554,4 +554,100 @@ if (version_compare($oldVersion, '3.4.21', '<') && version_compare($newVersion, 
 if (version_compare($oldVersion, '3.4.22', '<')) {
     $message = new PsrMessage('This alpha version does not manage new site pages and blocks templates of Omeka S v4.1, that integrates most of the features of this module. The upgrade to them will be implemented in final release.'); // @translate
     $messenger->addWarning($message);
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
+
+    // The process can be run multiple times without issue: migrated blocks are
+    // not remigrated.
+
+    // Asset: move divclass to layout as class.
+    // Asset: move alignment to layout as class.
+    // Done in Omeka migration.
+
+    // Html: move divclass to layout as class.
+    // Done in Omeka migration.
+
+    // Media: move alignment to layout as class.
+    // Done in Omeka migration.
+
+    // Division: move class to layout as class.
+    foreach ($blocksRepository->findBy(['layout' => 'division']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData();
+        if (isset($data['class'])) {
+            $layoutData['class'] = $data['class'];
+            unset($data['class']);
+            $block->setData($data);
+            $block->setLayoutData($layoutData);
+        }
+    }
+
+    // Do a first flush to avoid memory issues.
+    $entityManager->flush();
+
+    // External Content: move alignment to layout as class.
+    foreach ($blocksRepository->findBy(['layout' => 'externalContent']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData();
+        if (isset($data['alignment'])) {
+            $layoutData['alignment_block'] = $data['alignment'];
+            if ('center' === $data['alignment']) {
+                $layoutData['alignment_text'] = 'center';
+            }
+            unset($data['alignment']);
+            $block->setData($data);
+            $block->setLayoutData($layoutData);
+        }
+    }
+
+    $entityManager->flush();
+
+    // Resource Text: move alignment to layout as class.
+    foreach ($blocksRepository->findBy(['layout' => 'resourceText']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData();
+        if (isset($data['alignment'])) {
+            $layoutData['alignment_block'] = $data['alignment'];
+            if ('center' === $data['alignment']) {
+                $layoutData['alignment_text'] = 'center';
+            }
+            unset($data['alignment']);
+            $block->setData($data);
+            $block->setLayoutData($layoutData);
+        }
+    }
+
+    $entityManager->flush();
+
+    // Separator: move class to layout as class.
+    foreach ($blocksRepository->findBy(['layout' => 'separator']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData();
+        if (isset($data['class'])) {
+            $layoutData['class'] = $data['class'];
+            unset($data['class']);
+            $block->setData($data);
+            $block->setLayoutData($layoutData);
+        }
+    }
+
+    $entityManager->flush();
+
+    // Showcase: move divclass to layout as class.
+    foreach ($blocksRepository->findBy(['layout' => 'showcase']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData();
+        if (isset($data['divclass'])) {
+            $layoutData['class'] = $data['divclass'];
+            unset($data['divclass']);
+            $block->setData($data);
+            $block->setLayoutData($layoutData);
+        }
+    }
+
+    $entityManager->flush();
+
+    $message = new PsrMessage('The options "alignment" and "divclass" of some blocks were moved to block layout.'); // @translate
+    $messenger->addWarning($message);
 }
