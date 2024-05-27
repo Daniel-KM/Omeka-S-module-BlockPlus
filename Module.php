@@ -121,6 +121,8 @@ class Module extends AbstractModule
         $assetUrl = $view->plugin('assetUrl');
         $view->headLink()
             ->appendStylesheet($assetUrl('css/block-plus-admin.css', 'BlockPlus'));
+        $view->headScript()
+            ->appendFile($assetUrl('js/block-plus-admin.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
     }
 
     public function handleHtmlPurifier(Event $event): void
