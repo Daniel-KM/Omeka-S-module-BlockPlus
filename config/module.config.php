@@ -196,7 +196,7 @@ return [
             'links' => [
                 'links' => [],
             ],
-            // TODO Pull request diff in listOfSites in core.
+            // TODO Pull request diff in listOfSites in core or move it to module Internationalisation.
             // Diff with Omeka S: exclude more than current page.
             'listOfSites' => [
                 'sort' => 'alpha',

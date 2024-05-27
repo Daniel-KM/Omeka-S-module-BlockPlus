@@ -4,7 +4,10 @@
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var \Omeka\Api\Representation\SiteBlockAttachmentRepresentation[] $attachments
  * @var string $thumbnailType
- * @var string $showTitleOption
+ * @var string $link Link type from site setting "attachment_link_type"
+ * @var string $showTitleOption "item_title", "file_name", "no_title"
+ * @var array $classes
+ * @var string $mediaDisplay "" or "thumbnail"
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -13,8 +16,7 @@ $hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
 
-$linkType = $siteSetting('attachment_link_type', 'item');
-
+// Not managed in core template "file" for now.
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $filterLocale ? $siteLang : null;
 ?>
@@ -24,38 +26,38 @@ $lang = $filterLocale ? $siteLang : null;
     foreach ($attachments as $attachment):
         $render = null;
         $title = null;
-        $link = null;
+        $resourceLink = null;
         $item = $attachment->item();
         $media = null;
-        if ($item):
+        if ($item) {
             $media = $attachment->media() ?: $item->primaryMedia();
-            if ($media):
+            if ($media) {
                 $render = $item->linkRaw($thumbnail($media, $thumbnailType));
-            endif;
+            }
 
-            if ($showTitleOption === 'item_title'):
+            if ($showTitleOption === 'item_title') {
                 $title = $item->displayTitle(null, $lang);
-            elseif ($media && $showTitleOption == 'file_name'):
+            } elseif ($media && $showTitleOption == 'file_name') {
                 $title = $media->displayTitle(null, $lang);
-            endif;
+            }
 
-            if ($title):
-                if ($media && $linkType === 'media'):
-                    $link = $media->link($title);
-                elseif ($media && $linkType === 'original' && $media->hasOriginal()):
-                    $link = $hyperlink($title, $media->originalUrl());
-                else:
-                    $link = $item->link($title);
-                endif;
-            endif;
-        endif;
+            if ($title) {
+                if ($media && $link === 'media') {
+                    $resourceLink = $media->link($title);
+                } elseif ($media && $link === 'original' && $media->hasOriginal()) {
+                    $resourceLink = $hyperlink($title, $media->originalUrl());
+                } else {
+                    $resourceLink = $item->link($title);
+                }
+            }
+        }
 
         $caption = $attachment->caption();
     ?>
     <div class="item resource">
         <?= $render ?>
-        <?php if ($link): ?>
-        <h3><?= $link ?></h3>
+        <?php if ($resourceLink): ?>
+        <h3><?= $resourceLink ?></h3>
         <?php endif; ?>
         <?php if ($caption): ?>
         <div class="caption">

@@ -9,6 +9,7 @@ $translate = $plugins->get('translate');
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
 
+// Not managed in core template "item-with-metadata" for now.
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;
 
@@ -40,7 +41,7 @@ if ($siteSetting('exclude_resources_not_in_site')) {
         <dl class="media-list">
             <div class="property">
                 <dt><?= $translate('Media') ?></dt>
-                <?php foreach ($item->media() as $media): ?>
+                <?php foreach ($medias as $media): ?>
                 <dd class="value"><?= $media->linkRaw($thumbnail($media, 'medium', ['title' => $media->displayTitle(null, $lang)]), null, ['class' => 'media resource']) ?></dd>
                 <?php endforeach; ?>
             </div>

@@ -8,11 +8,13 @@ $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
 $missingPage = $translate('[Missing Page]');
+
+$iterate = null;
 ?>
 
 <div class="block list-of-pages">
     <ul>
-        <?php $iterate = function ($pages) use (&$iterate, $translate, $hyperlink, $missingPage) {
+        <?php $iterate = function ($pages) use (&$iterate, $hyperlink, $missingPage) {
             foreach ($pages as $page) {
                 $pageName = $page['text'];
                 $pageLink = $page['data']['url'];

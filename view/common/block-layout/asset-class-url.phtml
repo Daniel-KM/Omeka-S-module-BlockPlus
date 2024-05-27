@@ -6,11 +6,11 @@
  *   - page (PageRepresentation)
  *   - caption (string): the html is purified according to settings
  *   - alt_link_title (string)
- *   Specific to the module version:
+ *
+ * Removed during migration to Omeka S block Asset and not managed for now:
  *   - class (string)
- *   - title (string): deprecated alias of "alt_link_title"
- *   - url (string): deprecated, will be removed. Use "page", "caption", alt title, or original asset alt value instead.
- * @var array $assets Deprecated, alias of attachments.
+ *   - url (string): deprecated, will be removed. Use "page", "caption", alt title,
+ *     or original asset alt value instead. For now, use first part of "class"
  */
 
 // This template is the equivalent of the old "assets.phtml" one, before upstream merge.
