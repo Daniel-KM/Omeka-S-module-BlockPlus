@@ -7,12 +7,13 @@ Block Plus (module for Omeka S)
 
 [Block Plus] is a module for [Omeka S] that adds some new blocks for the static
 pages and improves some of the existing ones: image gallery, D3 graph, mirror
-page, search form, assets, item set showcase, exhibits, footnotes, etc.
+page, search form, item set showcase, exhibits, footnotes, etc. Some resource
+page blocks are implemented too: breadcrumbs, previous/next resource, etc.
 
-Furthermore, each block can use multiple templates, so it's possible to theme a
-block differently in different pages.
-
-Some resource page blocks are implemented too.
+Warning: Since Omeka S v4.1, many of the features implemented some years ago
+were implemented in core. The migration from old blocks of the module to new
+blocks may require some manual updates of the themes when they were customized.
+See below for migration. There is no issue for a new install.
 
 
 Installation
@@ -43,161 +44,18 @@ See general end user documentation for [installing a module] and follow the
 config instructions.
 
 
-Usage
------
+Usage since version 3.4.22 for Omeka S v4.1
+-------------------------------------------
 
-Select them in the view "Page edit". You may theme them too: copy the block
-templates that are in `view/common/block-layout/` in the same place of your
-theme.
+### New site page blocks
 
-### Improvements in all blocks
+#### Block
 
-The core blocks (Browse preview, Html, Item metadata, Item showcase, List of pages,
-List of sites, Page title, Table of contents) are improved with two new options:
+A simple block to display a template from the theme. It should be adapted by in
+the theme. It may be used for a static html content, like a list of partners, or
+a complex layout, since any Omeka feature is available in a view.
 
-#### Heading
-
-Most of the blocks have an option to set a title.
-
-#### Templates
-
-Most of block have an option to set a specific template, so it’s possible to
-display these blocks differently in the same page or on different pages.
-
-**Warning**
-
-When a block allows to select a template, the filename must start with the same
-string than the original template, for example "table-of-contents-pages.phtml"
-for the block "TableOfContents".
-
-Furthermore, it should exists in a module or in the current theme. When the
-template is missing, for example when switching into another theme, the default
-of the template is used. Thereby, when the module or the theme that has this
-template is replaced, you  have to check the pages that use it.
-
-### New blocks and specific improvements
-
-#### Asset (improvement)
-
-Since the integration of "asset" in Omeka 3.1, this block is an improved version
-of the [core block "asset"]. It can list assets with optional link to pages,
-labels and caption. The assets are not required to be filled, so it allow to
-display any list of contents.
-
-Unlike the upstream version, it has a specific `class` option at asset level and
-supports templates. Some templates are available: "asset-block", "asset-hero-bootstrap",
-"asset-left-right" and "asset-partners".
-
-#### Block Metadata
-
-This block provides the same information than the view helper `pageMetadata()`
-(see below), but from a block. It is usefull with the simple block to extract
-params, or to get some informations about the page from anywhere in the theme.
-
-```php
-// A simple check is done to make the theme more generic.
-$blockMetadata = $plugins->has('blockMetadata') ? $plugins->get('blockMetadata') : null;
-if ($blockMetadata):
-    $data = $blockMetadata('params_key_value');
-endif;
-```
-
-### Browse preview (improvements)
-
-The block Browse preview has new fields to display sort headings and pagination,
-so it's now possible to have a specific list of items, like the main browse view.
-
-It has some specific templates too:
-- simple carousel ("browse-preview-carousel"): this is an upgrade of the plugin
-  [Shortcode Carousel] for [Omeka Classic].
-- gallery display with a quick viewer too ("browse-preview-gallery"). This one
-  has a specific option to add to the query to display thumbnails as square or
-  medium: `thumbnail_size=medium`. You can see an example on the site [Ontologie du christianisme médiéval en images],
-  from French [Institut national de l’histoire de l’art].
-
-To use them, simply select the wanted template:
-
-![browse-preview-carousel](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/raw/master/data/images/browse-preview-carousel.png)
-
-#### D3 Graph
-
-The D3 graph adds the [D3 library] to display relations between items in a graph:
-links between subjects and objects, links between items and item sets, etc.
-An example of use can be seen on the digital library of the [Fondation de la Maison de Salins].
-
-#### External content
-
-Similar to media with html, but to display an external asset that is not a
-resource neither an asset file, so currently not manageable inside Omeka. It may
-be used to display a html text with a video on the home page.
-
-#### HTML (improvements)
-
-Two new options are added in main settings:
-
-- Display the html field as a document, that is a lot easier when editing long
-  articles. Furthermore, the field can be maximized.
-- Use the default or advanced toolbar. The advanced toolbar is the CKEditor one
-  and contains more possibilities to edit advanced text.
-
-Furthermore, it is possible to add footnotes inside each html field.
-
-#### Item Set showcase
-
-This is similar to the block Item Showcase, but for item sets.
-
-#### Mirror page
-
-Allow to use a page as a block, so the same page can be use in multiple sites,
-for example the page "About" or "Privacy". Of course, the page is a standard
-page and can be more complex with multiple blocks. May be fun.
-This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
-
-### Page date
-
-Display the date of the creation and/or modification of the current page.
-See Omeka issue [#1706].
-
-#### Redirect to URL
-
-Allow to redirect the page to another page, inside or outside Omeka. It is useful
-for hard coded links in the footer, to keep track of some clicks, to use the page
-item/browse as a the home page, or some other use cases.
-
-#### Resource with html
-
-Simplify the display of a media on the left or the right (see [user guide]). It
-is the same block that existed in [Omeka Classic] [Exhibit `file-text`].
-
-#### Search form
-
-Include a specific search form in a specific page. The default query may be
-adapted to the page via the theme.
-
-#### Search form and results
-
-Create a full search page with a simple or complex form and the results on the
-same page. All options should be managed via the theme. To replace item/browse,
-item-set/browse and even media/browse, you may need to set the page as default
-action for the search in default template `common/search-form`.
-
-#### Separator
-
-Allow to set a div with a specific class between two blocks. May be useful to
-fix some css issues, or to increase space between some blocks.
-
-#### Separator/Division
-
-Allow to wrap a block or multiple block with a `div`. in particular to create
-columns. Divisions can be nested. The css should be prepared in the theme to
-managed them. By default, only a simple `aside` column of 30% is available with
-class `column align-right` (or left).
-
-#### Simple block
-
-A simple block allow to display a template from the theme. It may be used for a
-static html content, like a list of partners, or a complex layout, since any
-Omeka feature is available in a view.
+Two block templates are provided:
 
 ##### Tree view
 
@@ -240,14 +98,124 @@ definition of beta continued…
 To insert a line, it is recommended to set the cursor at the start of the line.
 It will avoid possible issues.
 
+#### Breadcrumbs
+
+This block displays the breadcrumbs of the current page according to site
+settings.
+
+#### Buttons
+
+This block displays buttons to share the current page in a privacy-compliant way.
+Available buttons are Download, Email, Facebook, Pinterest and Twitter.
+
+#### D3 Graph
+
+The D3 graph adds the [D3 library] to display relations between items in a graph:
+links between subjects and objects, links between items and item sets, etc.
+An example of use can be seen on the digital library of the [Fondation de la Maison de Salins].
+
+#### External content
+
+Similar to media with html, but to display an external asset that is not a
+resource neither an asset file, so currently not manageable inside Omeka. It may
+be used to display a html text with a video on the home page.
+
+#### Heading
+
+Display a html heading `<h1></h1>` to `<h6></h6>` in order to organize your
+blocks.
+
+#### HTML (improvements)
+
+Two new options are added in main settings:
+
+- Display the html field as a document, that is a lot easier when editing long
+  articles. Furthermore, the field can be maximized.
+- Use the default or advanced toolbar. The advanced toolbar is the CKEditor one
+  and contains more possibilities to edit advanced text.
+
+Furthermore, it is possible to add footnotes inside each html field.
+
+#### Item Set showcase (deprecated)
+
+This is similar to the block Media, but for item sets.
+This block will be merged in block Showcase in a future version.
+
+#### Links
+
+Allow to display a list of links. In the text area, write each link as:
+```
+url = Title = Optional short description
+/s/main/page/beta = Beta = Short description
+```
+
+#### List of Sites (improvement)
+
+This block improves the core one in order to skip current site and transalted
+sites.
+
+#### Messages
+
+Display the messages (notice, warning and errors), like in admin. This block may
+be useful for modules like Contact Us, Contribute, Guest, Bulk export, etc. that
+add some interactions with the visitor.
+
+#### Mirror page
+
+Allow to use a page as a block, so the same page can be use in multiple sites,
+for example the page "About" or "Privacy". Of course, the page is a standard
+page and can be more complex with multiple blocks. May be fun.
+This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
+
+#### Page Metadata
+
+Allow to specify some metadata to the page for theme creators.
+
+#### Redirect to URL
+
+Allow to redirect the page to another page, inside or outside Omeka. It is useful
+for hard coded links in the footer, to keep track of some clicks, to use the page
+item/browse as a the home page, or some other use cases.
+
+#### Resource with html
+
+Simplify the display of a media on the left or the right (see [user guide]). It
+is the same block that existed in [Omeka Classic] [Exhibit `file-text`].
+
+#### Search form
+
+Include a specific search form in a specific page. The default query may be
+adapted to the page via the theme.
+
+#### Search form and results
+
+Create a full search page with a simple or complex form and the results on the
+same page. All options should be managed via the theme. To replace item/browse,
+item-set/browse and even media/browse, you may need to set the page as default
+action for the search in default template `common/search-form`.
+
+#### Separator
+
+Allow to set a div with a specific class between two blocks. May be useful to
+fix some css issues, or to increase space between some blocks.
+The content of the block is:
+```html
+<div class="break separator"></div>
+```
+
 #### Showcase
 
-This is a showcase for any resource, site, page, asset or url. It's an improved
-and genericized version of item showcase.
+Generic complete block to display any selected resources, site, page, asset or
+url.
 
 #### Table of contents (improvement)
 
 The table can be displayed from the root if wanted.
+
+#### Tree structure
+
+Display a tree structure from selected resources. The structure is generally
+built from the property Dublin Core : Has Part.
 
 #### Twitter
 
@@ -274,24 +242,78 @@ too. If you can't, try to check the option to use the Api version 1.1.
 In all cases, there is a [rate limit], but generally largely enough for a common
 digital library.
 
-### Resource page blocks (Omeka S v4)
+### New Resource page blocks
 
-#### Block simple
+- Resource Type: Display the resource type (item set, item or media).
+- Thumbnail: Display a large thumbnail of the resource
+- Title: Display the title of the resource.
 
-A block to customize in theme.
+#### Block
 
-#### Buttons Previous/Next
+A block that does nothing, but that may be useful for theme developer.
+
+#### Breadcrumbs
+
+This block displays the breadcrumbs of the current page according to site
+settings.
+
+#### Buttons
+
+This block displays buttons to share the current page in a privacy-compliant way.
+Available buttons are Download, Email, Facebook, Pinterest and Twitter. The
+config should be set in site settings.
+
+#### Description
+
+Display the description of the resource.
+
+#### Media Part Of Item
+
+Add a link to the item from the media.
+
+#### Messages
+
+Display the messages (notice, warning and errors), like in admin. This block may
+be useful for modules like Contact Us, Contribute, Guest, Bulk export, etc. that
+add some interactions with the visitor.
+
+#### Previous/Next
+
+Allow to display buttons previous resource and next resource in the list.
+
+Warning: to define what is the previous or next resources is not so simple,
+because it may be the order in a item set, or order in the last results of a
+research.
+
+For order in item set when an item is in multiple item set, an option in main
+settings allows to define which property define it. Another option allows to
+define the default order.
+
+When a search is done, the list is built from the user last browse query, else
+from natural order or the item set one.
+
+The default order without previous browse or search can be set in site settings
+for items and item sets. For media, the order is defined in item.
 
 This block requires the module [Easy Admin].
-
-Allow to display buttons previous resource and next resource in the list. The
-list is built from the user last browse query, else from natural order. The
-default order without previous browse or search can be set in site settings for
-items and item sets. For media, the order is defined in item.
 
 It can be used as a theme helper too (see below).
 
 ### Theme view helpers
+
+#### Block Metadata
+
+This block provides the same information than the view helper `pageMetadata()`
+(see below), but from a block. It is usefull with the simple block to extract
+params, or to get some informations about the page from anywhere in the theme.
+
+```php
+// A simple check is done to make the theme more generic.
+$blockMetadata = $plugins->has('blockMetadata') ? $plugins->get('blockMetadata') : null;
+if ($blockMetadata):
+    $data = $blockMetadata('params_key_value');
+endif;
+```
 
 #### Page Metadata
 
@@ -405,6 +427,282 @@ sets, items or media after a search without losing the search results. It can be
 appended automatically with helper "previousNext()" and option "back" set to
 true.
 
+#### Module page template and module block templates
+
+A module can add page and block templates to theme: just add them in the file
+config/module.config.ini of the module under keys `page_templates` and `block_templates`,
+for example:
+
+```php
+    'block_templates' => [
+        'asset' => [
+            'asset-hero-bootstrap' => 'Block Plus: Hero bootstrap', // @translate
+        ],
+    ],
+```
+
+See more info on page templates and block templates in [user doc] and [dev doc].
+
+
+Usage until version 3.4.21 for Omeka S until v4.0
+-------------------------------------------------
+
+Select them in the view "Page edit". You may theme them too: copy the block
+templates that are in `view/common/block-layout/` in the same place of your
+theme.
+
+### Improvements in all blocks
+
+The core blocks (Browse preview, Html, Item metadata, Item showcase, List of pages,
+List of sites, Page title, Table of contents) are improved with two new options:
+
+#### Heading
+
+Most of the blocks have an option to set a title.
+
+#### Templates
+
+Most of block have an option to set a specific template, so it’s possible to
+display these blocks differently in the same page or on different pages.
+
+**Warning**
+
+When a block allows to select a template, the filename must start with the same
+string than the original template, for example "table-of-contents-pages.phtml"
+for the block "TableOfContents".
+
+Furthermore, it should exists in a module or in the current theme. When the
+template is missing, for example when switching into another theme, the default
+of the template is used. Thereby, when the module or the theme that has this
+template is replaced, you  have to check the pages that use it.
+
+### New blocks and specific improvements
+
+#### Asset (improvement)
+
+Since the integration of "asset" in Omeka 3.1, this block is an improved version
+of the [core block "asset"]. It can list assets with optional link to pages,
+labels and caption. The assets are not required to be filled, so it allow to
+display any list of contents.
+
+Unlike the upstream version, it has a specific `class` option at asset level and
+supports templates. Some templates are available: "asset-block", "asset-hero-bootstrap",
+"asset-left-right" and "asset-partners".
+
+#### Block
+
+See above.
+
+### Browse preview (improvements)
+
+The block Browse preview has new fields to display sort headings and pagination,
+so it's now possible to have a specific list of items, like the main browse view.
+
+It has some specific templates too:
+- simple carousel ("browse-preview-carousel"): this is an upgrade of the plugin
+  [Shortcode Carousel] for [Omeka Classic].
+- gallery display with a quick viewer too ("browse-preview-gallery"). This one
+  has a specific option to add to the query to display thumbnails as square or
+  medium: `thumbnail_size=medium`. You can see an example on the site [Ontologie du christianisme médiéval en images],
+  from French [Institut national de l’histoire de l’art].
+
+To use them, simply select the wanted template:
+
+![browse-preview-carousel](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/raw/master/data/images/browse-preview-carousel.png)
+
+#### D3 Graph
+
+See above.
+
+#### Division
+
+Allow to wrap a block or multiple block with a `div`. in particular to create
+columns. Divisions can be nested. The css should be prepared in the theme to
+managed them. By default, only a simple `aside` column of 30% is available with
+class `column align-right` (or left).
+
+#### External content
+
+See above.
+
+#### HTML (improvements)
+
+See above.
+
+#### Item Set showcase
+
+See above.
+
+#### Mirror page
+
+See above.
+
+### Page date
+
+Display the date of the creation and/or modification of the current page.
+See Omeka issue [#1706].
+
+#### Redirect to URL
+
+See above.
+
+#### Resource with html
+
+See above.
+
+#### Search form
+
+See above.
+
+#### Search form and results
+
+See above.
+
+#### Separator
+
+See above.
+
+#### Showcase
+
+See above.
+
+#### Table of contents (improvement)
+
+See above.
+
+#### Twitter
+
+See above.
+
+### Theme view helpers
+
+See above.
+
+
+Migration of themes in version v3.4.22
+--------------------------------------
+
+**Warning**: when a page is saved, all remaining settings that are not managed
+by the form are removed. So the best way to see issues is to load all pages
+before migration and to load all pages after migration _**AND**_ resaving each
+page.
+
+See more info on page templates and block templates in [user doc] and [dev doc].
+
+### Core blocks are no more overridden
+
+The following blocks are no more overridden:
+
+- Asset
+- Browse preview
+- Item showcase (renamed media)
+- Item with metadata
+- Html
+- List of pages
+- Page date
+- Page title
+
+The following blocks are no more overridden, but contains a fix/feature and
+will be removed soon when integrated upstream:
+- List of sites
+- Table of contents
+
+### Rename block-layout templates to block-template templates
+
+The new templating mechanism of Omeka S v4.1 uses a new directory in theme to
+allow to use block template. You should move all templates from `view/common/block-layout`
+to `view/common/block-template` that were a template managed by this module, but
+not the default template.
+
+For example, if you used the block "Block" with the default template customized
+in your theme, let it as "view/common/block-layout/block.phtml". But if you used
+the same block with a module template, move it to "view/common/block-template/block-glossary.phtml".
+
+Then, you should add the specific templates in the file config/theme.ini of the theme.
+
+### New names of deprecated templates
+
+Some templates are deprecated and were renamed with a "-plus" and moved in
+directory `view/common/block-template`. The migration moved the option to use
+the new template name.
+
+- "asset" => "asset-plus",
+- "browse-preview" => "browse-preview-plus",
+- "item-with-metadata" => "item-with-metadata-plus",
+- "list-of-pages" => "list-of-pages-plus",
+- "list-of-sites" => "list-of-sites-plus",
+- "item-showcase" => "media-item-showcase-plus",
+- "file-item-showcase" => "media-item-showcase-plus",
+- "page-date-time" => "page-date-time-plus",
+- "table-of-contents" => "table-of-contents-plus",
+
+You should add the specific templates in the file config/theme.ini of the theme
+if you really need them. Else, it is recommended to use the default template.
+
+You should check the styles of all of them.
+
+### Check styles for blocks heading and html
+
+The option `heading` of all blocks were removed. A new block "Heading" was
+added and the migration prepended it automatically. But the `<div>` is no more
+inside the `<div>` of the previous block and the heading level is always
+converted to 2, whatever the level was.
+
+**Warning**: the block "Browse preview" still uses the setting "heading".
+
+It is the same for the option `html` that was added in some blocks and moved to
+a prepended standard block "html".
+
+The core migration used the option `alignment` too in some blocks, that may have
+created some style issues too.
+
+### Check dynamic classes "$divclass", "$class", and "$className"
+
+These classes were added to a main div of the block. They are now managed by the
+core, that separated styling. These values are now managed in a upper div and
+the migration moved them to the new layout data.
+
+You should remove them from the phtml files of the themes and check if styles is
+right in all pages.
+
+### Block Asset
+
+For block Asset, the keys "class" and "url" of assets were removed and not
+supported in the core version Omeka S v4.1.
+
+You should fix the theme manually.
+
+### Block Browse preview
+
+The block Browse Preview is no more managed by this module. Support of options
+"html", "sort_headings" and "pagination" were removed. Check your themes if you
+used it, or use block Search Results.
+
+You should fix the theme manually.
+
+### Block division
+
+The block Division was removed. When the divisions were flat, they were
+converted into a group of blocks, a new feature of Omeka S v4.1.
+
+When the divisions were nested, the migration was not done, so you should do it
+manually with page template "grid" and/or block groups.
+
+Furthermore, the option "tag", that can be "div" or "aside", is no more managed.
+
+### Block Item Showcase (renamed Media)
+
+The block Item Showcase was renamed Media in Omeka S v4.1. The option "linkType"
+was renamed "link".
+
+You should fix the theme manually.
+
+### Module upgrade
+
+For modules that used the form select element "template", you should do the same
+migration and use the same mechanism of block template. The select element will
+be removed in a future version.
+
 
 TODO
 ----
@@ -418,7 +716,8 @@ TODO
 - [ ] Integrate sidebar forms for block Showcase
 - [ ] Auto-create asset when image is uploaded in a Html field.
 - [ ] Update site of mirror page to get good url for $resource->siteUrl().
-- [ ] Merge PageDate with upstream PageDateTime.
+- [x] Merge PageDate with upstream PageDateTime.
+- [ ] Use new events "sort-config" and "view.sort-selector" to order item in item sets.
 
 
 Warning
@@ -486,7 +785,7 @@ components (modernizr, smartresize, imagesloaded).
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2018-2023 (see [Daniel-KM] on GitLab)
+* Copyright Daniel Berthereau, 2018-2024 (see [Daniel-KM] on GitLab)
 * Copyright Codrops, 2013 ([image gallery], see vendor/ for more infos)
 * Copyright Andy Kirk, 2014-2021 (See https://github.com/andykirk)
 * Copyright Jan Sorgalla, 2014 (See http://sorgalla.com/jcarousel)
@@ -496,6 +795,8 @@ Copyright
 [Omeka S]: https://omeka.org/s
 [installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [shortcode as a page]: https://github.com/omeka/plugin-SimplePages/pull/24
+[user doc]: https://omeka.org/s/docs/user-manual/sites/site_pages/#edit-a-page
+[dev doc]: https://omeka.org/s/docs/developer/themes/theme_templates
 [Omeka Classic]: https://omeka.org/classic
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr

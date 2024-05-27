@@ -1076,7 +1076,7 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     if (!empty($pagesWithBrowsePreviewHtml)) {
         $pagesWithBrowsePreviewHtml = array_map('array_values', $pagesWithBrowsePreviewHtml);
         $message = new PsrMessage(
-            'The element "html" was removed from block Browse Preview. A new block "Html" was prepended to all blocks that had a filled html. You may check pages for styles: {json}', // @translate
+            'The setting "html" was removed from block Browse Preview. A new block "Html" was prepended to all blocks that had a filled html. You may check pages for styles: {json}', // @translate
             ['json' => json_encode($pagesWithBrowsePreviewHtml, 448)]
         );
         $messenger->addWarning($message);
@@ -1084,12 +1084,12 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     }
     // TODO Add support of sort heading in Search Results (migration from BrowsePreview).
     $message = new PsrMessage(
-        'The block Browse Preview is no more managed by this module. Support of elements "html" and "sort_headings" were removed. Check your themes if you used it, or use block Search Results.' // @translate
+        'The block Browse Preview is no more managed by this module. Support of settings "html", "sort_headings" and "pagination" were removed. Check your themes if you used it, or use block Search Results.' // @translate
     );
     $messenger->addWarning($message);
 
     /**
-     * Replace filled element "heading" by a specific block "Heading".
+     * Replace filled setttings "heading" by a specific block "Heading".
      *
      * Because "itemShowcase" was renamed "media", append it to keep heading.
      * @see \Omeka\Db\Migrations\ConvertItemShowcaseToMedia
@@ -1160,14 +1160,14 @@ SQL;
     if (!empty($pagesWithHeading)) {
         $pagesWithHeading = array_map('array_values', $pagesWithHeading);
         $message = new PsrMessage(
-            'The element "heading" was removed from blocks. A new block "Heading" was prepended to all blocks that had a filled heading. You may check pages for styles: {json}', // @translate
+            'The setting "heading" was removed from blocks. A new block "Heading" was prepended to all blocks that had a filled heading. You may check pages for styles: {json}', // @translate
             ['json' => json_encode($pagesWithHeading, 448)]
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
     } else {
         $message = new PsrMessage(
-            'A new block "Heading" allows to separate blocks with a html heading and replaces previous blocks with element "heading".' // @translate
+            'A new block "Heading" allows to separate blocks with a html heading and replaces previous blocks with setting "heading".' // @translate
         );
         $messenger->addWarning($message);
     }
@@ -1197,7 +1197,7 @@ SQL;
     $messenger->addWarning($message);
 
     /**
-     * Replace filled element "template" by the new layout data.
+     * Replace filled settings "template" by the new layout data.
      * Some blocks were overridden only to add heading and template, so they are
      * now useless and removed too:
      * - asset (warning for subkeys of assets).
