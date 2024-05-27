@@ -39,7 +39,6 @@ return [
             'links' => Site\BlockLayout\Links::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'pageMetadata' => Site\BlockLayout\PageMetadata::class,
-            'pageDate' => Site\BlockLayout\PageDate::class,
             'redirectToUrl' => Site\BlockLayout\RedirectToUrl::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
             'searchResults' => Site\BlockLayout\SearchResults::class,
@@ -79,7 +78,6 @@ return [
             Form\ItemSetShowcaseFieldset::class => Form\ItemSetShowcaseFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\MirrorPageFieldset::class => Form\MirrorPageFieldset::class,
-            Form\PageDateFieldset::class => Form\PageDateFieldset::class,
             Form\RedirectToUrlFieldset::class => Form\RedirectToUrlFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
@@ -226,11 +224,6 @@ return [
                 'cover' => null,
                 'params' => '',
                 'attachments' => [],
-            ],
-            'pageDate' => [
-                'dates' => 'created_and_modified',
-                'format_date' => 'medium',
-                'format_time' => 'none',
             ],
             'redirectToUrl' => [
                 'url' => '',

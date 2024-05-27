@@ -2,9 +2,9 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
- * @var string $dates
- * @var string $formatDate
- * @var string $formatTime
+ * @var string $display
+ * @var string $dateFormat
+ * @var string $timeFormat
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -12,10 +12,10 @@ $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
 
 $page = $block->page();
-if ($dates === 'created') {
+if ($display === 'created') {
     $first = $page->created();
     $second = null;
-} elseif ($dates === 'modified') {
+} elseif ($display === 'modified') {
     $first = $page->modified() ?: $page->created();
     $second = null;
 } else {
@@ -23,8 +23,8 @@ if ($dates === 'created') {
     $second = $page->modified();
 }
 
-$first = $this->i18n()->dateFormat($first, $formatDate, $formatTime);
-$second = $this->i18n()->dateFormat($second, $formatDate, $formatTime);
+$first = $this->i18n()->dateFormat($first, $dateFormat, $timeFormat);
+$second = $this->i18n()->dateFormat($second, $dateFormat, $timeFormat);
 if ($first === $second) $second = null;
 ?>
 
