@@ -7,6 +7,10 @@ return [
         'invokables' => [
             Mvc\MvcListeners::class => Mvc\MvcListeners::class,
         ],
+        'factories' => [
+            // Override theme factory to inject module pages and block templates.
+            'Omeka\Site\ThemeManager' => Service\ThemeManagerFactory::class,
+        ],
     ],
     'listeners' => [
         Mvc\MvcListeners::class,
@@ -98,6 +102,8 @@ return [
             Form\PageMetadataFieldset::class => Service\Form\PageMetadataFieldsetFactory::class,
             Form\SearchFormFieldset::class => Service\Form\SearchFormFieldsetFactory::class,
         ],
+    ],
+    'block_templates' => [
     ],
     'translator' => [
         'translation_file_patterns' => [
