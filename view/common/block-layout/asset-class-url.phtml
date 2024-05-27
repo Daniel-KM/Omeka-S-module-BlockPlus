@@ -12,7 +12,6 @@
  *   - url (string): deprecated, will be removed. Use "page", "caption", alt title, or original asset alt value instead.
  * @var array $assets Deprecated, alias of attachments.
  * @var string $heading
- * @var string $className
  */
 
 // This template is the equivalent of the old "assets.phtml" one, before upstream merge.
@@ -37,7 +36,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 $thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
 ?>
 
-<div class="block block-asset assets <?= $escape($className) ?>">
+<div class="block block-asset assets">
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>

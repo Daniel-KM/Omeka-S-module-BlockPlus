@@ -73,16 +73,6 @@ https://example.org = assetId = Title = Caption = Body
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][divclass]',
-                'type' => Element\Text::class,
-                'options' => [
-                    'label' => 'CSS class', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'showcase-divclass',
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
                 'type' => BlockPlusElement\TemplateSelect::class,
                 'options' => [

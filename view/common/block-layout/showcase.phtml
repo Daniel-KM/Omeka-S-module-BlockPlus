@@ -8,7 +8,6 @@
  * @var array $entries Array with keys "entry", "resource_name", "resource", and "site".
  * @var string $thumbnailType
  * @var string $showTitleOption
- * @var string $divclass
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -29,7 +28,7 @@ $lang = $filterLocale ? $siteLang : null;
 $siteSlug = $site->slug();
 ?>
 
-<div class="block showcase <?= $divclass ? ' ' . $escapeAttr($divclass) : '' ?>">
+<div class="block showcase">
     <?php if (!empty($heading)): ?>
     <h2><?= $heading ?></h2>
     <?php endif; ?>

@@ -109,7 +109,6 @@ return [
             Form\RedirectToUrlFieldset::class => Form\RedirectToUrlFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
-            Form\SeparatorFieldset::class => Form\SeparatorFieldset::class,
             Form\ShowcaseFieldset::class => Form\ShowcaseFieldset::class,
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
             Form\TreeStructureFieldset::class => Form\TreeStructureFieldset::class,
@@ -184,7 +183,6 @@ return [
                         'class' => '',
                     ],
                 ],
-                'className' => '',
                 'template' => '',
             ],
             'block' => [
@@ -261,7 +259,6 @@ return [
             'html' => [
                 'heading' => '',
                 'html' => '',
-                'divclass' => '',
                 'template' => '',
             ],
             'itemSetShowcase' => [
@@ -367,7 +364,6 @@ return [
                 'template' => '',
             ],
             'separator' => [
-                'class' => '',
             ],
             'showcase' => [
                 'heading' => '',
@@ -375,7 +371,6 @@ return [
                 'entries' => [],
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',
-                'divclass' => '',
                 'template' => '',
             ],
             'tableOfContents' => [

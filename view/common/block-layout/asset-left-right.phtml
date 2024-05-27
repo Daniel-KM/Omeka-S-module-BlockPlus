@@ -11,7 +11,6 @@
  *   - url (string): deprecated, will be removed. Use "page", "caption", alt title, or original asset alt value instead.
  * @var array $assets Deprecated, alias of attachments.
  * @var string $heading
- * @var string $className
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -26,7 +25,7 @@ $assetElement = $plugins->get('assetElement');
 .clear { clear: both; }
 </style>
 
-<div class="block block-asset assets <?= $escape($className) ?>">
+<div class="block block-asset assets">
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>

@@ -9,7 +9,6 @@
  *   Specific to the module version:
  *   - class (string)
  * @var string $heading
- * @var string $className
  *
  * @see \BlockPlus\View\Helper\AssetElement
  */
@@ -20,11 +19,9 @@ $thumbnail = $plugins->get('thumbnail');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 // Support assetElement when available, that may not be the case when the module is disabled.
 $thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
-
-$className ??= '';
 ?>
 
-<div class="block block-asset assets <?= $escape($className) ?>">
+<div class="block block-asset assets">
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>

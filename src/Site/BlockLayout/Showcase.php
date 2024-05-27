@@ -109,7 +109,6 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
             'entries' => $this->listEntryResources($block->dataValue('entries', []) ?? [], $site),
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
             'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
-            'divclass' => $block->dataValue('divclass', ''),
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);
         return $template !== self::PARTIAL_NAME && $view->resolver($template)

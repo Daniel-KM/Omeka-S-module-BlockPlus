@@ -2,14 +2,13 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var string $html
- * @var string $divclass
  * @var string $heading
  */
 
 $escape = $this->plugin('escapeHtml');
 ?>
 
-<div class="page-header <?= $this->escapeHtmlAttr($divclass) ?>">
+<div class="page-header">
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>

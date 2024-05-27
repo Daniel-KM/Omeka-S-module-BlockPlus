@@ -17,44 +17,19 @@ class Separator extends AbstractBlockLayout
         return 'Separator'; // @translate
     }
 
-    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
-    {
-        $data = $block->getData();
-
-        // Stricter than w3c standard.
-        $data['class'] = preg_replace('/[^A-Za-z0-9_ -]/', '', $data['class']);
-
-        $data = $block->setData($data);
-    }
-
     public function form(
         PhpRenderer $view,
         SiteRepresentation $site,
         SitePageRepresentation $page = null,
         SitePageBlockRepresentation $block = null
     ) {
-        // Factory is not used to make rendering simpler.
-        $services = $site->getServiceLocator();
-        $formElementManager = $services->get('FormElementManager');
-        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['separator'];
-        $blockFieldset = \BlockPlus\Form\SeparatorFieldset::class;
-
-        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
-
-        $dataForm = [];
-        foreach ($data as $key => $value) {
-            $dataForm['o:block[__blockIndex__][o:data][' . $key . ']'] = $value;
-        }
-
-        $fieldset = $formElementManager->get($blockFieldset);
-        $fieldset->populateValues($dataForm);
-
-        return $view->formCollection($fieldset);
+        return '<p>'
+            . $view->translate('This block adds a simple div with class "break separator" to clear css.') // @translate
+            . '</p>';
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $class = $block->dataValue('class', '');
-        return '<div class="break separator ' . $class . '"></div>';
+        return '<div class="break separator"></div>';
     }
 }

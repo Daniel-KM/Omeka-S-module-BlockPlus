@@ -11,7 +11,6 @@
  *   - url (string): deprecated, will be removed. Use "page", "caption", alt title, or original asset alt value instead.
  * @var array $assets Deprecated, alias of attachments.
  * @var string $heading
- * @var string $className
  */
 
 // Note: this hero uses the classes and js of Twitter Bootstrap.
@@ -30,7 +29,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 <?php $attachment = $attachments[array_rand($attachments)]; ?>
 <?php if (empty($attachment['asset'])) return; ?>
 
-<div class="block header-wrapper <?= $escapeAttr($attachment['class']) ?>" style="background-image:url(<?= $attachment['asset']->assetUrl() ?>);">
+<div class="block header-wrapper" style="background-image:url(<?= $attachment['asset']->assetUrl() ?>);">
     <?php if ($attachment['caption']): ?>
     <div class="container mt-5">
         <div class="row mt-5">

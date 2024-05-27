@@ -6,7 +6,6 @@
  * @var ?int $defaultPerPage
  * @var bool $isHtml
  * @var bool $keepOriginalOrder
- * @var string $divclass
  */
 
 // This partial is used by blocks block-glossary and html-glossary.
@@ -25,7 +24,6 @@ $themeSetting = $plugins->get('themeSetting');
 $defaultPerPage = empty($defaultPerPage) ? null : (int) $defaultPerPage;
 $isHtml = !empty($isHtml);
 $keepOriginalOrder = !empty($keepOriginalOrder);
-$divclass = empty($divclass) ? '' : $divclass;
 
 // There may be multiple start letters.
 // TODO Js to manage multiple start letters.
@@ -130,7 +128,7 @@ $this->headScript()
     ->appendFile($assetUrl('js/block-plus-glossary.js', 'BlockPlus', 'text/javascript', ['defer' => 'defer']));
 ?>
 
-<div class="block glossary <?= $escapeAttr($divclass) ?>">
+<div class="block glossary">
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
