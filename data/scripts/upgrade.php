@@ -561,47 +561,46 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     // not remigrated.
 
     // Upgrade is done only on blocks managed by this module.
-    $blockLayouts = [
-        // Overridden (but initially an original block).
-        'asset',
-        'block',
-        'breadcrumbs',
-        // Overridden.
-        'browsePreview',
-        'buttons',
-        'd3Graph',
-        'division',
-        'externalContent',
-        'itemSetShowcase',
-        // Overridden.
-        'itemShowcase',
-        // Overridden.
-        'itemShowCase',
-        // Overridden.
-        'itemWithMetadata',
-        // Overriden.
-        'html',
-        'links',
-        // Overridden.
-        'listOfPages',
-        // Overridden.
-        'listOfSites',
-        'mirrorPage',
-        'pageMetadata',
-        'pageDate',
-        // Overridden.
-        'pageTitle',
-        'redirectToUrl',
-        'resourceText',
-        'searchForm',
-        'searchResults',
-        'separator',
-        'showcase',
-        'tableOfContents',
-        'treeStructure',
-        'twitter',
+    $blockTemplates = [
+        // Overridden (but initially an original block), so removed.
+        'asset' => 'common/block-layout/asset',
+        'block' => 'common/block-layout/block',
+        'breadcrumbs' => 'common/block-layout/breadcrumbs',
+        // Overridden, so removed.
+        'browsePreview' => 'common/block-layout/browse-preview',
+        'buttons' => 'common/block-layout/buttons',
+        'd3Graph' => 'common/block-layout/d3-graph',
+        'division' => null,
+        'externalContent' => 'common/block-layout/external-content',
+        'itemSetShowcase' => 'common/block-layout/item-set-showcase',
+        // Overridden (renamed media), removed.
+        'itemShowcase' => 'common/block-layout/item-showcase',
+        // Overridden (original name, renamed media), removed.
+        'itemShowCase' => 'common/block-layout/item-showcase',
+        // Overridden, so removed.
+        'itemWithMetadata' => 'common/block-layout/item-with-metadata',
+        // Overridden, so removed.
+        'html' => 'common/block-layout/html',
+        'links' => 'common/block-layout/links',
+        // Overridden, so removed.
+        'listOfPages' => 'common/block-layout/list-of-pages',
+        // Overridden, so removed.
+        'listOfSites' => 'common/block-layout/list-of-sites',
+        'mirrorPage' => null,
+        'pageMetadata' => 'common/block-layout/page-metadata',
+        'pageDate' => 'common/block-layout/page-date',
+        // Overridden, so removed.
+        'pageTitle' => 'common/block-layout/page-title',
+        'redirectToUrl' => null,
+        'resourceText' => 'common/block-layout/resource-text',
+        'searchForm' => 'common/block-layout/search-form',
+        'searchResults' => 'common/block-layout/search-results',
+        'separator' => 'common/block-layout/separator',
+        'showcase' => 'common/block-layout/showcase',
+        'tableOfContents' => 'common/block-layout/table-of-contents',
+        'treeStructure' => 'common/block-layout/tree-structure',
+        'twitter' => 'common/block-layout/twitter',
     ];
-    $blockLayouts = array_combine($blockLayouts, $blockLayouts);
 
     /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
     $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
@@ -957,9 +956,9 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
      * Because "itemShowcase" was renamed "media", append it to keep heading.
      * @see \Omeka\Db\Migrations\ConvertItemShowcaseToMedia
      */
-    $blockLayoutsHeading = $blockLayouts;
-    unset($blockLayoutsHeading['browsePreview']);
-    $blockLayoutsHeading['media'] = 'media';
+    $blockTemplatesHeading = $blockTemplates;
+    unset($blockTemplatesHeading['browsePreview']);
+    $blockTemplatesHeading['media'] = null;
 
     // Check if there are filled headings in some blocks.
     $dql = <<<'DQL'
@@ -970,7 +969,7 @@ WHERE b.data LIKE '%"heading":"%'
     AND b.layout IN (:layouts)
 DQL;
     $qb = $entityManager->createQuery($dql);
-    $qb->setParameter('layouts', $blockLayoutsHeading, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+    $qb->setParameter('layouts', array_keys($blockTemplatesHeading), \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
     $blocksWithHeading = $qb->getResult();
 
     if (count($blocksWithHeading)) {
@@ -1028,7 +1027,7 @@ WHERE layout IN (:layouts)
 SQL;
     $connection->executeStatement(
         $sql,
-        ['layouts' => $blockLayoutsHeading],
+        ['layouts' => array_keys($blockTemplatesHeading)],
         ['layouts' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
     );
 
@@ -1048,4 +1047,50 @@ SQL;
         );
         $messenger->addWarning($message);
     }
+
+    /**
+     * Replace filled element "template" by the new layout data.
+     * Some blocks were overridden only to add heading and template, so they are
+     * now useless and removed too:
+     * - asset (warning for subkeys of assets).
+     * - html
+     * - itemShowCase (renamed media in core)
+     * - itemShowcase (renamed media above)
+     * - itemWithMetadata
+     * - listOfPages
+     * - pageTitle
+     * Migrated template, but not removed here (fully migrated below):
+     * - browsePreview
+     * - listOfSites
+     * - tableOfContents
+     */
+
+    // Warn only when the template is not the default and a message for moved
+    // files in themes.
+    foreach ($blocksRepository->findAll() as $block) {
+        $layout = $block->getLayout();
+        if (!isset($blockTemplates[$layout])) {
+            continue;
+        }
+        $data = $block->getData();
+        $template = $data['template'] ?? null;
+        if ($template && $template !== $blockTemplates[$layout]) {
+            $layoutData = $block->getLayoutData();
+            $layoutData['template'] = $template;
+            $block->setLayoutData($layoutData);
+        }
+        unset($data['template']);
+        $block->setData($data);
+    }
+
+    $entityManager->flush();
+
+    $message = new PsrMessage(
+        'The old template mechanism of the module BlockPlus was replaced by the new mechanism of Omeka S v4.1.' // @translate
+    );
+    $messenger->addWarning($message);
+    $message = new PsrMessage(
+        'Because old features of the module were integrated inside Omeka S since v4.1, the blocks Asset, Browse Preview, Html, Item Showcase, Item With Metadata, List of Pages, List of Sites and Page Title are no more overridden.' // @translate
+    );
+    $messenger->addSuccess($message);
 }
