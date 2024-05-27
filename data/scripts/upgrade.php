@@ -557,6 +557,8 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
 
     // Migrate blocks of this module to new blocks of Omeka S v4.1.
 
+    $logger = $services->get('Omeka\Logger');
+
     // The process can be run multiple times without issue: migrated blocks are
     // not remigrated.
 
@@ -605,6 +607,7 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     // Replay the core migrations.
 
     /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
     $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
 
     // Asset: move divclass to layout as class.
@@ -774,7 +777,6 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     $divisions = $blocksRepository->findBy(['layout' => 'division']);
     if (count($divisions)) {
         // Method adapted from old block Division.
-        $logger = $services->get('Omeka\Logger');
         $checkBlockData = function (\Omeka\Entity\SitePageBlock $block) use ($logger, $messenger): ?array {
             // Store data about page on the first pass because they are updated.
             static $pageDivisions = [];
@@ -1006,52 +1008,56 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
             }
         }
 
-        $entityManager->flush();
-
         $message = new PsrMessage('The blocks Division were replaced by a group of blocks when possible (not nested). See messages above or logs for issues.'); // @translate
         $messenger->addWarning($message);
     }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
 
     /**
      * Prepend a specific block "Html" before Browse preview when filled.
      */
     $pagesWithBrowsePreviewHtml = [];
-    foreach ($blocksRepository->findBy(['layout' => 'browsePreview']) as $block) {
-        $data = $block->getData();
-        if (isset($data['html']) && !in_array(str_replace(' ', '', $data['html']), ['', '<div></div>', '<p></p>'])) {
-            $page = $block->getPage();
-            $pageId = $page->getId();
-            $blockId = $block->getId();
-            $pageSlug = $page->getSlug();
-            $siteSlug = $page->getSite()->getSlug();
-            $position = 0;
-            foreach ($page->getBlocks() as $blk) {
-                ++$position;
-                $blk->setPosition($position);
-                if ($blk->getLayout() !== 'browsePreview') {
-                    continue;
-                }
-                $data = $blk->getData() ?: [];
-                $html = $data['html'] ?? '';
-                $hasHtml = !in_array(str_replace(' ', '', $html), ['', '<div></div>', '<p></p>']);
-                if ($hasHtml) {
-                    $b = new \Omeka\Entity\SitePageBlock();
-                    $b->setLayout('html');
-                    $b->setPage($page);
-                    $b->setPosition($position);
-                    $b->setData([
-                        'html' => $html,
-                    ]);
-                    $entityManager->persist($b);
-                    $blk->setPosition(++$position);
-                    $pagesWithBrowsePreviewHtml[$siteSlug][$pageSlug] = $pageSlug;
-                }
-                unset($data['html']);
-                $blk->setData($data);
+    $processedBlocksId = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        $position = 0;
+        foreach ($page->getBlocks() as $block) {
+            $block->setPosition(++$position);
+            $layout = $block->getLayout();
+            if ($layout !== 'browsePreview') {
+                continue;
             }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            $html = $data['html'] ?? '';
+            $hasHtml = !in_array(str_replace(' ', '', $html), ['', '<div></div>', '<p></p>']);
+            if ($hasHtml && !isset($processedBlocksId[$blockId])) {
+                $b = new \Omeka\Entity\SitePageBlock();
+                $b->setLayout('html');
+                $b->setPage($page);
+                $b->setPosition(++$position);
+                $b->setData([
+                    'html' => $html,
+                ]);
+                $entityManager->persist($b);
+                $block->setPosition(++$position);
+                $pagesWithBrowsePreviewHtml[$siteSlug][$pageSlug] = $pageSlug;
+                $processedBlocksId[$blockId] = $blockId;
+            }
+            unset($data['html']);
+            $block->setData($data);
         }
     }
+
+// Don't flush or clear here to avoid issue with position of inserted blocks.
+    // Do a clear to fix issues with new blocks created during migration.
     $entityManager->flush();
+    $entityManager->clear();
 
     if (!empty($pagesWithBrowsePreviewHtml)) {
         $pagesWithBrowsePreviewHtml = array_map('array_values', $pagesWithBrowsePreviewHtml);
@@ -1078,60 +1084,44 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     unset($blockTemplatesHeading['browsePreview']);
     $blockTemplatesHeading['media'] = null;
 
-    // Check if there are filled headings in some blocks.
-    $dql = <<<'DQL'
-SELECT b
-FROM Omeka\Entity\SitePageBlock b
-WHERE b.data LIKE '%"heading":"%'
-    AND b.data NOT LIKE '%"heading":""%'
-    AND b.layout IN (:layouts)
-DQL;
-    $qb = $entityManager->createQuery($dql);
-    $qb->setParameter('layouts', array_keys($blockTemplatesHeading), \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
-    $blocksWithHeading = $qb->getResult();
-
-    if (count($blocksWithHeading)) {
-        /**
-         * @var \Omeka\Entity\SitePageBlock $block
-         * @var \Omeka\Entity\SitePageBlock $blk
-         */
-        $blockIdsWithHeading = [];
-        foreach ($blocksWithHeading as $block) {
-            $blockIdsWithHeading[] = $block->getId();
-        }
-
-        $pagesWithHeading = [];
-        foreach ($blocksWithHeading as $block) {
-            $page = $block->getPage();
-            $pageId = $page->getId();
-            $blockId = $block->getId();
-            $pageSlug = $page->getSlug();
-            $siteSlug = $page->getSite()->getSlug();
-            $position = 0;
-            foreach ($page->getBlocks() as $blk) {
-                ++$position;
-                $blk->setPosition($position);
-                $data = $blk->getData() ?: [];
-                $heading = $data['heading'] ?? '';
-                if (strlen($heading) && in_array($blk->getId(), $blockIdsWithHeading)) {
-                    $b = new \Omeka\Entity\SitePageBlock();
-                    $b->setLayout('heading');
-                    $b->setPage($page);
-                    $b->setPosition($position);
-                    $b->setData([
-                        'text' => $heading,
-                        'level' => 2,
-                    ]);
-                    $entityManager->persist($b);
-                    $blk->setPosition(++$position);
-                    $pagesWithHeading[$siteSlug][$pageSlug] = $pageSlug;
-                }
-                unset($data['heading']);
-                $blk->setData($data);
+    $pagesWithHeading = [];
+    $processedBlocksId = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        $position = 0;
+        foreach ($page->getBlocks() as $block) {
+            $block->setPosition(++$position);
+            $layout = $block->getLayout();
+            if (!isset($blockTemplatesHeading[$layout])) {
+                continue;
             }
-            $entityManager->flush();
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            $heading = $data['heading'] ?? '';
+            if (strlen($heading) && !isset($processedBlocksId[$blockId])) {
+                $b = new \Omeka\Entity\SitePageBlock();
+                $b->setLayout('heading');
+                $b->setPage($page);
+                $b->setPosition(++$position);
+                $b->setData([
+                    'text' => $heading,
+                    'level' => 2,
+                ]);
+                $entityManager->persist($b);
+                $block->setPosition(++$position);
+                $pagesWithHeading[$siteSlug][$pageSlug] = $pageSlug;
+                $processedBlocksId[$blockId] = $blockId;
+            }
+            unset($data['heading']);
+            $block->setData($data);
         }
     }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
 
     // In all cases, remove empty headings from all module blocks with heading.
     $sql = <<<'SQL'
@@ -1149,7 +1139,9 @@ SQL;
         ['layouts' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
     );
 
+    // Do a clear to fix issues with new blocks created during migration.
     $entityManager->flush();
+    $entityManager->clear();
 
     if (!empty($pagesWithHeading)) {
         $pagesWithHeading = array_map('array_values', $pagesWithHeading);
