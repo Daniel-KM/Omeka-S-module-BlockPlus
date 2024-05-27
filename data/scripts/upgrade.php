@@ -648,6 +648,248 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
 
     $entityManager->flush();
 
+    // Division: replace by a group of blocks.
+    $divisions = $blocksRepository->findBy(['layout' => 'division']);
+    if (count($divisions)) {
+        // Method adapted from old block Division.
+        $logger = $services->get('Omeka\Logger');
+        $checkBlockData = function (\Omeka\Entity\SitePageBlock $block) use ($logger, $messenger): ?array {
+            // Store data about page on the first pass because they are updated.
+            static $pageDivisions = [];
+            static $blockDivisions = [];
+
+            $page = $block->getPage();
+            $pageId = $page->getId();
+            $blockId = $block->getId();
+
+            if (isset($pageDivisions[$pageId])) {
+                return empty($pageDivisions[$pageId]) || empty($blockDivisions[$blockId])
+                    ? null
+                    : ($pageDivisions[$pageId][$blockDivisions[$blockId]] ?? null);
+            }
+
+            $pageSlug = $page->getSlug();
+            $siteSlug = $page->getSite()->getSlug();
+            $blockPosition = 0;
+
+            // Check and save the previous tag to close elements quickly.
+            $blocks = $page->getBlocks();
+            $divisions = [];
+            $tagStack = [];
+            // Block representation doesn't know its position.
+            $position = 0;
+            foreach ($blocks as $blk) {
+                if ($blk->getLayout() !== 'division') {
+                    continue;
+                }
+                $dta = $blk->getData();
+                $division = [
+                    'type' => $dta['type'],
+                    'tag' => $dta['tag'],
+                    'class' => $dta['class'] ?? null,
+                    'close' => null,
+                ];
+                switch ($dta['type']) {
+                    case 'end':
+                    case 'inter':
+                        if (empty($tagStack)) {
+                            $pageDivisions[$pageId] = [];
+                            $message = new PsrMessage(
+                                'Site {site_slug} / Page {page_slug}: Type "intermediate" and "end" divisions must be after a block "start" or "intermediate".', // @translate
+                                ['site_slug' => $siteSlug, 'page_slug' => $pageSlug]
+                            );
+                            $messenger->addWarning($message);
+                            $logger->warn($message->getMessage(), $message->getContext());
+                            return null;
+                        }
+                        $division['close'] = array_pop($tagStack);
+                        if ($dta['type'] === 'end') {
+                            break;
+                        }
+                        // no break.
+                    case 'start':
+                        $tagStack[] = $dta['tag'];
+                        break;
+                    default:
+                        $pageDivisions[$pageId] = [];
+                        $message = new PsrMessage(
+                            'Site {site_slug} / Page {page_slug}: Unauthorized type "{type}" for block division.', // @translate
+                            ['site_slug' => $siteSlug, 'page_slug' => $pageSlug, 'type' => $dta['type']]
+                        );
+                        $messenger->addWarning($message);
+                        $logger->warn($message->getMessage(), $message->getContext());
+                        return null;
+                }
+                $blkId = $blk->getId();
+                $divisions[++$position] = $division;
+                $blockDivisions[$blkId] = $position;
+                if ($blockId === $blkId) {
+                    $blockPosition = $position;
+                }
+            }
+
+            if (count($divisions) < 2) {
+                $pageDivisions[$pageId] = [];
+                $message = new PsrMessage(
+                    'Site {site_slug} / Page {page_slug}: A block "division" cannot be single.', // @translate
+                    ['site_slug' => $siteSlug, 'page_slug' => $pageSlug]
+                );
+                $messenger->addWarning($message);
+                $logger->warn($message->getMessage(), $message->getContext());
+                return null;
+            }
+
+            ksort($divisions);
+            $first = reset($divisions);
+            if ($first['type'] !== 'start') {
+                $pageDivisions[$pageId] = [];
+                $message = new PsrMessage(
+                    'Site {site_slug} / Page {page_slug}: The first division block must be of type "start".', // @translate
+                    ['site_slug' => $siteSlug, 'page_slug' => $pageSlug]
+                );
+                $messenger->addWarning($message);
+                $logger->warn($message->getMessage(), $message->getContext());
+                return null;
+            }
+
+            $last = end($divisions);
+            if ($last['type'] !== 'end') {
+                $pageDivisions[$pageId] = [];
+                $message = new PsrMessage(
+                    'Site {site_slug} / Page {page_slug}: The last division block must be of type "end".', // @translate
+                    ['site_slug' => $siteSlug, 'page_slug' => $pageSlug]
+                );
+                $messenger->addWarning($message);
+                $logger->warn($message->getMessage(), $message->getContext());
+                return null;
+            }
+
+            if (!empty($tagStack)) {
+                $pageDivisions[$pageId] = [];
+                $message = new PsrMessage(
+                    'Site {site_slug} / Page {page_slug}: Some divisions have no end.', // @translate
+                    ['site_slug' => $siteSlug, 'page_slug' => $pageSlug]
+                );
+                $messenger->addWarning($message);
+                $logger->warn($message->getMessage(), $message->getContext());
+                return null;
+            }
+
+            $pageDivisions[$pageId] = $divisions;
+
+            return $divisions[$blockPosition];
+        };
+
+        // For each page with more than one division, replace the start block with block
+        // "blockGroup" and a data with a span for the number of sub-blocks.
+
+        $dql = 'SELECT DISTINCT p FROM Omeka\Entity\SitePage p JOIN Omeka\Entity\SitePageBlock b WHERE b.layout = :layout';
+        $qb = $entityManager->createQuery($dql);
+        $qb->setParameter('layout', 'division');
+        $pages = $qb->getResult();
+
+        /**
+         * @var \Omeka\Entity\SitePage $page
+         * @var \Omeka\Entity\SitePageBlock $block
+         */
+        foreach ($pages as $page) {
+            $siteSlug = $page->getSite()->getSlug();
+            $pageSlug = $page->getSlug();
+
+            $blocks = $page->getBlocks();
+
+            // First: check all blocks: only unnested pages can be processed.
+            $prevStartBlock = null;
+            $prevDivisionType = null;
+            foreach ($blocks as $block) {
+                // Count span between two divisions.
+                if ($block->getLayout() !== 'division') {
+                    $spans = $prevStartBlock ? $spans + 1 : 0;
+                    continue;
+                }
+
+                $data = $checkBlockData($block);
+
+                // An invalid block is kept and will be marked as unknown in page.
+                if (!$data || empty($data['type']) || !in_array($data['type'], ['start', 'inter', 'end'])) {
+                    // A message of issue is already logged.
+                    continue 2;
+                }
+
+                $isStart = $data['type'] === 'start';
+                $isInter = $data['type'] === 'inter';
+                $isEnd = $data['type'] === 'end';
+
+                // Check for nested divisions, that are not managed.
+                if (($isStart && in_array($prevDivisionType, ['start', 'inter']))
+                    || ($isInter && in_array($prevDivisionType, [null, 'end']))
+                    || ($isEnd && in_array($prevDivisionType, [null, 'end']))
+                ) {
+                    $message = new PsrMessage(
+                        'Site {site_slug} / Page {page_slug}: The migration does not manage nested divisions. You should finalize migration of the page manually, for example with grid and block groups.', // @translate
+                        ['site_slug' => $siteSlug, 'page_slug' => $pageSlug]
+                    );
+                    $messenger->addWarning($message);
+                    $logger->warn($message->getMessage(), $message->getContext());
+                    continue 2;
+                }
+
+                if ($isStart || $isInter) {
+                    $prevStartBlock = $block;
+                    $prevDivisionType = 'start';
+                } else {
+                    $prevStartBlock = null;
+                    $prevDivisionType = null;
+                }
+            }
+
+            // Second: the divisions are valid and flat, so convert them.
+            // And count the number of blocks between two divisions.
+            $prevStartBlock = null;
+            $prevDivisionType = null;
+            $spans = 0;
+            foreach ($blocks as $block) {
+                // Count span between two divisions.
+                if ($block->getLayout() !== 'division') {
+                    $spans = $prevStartBlock ? $spans + 1 : 0;
+                    continue;
+                }
+
+                $data = $checkBlockData($block);
+
+                $isStart = $data['type'] === 'start';
+                $isInter = $data['type'] === 'inter';
+                $isEnd = $data['type'] === 'end';
+
+                // Finalize any previous block with the count of spans.
+                if ($prevStartBlock) {
+                    $prevStartBlock->setData(['span' => $spans]);
+                }
+
+                // Reset count of spans in all cases.
+                $spans = 0;
+
+                if ($isStart || $isInter) {
+                    // Start a new block.
+                    $block->setLayout('blockGroup');
+                    $block->setData(['span' => 0]);
+                    $prevStartBlock = $block;
+                    $prevDivisionType = 'start';
+                } else {
+                    // Remove block end.
+                    $entityManager->remove($block);
+                    $prevStartBlock = null;
+                    $prevDivisionType = null;
+                }
+            }
+        }
+
+        $entityManager->flush();
+
+        $message = new PsrMessage('The blocks Division were replaced by a group of blocks when possible (not nested). See messages above or logs for issues.'); // @translate
+        $messenger->addWarning($message);
+    }
+
     $message = new PsrMessage('The options "alignment" and "divclass" of some blocks were moved to block layout.'); // @translate
     $messenger->addWarning($message);
 }
