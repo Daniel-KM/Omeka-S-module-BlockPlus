@@ -648,6 +648,19 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
 
     $entityManager->flush();
 
+    // Item Showcase: the layout migrated in \Omeka\Db\Migrations is "itemShowCase",
+    // but "itemShowcase" needs to be migrated too.
+    /** @see \Omeka\Db\Migrations\ConvertItemShowcaseToMedia */
+    foreach ($blocksRepository->findBy(['layout' => 'itemShowcase']) as $block) {
+        $data = $block->getData();
+        $data['layout'] = 'horizontal';
+        $data['media_display'] = 'thumbnail';
+        $block->setData($data);
+        $block->setLayout('media');
+    }
+
+    $entityManager->flush();
+
     // Resource Text: move alignment to layout as class.
     foreach ($blocksRepository->findBy(['layout' => 'resourceText']) as $block) {
         $data = $block->getData();
