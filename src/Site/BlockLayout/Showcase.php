@@ -104,7 +104,6 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
         $vars = [
             'site' => $site,
             'block' => $block,
-            'heading' => $block->dataValue('heading', ''),
             'html' => $block->dataValue('html', ''),
             'entries' => $this->listEntryResources($block->dataValue('entries', []) ?? [], $site),
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),

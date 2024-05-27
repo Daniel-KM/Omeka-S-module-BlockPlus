@@ -10,7 +10,6 @@
  *   - class (string)
  *   - url (string): deprecated, will be removed. Use "page", "caption", alt title, or original asset alt value instead.
  * @var array $assets Deprecated, alias of attachments.
- * @var string $heading
  */
 
 // Caption is not used in this template.
@@ -34,9 +33,6 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 </style>
 
 <div class="block block-asset partners assets">
-    <?php if (!empty($heading)): ?>
-    <h2><?= $escape($heading) ?></h2>
-    <?php endif; ?>
     <div class="asset partners-logos">
     <?php foreach ($attachments as $attachment): ?>
         <?php if (!$attachment['asset']) continue; ?>

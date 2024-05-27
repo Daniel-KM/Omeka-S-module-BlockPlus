@@ -14,13 +14,6 @@ class ItemWithMetadataFieldset extends Fieldset
 
         $this
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][heading]',
-                'type' => Element\Text::class,
-                'options' => [
-                    'label' => 'Block title', // @translate
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][template]',
                 'type' => BlockPlusElement\TemplateSelect::class,
                 'options' => [

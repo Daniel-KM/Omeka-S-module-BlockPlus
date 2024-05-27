@@ -2,7 +2,6 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var string $html
- * @var string $heading
  */
 
 /**
@@ -48,7 +47,6 @@ $glossary = array_values($glossary);
 ?>
 
 <?= $partial('common/glossary', [
-    'heading' => $heading,
     'glossary' => $glossary,
     'isHtml' => true,
 ]) ?>

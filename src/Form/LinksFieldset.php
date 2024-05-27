@@ -13,13 +13,6 @@ class LinksFieldset extends Fieldset
     {
         $this
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][heading]',
-                'type' => Element\Text::class,
-                'options' => [
-                    'label' => 'Block title', // @translate
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][links]',
                 'type' => OmekaElement\ArrayTextarea::class,
                 'options' => [

@@ -67,7 +67,6 @@ class ItemSetShowcase extends AbstractBlockLayout implements TemplateableBlockLa
 
         $vars = [
             'block' => $block,
-            'heading' => $block->dataValue('heading', ''),
             'itemSets' => $itemSets,
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
             'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),

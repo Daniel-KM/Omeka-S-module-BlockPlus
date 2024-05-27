@@ -54,8 +54,7 @@ HTML;
         $escape = $view->plugin('escapeHtml');
         $formRow = $view->plugin('formRow');
         $html = sprintf(
-            '%s' . $html . '%s',
-            $formRow($fieldset->get('o:block[__blockIndex__][o:data][heading]')),
+            $html . '%s',
             $escape($data['pagelist']),
             $view->translate('Add pages'),
             $formRow($fieldset->get('o:block[__blockIndex__][o:data][pagelist]')),
@@ -76,7 +75,6 @@ HTML;
 
         $vars = [
             'block' => $block,
-            'heading' => $block->dataValue('heading'),
             'pageList' => $pageTree,
         ];
 

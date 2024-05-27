@@ -2,7 +2,6 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
- * @var string $heading
  * @var string $dates
  * @var string $formatDate
  * @var string $formatTime
@@ -28,10 +27,6 @@ $first = $this->i18n()->dateFormat($first, $formatDate, $formatTime);
 $second = $this->i18n()->dateFormat($second, $formatDate, $formatTime);
 if ($first === $second) $second = null;
 ?>
-
-<?php if (!empty($heading)): ?>
-<h2><?= $escape($heading) ?></h2>
-<?php endif; ?>
 
 <?php if ($second): ?>
     <?= sprintf($translate('Created on %s, updated on %s'), $first, $second) // @translate ?>

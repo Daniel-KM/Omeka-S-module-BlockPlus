@@ -36,7 +36,7 @@ $lang = $filterLocale ? $this->lang() : null;
 <div class="block preview-block">
 
     <?php if (!empty($heading)): ?>
-    <h2><?= $heading ?></h2>
+    <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
     <?php if (!empty($html)): ?>

@@ -2,7 +2,6 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
- * @var string $heading
  * @var string $params
  */
 
@@ -31,6 +30,5 @@ $glossary = array_values($glossary);
 ?>
 
 <?= $partial('common/glossary', [
-    'heading' => $heading,
     'glossary' => $glossary,
 ]) ?>

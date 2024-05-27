@@ -22,13 +22,6 @@ class ListOfSitesFieldset extends Fieldset
 
         $this
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][heading]',
-                'type' => Element\Text::class,
-                'options' => [
-                    'label' => 'Block title', // @translate
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][sort]',
                 'type' => Element\Select::class,
                 'options' => [

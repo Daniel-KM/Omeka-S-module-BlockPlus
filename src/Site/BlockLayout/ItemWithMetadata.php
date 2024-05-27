@@ -59,7 +59,6 @@ class ItemWithMetadata extends AbstractBlockLayout implements TemplateableBlockL
 
         $vars = [
             'block' => $block,
-            'heading' => $block->dataValue('heading', ''),
             'attachments' => $attachments,
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);

@@ -11,16 +11,6 @@ class AssetFieldset extends Fieldset
     public function init(): void
     {
         $this
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][heading]',
-                'type' => Element\Text::class,
-                'options' => [
-                    'label' => 'Block title', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'asset-heading',
-                ],
-            ])
             /*
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][attachments]',

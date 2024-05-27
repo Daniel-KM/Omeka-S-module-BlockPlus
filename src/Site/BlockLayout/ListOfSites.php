@@ -111,7 +111,6 @@ class ListOfSites extends AbstractBlockLayout implements TemplateableBlockLayout
 
         $vars = [
             'block' => $block,
-            'heading' => $block->dataValue('heading', ''),
             'sites' => $sites,
             'pagination' => $pagination,
             'summaries' => $summaries,

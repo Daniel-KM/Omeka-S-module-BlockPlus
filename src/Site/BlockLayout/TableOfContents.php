@@ -83,7 +83,6 @@ class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLa
 
         $vars = [
             'block' => $block,
-            'heading' => $block->dataValue('heading'),
             'subNav' => $subNav,
             'maxDepth' => $depth - 1,
         ];

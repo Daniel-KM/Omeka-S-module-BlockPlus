@@ -86,8 +86,6 @@ class ResourceText extends AbstractBlockLayout implements TemplateableBlockLayou
         $formRow = $plugins->get('formRow');
         $translate = $plugins->get('translate');
         $html = '';
-        $element = $fieldset->get('o:block[__blockIndex__][o:data][heading]');
-        $html .= $formRow($element);
         $html .= $view->blockAttachmentsForm($block);
         $element = $fieldset->get('o:block[__blockIndex__][o:data][html]');
         $html .= $formRow($element);
@@ -118,7 +116,6 @@ class ResourceText extends AbstractBlockLayout implements TemplateableBlockLayou
 
         $vars = [
             'block' => $block,
-            'heading' => $block->dataValue('heading', ''),
             'attachments' => $attachments,
             'html' => $html,
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
@@ -134,7 +131,6 @@ class ResourceText extends AbstractBlockLayout implements TemplateableBlockLayou
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         // TODO Add captions (they are not added in the core)?
-        return $block->dataValue('heading', '')
-            . ' ' . $block->dataValue('html', '');
+        return $block->dataValue('html', '');
     }
 }

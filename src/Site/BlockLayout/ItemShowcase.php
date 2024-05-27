@@ -27,7 +27,7 @@ class ItemShowcase extends AbstractBlockLayout
         SitePageBlockRepresentation $block = null
     ) {
         // This block doesn't use a form, but mainly view partials. The form is
-        // only used for some standard fields (heading, partials).
+        // only used for some standard fields (partials).
 
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
@@ -69,7 +69,6 @@ class ItemShowcase extends AbstractBlockLayout
             'attachments' => $attachments,
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
             'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
-            'heading' => $block->dataValue('heading', ''),
         ];
         $template = $block->dataValue('template', self::PARTIAL_NAME);
         return $template !== self::PARTIAL_NAME && $view->resolver($template)

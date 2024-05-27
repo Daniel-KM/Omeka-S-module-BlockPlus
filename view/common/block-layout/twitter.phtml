@@ -2,7 +2,6 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
- * @var string $heading
  * @var array $account
  * @var array $messages
  */
@@ -13,9 +12,6 @@ $hyperlink = $this->plugin('hyperlink');
 ?>
 
 <div class="block block-twitter">
-    <?php if (!empty($heading)): ?>
-    <h2><?= $escape($heading) ?></h2>
-    <?php endif; ?>
     <?php if (!count($messages)): ?>
     <p><?= $translate('No message.') ?></p>
     <?php else: ?>

@@ -5,7 +5,6 @@
  * @var \Omeka\Api\Representation\ItemSetRepresentation[] $itemSets
  * @var string $thumbnailType
  * @var string $showTitleOption
- * @var string $heading
  */
 
 // Use hyperlink to allow to get resource url from api: method $resource->url() does not work for api.
@@ -23,9 +22,6 @@ $lang = $filterLocale ? $this->lang() : null;
 ?>
 
 <div class="block item-set-showcase">
-    <?php if (!empty($heading)): ?>
-    <h2><?= $escape($heading) ?></h2>
-    <?php endif; ?>
     <?php
     foreach ($itemSets as $itemSet):
         $render = null;

@@ -51,7 +51,6 @@ class PageDate extends AbstractBlockLayout implements TemplateableBlockLayoutInt
         $vars = $block->data();
         $vars = [
             'block' => $block,
-            'heading' => $vars['heading'],
             'dates' => $vars['dates'],
             'formatDate' => $vars['format_date'],
             'formatTime' => $vars['format_time'],

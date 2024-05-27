@@ -172,7 +172,6 @@ return [
         'block_settings' => [
             // The new source upstream "asset" block stores assets as attachments.
             'asset' => [
-                'heading' => '',
                 'assets' => [
                     [
                         'id' => null,
@@ -186,14 +185,16 @@ return [
                 'template' => '',
             ],
             'block' => [
-                'heading' => '',
                 'params' => '',
                 'template' => '',
             ],
             'breadcrumbs' => [
                 'template' => '',
             ],
+            // TODO Rename BrowsePreview.
+            // Diff with Omeka S: html, pagination, sort_headings, resource_template for sort.
             'browsePreview' => [
+                // Keep heading for browse preview: this is in Omeka S.
                 'heading' => '',
                 'html' => '',
                 'resource_type' => 'items',
@@ -211,12 +212,10 @@ return [
                 'template' => '',
             ],
             'buttons' => [
-                'heading' => '',
                 'buttons' => [],
                 'template' => '',
             ],
             'd3Graph' => [
-                'heading' => '',
                 'params' => '{
     "items": {
         "limit": 100
@@ -242,7 +241,6 @@ return [
                 'template' => '',
             ],
             'externalContent' => [
-                'heading' => '',
                 'embeds' => [],
                 'html' => '',
                 'show_title_option' => 'title',
@@ -256,12 +254,10 @@ return [
                 'level' => '',
             ],
             'html' => [
-                'heading' => '',
                 'html' => '',
                 'template' => '',
             ],
             'itemSetShowcase' => [
-                'heading' => '',
                 'item_sets' => [],
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_set_title',
@@ -271,27 +267,22 @@ return [
                 'attachments' => [],
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',
-                'heading' => '',
                 'template' => '',
             ],
             'itemWithMetadata' => [
                 'attachments' => [],
-                'heading' => '',
                 'template' => '',
             ],
             'links' => [
-                'heading' => '',
                 'links' => [],
                 'template' => '',
             ],
             // Use block Menu of module Menu is cleaner.
             'listOfPages' => [
-                'heading' => '',
                 'pagelist' => '',
                 'template' => '',
             ],
             'listOfSites' => [
-                'heading' => '',
                 'sort' => 'alpha',
                 'limit' => null,
                 // The standard block uses exclude_current only.
@@ -322,7 +313,6 @@ return [
                 'attachments' => [],
             ],
             'pageDate' => [
-                'heading' => '',
                 'dates' => 'created_and_modified',
                 'format_date' => 'medium',
                 'format_time' => 'none',
@@ -335,7 +325,6 @@ return [
                 'url' => '',
             ],
             'resourceText' => [
-                'heading' => '',
                 'attachments' => [],
                 'html' => '',
                 'thumbnail_type' => 'square',
@@ -345,7 +334,6 @@ return [
                 'template' => '',
             ],
             'searchForm' => [
-                'heading' => '',
                 'html' => '',
                 'link' => '',
                 'search_config' => null,
@@ -353,7 +341,6 @@ return [
                 'template' => '',
             ],
             'searchResults' => [
-                'heading' => '',
                 'resource_type' => 'items',
                 'query' => [],
                 'limit' => 12,
@@ -365,7 +352,6 @@ return [
             'separator' => [
             ],
             'showcase' => [
-                'heading' => '',
                 'html' => '',
                 'entries' => [],
                 'thumbnail_type' => 'square',
@@ -374,19 +360,16 @@ return [
             ],
             'tableOfContents' => [
                 'depth' => null,
-                'heading' => '',
                 'root' => false,
                 'template' => '',
             ],
             'treeStructure' => [
-                'heading' => '',
                 'root' => '',
                 'term' => 'dcterms:hasPart',
                 'expanded' => 0,
                 'template' => '',
             ],
             'twitter' => [
-                'heading' => '',
                 'account' => '',
                 'limit' => 1,
                 'retweet' => false,

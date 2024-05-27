@@ -2,7 +2,6 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
- * @var string $heading
  * @var int $root
  * @var string $term
  * @var string $resource
@@ -65,9 +64,6 @@ $treeMenu = function ($resource, $level = 0) use (&$treeMenu, $term, $api, $esca
 </style>
 
 <div class="block block-tree-structure">
-<?php if (!empty($heading)): ?>
-    <h2><?= $escape($heading) ?></h2>
-    <?php endif; ?>
     <?php $current = $api->read('resources', ['id' => $root])->getContent(); ?>
     <?php if ($current): ?>
     <ul class="nav flex-column treeview mb-3">

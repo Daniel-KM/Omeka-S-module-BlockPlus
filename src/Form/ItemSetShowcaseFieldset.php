@@ -14,13 +14,6 @@ class ItemSetShowcaseFieldset extends Fieldset
     {
         $this
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][heading]',
-                'type' => Element\Text::class,
-                'options' => [
-                    'label' => 'Block title', // @translate
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][item_sets]',
                 'type' => ItemSetSelect::class,
                 'options' => [

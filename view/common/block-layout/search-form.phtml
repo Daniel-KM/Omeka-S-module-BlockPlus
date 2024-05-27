@@ -1,7 +1,6 @@
 <?php
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
- * @var string $heading
  * @var \AdvancedSearch\Api\Representation\SearchConfigRepresentation|null $searchConfig
  * @var string $html
  * @var array $link
@@ -30,9 +29,6 @@ $searchValue = $params->fromQuery('fulltext_search', '');
 ?>
 
 <div class="block block-search">
-    <?php if (!empty($heading)): ?>
-    <h2><?= $escape($heading) ?></h2>
-    <?php endif; ?>
     <?= $html ?>
     <?php if ($searchConfig): ?>
     <?= $this->searchForm($searchConfig) ?>

@@ -2,15 +2,11 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
- * @var string $heading
  * @var \Laminas\Navigation\Navigation $subNav
  * @var int $maxDepth
  */
 ?>
 
 <nav class="block toc-block">
-    <?php if (!empty($heading)): ?>
-    <h2><?= $this->escapeHtml($heading) ?></h2>
-    <?php endif; ?>
     <?= $subNav ? $this->navigation($subNav)->menu()->renderMenu(null, ['maxDepth' => $maxDepth]) : '' ?>
 </nav>

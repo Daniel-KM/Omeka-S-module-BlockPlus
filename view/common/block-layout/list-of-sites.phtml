@@ -3,7 +3,6 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SiteRepresentation[] $sites
  * @var \Omeka\Api\Representation\SiteRepresentation $currentSite
- * @var string $heading
  * @var bool $pagination
  * @var bool $summaries
  * @var bool $thumbnails
@@ -15,10 +14,6 @@ $partial = $plugins->get('partial');
 ?>
 
 <div class="block list-of-sites">
-    <?php if (!empty($heading)): ?>
-    <h2><?= $escape($heading) ?></h2>
-    <?php endif; ?>
-
     <div class="site-list">
         <?php
         foreach ($sites as $site):

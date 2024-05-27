@@ -3,7 +3,6 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var string $resourceType
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
- * @var string $heading
  * @var array $query
  * @var array $sortHeadings
  * @var array|false $pagination
@@ -25,10 +24,6 @@ $langValue = $filterLocale ? [$this->lang(), ''] : null;
 
 <?php // This block uses two div by default to comply with common themes. ?>
 <div class="block search-form-block">
-    <?php if (!empty($heading)): ?>
-    <h2><?= $heading ?></h2>
-    <?php endif; ?>
-
     <form id="search-form">
         <input type="text" name="search" value="<?= $escapeAttr($query['search']) ?>" placeholder="<?= $translate('Search') ?>">
         <button type="submit"><?= $translate('Search') ?></button>

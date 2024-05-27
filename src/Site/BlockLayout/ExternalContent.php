@@ -198,8 +198,7 @@ class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLa
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         // TODO Add captions (they are not added in the core)?
-        return $block->dataValue('heading', '')
-            . ' ' . $block->dataValue('html', '');
+        return $block->dataValue('html', '');
     }
 
     /**

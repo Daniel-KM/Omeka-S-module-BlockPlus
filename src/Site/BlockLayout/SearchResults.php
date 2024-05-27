@@ -182,7 +182,6 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
 
         $vars = [
             'block' => $block,
-            'heading' => $block->dataValue('heading'),
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,
             'query' => $query,

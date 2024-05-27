@@ -10,7 +10,6 @@
  *   - class (string)
  *   - url (string): deprecated, will be removed. Use "page", "caption", alt title, or original asset alt value instead.
  * @var array $assets Deprecated, alias of attachments.
- * @var string $heading
  */
 
 // Note: this hero uses the classes and js of Twitter Bootstrap.
@@ -20,10 +19,6 @@ $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 ?>
-
-<?php if (!empty($heading)): ?>
-<h2><?= $escape($heading) ?></h2>
-<?php endif; ?>
 
 <?php if (!count($attachments)) return; ?>
 <?php $attachment = $attachments[array_rand($attachments)]; ?>
