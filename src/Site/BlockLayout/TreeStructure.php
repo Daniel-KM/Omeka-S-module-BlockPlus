@@ -51,4 +51,9 @@ class TreeStructure extends AbstractBlockLayout implements TemplateableBlockLayo
         $vars = ['block' => $block] + $block->data();
         return $view->partial($templateViewScript, $vars);
     }
+
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
+    {
+        return strip_tags((string) $this->render($view, $block));
+    }
 }

@@ -73,4 +73,9 @@ class ItemSetShowcase extends AbstractBlockLayout implements TemplateableBlockLa
         ];
         return $view->partial($templateViewScript, $vars);
     }
+
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
+    {
+        return strip_tags((string) $this->render($view, $block));
+    }
 }

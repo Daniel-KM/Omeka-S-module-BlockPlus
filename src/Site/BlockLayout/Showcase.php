@@ -112,6 +112,11 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
         return $view->partial($templateViewScript, $vars);
     }
 
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
+    {
+        return strip_tags((string) $this->render($view, $block));
+    }
+
     /**
      * @see \Feed\Controller\FeedController::appendEntries()
      * @todo Better management of Clean url.

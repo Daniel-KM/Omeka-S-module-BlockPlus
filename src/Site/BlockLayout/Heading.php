@@ -62,4 +62,9 @@ class Heading extends AbstractBlockLayout implements TemplateableBlockLayoutInte
         $vars = ['block' => $block] + $block->data();
         return $view->partial($templateViewScript, $vars);
     }
+
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
+    {
+        return $block->dataValue('text', '');
+    }
 }
