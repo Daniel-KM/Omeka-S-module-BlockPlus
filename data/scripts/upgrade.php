@@ -1104,6 +1104,30 @@ SQL;
         $messenger->addWarning($message);
     }
 
+    // PageDate: replaced by PageDateTime (Omeka S).
+    foreach ($blocksRepository->findBy(['layout' => 'pageDate']) as $block) {
+        $block->setLayout('pageDateTime');
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData();
+        $data['display'] = in_array($data['dates'] ?? '', ['created', 'modified']) ? $data['dates'] : 'created_modified';
+        $data['date_format'] = in_array($data['format_date'] ?? '', ['none', 'short', 'medium', 'long', 'full']) ? $data['format_date'] : 'medium';
+        $data['time_format'] = in_array($data['format_time'] ?? '', ['none', 'short', 'medium', 'long', 'full']) ? $data['format_time'] : 'none';
+        $template = $data['template'] ?? null;
+        $layoutData['template'] = $template && $template !== $blockTemplates['pageDate']
+            ? $template
+            : 'common/block-layout/page-date-time-plus';
+        unset($data['dates'], $data['format_date'], $data['format_time'], $data['template']);
+        $block->setData($data);
+        $block->setLayoutData($layoutData);
+    }
+
+    $entityManager->flush();
+
+    $message = new PsrMessage(
+        'The old block "Page Date" was replaced by the core one "Page Date Time". The variable names were changed, so check your theme if needed.' // @translate
+    );
+    $messenger->addWarning($message);
+
     /**
      * Replace filled element "template" by the new layout data.
      * Some blocks were overridden only to add heading and template, so they are
@@ -1115,6 +1139,7 @@ SQL;
      * - itemShowcase (renamed media above)
      * - itemWithMetadata
      * - listOfPages
+     * - pageDate (migrated below to pageDateTime)
      * - pageTitle
      * Migrated template, but not removed:
      * - listOfSites (to be ported in core)
