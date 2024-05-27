@@ -4,7 +4,6 @@
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var string $resourceType
  * @var string $heading
- * @var string $html
  * @var string $linkText
  * @var array $components
  * @var array $query
@@ -82,10 +81,6 @@ jQuery(function() {
 
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
-    <?php endif; ?>
-
-    <?php if (!empty($html)): ?>
-    <?= $html ?>
     <?php endif; ?>
 
     <div class="jcarousel-wrapper">

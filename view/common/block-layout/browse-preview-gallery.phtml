@@ -4,7 +4,6 @@
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var string $resourceType
  * @var string $heading
- * @var string $html
  * @var string $linkText
  * @var array $components
  * @var array $query
@@ -37,10 +36,6 @@ $lang = $filterLocale ? $this->lang() : null;
 
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
-    <?php endif; ?>
-
-    <?php if (!empty($html)): ?>
-    <?= $html ?>
     <?php endif; ?>
 
     <?php /* // Require two divs with classes container and main above the og-grid.

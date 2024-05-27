@@ -32,8 +32,6 @@ return [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
             'breadcrumbs' => Site\BlockLayout\Breadcrumbs::class,
-            // Use a delegator instead of a factory in order to inject HtmlPurifier.
-            // 'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             'buttons' => Site\BlockLayout\Buttons::class,
             'd3Graph' => Site\BlockLayout\D3Graph::class,
             'heading' => Site\BlockLayout\Heading::class,
@@ -56,12 +54,6 @@ return [
             'resourceText' => Service\BlockLayout\ResourceTextFactory::class,
             'showcase' => Service\BlockLayout\ShowcaseFactory::class,
         ],
-        'delegators' => [
-            \Omeka\Site\BlockLayout\BrowsePreview::class => [
-                // TODO No namespace?
-                Service\BlockLayout\BrowsePreviewDelegatorFactory::class,
-            ],
-        ],
     ],
     'resource_page_block_layouts' => [
         'invokables' => [
@@ -80,7 +72,6 @@ return [
             Form\Element\BlockShowTitleSelect::class => Form\Element\BlockShowTitleSelect::class,
             // Blocks.
             Form\BlockFieldset::class => Form\BlockFieldset::class,
-            Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\ButtonsFieldset::class => Form\ButtonsFieldset::class,
             Form\D3GraphFieldset::class => Form\D3GraphFieldset::class,
             Form\ExternalContentFieldset::class => Form\ExternalContentFieldset::class,
@@ -158,25 +149,6 @@ return [
                 'params' => '',
             ],
             'breadcrumbs' => [
-            ],
-            // TODO Rename BrowsePreview or convert to SearchResult.
-            // Diff with Omeka S: html, pagination, sort_headings, resource_template for sort.
-            'browsePreview' => [
-                // Keep heading for browse preview: this is in Omeka S.
-                'heading' => '',
-                'html' => '',
-                'resource_type' => 'items',
-                'query' => '',
-                'limit' => 12,
-                'components' => [
-                    'resource-heading',
-                    'resource-body',
-                    'thumbnail',
-                ],
-                'pagination' => false,
-                'sort_headings' => [],
-                'resource_template' => null,
-                'link-text' => 'Browse all', // @translate
             ],
             'buttons' => [
                 'buttons' => [],

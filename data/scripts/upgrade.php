@@ -951,6 +951,62 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     }
 
     /**
+     * Prepend a specific block "Html" before Browse preview when filled.
+     */
+    $pagesWithBrowsePreviewHtml = [];
+    foreach ($blocksRepository->findBy(['layout' => 'browsePreview']) as $block) {
+        $data = $block->getData();
+        if (isset($data['html']) && !in_array(str_replace(' ', '', $data['html']), ['', '<div></div>', '<p></p>'])) {
+            $page = $block->getPage();
+            $pageId = $page->getId();
+            $blockId = $block->getId();
+            $pageSlug = $page->getSlug();
+            $siteSlug = $page->getSite()->getSlug();
+            $position = 0;
+            foreach ($page->getBlocks() as $blk) {
+                ++$position;
+                $blk->setPosition($position);
+                if ($blk->getLayout() !== 'browsePreview') {
+                    continue;
+                }
+                $data = $blk->getData() ?: [];
+                $html = $data['html'] ?? '';
+                $hasHtml = !in_array(str_replace(' ', '', $html), ['', '<div></div>', '<p></p>']);
+                if ($hasHtml) {
+                    $b = new \Omeka\Entity\SitePageBlock();
+                    $b->setLayout('html');
+                    $b->setPage($page);
+                    $b->setPosition($position);
+                    $b->setData([
+                        'html' => $html,
+                    ]);
+                    $entityManager->persist($b);
+                    $blk->setPosition(++$position);
+                    $pagesWithBrowsePreviewHtml[$siteSlug][$pageSlug] = $pageSlug;
+                }
+                unset($data['html']);
+                $blk->setData($data);
+            }
+        }
+    }
+    $entityManager->flush();
+
+    if (!empty($pagesWithBrowsePreviewHtml)) {
+        $pagesWithBrowsePreviewHtml = array_map('array_values', $pagesWithBrowsePreviewHtml);
+        $message = new PsrMessage(
+            'The element "html" was removed from block Browse Preview. A new block "Html" was prepended to all blocks that had a filled html. You may check pages for styles: {json}', // @translate
+            ['json' => json_encode($pagesWithBrowsePreviewHtml, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+    // TODO Add support of sort heading in Search Results (migration from BrowsePreview).
+    $message = new PsrMessage(
+        'The block Browse Preview is no more managed by this module. Support of elements "html" and "sort_headings" were removed. Check your themes if you used it, or use block Search Results.' // @translate
+    );
+    $messenger->addWarning($message);
+
+    /**
      * Replace filled element "heading" by a specific block "Heading".
      *
      * Because "itemShowcase" was renamed "media", append it to keep heading.
@@ -1053,16 +1109,16 @@ SQL;
      * Some blocks were overridden only to add heading and template, so they are
      * now useless and removed too:
      * - asset (warning for subkeys of assets).
+     * - browsePreview
      * - html
      * - itemShowCase (renamed media in core)
      * - itemShowcase (renamed media above)
      * - itemWithMetadata
      * - listOfPages
      * - pageTitle
-     * Migrated template, but not removed here (fully migrated below):
-     * - browsePreview
-     * - listOfSites
-     * - tableOfContents
+     * Migrated template, but not removed:
+     * - listOfSites (to be ported in core)
+     * - tableOfContents (to be ported in core)
      */
 
     // Warn only when the template is not the default and a message for moved

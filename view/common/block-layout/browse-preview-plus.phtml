@@ -5,7 +5,6 @@
  * @var string $resourceType
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var string $heading
- * @var string $html
  * @var string $linkText
  * @var array $components
  * @var array $query
@@ -36,10 +35,6 @@ $langValue = $filterLocale ? [$this->lang(), ''] : null;
 
     <?php if (!empty($heading)): ?>
     <h2><?= $escape($heading) ?></h2>
-    <?php endif; ?>
-
-    <?php if (!empty($html)): ?>
-    <?= $html ?>
     <?php endif; ?>
 
     <?php if (!empty($sortHeadings)): ?>
