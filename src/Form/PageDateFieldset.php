@@ -61,17 +61,6 @@ class PageDateFieldset extends Fieldset
                     'id' => 'page-date-format-time',
                 ],
             ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][template]',
-                'type' => BlockPlusElement\TemplateSelect::class,
-                'options' => [
-                    'label' => 'Template to display', // @translate
-                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "page-date".', // @translate
-                    'template' => 'common/block-layout/page-date',
-                ],
-                'attributes' => [
-                    'class' => 'chosen-select',
-                ],
-            ]);
+        ;
     }
 }

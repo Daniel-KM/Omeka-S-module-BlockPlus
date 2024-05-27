@@ -63,18 +63,6 @@ class ExternalContentFieldset extends Fieldset
                     'label' => 'Link url', // @translate
                 ],
             ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][template]',
-                'type' => BlockPlusElement\TemplateSelect::class,
-                'options' => [
-                    'label' => 'Template to display', // @translate
-                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "external-content".', // @translate
-                    'template' => 'common/block-layout/external-content',
-                ],
-                'attributes' => [
-                    'class' => 'chosen-select',
-                ],
-            ])
         ;
     }
 }

@@ -38,14 +38,10 @@ return [
             'd3Graph' => Site\BlockLayout\D3Graph::class,
             'heading' => Site\BlockLayout\Heading::class,
             'itemSetShowcase' => Site\BlockLayout\ItemSetShowcase::class,
-            // Omeka core uses "itemShowCase" instead of "itemShowcase". Won't fix: https://github.com/omeka/omeka-s/pull/1431
-            'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
-            'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
             'links' => Site\BlockLayout\Links::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'pageMetadata' => Site\BlockLayout\PageMetadata::class,
             'pageDate' => Site\BlockLayout\PageDate::class,
-            'pageTitle' => Site\BlockLayout\PageTitle::class,
             'redirectToUrl' => Site\BlockLayout\RedirectToUrl::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
             'searchResults' => Site\BlockLayout\SearchResults::class,
@@ -55,10 +51,7 @@ return [
             'twitter' => Site\BlockLayout\Twitter::class,
         ],
         'factories' => [
-            'asset' => Service\BlockLayout\AssetFactory::class,
             'externalContent' => Service\BlockLayout\ExternalContentFactory::class,
-            'html' => Service\BlockLayout\HtmlFactory::class,
-            'listOfPages' => Service\BlockLayout\ListOfPagesFactory::class,
             'mirrorPage' => Service\BlockLayout\MirrorPageFactory::class,
             'resourceText' => Service\BlockLayout\ResourceTextFactory::class,
             'showcase' => Service\BlockLayout\ShowcaseFactory::class,
@@ -68,9 +61,6 @@ return [
                 // TODO No namespace?
                 Service\BlockLayout\BrowsePreviewDelegatorFactory::class,
             ],
-        ],
-        'aliases' => [
-            'itemShowcase' => 'itemShowCase',
         ],
     ],
     'resource_page_block_layouts' => [
@@ -89,23 +79,16 @@ return [
         'invokables' => [
             Form\Element\BlockShowTitleSelect::class => Form\Element\BlockShowTitleSelect::class,
             // Blocks.
-            Form\AssetFieldset::class => Form\AssetFieldset::class,
             Form\BlockFieldset::class => Form\BlockFieldset::class,
-            Form\BreadcrumbsFieldset::class => Form\BreadcrumbsFieldset::class,
             Form\BrowsePreviewFieldset::class => Form\BrowsePreviewFieldset::class,
             Form\ButtonsFieldset::class => Form\ButtonsFieldset::class,
             Form\D3GraphFieldset::class => Form\D3GraphFieldset::class,
             Form\ExternalContentFieldset::class => Form\ExternalContentFieldset::class,
             Form\HeadingFieldset::class => Form\HeadingFieldset::class,
-            Form\HtmlFieldset::class => Form\HtmlFieldset::class,
             Form\ItemSetShowcaseFieldset::class => Form\ItemSetShowcaseFieldset::class,
-            Form\ItemShowcaseFieldset::class => Form\ItemShowcaseFieldset::class,
-            Form\ItemWithMetadataFieldset::class => Form\ItemWithMetadataFieldset::class,
-            Form\ListOfPagesFieldset::class => Form\ListOfPagesFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\MirrorPageFieldset::class => Form\MirrorPageFieldset::class,
             Form\PageDateFieldset::class => Form\PageDateFieldset::class,
-            Form\PageTitleFieldset::class => Form\PageTitleFieldset::class,
             Form\RedirectToUrlFieldset::class => Form\RedirectToUrlFieldset::class,
             Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
@@ -118,6 +101,7 @@ return [
             Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldset::class,
         ],
         'factories' => [
+            /** @deprecated Since Omeka S v4.1, use core block template mechanism. Will be removed once all modules will be upgraded. */
             Form\Element\TemplateSelect::class => Service\Form\Element\TemplateSelectFactory::class,
             Form\PageMetadataFieldset::class => Service\Form\PageMetadataFieldsetFactory::class,
             Form\SearchFormFieldset::class => Service\Form\SearchFormFieldsetFactory::class,
@@ -170,28 +154,12 @@ return [
             'blockplus_prevnext_item_sets_query' => '',
         ],
         'block_settings' => [
-            // The new source upstream "asset" block stores assets as attachments.
-            'asset' => [
-                'assets' => [
-                    [
-                        'id' => null,
-                        'page' => null,
-                        'alt_link_title' => '',
-                        'caption' => '',
-                        'url' => '',
-                        'class' => '',
-                    ],
-                ],
-                'template' => '',
-            ],
             'block' => [
                 'params' => '',
-                'template' => '',
             ],
             'breadcrumbs' => [
-                'template' => '',
             ],
-            // TODO Rename BrowsePreview.
+            // TODO Rename BrowsePreview or convert to SearchResult.
             // Diff with Omeka S: html, pagination, sort_headings, resource_template for sort.
             'browsePreview' => [
                 // Keep heading for browse preview: this is in Omeka S.
@@ -209,11 +177,9 @@ return [
                 'sort_headings' => [],
                 'resource_template' => null,
                 'link-text' => 'Browse all', // @translate
-                'template' => '',
             ],
             'buttons' => [
                 'buttons' => [],
-                'template' => '',
             ],
             'd3Graph' => [
                 'params' => '{
@@ -238,7 +204,6 @@ return [
     }
 }
 ',
-                'template' => '',
             ],
             'externalContent' => [
                 'embeds' => [],
@@ -247,41 +212,22 @@ return [
                 'caption_position' => 'center',
                 'link_text' => 'Know more', // @translate
                 'link_url' => '#',
-                'template' => '',
             ],
             'heading' => [
                 'text' => '',
                 'level' => '',
             ],
-            'html' => [
-                'html' => '',
-                'template' => '',
-            ],
+            // TODO Migrate itemSetShowcase to showcase or Media.
             'itemSetShowcase' => [
                 'item_sets' => [],
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_set_title',
-                'template' => '',
-            ],
-            'itemShowcase' => [
-                'attachments' => [],
-                'thumbnail_type' => 'square',
-                'show_title_option' => 'item_title',
-                'template' => '',
-            ],
-            'itemWithMetadata' => [
-                'attachments' => [],
-                'template' => '',
             ],
             'links' => [
                 'links' => [],
-                'template' => '',
             ],
-            // Use block Menu of module Menu is cleaner.
-            'listOfPages' => [
-                'pagelist' => '',
-                'template' => '',
-            ],
+            // TODO Pull request diff in listOfSites in core.
+            // Diff with Omeka S: exclude more than current page.
             'listOfSites' => [
                 'sort' => 'alpha',
                 'limit' => null,
@@ -295,13 +241,10 @@ return [
                 'pagination' => false,
                 'summaries' => true,
                 'thumbnails' => true,
-                'template' => '',
             ],
             'mirrorPage' => [
                 'page' => null,
             ],
-            // Media embed is not available in BlockPlus.
-            // 'media' => [],
             'pageMetadata' => [
                 'type' => '',
                 'credits' => '',
@@ -316,10 +259,6 @@ return [
                 'dates' => 'created_and_modified',
                 'format_date' => 'medium',
                 'format_time' => 'none',
-                'template' => '',
-            ],
-            'pageTitle' => [
-                'template' => '',
             ],
             'redirectToUrl' => [
                 'url' => '',
@@ -331,14 +270,12 @@ return [
                 'show_title_option' => 'item_title',
                 // This option is mainly for compability with Omeka Classic exhibits.
                 'caption_position' => 'center',
-                'template' => '',
             ],
             'searchForm' => [
                 'html' => '',
                 'link' => '',
                 'search_config' => null,
                 'selector' => '',
-                'template' => '',
             ],
             'searchResults' => [
                 'resource_type' => 'items',
@@ -347,7 +284,6 @@ return [
                 'pagination' => true,
                 'sort_headings' => [],
                 'resource_template' => null,
-                'template' => '',
             ],
             'separator' => [
             ],
@@ -356,18 +292,15 @@ return [
                 'entries' => [],
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',
-                'template' => '',
             ],
             'tableOfContents' => [
                 'depth' => null,
                 'root' => false,
-                'template' => '',
             ],
             'treeStructure' => [
                 'root' => '',
                 'term' => 'dcterms:hasPart',
                 'expanded' => 0,
-                'template' => '',
             ],
             'twitter' => [
                 'account' => '',
@@ -375,7 +308,6 @@ return [
                 'retweet' => false,
                 'authorization' => '',
                 'api' => '1.1',
-                'template' => '',
                 // Account data are stored because the id is required in Twitter api v2.
                 'account_data' => [],
                 // The bearer token is saved separately when it is an automatic one.

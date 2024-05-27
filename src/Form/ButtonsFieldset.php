@@ -26,17 +26,6 @@ class ButtonsFieldset extends Fieldset
                     ],
                 ],
             ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][template]',
-                'type' => BlockPlusElement\TemplateSelect::class,
-                'options' => [
-                    'label' => 'Template to display', // @translate
-                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "block".', // @translate
-                    'template' => 'common/block-layout/buttons',
-                ],
-                'attributes' => [
-                    'class' => 'chosen-select',
-                ],
-            ]);
+        ;
     }
 }

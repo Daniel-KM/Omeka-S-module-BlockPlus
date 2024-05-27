@@ -148,19 +148,6 @@ class BrowsePreviewFieldset extends Fieldset
                     'id' => 'browse-preview-link-text',
                 ],
             ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][template]',
-                'type' => BlockPlusElement\TemplateSelect::class,
-                'options' => [
-                    'label' => 'Template to display', // @translate
-                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "browse-preview".', // @translate
-                    'template' => 'common/block-layout/browse-preview',
-                ],
-                'attributes' => [
-                    'id' => 'browse-preview-template',
-                    'class' => 'chosen-select',
-                ],
-            ])
         ;
     }
 }

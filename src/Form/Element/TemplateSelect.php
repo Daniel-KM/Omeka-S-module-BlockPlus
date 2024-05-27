@@ -4,6 +4,9 @@ namespace BlockPlus\Form\Element;
 
 use Laminas\Form\Element\Select;
 
+/**
+ * @deprecated Since Omeka S v4.1, use core block template mechanism.
+ */
 class TemplateSelect extends Select
 {
     protected $templatePathStack = [];

@@ -47,18 +47,6 @@ class ItemSetShowcaseFieldset extends Fieldset
                     'unchecked_value' => 'no_title',
                     'use_hidden_element' => true,
                 ],
-            ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][template]',
-                'type' => BlockPlusElement\TemplateSelect::class,
-                'options' => [
-                    'label' => 'Template to display', // @translate
-                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "item-set-showcase".', // @translate
-                    'template' => 'common/block-layout/item-set-showcase',
-                ],
-                'attributes' => [
-                    'class' => 'chosen-select',
-                ],
             ]);
     }
 }

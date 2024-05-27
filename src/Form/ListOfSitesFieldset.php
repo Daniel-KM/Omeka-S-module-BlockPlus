@@ -91,17 +91,6 @@ class ListOfSitesFieldset extends Fieldset
                     'id' => 'list-of-sites-thumbnails',
                 ],
             ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][template]',
-                'type' => BlockPlusElement\TemplateSelect::class,
-                'options' => [
-                    'label' => 'Template to display', // @translate
-                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "list-of-sites".', // @translate
-                    'template' => 'common/block-layout/list-of-sites',
-                ],
-                'attributes' => [
-                    'class' => 'chosen-select',
-                ],
-            ]);
+        ;
     }
 }

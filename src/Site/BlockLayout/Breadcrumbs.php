@@ -26,29 +26,12 @@ class Breadcrumbs extends AbstractBlockLayout
         SitePageRepresentation $page = null,
         SitePageBlockRepresentation $block = null
     ) {
-        // Factory is not used to make rendering simpler.
-        $services = $site->getServiceLocator();
-        $formElementManager = $services->get('FormElementManager');
-        $defaultSettings = $services->get('Config')['blockplus']['block_settings']['breadcrumbs'];
-        $blockFieldset = \BlockPlus\Form\BreadcrumbsFieldset::class;
-
-        $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
-
-        $dataForm = [];
-        foreach ($data as $key => $value) {
-            $dataForm['o:block[__blockIndex__][o:data][' . $key . ']'] = $value;
-        }
-
-        $fieldset = $formElementManager->get($blockFieldset);
-        $fieldset->populateValues($dataForm);
-
         $html = '<p>'
             . sprintf(
                 $view->translate('This block uses the options set in the %1$ssite settings%2$s, unless you use the standard template.'), // @translate
                 '<a href="' . $view->url('admin/site/slug', ['action' => 'edit'], ['fragment' => 'site-settings'], true) . '">', '</a>'
             )
             . '</p>';
-        $html .= $view->formCollection($fieldset, false);
         return $html;
     }
 

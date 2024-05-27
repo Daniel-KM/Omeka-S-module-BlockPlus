@@ -6,6 +6,9 @@ use BlockPlus\Form\Element\TemplateSelect;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
+/**
+ * @deprecated Since Omeka S v4.1, use core block template mechanism.
+ */
 class TemplateSelectFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)

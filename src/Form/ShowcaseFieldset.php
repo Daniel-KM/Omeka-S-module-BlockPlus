@@ -62,18 +62,6 @@ https://example.org = assetId = Title = Caption = Body
                     'class' => 'chosen-select',
                 ],
             ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][template]',
-                'type' => BlockPlusElement\TemplateSelect::class,
-                'options' => [
-                    'label' => 'Template to display', // @translate
-                    'info' => 'Templates are in folder "common/block-layout" of the theme and should start with "showcase".', // @translate
-                    'template' => 'common/block-layout/showcase',
-                ],
-                'attributes' => [
-                    'id' => 'showcase-template',
-                    'class' => 'chosen-select',
-                ],
-            ]);
+        ;
     }
 }
