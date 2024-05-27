@@ -2,6 +2,7 @@
 
 namespace BlockPlus\Site\BlockLayout;
 
+use Common\Stdlib\PsrMessage;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
@@ -27,13 +28,12 @@ class Breadcrumbs extends AbstractBlockLayout implements TemplateableBlockLayout
         SitePageRepresentation $page = null,
         SitePageBlockRepresentation $block = null
     ) {
-        $html = '<p>'
-            . sprintf(
-                $view->translate('This block uses the options set in the %1$ssite settings%2$s, unless you use the standard template.'), // @translate
-                '<a href="' . $view->url('admin/site/slug', ['action' => 'edit'], ['fragment' => 'site-settings'], true) . '">', '</a>'
+        return '<p>'
+            . new PsrMessage(
+                $view->translate('This block uses the options set in the {link}site settings{link_end}, unless you use the standard template.'), // @translate
+                ['link' => '<a href="' . $view->url('admin/site/slug', ['action' => 'edit'], ['fragment' => 'site-settings'], true) . '">', 'link_end' => '</a>']
             )
             . '</p>';
-        return $html;
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
