@@ -599,6 +599,7 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
         'searchResults' => 'common/block-layout/search-results',
         'separator' => 'common/block-layout/separator',
         'showcase' => 'common/block-layout/showcase',
+        // Overridden, so removed.
         'tableOfContents' => 'common/block-layout/table-of-contents',
         'treeStructure' => 'common/block-layout/tree-structure',
         'twitter' => 'common/block-layout/twitter',

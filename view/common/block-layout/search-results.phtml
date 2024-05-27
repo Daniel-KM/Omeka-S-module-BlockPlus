@@ -17,7 +17,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;
-$langValue = $filterLocale ? [$this->lang(), ''] : null;
+$langValue = $filterLocale ? [$lang, ''] : null;
 
 // Total is available through $this->pagination()->getPaginator().
 ?>
