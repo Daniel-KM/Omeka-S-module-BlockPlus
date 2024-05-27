@@ -15,6 +15,7 @@
  */
 
 $plugins = $this->getHelperPluginManager();
+$site ??= $plugins->get('currentSite')();
 $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
 $thumbnail = $plugins->get('thumbnail');

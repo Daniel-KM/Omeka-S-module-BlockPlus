@@ -37,7 +37,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
     <div class="asset partners-logos">
     <?php foreach ($attachments as $attachment): ?>
         <?php if (!$attachment['asset']) continue; ?>
-        <?php $attachmentUrl = $attachment['page'] ? $attachment['page']->siteUrl() : ($attachment['url'] ?? null); ?>
+        <?php $attachmentUrl = !empty($attachment['page']) ? $attachment['page']->siteUrl() : ($attachment['url'] ?? null); ?>
         <?php if ($attachmentUrl): ?>
         <a class="partner-logo <?= $escapeAttr($attachment['class']) ?>" href="<?= $escapeAttr($attachmentUrl) ?>" target="_blank" rel="noopener">
             <img loading="lazy" src="<?= $attachment['asset']->assetUrl() ?>" alt="<?= $escapeAttr($attachment['alt_link_title']) ?>"/>

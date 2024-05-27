@@ -19,10 +19,12 @@
  */
 
 $plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
+$site ??= $plugins->get('currentSite')();
+$escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 $hyperlink = $plugins->get('hyperlink');
-$url = $plugins->get('url');
 // Append in header is not possible with browse preview, so css and js are set in body, even if it is not standard.
 $assetUrl = $plugins->get('assetUrl');
 

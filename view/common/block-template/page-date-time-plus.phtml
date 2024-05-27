@@ -11,6 +11,10 @@ $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
 
+$display ??= $block->dataValue('display', 'created_modified');
+$dateFormat ??= $block->dataValue('date_format', 'medium');
+$timeFormat ??= $block->dataValue('time_format', 'none');
+
 $page = $block->page();
 if ($display === 'created') {
     $first = $page->created();
