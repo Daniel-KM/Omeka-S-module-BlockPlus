@@ -55,9 +55,6 @@ class PageDate extends AbstractBlockLayout implements TemplateableBlockLayoutInt
             'formatDate' => $vars['format_date'],
             'formatTime' => $vars['format_time'],
         ];
-        $template = $block->dataValue('template', self::PARTIAL_NAME);
-        return $template !== self::PARTIAL_NAME && $view->resolver($template)
-            ? $view->partial($template, $vars)
-            : $view->partial(self::PARTIAL_NAME, $vars);
-    }
+        return $view->partial($templateViewScript, $vars);
+   }
 }

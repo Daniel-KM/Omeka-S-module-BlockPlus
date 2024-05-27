@@ -7,8 +7,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 
-class Buttons extends AbstractBlockLayout
+class Buttons extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * The default partial view script.
@@ -45,17 +46,11 @@ class Buttons extends AbstractBlockLayout
         return $view->formCollection($fieldset, false);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
-        $vars = $block->data();
-        $vars['block'] = $block;
+        $vars = ['block' => $block] + $block->data();
         $vars['buttons'] = $this->shareLinks($view, $block->page(), $vars['buttons'] ?? []);
-        $template = empty($vars['template']) ? self::PARTIAL_NAME : $vars['template'];
-        unset($vars['template']);
-
-        return $template !== self::PARTIAL_NAME && $view->resolver($template)
-            ? $view->partial($template, $vars)
-            : $view->partial(self::PARTIAL_NAME, $vars);
+        return $view->partial($templateViewScript, $vars);
     }
 
     public function shareLinks(PhpRenderer $view, SitePageRepresentation $page, array $buttons): array

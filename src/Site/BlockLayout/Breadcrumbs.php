@@ -7,8 +7,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 
-class Breadcrumbs extends AbstractBlockLayout
+class Breadcrumbs extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * The default partial view script.
@@ -35,18 +36,14 @@ class Breadcrumbs extends AbstractBlockLayout
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $page = $block->page();
         $site = $page->site();
 
-        $vars = $block->data();
+        $vars = ['block' => $block] + $block->data();
         $vars['site'] = $site;
         $vars['page'] = $page;
-        $vars['block'] = $block;
-
-        $template = empty($vars['template']) ? self::PARTIAL_NAME : $vars['template'];
-        unset($vars['template']);
 
         // Check if the page is in the navigation menu, for example an isolated
         // page "mentions légales" in the footer.
@@ -61,9 +58,7 @@ class Breadcrumbs extends AbstractBlockLayout
         $vars['appendCurrent'] = in_array('current', $crumbs);
         $vars['separator'] = (string) $siteSetting('blockplus_breadcrumbs_separator');
 
-        return $template !== self::PARTIAL_NAME && $view->resolver($template)
-            ? $view->partial($template, $vars)
-            : $view->partial(self::PARTIAL_NAME, $vars);
+        return $view->partial($templateViewScript, $vars);
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

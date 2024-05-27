@@ -48,8 +48,7 @@ class SearchForm extends AbstractBlockLayout implements TemplateableBlockLayoutI
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
-        $data = $block->data();
-        $vars = ['block' => $block] + $data;
+        $vars = ['block' => $block] + $block->data();
 
         $searchConfig = $vars['search_config'] ?? '';
         if ($searchConfig === 'omeka') {
@@ -70,17 +69,13 @@ class SearchForm extends AbstractBlockLayout implements TemplateableBlockLayoutI
         $vars['searchConfig'] = $searchConfig;
         unset($vars['search_config']);
 
-        if (empty($data['link'])) {
+        if (empty($vars['link'])) {
             $link = [];
         } else {
-            $link = explode(' ', $data['link'], 2);
+            $link = explode(' ', $vars['link'], 2);
             $vars['link'] = ['url' => trim($link[0]), 'label' => trim($link[1] ?? '')];
         }
 
-        $template = $vars['template'] ?: self::PARTIAL_NAME;
-        unset($vars['template']);
-        return $template !== self::PARTIAL_NAME && $view->resolver($template)
-            ? $view->partial($template, $vars)
-            : $view->partial(self::PARTIAL_NAME, $vars);
+        return $view->partial($templateViewScript, $vars);
     }
 }

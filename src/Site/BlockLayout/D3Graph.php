@@ -7,9 +7,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
-use Omeka\Stdlib\Message;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 
-class D3Graph extends AbstractBlockLayout
+class D3Graph extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * The default partial view script.
@@ -56,23 +56,20 @@ class D3Graph extends AbstractBlockLayout
         return $view->formCollection($fieldset, false);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         // TODO Store params as array.
         $vars = ['block' => $block] + $block->data();
         $vars['params'] = @json_decode($vars['params'], true) ?: [];
+
         if (empty($vars['params'])) {
-            $view->logger()->warn(new Message(
-                'A list of resources as json queries by resource name should be defined for block D3 Graph in page %s.', // @translate
-                $block->page()->siteUrl()
-            ));
+            $view->logger()->warn(
+                'A list of resources as json queries by resource name should be defined for block D3 Graph in page {page_url}.', // @translate
+                ['page_url' => $block->page()->siteUrl()]
+            );
             return;
         }
 
-        $template = $vars['template'] ?: self::PARTIAL_NAME;
-        unset($vars['template']);
-        return $template !== self::PARTIAL_NAME && $view->resolver($template)
-            ? $view->partial($template, $vars)
-            : $view->partial(self::PARTIAL_NAME, $vars);
+        return $view->partial($templateViewScript, $vars);
     }
 }

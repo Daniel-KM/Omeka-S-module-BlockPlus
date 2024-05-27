@@ -122,10 +122,7 @@ class ResourceText extends AbstractBlockLayout implements TemplateableBlockLayou
             'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
             'captionPosition' => $block->dataValue('caption_position', 'center'),
         ];
-        $template = $block->dataValue('template', self::PARTIAL_NAME);
-        return $template !== self::PARTIAL_NAME && $view->resolver($template)
-            ? $view->partial($template, $vars)
-            : $view->partial(self::PARTIAL_NAME, $vars);
+        return $view->partial($templateViewScript, $vars);
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

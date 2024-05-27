@@ -86,9 +86,6 @@ class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLa
             'subNav' => $subNav,
             'maxDepth' => $depth - 1,
         ];
-        $template = $block->dataValue('template', self::PARTIAL_NAME);
-        return $template !== self::PARTIAL_NAME && $view->resolver($template)
-            ? $view->partial($template, $vars)
-            : $view->partial(self::PARTIAL_NAME, $vars);
+        return $view->partial($templateViewScript, $vars);
     }
 }

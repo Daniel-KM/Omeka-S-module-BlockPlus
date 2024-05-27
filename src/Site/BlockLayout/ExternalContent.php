@@ -187,12 +187,9 @@ class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLa
         $vars['linkText'] = $vars['link_text'] ?? '';
         $vars['linkUrl'] = $vars['link_url'] ?? '';
 
-        $template = $vars['template'] ?: self::PARTIAL_NAME;
-        unset($vars['template'], $vars['show_title_option'], $vars['caption_position'], $vars['link_text'], $vars['link_url']);
+        unset($vars['show_title_option'], $vars['caption_position'], $vars['link_text'], $vars['link_url']);
 
-        return $template !== self::PARTIAL_NAME && $view->resolver($template)
-            ? $view->partial($template, $vars)
-            : $view->partial(self::PARTIAL_NAME, $vars);
+        return $view->partial($templateViewScript, $vars);
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

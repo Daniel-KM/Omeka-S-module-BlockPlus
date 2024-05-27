@@ -48,14 +48,7 @@ class TreeStructure extends AbstractBlockLayout implements TemplateableBlockLayo
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
-        $vars = $block->data();
-        $vars['block'] = $block;
-
-        $template = $block->dataValue('template', self::PARTIAL_NAME);
-        unset($vars['template']);
-
-        return $template !== self::PARTIAL_NAME && $view->resolver($template)
-            ? $view->partial($template, $vars)
-            : $view->partial(self::PARTIAL_NAME, $vars);
+        $vars = ['block' => $block] + $block->data();
+        return $view->partial($templateViewScript, $vars);
     }
 }
