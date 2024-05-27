@@ -604,6 +604,19 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
         'twitter' => 'common/block-layout/twitter',
     ];
 
+    // Renamed module block templates.
+    $blockTemplatesRenamed = [
+        'asset' => 'asset-plus',
+        'browse-preview' => 'browse-preview-plus',
+        'item-with-metadata' => 'item-with-metadata-plus',
+        'list-of-pages' => 'list-of-pages-plus',
+        'list-of-sites' => 'list-of-sites-plus',
+        'item-showcase' => 'media-item-showcase-plus',
+        'file-item-showcase' => 'media-item-showcase-plus',
+        'page-date-time' => 'page-date-time-plus',
+        'table-of-contents' => 'table-of-contents-plus',
+    ];
+
     // Replay the core migrations.
 
     /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
@@ -1167,9 +1180,9 @@ SQL;
         $data['date_format'] = in_array($data['format_date'] ?? '', ['none', 'short', 'medium', 'long', 'full']) ? $data['format_date'] : 'medium';
         $data['time_format'] = in_array($data['format_time'] ?? '', ['none', 'short', 'medium', 'long', 'full']) ? $data['format_time'] : 'none';
         $template = $data['template'] ?? null;
-        $layoutData['template'] = $template && $template !== $blockTemplates['pageDate']
-            ? $template
-            : 'common/block-layout/page-date-time-plus';
+        $layoutData['template_name'] = $template && $template !== $blockTemplates['pageDate']
+            ? pathinfo($template, PATHINFO_FILENAME)
+            : 'page-date-time-plus';
         unset($data['dates'], $data['format_date'], $data['format_time'], $data['template']);
         $block->setData($data);
         $block->setLayoutData($layoutData);
@@ -1202,6 +1215,8 @@ SQL;
 
     // Warn only when the template is not the default and a message for moved
     // files in themes.
+    // Nevertheless, use deprecated block templates when possible to simplify
+    // migration of themes.
     foreach ($blocksRepository->findAll() as $block) {
         $layout = $block->getLayout();
         if (!isset($blockTemplates[$layout])) {
@@ -1209,9 +1224,14 @@ SQL;
         }
         $data = $block->getData();
         $template = $data['template'] ?? null;
-        if ($template && $template !== $blockTemplates[$layout]) {
+        if ($template) {
             $layoutData = $block->getLayoutData();
-            $layoutData['template'] = $template;
+            $templateName = pathinfo($template, PATHINFO_FILENAME);
+            if ($template !== $blockTemplates[$layout]) {
+                $layoutData['template_name'] = $templateName;
+            } elseif (isset($blockTemplatesRenamed[$templateName])) {
+                $layoutData['template_name'] = $blockTemplatesRenamed[$templateName];
+            }
             $block->setLayoutData($layoutData);
         }
         unset($data['template']);
