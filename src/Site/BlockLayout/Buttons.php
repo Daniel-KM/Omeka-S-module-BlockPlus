@@ -49,7 +49,7 @@ class Buttons extends AbstractBlockLayout
     {
         $vars = $block->data();
         $vars['block'] = $block;
-        $vars['buttons'] = $this->shareLinks($view, $block->page(), $vars['buttons']);
+        $vars['buttons'] = $this->shareLinks($view, $block->page(), $vars['buttons'] ?? []);
         $template = empty($vars['template']) ? self::PARTIAL_NAME : $vars['template'];
         unset($vars['template']);
 
