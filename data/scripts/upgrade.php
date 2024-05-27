@@ -602,36 +602,55 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
         'twitter' => 'common/block-layout/twitter',
     ];
 
+    // Replay the core migrations.
+
     /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
     $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
 
     // Asset: move divclass to layout as class.
     // Asset: move alignment to layout as class.
-    // Done in Omeka migration.
-
-    // Html: move divclass to layout as class.
-    // Done in Omeka migration.
-
-    // Media: move alignment to layout as class.
-    // Done in Omeka migration.
-
-    // Division: move class to layout as class.
-    foreach ($blocksRepository->findBy(['layout' => 'division']) as $block) {
+    // Done in Omeka migration, but redone to manage various upgrade process.
+    foreach ($blocksRepository->findBy(['layout' => 'asset']) as $block) {
         $data = $block->getData();
         $layoutData = $block->getLayoutData();
-        if (isset($data['class'])) {
-            $layoutData['class'] = $data['class'];
-            unset($data['class']);
+        if (isset($data['className'])) {
+            $layoutData['class'] = $data['className'];
+            unset($data['className']);
+            $block->setData($data);
+            $block->setLayoutData($layoutData);
+        }
+        if (isset($data['alignment'])) {
+            $layoutData['alignment_block'] = $data['alignment'];
+            if ('center' === $data['alignment']) {
+                $layoutData['alignment_text'] = 'center';
+            }
+            unset($data['alignment']);
             $block->setData($data);
             $block->setLayoutData($layoutData);
         }
     }
 
-    // Do a first flush to avoid memory issues.
+    // Do a flush regularly to avoid memory issues and to allow failed upgrade.
     $entityManager->flush();
 
-    // External Content: move alignment to layout as class.
-    foreach ($blocksRepository->findBy(['layout' => 'externalContent']) as $block) {
+    // Html: move divclass to layout as class.
+    // Done in Omeka migration.
+    foreach ($blocksRepository->findBy(['layout' => 'html']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData();
+        if (isset($data['divclass'])) {
+            $layoutData['class'] = $data['divclass'];
+            unset($data['divclass']);
+            $block->setData($data);
+            $block->setLayoutData($layoutData);
+        }
+    }
+
+    $entityManager->flush();
+
+    // Media: move alignment to layout as class.
+    // Done in Omeka migration.
+    foreach ($blocksRepository->findBy(['layout' => 'media']) as $block) {
         $data = $block->getData();
         $layoutData = $block->getLayoutData();
         if (isset($data['alignment'])) {
@@ -647,15 +666,58 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
 
     $entityManager->flush();
 
+    /** @see \Omeka\Db\Migrations\ConvertItemShowcaseToMedia */
+
+    // Convert item showcase blocks to media embed blocks.
+    foreach ($blocksRepository->findBy(['layout' => 'itemShowCase']) as $block) {
+        $data = $block->getData();
+        $data['layout'] = 'horizontal';
+        $data['media_display'] = 'thumbnail';
+        $block->setData($data);
+        $block->setLayout('media');
+    }
+
+    $entityManager->flush();
+
     // Item Showcase: the layout migrated in \Omeka\Db\Migrations is "itemShowCase",
     // but "itemShowcase" needs to be migrated too.
-    /** @see \Omeka\Db\Migrations\ConvertItemShowcaseToMedia */
     foreach ($blocksRepository->findBy(['layout' => 'itemShowcase']) as $block) {
         $data = $block->getData();
         $data['layout'] = 'horizontal';
         $data['media_display'] = 'thumbnail';
         $block->setData($data);
         $block->setLayout('media');
+    }
+
+    $entityManager->flush();
+
+    // Division: move class to layout as class.
+    foreach ($blocksRepository->findBy(['layout' => 'division']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData();
+        if (isset($data['class'])) {
+            $layoutData['class'] = $data['class'];
+            unset($data['class']);
+            $block->setData($data);
+            $block->setLayoutData($layoutData);
+        }
+    }
+
+    $entityManager->flush();
+
+    // External Content: move alignment to layout as class.
+    foreach ($blocksRepository->findBy(['layout' => 'externalContent']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData();
+        if (isset($data['alignment'])) {
+            $layoutData['alignment_block'] = $data['alignment'];
+            if ('center' === $data['alignment']) {
+                $layoutData['alignment_text'] = 'center';
+            }
+            unset($data['alignment']);
+            $block->setData($data);
+            $block->setLayoutData($layoutData);
+        }
     }
 
     $entityManager->flush();
