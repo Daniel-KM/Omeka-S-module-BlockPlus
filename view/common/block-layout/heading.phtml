@@ -1,0 +1,12 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $text
+ * @var int $level
+ */
+
+$escape = $this->plugin('escapeHtml');
+?>
+
+<h<?= $level ?>><?= $escape($text) ?></h<?= $level ?>>
