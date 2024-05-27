@@ -10,10 +10,12 @@
  * @deprecated $crumbs is kept for old themes, not in this partial (see old releases).
  * @var array $crumbs Flat list of crumb, that is an array with "label", "uri", "resource", if any.
  *
- * $nav is currently not available when called from view helper breadcrumbs.
+ * $nav is currently not available when called from the view helper breadcrumbs.
  */
 
-// Quick hack to insert a span for the last part instead nothing (simpler to theme and simpler than creating a specific partial).
+// Quick hack to insert a span for the last part instead of no tag.
+// This span allows a simpler theming and avoit to create a specific partial.
+// Furthermore, the nav is wrapped in a main div to simplify global positionning.
 
 // The separator should be a string, else the default one (" &gt; ") is used.
 $separator = ' ' . $options['separator'] . " \n";
@@ -25,6 +27,8 @@ if (empty($options['linkLast']) && $lastLinkPos = mb_strrpos($html, '</a>' . $se
 endif;
 ?>
 
-<nav id="breadcrumb" class="breadcrumbs">
-    <?= $html ?>
-</nav>
+<div class="breadcrumbs-parent">
+    <nav id="breadcrumb" class="breadcrumbs">
+        <?= $html ?>
+    </nav>
+</div>
