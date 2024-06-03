@@ -1,12 +1,11 @@
 <?php
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
- * @var string $html
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  */
 
-$html ??= $block->dataValue('html', '');
 ?>
 
 <div class="page-header">
-    <?= $html ?>
+    <?= $block->dataValue('html', '') ?>
 </div>

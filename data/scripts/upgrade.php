@@ -1060,7 +1060,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
         }
     }
 
-// Don't flush or clear here to avoid issue with position of inserted blocks.
+    // Don't flush or clear here to avoid issue with position of inserted blocks.
     // Do a clear to fix issues with new blocks created during migration.
     $entityManager->flush();
     $entityManager->clear();

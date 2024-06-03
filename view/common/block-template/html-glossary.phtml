@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
- * @var string $html
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  */
 
 /**
@@ -21,9 +21,8 @@
 $plugins = $this->getHelperPluginManager();
 $partial = $plugins->get('partial');
 
-$html ??= $block->dataValue('html', '');
-
 // Fix html purification.
+$html = $block->dataValue('html', '');
 $html = str_replace(['<p><br />', '<p><br/>'], ['<p>&nbsp;</p><p><br />', '<p>&nbsp;</p><p><br />'], $html);
 $glossary = array_map('trim', explode('<p>&nbsp;</p>', $html));
 
