@@ -600,15 +600,16 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
 
     // Renamed module block templates.
     $blockTemplatesRenamed = [
-        'asset' => 'asset-plus',
-        'browse-preview' => 'browse-preview-plus',
-        'item-with-metadata' => 'item-with-metadata-plus',
-        'list-of-pages' => 'list-of-pages-plus',
-        'list-of-sites' => 'list-of-sites-plus',
-        'item-showcase' => 'media-item-showcase-plus',
-        'file-item-showcase' => 'media-item-showcase-plus',
+        'asset' => 'asset-deprecated-plus',
+        'browse-preview' => 'browse-preview-deprecated',
+        'item-with-metadata' => 'item-with-metadata-deprecated',
+        'list-of-pages' => 'list-of-pages-deprecated',
+        'list-of-sites' => 'list-of-sites-deprecated',
+        'item-showcase' => 'media-item-showcase-deprecated',
+        'file-item-showcase' => 'media-item-showcase-deprecated',
+        // This template is not deprecated.
         'page-date-time' => 'page-date-time-plus',
-        'table-of-contents' => 'table-of-contents-plus',
+        'table-of-contents' => 'table-of-contents-deprecated',
     ];
 
     // Replay the core migrations.
@@ -1318,4 +1319,56 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
         'The block "Separator" was replaced by the Omeka block "Line Break" with block class "transparent" and layout class "separator".' // @translate
     );
     $messenger->addWarning($message);
+
+    // Remigrate deprecated templates with new names.
+    $blockLayoutTemplatesUpgraded = [
+        'asset' => 'asset-deprecated-plus',
+        'browsePreview' => 'browse-preview-plus',
+        'itemWithMetadata' => 'item-with-metadata-plus',
+        'listOfPages' => 'list-of-pages-plus',
+        'listOfSites' => 'list-of-sites-plus',
+        'itemShowcase' => 'media-item-showcase-plus',
+        'itemShowCase' => 'media-item-showcase-plus',
+        'fileItemShowcase' => 'media-item-showcase-plus',
+        'tableOfContents' => 'table-of-contents-plus',
+    ];
+    $blockLayoutTemplatesRenamed = [
+        'asset' => 'asset-deprecated-plus',
+        'browsePreview' => 'browse-preview-deprecated',
+        'itemWithMetadata' => 'item-with-metadata-deprecated',
+        'listOfPages' => 'list-of-pages-deprecated',
+        'listOfSites' => 'list-of-sites-deprecated',
+        'itemShowcase' => 'media-item-showcase-deprecated',
+        'itemShowCase' => 'media-item-showcase-deprecated',
+        'fileItemShowcase' => 'media-item-showcase-deprecated',
+        'tableOfContents' => 'table-of-contents-deprecated',
+    ];
+
+    $result = [];
+    $blockNames = [];
+    foreach ($blockLayoutTemplatesUpgraded as $layout => $templateName) {
+        foreach ($blocksRepository->findBy(['layout' => $layout]) as $block) {
+            $layoutData = $block->getLayoutData() ?? [];
+            $existingTemplateName = $layoutData['template_name'] ?? null;
+            if ($existingTemplateName === $templateName) {
+                $page = $block->getPage();
+                $pageSlug = $page->getSlug();
+                $result[$page->getSite()->getSlug()][$pageSlug] = $pageSlug;
+                $blockNames[$layout] = $layout;
+                $layoutData['template_name'] = $blockLayoutTemplatesRenamed[$layout];
+                $block->setLayoutData($layoutData);
+            }
+        }
+        $entityManager->flush();
+    }
+
+    if ($result) {
+        $result = array_map('array_values', $result);
+        $message = new PsrMessage(
+            'The template name of some of the blocks {list} where renamed for deprecation. Check your theme if you use them. Matching pages: {json}', // @translate
+            ['list' => implode(', ', $blockNames), 'json' => json_encode($result, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
 }
