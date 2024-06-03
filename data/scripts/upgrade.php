@@ -602,7 +602,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     $blockTemplatesRenamed = [
         'asset' => 'asset-deprecated-plus',
         // The block "browse-preview" is renamed "browse-preview-deprecated"
-        // when no specificy is used, else "search-results-browse-preview".
+        // when no specificy is used, else "search-results-browse-preview-deprecated".
         'browse-preview' => 'browse-preview-deprecated',
         'item-with-metadata' => 'item-with-metadata-deprecated',
         'list-of-pages' => 'list-of-pages-deprecated',
@@ -1088,7 +1088,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     }
 
     // Rename template as "browse-preview-deprecated" if no specific params are
-    // used, else convert it into a block Search results with template "search-results-browse-preview".
+    // used, else convert it into a block Search results with template "search-results-browse-preview-deprecated".
     // Blocks converted as Search results with a heading are prepended with this
     // heading below.
     // This process is copied below in checks for version 3.4.22-beta.
@@ -1111,7 +1111,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
                 || $layoutData['template_name'] === 'browse-preview-plus'
                 || $layoutData['template_name'] === 'browse-preview-deprecated'
             ) {
-                $layoutData['template_name'] = 'search-results-browse-preview';
+                $layoutData['template_name'] = 'search-results-browse-preview-deprecated';
             }
             // In search results, query is converted early.
             if (empty($data['query'])) {
@@ -1149,7 +1149,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     if ($pagesConverted) {
         $pagesConverted = array_map('array_values', $pagesConverted);
         $message = new PsrMessage(
-            'The block "Browse Preview" filled with specific features (query with specific site, pagination and sort headings) were replaced by block Search results and template "search-results-browse-preview": {json}', // @translate
+            'The block "Browse Preview" filled with specific features (query with specific site, pagination and sort headings) were replaced by block Search results and template "search-results-browse-preview-deprecated": {json}', // @translate
             ['json' => json_encode($pagesConverted)]
         );
         $messenger->addWarning($message);
@@ -1439,7 +1439,7 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
     }
 
     // Rename template as "browse-preview-deprecated" if no specific params are
-    // used, else convert it into a block Search results with template "search-results-browse-preview".
+    // used, else convert it into a block Search results with template "search-results-browse-preview-deprecated".
     // Blocks converted as Search results with a heading are prepended with this
     // heading below.
     // This process is copied above.
@@ -1463,7 +1463,7 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
                 || $layoutData['template_name'] === 'browse-preview-plus'
                 || $layoutData['template_name'] === 'browse-preview-deprecated'
             ) {
-                $layoutData['template_name'] = 'search-results-browse-preview';
+                $layoutData['template_name'] = 'search-results-browse-preview-deprecated';
             }
             // In search results, query is converted early.
             if (empty($data['query'])) {
@@ -1501,7 +1501,7 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
     if ($pagesConverted) {
         $pagesConverted = array_map('array_values', $pagesConverted);
         $message = new PsrMessage(
-            'The block "Browse Preview" filled with specific features (query with specific site, pagination and sort headings) were replaced by block Search results and template "search-results-browse-preview": {json}', // @translate
+            'The block "Browse Preview" filled with specific features (query with specific site, pagination and sort headings) were replaced by block Search results and template "search-results-browse-preview-deprecated": {json}', // @translate
             ['json' => json_encode($pagesConverted)]
         );
         $messenger->addWarning($message);

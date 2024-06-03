@@ -144,7 +144,7 @@ return [
             'page-date-time-plus' => 'Block Plus: Page date time', // @translate
         ],
         'searchResults' => [
-            'search-results-browse-preview' => 'Block Plus: Browse preview (deprecated)', // @translate
+            'search-results-browse-preview-deprecated' => 'Block Plus: Browse preview (deprecated)', // @translate
         ],
         'tableOfContents' => [
             'table-of-contents-deprecated' => 'Block Plus: Table of contents (deprecated)', // @translate
