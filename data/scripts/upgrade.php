@@ -1561,3 +1561,81 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
         }
     }
 }
+
+if (version_compare($oldVersion, '3.4.22-beta', '<')) {
+    // Add warnings about files in themes to migrate.
+
+    $logger = $services->get('Omeka\Logger');
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+    $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
+
+    // Check all html layout/template without "$block->dataValue('html')"
+    // because $html is no more a variable of the block Html.
+
+    // The method to search files without a file is available only in Common 3.4.59
+    // that is not yet available.
+
+    /** @see \Common\ManageModuleAndResources::checkStringsInFiles() */
+    $checkStringsInFiles = function($stringsOrRegex, string $globPath = '', bool $invert = false): ?array {
+        if (!$stringsOrRegex) {
+            return [];
+        }
+
+        // Forbid fake paths.
+        if (strpos($globPath, '..') !== false || strpos($globPath, './') !== false) {
+            return null;
+        }
+
+        $start = mb_strlen(OMEKA_PATH . '/');
+        if (mb_substr($globPath, 0, 1) === '/') {
+            if (strpos($globPath, $start) !== 0) {
+                return null;
+            }
+        } else {
+            $globPath = OMEKA_PATH . '/' . $globPath;
+        }
+
+        $result = [];
+
+        $isStrings = is_array($stringsOrRegex);
+
+        $paths = glob($globPath);
+        foreach ($paths as $filepath) {
+            if (!is_file($filepath) || !is_readable($filepath) || !filesize($filepath)) {
+                continue;
+            }
+            $phtml = file_get_contents($filepath);
+            if ($isStrings) {
+                foreach ($stringsOrRegex as $check) {
+                    $pos = mb_strpos($phtml, $check);
+                    if ((!$invert && $pos) || ($invert && !$pos)) {
+                        $result[] = mb_substr($filepath, $start);
+                    }
+                }
+            } else {
+                $has = preg_match($phtml, $stringsOrRegex);
+                if ((!$invert && $has) || ($invert && !$has)) {
+                    $result[] = mb_substr($filepath, $start);
+                }
+            }
+        }
+
+        return $result;
+    };
+
+    $checks = [
+        '$block->dataValue(\'html\'',
+        '$block->dataValue("html"',
+    ];
+    $result = $checkStringsInFiles($checks, 'themes/*/block-layout/html*', true) ?? [];
+    $result = array_merge($result, $checkStringsInFiles($checks, 'themes/*/block-template/html*', true) ?? []);
+
+    if ($result) {
+        $message = new PsrMessage(
+            'These templates for block "Html" should contain `$block->dataValue(\'html\', \'\')` because `$html` is no more available by default. Matching files: {json}', // @translate
+            ['json' => json_encode($result, 448)]
+        );
+        $messenger->addError($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+}
