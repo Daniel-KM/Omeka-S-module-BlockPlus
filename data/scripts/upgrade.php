@@ -601,6 +601,8 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Renamed module block templates.
     $blockTemplatesRenamed = [
         'asset' => 'asset-deprecated-plus',
+        // The block "browse-preview" is renamed "browse-preview-deprecated"
+        // when no specificy is used, else "search-results-browse-preview".
         'browse-preview' => 'browse-preview-deprecated',
         'item-with-metadata' => 'item-with-metadata-deprecated',
         'list-of-pages' => 'list-of-pages-deprecated',
@@ -1084,11 +1086,75 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
     }
-    // TODO Add support of sort heading in Search Results (migration from BrowsePreview).
+
+    // Rename template as "browse-preview-deprecated" if no specific params are
+    // used, else convert it into a block Search results with template "search-results-browse-preview".
+    // Blocks converted as Search results with a heading are prepended with this
+    // heading below.
+    // This process is copied below in checks for version 3.4.22-beta.
+    $pagesConverted = [];
+    foreach ($blocksRepository->findBy(['layout' => 'browsePreview']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData() ?? [];
+        $query = $data['query'] ?? '';
+        $isQuerySiteOverridden = $query && preg_match('~site_page_id=\d+~', $query);
+        $isPageOverridden = !empty($data['pagination']) || !empty($data['sort_headings']) || !empty($data['resource_template']);
+        // Convert to block Search Results only when needed.
+        if ($isQuerySiteOverridden || $isPageOverridden) {
+            $page = $block->getPage();
+            $pageSlug = $page->getSlug();
+            $siteSlug = $page->getSite()->getSlug();
+            $pagesConverted[$siteSlug][$pageSlug] = $pageSlug;
+            $block->setLayout('searchResults');
+            if (empty($layoutData['template_name'])
+                || $layoutData['template_name'] === 'browse-preview'
+                || $layoutData['template_name'] === 'browse-preview-plus'
+                || $layoutData['template_name'] === 'browse-preview-deprecated'
+            ) {
+                $layoutData['template_name'] = 'search-results-browse-preview';
+            }
+            // In search results, query is converted early.
+            if (empty($data['query'])) {
+                $data['query'] = [];
+            } elseif (!is_array($data['query'])) {
+                $query = [];
+                parse_str(ltrim($data['query'], "? \t\n\r\0\x0B"), $query);
+                $data['query'] = $query;
+            }
+            $resourceTypes = [
+                'item' => 'items',
+                'item-set' => 'item_sets',
+                'media' => 'media',
+            ];
+            $data['resource_type'] = $resourceTypes[$data['resource_type'] ?? 'item'] ?? 'items';
+        } elseif (empty($layoutData['template_name'])
+            || $layoutData['template_name'] === 'browse-preview'
+            || $layoutData['template_name'] === 'browse-preview-plus'
+        ) {
+            $layoutData['template_name'] = 'browse-preview-deprecated';
+        }
+        // Clean all existing useless browse preview block settings.
+        unset($data['pagination'], $data['sort_headings'], $data['resource_template']);
+        $block->setData($data);
+        $block->setLayoutData($layoutData);
+    }
+
+    $entityManager->flush();
+
     $message = new PsrMessage(
-        'The block Browse Preview is no more managed by this module. Support of settings "html", "sort_headings" and "pagination" were removed. Check your themes if you used it, or use block Search Results.' // @translate
+        'The block Browse Preview is no more managed by this module. If you used specific settings, use the block Search Results.' // @translate
     );
     $messenger->addWarning($message);
+
+    if ($pagesConverted) {
+        $pagesConverted = array_map('array_values', $pagesConverted);
+        $message = new PsrMessage(
+            'The block "Browse Preview" filled with specific features (query with specific site, pagination and sort headings) were replaced by block Search results and template "search-results-browse-preview": {json}', // @translate
+            ['json' => json_encode($pagesConverted)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
 
     /**
      * Replace filled setttings "heading" by a specific block "Heading".
@@ -1370,5 +1436,128 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
+    }
+
+    // Rename template as "browse-preview-deprecated" if no specific params are
+    // used, else convert it into a block Search results with template "search-results-browse-preview".
+    // Blocks converted as Search results with a heading are prepended with this
+    // heading below.
+    // This process is copied above.
+    $pagesConverted = [];
+    $blockSearchResultsWithHeading = [];
+    foreach ($blocksRepository->findBy(['layout' => 'browsePreview']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData() ?? [];
+        $query = $data['query'] ?? '';
+        $isQuerySiteOverridden = $query && preg_match('~site_page_id=\d+~', $query);
+        $isPageOverridden = !empty($data['pagination']) || !empty($data['sort_headings']) || !empty($data['resource_template']);
+        // Convert to block Search Results only when needed.
+        if ($isQuerySiteOverridden || $isPageOverridden) {
+            $page = $block->getPage();
+            $pageSlug = $page->getSlug();
+            $siteSlug = $page->getSite()->getSlug();
+            $pagesConverted[$siteSlug][$pageSlug] = $pageSlug;
+            $block->setLayout('searchResults');
+            if (empty($layoutData['template_name'])
+                || $layoutData['template_name'] === 'browse-preview'
+                || $layoutData['template_name'] === 'browse-preview-plus'
+                || $layoutData['template_name'] === 'browse-preview-deprecated'
+            ) {
+                $layoutData['template_name'] = 'search-results-browse-preview';
+            }
+            // In search results, query is converted early.
+            if (empty($data['query'])) {
+                $data['query'] = [];
+            } elseif (!is_array($data['query'])) {
+                $query = [];
+                parse_str(ltrim($data['query'], "? \t\n\r\0\x0B"), $query);
+                $data['query'] = $query;
+            }
+            $resourceTypes = [
+                'item' => 'items',
+                'item-set' => 'item_sets',
+                'media' => 'media',
+            ];
+            $data['resource_type'] = $resourceTypes[$data['resource_type'] ?? 'item'] ?? 'items';
+            if (empty($data['heading'])) {
+                unset($data['heading']);
+            } else {
+                $blockSearchResultsWithHeading[$block->getId()] = $page->getId();
+            }
+        } elseif (empty($layoutData['template_name'])
+            || $layoutData['template_name'] === 'browse-preview'
+            || $layoutData['template_name'] === 'browse-preview-plus'
+        ) {
+            $layoutData['template_name'] = 'browse-preview-deprecated';
+        }
+        // Clean all existing useless browse preview block settings.
+        unset($data['pagination'], $data['sort_headings'], $data['resource_template']);
+        $block->setData($data);
+        $block->setLayoutData($layoutData);
+    }
+
+    $entityManager->flush();
+
+    if ($pagesConverted) {
+        $pagesConverted = array_map('array_values', $pagesConverted);
+        $message = new PsrMessage(
+            'The block "Browse Preview" filled with specific features (query with specific site, pagination and sort headings) were replaced by block Search results and template "search-results-browse-preview": {json}', // @translate
+            ['json' => json_encode($pagesConverted)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+
+    // Prepend block Heading to block Search results migrated from block
+    // Browse preview.
+    if ($blockSearchResultsWithHeading) {
+        $pagesWithHeading = [];
+        $processedBlocksId = [];
+        foreach (array_unique($blockSearchResultsWithHeading) as $pageId) {
+            $page = $pageRepository->find($pageId);
+            $pageSlug = $page->getSlug();
+            $siteSlug = $page->getSite()->getSlug();
+            $position = 0;
+            foreach ($page->getBlocks() as $block) {
+                $block->setPosition(++$position);
+                $layout = $block->getLayout();
+                if (!isset($blockSearchResultsWithHeading[$blockId])) {
+                    continue;
+                }
+                $blockId = $block->getId();
+                $data = $block->getData() ?: [];
+                $heading = $data['heading'] ?? '';
+                if (strlen($heading) && !isset($processedBlocksId[$blockId])) {
+                    $b = new \Omeka\Entity\SitePageBlock();
+                    $b->setLayout('heading');
+                    $b->setPage($page);
+                    $b->setPosition(++$position);
+                    $b->setData([
+                        'text' => $heading,
+                        'level' => 2,
+                    ]);
+                    $entityManager->persist($b);
+                    $block->setPosition(++$position);
+                    $pagesWithHeading[$siteSlug][$pageSlug] = $pageSlug;
+                    $processedBlocksId[$blockId] = $blockId;
+                }
+                unset($data['heading']);
+                $block->setData($data);
+            }
+        }
+
+        // Do a clear to fix issues with new blocks created during migration.
+        $entityManager->flush();
+        $entityManager->clear();
+
+        if (!empty($pagesWithHeading)) {
+            $pagesWithHeading = array_map('array_values', $pagesWithHeading);
+            $message = new PsrMessage(
+                'The setting "heading" was removed from blocks Search Results. A new block "Heading" was prepended to all blocks that had a filled heading. You may check pages for styles: {json}', // @translate
+                ['json' => json_encode($pagesWithHeading, 448)]
+            );
+            $messenger->addWarning($message);
+            $logger->warn($message->getMessage(), $message->getContext());
+        }
     }
 }

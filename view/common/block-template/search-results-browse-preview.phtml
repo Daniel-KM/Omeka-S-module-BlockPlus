@@ -1,0 +1,117 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $resourceType
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $heading
+ * @var string $linkText
+ * @var array $components
+ * @var array $query
+ *
+ * Moved during migration to Omeka S as deprecated block layout data.
+ * When needed, it is recommended to use default template of Search results instead.
+ * @var array $sortHeadings
+ * @var array|false $pagination
+ * @var string $resourceTemplate
+ */
+
+// Warning: this template is kept only for compatibility for old themes in order
+// to manage old settings (query with another site, sort heading, pagination)
+// If you need it, convert it to the block Search results.
+// It will be removed in a future version.
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
+
+$site = $block->page()->site();
+
+$showThumbnail = in_array('thumbnail', $components);
+$showHeading = in_array('resource-heading', $components);
+$showBody = in_array('resource-body', $components);
+$headingTerm = $siteSetting('browse_heading_property_term');
+$bodyTerm = $siteSetting('browse_body_property_term');
+
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
+$langValue = $filterLocale ? [$lang, ''] : null;
+
+$untitled = $translate('[Untitled]');
+$siteSlug = $site->slug();
+
+// Deprecated settings are in block layout data. Furthermore, the overridden
+// block allowed to use another site than the current one (useful for a main
+// site and specific ones).
+
+$query = ltrim($block->dataValue('query', ''), "? \t\n\r\0\x0B");
+$isQuerySiteOverridden = $query && preg_match('~site_page_id=\d+~', $query);
+// If site is overridden, redo the query.
+if ($isQuerySiteOverridden) {
+
+}
+
+$querySiteId =
+$pagination = (bool) $block->layoutDataValue('pagination');
+$sortHeadings = $block->layoutDataValue('sort_headings', []);
+$resourceTemplateId = (int) $block->layoutDataValue('resource_template');
+?>
+
+<div class="block preview-block">
+
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+
+    <?php if (!empty($sortHeadings)): ?>
+    <div class="browse-controls">
+        <?= $this->sortSelector($sortHeadings) ?>
+    </div>
+    <?php endif; ?>
+
+    <ul class="resource-list preview">
+    <?php
+    foreach ($resources as $resource):
+        if ($showHeading) {
+            $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
+            $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
+        } else {
+            $heading = '';
+        }
+        if ($showBody) {
+            $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
+            $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
+        } else {
+            $body = '';
+        }
+        $thumb = $showThumbnail ? $thumbnail($resource, 'medium', ['title' => $heading]) : null;
+        ?>
+        <li class="<?= $resourceType ?> resource">
+            <?php if ($thumb): ?>
+            <?= $resource->linkRaw($thumb) ?>
+            <?php endif; ?>
+            <?php if ($showHeading && $heading): ?>
+            <h4><span class="resource-name"><?= $resource->link($heading, null, ['class' => 'resource-link']) ?></span></h4>
+            <?php endif; ?>
+            <?php if ($showBody && $body): ?>
+            <div class="description"><?= $body ?></div>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+
+    <?php
+    if (!empty($pagination)):
+        echo $this->pagination();
+    endif;
+    ?>
+
+    <?php if ($linkText): ?>
+        <?= $this->hyperlink($linkText, $this->url(
+            'site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $siteSlug], ['query' => $query], true
+        )) ?>
+    <?php endif; ?>
+
+</div>
