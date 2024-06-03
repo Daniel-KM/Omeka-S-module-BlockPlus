@@ -2,7 +2,6 @@
 
 namespace BlockPlus\Form;
 
-use BlockPlus\Form\Element as BlockPlusElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 use Omeka\Form\Element as OmekaElement;

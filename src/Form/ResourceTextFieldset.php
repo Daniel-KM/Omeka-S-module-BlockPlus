@@ -2,7 +2,6 @@
 
 namespace BlockPlus\Form;
 
-use BlockPlus\Form\Element as BlockPlusElement;
 use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;

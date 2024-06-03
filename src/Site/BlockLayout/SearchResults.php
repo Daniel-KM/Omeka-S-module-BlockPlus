@@ -25,7 +25,8 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
-        $data = $block->getData() + ['query' => []];
+        $data = $block->getData() ?? [];
+
         if (empty($data['query'])) {
             $data['query'] = [];
         } elseif (!is_array($data['query'])) {
@@ -33,6 +34,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
             parse_str(ltrim($data['query'], "? \t\n\r\0\x0B"), $query);
             $data['query'] = $query;
         }
+
         $block->setData($data);
     }
 

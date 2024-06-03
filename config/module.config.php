@@ -9,6 +9,7 @@ return [
         ],
         'factories' => [
             // Override theme factory to inject module pages and block templates.
+            // Copied in BlockPlus, Timeline.
             'Omeka\Site\ThemeManager' => Service\ThemeManagerFactory::class,
         ],
     ],

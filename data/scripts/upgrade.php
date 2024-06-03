@@ -13,6 +13,7 @@ use Common\Stdlib\PsrMessage;
  * @var \Omeka\Api\Manager $api
  * @var \Omeka\View\Helper\Url $url
  * @var \Omeka\Settings\Settings $settings
+ * @var \Laminas\I18n\View\Helper\Translate $translate
  * @var \Doctrine\DBAL\Connection $connection
  * @var \Doctrine\ORM\EntityManager $entityManager
  * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
@@ -625,7 +626,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Done in Omeka migration, but redone to manage various upgrade process.
     foreach ($blocksRepository->findBy(['layout' => 'asset']) as $block) {
         $data = $block->getData();
-        $layoutData = $block->getLayoutData();
+        $layoutData = $block->getLayoutData() ?? [];
         if (isset($data['className'])) {
             $layoutData['class'] = $data['className'];
             unset($data['className']);
@@ -650,7 +651,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Done in Omeka migration.
     foreach ($blocksRepository->findBy(['layout' => 'html']) as $block) {
         $data = $block->getData();
-        $layoutData = $block->getLayoutData();
+        $layoutData = $block->getLayoutData() ?? [];
         if (isset($data['divclass'])) {
             $layoutData['class'] = $data['divclass'];
             unset($data['divclass']);
@@ -665,7 +666,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Done in Omeka migration.
     foreach ($blocksRepository->findBy(['layout' => 'media']) as $block) {
         $data = $block->getData();
-        $layoutData = $block->getLayoutData();
+        $layoutData = $block->getLayoutData() ?? [];
         if (isset($data['alignment'])) {
             $layoutData['alignment_block'] = $data['alignment'];
             if ('center' === $data['alignment']) {
@@ -707,7 +708,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Division: move class to layout as class.
     foreach ($blocksRepository->findBy(['layout' => 'division']) as $block) {
         $data = $block->getData();
-        $layoutData = $block->getLayoutData();
+        $layoutData = $block->getLayoutData() ?? [];
         if (isset($data['class'])) {
             $layoutData['class'] = $data['class'];
             unset($data['class']);
@@ -721,7 +722,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // External Content: move alignment to layout as class.
     foreach ($blocksRepository->findBy(['layout' => 'externalContent']) as $block) {
         $data = $block->getData();
-        $layoutData = $block->getLayoutData();
+        $layoutData = $block->getLayoutData() ?? [];
         if (isset($data['alignment'])) {
             $layoutData['alignment_block'] = $data['alignment'];
             if ('center' === $data['alignment']) {
@@ -738,7 +739,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Resource Text: move alignment to layout as class.
     foreach ($blocksRepository->findBy(['layout' => 'resourceText']) as $block) {
         $data = $block->getData();
-        $layoutData = $block->getLayoutData();
+        $layoutData = $block->getLayoutData() ?? [];
         if (isset($data['alignment'])) {
             $layoutData['alignment_block'] = $data['alignment'];
             if ('center' === $data['alignment']) {
@@ -777,7 +778,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Showcase: move divclass to layout as class.
     foreach ($blocksRepository->findBy(['layout' => 'showcase']) as $block) {
         $data = $block->getData();
-        $layoutData = $block->getLayoutData();
+        $layoutData = $block->getLayoutData() ?? [];
         if (isset($data['divclass'])) {
             $layoutData['class'] = $data['divclass'];
             unset($data['divclass']);
@@ -944,9 +945,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
             $prevStartBlock = null;
             $prevDivisionType = null;
             foreach ($blocks as $block) {
-                // Count span between two divisions.
                 if ($block->getLayout() !== 'division') {
-                    $spans = $prevStartBlock ? $spans + 1 : 0;
                     continue;
                 }
 
@@ -1244,7 +1243,7 @@ SQL;
     foreach ($blocksRepository->findBy(['layout' => 'pageDate']) as $block) {
         $block->setLayout('pageDateTime');
         $data = $block->getData();
-        $layoutData = $block->getLayoutData();
+        $layoutData = $block->getLayoutData() ?? [];
         $data['display'] = in_array($data['dates'] ?? '', ['created', 'modified']) ? $data['dates'] : 'created_modified';
         $data['date_format'] = in_array($data['format_date'] ?? '', ['none', 'short', 'medium', 'long', 'full']) ? $data['format_date'] : 'medium';
         $data['time_format'] = in_array($data['format_time'] ?? '', ['none', 'short', 'medium', 'long', 'full']) ? $data['format_time'] : 'none';
@@ -1294,7 +1293,7 @@ SQL;
         $data = $block->getData();
         $template = $data['template'] ?? null;
         if ($template) {
-            $layoutData = $block->getLayoutData();
+            $layoutData = $block->getLayoutData() ?? [];
             $templateName = pathinfo($template, PATHINFO_FILENAME);
             if ($template !== $blockTemplates[$layout]) {
                 $layoutData['template_name'] = $templateName;
@@ -1576,7 +1575,7 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')) {
     // that is not yet available.
 
     /** @see \Common\ManageModuleAndResources::checkStringsInFiles() */
-    $checkStringsInFiles = function($stringsOrRegex, string $globPath = '', bool $invert = false): ?array {
+    $checkStringsInFiles = function ($stringsOrRegex, string $globPath = '', bool $invert = false): ?array {
         if (!$stringsOrRegex) {
             return [];
         }

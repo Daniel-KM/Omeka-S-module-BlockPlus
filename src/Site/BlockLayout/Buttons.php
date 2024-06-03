@@ -55,8 +55,8 @@ class Buttons extends AbstractBlockLayout implements TemplateableBlockLayoutInte
 
     /**
      * Adapted in:
-     * @see BlockPlus\Site\BlockLayout\Buttons::shareLinks()
-     * @see BlockPlus\Site\ResourcePageBlockLayout\Buttons::shareLinks()
+     * @see \BlockPlus\Site\BlockLayout\Buttons::shareLinks()
+     * @see \BlockPlus\Site\ResourcePageBlockLayout\Buttons::shareLinks()
      */
     public function shareLinks(PhpRenderer $view, SitePageRepresentation $page, array $buttons): array
     {
