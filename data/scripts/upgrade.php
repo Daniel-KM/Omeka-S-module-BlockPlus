@@ -1638,4 +1638,25 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')) {
         $messenger->addError($message);
         $logger->warn($message->getMessage(), $message->getContext());
     }
+
+    // Warn about block Browse preview with variable $site (without file check).
+    $result = [];
+    foreach ($blocksRepository->findBy(['layout' => 'browsePreview']) as $block) {
+        $layoutData = $block->getLayoutData() ?? [];
+        $templateName = $layoutData['template_name'] ?? null;
+        if ($templateName && $templateName !== 'browse-preview') {
+            $page = $block->getPage();
+            $pageSlug = $page->getSlug();
+            $result[$page->getSite()->getSlug()][$pageSlug] = $pageSlug;
+        }
+    }
+    if ($result) {
+        $result = array_map('array_values', $result);
+        $message = new PsrMessage(
+            'The block "Browse Preview" do not have the variable `$site` anymore. Check your theme if you customized it. Matching pages: {json}.', // @translate
+            ['json' => json_encode($result)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
 }
