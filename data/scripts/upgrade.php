@@ -1336,11 +1336,11 @@ SQL;
 
     $message = new PsrMessage(
         'Because old features of the module were integrated inside Omeka S since v4.1 ({link}user doc{link_end}, {link_2}dev doc{link_end}), the blocks Asset, Browse Preview, Html, Item Showcase, Item With Metadata, List of Pages, Page Date, and Page Title are no more overridden.', // @translate
-            [
-                'link' => '<a href="https://omeka.org/s/docs/user-manual/sites/site_pages/#edit-a-page" target="_blank" rel="noopener">',
-                'link_2' => '<a href="https://omeka.org/s/docs/developer/themes/theme_templates/" target="_blank" rel="noopener">',
-                'link_end' => '</a>',
-            ]
+        [
+            'link' => '<a href="https://omeka.org/s/docs/user-manual/sites/site_pages/#edit-a-page" target="_blank" rel="noopener">',
+            'link_2' => '<a href="https://omeka.org/s/docs/developer/themes/theme_templates/" target="_blank" rel="noopener">',
+            'link_end' => '</a>',
+        ]
     );
     $message->setEscapeHtml(false);
     $messenger->addSuccess($message);
