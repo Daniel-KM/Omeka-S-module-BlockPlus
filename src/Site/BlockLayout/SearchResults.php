@@ -78,8 +78,6 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
-        // Similar to BrowsePreview::render(), but with a different query.
-
         $resourceType = $block->dataValue('resource_type', 'items');
 
         $defaultQuery = $block->dataValue('query', []) + ['search' => ''];
@@ -118,6 +116,11 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
         } elseif (!isset($query['sort_order'])) {
             $query['sort_order'] = 'desc';
         }
+
+        // Show all resource components if none set.
+        $components = empty($data['components'])
+            ? ['resource-heading', 'resource-body', 'thumbnail']
+            : $data['components'];
 
         /** @var \Omeka\Api\Response $response */
         $api = $view->api();
@@ -180,13 +183,19 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
             'media' => 'media',
         ];
 
+        // There is no list of media in public views.
+        $linkText = $resourceType === 'media' ? '' : ($data['link-text'] ?? '');
+
         $vars = [
             'block' => $block,
-            'resourceType' => $resourceTypes[$resourceType],
+            'site' => $site,
             'resources' => $resources,
+            'resourceType' => $resourceTypes[$resourceType] ?? $resourceType,
             'query' => $query,
             'pagination' => $showPagination,
             'sortHeadings' => $sortHeadings,
+            'components' => $components,
+            'linkText' => $linkText,
         ];
         return $view->partial($templateViewScript, $vars);
     }

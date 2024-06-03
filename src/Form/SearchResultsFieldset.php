@@ -97,6 +97,38 @@ class SearchResultsFieldset extends Fieldset
                     'data-placeholder' => 'Select resource template…', // @translate
                 ],
             ])
+            // Implemented for compatibility with old templates of the block
+            // Browse Preview after migration.
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][components]',
+                'type' => Element\MultiCheckbox::class,
+                'options' => [
+                    'label' => 'Components', // @translate
+                    'info' => 'Components to display for each resource. If not set in Site Settings, Heading defaults to resource Title and Body to resource Description', // @translate
+                    'value_options' => [
+                        [
+                            'value' => 'resource-heading',
+                            'label' => 'Heading', // @translate
+                        ],
+                        [
+                            'value' => 'resource-body',
+                            'label' => 'Body', // @translate
+                        ],
+                        [
+                            'value' => 'thumbnail',
+                            'label' => 'Thumbnail', // @translate
+                        ],
+                    ],
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][link-text]',
+                'type' => Element\Text::class,
+                'options' => [
+                    'label' => 'Link text', // @translate
+                    'info' => 'Text for link to full browse view, if any.', // @translate
+                ],
+            ])
         ;
     }
 }

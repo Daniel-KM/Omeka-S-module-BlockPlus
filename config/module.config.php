@@ -143,6 +143,9 @@ return [
         'pageDateTime' => [
             'page-date-time-plus' => 'Block Plus: Page date time', // @translate
         ],
+        'searchResults' => [
+            'search-results-browse-preview' => 'Block Plus: Browse preview (deprecated)', // @translate
+        ],
         'tableOfContents' => [
             'table-of-contents-deprecated' => 'Block Plus: Table of contents (deprecated)', // @translate
         ],
@@ -305,6 +308,8 @@ return [
                 'pagination' => true,
                 'sort_headings' => [],
                 'resource_template' => null,
+                'components' => [],
+                'linkText' => '',
             ],
             'showcase' => [
                 'html' => '',

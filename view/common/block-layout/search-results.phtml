@@ -1,23 +1,40 @@
 <?php
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
- * @var string $resourceType
+ * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $resourceType
  * @var array $query
- * @var array $sortHeadings
  * @var array|false $pagination
+ * @var array $sortHeadings
+ * @var array $components
+ * @var string $linkText
  */
 
 $plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
 $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
+$showThumbnail = in_array('thumbnail', $components);
+$showHeading = in_array('resource-heading', $components);
+$showBody = in_array('resource-body', $components);
+$showThumbnailOrHeading = $showThumbnail || $showHeading;
+
+$headingTerm = $siteSetting('browse_heading_property_term');
+$bodyTerm = $siteSetting('browse_body_property_term');
+
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;
 $langValue = $filterLocale ? [$lang, ''] : null;
+
+$untitled = $translate('[Untitled]');
+$siteSlug = $site->slug();
 
 // Total is available through $this->pagination()->getPaginator().
 ?>
@@ -39,19 +56,28 @@ $langValue = $filterLocale ? [$lang, ''] : null;
 
     <ul class="resource-list preview">
     <?php
-    $headingTerm = $siteSetting('browse_heading_property_term');
-    $bodyTerm = $siteSetting('browse_body_property_term');
-    $untitled = $translate('[Untitled]');
     foreach ($resources as $resource):
-        $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
-        $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
-        $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
-        $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
+        if ($showThumbnailOrHeading) {
+            $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : null;
+            $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
+        } else {
+            $heading = '';
+        }
+        if ($showBody) {
+            $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
+            $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
+        } else {
+            $body = '';
+        }
     ?>
         <li class="<?= $resourceType ?> resource">
+            <?php if ($showThumbnail): ?>
             <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
-            <h4><?= $resource->link($heading) ?></h4>
-            <?php if ($body): ?>
+            <?php endif; ?>
+            <?php if ($showHeading && $heading): ?>
+            <h4><span class="resource-name"><?= $resource->link($heading, null, ['class' => 'resource-link']) ?></span></h4>
+            <?php endif; ?>
+            <?php if ($showBody && $body): ?>
             <div class="description"><?= $body ?></div>
             <?php endif; ?>
         </li>
@@ -61,6 +87,12 @@ $langValue = $filterLocale ? [$lang, ''] : null;
     <?php
     if (!empty($pagination)):
         echo $this->pagination();
+    endif;
+    ?>
+
+    <?php
+    if ($linkText):
+        echo $hyperlink($linkText, $url('site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $siteSlug], ['query' => $query], true));
     endif;
     ?>
 
