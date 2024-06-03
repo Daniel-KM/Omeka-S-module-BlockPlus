@@ -549,6 +549,7 @@ SQL;
 if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Migrate blocks of this module to new blocks of Omeka S v4.1.
 
+    /** @var \Laminas\Log\Logger $logger */
     $logger = $services->get('Omeka\Logger');
 
     // The process can be run multiple times without issue: migrated blocks are
@@ -749,16 +750,24 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     $entityManager->flush();
 
     // Separator: move class to layout as class.
+    // Separator: replace by block Line-break.
     foreach ($blocksRepository->findBy(['layout' => 'separator']) as $block) {
         $data = $block->getData();
-        $layoutData = $block->getLayoutData();
-        if (isset($data['class'])) {
-            $layoutData['class'] = $data['class'];
-            unset($data['class']);
-            $block->setData($data);
-            $block->setLayoutData($layoutData);
-        }
+        $layoutData = $block->getLayoutData() ?? [];
+        $layoutData['class'] = empty($data['class']) ? 'separator' : trim($data['class'] . ' separator');
+        $data = ['break_type' => 'transparent'];
+        $block->setData($data);
+        $block->setLayoutData($layoutData);
     }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    $message = new PsrMessage(
+        'The block "Separator" was replaced by the Omeka block "Line Break" with block class "transparent" and layout class "separator".' // @translate
+    );
+    $messenger->addWarning($message);
 
     $entityManager->flush();
 
@@ -1278,4 +1287,35 @@ SQL;
         'In particular, check deprecated block templates and blocks Asset, Browse Preview and nested Division. Check styles too, because some html <div> and classes were added or removed by Omeka S and the module. Warning: as long as you do not re-save a page, old page settings will work. Once saved a new time, some old settings will be removed.' // @translate
     );
     $messenger->addError($message);
+}
+
+// This migration is integrated above in order to simplify messages to end user.
+if (version_compare($oldVersion, '3.4.22-beta', '<')
+    && $oldVersion === '3.4.22-alpha.2'
+) {
+    // Migrate blocks of this module to new blocks of Omeka S v4.1.
+
+    $logger = $services->get('Omeka\Logger');
+
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+    $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
+
+    // Separator: replace by block Line-break.
+    foreach ($blocksRepository->findBy(['layout' => 'separator']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData() ?? [];
+        $data = ['break_type' => 'transparent'];
+        $layoutData['class'] = empty($layoutData['class']) ? 'separator' : trim($layoutData['class'] . ' separator');
+        $block->setData($data);
+        $block->setLayoutData($layoutData);
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    $message = new PsrMessage(
+        'The block "Separator" was replaced by the Omeka block "Line Break" with block class "transparent" and layout class "separator".' // @translate
+    );
+    $messenger->addWarning($message);
 }
