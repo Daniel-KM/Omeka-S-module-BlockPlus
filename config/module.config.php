@@ -47,7 +47,6 @@ return [
             'redirectToUrl' => Site\BlockLayout\RedirectToUrl::class,
             'searchForm' => Site\BlockLayout\SearchForm::class,
             'searchResults' => Site\BlockLayout\SearchResults::class,
-            'separator' => Site\BlockLayout\Separator::class,
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
             'treeStructure' => Site\BlockLayout\TreeStructure::class,
             'twitter' => Site\BlockLayout\Twitter::class,
@@ -306,8 +305,6 @@ return [
                 'pagination' => true,
                 'sort_headings' => [],
                 'resource_template' => null,
-            ],
-            'separator' => [
             ],
             'showcase' => [
                 'html' => '',
