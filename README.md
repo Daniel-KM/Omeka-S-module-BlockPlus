@@ -47,7 +47,14 @@ config instructions.
 Usage since version 3.4.22 for Omeka S v4.1
 -------------------------------------------
 
-### New site page blocks
+### New site page blocks and block templates
+
+#### Asset (new templates)
+
+Available templates:
+
+- Hero Bootstrap
+- Partners
 
 #### Block
 
@@ -57,7 +64,7 @@ a complex layout, since any Omeka feature is available in a view.
 
 Two block templates are provided:
 
-##### Tree view
+##### Arborescence / Tree view
 
 An example layout is provided to display a dynamic tree view from a tsv/csv
 file. The file should be one value by a row, with the offset matching the depth:
@@ -103,6 +110,21 @@ It will avoid possible issues.
 This block displays the breadcrumbs of the current page according to site
 settings.
 
+### Browse preview (templates)
+
+Some specific templates are available in Browse Preview:
+
+- simple carousel ("browse-preview-carousel"): this is an upgrade of the plugin
+  [Shortcode Carousel] for [Omeka Classic].
+- gallery display with a quick viewer too ("browse-preview-gallery"). This one
+  has a specific option to add to the query to display thumbnails as square or
+  medium: `thumbnail_size=medium`. You can see an example on the site [Ontologie du christianisme médiéval en images],
+  from French [Institut national de l’histoire de l’art].
+
+To use them, simply select the wanted template:
+
+![browse-preview-carousel](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/raw/master/data/images/browse-preview-carousel.png)
+
 #### Buttons
 
 This block displays buttons to share the current page in a privacy-compliant way.
@@ -125,7 +147,7 @@ be used to display a html text with a video on the home page.
 Display a html heading `<h1></h1>` to `<h6></h6>` in order to organize your
 blocks.
 
-#### HTML (improvements)
+#### HTML (js improvements and templates)
 
 Two new options are added in main settings:
 
@@ -135,6 +157,10 @@ Two new options are added in main settings:
   and contains more possibilities to edit advanced text.
 
 Furthermore, it is possible to add footnotes inside each html field.
+
+For the templates:
+- glossary: display a glossary (see block Block above).
+- page header: a default template with a specific class.
 
 #### Item Set showcase (deprecated)
 
@@ -151,8 +177,10 @@ url = Title = Optional short description
 
 #### List of Sites (improvement)
 
-This block improves the core one in order to skip current site and transalted
+This block improves the core one in order to skip current site and translated
 sites.
+
+This feature may be integrated in the core.
 
 #### Messages
 
@@ -194,15 +222,6 @@ same page. All options should be managed via the theme. To replace item/browse,
 item-set/browse and even media/browse, you may need to set the page as default
 action for the search in default template `common/search-form`.
 
-#### Separator
-
-Allow to set a div with a specific class between two blocks. May be useful to
-fix some css issues, or to increase space between some blocks.
-The content of the block is:
-```html
-<div class="break separator"></div>
-```
-
 #### Showcase
 
 Generic complete block to display any selected resources, site, page, asset or
@@ -211,6 +230,8 @@ url.
 #### Table of contents (improvement)
 
 The table can be displayed from the root if wanted.
+
+This feature may be integrated in the core.
 
 #### Tree structure
 
@@ -493,22 +514,12 @@ supports templates. Some templates are available: "asset-block", "asset-hero-boo
 
 See above.
 
-### Browse preview (improvements)
+### Browse preview (improvements and templates)
 
 The block Browse preview has new fields to display sort headings and pagination,
 so it's now possible to have a specific list of items, like the main browse view.
 
-It has some specific templates too:
-- simple carousel ("browse-preview-carousel"): this is an upgrade of the plugin
-  [Shortcode Carousel] for [Omeka Classic].
-- gallery display with a quick viewer too ("browse-preview-gallery"). This one
-  has a specific option to add to the query to display thumbnails as square or
-  medium: `thumbnail_size=medium`. You can see an example on the site [Ontologie du christianisme médiéval en images],
-  from French [Institut national de l’histoire de l’art].
-
-To use them, simply select the wanted template:
-
-![browse-preview-carousel](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/raw/master/data/images/browse-preview-carousel.png)
+For the specific templates, see above.
 
 #### D3 Graph
 
@@ -525,7 +536,7 @@ class `column align-right` (or left).
 
 See above.
 
-#### HTML (improvements)
+#### HTML (templates)
 
 See above.
 
@@ -560,7 +571,14 @@ See above.
 
 #### Separator
 
-See above.
+Allow to set a div with a specific class between two blocks. May be useful to
+fix some css issues, or to increase space between some blocks.
+The content of the block is:
+```html
+<div class="break separator"></div>
+```
+
+Replaced by block "Line Break".
 
 #### Showcase
 
@@ -626,15 +644,17 @@ Some templates are deprecated and were renamed with a "-plus" and moved in
 directory `view/common/block-template`. The migration moved the option to use
 the new template name.
 
-- "asset" => "asset-plus",
-- "browse-preview" => "browse-preview-plus",
-- "item-with-metadata" => "item-with-metadata-plus",
-- "list-of-pages" => "list-of-pages-plus",
-- "list-of-sites" => "list-of-sites-plus",
-- "item-showcase" => "media-item-showcase-plus",
-- "file-item-showcase" => "media-item-showcase-plus",
-- "page-date-time" => "page-date-time-plus",
-- "table-of-contents" => "table-of-contents-plus",
+- "asset" => "asset-deprecated-plus"
+- "browse-preview" => "browse-preview-deprecated" or "search-results-browse-preview-deprecated"
+- "item-with-metadata" => "item-with-metadata-deprecated"
+- "list-of-pages" => "list-of-pages-deprecated"
+- "list-of-sites" => "list-of-sites-deprecated"
+- "item-showcase" => "media-item-showcase-deprecated",
+- "file-item-showcase" => "media-item-showcase-deprecated"
+- "table-of-contents" => "table-of-contents-deprecated"
+
+This template was renamed, but not deprecated:
+- "page-date-time" => "page-date-time-plus"
 
 You should add the specific templates in the file config/theme.ini of the theme
 if you really need them. Else, it is recommended to use the default template.
@@ -678,9 +698,17 @@ The block Browse Preview is no more managed by this module. Support of options
 "html", "sort_headings" and "pagination" were removed. Check your themes if you
 used it, or use block Search Results.
 
+Normally, the migration converted this block into a block Search Results when
+the specific features were used, else converted it in a block template for block
+Browse Preview.
+
+Furthermore, the variable `$site` is no more available in block templates for
+Browse Preview, so you should add `$site = $block->page()->site();` if you need
+it.
+
 You should fix the theme manually.
 
-### Block division
+### Block Division
 
 The block Division was removed. When the divisions were flat, they were
 converted into a group of blocks, a new feature of Omeka S v4.1.
@@ -690,12 +718,24 @@ manually with page template "grid" and/or block groups.
 
 Furthermore, the option "tag", that can be "div" or "aside", is no more managed.
 
+### Block Html
+
+The variable `$html` is no more available in templates for block Html, so you
+should get it via `$block->dataValue('html', '')`. A list of matched files was
+added during migration and is available in logs.
+
+You should fix the theme manually.
+
 ### Block Item Showcase (renamed Media)
 
 The block Item Showcase was renamed Media in Omeka S v4.1. The option "linkType"
 was renamed "link".
 
 You should fix the theme manually.
+
+### Block Separator, replaced by block Line Break
+
+The block class is now in the block template, so you may check styles.
 
 ### Module upgrade
 
