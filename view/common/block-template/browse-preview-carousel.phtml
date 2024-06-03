@@ -1,6 +1,7 @@
 <?php
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var string $resourceType
  * @var string $heading
@@ -19,7 +20,6 @@
  */
 
 $plugins = $this->getHelperPluginManager();
-$site ??= $plugins->get('currentSite')();
 $translate = $plugins->get('translate');
 $escape = $plugins->get('escapeHtml');
 // $escapeAttr = $plugins->get('escapeHtmlAttr');
@@ -29,7 +29,8 @@ $thumbnail = $plugins->get('thumbnail');
 // Append in header is not possible with browse preview, so css and js are set in body, even if it is not standard.
 $assetUrl = $plugins->get('assetUrl');
 
-$siteSlug = $plugins->get('Laminas\View\Helper\ViewModel')->getRoot()->getVariable('site')->slug();
+$site = $block->page()->site();
+$siteSlug = $site->slug();
 
 // $showThumbnail = in_array('thumbnail', $components);
 // $showHeading = in_array('resource-heading', $components);

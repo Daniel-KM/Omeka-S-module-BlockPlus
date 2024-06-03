@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
- * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var string $resourceType
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var string $heading
@@ -9,29 +9,52 @@
  * @var array $components
  * @var array $query
  *
- * Removed during migration to Omeka S block Asset and not managed for now:
+ * Moved during migration to Omeka S as deprecated block layout data.
+ * Normally, they are not used and should be removed.
+ * When needed, it is recommended to use block Search results instead.
  * @var array $sortHeadings
  * @var array|false $pagination
+ * @var string $resourceTemplate
  */
 
+// This template is kept for compatibiliy with old block and should be replaced
+// by the default one.
+
 $plugins = $this->getHelperPluginManager();
-$site ??= $plugins->get('currentSite')();
+$url = $plugins->get('url');
 $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
+
+$site = $block->page()->site();
 
 $showThumbnail = in_array('thumbnail', $components);
 $showHeading = in_array('resource-heading', $components);
 $showBody = in_array('resource-body', $components);
+
 $headingTerm = $siteSetting('browse_heading_property_term');
 $bodyTerm = $siteSetting('browse_body_property_term');
-
-$untitled = $translate('[Untitled]');
 
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;
 $langValue = $filterLocale ? [$lang, ''] : null;
+
+$untitled = $translate('[Untitled]');
+$siteSlug = $site->slug();
+
+// Deprecated settings are in block layout data. Furthermore, the overridden
+// block allowed to use another site than the current one (useful for a main
+// site and specific ones).
+
+$pagination = (bool) $block->layoutDataValue('pagination');
+$sortHeadings = $block->layoutDataValue('sort_headings', []);
+$resourceTemplateId = (int) $block->layoutDataValue('resource_template');
+
+$site ??= $plugins->get('currentSite')();
+$untitled = $translate('[Untitled]');
+$siteSlug = $site->slug();
 ?>
 
 <div class="block preview-block">
@@ -40,6 +63,7 @@ $langValue = $filterLocale ? [$lang, ''] : null;
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
+    <?php // Normally not available. ?>
     <?php if (!empty($sortHeadings)): ?>
     <div class="browse-controls">
         <?= $this->sortSelector($sortHeadings) ?>
@@ -68,7 +92,7 @@ $langValue = $filterLocale ? [$lang, ''] : null;
             <?= $resource->linkRaw($thumb) ?>
             <?php endif; ?>
             <?php if ($showHeading && $heading): ?>
-            <h4><?= $resource->linkRaw($heading) ?></h4>
+            <h4><span class="resource-name"><?= $resource->link($heading, null, ['class' => 'resource-link']) ?></span></h4>
             <?php endif; ?>
             <?php if ($showBody && $body): ?>
             <div class="description"><?= $body ?></div>
@@ -77,15 +101,15 @@ $langValue = $filterLocale ? [$lang, ''] : null;
     <?php endforeach; ?>
     </ul>
 
-    <?php
+    <?php // Normally not available.
     if (!empty($pagination)):
         echo $this->pagination();
     endif;
     ?>
 
     <?php if ($linkText): ?>
-        <?= $this->hyperlink($linkText, $this->url(
-            'site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $site->slug()], ['query' => $query], true
+        <?= $hyperlink($linkText, $url(
+            'site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $siteSlug], ['query' => $query], true
         )) ?>
     <?php endif; ?>
 

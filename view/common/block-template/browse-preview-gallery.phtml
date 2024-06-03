@@ -1,6 +1,7 @@
 <?php
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var string $resourceType
  * @var string $heading
@@ -20,7 +21,6 @@
 
 $plugins = $this->getHelperPluginManager();
 $url = $plugins->get('url');
-$site ??= $plugins->get('currentSite')();
 $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
