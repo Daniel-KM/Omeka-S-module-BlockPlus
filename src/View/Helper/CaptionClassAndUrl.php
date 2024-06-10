@@ -16,14 +16,23 @@ class CaptionClassAndUrl extends AbstractHelper
      * Next lines are the true caption.
      * ```
      *
-     * @return array A simple array containing caption, class and url.
+     * The initial caption may be an html one.
+     *
+     * @return array A simple array containing caption, class, url and a flag
+     * for html. Get result like:
+     * ```php
+     * [$caption, $class, $url, $isHtml] = $this->captionClassAndUrl($string);
+     * ```
      */
     public function __invoke(?string $string): array
     {
         $string = trim((string) $string);
         if (!$string) {
-            return [$string, '', ''];
+            return [$string, '', '', false];
         }
+
+        $isHtml = $this->isHtml($string);
+        $string = strip_tags($string);
 
         $url = '';
         $class = '';
@@ -61,6 +70,31 @@ class CaptionClassAndUrl extends AbstractHelper
             $string = implode("\n", $lines);
         }
 
-        return [$string, $class, $url];
+        if ($isHtml) {
+            if ($hasClass) {
+                $quoted = preg_quote(trim($class));
+                $regex = '~(?:<p>class\s*=\s*' . $quoted . '\s*</p>|<div>class\s*=\s*' . $quoted . '\s*</div>)|class\s*=\s*' . $quoted . '~sU';
+                $string = preg_replace($regex, '', $string, 1);
+            }
+            if ($hasUrl) {
+                $quoted = preg_quote($url);
+                $regex = '~(?:<p>url\s*=\s*' . $quoted . '\s*</p>|<div>url\s*=\s*' . $quoted . '\s*</div>)|url\s*=\s*' . $quoted . '~sU';
+                $string = preg_replace($regex, '', $string, 1);
+            }
+        } elseif ($hasClass || $hasUrl) {
+            $string = implode("\n", $lines);
+        }
+
+        return [$string, $class, $url, $isHtml];
+    }
+
+    /**
+     * Detect if a trimmed string is html or not.
+     */
+    protected function isHtml(string $string): bool
+    {
+        return mb_substr($string, 0, 1) === '<'
+            && mb_substr($string, -1) === '>'
+            && $string !== strip_tags($string);
     }
 }
