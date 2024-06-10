@@ -1285,6 +1285,7 @@ SQL;
     // files in themes.
     // Nevertheless, use deprecated block templates when possible to simplify
     // migration of themes.
+    // Other templates are kept, in particular for other modules.
     foreach ($blocksRepository->findAll() as $block) {
         $layout = $block->getLayout();
         if (!isset($blockTemplates[$layout])) {
@@ -1293,12 +1294,11 @@ SQL;
         $data = $block->getData();
         $template = $data['template'] ?? null;
         if ($template) {
-            $layoutData = $block->getLayoutData() ?? [];
             $templateName = pathinfo($template, PATHINFO_FILENAME);
-            if ($template !== $blockTemplates[$layout]) {
-                $layoutData['template_name'] = $templateName;
-            } elseif (isset($blockTemplatesRenamed[$templateName])) {
-                $layoutData['template_name'] = $blockTemplatesRenamed[$templateName];
+            $layoutData = $block->getLayoutData() ?? [];
+            $existingTemplateName = $layoutData['template_name'] ?? '';
+            if (!$existingTemplateName) {
+                $layoutData['template_name'] = $blockTemplatesRenamed[$templateName] ?? $templateName;
             }
             $block->setLayoutData($layoutData);
         }
