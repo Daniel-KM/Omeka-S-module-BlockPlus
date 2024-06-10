@@ -37,8 +37,8 @@ class Buttons implements ResourcePageBlockLayoutInterface
 
     /**
      * Adapted in:
-     * @see BlockPlus\Site\BlockLayout\Buttons::shareLinks()
-     * @see BlockPlus\Site\ResourcePageBlockLayout\Buttons::shareLinks()
+     * @see \BlockPlus\Site\BlockLayout\Buttons::shareLinks()
+     * @see \BlockPlus\Site\ResourcePageBlockLayout\Buttons::shareLinks()
      */
     public function shareLinks(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $buttons): array
     {
