@@ -19,7 +19,9 @@ See below for migration. There is no issue for a new install.
 Installation
 ------------
 
-First, install the optional module [Generic] if wanted.
+See general end user documentation for [installing a module].
+
+This module requires the module [Common], that should be installed first.
 
 The module uses external js libraries for some blocks, so use the release zip to
 install it, or use and init the source.
@@ -29,7 +31,7 @@ install it, or use and init the source.
 Download the last release [BlockPlus.zip] from the list of releases (the master
 does not contain the dependency), and uncompress it in the `modules` directory.
 
-* From the source and for development:
+* From the source and for development
 
 If the module was installed from the source, rename the name of the folder of
 the module to `BlockPlus`, and go to the root module, and run:
@@ -38,10 +40,7 @@ the module to `BlockPlus`, and go to the root module, and run:
 composer install --no-dev
 ```
 
-Then install it like any other Omeka module.
-
-See general end user documentation for [installing a module] and follow the
-config instructions.
+Then install it like any other Omeka module and follow the config instructions.
 
 
 Usage since version 3.4.22 for Omeka S v4.1
@@ -53,8 +52,22 @@ Usage since version 3.4.22 for Omeka S v4.1
 
 Available templates:
 
-- Hero Bootstrap
+- Bootstrap Hero
+- Class - Url
+- Left / Right
 - Partners
+
+These templates support the "class and url from caption" feature: if you need a
+specific class or url for the theme and not only a page, you can prepend them to
+each asset caption:
+
+```
+url = https://example.org/
+class = xxx yyy
+Next lines are the true caption.
+```
+
+Furthermore, the caption may be an html one.
 
 #### Block
 
@@ -201,9 +214,9 @@ Allow to specify some metadata to the page for theme creators.
 
 #### Redirect to URL
 
-Allow to redirect the page to another page, inside or outside Omeka. It is useful
-for hard coded links in the footer, to keep track of some clicks, to use the page
-item/browse as a the home page, or some other use cases.
+Allow to redirect the page to another page, inside or outside Omeka. It is
+useful for hard coded links in the footer, to keep track of some clicks, to use
+the page item/browse as a the home page, or some other use cases.
 
 #### Resource with html
 
@@ -331,9 +344,30 @@ params, or to get some informations about the page from anywhere in the theme.
 ```php
 // A simple check is done to make the theme more generic.
 $blockMetadata = $plugins->has('blockMetadata') ? $plugins->get('blockMetadata') : null;
-if ($blockMetadata):
+if ($blockMetadata) {
     $data = $blockMetadata('params_key_value');
-endif;
+}
+```
+
+#### Caption Class And Url
+
+The view helper `CaptionClassAndUrl()` allows to extract the class and the url
+from the start of a string. The optional class and url may be set at start of
+each caption like:
+
+```
+url = https://example.org/
+class = xxx yyy
+Next lines are the true caption.
+```
+
+The initial caption may be an html one.
+
+The output is a simple array containing caption, class, url and a flag for html.
+Get result like:
+
+```php
+[$caption, $class, $url, $isHtml] = $this->captionClassAndUrl($string);
 ```
 
 #### Page Metadata
@@ -391,9 +425,9 @@ retrieved at once.
 ```php
 // A simple check is done to make the theme more generic.
 $pagesMetadata = $plugins->has('pagesMetadata') ? $plugins->get('pagesMetadata') : null;
-if ($pagesMetadata):
+if ($pagesMetadata) {
     $data = $pagesMetadata('exhibit_page');
-endif;
+}
 ```
 
 #### Breadcrumbs
@@ -417,7 +451,6 @@ To use it, add the following code in the item, item set, or media show page:
 $plugins = $this->getHelperPluginManager();
 $previousNext = $plugins->has('previousNext') ? $plugins->get('previousNext') : null;
 ?>
-
 <?= $previousNext ? $previousNext($resource) : '' ?>
 ```
 
@@ -428,7 +461,6 @@ Two other helpers can be used to manually build the html code:
 $plugins = $this->getHelperPluginManager();
 $hasPreviousNext = $plugins->has('previousNext');
 ?>
-
 <?php if ($hasPreviousNext): ?>
 <div class="previous-next-items">
     <?php if ($previous = $this->previousResource($resource)): ?>
@@ -457,7 +489,7 @@ for example:
 ```php
     'block_templates' => [
         'asset' => [
-            'asset-hero-bootstrap' => 'Block Plus: Hero bootstrap', // @translate
+            'asset-bootstrap-hero' => 'Block Plus: Bootstrap Hero', // @translate
         ],
     ],
 ```
@@ -611,7 +643,8 @@ See more info on page templates and block templates in [user doc] and [dev doc].
 
 The following blocks are no more overridden:
 
-- Asset
+- Asset (but additional templates were added to support asset class and url via
+  caption, and html caption)
 - Browse preview
 - Item showcase (renamed media)
 - Item with metadata
@@ -625,18 +658,19 @@ will be removed soon when integrated upstream:
 - List of sites
 - Table of contents
 
-### Rename block-layout templates to block-template templates
+### Move specific block-layout templates to block-template templates
 
 The new templating mechanism of Omeka S v4.1 uses a new directory in theme to
 allow to use block template. You should move all templates from `view/common/block-layout`
 to `view/common/block-template` that were a template managed by this module, but
-not the default template.
+not the default templates named like the original ones.
 
 For example, if you used the block "Block" with the default template customized
 in your theme, let it as "view/common/block-layout/block.phtml". But if you used
 the same block with a module template, move it to "view/common/block-template/block-glossary.phtml".
 
-Then, you should add the specific templates in the file config/theme.ini of the theme.
+Then, you should add the specific templates in the file config/theme.ini of the
+theme.
 
 ### New names of deprecated templates
 
@@ -687,10 +721,21 @@ right in all pages.
 
 ### Block Asset
 
-For block Asset, the keys "class" and "url" of assets were removed and not
-supported in the core version Omeka S v4.1.
+For block Asset, the keys "class" and "url" of assets were moved to the top of
+the caption and automatically extracted in templates.
 
-You should fix the theme manually.
+```
+url = https://example.org/
+class = xxx yyy
+Next lines are the true caption.
+```
+
+You should check the theme manually if you use this feature and get class and
+url like other asset templates:
+
+```php
+[$caption, $class, $url, $isHtml] = $this->captionClassAndUrl($attachment['caption']);
+```
 
 ### Block Browse preview
 
@@ -703,8 +748,8 @@ the specific features were used, else converted it in a block template for block
 Browse Preview.
 
 Furthermore, the variable `$site` is no more available in block templates for
-Browse Preview, so you should add `$site = $block->page()->site();` if you need
-it.
+Browse Preview, so you should add `$site = $block->page()->site();` or `$site = $this->currentSite()`
+if you need it.
 
 You should fix the theme manually.
 
@@ -834,6 +879,7 @@ Copyright
 [Block Plus]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus
 [Omeka S]: https://omeka.org/s
 [installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
+[Common]: https://gitlab.com/Daniel-KM/Omeka-S-module-Common
 [shortcode as a page]: https://github.com/omeka/plugin-SimplePages/pull/24
 [user doc]: https://omeka.org/s/docs/user-manual/sites/site_pages/#edit-a-page
 [dev doc]: https://omeka.org/s/docs/developer/themes/theme_templates
