@@ -26,6 +26,7 @@ return [
             'assetElement' => View\Helper\AssetElement::class,
             'blockMetadata' => View\Helper\BlockMetadata::class,
             'breadcrumbs' => View\Helper\Breadcrumbs::class,
+            'captionClassAndUrl' => View\Helper\CaptionClassAndUrl::class,
             'ckEditor' => View\Helper\CkEditor::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
