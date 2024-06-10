@@ -108,11 +108,11 @@ return [
     ],
     'block_templates' => [
         'asset' => [
-            'asset-hero-bootstrap' => 'Block Plus: Hero bootstrap', // @translate
+            'asset-class-url' => 'Block Plus: Asset with class and url', // @translate
+            'asset-bootstrap-hero' => 'Block Plus: Bootstrap Hero', // @translate
+            'asset-left-right' => 'Block Plus: Left Right', // @translate
             'asset-partners' => 'Block Plus: Partners', // @translate
             'asset-deprecated-plus' => 'Block Plus: Asset (deprecated)', // @translate
-            'asset-deprecated-class-url' => 'Block Plus: Asset class url (deprecated)', // @translate
-            'asset-deprecated-left-right' => 'Block Plus: Left Right (deprecated)', // @translate
         ],
         'block' => [
             'block-arborescence' => 'Block Plus: Arborescence', // @translate

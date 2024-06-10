@@ -15,6 +15,7 @@
  * ```
  *
  * The caption may be an html one.
+ *
  * @see \BlockPlus\View\Helper\AssetElement
  */
 
@@ -28,7 +29,7 @@ $thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $pl
 $captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('captionClassAndUrl') : fn($string) => [trim((string) $string), '', '', $string !== strip_tags($string)];
 ?>
 
-<div class="block block-asset assets">
+<div class="assets">
     <?php
     foreach ($attachments as $attachment):
         $asset = $attachment['asset'];
@@ -43,20 +44,25 @@ $captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('capti
         }
     ?>
     <div class="asset<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>">
-        <?php $attachmentUrl = $page ? $page->siteUrl() : $url ?>
-        <?php if ($attachmentUrl): ?>
-            <a href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (filter_var($attachmentUrl, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
+        <?php if ($page): ?>
+            <a href="<?= $escapeAttr($page->siteUrl()) ?>">
                 <?= $assetImage ?>
-                <span class="link-title">
-                    <?= $attachment['alt_link_title'] === '' ? ($page ? $escape($page->title()) : '') : $escape($attachment['alt_link_title']) ?>
-                </span>
+                <?php $altLinkTitle = $attachment['alt_link_title'] ?? ''; ?>
+                <span class="link-title"><?= strlen($altLinkTitle) ? $escape($altLinkTitle) : $escape($page->title()) ?></span>
+            </a>
+        <?php elseif ($url): ?>
+            <a href="<?= $escapeAttr($url) ?>"<?php if (filter_var($url, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
+                <?= $assetImage ?>
+                <?php if ($altLinkTitle = $attachment['alt_link_title'] ?? ''): ?>
+                <span class="link-title"><?= $escape($altLinkTitle) ?></span>
+                <?php endif; ?>
             </a>
         <?php else: ?>
-             <?= $assetImage ?>
+            <?= $assetImage ?>
         <?php endif; ?>
         <?php if (strlen($caption)): ?>
         <div class="caption"><?= $isHtmlCaption ? $caption : $escape($caption) ?></div>
         <?php endif; ?>
     </div>
-    <?php endforeach; ?>
+  <?php endforeach; ?>
 </div>

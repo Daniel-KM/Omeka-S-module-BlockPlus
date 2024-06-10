@@ -1308,9 +1308,8 @@ SQL;
 
     $entityManager->flush();
 
-    // TODO Add a list of pages with asset "class" and "url"?
     $message = new PsrMessage(
-        'For block Asset, the keys "class" and "url" of assets were removed and not supported in the core version Omeka S v4.1.' // @translate
+        'For block Asset, the keys "class" and "url" of assets were moved to the start of the caption and available only with specific block templates.' // @translate
     );
     $messenger->addWarning($message);
 
@@ -1561,6 +1560,57 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
     }
 }
 
+// The method to search files without a file is available only in Common 3.4.59
+// that is not yet available.
+
+/** @see \Common\ManageModuleAndResources::checkStringsInFiles() */
+$checkStringsInFiles = function ($stringsOrRegex, string $globPath = '', bool $invert = false): ?array {
+    if (!$stringsOrRegex) {
+        return [];
+    }
+
+    // Forbid fake paths.
+    if (strpos($globPath, '..') !== false || strpos($globPath, './') !== false) {
+        return null;
+    }
+
+    $start = mb_strlen(OMEKA_PATH . '/');
+    if (mb_substr($globPath, 0, 1) === '/') {
+        if (strpos($globPath, $start) !== 0) {
+            return null;
+        }
+    } else {
+        $globPath = OMEKA_PATH . '/' . $globPath;
+    }
+
+    $result = [];
+
+    $isStrings = is_array($stringsOrRegex);
+
+    $paths = glob($globPath);
+    foreach ($paths as $filepath) {
+        if (!is_file($filepath) || !is_readable($filepath) || !filesize($filepath)) {
+            continue;
+        }
+        $phtml = file_get_contents($filepath);
+        if ($isStrings) {
+            foreach ($stringsOrRegex as $check) {
+                $pos = mb_strpos($phtml, $check);
+                if ((!$invert && $pos) || ($invert && !$pos)) {
+                    $result[] = mb_substr($filepath, $start);
+                }
+            }
+        } else {
+            $has = preg_match($phtml, $stringsOrRegex);
+            if ((!$invert && $has) || ($invert && !$has)) {
+                $result[] = mb_substr($filepath, $start);
+            }
+        }
+    }
+
+    return $result;
+};
+
 if (version_compare($oldVersion, '3.4.22-beta', '<')) {
     // Add warnings about files in themes to migrate.
 
@@ -1571,57 +1621,7 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')) {
     // Check all html layout/template without "$block->dataValue('html')"
     // because $html is no more a variable of the block Html.
 
-    // The method to search files without a file is available only in Common 3.4.59
-    // that is not yet available.
-
     /** @see \Common\ManageModuleAndResources::checkStringsInFiles() */
-    $checkStringsInFiles = function ($stringsOrRegex, string $globPath = '', bool $invert = false): ?array {
-        if (!$stringsOrRegex) {
-            return [];
-        }
-
-        // Forbid fake paths.
-        if (strpos($globPath, '..') !== false || strpos($globPath, './') !== false) {
-            return null;
-        }
-
-        $start = mb_strlen(OMEKA_PATH . '/');
-        if (mb_substr($globPath, 0, 1) === '/') {
-            if (strpos($globPath, $start) !== 0) {
-                return null;
-            }
-        } else {
-            $globPath = OMEKA_PATH . '/' . $globPath;
-        }
-
-        $result = [];
-
-        $isStrings = is_array($stringsOrRegex);
-
-        $paths = glob($globPath);
-        foreach ($paths as $filepath) {
-            if (!is_file($filepath) || !is_readable($filepath) || !filesize($filepath)) {
-                continue;
-            }
-            $phtml = file_get_contents($filepath);
-            if ($isStrings) {
-                foreach ($stringsOrRegex as $check) {
-                    $pos = mb_strpos($phtml, $check);
-                    if ((!$invert && $pos) || ($invert && !$pos)) {
-                        $result[] = mb_substr($filepath, $start);
-                    }
-                }
-            } else {
-                $has = preg_match($phtml, $stringsOrRegex);
-                if ((!$invert && $has) || ($invert && !$has)) {
-                    $result[] = mb_substr($filepath, $start);
-                }
-            }
-        }
-
-        return $result;
-    };
-
     $checks = [
         '$block->dataValue(\'html\'',
         '$block->dataValue("html"',
@@ -1653,6 +1653,131 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')) {
         $result = array_map('array_values', $result);
         $message = new PsrMessage(
             'The block "Browse Preview" do not have the variable `$site` anymore. Check your theme if you customized it. Matching pages: {json}.', // @translate
+            ['json' => json_encode($result)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+}
+
+if (version_compare($oldVersion, '3.4.22', '<')) {
+    $logger = $services->get('Omeka\Logger');
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+    $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
+
+    // Migrate custom block Asset to specific templates with view helper `captionClassAndUrl()`:
+    // Some template names changed.
+    // Variables $class and $url are still available via caption.
+    $result = [];
+    $templatesRenamed = [
+        'asset-hero-bootstrap' => 'asset-bootstrap-hero',
+        'asset-deprecated-class-url' => 'asset-class-url',
+        'asset-deprecated-left-right' => 'asset-left-right',
+    ];
+    foreach ($blocksRepository->findBy(['layout' => 'asset']) as $block) {
+        $data = $block->getData() ?: [];
+        $layoutData = $block->getLayoutData() ?? [];
+        $templateName = $layoutData['template_name'] ?? null;
+        if ($templateName && $templateName !== 'asset') {
+            $page = $block->getPage();
+            $pageSlug = $page->getSlug();
+
+            if (isset($templatesRenamed[$templateName])) {
+                $layoutData['template_name'] = $templatesRenamed[$templateName] ?? $templateName;
+                $block->setLayoutData($layoutData);
+                $result[$page->getSite()->getSlug()][$pageSlug] = $pageSlug;
+            }
+
+            // The upstream block doesn't contain key "attachments".
+            $hasAttachments = array_key_exists('attachments', $data) && $data['attachments'];
+            if ($hasAttachments) {
+                // If there are attachments, all data are duplicated, so merge
+                // attachments and data keys for security.
+                $keys = [];
+                foreach ($data as $key => $dataValue) {
+                    if (is_numeric($key) && is_array($dataValue) && !empty($dataValue['id'])) {
+                        $keys[$dataValue['id']] = $key;
+                    }
+                }
+                foreach ($data['attachments'] as &$attachment) {
+                    if (!empty($attachment['id']) && isset($keys[$attachment['id']])) {
+                        $attachment = array_replace($data[$keys[$attachment['id']]], $attachment);
+                    }
+                }
+                unset($attachment);
+                $attachments = $data['attachments'];
+            } else {
+                $attachments = $data;
+            }
+
+            // Check if "class" and "url" exist for each asset.
+            foreach ($attachments as $key => $dataValue) {
+                if (!is_numeric($key)
+                    || !is_array($dataValue)
+                    || (!array_key_exists('class', $dataValue) && !array_key_exists('url', $dataValue))
+                ) {
+                    continue;
+                }
+                // Fix Windows and Apple copy/paste from a textarea input.
+                $caption = $dataValue['caption'] ?? '';
+                $caption = str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], $caption);
+                $isHtmlCaption = mb_substr($caption, 0, 1) === '<'
+                    && mb_substr($caption, -1) === '>'
+                    && $caption !== strip_tags($caption);
+                $prepend = '';
+                $hasUrl = !empty($dataValue['url']) && trim($dataValue['url']) !== '';
+                $hasClass = isset($dataValue['class']) && trim($dataValue['class']) !== '';
+                if ($hasUrl) {
+                    $url = trim($dataValue['url']);
+                    if (strlen($url)) {
+                        $prepend = $isHtmlCaption
+                            ? '<p>url = ' . $url . '</p>'
+                            : 'url = ' . $url;
+                    } else {
+                        $hasUrl = false;
+                    }
+                }
+                if ($hasClass) {
+                    $class = trim($dataValue['class']);
+                    if (strlen($class)) {
+                        // Check if the class is an url (old storage or
+                        // specific template).
+                        if (!$hasUrl && mb_substr($class, 0, 1) === '/' || mb_substr($class, 0, 8) === 'https://' || mb_substr($class, 0, 7) === 'http://') {
+                            $hasUrl = true;
+                            $hasClass = false;
+                            $prepend = $isHtmlCaption
+                                ? '<p>url = ' . $class . '</p>'
+                                : 'url = ' . $class;
+                        } else {
+                            $prepend = $prepend ? $prepend . "\n" : '';
+                            $prepend .= $isHtmlCaption
+                                ? '<p>class = ' . $class . '</p>'
+                                : 'class = ' . $class;
+                        }
+                    } else {
+                        $hasClass = false;
+                    }
+                }
+                if ($prepend) {
+                    $caption = strlen($caption) ? $prepend . "\n" . $caption : $prepend;
+                    $result[$page->getSite()->getSlug()][$pageSlug] = $pageSlug;
+                }
+                unset($dataValue['attachments'], $dataValue['class'], $dataValue['url']);
+                $dataValue['caption'] = $caption;
+                $attachments[$key] = $dataValue;
+            }
+            $block->setData($attachments);
+        }
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    if ($result) {
+        $result = array_map('array_values', $result);
+        $message = new PsrMessage(
+            'The data of blocks "Asset" were migrated to manage asset class and url as the first two lines of the caption. Update your theme like asset templates. Matching pages: {json}.', // @translate
             ['json' => json_encode($result)]
         );
         $messenger->addWarning($message);

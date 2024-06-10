@@ -28,8 +28,14 @@ $thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $pl
 $captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('captionClassAndUrl') : fn($string) => [trim((string) $string), '', '', $string !== strip_tags($string)];
 ?>
 
+<style>
+.align-left { float: left; margin-right: 6px; }
+.align-right { float: right; margin-left: 6px; }
+.clear { clear: both; }
+</style>
+
 <div class="block block-asset assets">
-    <?php
+    <?php $index = 0;
     foreach ($attachments as $attachment):
         $asset = $attachment['asset'];
         $assetImage = $asset ? $thumbnail($asset, 'square') : '';
@@ -43,20 +49,24 @@ $captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('capti
         }
     ?>
     <div class="asset<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>">
-        <?php $attachmentUrl = $page ? $page->siteUrl() : $url ?>
-        <?php if ($attachmentUrl): ?>
-            <a href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (filter_var($attachmentUrl, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
-                <?= $assetImage ?>
-                <span class="link-title">
-                    <?= $attachment['alt_link_title'] === '' ? ($page ? $escape($page->title()) : '') : $escape($attachment['alt_link_title']) ?>
-                </span>
-            </a>
-        <?php else: ?>
-             <?= $assetImage ?>
+        <?php if ($asset): ?>
+            <?php $attachmentUrl = $page ? $page->siteUrl() : $url ?>
+            <?php if ($attachmentUrl): ?>
+        <a class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>" href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (filter_var($attachmentUrl, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
+            <?= $assetElement($asset, ['alt' => $attachment['alt_link_title']]) ?>
+        </a>
+            <?php else: ?>
+        <span class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>">
+            <?= $assetElement($asset, ['alt' => $attachment['alt_link_title'] ?? '']) ?>
+        </span>
+            <?php endif; ?>
         <?php endif; ?>
         <?php if (strlen($caption)): ?>
-        <div class="caption"><?= $isHtmlCaption ? $caption : $escape($caption) ?></div>
+        <div class="caption">
+            <?= $caption ?>
+        </div>
         <?php endif; ?>
+        <div class="clear"></div>
     </div>
     <?php endforeach; ?>
 </div>

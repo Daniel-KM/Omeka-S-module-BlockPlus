@@ -7,18 +7,26 @@
  *   - caption (string): the html is purified according to settings
  *   - alt_link_title (string)
  *
- * Removed during migration to Omeka S block Asset and not managed for now:
- *   - class (string)
- *   - url (string): deprecated, will be removed. Use "page", "caption", alt title, or original asset alt value instead.
- * @var array $assets Deprecated, alias of attachments.
+ * The optional class and url may be set at start of each caption like:
+ * ```
+ * url = https://example.org/
+ * class = xxx yyy
+ * Next lines are the true caption.
+ * ```
+ *
+ * The caption may be an html one.
+ *
+ * @see \BlockPlus\View\Helper\AssetElement
  */
-
-// Caption is not used in this template.
-// TODO "url" is deprecated: use caption or asset title or alt_link_title instead.
 
 $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
+$thumbnail = $plugins->get('thumbnail');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
+
+// Manage display when the module is disabled.
+$thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
+$captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('captionClassAndUrl') : fn($string) => [$string, '', '', $string !== strip_tags($string)];
 ?>
 
 <style>
@@ -33,18 +41,29 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 }
 </style>
 
-<div class="block block-asset partners assets">
+<div class="partners assets">
     <div class="asset partners-logos">
-    <?php foreach ($attachments as $attachment): ?>
-        <?php if (!$attachment['asset']) continue; ?>
-        <?php $attachmentUrl = !empty($attachment['page']) ? $attachment['page']->siteUrl() : ($attachment['url'] ?? null); ?>
+    <?php foreach ($attachments as $attachment):
+        if (!$attachment['asset']) continue;
+        $asset = $attachment['asset'];
+        $assetImage = $thumbnail($asset, 'square');
+        $page = $attachment['page'] ?? null;
+        $caption = trim($attachment['caption'] ?? '');
+        if (strlen($caption)) {
+            [$caption, $class, $url, $isHtmlCaption] = $captionClassAndUrl($caption);
+        } else {
+            $class = '';
+            $url = '';
+        }
+        ?>
+        <?php $attachmentUrl = $page ? $page->siteUrl() : $url ?>
         <?php if ($attachmentUrl): ?>
-        <a class="partner-logo <?= $escapeAttr($attachment['class']) ?>" href="<?= $escapeAttr($attachmentUrl) ?>" target="_blank" rel="noopener">
-            <img loading="lazy" src="<?= $attachment['asset']->assetUrl() ?>" alt="<?= $escapeAttr($attachment['alt_link_title']) ?>"/>
+        <a class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (filter_var($attachmentUrl, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
+            <img loading="lazy" src="<?= $asset->assetUrl() ?>" alt="<?= empty($attachment['alt_link_title']) ? '' : $escapeAttr($attachment['alt_link_title']) ?>"/>
         </a>
         <?php else: ?>
-        <span class="partner-logo <?= $escapeAttr($attachment['class']) ?>">
-            <img loading="lazy" src="<?= $attachment['asset']->assetUrl() ?>" alt="<?= $escapeAttr($attachment['alt_link_title']) ?>"/>
+        <span class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>">
+            <img loading="lazy" src="<?= $asset->assetUrl() ?>" alt="<?= empty($attachment['alt_link_title']) ? '' : $escapeAttr($attachment['alt_link_title']) ?>"/>
         </span>
         <?php endif; ?>
     <?php endforeach; ?>
