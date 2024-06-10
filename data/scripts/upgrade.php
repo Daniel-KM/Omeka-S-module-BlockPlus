@@ -1649,6 +1649,11 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')) {
             $result[$page->getSite()->getSlug()][$pageSlug] = $pageSlug;
         }
     }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
     if ($result) {
         $result = array_map('array_values', $result);
         $message = new PsrMessage(
@@ -1669,11 +1674,47 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     // Some template names changed.
     // Variables $class and $url are still available via caption.
     $result = [];
-    $templatesRenamed = [
+    $blockLayoutTemplatesRenamed = [
+        'asset-plus' => 'asset-deprecated-plus',
         'asset-hero-bootstrap' => 'asset-bootstrap-hero',
         'asset-deprecated-class-url' => 'asset-class-url',
         'asset-deprecated-left-right' => 'asset-left-right',
+        'browser-preview-plus' => 'browser-preview-deprecated',
+        'media-item-showcase-deprecated',
+        'item-with-metadata-plus' => 'item-with-metadata-deprecated',
+        'list-of-pages-plus' => 'list-of-pages-deprecated',
+        'list-of-sites-plus' => 'list-of-sites-deprecated',
+        'item-showcase-plus' => 'media-item-showcase-deprecated',
+        'table-of-contents' => 'table-of-contents-deprecated',
     ];
+    foreach ($blocksRepository->findAll() as $block) {
+        $layoutData = $block->getLayoutData() ?? [];
+        $templateName = $layoutData['template_name'] ?? null;
+        if (!isset($blockLayoutTemplatesRenamed[$templateName])) {
+            continue;
+        }
+        $layoutData['template_name'] = $blockLayoutTemplatesRenamed[$templateName];
+        $block->setLayoutData($layoutData);
+        $page = $block->getPage();
+        $pageSlug = $page->getSlug();
+        $result[$page->getSite()->getSlug()][$pageSlug] = $pageSlug;
+    }
+
+    if ($result) {
+        $result = array_map('array_values', $result);
+        $message = new PsrMessage(
+            'The template layout of some blocks was renamed. Check your theme if you used them. Matching pages: {json}.', // @translate
+            ['json' => json_encode($result)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    $result = [];
     foreach ($blocksRepository->findBy(['layout' => 'asset']) as $block) {
         $data = $block->getData() ?: [];
         $layoutData = $block->getLayoutData() ?? [];
@@ -1681,12 +1722,6 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
         if ($templateName && $templateName !== 'asset') {
             $page = $block->getPage();
             $pageSlug = $page->getSlug();
-
-            if (isset($templatesRenamed[$templateName])) {
-                $layoutData['template_name'] = $templatesRenamed[$templateName] ?? $templateName;
-                $block->setLayoutData($layoutData);
-                $result[$page->getSite()->getSlug()][$pageSlug] = $pageSlug;
-            }
 
             // The upstream block doesn't contain key "attachments".
             $hasAttachments = array_key_exists('attachments', $data) && $data['attachments'];
