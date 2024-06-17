@@ -32,7 +32,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
         } elseif (!is_array($data['query'])) {
             $query = [];
             parse_str(ltrim($data['query'], "? \t\n\r\0\x0B"), $query);
-            $data['query'] = $query;
+            $data['query'] = array_filter($query, fn ($v) => $v !== '' && $v !== [] && $v !== null);
         }
 
         $block->setData($data);
@@ -63,7 +63,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
 
         $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
-        $data['query'] = http_build_query($data['query'], '', '&', PHP_QUERY_RFC3986);
+        $data['query'] = http_build_query($data['query'] ?? [], '', '&', PHP_QUERY_RFC3986);
 
         $dataForm = [];
         foreach ($data as $key => $value) {
@@ -120,9 +120,10 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
         }
 
         // Show all resource components if none set.
-        $components = empty($data['components'])
+        $components = $block->dataValue('components');
+        $components = empty($components)
             ? ['resource-heading', 'resource-body', 'thumbnail']
-            : $data['components'];
+            : $components;
 
         /** @var \Omeka\Api\Response $response */
         $api = $view->api();
