@@ -1052,7 +1052,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
             $blockId = $block->getId();
             $data = $block->getData() ?: [];
             $html = $data['html'] ?? '';
-            $hasHtml = !in_array(str_replace(' ', '', $html), ['', '<div></div>', '<p></p>']);
+            $hasHtml = !in_array(str_replace([' ', "\n", "\r", "\t"], '', $html), ['', '<div></div>', '<p></p>']);
             if ($hasHtml && !isset($processedBlocksId[$blockId])) {
                 $b = new \Omeka\Entity\SitePageBlock();
                 $b->setLayout('html');
