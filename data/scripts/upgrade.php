@@ -1149,7 +1149,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
         $pagesConverted = array_map('array_values', $pagesConverted);
         $message = new PsrMessage(
             'The block "Browse Preview" filled with specific features (query with specific site, pagination and sort headings) were replaced by block Search results and template "search-results-browse-preview-deprecated": {json}', // @translate
-            ['json' => json_encode($pagesConverted)]
+            ['json' => json_encode($pagesConverted, 448)]
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
@@ -1500,7 +1500,7 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
         $pagesConverted = array_map('array_values', $pagesConverted);
         $message = new PsrMessage(
             'The block "Browse Preview" filled with specific features (query with specific site, pagination and sort headings) were replaced by block Search results and template "search-results-browse-preview-deprecated": {json}', // @translate
-            ['json' => json_encode($pagesConverted)]
+            ['json' => json_encode($pagesConverted, 448)]
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
@@ -1658,7 +1658,7 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')) {
         $result = array_map('array_values', $result);
         $message = new PsrMessage(
             'The block "Browse Preview" do not have the variable `$site` anymore. Check your theme if you customized it. Matching pages: {json}.', // @translate
-            ['json' => json_encode($result)]
+            ['json' => json_encode($result, 448)]
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
@@ -1704,7 +1704,7 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
         $result = array_map('array_values', $result);
         $message = new PsrMessage(
             'The template layout of some blocks was renamed. Check your theme if you used them. Matching pages: {json}.', // @translate
-            ['json' => json_encode($result)]
+            ['json' => json_encode($result, 448)]
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
@@ -1813,7 +1813,7 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
         $result = array_map('array_values', $result);
         $message = new PsrMessage(
             'The data of blocks "Asset" were migrated to manage asset class and url as the first two lines of the caption. Update your theme like asset templates. Matching pages: {json}.', // @translate
-            ['json' => json_encode($result)]
+            ['json' => json_encode($result, 448)]
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
