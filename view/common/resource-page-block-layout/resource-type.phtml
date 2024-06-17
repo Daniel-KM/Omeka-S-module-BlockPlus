@@ -7,6 +7,8 @@
 $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
 $easyMeta = $plugins->get('easyMeta');
+
+$resourceType = $resource->getControllerName();
 ?>
 
-<div class="resource-type <?= $resource->getControllerName() ?>"><?= $translate(ucfirst($easyMeta->resourceLabel($resource))) ?></div>
+<div class="resource-type <?= $resourceType ?>"><?= $translate(ucfirst($easyMeta->resourceLabel($resourceType))) ?></div>
