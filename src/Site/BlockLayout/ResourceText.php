@@ -96,7 +96,6 @@ class ResourceText extends AbstractBlockLayout implements TemplateableBlockLayou
             'o:block[__blockIndex__][o:data][thumbnail_type]',
             'o:block[__blockIndex__][o:data][show_title_option]',
             'o:block[__blockIndex__][o:data][caption_position]',
-            'o:block[__blockIndex__][o:data][template]',
         ];
         foreach ($optionsElements as $element) {
             $element = $fieldset->get($element);
