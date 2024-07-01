@@ -30,18 +30,6 @@ class ExternalContentFieldset extends Fieldset
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][caption_position]',
-                'type' => Element\Radio::class,
-                'options' => [
-                    'label' => 'Captions position', // @translate
-                    'value_options' => [
-                        'center' => 'center', // @translate
-                        'left' => 'left', // @translate
-                        'right' => 'right', // @translate
-                    ],
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][html]',
                 'type' => Element\Textarea::class,
                 'attributes' => [

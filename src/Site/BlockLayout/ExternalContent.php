@@ -183,11 +183,10 @@ class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLa
         }
 
         $vars['showTitleOption'] = $vars['show_title_option'] ?? 'item_title';
-        $vars['captionPosition'] = $vars['caption_position'] ?? 'center';
         $vars['linkText'] = $vars['link_text'] ?? '';
         $vars['linkUrl'] = $vars['link_url'] ?? '';
 
-        unset($vars['show_title_option'], $vars['caption_position'], $vars['link_text'], $vars['link_url']);
+        unset($vars['show_title_option'], $vars['link_text'], $vars['link_url']);
 
         return $view->partial($templateViewScript, $vars);
     }

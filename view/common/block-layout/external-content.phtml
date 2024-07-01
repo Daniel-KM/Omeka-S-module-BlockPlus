@@ -5,7 +5,6 @@
  * @var array $embeds
  * @var string $html
  * @var string $showTitleOption
- * @var string $captionPosition
  * @var string $linkText
  * @var string $linkUrl
  */
@@ -18,7 +17,7 @@ $hyperlink = $plugins->get('hyperlink');
 
 <div class="block external-content media-text">
 
-<div class="<?= ' captions-' . $captionPosition ?> media file">
+<div class="media file">
     <div class="embeds attachments">
 <?php foreach ($embeds as $embed): ?>
     <div class="item resource">

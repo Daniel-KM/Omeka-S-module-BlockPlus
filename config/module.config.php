@@ -238,7 +238,6 @@ return [
                 'embeds' => [],
                 'html' => '',
                 'show_title_option' => 'title',
-                'caption_position' => 'center',
                 'link_text' => 'Know more', // @translate
                 'link_url' => '#',
             ],
