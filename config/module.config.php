@@ -177,13 +177,6 @@ return [
             'blockplus_property_itemset' => '',
         ],
         'site_settings' => [
-            // Page metadata.
-            'blockplus_page_types' => [
-                'home' => 'Home', // @translate
-                'exhibit' => 'Exhibit', // @translate
-                'exhibit_page' => 'Exhibit page', // @translate
-                'simple' => 'Simple page', // @translate
-            ],
             // Breadcrumbs.
             'blockplus_breadcrumbs_crumbs' => [
                 'home',
@@ -280,7 +273,6 @@ return [
                 'page' => null,
             ],
             'pageMetadata' => [
-                'type' => '',
                 'credits' => '',
                 'summary' => '',
                 'featured' => false,

@@ -10,9 +10,6 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 
-/**
- * @todo Deprecated some features available since Omeka S v4.1.
- */
 class PageMetadata extends AbstractBlockLayout
 {
     public function getLabel()
@@ -61,30 +58,11 @@ class PageMetadata extends AbstractBlockLayout
 
         $translate = $view->plugin('translate');
         $html = '<p>'
-            . $translate('This block doesn’t display anything, but store the type and various metadata about this page for themes.') // @translate
+            . $translate('This block doesn’t display anything, but stores various metadata for themes.') // @translate
             . '</p>';
         $html .= $view->formCollection($fieldset, false);
-
-        // Hack to hide the advanced metadata by default.
-        $posHtml = <<<HTML
-<div class="field">
-    <div class="field-meta">
-        <label for="page-metadata-credits">
-HTML;
-        $advancedOptionsHtml = '<a href="#" class="expand" title="' . $translate('expand') . '" aria-label="' . $translate('expand') . '"><h4>' . $translate('Metadata') . '</h4></a>';
-        $advancedOptionsHtml .= '<div class="collapsible no-override">';
-        $advancedOptionsHtml .= '<style>.collapsible.no-override {overflow:visible;}</style>';
-        $html = str_replace($posHtml, $advancedOptionsHtml . $posHtml, $html);
-
         $html .= $view->blockAttachmentsForm($block);
-        $html .= '</div>';
-
-        // Fix https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/issues/11.
-        $replace = [
-            '<span class="selected-asset" style="display: none;">' => '<span class="selected-asset-page-metadata" style="display: none;">',
-            '<span class="selected-asset">' => '<span class="selected-asset-page-metadata">',
-        ];
-        return str_replace(array_keys($replace), array_values($replace), $html);
+        return $html;
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

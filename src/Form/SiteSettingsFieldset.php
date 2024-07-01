@@ -23,27 +23,6 @@ class SiteSettingsFieldset extends Fieldset
             ->setAttribute('id', 'block-plus')
             ->setOption('element_groups', $this->elementGroups)
 
-            // Block metadata page type.
-
-            ->add([
-                'name' => 'blockplus_page_types',
-                'type' => OmekaElement\ArrayTextarea::class,
-                'options' => [
-                    'element_group' => 'block_plus',
-                    'label' => 'Page types', // @translate
-                    'info' => 'Specify the list of types that will be available to build specific pages.', // @translate
-                    'as_key_value' => true,
-                ],
-                'attributes' => [
-                    'id' => 'blockplus_page_types',
-                    'placeholder' => 'home = Home
-exhibit = Exhibit
-exhibit_page = Exhibit page
-simple = Simple page', // @translate
-                    'rows' => 5,
-                ],
-            ])
-
             // Breadcrumbs.
 
             ->add([
