@@ -6,7 +6,6 @@
  */
 
 $plugins = $this->getHelperPluginManager();
-$escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
 $htmlAttributes = $plugins->get('htmlAttributes');
 ?>
@@ -18,6 +17,7 @@ $htmlAttributes = $plugins->get('htmlAttributes');
     <li>
         <?php switch ($button):
             case 'download':
+            case 'print':
             case 'email':
             case 'facebook':
             case 'pinterest':

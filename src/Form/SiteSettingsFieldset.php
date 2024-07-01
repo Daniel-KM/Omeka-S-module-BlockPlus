@@ -109,6 +109,7 @@ class SiteSettingsFieldset extends Fieldset
                     'label' => 'Settings for the resource block Buttons', // @translate
                     'value_options' => [
                         'download' => 'Download', // @translate
+                        'print' => 'Print', // @translate
                         'email' => 'Share by email', // @translate
                         'facebook' => 'Share on Facebook', // @translate
                         'pinterest' => 'Share on Pinterest', // @translate

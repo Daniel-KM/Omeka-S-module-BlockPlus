@@ -71,14 +71,33 @@ class Buttons implements ResourcePageBlockLayoutInterface
             $data = [];
             switch ($button) {
                 case 'download':
+                    $primaryMedia = $resource->primaryMedia();
+                    if (!$primaryMedia || !$primaryMedia->hasOriginal()) {
+                        break;
+                    }
                     $data = [
                         'label' => $translate('Download'), // @translate
                         'attrs' => [
+                            'id' => 'button-download',
+                            'href' => $primaryMedia->originalUrl(),
+                            'title' => $translate('Download file'), // @translate
+                            'class' => 'share-page icon-download',
+                            'tabindex' => '0',
+                            'download' => 'download',
+                            'target' => '_self',
+                        ],
+                    ];
+                    break;
+
+                case 'print':
+                    $data = [
+                        'label' => $translate('Print'), // @translate
+                        'attrs' => [
                             'id' => 'button-print',
                             'href' => '#',
-                            'title' => $translate('Download'), // @translate
+                            'title' => $translate('Print'), // @translate
                             'onclick' => 'window.print(); return false;',
-                            'class' => 'share-page icon-download',
+                            'class' => 'share-page icon-print',
                             'tabindex' => '0',
                         ],
                     ];
