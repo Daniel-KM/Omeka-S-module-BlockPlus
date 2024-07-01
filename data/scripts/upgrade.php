@@ -1820,8 +1820,6 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
 }
 
 if (version_compare($oldVersion, '3.4.23', '<')) {
-    // Migrate block "ResourceText" to a group of block "Html" + "Media" (require Omeka S v4.1).
-
     /** @var \Laminas\Log\Logger $logger */
     $logger = $services->get('Omeka\Logger');
 
@@ -1909,6 +1907,133 @@ if (version_compare($oldVersion, '3.4.23', '<')) {
         $message = new PsrMessage(
             'The setting "heading" was removed from block Media. A new block "Heading" was prepended to all blocks that had a filled heading. You may check pages for styles: {json}', // @translate
             ['json' => json_encode($pagesWithHeading, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+
+    // Migrate block "ResourceText" to a group of block "Html" + "Media" (require Omeka S v4.1).
+    // Migrate template for block Resource Text.
+    $result = [];
+    foreach ($blocksRepository->findBy(['layout' => 'resourceText']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData() ?? [];
+        $template = $data['template'] ?? null;
+        if ($template) {
+            $templateName = pathinfo($template, PATHINFO_FILENAME);
+        }
+        $existingTemplateName = $layoutData['template_name'] ?? '';
+        if (!$existingTemplateName) {
+            $layoutData['template_name'] = $templateName === 'resource-text'
+                ? 'media-resource-text-deprecated'
+                : $templateName;
+        }
+        $block->setLayoutData($layoutData);
+        unset($data['template']);
+        $block->setData($data);
+        $page = $block->getPage();
+        $pageSlug = $page->getSlug();
+        $result[$page->getSite()->getSlug()][$pageSlug] = $pageSlug;
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    /**
+     * Prepend a specific block group, and append a block "Html" after Resource Text when filled.
+     * Combine messages/logs.
+     */
+    $pagesWithHtml = $result;
+    $processedBlocksId = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        $position = 0;
+        $prevBlockGroup = null;
+        foreach ($page->getBlocks() as $block) {
+            $block->setPosition(++$position);
+            $layout = $block->getLayout();
+            if ($layout !== 'resourceText') {
+                $prevBlockGroup = $layout === 'blockGroup' ? $block : null;
+                continue;
+            }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            $html = $data['html'] ?? '';
+            $hasHtml = !in_array(str_replace([' ', "\n", "\r", "\t"], '', $html), ['', '<div></div>', '<p></p>']);
+            if ($hasHtml && !isset($processedBlocksId[$blockId])) {
+                // Prepend a block group for two blocks.
+                // Fix basic issue with block group, but not all. Anyway not a frequent block.
+                // TODO Added a check for nested groups of blocks.
+                if ($prevBlockGroup) {
+                    $prevData = $prevBlockGroup->getData();
+                    $prevSpan = $prevData['span'] ?? 0;
+                    $prevBlockGroup->setData(['span' => ++$prevSpan] + $prevData);
+                } else {
+                    $bg = new \Omeka\Entity\SitePageBlock();
+                    $bg->setLayout('blockGroup');
+                    $bg->setPage($page);
+                    $bg->setPosition(++$position);
+                    $bg->setData([
+                        'span' => 2,
+                    ]);
+                    $entityManager->persist($bg);
+                }
+            }
+            if (!isset($processedBlocksId[$blockId])) {
+                // Convert current block as media.
+                // The options are the same than Media, except "caption_position"
+                // (center, left or right), that is lost.
+                $block->setLayout('media');
+                $block->setPosition(++$position);
+            }
+            if ($hasHtml && !isset($processedBlocksId[$blockId])) {
+                $pagesWithHtml[$siteSlug][$pageSlug] = $pageSlug;
+                $processedBlocksId[$blockId] = $blockId;
+                // Append a block for html.
+                $b = new \Omeka\Entity\SitePageBlock();
+                $b->setLayout('html');
+                $b->setPage($page);
+                $b->setPosition(++$position);
+                $b->setData([
+                    'html' => $html,
+                ]);
+                $entityManager->persist($b);
+            }
+            unset($data['html']);
+            $block->setData($data);
+            $prevBlock = null;
+            $prevBlockLayout = null;
+        }
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    if (!empty($pagesWithHtml)) {
+        $result = array_map('array_values', $pagesWithHtml);
+        $message = new PsrMessage(
+            'The block Resource Text has been converted to a group of blocks Media and Html. The option "caption position" was moved to layout class. You may check pages for styles: {json}', // @translate
+            ['json' => json_encode($result, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+
+    // Check themes that use "$html" and "$captionPosition" in block Media.
+    $strings = [
+        '$html',
+        '$captionPosition',
+    ];
+    $manageModuleAndResources = $this->getManageModuleAndResources();
+    $result = $manageModuleAndResources->checkStringsInFiles($strings, 'themes/*/view/common/block-layout/media-*');
+    if ($result) {
+        $message = new PsrMessage(
+            'The variables "$html" and "$captionPosition" were removed from block Resource Text (converted into block Media). You should fix them: {json}', // @translate
+            ['json' => json_encode($result, 448)]
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
