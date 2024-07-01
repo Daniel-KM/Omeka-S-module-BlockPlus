@@ -126,8 +126,8 @@ return [
             'browse-preview-gallery' => 'Block Plus: Gallery', // @translate
             'browse-preview-deprecated' => 'Block Plus: Browse preview (deprecated)', // @translate
         ],
-        'media' => [
-            'media-item-showcase-deprecated' => 'Block Plus: Item showcase (deprecated)', // @translate
+        'heading' => [
+            'heading-link' => 'Block Plus: Heading link', // @translate
         ],
         'html' => [
             'html-glossary' => 'Block Plus: Glossary', // @translate
@@ -141,6 +141,10 @@ return [
         ],
         'listOfSites' => [
             'list-of-sites-deprecated' => 'Block Plus: List of sites (deprecated)', // @translate
+        ],
+        // Warning: the original template for block Media is "file".
+        'media' => [
+            'media-item-showcase-deprecated' => 'Block Plus: Item showcase (deprecated)', // @translate
         ],
         'pageDateTime' => [
             'page-date-time-plus' => 'Block Plus: Page date time', // @translate

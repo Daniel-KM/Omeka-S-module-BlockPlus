@@ -1,0 +1,44 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $text
+ * @var int $level
+ */
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$htmlAttribs = $this->plugin('htmlAttributes');
+
+// Check anchor for security.
+$text = trim($text);
+if (mb_substr($text, 0, 3) === '<a '
+    && mb_substr($text, -4) === '</a>'
+    && ($anchor = new SimpleXMLElement($text))
+    // Don't allow children.
+    && !$anchor ->count()
+) {
+    $allowedAttributes = [
+        'class' => null,
+        'download' => null,
+        'href' => null,
+        'hreflang' => null,
+        'id' => null,
+        'referrerpolicy' => null,
+        'rel' => null,
+        'target' => null,
+        'title' => null,
+        'type' => null,
+        'aria-label' => null,
+    ];
+    $attributes = (array) $anchor->attributes();
+    $attributes = array_intersect_key($attributes['@attributes'] ?? [], $allowedAttributes);
+    $content = (string) $anchor;
+}
+?>
+
+<?php if (isset($attributes)): ?>
+<h<?= $level ?> class="heading-link"><a<?= $htmlAttribs($attributes) ?>><?= $escape($content) ?></a></h<?= $level ?>>
+<?php else: ?>
+<h<?= $level ?>><?= $escape($text) ?></h<?= $level ?>>
+<?php endif; ?>
