@@ -158,11 +158,10 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
             ? $this->fetchAccountData(empty($vars['account']) ? null : $vars['account'])
             : $vars['account_data'];
         if (empty($accountData) || !empty($accountData['error'])) {
-            $view->logger()->err(new Message(
-                'The twitter block for page "%s" in site "%s" has no account set.', // @translate
-                $block->page()->slug(),
-                $block->page()->site()->slug()
-            ));
+            $view->logger()->err(
+                'The twitter block for page "{page_slug}" in site "{site_slug}" has no account set.', // @translate
+                ['page_slug' => $block->page()->slug(), 'site_slug' => $block->page()->site()->slug()]
+            );
             return '';
         }
 

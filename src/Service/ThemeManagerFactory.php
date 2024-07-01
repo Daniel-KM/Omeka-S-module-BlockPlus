@@ -16,6 +16,7 @@ use SplFileInfo;
  *
  * Copy in:
  * @see \BlockPlus\Service\ThemeManagerFactory
+ * @see \Reference\Service\ThemeManagerFactory
  * @see \Timeline\Service\ThemeManagerFactory
  */
 class ThemeManagerFactory implements FactoryInterface
