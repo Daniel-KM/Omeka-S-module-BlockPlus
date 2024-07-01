@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-10 00:00+0000\n"
-"PO-Revision-Date: 2024-06-10 00:00+0000\n"
+"POT-Creation-Date: 2024-06-24 00:00+0000\n"
+"PO-Revision-Date: 2024-06-24 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -173,7 +173,7 @@ msgstr "Sélection"
 
 #: src/View/Helper/Breadcrumbs.php:527
 msgid "Current page"
-msgstr "Page actuelle"
+msgstr "Page en cours"
 
 #: src/View/Helper/Breadcrumbs.php:570
 msgid "Collections"
@@ -639,7 +639,7 @@ msgstr ""
 "« Titre » (Html Heading) a été ajouté à tous les blocs qui avaient un titre "
 "rempli. Vous pouvez vérifier les styles des pages : {json}"
 
-#: data/scripts/upgrade.php:1633
+#: data/scripts/upgrade.php:1634
 msgid ""
 "These templates for block \"Html\" should contain `$block->dataValue('html', "
 "'')` because `$html` is no more available by default. Matching files: {json}"
@@ -648,7 +648,7 @@ msgstr ""
 ">dataValue('html', '')` car `$html` n'est plus disponible par défaut. "
 "Fichiers correspondants : {json}"
 
-#: data/scripts/upgrade.php:1654
+#: data/scripts/upgrade.php:1660
 msgid ""
 "The block \"Browse Preview\" do not have the variable `$site` anymore. Check "
 "your theme if you customized it. Matching pages: {json}."
@@ -656,7 +656,15 @@ msgstr ""
 "Le bloc « Aperçu des ressources » n’a plus la variable `$site`. Vérifiez "
 "votre thème si vous l'avez personnalisé. Pages correspondantes : {json}."
 
-#: data/scripts/upgrade.php:1774
+#: data/scripts/upgrade.php:1706
+msgid ""
+"The template layout of some blocks was renamed. Check your theme if you used "
+"them. Matching pages: {json}."
+msgstr ""
+"Le gabarit de certains blocs a été renommé. Vérifiez votre thème si vous "
+"l’avez personnalisé. Pages correspondantes : {json}."
+
+#: data/scripts/upgrade.php:1815
 msgid ""
 "The data of blocks \"Asset\" were migrated to manage asset class and url as "
 "the first two lines of the caption. Update your theme like asset templates. "
@@ -666,6 +674,19 @@ msgstr ""
 "les urls de chaque fichier via les deux premières lignes de la légende. "
 "Mettez à jour votre thème si besoin comme les autres gabarits du bloc "
 "Fichier. Pages correspondantes : {json}."
+
+#: data/scripts/upgrade.php:1824
+msgid ""
+"All themes that contain custom templates of the blocks should be moved from "
+"\"view/common/block-layout\" to \"view/common/block-template\" except if "
+"they override the default one with the same name. See {link}readme{link_end} "
+"for more information about migration."
+msgstr ""
+"Pour tous les thèmes, les gabarits personnalisés des blocs doivent être "
+"déplacés de « view/common/block-layout » vers « view/common/block-"
+"template », sauf s’ils conservent le même nom que le bloc par défaut. "
+"Consultez le {link}lisez-moi{link_end} pour plus d’informations sur la "
+"migration."
 
 #: Module.php:46
 msgid ""
@@ -1065,10 +1086,6 @@ msgstr ""
 "Si coché, toutes les pages seront affichées, sinon seulement celles situées "
 "dans l’arborescence de la page en cours."
 
-#: src/Form/HeadingFieldset.php:20
-msgid "Content"
-msgstr "Contenu"
-
 #: src/Form/HeadingFieldset.php:27
 msgid "Level"
 msgstr "Niveau"
@@ -1461,6 +1478,9 @@ msgstr "Simple page"
 #: config/module.config.php:242
 msgid "Know more"
 msgstr "En savoir plus"
+
+#~ msgid "Content"
+#~ msgstr "Contenu"
 
 #~ msgid "Block Plus: Browse preview plus"
 #~ msgstr "Block Plus : Aperçu des ressources Plus"

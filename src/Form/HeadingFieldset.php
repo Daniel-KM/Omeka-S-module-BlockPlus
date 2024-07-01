@@ -17,7 +17,7 @@ class HeadingFieldset extends Fieldset
                 'name' => 'o:block[__blockIndex__][o:data][text]',
                 'type' => Element\Text::class,
                 'options' => [
-                    'label' => 'Content', // @translate
+                    'label' => 'Text', // @translate
                 ],
             ])
             ->add([
