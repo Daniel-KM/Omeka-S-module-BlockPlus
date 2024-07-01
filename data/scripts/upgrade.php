@@ -1819,6 +1819,7 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
     }
 }
 
+// There should have been a 3.4.22-beta.2 and this one would be the real 3.4.22.
 if (version_compare($oldVersion, '3.4.23', '<')) {
     /** @var \Laminas\Log\Logger $logger */
     $logger = $services->get('Omeka\Logger');
@@ -2102,4 +2103,17 @@ if (version_compare($oldVersion, '3.4.23', '<')) {
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
     }
+
+    $message = new PsrMessage(
+        'All themes that contain custom templates of the blocks should be moved from "view/common/block-layout" to "view/common/block-template" except if they override the default one with the same name. See {link}readme{link_end} for more information about migration.', // @translate
+        [
+            'link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus#migration-of-themes-in-version-v3-4-22-23" _target="blank" rel="noopener">',
+            'link_end' => '</a>',
+        ]
+    );
+    $message->setEscapeHtml(false);
+    $messenger->addWarning($message);
+
+    // TODO Just for cleaning: block positions are no more continuous, but may be incremented by two. But it is not a issue.
+    // TODO Check for nested groups of block.
 }
