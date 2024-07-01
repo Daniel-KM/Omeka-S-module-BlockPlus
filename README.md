@@ -43,8 +43,8 @@ composer install --no-dev
 Then install it like any other Omeka module and follow the config instructions.
 
 
-Usage since version 3.4.22 for Omeka S v4.1
--------------------------------------------
+Usage since version 3.4.22/23 for Omeka S v4.1
+----------------------------------------------
 
 ### New site page blocks and block templates
 
@@ -151,9 +151,10 @@ An example of use can be seen on the digital library of the [Fondation de la Mai
 
 #### External content
 
-Similar to media with html, but to display an external asset that is not a
-resource neither an asset file, so currently not manageable inside Omeka. It may
-be used to display a html text with a video on the home page.
+Similar to media or asset, but to display an external asset that is not a
+resource neither an asset file, so currently not manageable inside Omeka. With
+a block of html in a group of blocks, it may be used to display a html text with
+a video on the home page.
 
 #### Heading
 
@@ -217,11 +218,6 @@ Allow to specify some metadata to the page for theme creators.
 Allow to redirect the page to another page, inside or outside Omeka. It is
 useful for hard coded links in the footer, to keep track of some clicks, to use
 the page item/browse as a the home page, or some other use cases.
-
-#### Resource with html
-
-Simplify the display of a media on the left or the right (see [user guide]). It
-is the same block that existed in [Omeka Classic] [Exhibit `file-text`].
 
 #### Search form
 
@@ -566,6 +562,7 @@ class `column align-right` (or left).
 
 #### External content
 
+Allow to display an external resource. The block contains an html textarea too.
 See above.
 
 #### HTML (templates)
@@ -591,7 +588,9 @@ See above.
 
 #### Resource with html
 
-See above.
+Simplify the display of a media on the left or the right (see [user guide]). It
+is the same block that existed in [Omeka Classic] [Exhibit `file-text`]. It was
+migrated to a block group with blocks Media and Html.
 
 #### Search form
 
@@ -629,8 +628,8 @@ See above.
 See above.
 
 
-Migration of themes in version v3.4.22
---------------------------------------
+Migration of themes in version v3.4.22/23
+-----------------------------------------
 
 **Warning**: when a page is saved, all remaining settings that are not managed
 by the form are removed. So the best way to see issues is to load all pages
@@ -763,6 +762,13 @@ manually with page template "grid" and/or block groups.
 
 Furthermore, the option "tag", that can be "div" or "aside", is no more managed.
 
+### Block External Content, appended with a block Html in a group of blocks
+
+The block does not manage html any more, so it display an external resource. The
+migration converts it to a group of blocks External Content and Html.
+Furthermore, the option Caption Position is now a class of the block. So you may
+check styles.
+
 ### Block Html
 
 The variable `$html` is no more available in templates for block Html, so you
@@ -777,6 +783,11 @@ The block Item Showcase was renamed Media in Omeka S v4.1. The option "linkType"
 was renamed "link".
 
 You should fix the theme manually.
+
+### Block Resource Text, replaced by a group of blocks Media and Html
+
+The block is now a group of blocks Media and Html, so structure and classes were
+updated, so you may check styles.
 
 ### Block Separator, replaced by block Line Break
 
