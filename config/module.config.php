@@ -56,7 +56,6 @@ return [
         'factories' => [
             'externalContent' => Service\BlockLayout\ExternalContentFactory::class,
             'mirrorPage' => Service\BlockLayout\MirrorPageFactory::class,
-            'resourceText' => Service\BlockLayout\ResourceTextFactory::class,
             'showcase' => Service\BlockLayout\ShowcaseFactory::class,
         ],
     ],
@@ -87,7 +86,6 @@ return [
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\MirrorPageFieldset::class => Form\MirrorPageFieldset::class,
             Form\RedirectToUrlFieldset::class => Form\RedirectToUrlFieldset::class,
-            Form\ResourceTextFieldset::class => Form\ResourceTextFieldset::class,
             Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
             Form\ShowcaseFieldset::class => Form\ShowcaseFieldset::class,
             Form\TableOfContentsFieldset::class => Form\TableOfContentsFieldset::class,
@@ -145,6 +143,7 @@ return [
         // Warning: the original template for block Media is "file".
         'media' => [
             'media-item-showcase-deprecated' => 'Block Plus: Item showcase (deprecated)', // @translate
+            'media-resource-text-deprecated' => 'Block Plus: Resource text (deprecated)', // @translate
         ],
         'pageDateTime' => [
             'page-date-time-plus' => 'Block Plus: Page date time', // @translate
@@ -292,14 +291,6 @@ return [
             ],
             'redirectToUrl' => [
                 'url' => '',
-            ],
-            'resourceText' => [
-                'attachments' => [],
-                'html' => '',
-                'thumbnail_type' => 'square',
-                'show_title_option' => 'item_title',
-                // This option is mainly for compability with Omeka Classic exhibits.
-                'caption_position' => 'center',
             ],
             'searchForm' => [
                 'html' => '',

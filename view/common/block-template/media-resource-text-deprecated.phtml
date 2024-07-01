@@ -3,19 +3,18 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var \Omeka\Api\Representation\SiteBlockAttachmentRepresentation[] $attachments
- * @var string $html
  * @var string $thumbnailType
  * @var string $showTitleOption "item_title" or "file_name" or "none".
  * @var string $captionPosition "center", "left" or "right".
  */
 
-$escape = $this->plugin('escapeHtml');
-$hyperlink = $this->plugin('hyperlink');
-$siteSetting = $this->plugin('siteSetting');
+$plugins = $this->getHelperPluginManager();
+$hyperlink = $plugins->get('hyperlink');
+$siteSetting = $plugins->get('siteSetting');
 
 $linkType = $siteSetting('attachment_link_type', 'item');
 
-$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;
 ?>
 
@@ -28,31 +27,31 @@ $lang = $filterLocale ? $this->lang() : null;
                 $title = null;
                 $link = null;
                 $item = $attachment->item();
-                if ($item):
+                if ($item) {
                     $media = $attachment->media() ?: $item->primaryMedia();
-                    if ($media):
+                    if ($media) {
                         $render = $media->render([
                             'thumbnailType' => $thumbnailType,
                             'link' => $linkType,
                         ]);
-                    endif;
+                    }
 
-                    if ($showTitleOption == 'item_title'):
+                    if ($showTitleOption == 'item_title') {
                         $title = $item->displayTitle(null, $lang);
-                    elseif ($media && $showTitleOption == 'file_name'):
+                    } elseif ($media && $showTitleOption == 'file_name') {
                         $title = $media->displayTitle(null, $lang);
-                    endif;
+                    }
 
-                    if ($title):
-                        if ($media && $linkType === 'media'):
+                    if ($title) {
+                        if ($media && $linkType === 'media') {
                             $link = $media->link($title);
-                        elseif ($media && $linkType === 'original' && $media->hasOriginal()):
+                        } elseif ($media && $linkType === 'original' && $media->hasOriginal()) {
                             $link = $hyperlink($title, $media->originalUrl());
-                        else:
+                        } else {
                             $link = $item->link($title);
-                        endif;
-                    endif;
-                endif;
+                        }
+                    }
+                }
 
                 $caption = $attachment->caption();
             ?>
@@ -65,8 +64,5 @@ $lang = $filterLocale ? $this->lang() : null;
             </div>
             <?php endforeach; ?>
         </div>
-    </div>
-    <div class="text">
-        <?= $html ?>
     </div>
 </div>
