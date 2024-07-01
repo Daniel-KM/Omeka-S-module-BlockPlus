@@ -1071,7 +1071,6 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
         }
     }
 
-    // Don't flush or clear here to avoid issue with position of inserted blocks.
     // Do a clear to fix issues with new blocks created during migration.
     $entityManager->flush();
     $entityManager->clear();
@@ -1814,6 +1813,102 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
         $message = new PsrMessage(
             'The data of blocks "Asset" were migrated to manage asset class and url as the first two lines of the caption. Update your theme like asset templates. Matching pages: {json}.', // @translate
             ['json' => json_encode($result, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+}
+
+if (version_compare($oldVersion, '3.4.23', '<')) {
+    // Migrate block "ResourceText" to a group of block "Html" + "Media" (require Omeka S v4.1).
+
+    /** @var \Laminas\Log\Logger $logger */
+    $logger = $services->get('Omeka\Logger');
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+    $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
+
+    // Migrate templates for block Media.
+    $result = [];
+    $blockLayoutTemplatesRenamed = [
+        'item-showcase' => 'media-item-showcase-deprecated',
+        'item-showcase-plus' => 'media-item-showcase-deprecated',
+        'resource-text' => 'media-resource-text-deprecated',
+    ];
+    foreach ($blocksRepository->findBy(['layout' => 'media']) as $block) {
+        $data = $block->getData();
+        $layoutData = $block->getLayoutData() ?? [];
+        $template = $data['template'] ?? null;
+        if ($template) {
+            $templateName = pathinfo($template, PATHINFO_FILENAME);
+        }
+        $existingTemplateName = $layoutData['template_name'] ?? '';
+        if (!$existingTemplateName && $templateName !== 'media') {
+            $layoutData['template_name'] = isset($blockLayoutTemplatesRenamed[$templateName])
+                ? $blockLayoutTemplatesRenamed[$templateName]
+                : $templateName;
+        }
+        $block->setLayoutData($layoutData);
+        unset($data['template']);
+        $block->setData($data);
+        $page = $block->getPage();
+        $pageSlug = $page->getSlug();
+        $result[$page->getSite()->getSlug()][$pageSlug] = $pageSlug;
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    /**
+     * Replace filled setttings "heading" by a specific block "Heading" for Media.
+     */
+    $pagesWithHeading = [];
+    $processedBlocksId = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        $position = 0;
+        foreach ($page->getBlocks() as $block) {
+            $block->setPosition(++$position);
+            $layout = $block->getLayout();
+            if ($layout !== 'media') {
+                continue;
+            }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            $heading = $data['heading'] ?? '';
+            $heading = trim($heading);
+            if (strlen($heading) && !isset($processedBlocksId[$blockId])) {
+                $b = new \Omeka\Entity\SitePageBlock();
+                $b->setLayout('heading');
+                $b->setPage($page);
+                $b->setPosition(++$position);
+                $b->setData([
+                    'text' => $heading,
+                    'level' => 2,
+                ]);
+                $entityManager->persist($b);
+                $block->setPosition(++$position);
+                $pagesWithHeading[$siteSlug][$pageSlug] = $pageSlug;
+                $processedBlocksId[$blockId] = $blockId;
+            }
+            unset($data['heading']);
+            $block->setData($data);
+        }
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    if ($pagesWithHeading) {
+        $pagesWithHeading = array_map('array_values', $pagesWithHeading);
+        $message = new PsrMessage(
+            'The setting "heading" was removed from block Media. A new block "Heading" was prepended to all blocks that had a filled heading. You may check pages for styles: {json}', // @translate
+            ['json' => json_encode($pagesWithHeading, 448)]
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
