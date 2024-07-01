@@ -3,14 +3,17 @@
     display: block;
     clear: both;
 }
+.caption-center .resource h3,
 .media-text .captions-center .resource h3,
 .media-text .captions-center .resource .caption {
     text-align: center;
 }
+.caption-left .resource h3,
 .media-text .captions-left .resource h3,
 .media-text .captions-left .resource .caption {
     text-align: left;
 }
+.caption-right .resource h3,
 .media-text .captions-right .resource h3,
 .media-text .captions-right .resource .caption {
     text-align: right;

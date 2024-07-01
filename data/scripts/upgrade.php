@@ -1036,7 +1036,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     /**
      * Prepend a specific block "Html" before Browse preview when filled.
      */
-    $pagesWithBrowsePreviewHtml = [];
+    $pagesWithHtml = [];
     $processedBlocksId = [];
     foreach ($pageRepository->findAll() as $page) {
         $pageId = $page->getId();
@@ -1063,7 +1063,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
                 ]);
                 $entityManager->persist($b);
                 $block->setPosition(++$position);
-                $pagesWithBrowsePreviewHtml[$siteSlug][$pageSlug] = $pageSlug;
+                $pagesWithHtml[$siteSlug][$pageSlug] = $pageSlug;
                 $processedBlocksId[$blockId] = $blockId;
             }
             unset($data['html']);
@@ -1075,11 +1075,11 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     $entityManager->flush();
     $entityManager->clear();
 
-    if (!empty($pagesWithBrowsePreviewHtml)) {
-        $pagesWithBrowsePreviewHtml = array_map('array_values', $pagesWithBrowsePreviewHtml);
+    if (!empty($pagesWithHtml)) {
+        $pagesWithHtml = array_map('array_values', $pagesWithHtml);
         $message = new PsrMessage(
             'The setting "html" was removed from block Browse Preview. A new block "Html" was prepended to all blocks that had a filled html. You may check pages for styles: {json}', // @translate
-            ['json' => json_encode($pagesWithBrowsePreviewHtml, 448)]
+            ['json' => json_encode($pagesWithHtml, 448)]
         );
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
@@ -1985,7 +1985,13 @@ if (version_compare($oldVersion, '3.4.23', '<')) {
             if (!isset($processedBlocksId[$blockId])) {
                 // Convert current block as media.
                 // The options are the same than Media, except "caption_position"
-                // (center, left or right), that is lost.
+                // (center, left or right), that is converted into a class
+                // prepended with "caption-".
+                $captionPosition = $data['caption_position'] ?? 'center';
+                $currentLayoutDataClass = empty($layoutData['class']) ? '' : trim($layoutData['class']);
+                $layoutData['class'] = $currentLayoutDataClass
+                    ? "caption-$captionPosition"
+                    : "$currentLayoutDataClass caption-$captionPosition";
                 $block->setLayout('media');
                 $block->setPosition(++$position);
             }

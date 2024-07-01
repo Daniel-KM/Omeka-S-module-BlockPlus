@@ -5,7 +5,6 @@
  * @var \Omeka\Api\Representation\SiteBlockAttachmentRepresentation[] $attachments
  * @var string $thumbnailType
  * @var string $showTitleOption "item_title" or "file_name" or "none".
- * @var string $captionPosition "center", "left" or "right".
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -19,7 +18,7 @@ $lang = $filterLocale ? $this->lang() : null;
 ?>
 
 <div class="block media-text">
-    <div class="<?= $thumbnailType . ' captions-' . $captionPosition ?> media file">
+    <div class="<?= $thumbnailType ?> media file">
         <div class="attachments">
             <?php
             foreach ($attachments as $attachment):
