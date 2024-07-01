@@ -65,6 +65,7 @@ return [
             'breadcrumbs' => Site\ResourcePageBlockLayout\Breadcrumbs::class,
             'buttons' => Site\ResourcePageBlockLayout\Buttons::class,
             'description' => Site\ResourcePageBlockLayout\Description::class,
+            'downloadPrimary' => Site\ResourcePageBlockLayout\DownloadPrimary::class,
             'mediaPartOfItem' => Site\ResourcePageBlockLayout\MediaPartOfItem::class,
             'messages' => Site\ResourcePageBlockLayout\Messages::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
