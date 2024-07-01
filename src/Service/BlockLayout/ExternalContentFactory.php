@@ -17,7 +17,6 @@ class ExternalContentFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         return new ExternalContent(
-            $services->get('Omeka\HtmlPurifier'),
             $services->get('Config')['oembed']['whitelist'],
             $services->get('Omeka\HttpClient'),
             $services->get('Omeka\File\Downloader')

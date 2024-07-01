@@ -3,7 +3,6 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var array $embeds
- * @var string $html
  * @var string $showTitleOption
  * @var string $linkText
  * @var string $linkUrl
@@ -60,7 +59,6 @@ $hyperlink = $plugins->get('hyperlink');
 <?php endforeach; ?>
     </div>
 </div>
-<?= $html ?>
 
 <?php if ($linkText && $linkUrl): ?>
 <?= $hyperlink($linkText, $linkUrl) ?>

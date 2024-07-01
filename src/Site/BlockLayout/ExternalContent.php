@@ -14,7 +14,6 @@ use Omeka\File\Downloader;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 use Omeka\Stdlib\ErrorStore;
-use Omeka\Stdlib\HtmlPurifier;
 
 /**
  * Allow to display an external asset that is not a resource or an asset file.
@@ -29,11 +28,6 @@ class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLa
      * The default partial view script.
      */
     const PARTIAL_NAME = 'common/block-layout/external-content';
-
-    /**
-     * @var HtmlPurifier
-     */
-    protected $htmlPurifier;
 
     /**
      * @var array
@@ -51,12 +45,10 @@ class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLa
     protected $downloader;
 
     public function __construct(
-        HtmlPurifier $htmlPurifier,
         array $whitelist,
         HttpClient $httpClient,
         Downloader $downloader
     ) {
-        $this->htmlPurifier = $htmlPurifier;
         $this->whitelist = $whitelist;
         $this->httpClient = $httpClient;
         $this->downloader = $downloader;
@@ -76,7 +68,6 @@ class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLa
     {
         /**
          * @see \Omeka\Media\Ingester\OEmbed
-         * @see \Omeka\Site\BlockLayout\Html
          */
         $data = $block->getData();
 
@@ -135,10 +126,6 @@ class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLa
             ];
         }
 
-        $data['html'] = isset($data['html'])
-            ? $this->fixEndOfLine($this->htmlPurifier->purify($data['html']))
-            : '';
-
         $block->setData($data);
     }
 
@@ -177,8 +164,7 @@ class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLa
         $vars = ['block' => $block] + $block->data();
 
         $vars['embeds'] ??= [];
-        $vars['html'] ??= '';
-        if (!$vars['embeds'] && !$vars['html']) {
+        if (!$vars['embeds']) {
             return '';
         }
 
@@ -194,7 +180,7 @@ class ExternalContent extends AbstractBlockLayout implements TemplateableBlockLa
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         // TODO Add captions (they are not added in the core)?
-        return $block->dataValue('html', '');
+        return '';
     }
 
     /**

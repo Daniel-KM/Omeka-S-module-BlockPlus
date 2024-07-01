@@ -30,13 +30,6 @@ class ExternalContentFieldset extends Fieldset
                 ],
             ])
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][html]',
-                'type' => Element\Textarea::class,
-                'attributes' => [
-                    'class' => 'block-html full wysiwyg',
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][link_text]',
                 'type' => Element\Text::class,
                 'options' => [
