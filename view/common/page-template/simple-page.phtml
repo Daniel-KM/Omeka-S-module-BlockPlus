@@ -1,0 +1,12 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Api\Representation\SitePageRepresentation $page
+ * @var string $pageBodyClass
+ * @var bool $displayNavigation Always true, except with block TableOfContents.
+ * @var string $content Child view.
+ */
+
+$this->htmlElement('body')->appendAttribute('class', 'simple-page');
+echo $this->partial('omeka/site/page/show');

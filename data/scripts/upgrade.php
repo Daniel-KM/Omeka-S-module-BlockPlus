@@ -2044,4 +2044,62 @@ if (version_compare($oldVersion, '3.4.23', '<')) {
         $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
     }
+
+    // Migrate page metadata.
+    $pageMetadataTypes = [
+        'home' => 'home-page',
+        'home-page' => 'home-page',
+        'home_page' => 'home-page',
+        'exhibit' => 'exhibit',
+        'exhibit-page' => 'exhibit-page',
+        'exhibit_page' => 'exhibit-page',
+        'simple' => 'simple-page',
+        'simple-page' => 'simple-page',
+        'simple_page' => 'simple-page',
+    ];
+    $pagesUpdated = [];
+    $pagesTypesUpdated = [];
+    foreach ($blocksRepository->findBy(['layout' => 'pageMetadata']) as $block) {
+        $page = $block->getPage();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        $data = $block->getData();
+        $type = $data['type'];
+        // Here, the layout data is the one of the page.
+        $layoutDataPage = $page->getLayoutData() ?? [];
+        $existingTemplateName = $layoutDataPage['template_name'] ?? '';
+        if ($type && !$existingTemplateName) {
+            $layoutData['template_name'] = $pageMetadataTypes[$type] ?? $type;
+        } elseif ($type && $existingTemplateName && $type !== $existingTemplateName) {
+            // Just warn below.
+            $pagesTypesUpdated[$siteSlug][$pageSlug] = "$pageSlug = $type (existing: $existingTemplateName)";
+        } else {
+            continue;
+        }
+        $page->setLayoutData($layoutData);
+        // Don't update block for now in case of issue.
+        // unset($data['type']);
+        // $block->setData($data);
+        $pagesUpdated[$siteSlug][$pageSlug] = $pageSlug;
+    }
+
+    if ($pagesUpdated) {
+        $result = array_map('array_values', $pagesUpdated);
+        $message = new PsrMessage(
+            'The option "type" of block Page Metadata was migrated to page layout option and page templates were added. Update your theme if needed. Matching pages: {json}.', // @translate
+            ['json' => json_encode($result, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+
+    if ($pagesTypesUpdated) {
+        $result = array_map('array_values', $pagesTypesUpdated);
+        $message = new PsrMessage(
+            'The option "type" of block Page Metadata cannot be migrated because a page layout template was already set. Matching pages: {json}.', // @translate
+            ['json' => json_encode($result, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
 }

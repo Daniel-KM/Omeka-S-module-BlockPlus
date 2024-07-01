@@ -103,6 +103,10 @@ return [
         ],
     ],
     'page_templates' => [
+        'home-page' => 'Home page', // @translate
+        'exhibit' => 'Exhibit', // @translate
+        'exhibit-page' => 'Exhibit page', // @translate
+        'simple-page' => 'Simple page', // @translate
     ],
     'block_templates' => [
         'asset' => [
