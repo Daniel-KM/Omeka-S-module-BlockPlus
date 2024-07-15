@@ -30,7 +30,7 @@ class Breadcrumbs extends AbstractBlockLayout implements TemplateableBlockLayout
     ) {
         return '<p>'
             . new PsrMessage(
-                $view->translate('This block uses the options set in the {link}site settings{link_end}, unless you use the standard template.'), // @translate
+                $view->translate('This block uses the options set in the {link}site settings{link_end}, unless you use the template of Omeka in the config of the block.'), // @translate
                 ['link' => '<a href="' . $view->url('admin/site/slug', ['action' => 'edit'], ['fragment' => 'site-settings'], true) . '">', 'link_end' => '</a>']
             )
             . '</p>';
