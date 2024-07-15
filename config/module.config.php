@@ -104,10 +104,10 @@ return [
         ],
     ],
     'page_templates' => [
-        'home-page' => 'Home page', // @translate
-        'exhibit' => 'Exhibit', // @translate
-        'exhibit-page' => 'Exhibit page', // @translate
-        'simple-page' => 'Simple page', // @translate
+        'home-page' => 'Block Plus: Home page', // @translate
+        'exhibit' => 'Block Plus: Exhibit', // @translate
+        'exhibit-page' => 'Block Plus: Exhibit page', // @translate
+        'simple-page' => 'Block Plus: Simple page', // @translate
     ],
     'block_templates' => [
         'asset' => [
