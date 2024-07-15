@@ -54,6 +54,9 @@ class IsHtml extends AbstractHelper
             return false;
         }
 
+        return true;
+
+        /*
         // With CKeditor or CodeMirror, the root node is not required, so append
         // one. Anyway, it is required by the specification for html fragment.
         // False is already returned above for simple strings.
@@ -81,5 +84,6 @@ class IsHtml extends AbstractHelper
 
         return $simpleXml !== false
             && !count(libxml_get_errors());
+        */
     }
 }
