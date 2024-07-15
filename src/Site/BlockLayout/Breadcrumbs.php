@@ -63,6 +63,8 @@ class Breadcrumbs extends AbstractBlockLayout implements TemplateableBlockLayout
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        return strip_tags((string) $this->render($view, $block));
+        // The breadcrumbs don't really have text to search for a specific page.
+        // TODO An issue occurs during full text search.
+        return '';
     }
 }
