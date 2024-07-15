@@ -8,10 +8,8 @@ use Laminas\View\Helper\AbstractHelper;
  * View helper to check if a string is a well-formed html.
  *
  * @see \DataTypeRdf\DataType\Html::isWellFormed()
- *
- * @deprecated Use \Common\View\Helper\IsHtml
  */
-class IsHtml extends AbstractHelper
+class IsHtml4 extends AbstractHelper
 {
     /**
      * Check if a string is a well-formed html with start/end tags for any part.
@@ -58,11 +56,14 @@ class IsHtml extends AbstractHelper
         // Normally, libXml add missing html/body, etc., except with flags
         // LIBXML_HTML_NOIMPLIED and LIBXML_HTML_NODEFDTD,
         // but it work better when manually added.
-        if (mb_substr($string, 0, 9) !== '<!DOCTYPE'
+        if (mb_substr($string, 0, 2) !== '<?'
+            && mb_substr($string, 0, 2) !== '<!'
             && mb_substr($string, 0, 5) !== '<html'
             && mb_substr($string, -7) !== '</html>'
+            && mb_substr($string, 0, 5) !== '<body'
+            && mb_substr($string, -7) !== '</body>'
         ) {
-            $string = '<html>' . $string . '</html>';
+            $string = '<html><body>' . $string . '</body></html>';
         }
 
         libxml_use_internal_errors(true);
