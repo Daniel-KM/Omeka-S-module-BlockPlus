@@ -86,6 +86,7 @@ return [
             Form\ItemSetShowcaseFieldset::class => Form\ItemSetShowcaseFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
             Form\MirrorPageFieldset::class => Form\MirrorPageFieldset::class,
+            Form\PageMetadataFieldset::class => Form\PageMetadataFieldset::class,
             Form\RedirectToUrlFieldset::class => Form\RedirectToUrlFieldset::class,
             Form\SearchResultsFieldset::class => Form\SearchResultsFieldset::class,
             Form\ShowcaseFieldset::class => Form\ShowcaseFieldset::class,
@@ -99,7 +100,6 @@ return [
         'factories' => [
             /** @deprecated Since Omeka S v4.1, use core block template mechanism. Will be removed once all modules will be upgraded. */
             Form\Element\TemplateSelect::class => Service\Form\Element\TemplateSelectFactory::class,
-            Form\PageMetadataFieldset::class => Service\Form\PageMetadataFieldsetFactory::class,
             Form\SearchFormFieldset::class => Service\Form\SearchFormFieldsetFactory::class,
         ],
     ],
