@@ -16,9 +16,9 @@ class IsXml extends AbstractHelper
     /**
      * Check if a string is a well-formed xml. Don't check validity or security.
      *
-     * Support strings without a root tag, according to the w3c spec for the
-     * lexical space of the data type rdf:XMLLiteral, but the string must be a
-     * well-balanced and self-contained content.
+     * Require a root tag, according to the w3c spec for the lexical space of
+     * the data type rdf:XMLLiteral, that is the set of all strings which are
+     * well-balanced and self-contained XML content.
      * @see https://www.w3.org/TR/rdf11-concepts/#section-XMLLiteral
      *
      * For html fragment, the lexical space is larger (any unicode string), so
@@ -50,11 +50,14 @@ class IsXml extends AbstractHelper
             return false;
         }
 
-        // With CodeMirror, the root node is not required, so append one.
-        // Anyway, it is required by the specification for xml fragment.
-        // False is already returned above for simple strings.
+        // A root is required, so the first tag must be the same than the last.
+        // Namespaces are not managed, as the specs indicates that it can be
+        // specified by the wrapper of the fragment.
         if (mb_substr($string, 0, 5) !== '<?xml') {
-            $string = '<root>' . $string . '</root>';
+            $tag = mb_substr($string, 1, min(mb_strpos($string, ' ') ?: mb_strlen($string), mb_strpos($string, '>')) - 1);
+            if (mb_substr($string, - mb_strlen($tag) - 3) !== "</$tag>") {
+                return false;
+            }
         }
 
         libxml_use_internal_errors(true);
