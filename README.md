@@ -8,7 +8,8 @@ Block Plus (module for Omeka S)
 [Block Plus] is a module for [Omeka S] that adds some new blocks for the static
 pages and improves some of the existing ones: image gallery, D3 graph, mirror
 page, search form, item set showcase, exhibits, footnotes, etc. Some resource
-page blocks are implemented too: breadcrumbs, previous/next resource, etc.
+page blocks are implemented too: breadcrumbs, previous/next resource, section,
+etc.
 
 Warning: Since Omeka S v4.1, many of the features implemented some years ago
 were implemented in core. The migration from old blocks of the module to new
@@ -297,6 +298,12 @@ config should be set in site settings.
 
 Display the description of the resource.
 
+#### Div and Div tools (start and end)
+
+Allow to wrap a list of block with a html element `<div>`. It is useful to use a
+theme natively. They are the same, but with a different class. You can use the
+block Html Section too.
+
 #### Media Part Of Item
 
 Add a link to the item from the media.
@@ -328,6 +335,11 @@ for items and item sets. For media, the order is defined in item.
 This block requires the module [Easy Admin].
 
 It can be used as a theme helper too (see below).
+
+#### Section (start and end)
+
+Allow to wrap a list of block with a html element `<section>`. It is useful to use
+a theme natively.
 
 ### Theme view helpers
 
