@@ -2117,3 +2117,19 @@ if (version_compare($oldVersion, '3.4.23', '<')) {
     // TODO Just for cleaning: block positions are no more continuous, but may be incremented by two. But it is not a issue.
     // TODO Check for nested groups of block.
 }
+
+if (version_compare($oldVersion, '3.4.24', '<')) {
+    /** @var \Omeka\Entity\SitePageBlock $block */
+    $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
+    // Remove useless key in block Heading.
+    foreach ($blocksRepository->findBy(['layout' => 'heading']) as $block) {
+        $data = $block->getData();
+        unset($data['query']);
+        $block->setData($data);
+    }
+
+    $message = new PsrMessage(
+        'New resource blocks allow to wrap other blocks with html elements <div> and <section>.' // @translate
+    );
+    $messenger->addSuccess($message);
+}
