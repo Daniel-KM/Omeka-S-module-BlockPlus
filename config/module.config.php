@@ -66,8 +66,11 @@ return [
             'buttons' => Site\ResourcePageBlockLayout\Buttons::class,
             'description' => Site\ResourcePageBlockLayout\Description::class,
             'downloadPrimary' => Site\ResourcePageBlockLayout\DownloadPrimary::class,
-            'htmlDivEnd' => Site\ResourcePageBlockLayout\HtmlDivEnd::class,
+            // Keep logical order.
             'htmlDivStart' => Site\ResourcePageBlockLayout\HtmlDivStart::class,
+            'htmlDivEnd' => Site\ResourcePageBlockLayout\HtmlDivEnd::class,
+            'htmlDivToolsStart' => Site\ResourcePageBlockLayout\HtmlDivToolsStart::class,
+            'htmlDivToolsEnd' => Site\ResourcePageBlockLayout\HtmlDivToolsEnd::class,
             'mediaPartOfItem' => Site\ResourcePageBlockLayout\MediaPartOfItem::class,
             'messages' => Site\ResourcePageBlockLayout\Messages::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
