@@ -5,15 +5,18 @@
  */
 
 $plugins = $this->getHelperPluginManager();
+$isHtml = $plugins->get('isHtml');
 $escape = $plugins->get('escapeHtml');
 $siteSetting = $plugins->get('siteSetting');
 
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $this->lang();
-$valueLang = $filterLocale ? [$lang, ''] : null;
+$langValue = $filterLocale ? [$lang, ''] : null;
 
-$value = $resource->displayDescription(null, $valueLang);
-$html = is_object($value) && in_array($value->type(), ['html', 'xml']) ? $value->render() : $escape($value);
+$string = trim($resource->displayDescription(null, $langValue) ?? '');
+if ($string === '') return;
 ?>
 
-<?= $html ?>
+<div class="block-resource block-description">
+    <?= $isHtml($string) ? $string : $escape($string) ?>
+</div>

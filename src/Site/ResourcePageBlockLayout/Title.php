@@ -25,7 +25,13 @@ class Title implements ResourcePageBlockLayoutInterface
         ];
     }
 
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
+    /**
+     *@see \Omeka\Api\Representation\AbstractResourceEntityRepresentation::displayTitle()
+     *
+     * {@inheritDoc}
+     * @see \Omeka\Site\ResourcePageBlockLayout\ResourcePageBlockLayoutInterface::render()
+     */
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource): string
     {
         return $view->partial('common/resource-page-block-layout/title', [
             'resource' => $resource,

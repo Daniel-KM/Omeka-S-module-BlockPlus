@@ -25,7 +25,13 @@ class Description implements ResourcePageBlockLayoutInterface
         ];
     }
 
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
+    /**
+     *@see \Omeka\Api\Representation\AbstractResourceEntityRepresentation::displayDescription()
+     *
+     * {@inheritDoc}
+     * @see \Omeka\Site\ResourcePageBlockLayout\ResourcePageBlockLayoutInterface::render()
+     */
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource): string
     {
         return $view->partial('common/resource-page-block-layout/description', [
             'resource' => $resource,
