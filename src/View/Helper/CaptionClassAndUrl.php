@@ -31,15 +31,14 @@ class CaptionClassAndUrl extends AbstractHelper
             return [$string, '', '', false];
         }
 
-        $isHtml = $this->isHtml($string);
-        $string = strip_tags($string);
+        $isHtml = $this->getView()->isHtml($string);
 
         $url = '';
         $class = '';
         $hasUrl = false;
         $hasClass = false;
 
-        $lines = array_filter(array_map('trim', explode("\n", $string)), 'strlen');
+        $lines = array_values(array_filter(array_map('trim', explode("\n", strip_tags($string))), 'strlen'));
         $matches = [];
 
         $patternUrl = '~^url\s*=\s*(?<url>[^\s]+)$~';
@@ -66,10 +65,6 @@ class CaptionClassAndUrl extends AbstractHelper
             }
         }
 
-        if ($hasClass || $hasUrl) {
-            $string = implode("\n", $lines);
-        }
-
         if ($isHtml) {
             if ($hasClass) {
                 $quoted = preg_quote(trim($class));
@@ -86,15 +81,5 @@ class CaptionClassAndUrl extends AbstractHelper
         }
 
         return [$string, $class, $url, $isHtml];
-    }
-
-    /**
-     * Detect if a trimmed string is html or not.
-     */
-    protected function isHtml(string $string): bool
-    {
-        return mb_substr($string, 0, 1) === '<'
-            && mb_substr($string, -1) === '>'
-            && $string !== strip_tags($string);
     }
 }
