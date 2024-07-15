@@ -288,17 +288,17 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
         );
 
         if ($view && empty($response)) {
-            $view->logger()->err(new Message(
+            $view->logger()->err(
                 'Error for block Twitter: No response.' // @translate
-            ));
+            );
             return [];
         }
 
         if ($view && (!empty($response['error']) || !empty($response['errors'][0]['message']))) {
-            $view->logger()->err(new Message(
-                'Error for block Twitter: %s. Check token.', // @translate
-                $response['error'] ?? $response['errors'][0]['message']
-            ));
+            $view->logger()->err(
+                'Error for block Twitter: {error}. Check token.', // @translate
+                ['error' => $response['error'] ?? $response['errors'][0]['message']]
+            );
             return [];
         }
 
@@ -430,17 +430,17 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
         );
 
         if ($view && empty($response)) {
-            $view->logger()->err(new Message(
+            $view->logger()->err(
                 'Error for block Twitter: No response.' // @translate
-            ));
+            );
             return [];
         }
 
         if ($view && (!empty($response['error']) || !empty($response['errors'][0]['message']))) {
-            $view->logger()->err(new Message(
-                'Error for block Twitter: %s. Check token or use api v1.', // @translate
-                $response['error'] ?? $response['errors'][0]['message']
-            ));
+            $view->logger()->err(
+                'Error for block Twitter: {error}. Check token or use api v1.', // @translate
+                ['error' => $response['error'] ?? $response['errors'][0]['message']]
+            );
             return [];
         }
 

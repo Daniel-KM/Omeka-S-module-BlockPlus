@@ -9,7 +9,7 @@ $siteSetting = $plugins->get('siteSetting');
 
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $this->lang();
-$valueLang = $filterLocale ? [$lang, ''] : null;
+$langValue = $filterLocale ? [$lang, ''] : null;
 ?>
 
-<?= $this->pageTitle($resource->displayTitle(null, $valueLang), 2) ?>
+<?= $this->pageTitle($resource->displayTitle(null, $langValue), 2) ?>

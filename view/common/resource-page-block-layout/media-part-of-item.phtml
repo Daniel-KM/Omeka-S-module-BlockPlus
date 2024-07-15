@@ -11,9 +11,9 @@ $siteSetting = $plugins->get('siteSetting');
 
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $this->lang();
-$valueLang = $filterLocale ? [$lang, ''] : null;
+$langValue = $filterLocale ? [$lang, ''] : null;
 ?>
 
 <p class="media-parent-item">
-    <?= sprintf($translate('Part of %s'), $item->link($item->displayTitle(null, $valueLang))); ?>
+    <?= sprintf($translate('Part of %s'), $item->link($item->displayTitle(null, $langValue))) ?>
 </p>
