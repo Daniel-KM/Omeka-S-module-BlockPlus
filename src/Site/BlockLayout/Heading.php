@@ -25,7 +25,7 @@ class Heading extends AbstractBlockLayout implements TemplateableBlockLayoutInte
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
-        $data = $block->getData() + ['query' => []];
+        $data = $block->getData();
         $data['text'] = isset($data['text']) ? trim((string) $data['text']) : '';
         $data['level'] = (int) ($data['level'] ?? 3);
         $data['level'] = $data['level'] < 1 || $data['level'] > 6 ? 3 : $data['level'];
