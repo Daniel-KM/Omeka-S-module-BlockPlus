@@ -71,6 +71,8 @@ return [
             'htmlDivEnd' => Site\ResourcePageBlockLayout\HtmlDivEnd::class,
             'htmlDivToolsStart' => Site\ResourcePageBlockLayout\HtmlDivToolsStart::class,
             'htmlDivToolsEnd' => Site\ResourcePageBlockLayout\HtmlDivToolsEnd::class,
+            'htmlSectionStart' => Site\ResourcePageBlockLayout\HtmlSectionStart::class,
+            'htmlSectionEnd' => Site\ResourcePageBlockLayout\HtmlSectionEnd::class,
             'mediaPartOfItem' => Site\ResourcePageBlockLayout\MediaPartOfItem::class,
             'messages' => Site\ResourcePageBlockLayout\Messages::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
