@@ -28,6 +28,7 @@ return [
             'breadcrumbs' => View\Helper\Breadcrumbs::class,
             'captionClassAndUrl' => View\Helper\CaptionClassAndUrl::class,
             'ckEditor' => View\Helper\CkEditor::class,
+            'isHtml' => View\Helper\IsHtml::class,
             'isXml' => View\Helper\IsXml::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
