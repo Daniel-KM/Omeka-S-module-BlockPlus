@@ -113,6 +113,16 @@ return [
             Form\SearchFormFieldset::class => Service\Form\SearchFormFieldsetFactory::class,
         ],
     ],
+    'block_groups' => [
+        'resource_text' => [
+            'label' => 'Resource with text', // @translate
+            'blocks' => [
+                ['o:layout' => 'heading'],
+                ['o:layout' => 'media'],
+                ['o:layout' => 'html'],
+            ],
+        ],
+    ],
     'page_templates' => [
         'home-page' => 'Block Plus: Home page', // @translate
         'exhibit' => 'Block Plus: Exhibit', // @translate
