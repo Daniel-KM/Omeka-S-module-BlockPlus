@@ -252,17 +252,31 @@ class Module extends AbstractModule
 
     protected function getBlockGroupLayouts(): array
     {
+        /**
+         * @var array $config
+         * @var \Omeka\Settings\Settings $settings
+         * @var \Omeka\Settings\SiteSettings $siteSettings
+         * @var \Omeka\Site\Theme\Manager $themeManager
+         */
         $services = $this->getServiceLocator();
         $config = $services->get('Config');
         $settings = $services->get('Omeka\Settings');
         $siteSettings = $services->get('Omeka\Settings\Site');
+        $themeManager = $services->get('Omeka\Site\ThemeManager');
+
+        $theme = $themeManager->getCurrentTheme();
+        $themeConfig = $theme->getConfigSpec();
+        $themeSettings = $siteSettings->get($theme->getSettingsKey());
 
         $result = array_merge(
             $config['block_groups'],
             $settings->get('blockplus_block_groups', []),
-            $siteSettings->get('blockplus_block_groups', [])
+            $siteSettings->get('blockplus_block_groups', []),
+            $themeConfig['block_groups'] ?? [],
+            $themeSettings['block_groups'] ?? []
         );
 
+        // TODO Keep main/site/theme order? Use nested select? Add an icon in the list?
         uasort($result, fn ($a, $b) => strcasecmp($a['label'] ?? '', $b['label'] ?? ''));
 
         return $result;
