@@ -111,6 +111,11 @@ return [
             /** @deprecated Since Omeka S v4.1, use core block template mechanism. Will be removed once all modules will be upgraded. */
             Form\Element\TemplateSelect::class => Service\Form\Element\TemplateSelectFactory::class,
             Form\SearchFormFieldset::class => Service\Form\SearchFormFieldsetFactory::class,
+            Form\SitePageForm::class => Service\Form\SitePageFormFactory::class,
+        ],
+        'aliases' => [
+            // The site page form does not implement form events, so override it for now.
+            \Omeka\Form\SitePageForm::class => Form\SitePageForm::class,
         ],
     ],
     'block_groups' => [

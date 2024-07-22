@@ -65,9 +65,15 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
+            \Omeka\Api\Adapter\SitePageAdapter::class,
+            'api.create.pre',
+            [$this, 'handleSitePageCreatePre']
+        );
+
+        $sharedEventManager->attach(
             'Omeka\Controller\SiteAdmin\Page',
             'view.edit.before',
-            [$this, 'handleSitePageEditBefore']
+            [$this, 'handleSitePageEditPre']
         );
         $sharedEventManager->attach(
             \Omeka\Stdlib\HtmlPurifier::class,
@@ -115,7 +121,37 @@ class Module extends AbstractModule
         $session->lastQuery[$ui]['items'] = $params->fromQuery();
     }
 
-    public function handleSitePageEditBefore(Event $event): void
+    public function handleSitePageCreatePre(Event $event): void
+    {
+        // The template name is managed only by a post because the form data are
+        // not passed to the api event.
+        // Anyway, for an api request, the template name can be set directly.
+
+        // $post = $services->get('Application')->getMvcEvent()->getRequest()->getPost();
+        if (empty($_POST)
+            || (
+                // TODO Use "o:layout_date[template_name] only, waiting for the fix committed in \Omeka\Controller\SiteAdmin\IndexController::addPageAction().
+                empty($_POST['o:layout_data']['template_name'])
+                && empty($_POST['template_name'])
+            )
+        ) {
+            return;
+        }
+
+        /**
+         * @var \Omeka\Api\Request $request
+         * @var array $data Posted form data or page api data.
+         */
+        $request = $event->getParam('request');
+        $data = $request->getContent();
+
+        $data['o:layout_data']['template_name'] ??= $_POST['o:layout_data']['template_name']
+            ?? $_POST['template_name'] ?? null;
+
+        $request->setContent($data);
+    }
+
+    public function handleSitePageEditPre(Event $event): void
     {
         $view = $event->getTarget();
         $assetUrl = $view->plugin('assetUrl');
