@@ -192,8 +192,11 @@ return [
     ],
     'js_translate_strings' => [
         'Class', // @translate
-        'Url (deprecated)', // @translate
+        'Collapse the list of block group layouts', // @layout
+        'Expand to select the list of block group layouts', // @translate
         'Insert Footnotes', // @translate
+        'Url (deprecated)', // @translate
+        'Wait for previous block group to be prepared before adding a new one.', // @translate
     ],
     'blockplus' => [
         'settings' => [

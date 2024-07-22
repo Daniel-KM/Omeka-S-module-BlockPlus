@@ -7,6 +7,27 @@
         overflow: inherit;
     }
 
+    /* Block group plus */
+    span.add-block-plus {
+        padding-right: 3px;
+    }
+    button.add-block-group-plus::after {
+        display: inline-block;
+        width: 14px;
+    }
+    #block-group-layouts {
+        width: 100%;
+        list-style: none;
+        margin-bottom: 6px;
+        padding-left: 0;
+    }
+    #block-group-layouts button {
+        font-size: 16px;
+        line-height: 24px;
+        margin: 0 0 12px 0;
+        padding: 6px 10px;
+    }
+
     /* Footnotes (against core styles) */
     section.footnotes header {
         background-color: inherit;

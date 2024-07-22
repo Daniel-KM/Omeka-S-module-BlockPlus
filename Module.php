@@ -117,12 +117,18 @@ class Module extends AbstractModule
 
     public function handleSitePageEditBefore(Event $event): void
     {
+        $services = $this->getServiceLocator();
+        $config = $services->get('Config');
         $view = $event->getTarget();
         $assetUrl = $view->plugin('assetUrl');
+
+        $script = sprintf('const blockGroups = %s;', json_encode($config['block_groups'], 320));
+
         $view->headLink()
             ->appendStylesheet($assetUrl('css/block-plus-admin.css', 'BlockPlus'));
         $view->headScript()
-            ->appendFile($assetUrl('js/block-plus-admin.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
+            ->appendFile($assetUrl('js/block-plus-admin.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer'])
+            ->appendScript($script);
     }
 
     public function handleHtmlPurifier(Event $event): void
