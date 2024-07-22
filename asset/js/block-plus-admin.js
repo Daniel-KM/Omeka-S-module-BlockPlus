@@ -46,7 +46,72 @@
 
         /**
          * Block group plus.
+         *
+         * Note: the methods inside site-page-edit.js are not available.
          */
+
+        /**
+         * Set data and layout data to a block.
+         */
+        function updateBlockGroup(block, blockSettings) {
+            if (!block || !block.length || !blockSettings || !Object.keys(blockSettings).length) {
+                return;
+            }
+
+            const blockLayout = block.data('block-layout');
+            const blockInputLayout = block.find(`.block-content input[type="hidden"][value="${blockLayout}"]`).first();
+            if (!blockInputLayout || !blockInputLayout.attr('name') || !blockInputLayout.attr('name').length) {
+                return;
+            }
+
+            //  The block name should be "o:block[XXX][o:layout]".
+            const blockIndex = blockInputLayout.attr('name').substring(blockInputLayout.attr('name').indexOf('[') + 1, blockInputLayout.attr('name').indexOf(']'))
+            if (!blockIndex.length) {
+                return;
+            }
+
+            for (const [key, value] of Object.entries(blockSettings['o:data'] ?? {})) {
+                const isValueMultiple = value instanceof Array;
+                const appendMultiple = isValueMultiple ? '[]' : '';
+                const inputName = `.block-content [name="o:block[${blockIndex}][o:data][${key}]${appendMultiple}"]`;
+                const input = block.find(inputName);
+                if (input.length) {
+                    var val, inp;
+                    const inputType = input.attr('type') ?? input.prop('tagName').toLowerCase();
+                    // Manage chosen-js and ckeditor, and bad config or upgrade.
+                    // In jquery, "prop" uses true/false, and "attr" uses checked.
+                    if (inputType === 'radio') {
+                        val = isValueMultiple ? value[0] : value;
+                        block.find(inputName + `[value="${val}"]`).prop('checked', true).trigger('change');
+                    } else if (inputType === 'checkbox') {
+                        if (isValueMultiple) {
+                            block.find(inputName).map(function () {
+                                $(this).prop('checked', value.includes($(this).val())).trigger('change');
+                            });
+                        } else {
+                            block.find(inputName).val(value).trigger('change');
+                        }
+                    } else if (inputType === 'select') {
+                        block.find(inputName).val(value).trigger('change');
+                    } else {
+                        val = isValueMultiple ? value[0] : value;
+                        inp = block.find(inputName);
+                        inp.val(val);
+                        if ($.isFunction(inp.trigger)) inp.trigger('change');
+                    }
+                }
+            }
+
+            if (blockSettings['o:layout_data'] && Object.keys(blockSettings['o:layout_data']).length) {
+                // For layout data, the data are set as data and in hidden inputs.
+                block.data('block-layout-data', blockSettings['o:layout_data']);
+                for (const [key, value] of Object.entries(blockSettings['o:layout_data'] ?? {})) {
+                    // All layout data are hidden and there is no multiple.
+                    const inputName = `.block-content [name="o:block[${blockIndex}][o:layout_data][${key}]"]`;
+                    block.find(inputName).val(value);
+                }
+            }
+        }
 
         const addBlockGroupPlus = $('<button>', {
             type: 'button',
@@ -112,6 +177,8 @@
             const groupedBlocks = blockGroupData.blocks ? blockGroupData.blocks : {};
 
             if (blockLayout === 'blockGroup') {
+                // Finalize the block group with settings.
+                updateBlockGroup(thisBlock, blockGroupData);
                 // Append all grouped blocks.
                 // TODO Use an async process (loop for), not a forEach, even if it simpler to reorder blocks.
                 Object.values(groupedBlocks).forEach(groupedBlockData => {
@@ -124,7 +191,7 @@
 
             // Check if all blocks are ready in order to finalize the process.
             if (addBlockGroupPlus.data('total-grouped-blocks') === 0) {
-                // Get the last block group.
+                // Check for issue with the last block group.
                 const blockGroup = $('#blocks .block.block-group[data-block-layout="blockGroup"]').last();
                 if (blockGroup.length) {
                     // Move grouped blocks to block group in the right order.
@@ -132,12 +199,16 @@
                     for (var groupedBlockData of Object.values(groupedBlocks)) {
                         const groupedBlock = blockGroup.find(`~ .block[data-block-layout="${groupedBlockData['o:layout']}"]`).first();
                         if (groupedBlock.length) {
+                            // Finalize the grouped block with settings.
+                            updateBlockGroup(groupedBlock, groupedBlockData);
+                            // Move the grouped block.
                             $(groupedBlock).detach().appendTo(blockGroupBlocks);
-                            let blockGroupLayoutData = blockGroup.data('block-layout-data');
-                            blockGroupLayoutData.span = blockGroupLayoutData.span ? ++blockGroupLayoutData.span : 1;
-                            blockGroup.data('block-layout-data', blockGroupLayoutData);
                         }
                     }
+                    // Update the block Group with the real number of attached blocks.
+                    updateBlockGroup(blockGroup, {
+                        'o:data': {'span': blockGroupBlocks.find('.block[data-block-layout]').length},
+                    });
                 }
                 // Finalize the process.
                 addBlockGroupPlus
