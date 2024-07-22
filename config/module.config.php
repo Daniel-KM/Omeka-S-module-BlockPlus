@@ -220,6 +220,8 @@ return [
             'blockplus_property_itemset' => '',
         ],
         'site_settings' => [
+            // Layouts.
+            'blockplus_block_groups' => [],
             // Breadcrumbs.
             'blockplus_breadcrumbs_crumbs' => [
                 'home',

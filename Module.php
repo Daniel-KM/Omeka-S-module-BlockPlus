@@ -255,11 +255,17 @@ class Module extends AbstractModule
         $services = $this->getServiceLocator();
         $config = $services->get('Config');
         $settings = $services->get('Omeka\Settings');
+        $siteSettings = $services->get('Omeka\Settings\Site');
 
-        return array_merge(
+        $result = array_merge(
             $config['block_groups'],
-            $settings->get('blockplus_block_groups', [])
+            $settings->get('blockplus_block_groups', []),
+            $siteSettings->get('blockplus_block_groups', [])
         );
+
+        uasort($result, fn ($a, $b) => strcasecmp($a['label'] ?? '', $b['label'] ?? ''));
+
+        return $result;
     }
 
     /**

@@ -23,6 +23,22 @@ class SiteSettingsFieldset extends Fieldset
             ->setAttribute('id', 'block-plus')
             ->setOption('element_groups', $this->elementGroups)
 
+            // Layouts.
+
+            ->add([
+                'name' => 'blockplus_block_groups',
+                'type' => CommonElement\IniTextarea::class,
+                'options' => [
+                    'element_group' => 'block_plus',
+                    'label' => 'Layouts for block group', // @translate
+                    'info' => 'List all layouts formatted as ini with a section for each group.', // @translate
+                    'documentation' => 'https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus#Usage',
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_block_groups',
+                ],
+            ])
+
             // Breadcrumbs.
 
             ->add([
