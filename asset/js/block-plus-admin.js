@@ -48,6 +48,10 @@
          * Block group plus.
          *
          * Note: the methods inside site-page-edit.js are not available.
+         *
+         * The config of blocks should use `o:label`, `o:block`, `o:layout`, `o:data`
+         * and `o:layout_data`, but `label`, `block`, `layout`, `data`, `layout_data`
+         * are allowed for simplicity.
          */
 
         /**
@@ -70,7 +74,9 @@
                 return;
             }
 
-            for (const [key, value] of Object.entries(blockSettings['o:data'] ?? {})) {
+            // The block settings should use "o:data" but "data" is allowed for
+            // simplicity. They are be mixed.
+            for (const [key, value] of Object.entries(blockSettings['o:data'] ?? blockSettings['data'] ?? {})) {
                 const isValueMultiple = value instanceof Array;
                 const appendMultiple = isValueMultiple ? '[]' : '';
                 const inputName = `.block-content [name="o:block[${blockIndex}][o:data][${key}]${appendMultiple}"]`;
@@ -102,10 +108,14 @@
                 }
             }
 
-            if (blockSettings['o:layout_data'] && Object.keys(blockSettings['o:layout_data']).length) {
+            // The block settings should use "o:layout_data" but "layout_data" is allowed for
+            // simplicity. They are be mixed.
+            if ((blockSettings['o:layout_data'] && Object.values(blockSettings['o:layout_data']).length)
+                || (blockSettings['layout_data'] && Object.values(blockSettings['layout_data']).length)
+            ) {
                 // For layout data, the data are set as data and in hidden inputs.
-                block.data('block-layout-data', blockSettings['o:layout_data']);
-                for (const [key, value] of Object.entries(blockSettings['o:layout_data'] ?? {})) {
+                block.data('block-layout-data', blockSettings['o:layout_data'] ?? blockSettings['layout_data'] ?? {});
+                for (const [key, value] of Object.entries(blockSettings['o:layout_data'] ?? blockSettings['layout_data'] ?? {})) {
                     // All layout data are hidden and there is no multiple.
                     const inputName = `.block-content [name="o:block[${blockIndex}][o:layout_data][${key}]"]`;
                     block.find(inputName).val(value);
@@ -135,7 +145,8 @@
                 class: 'option',
                 value: layout,
             });
-            buttonBlockGroup.text(Omeka.jsTranslate(data['o:label'] ?? layout));
+            // The label should use "o:label" but "label" is allowed for simplicity.
+            buttonBlockGroup.text(Omeka.jsTranslate(data['o:label'] ?? data['label'] ?? layout));
             buttonBlockGroup.append($('<span>', {class: 'spinner'}));
             addBlockGroupList
                 .append($('<li>')
@@ -174,7 +185,8 @@
             const thisBlock = $(this);
             let blockLayout = thisBlock.data('block-layout');
             const blockGroupData = blockGroups[blockGroupLayout];
-            const groupedBlocks = blockGroupData['o:block'] ? blockGroupData['o:block'] : {};
+            // The list of block should use "o:block" but "block" is allowed for simplicity.
+            const groupedBlocks = blockGroupData['o:block'] ?? blockGroupData['block'] ?? {};
 
             if (blockLayout === 'blockGroup') {
                 // Finalize the block group with settings.
@@ -182,7 +194,8 @@
                 // Append all grouped blocks.
                 // TODO Use an async process (loop for), not a forEach, even if it simpler to reorder blocks.
                 Object.values(groupedBlocks).forEach(groupedBlockData => {
-                    $(`#new-block button[value="${groupedBlockData['o:layout']}"]`).click();
+                    // The layout should use "o:layout" but "layout" is allowed for simplicity.
+                    $(`#new-block button[value="${groupedBlockData['o:layout'] ?? groupedBlockData['layout']}"]`).click();
                     addBlockGroupPlus.data('total-grouped-blocks', addBlockGroupPlus.data('total-grouped-blocks') + 1);
                 });
             } else {
@@ -197,7 +210,7 @@
                     // Move grouped blocks to block group in the right order.
                     const blockGroupBlocks = blockGroup.find('.block-group-blocks');
                     for (var groupedBlockData of Object.values(groupedBlocks)) {
-                        const groupedBlock = blockGroup.find(`~ .block[data-block-layout="${groupedBlockData['o:layout']}"]`).first();
+                        const groupedBlock = blockGroup.find(`~ .block[data-block-layout="${groupedBlockData['o:layout'] ?? groupedBlockData['layout']}"]`).first();
                         if (groupedBlock.length) {
                             // Finalize the grouped block with settings.
                             updateBlockGroup(groupedBlock, groupedBlockData);
