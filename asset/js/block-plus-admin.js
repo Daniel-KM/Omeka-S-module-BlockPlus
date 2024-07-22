@@ -71,6 +71,7 @@
                 value: layout,
             });
             buttonBlockGroup.text(Omeka.jsTranslate(data.label));
+            buttonBlockGroup.append($('<span>', {class: 'spinner'}));
             addBlockGroupList
                 .append($('<li>')
                     .append(buttonBlockGroup)
@@ -90,6 +91,7 @@
             }
             // Prepare display.
             const buttonBlockGroup = $(this);
+            buttonBlockGroup.find('.spinner').addClass('processing fas fa-sync fa-spin');
             // Add block group. Grouped blocks are appended via the event "o:block-added".
             const blockGroupLayout = buttonBlockGroup.val();
             addBlockGroupPlus
@@ -141,6 +143,8 @@
                 addBlockGroupPlus
                     .removeData('is-pending')
                     .removeData('total-grouped-blocks');
+                const buttonBlockGroup = $(`#block-group-layouts button[value="${blockGroupLayout}"]`);
+                buttonBlockGroup.find('.spinner').removeClass('processing fas fa-sync fa-spin');
             }
         });
 

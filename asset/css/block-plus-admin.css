@@ -27,6 +27,16 @@
         margin: 0 0 12px 0;
         padding: 6px 10px;
     }
+    #block-group-layouts .spinner {
+        position: absolute;
+        right: 40px;
+        margin-top: 6px;
+        margin-right: 6px;
+        opacity: 0;
+    }
+    #block-group-layouts .spinner.processing {
+        opacity: 0.5;
+    }
 
     /* Footnotes (against core styles) */
     section.footnotes header {
