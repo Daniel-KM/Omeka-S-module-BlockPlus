@@ -11,8 +11,11 @@ page, search form, item set showcase, exhibits, footnotes, etc. Some resource
 page blocks are implemented too: breadcrumbs, previous/next resource, section,
 etc.
 
-Warning: Since Omeka S v4.1, many of the features implemented some years ago
-were implemented in core. The migration from old blocks of the module to new
+Another feature is the possibility to pre-configure groups of blocks, so it is
+easier to build a new page.
+
+**Warning**: Since Omeka S v4.1, many of the features implemented some years ago
+were re-implemented in core. The migration from old blocks of the module to new
 blocks may require some manual updates of the themes when they were customized.
 See below for migration. There is no issue for a new install.
 
@@ -46,6 +49,81 @@ Then install it like any other Omeka module and follow the config instructions.
 
 Usage since version 3.4.22/23 for Omeka S v4.1
 ----------------------------------------------
+
+### Pre-configuration of groups of blocks
+
+The button "Add block group plus" allows to load a pre-configured list of
+blocks, avoiding to recreate it on multiple pages.
+
+This group of blocks is available by default:
+
+- Resource with text: It appends the block Group with class "block-group-resource-text",
+a block "Heading" with level 3, a block Media, and a block Html.
+
+Such blocks can be configured in any module, in the file config/local.config.php
+of the installation, in the main settings, in the site settings, in the file
+config/theme.ini of the current theme or in the theme settings.
+
+Follow the example in the file [module.config.php](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/blob/master/config/module.config.php?ref_type=heads#L122-143)
+of this module: set the name as section, a label as `o:label`, a list of blocks
+with `o:block` and keys `o:layout`, `o:data` and `o:layout_data`.
+
+![add-new-block-group-plus](data/images/add-new-block-group-plus.png)
+
+In the main and the site settings, the block are configured as ini. All values
+are optional, except the layout name for each block (key "o:layout").
+
+```ini
+[asset_text]
+o:label = "Asset with text"
+o:layout_data.class = "block-asset-text"
+o:block.1.o:layout = "heading"
+o:block.1.o:data.text = "Image"
+o:block.1.o:data.level = 3
+o:block.2.o:layout = "asset"
+o:block.3.o:layout = "html"
+o:block.3.o:data.html = "<p>This <strong>image</strong> represents…</p>"
+o:block.4.o:layout= "lineBreak"
+o:block.4.o:data.break_type = "opaque"
+o:block.4.o:layout_data.background_color = "#404e61"
+o:block.4.o:layout_data.min_height = "18px"
+```
+
+A block group layout is just a pre-configured list of blocks of settings. You
+can change any of them.
+
+For simplicity, you can skip the prefix `o:` for keys `o:label`, `o:block`, `o:layout`,
+`o:data`, and `o:layout_data`, so you can use `label`, `block`, `layout`, `data`,
+and `layout_data`, for example the following config is the same than above:
+
+```ini
+[asset_text]
+label = "Asset with text"
+layout_data.class = "block-asset-text"
+block.1.layout = "heading"
+block.1.data.text = "Image"
+block.1.data.level = 3
+block.2.layout = "asset"
+block.3.layout = "html"
+block.3.data.html = "<p>This <strong>image</strong> represents…</p>"
+block.4.layout= "lineBreak"
+block.4.data.break_type = "opaque"
+block.4.layout_data.background_color = "#404e61"
+block.4.layout_data.min_height = "18px"
+```
+
+If you want to add block group in the theme via the file config/theme.ini, you
+cannot use the section marker for `[layout_name]` and you should prepend the
+main key `block_groups`, then the name of the block group, for example:
+
+```ini
+block_groups.asset_html.label = "Asset with html"
+block_groups.asset_html.block.1.layout = "asset"
+block_groups.asset_html.block.2.layout = "html"
+```
+
+Of course, if there is a setting "block_groups" in the theme config, it will be
+managed like main and site settings in the user interface.
 
 ### New site page blocks and block templates
 
@@ -137,7 +215,7 @@ Some specific templates are available in Browse Preview:
 
 To use them, simply select the wanted template:
 
-![browse-preview-carousel](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/raw/master/data/images/browse-preview-carousel.png)
+![browse-preview-carousel](data/images/browse-preview-carousel.png)
 
 #### Buttons
 
@@ -817,15 +895,17 @@ TODO
 
 - [ ] Merge more similar blocks into a main block (with automatic upgrade).
 - [x] Integrate Shortcodes (module [Shortcode])
-- [x] Integrate Menu (module [Menu])
-- [ ] Merge module Menu inside BlockPlus?
+- [ ] Merge module [Menu] inside BlockPlus?
 - [ ] Normalize breadcrumbs.
-- [ ] Integrate attachments for block Showcase
-- [ ] Integrate sidebar forms for block Showcase
+- [x] Integrate attachments for block Showcase
+- [x] Integrate sidebar forms for block Showcase
 - [ ] Auto-create asset when image is uploaded in a Html field.
 - [ ] Update site of mirror page to get good url for $resource->siteUrl().
 - [x] Merge PageDate with upstream PageDateTime.
 - [ ] Use new events "sort-config" and "view.sort-selector" to order item in item sets.
+- [x] Allow themes to create block group layout.
+- [ ] Add a button to create a page model from an existing page. See module Internationalisation.
+- [ ] Allow to create a group of block without block Group.
 
 
 Warning
