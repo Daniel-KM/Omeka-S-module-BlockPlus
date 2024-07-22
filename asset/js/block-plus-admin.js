@@ -135,7 +135,7 @@
                 class: 'option',
                 value: layout,
             });
-            buttonBlockGroup.text(Omeka.jsTranslate(data.label));
+            buttonBlockGroup.text(Omeka.jsTranslate(data['o:label'] ?? layout));
             buttonBlockGroup.append($('<span>', {class: 'spinner'}));
             addBlockGroupList
                 .append($('<li>')
@@ -174,7 +174,7 @@
             const thisBlock = $(this);
             let blockLayout = thisBlock.data('block-layout');
             const blockGroupData = blockGroups[blockGroupLayout];
-            const groupedBlocks = blockGroupData.blocks ? blockGroupData.blocks : {};
+            const groupedBlocks = blockGroupData['o:block'] ? blockGroupData['o:block'] : {};
 
             if (blockLayout === 'blockGroup') {
                 // Finalize the block group with settings.

@@ -115,13 +115,13 @@ return [
     ],
     'block_groups' => [
         'resource_text' => [
-            'label' => 'Resource with text', // @translate
+            'o:label' => 'Resource with text', // @translate
             'o:layout_data' => [
                 // Class "media-text" was the one used in block "Resource text".
                 // Class "block-group-resource-text" is the new one.
                 'class' => 'block-resource-text media-text',
             ],
-            'blocks' => [
+            'o:block' => [
                 [
                     'o:layout' => 'heading',
                     'o:data' => [

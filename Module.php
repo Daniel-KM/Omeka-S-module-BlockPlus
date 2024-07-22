@@ -277,7 +277,7 @@ class Module extends AbstractModule
         );
 
         // TODO Keep main/site/theme order? Use nested select? Add an icon in the list?
-        uasort($result, fn ($a, $b) => strcasecmp($a['label'] ?? '', $b['label'] ?? ''));
+        uasort($result, fn ($a, $b) => strcasecmp($a['o:label'] ?? '', $b['o:label'] ?? ''));
 
         return $result;
     }
