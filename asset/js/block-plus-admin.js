@@ -128,10 +128,10 @@
             id: 'add-block-group-plus',
             value: 'addBlockGroupPlus',
             class: 'add-block-group-plus expand',
-            title: Omeka.jsTranslate('Expand to select the list of block group layouts'),
-            'aria-label': Omeka.jsTranslate('Expand to select the list of block group layouts'),
-            'data-text-expand': Omeka.jsTranslate('Expand to select the list of block group layouts'),
-            'data-text-collapse': Omeka.jsTranslate('Collapse the list of block group layouts'),
+            title: Omeka.jsTranslate('Expand to display the groups of blocks'),
+            'aria-label': Omeka.jsTranslate('Expand to display the groups of blocks'),
+            'data-text-expand': Omeka.jsTranslate('Expand to display the groups of blocks'),
+            'data-text-collapse': Omeka.jsTranslate('Collapse the list of groups of blocks'),
         }).append($('<span>', {class: 'add-block-plus fas fa-plus'}));
 
         const addBlockGroupList = $('<ul>', {
@@ -162,7 +162,7 @@
             // Do not trigger another block group if one is pending.
             // TODO Use an async check.
             if (addBlockGroupPlus.data('is-pending')) {
-                alert(Omeka.jsTranslate('Wait for previous block group to be prepared before adding a new one.'));
+                alert(Omeka.jsTranslate('Please wait for previous group of blocks to be prepared before adding a new one.'));
                 return;
             }
             // Prepare display.

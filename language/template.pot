@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-08 00:00+0000\n"
+"POT-Creation-Date: 2024-07-22 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -585,7 +585,7 @@ msgid ""
 "for more information about migration."
 msgstr ""
 
-#: data/scripts/upgrade.php:2123
+#: data/scripts/upgrade.php:2132
 msgid ""
 "New resource blocks allow to wrap other blocks with html elements <div> and "
 "<section>."
@@ -619,97 +619,106 @@ msgstr ""
 msgid "Block plus resources"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:33
+#: src/Form/SiteSettingsFieldset.php:33 src/Form/SettingsFieldset.php:64
+msgid "Groups of blocks"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:34 src/Form/SettingsFieldset.php:65
+msgid ""
+"List all groups of blocks formatted as ini with a section for each group."
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:49
 msgid "Crumbs"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:35
+#: src/Form/SiteSettingsFieldset.php:51
 msgid "Prepend home"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:36
+#: src/Form/SiteSettingsFieldset.php:52
 msgid "Include \"Collections\""
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:37
+#: src/Form/SiteSettingsFieldset.php:53
 msgid "Include main item set for item"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:38
+#: src/Form/SiteSettingsFieldset.php:54
 msgid "Include item sets tree"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:39
+#: src/Form/SiteSettingsFieldset.php:55
 msgid "Append current resource"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:51
+#: src/Form/SiteSettingsFieldset.php:67
 msgid "Prepended links"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:52
+#: src/Form/SiteSettingsFieldset.php:68
 msgid ""
 "List of urls followed by a label, separated by a \"=\", one by line, that "
 "will be prepended to the breadcrumb."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:69
+#: src/Form/SiteSettingsFieldset.php:85
 msgid "Url for collections"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:70
+#: src/Form/SiteSettingsFieldset.php:86
 msgid ""
 "The url to use for the link \"Collections\", if set above. Let empty to use "
 "the default one."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:82
+#: src/Form/SiteSettingsFieldset.php:98
 msgid "Separator"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:83
+#: src/Form/SiteSettingsFieldset.php:99
 msgid ""
 "The separator between crumbs may be set as raw text or via css. it should be "
 "set as an html text (\"&gt;\")."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:95
+#: src/Form/SiteSettingsFieldset.php:111
 msgid "Display on home page"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:109
+#: src/Form/SiteSettingsFieldset.php:125
 msgid "Settings for the resource block Buttons"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:113 src/Form/ButtonsFieldset.php:20
+#: src/Form/SiteSettingsFieldset.php:129 src/Form/ButtonsFieldset.php:20
 msgid "Share by email"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:116 src/Form/ButtonsFieldset.php:23
+#: src/Form/SiteSettingsFieldset.php:132 src/Form/ButtonsFieldset.php:23
 msgid "Share on Twitter (now X)"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:131
+#: src/Form/SiteSettingsFieldset.php:147
 msgid "Default items order in each item set"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:132
+#: src/Form/SiteSettingsFieldset.php:148
 msgid ""
 "Set order for item set, one by row, format \"id,id,id property order\". Use "
 "\"0\" for the default."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:147
+#: src/Form/SiteSettingsFieldset.php:163
 msgid "Query to limit and sort the list of items for the previous/next buttons"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:148 src/Form/SiteSettingsFieldset.php:161
+#: src/Form/SiteSettingsFieldset.php:164 src/Form/SiteSettingsFieldset.php:177
 msgid ""
 "Use a standard query. Arguments from module Advanced Search are supported if "
 "present and needed."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:160
+#: src/Form/SiteSettingsFieldset.php:176
 msgid ""
 "Query to limit and sort the list of item sets for the previous/next buttons"
 msgstr ""
@@ -723,33 +732,33 @@ msgstr ""
 msgid "Show title"
 msgstr ""
 
-#: src/Form/SettingsFieldset.php:26
+#: src/Form/SettingsFieldset.php:29
 msgid "Html edition mode for pages"
 msgstr ""
 
-#: src/Form/SettingsFieldset.php:28
+#: src/Form/SettingsFieldset.php:31
 msgid "Inline (default)"
 msgstr ""
 
-#: src/Form/SettingsFieldset.php:29
+#: src/Form/SettingsFieldset.php:32
 msgid "Document (maximizable)"
 msgstr ""
 
-#: src/Form/SettingsFieldset.php:41
+#: src/Form/SettingsFieldset.php:44
 msgid "Html edition config and toolbar for pages"
 msgstr ""
 
-#: src/Form/SettingsFieldset.php:61
+#: src/Form/SettingsFieldset.php:80
 msgid "Property to set primary item set"
 msgstr ""
 
-#: src/Form/SettingsFieldset.php:62
+#: src/Form/SettingsFieldset.php:81
 msgid ""
 "When an item is included in multiple item sets, the main one may be "
 "determined by this property."
 msgstr ""
 
-#: src/Form/SettingsFieldset.php:70
+#: src/Form/SettingsFieldset.php:89
 msgid "Select a property…"
 msgstr ""
 
@@ -916,6 +925,10 @@ msgstr ""
 
 #: src/Form/HeadingFieldset.php:27
 msgid "Level"
+msgstr ""
+
+#: src/Form/SitePageForm.php:25
+msgid "Page template"
 msgstr ""
 
 #: src/Form/ButtonsFieldset.php:17
@@ -1199,110 +1212,128 @@ msgstr ""
 msgid "Error reading %s: %s (%s)"
 msgstr ""
 
-#: config/module.config.php:117
+#: config/module.config.php:123
+msgid "Resource with text"
+msgstr ""
+
+#: config/module.config.php:146
 msgid "Block Plus: Home page"
 msgstr ""
 
-#: config/module.config.php:118
+#: config/module.config.php:147
 msgid "Block Plus: Exhibit"
 msgstr ""
 
-#: config/module.config.php:119
+#: config/module.config.php:148
 msgid "Block Plus: Exhibit page"
 msgstr ""
 
-#: config/module.config.php:120
+#: config/module.config.php:149
 msgid "Block Plus: Simple page"
 msgstr ""
 
-#: config/module.config.php:124
+#: config/module.config.php:153
 msgid "Block Plus: Asset with class and url"
 msgstr ""
 
-#: config/module.config.php:125
+#: config/module.config.php:154
 msgid "Block Plus: Bootstrap Hero"
 msgstr ""
 
-#: config/module.config.php:126
+#: config/module.config.php:155
 msgid "Block Plus: Left Right"
 msgstr ""
 
-#: config/module.config.php:127
+#: config/module.config.php:156
 msgid "Block Plus: Partners"
 msgstr ""
 
-#: config/module.config.php:128
+#: config/module.config.php:157
 msgid "Block Plus: Asset (deprecated)"
 msgstr ""
 
-#: config/module.config.php:131
+#: config/module.config.php:160
 msgid "Block Plus: Arborescence"
 msgstr ""
 
-#: config/module.config.php:132 config/module.config.php:146
+#: config/module.config.php:161 config/module.config.php:175
 msgid "Block Plus: Glossary"
 msgstr ""
 
-#: config/module.config.php:135
+#: config/module.config.php:164
 msgid "Block Plus: Omeka breadcrumbs"
 msgstr ""
 
-#: config/module.config.php:138
+#: config/module.config.php:167
 msgid "Block Plus: Carousel"
 msgstr ""
 
-#: config/module.config.php:139
+#: config/module.config.php:168
 msgid "Block Plus: Gallery"
 msgstr ""
 
-#: config/module.config.php:140 config/module.config.php:167
+#: config/module.config.php:169 config/module.config.php:196
 msgid "Block Plus: Browse preview (deprecated)"
 msgstr ""
 
-#: config/module.config.php:143
+#: config/module.config.php:172
 msgid "Block Plus: Heading link"
 msgstr ""
 
-#: config/module.config.php:147
+#: config/module.config.php:176
 msgid "Block Plus: Page header"
 msgstr ""
 
-#: config/module.config.php:150
+#: config/module.config.php:179
 msgid "Block Plus: Item with metadata (deprecated)"
 msgstr ""
 
-#: config/module.config.php:153
+#: config/module.config.php:182
 msgid "Block Plus: List of pages (deprecated)"
 msgstr ""
 
-#: config/module.config.php:156
+#: config/module.config.php:185
 msgid "Block Plus: List of sites (deprecated)"
 msgstr ""
 
-#: config/module.config.php:160
+#: config/module.config.php:189
 msgid "Block Plus: Item showcase (deprecated)"
 msgstr ""
 
-#: config/module.config.php:161
+#: config/module.config.php:190
 msgid "Block Plus: Resource text (deprecated)"
 msgstr ""
 
-#: config/module.config.php:164
+#: config/module.config.php:193
 msgid "Block Plus: Page date time"
 msgstr ""
 
-#: config/module.config.php:170
+#: config/module.config.php:199
 msgid "Block Plus: Table of contents (deprecated)"
 msgstr ""
 
-#: config/module.config.php:185
-msgid "Url (deprecated)"
+#: config/module.config.php:214
+msgid "Collapse the list of groups of blocks"
 msgstr ""
 
-#: config/module.config.php:186
+#: config/module.config.php:215
+msgid "Expand to display the groups of blocks"
+msgstr ""
+
+#: config/module.config.php:216
 msgid "Insert Footnotes"
 msgstr ""
 
-#: config/module.config.php:252
+#: config/module.config.php:217
+msgid "Url (deprecated)"
+msgstr ""
+
+#: config/module.config.php:218
+msgid ""
+"Please wait for previous group of blocks to be prepared before adding a new "
+"one."
+msgstr ""
+
+#: config/module.config.php:287
 msgid "Know more"
 msgstr ""

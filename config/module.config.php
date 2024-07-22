@@ -211,11 +211,11 @@ return [
     ],
     'js_translate_strings' => [
         'Class', // @translate
-        'Collapse the list of block group layouts', // @layout
-        'Expand to select the list of block group layouts', // @translate
+        'Collapse the list of groups of blocks', // @translate
+        'Expand to display the groups of blocks', // @translate
         'Insert Footnotes', // @translate
         'Url (deprecated)', // @translate
-        'Wait for previous block group to be prepared before adding a new one.', // @translate
+        'Please wait for previous group of blocks to be prepared before adding a new one.', // @translate
     ],
     'blockplus' => [
         'settings' => [

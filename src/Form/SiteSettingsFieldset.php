@@ -30,8 +30,8 @@ class SiteSettingsFieldset extends Fieldset
                 'type' => CommonElement\IniTextarea::class,
                 'options' => [
                     'element_group' => 'block_plus',
-                    'label' => 'Layouts for block group', // @translate
-                    'info' => 'List all layouts formatted as ini with a section for each group.', // @translate
+                    'label' => 'Groups of blocks', // @translate
+                    'info' => 'List all groups of blocks formatted as ini with a section for each group.', // @translate
                     'documentation' => 'https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus#Usage',
                 ],
                 'attributes' => [
