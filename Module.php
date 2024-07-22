@@ -117,12 +117,11 @@ class Module extends AbstractModule
 
     public function handleSitePageEditBefore(Event $event): void
     {
-        $services = $this->getServiceLocator();
-        $config = $services->get('Config');
         $view = $event->getTarget();
         $assetUrl = $view->plugin('assetUrl');
 
-        $script = sprintf('const blockGroups = %s;', json_encode($config['block_groups'], 320));
+        $blockGroups = $this->getBlockGroupLayouts();
+        $script = sprintf('const blockGroups = %s;', json_encode($blockGroups, 320));
 
         $view->headLink()
             ->appendStylesheet($assetUrl('css/block-plus-admin.css', 'BlockPlus'));
@@ -249,6 +248,18 @@ class Module extends AbstractModule
         ksort($result);
 
         return $result;
+    }
+
+    protected function getBlockGroupLayouts(): array
+    {
+        $services = $this->getServiceLocator();
+        $config = $services->get('Config');
+        $settings = $services->get('Omeka\Settings');
+
+        return array_merge(
+            $config['block_groups'],
+            $settings->get('blockplus_block_groups', [])
+        );
     }
 
     /**

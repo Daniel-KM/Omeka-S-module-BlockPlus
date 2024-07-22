@@ -216,6 +216,7 @@ return [
         'settings' => [
             'blockplus_html_mode_page' => 'inline',
             'blockplus_html_config_page' => 'default',
+            'blockplus_block_groups' => [],
             'blockplus_property_itemset' => '',
         ],
         'site_settings' => [
