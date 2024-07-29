@@ -121,12 +121,20 @@ return [
     'block_groups' => [
         'resource_text' => [
             'o:label' => 'Resource with text', // @translate
-            'o:layout_data' => [
-                // Class "media-text" was the one used in block "Resource text".
-                // Class "block-group-resource-text" is the new one.
-                'class' => 'block-resource-text media-text',
-            ],
             'o:block' => [
+                [
+                    'o:layout' => 'blockGroup',
+                    'o:data' => [
+                        // Total of the following blocks that are nested in this group.
+                        // If not set, all blocks until the next block group will be nested.
+                        'span' => 3,
+                    ],
+                    'o:layout_data' => [
+                        // Class "media-text" was the one used in block "Resource text".
+                        // Class "block-group-resource-text" is the new one.
+                        'class' => 'block-resource-text media-text',
+                    ],
+                ],
                 [
                     'o:layout' => 'heading',
                     'o:data' => [
@@ -213,10 +221,11 @@ return [
     'js_translate_strings' => [
         'Class', // @translate
         'Collapse the list of groups of blocks', // @translate
-        'Expand to display the groups of blocks', // @translate
+        'Expand to display the list of groups of blocks', // @translate
         'Insert Footnotes', // @translate
         'Url (deprecated)', // @translate
         'Please wait for previous group of blocks to be prepared before adding a new one.', // @translate
+        'This group does not contain any block.', // @translate
     ],
     'blockplus' => [
         'settings' => [
