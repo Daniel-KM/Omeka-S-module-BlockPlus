@@ -59,11 +59,13 @@ class AssetElement extends AbstractHtmlElementHelper
             case 'video':
                 $attribs['src'] = $url;
                 $attribs['type'] = $mediaType;
+                $attribs['preload'] ??= 'none';
                 return sprintf('<video%s controls="controls"></video>', $this->htmlAttribs($attribs));
 
             case 'audio':
                 $attribs['src'] = $url;
                 $attribs['type'] = $mediaType;
+                $attribs['preload'] ??= 'none';
                 return sprintf('<audio%s controls="controls"></audio>', $this->htmlAttribs($attribs));
 
             default:
