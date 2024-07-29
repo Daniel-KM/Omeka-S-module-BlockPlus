@@ -348,7 +348,8 @@ class Module extends AbstractModule
                 ],
                 'attributes' => [
                     'id' => 'page-model-label',
-                    'required' => true,
+                    // The label can't be required: it's optional for the page.
+                    // 'required' => true,
                 ],
             ])
             ->add([
@@ -403,7 +404,7 @@ class Module extends AbstractModule
             . $translate('Save as page model or blocks groups') // @translate
             . '</legend>'
             . '<p>'
-            . $translate('The model will be stored when the current page will be saved.') // @translate
+            . $translate('If a label is set, the model will be stored when the current page will be saved.') // @translate
             . '</p>'
             . $view->formCollection($fieldset, true)
             . '</dialog>'
