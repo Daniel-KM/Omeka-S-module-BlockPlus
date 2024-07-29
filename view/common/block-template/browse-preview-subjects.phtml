@@ -1,0 +1,68 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $resourceType
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $heading
+ * @var string $linkText
+ * @var array $components
+ * @var array $query
+ */
+
+$plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
+?>
+
+<div class="preview-block">
+
+    <?php if ($heading): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+
+    <ul class="resource-list preview">
+        <?php
+        $showThumbnail = in_array('thumbnail', $components);
+        $showHeading = in_array('resource-heading', $components);
+        $showBody = in_array('resource-body', $components);
+        $headingTerm = $siteSetting('browse_heading_property_term');
+        $bodyTerm = $siteSetting('browse_body_property_term');
+
+        $filterLocale = (bool) $siteSetting('filter_locale_values');
+        $lang = $this->lang();
+        $langValue = $filterLocale ? [$lang, ''] : null;
+
+        foreach ($resources as $resource):
+            $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $langValue]) : $resource->displayTitle(null, $langValue);
+            $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : $resource->displayDescription(null, $langValue);
+            $linkContent = '';
+            if ($showThumbnail) {
+                $linkContent .= $thumbnail($resource, 'medium');
+            }
+            if ($showHeading) {
+                $linkContent .= '<span class="resource-name">' . $escape($heading) . '</span>';
+            }
+            ?>
+        <li class="<?= $resourceType ?> resource">
+            <?php if ($linkContent !== ''): ?>
+                <?= $resource->linkRaw($linkContent, null, ['class' => 'resource-link']) ?>
+            <?php endif; ?>
+            <?php if ($showBody && $body): ?>
+            <div class="description"><?= $escape($body) ?></div>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+
+    <?php if ($linkText): ?>
+        <?= $hyperlink($linkText, $url(
+            'site/resource', ['controller' => $resourceType, 'action' => 'browse'], ['query' => $query], true
+        )) ?>
+    <?php endif; ?>
+
+</div>
