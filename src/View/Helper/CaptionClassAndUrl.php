@@ -13,15 +13,14 @@ class CaptionClassAndUrl extends AbstractHelper
      * ```
      * url = https://example.org/
      * class = xxx yyy
-     * Next lines are the true caption.
+     * Next lines are the true caption, that may be raw text ot html.
      * ```
+     * The url may be a local media file, for example `/files/original/xxx.pdf`.
      *
-     * The initial caption may be an html one.
-     *
-     * @return array A simple array containing caption, class, url and a flag
-     * for html. Get result like:
+     * @return array A simple array containing caption, class, url and flags
+     * for html and local media file. Get result like:
      * ```php
-     * [$caption, $class, $url, $isHtml] = $this->captionClassAndUrl($string);
+     * [$caption, $class, $url, $isHtml, $isMediaFile] = $this->captionClassAndUrl($string);
      * ```
      */
     public function __invoke(?string $string): array
@@ -80,6 +79,11 @@ class CaptionClassAndUrl extends AbstractHelper
             $string = implode("\n", $lines);
         }
 
-        return [$string, $class, $url, $isHtml];
+        $isMediaFile = $url
+            && substr($url, 0, 1) === '/'
+            && pathinfo($url, PATHINFO_EXTENSION)
+            && preg_match('~/files/(?:original|large|medium|square)/~', $url);
+
+        return [$string, $class, $url, $isHtml, $isMediaFile];
     }
 }
