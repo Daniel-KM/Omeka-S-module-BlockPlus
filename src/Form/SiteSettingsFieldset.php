@@ -67,9 +67,9 @@ class SiteSettingsFieldset extends Fieldset
                     'label' => 'Prepended links', // @translate
                     'info' => 'List of urls followed by a label, separated by a "=", one by line, that will be prepended to the breadcrumb.', // @translate
                     'as_key_value' => false,
-                    'data_keys' => [
-                        'uri',
-                        'label',
+                    'data_options' => [
+                        'uri' => null,
+                        'label' => null,
                     ],
                 ],
                 'attributes' => [
