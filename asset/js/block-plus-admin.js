@@ -76,41 +76,51 @@
             }
 
             // The block settings should use "o:data" but "data" is allowed for
-            // simplicity. They are be mixed.
+            // simplicity. They cannot be mixed.
             const blockSettingsData = blockSettings['o:data'] ?? blockSettings['data'] ?? {};
             for (const [key, value] of Object.entries(blockSettingsData)) {
                 const isValueMultiple = value instanceof Array;
                 const appendMultiple = isValueMultiple ? '[]' : '';
                 const inputName = `.block-content [name="o:block[${blockIndex}][o:data][${key}]${appendMultiple}"]`;
-                const input = block.find(inputName);
-                if (input.length) {
-                    var val, inp;
-                    const inputType = input.attr('type') ?? input.prop('tagName').toLowerCase();
-                    // Manage chosen-js and ckeditor, and bad config or upgrade.
-                    // In jquery, "prop" uses true/false, and "attr" uses checked.
-                    if (inputType === 'radio') {
-                        val = isValueMultiple ? value[0] : value;
-                        block.find(inputName + `[value="${val}"]`).prop('checked', true).trigger('change');
-                    } else if (inputType === 'checkbox') {
-                        if (isValueMultiple) {
-                            block.find(inputName).map(function () {
-                                $(this).prop('checked', value.includes($(this).val())).trigger('change');
-                            });
-                        } else {
-                            input.val(value).trigger('change');
-                        }
-                    } else if (inputType === 'select') {
-                        input.val(value).trigger('change');
+                let input = block.find(inputName);
+                if (!input.length) {
+                    console.log('Field not found: ' + inputName);
+                    continue;
+                }
+                // Manage the element hidden added by laminas before checkbox.
+                if (input.length === 2
+                    && input.first().attr('type') === 'hidden'
+                    && input.last().attr('type') === 'checkbox'
+                ) {
+                    input = input.last();
+                }
+                const inputType = input.attr('type') ?? input.prop('tagName').toLowerCase();
+                let val, inp;
+                // Manage chosen-js and ckeditor, and bad config or upgrade.
+                // In jquery, "prop" uses true/false, and "attr" uses checked.
+                if (inputType === 'radio') {
+                    val = isValueMultiple ? value[0] : value;
+                    block.find(inputName + `[value="${val}"]`).prop('checked', true).trigger('change');
+                } else if (inputType === 'checkbox') {
+                    if (isValueMultiple) {
+                        block.find(inputName).map(function () {
+                            $(this).prop('checked', value.includes($(this).val())).trigger('change');
+                        });
                     } else {
-                        val = isValueMultiple ? value[0] : value;
-                        input.val(val);
-                        if ($.isFunction(input.trigger)) input.trigger('change');
+                        // Manage radio with a specific value.
+                        input.prop('checked', ![false, 0, '0', 'false', 'no', 'off', '', 'null', null].includes(value)).trigger('change');
                     }
+                } else if (inputType === 'select') {
+                    input.val(value).trigger('change');
+                } else {
+                    val = isValueMultiple ? value[0] : value;
+                    input.val(val);
+                    if ($.isFunction(input.trigger)) input.trigger('change');
                 }
             }
 
             // The block settings should use "o:layout_data" but "layout_data" is allowed for
-            // simplicity. They are be mixed.
+            // simplicity. They cannot be mixed.
             const blockSettingsLayoutData = blockSettings['o:layout_data'] ?? blockSettings['layout_data'] ?? null;
             if (blockSettingsLayoutData) {
                 // For layout data, the data are set as data and in hidden inputs.
