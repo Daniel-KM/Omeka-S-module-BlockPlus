@@ -54,17 +54,18 @@ $captionClassAndUrl = $plugins->get('captionClassAndUrl')
         $asset = $attachment['asset'];
         $page = $attachment['page'] ?? null;
         [$caption, $class, $url, $label, $isLocalUrl, $isMediaFile, $isHtmlCaption] = $captionClassAndUrl($attachment['caption'] ?? '');
+        $title = strlen($attachment['alt_link_title']) ? $attachment['alt_link_title'] : ($page ? $page->title() : $label);
         ?>
     <div class="asset<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>">
         <?php if ($asset): ?>
             <?php $attachmentUrl = $page ? $page->siteUrl() : $url ?>
             <?php if ($attachmentUrl): ?>
         <a class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>" href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
-            <?= $assetElement($asset, 'square', ['alt' => $attachment['alt_link_title'] ?: ($page ? $page->title() : $label)]) ?>
+            <?= $assetElement($asset, 'square', ['alt' => $title]) ?>
         </a>
             <?php else: ?>
         <span class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>">
-            <?= $assetElement($asset, 'square', ['alt' => $attachment['alt_link_title'] ?: $label]) ?>
+            <?= $assetElement($asset, 'square', ['alt' => $title]) ?>
         </span>
             <?php endif; ?>
         <?php endif; ?>

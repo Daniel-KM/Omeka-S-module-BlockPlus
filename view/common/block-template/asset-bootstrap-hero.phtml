@@ -43,6 +43,7 @@ $captionClassAndUrl = $plugins->get('captionClassAndUrl')
 $asset = $attachment['asset'];
 $page = $attachment['page'] ?? null;
 [$caption, $class, $url, $label, $isLocalUrl, $isMediaFile, $isHtmlCaption] = $captionClassAndUrl($attachment['caption'] ?? '');
+$title = strlen($attachment['alt_link_title']) ? $attachment['alt_link_title'] : ($page ? $page->title() : ($label ?: ($caption && $isHtmlCaption ? strip_tags($caption) : $caption)));
 ?>
 
 <div class="block header-wrapper<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" style="background-image:url(<?= $asset->assetUrl() ?>);">
@@ -52,13 +53,12 @@ $page = $attachment['page'] ?? null;
             <div class="col-md-6  offset-3 mt-5">
                 <h1 class="lorem text-uppercase text-center text-justify"><?= $isHtmlCaption ? $caption : $escape($caption) ?></h1>
                 <?php if ($page): ?>
-                <?php $altLinkTitle = strlen($attachment['alt_link_title']) ? $attachment['alt_link_title'] : $page->title(); ?>
                 <a href="<?= $escapeAttr($page->siteUrl()) ?>"<?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
-                    <button class="btn knowmore"><?= $escape($altLinkTitle) ?></button>
+                    <button class="btn knowmore"><?= $escape($title) ?></button>
                 </a>
-                <?php elseif ($url && $label): ?>
+                <?php elseif ($url && $title): ?>
                 <a href="<?= $escapeAttr($url) ?>"<?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
-                    <button class="btn knowmore"><?= $escape($label) ?></button>
+                    <button class="btn knowmore"><?= $escape($title) ?></button>
                 </a>
                 <?php endif; ?>
             </div>

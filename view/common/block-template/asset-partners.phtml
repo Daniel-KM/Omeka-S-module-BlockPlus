@@ -55,20 +55,18 @@ $captionClassAndUrl = $plugins->get('captionClassAndUrl')
             $assetTag = $asset ? $assetElement($asset, 'square') : '';
             $page = $attachment['page'] ?? null;
             [$caption, $class, $url, $label, $isLocalUrl, $isMediaFile, $isHtmlCaption] = $captionClassAndUrl($attachment['caption'] ?? '');
+            $title = strlen($attachment['alt_link_title']) ? $attachment['alt_link_title'] : ($page ? $page->title() : ($label ?: ($caption && $isHtmlCaption ? strip_tags($caption) : $caption)));
             ?>
             <?php if ($page): ?>
-            <?php $title = $attachment['alt_link_title'] ?: $page->title(); ?>
         <a class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" href="<?= $escapeAttr($page->siteUrl()) ?>" title="<?= $escapeAttr($title) ?>">
             <?= $assetTag ?>
         </a>
             <?php elseif ($url): ?>
-            <?php $title = $label ?: ($isHtmlCaption ? strip_tags($caption) : $caption); ?>
         <a class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" href="<?= $escapeAttr($url) ?>"<?php if ($title): ?> title="<?= $escapeAttr($title) ?>"<?php endif; ?><?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
             <?= $assetTag ?>
         </a>
             <?php else: ?>
-            <?php $title = $label ?: ($isHtmlCaption ? strip_tags($caption) : $caption); ?>
-        <span class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>"<?php if ($caption): ?> title="<?= $escapeAttr($title) ?>"<?php endif; ?>>
+        <span class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>"<?php if ($title): ?> title="<?= $escapeAttr($title) ?>"<?php endif; ?>>
             <?= $assetTag ?>
         </span>
             <?php endif; ?>
