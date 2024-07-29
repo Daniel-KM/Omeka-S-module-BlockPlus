@@ -18,9 +18,9 @@ class CaptionClassAndUrl extends AbstractHelper
      * The url may be a local media file, for example `/files/original/xxx.pdf`.
      *
      * @return array A simple array containing caption, class, url and flags
-     * for html and local media file. Get result like:
+     * for local url (relative url), local media file, and html. Get result like:
      * ```php
-     * [$caption, $class, $url, $isHtml, $isMediaFile] = $this->captionClassAndUrl($string);
+     * [$caption, $class, $url, $isLocalUrl, $isMediaFile, $isHtml] = $this->captionClassAndUrl($string);
      * ```
      */
     public function __invoke(?string $string): array
@@ -64,6 +64,13 @@ class CaptionClassAndUrl extends AbstractHelper
             }
         }
 
+        $isLocalUrl =  $url
+            && substr($url, 0, 1) === '/';
+
+        $isMediaFile = $isLocalUrl
+            && pathinfo($url, PATHINFO_EXTENSION)
+            && preg_match('~/files/(?:original|large|medium|square)/~', $url);
+
         if ($isHtml) {
             if ($hasClass) {
                 $quoted = preg_quote(trim($class));
@@ -79,11 +86,6 @@ class CaptionClassAndUrl extends AbstractHelper
             $string = implode("\n", $lines);
         }
 
-        $isMediaFile = $url
-            && substr($url, 0, 1) === '/'
-            && pathinfo($url, PATHINFO_EXTENSION)
-            && preg_match('~/files/(?:original|large|medium|square)/~', $url);
-
-        return [$string, $class, $url, $isHtml, $isMediaFile];
+        return [$string, $class, $url, $isLocalUrl, $isMediaFile, $isHtml];
     }
 }

@@ -38,7 +38,7 @@ $captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('capti
         $page = $attachment['page'] ?? null;
         $caption = trim($attachment['caption'] ?? '');
         if (strlen($caption)) {
-            [$caption, $class, $url, $isHtmlCaption] = $captionClassAndUrl($caption);
+            [$caption, $class, $url, $isLocalUrl, $isMediaFile, $isHtmlCaption] = $captionClassAndUrl($caption);
         } else {
             $class = '';
             $url = '';
@@ -52,7 +52,7 @@ $captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('capti
                 <span class="link-title"><?= strlen($altLinkTitle) ? $escape($altLinkTitle) : $escape($page->title()) ?></span>
             </a>
         <?php elseif ($url): ?>
-            <a href="<?= $escapeAttr($url) ?>"<?php if (filter_var($url, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
+            <a href="<?= $escapeAttr($url) ?>"<?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
                 <?= $assetImage ?>
                 <?php if ($altLinkTitle = $attachment['alt_link_title'] ?? ''): ?>
                 <span class="link-title"><?= $escape($altLinkTitle) ?></span>
