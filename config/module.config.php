@@ -2,6 +2,8 @@
 
 namespace BlockPlus;
 
+$pageModels = include __DIR__ . '/page_models.config.php';
+
 return [
     'service_manager' => [
         'invokables' => [
@@ -118,39 +120,7 @@ return [
             \Omeka\Form\SitePageForm::class => Form\SitePageForm::class,
         ],
     ],
-    'block_groups' => [
-        'resource_text' => [
-            'o:label' => 'Resource with text', // @translate
-            'o:caption' => 'Block group with a heading, a media and a field for html.', // @translate
-            'o:block' => [
-                [
-                    'o:layout' => 'blockGroup',
-                    'o:data' => [
-                        // Total of the following blocks that are nested in this group.
-                        // If not set, all blocks until the next block group will be nested.
-                        'span' => 3,
-                    ],
-                    'o:layout_data' => [
-                        // Class "media-text" was the one used in block "Resource text".
-                        // Class "block-group-resource-text" is the new one.
-                        'class' => 'block-resource-text media-text',
-                    ],
-                ],
-                [
-                    'o:layout' => 'heading',
-                    'o:data' => [
-                        'level' => 3,
-                    ],
-                ],
-                [
-                    'o:layout' => 'media',
-                ],
-                [
-                    'o:layout' => 'html',
-                ],
-            ],
-        ],
-    ],
+    'page_models' => $pageModels,
     'page_templates' => [
         'home-page' => 'Block Plus: Home page', // @translate
         'exhibit' => 'Block Plus: Exhibit', // @translate
@@ -232,12 +202,12 @@ return [
         'settings' => [
             'blockplus_html_mode_page' => 'inline',
             'blockplus_html_config_page' => 'default',
-            'blockplus_block_groups' => [],
+            'blockplus_page_models' => [],
             'blockplus_property_itemset' => '',
         ],
         'site_settings' => [
             // Layouts.
-            'blockplus_block_groups' => [],
+            'blockplus_page_models' => [],
             // Breadcrumbs.
             'blockplus_breadcrumbs_crumbs' => [
                 'home',

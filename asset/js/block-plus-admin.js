@@ -1,5 +1,7 @@
 (function ($) {
 
+    // The feature "blocks of groups" uses the config set in the html as "blocksGroups".
+
     // Config copied from application/asset/js/site-page-edit.js for the sidebar asset.
     function wysiwyg(context) {
         var config = {
@@ -153,7 +155,7 @@
             class: 'collapsible add-block-group-list',
         });
 
-        for (const [layout, data] of Object.entries(blockGroups)) {
+        for (const [layout, data] of Object.entries(blocksGroups)) {
             const buttonBlockGroup = $('<button>', {
                 type: 'button',
                 class: 'option',
@@ -191,7 +193,7 @@
             const blockGroupLayout = buttonBlockGroup.val();
 
             // The list of block should use "o:block" but "block" is allowed for simplicity.
-            const blockGroupData = blockGroups[blockGroupLayout];
+            const blockGroupData = blocksGroups[blockGroupLayout];
             const groupedBlocks = blockGroupData['o:block'] ?? blockGroupData['block'] ?? {};
             if (!Object.values(groupedBlocks).length) {
                 alert(Omeka.jsTranslate('This group does not contain any block.'));
@@ -240,7 +242,7 @@
             }
 
             // Reorder appended blocks, manage nested blocks in block Group and set settings of each blocks.
-            const blockGroupData = blockGroups[blockGroupLayout];
+            const blockGroupData = blocksGroups[blockGroupLayout];
             const groupedBlocks = blockGroupData['o:block'] ?? blockGroupData['block'] ?? {};
             var blockGroupBlocks;
             var previousBlockGroup = null;

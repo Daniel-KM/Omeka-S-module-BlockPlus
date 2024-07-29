@@ -64,12 +64,12 @@ class Module extends AbstractModule
             [$this, 'handleViewBrowse']
         );
 
+        // Manage page models and blocks groups.
         $sharedEventManager->attach(
             \Omeka\Api\Adapter\SitePageAdapter::class,
             'api.create.pre',
             [$this, 'handleSitePageCreatePre']
         );
-
         $sharedEventManager->attach(
             'Omeka\Controller\SiteAdmin\Page',
             'view.edit.before',
@@ -123,32 +123,120 @@ class Module extends AbstractModule
 
     public function handleSitePageCreatePre(Event $event): void
     {
-        // The template name is managed only by a post because the form data are
+        // The page model is managed only by a post because the form data are
         // not passed to the api event.
-        // Anyway, for an api request, the template name can be set directly.
+        // Anyway, for an api request, the template name and any other data can
+        // be set directly.
 
-        // $post = $services->get('Application')->getMvcEvent()->getRequest()->getPost();
-        if (empty($_POST)
-            || (
-                // TODO Use "o:layout_date[template_name] only, waiting for the fix committed in \Omeka\Controller\SiteAdmin\IndexController::addPageAction().
-                empty($_POST['o:layout_data']['template_name'])
-                && empty($_POST['template_name'])
-            )
-        ) {
+        // $post is the same as $_POST.
+        $post = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRequest()->getPost();
+        if (empty($post) || empty($post['page_model'])) {
             return;
         }
 
         /**
          * @var \Omeka\Api\Request $request
-         * @var array $data Posted form data or page api data.
+         * @var array $sitePage Posted form data or page api data.
+         * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
+         * @var \Laminas\Log\Logger $logger
          */
+        $services = $this->getServiceLocator();
         $request = $event->getParam('request');
-        $data = $request->getContent();
 
-        $data['o:layout_data']['template_name'] ??= $_POST['o:layout_data']['template_name']
-            ?? $_POST['template_name'] ?? null;
+        $pageModels = $this->getPageModels();
+        $pageModel = $pageModels[$post['page_model']] ?? null;
+        if ($pageModel === null) {
+            $messenger = $services->get('ControllerPluginManager')->get('messenger');
+            $logger = $services->get('Omeka\Logger');
+            $message = new PsrMessage(
+                'The page model "{page_model}" does not exist.', // @translate
+                ['page_model' => $post['page_model']]
+            );
+            $messenger->addWarning($message);
+            $logger->err($message->getMessage(), $message->getContext());
+        }
+        if (!$pageModel) {
+            return;
+        }
 
-        $request->setContent($data);
+        // Normalize the page model.
+        if (isset($pageModel['is_public']) && !isset($pageModel['o:is_public'])) {
+            $pageModel['o:is_public'] = (bool) $pageModel['is_public'];
+        }
+        if (isset($pageModel['layout']) && !isset($pageModel['o:layout'])) {
+            $pageModel['o:layout'] = $pageModel['layout'];
+        }
+        if (isset($pageModel['layout_data']) && !isset($pageModel['o:layout_data'])) {
+            $pageModel['o:layout_data'] = $pageModel['layout_data'];
+        }
+        if (isset($pageModel['block']) && !isset($pageModel['o:block'])) {
+            $pageModel['o:block'] = $pageModel['block'];
+        }
+        unset(
+            $pageModel['o:label'],
+            $pageModel['o:caption'],
+            $pageModel['label'],
+            $pageModel['caption'],
+            $pageModel['is_public'],
+            $pageModel['layout'],
+            $pageModel['layout_data'],
+            $pageModel['block']
+        );
+
+        // Normalize the blocks if any.
+        foreach ($pageModel['o:block'] ?? [] as $key => $block) {
+            if (isset($block['layout']) && !isset($block['o:layout'])) {
+                $block['o:layout'] = $block['layout'];
+            }
+            if (isset($block['data']) && !isset($block['o:data'])) {
+                $block['o:data'] = $block['data'];
+            }
+            if (isset($block['layout_data']) && !isset($block['o:layout_data'])) {
+                $block['o:layout_data'] = $block['layout_data'];
+            }
+            unset(
+                $block['o:label'],
+                $block['o:caption'],
+                $block['label'],
+                $block['caption'],
+                $block['layout'],
+                $block['data'],
+                $block['layout_data']
+            );
+            if (empty($block['o:layout'])) {
+                unset($pageModel['o:block'][$key]);
+            } else {
+                $pageModel['o:block'][$key] = $block;
+            }
+        }
+
+        // Complete submitted new page. Normally, the page contains only
+        // "o:title", "o:slug" and "o:is_public", but other modules can set more
+        // data.
+        $sitePage = $request->getContent();
+
+        if (isset($pageModel['o:is_public']) && !isset($sitePage['o:is_public'])) {
+            $sitePage['o:is_public'] = (bool) $pageModel['o:is_public'];
+        }
+        if (isset($pageModel['o:layout']) && !isset($sitePage['o:layout'])) {
+            $sitePage['o:layout'] = $pageModel['o:layout'];
+        }
+        if (!empty($pageModel['o:layout_data'])) {
+            if (isset($sitePage['o:layout_data'])) {
+                $sitePage['o:layout_data'] = array_merge($sitePage['o:layout_data'], $pageModel['o:layout_data']);
+            } else {
+                $sitePage['o:layout_data'] = $pageModel['o:layout_data'];
+            }
+        }
+        if (!empty($pageModel['o:block'])) {
+            if (isset($sitePage['o:block'])) {
+                $sitePage['o:block'] = array_merge($sitePage['o:block'], $pageModel['o:block']);
+            } else {
+                $sitePage['o:block'] = $pageModel['o:block'];
+            }
+        }
+
+        $request->setContent($sitePage);
     }
 
     public function handleSitePageEditPre(Event $event): void
@@ -156,8 +244,11 @@ class Module extends AbstractModule
         $view = $event->getTarget();
         $assetUrl = $view->plugin('assetUrl');
 
-        $blockGroups = $this->getBlockGroupLayouts();
-        $script = sprintf('const blockGroups = %s;', json_encode($blockGroups, 320));
+        // Remove page models, that are available only during page creation.
+        $pageModels = $this->getPageModels();
+        $blocksGroups = array_filter($pageModels, fn($v): bool => !isset($v['o:layout_data']) && !isset($v['layout_data']));
+
+        $script = sprintf('const blocksGroups = %s;', json_encode($blocksGroups, 320));
 
         $view->headLink()
             ->appendStylesheet($assetUrl('css/block-plus-admin.css', 'BlockPlus'));
@@ -286,7 +377,12 @@ class Module extends AbstractModule
         return $result;
     }
 
-    protected function getBlockGroupLayouts(): array
+    /**
+     * Copied:
+     * @see \BlockPlus\Module::getPageModels()
+     * @see \BlockPlus\Service\Form\SitePageFormFactory::getPageModels()
+     */
+    protected function getPageModels(): array
     {
         /**
          * @var array $config
@@ -302,14 +398,14 @@ class Module extends AbstractModule
 
         $theme = $themeManager->getCurrentTheme();
         $themeConfig = $theme->getConfigSpec();
-        $themeSettings = $siteSettings->get($theme->getSettingsKey());
+        $themeSettings = $siteSettings->get($theme->getSettingsKey(), []);
 
         $result = array_merge(
-            $config['block_groups'],
-            $settings->get('blockplus_block_groups', []),
-            $siteSettings->get('blockplus_block_groups', []),
-            $themeConfig['block_groups'] ?? [],
-            $themeSettings['block_groups'] ?? []
+            $config['page_models'] ?? [],
+            $settings->get('blockplus_page_models', []),
+            $siteSettings->get('blockplus_page_models', []),
+            $themeConfig['page_models'] ?? [],
+            $themeSettings['page_models'] ?? []
         );
 
         // TODO Keep main/site/theme order? Use nested select? Add an icon in the list?

@@ -57,16 +57,16 @@ class SettingsFieldset extends Fieldset
             // Layouts.
 
             ->add([
-                'name' => 'blockplus_block_groups',
+                'name' => 'blockplus_page_models',
                 'type' => CommonElement\IniTextarea::class,
                 'options' => [
                     'element_group' => 'block_plus',
-                    'label' => 'Groups of blocks', // @translate
-                    'info' => 'List all groups of blocks formatted as ini with a section for each group.', // @translate
+                    'label' => 'Page models and groups of blocks', // @translate
+                    'info' => 'List all page models and blocks groups formatted as ini with a section for each group.', // @translate
                     'documentation' => 'https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus#Usage',
                 ],
                 'attributes' => [
-                    'id' => 'blockplus_block_groups',
+                    'id' => 'blockplus_page_models',
                 ],
             ])
 
