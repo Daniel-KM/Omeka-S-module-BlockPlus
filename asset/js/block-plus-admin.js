@@ -49,9 +49,9 @@
          *
          * Note: the methods inside site-page-edit.js are not available.
          *
-         * The config of blocks should use `o:label`, `o:block`, `o:layout`, `o:data`
-         * and `o:layout_data`, but `label`, `block`, `layout`, `data`, `layout_data`
-         * are allowed for simplicity.
+         * The config of blocks should use `o:label`, `o:caption`, `o:block`,
+         * `o:layout`, `o:data` and `o:layout_data`, but `label`, `caption`,
+         * `block`, `layout`, `data`, `layout_data` are allowed for simplicity.
          */
 
         /**
@@ -150,7 +150,13 @@
                 value: layout,
             });
             // The label should use "o:label" but "label" is allowed for simplicity.
+            // The same for "o:caption" / "caption".
             buttonBlockGroup.text(Omeka.jsTranslate(data['o:label'] ?? data['label'] ?? layout));
+            if (data['o:caption'] ?? data['caption'] ?? null) {
+                buttonBlockGroup
+                    .attr('title', Omeka.jsTranslate(data['o:caption'] ?? data['caption']))
+                    .attr('aria-label', Omeka.jsTranslate(data['o:caption'] ?? data['caption']));
+            }
             buttonBlockGroup.append($('<span>', {class: 'spinner'}));
             addBlockGroupList
                 .append($('<li>')

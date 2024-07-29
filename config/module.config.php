@@ -121,6 +121,7 @@ return [
     'block_groups' => [
         'resource_text' => [
             'o:label' => 'Resource with text', // @translate
+            'o:caption' => 'Block group with a heading, a media and a field for html.', // @translate
             'o:block' => [
                 [
                     'o:layout' => 'blockGroup',
