@@ -19,7 +19,7 @@ class SitePageForm extends \Omeka\Form\SitePageForm
             // Separate full page model and simple list of blocks.
             $models = [
                 'page_models' => [
-                    'label' => 'Page layouts', // @translate
+                    'label' => 'Page models', // @translate
                     'options' => [],
                 ],
                 'block_groups' => [

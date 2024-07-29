@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-22 00:00+0000\n"
-"PO-Revision-Date: 2024-07-22 00:00+0000\n"
+"POT-Creation-Date: 2024-07-29 00:00+0000\n"
+"PO-Revision-Date: 2024-08-28 17:17+0200\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -26,6 +26,10 @@ msgstr "Ce module requiert le module %1$s version %2$s ou supérieur."
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou ultérieure."
+
+#: Module.php:397
+msgid "Create page model"
+msgstr "Créer un modèle de page"
 
 #: src/Site/BlockLayout/Block.php:47
 msgid "A simple block allows to display a partial from the theme."
@@ -57,13 +61,13 @@ msgstr "Télécharger"
 #: src/Site/ResourcePageBlockLayout/Buttons.php:111
 #, php-format
 msgid ""
-"%s%s\n"
+"%1$s%2$s\n"
 "-\n"
-"%s"
+"%3$s"
 msgstr ""
-"%s%s\n"
+"%1$s%2$s\n"
 "-\n"
-"%s"
+"%3$s"
 
 #: src/Site/BlockLayout/Buttons.php:104
 #: src/Site/ResourcePageBlockLayout/Buttons.php:112
@@ -133,53 +137,53 @@ msgstr "Télécharger le fichier"
 msgid "Print"
 msgstr "Imprimer"
 
-#: src/View/Helper/Breadcrumbs.php:407 src/View/Helper/Breadcrumbs.php:417
-#: src/View/Helper/Breadcrumbs.php:445 src/View/Helper/Breadcrumbs.php:480
-#: src/View/Helper/Breadcrumbs.php:486
+#: src/View/Helper/Breadcrumbs.php:408 src/View/Helper/Breadcrumbs.php:418
+#: src/View/Helper/Breadcrumbs.php:446 src/View/Helper/Breadcrumbs.php:481
+#: src/View/Helper/Breadcrumbs.php:487
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: src/View/Helper/Breadcrumbs.php:423 src/View/Helper/Breadcrumbs.php:507
+#: src/View/Helper/Breadcrumbs.php:424 src/View/Helper/Breadcrumbs.php:508
 msgid "Basket"
 msgstr "Panier"
 
-#: src/View/Helper/Breadcrumbs.php:431
+#: src/View/Helper/Breadcrumbs.php:432
 msgid "Collecting"
 msgstr "Collectes"
 
-#: src/View/Helper/Breadcrumbs.php:448
+#: src/View/Helper/Breadcrumbs.php:449
 msgid "Login"
 msgstr "Connexion"
 
-#: src/View/Helper/Breadcrumbs.php:451
+#: src/View/Helper/Breadcrumbs.php:452
 msgid "Register"
 msgstr "Inscrivez-vous"
 
-#: src/View/Helper/Breadcrumbs.php:454
+#: src/View/Helper/Breadcrumbs.php:455
 msgid "Authentication error"
 msgstr "Erreur d’authentification"
 
-#: src/View/Helper/Breadcrumbs.php:498
+#: src/View/Helper/Breadcrumbs.php:499
 msgid "Update account"
 msgstr "Mettre à jour le compte"
 
-#: src/View/Helper/Breadcrumbs.php:501
+#: src/View/Helper/Breadcrumbs.php:502
 msgid "Update email"
 msgstr "Mettre à jour le mail"
 
-#: src/View/Helper/Breadcrumbs.php:504
+#: src/View/Helper/Breadcrumbs.php:505
 msgid "Accept terms"
 msgstr "Accepter les conditions"
 
-#: src/View/Helper/Breadcrumbs.php:510
+#: src/View/Helper/Breadcrumbs.php:511
 msgid "Selection"
 msgstr "Sélection"
 
-#: src/View/Helper/Breadcrumbs.php:527
+#: src/View/Helper/Breadcrumbs.php:529
 msgid "Current page"
 msgstr "Page en cours"
 
-#: src/View/Helper/Breadcrumbs.php:570
+#: src/View/Helper/Breadcrumbs.php:572
 msgid "Collections"
 msgstr "Collections"
 
@@ -203,7 +207,7 @@ msgstr ""
 "filename.tsv\" (utilise le fichier dans /asset/data/) ou \"file = https://"
 "example.com/file.tsv\"."
 
-#: view/common/block-template/browse-preview-gallery.phtml:106
+#: view/common/block-template/browse-preview-gallery.phtml:110
 msgid "More information"
 msgstr "Plus d’infos"
 
@@ -761,7 +765,89 @@ msgstr ""
 "Une bibliothèque javascript doit être installée. Consulter la documentation "
 "d’installation du module."
 
-#: src/View/Helper/Breadcrumbs.php:710
+#: Module.php:165
+msgid "The page model \"{page_model}\" does not exist."
+msgstr "Le modèle de page « {page_model} » n’existe pas."
+
+#: Module.php:334
+msgid "Blocks only"
+msgstr "Blocs seuls"
+
+#: Module.php:335
+msgid "Full page"
+msgstr "Page complète"
+
+#: Module.php:382
+msgid "Main settings"
+msgstr "Paramètres généraux"
+
+#: Module.php:383
+msgid "Site settings"
+msgstr "Paramètres du site"
+
+#: Module.php:384
+msgid "Theme settings (if supported)"
+msgstr "Paramètres du thème (si pris en charge)"
+
+#: Module.php:404
+msgid "Save as page model or blocks groups"
+msgstr "Sauvegarde comme modèle de page ou groupe de blocs"
+
+#: Module.php:407
+msgid ""
+"If a label is set, the model will be stored when the current page will be "
+"saved."
+msgstr ""
+"Si un libellé est indiqué, le modèle sera enregistré en même temps que la "
+"page."
+
+#: Module.php:462
+msgid "\"{name}\" is already used as page model and was renamed \"{name_2}\"."
+msgstr ""
+"« {name} » est déjà utilisé comme modèle de page et a été renommé "
+"« {name_2} »."
+
+#: Module.php:549 Module.php:559
+msgid "The page model \"{label}\" ({name}) was saved in theme settings."
+msgstr ""
+"Le modèle de page « {label} » ({name}) a été enregistré dans les paramètres "
+"du thème."
+
+#: Module.php:550 Module.php:560
+msgid "The blocks group \"{label}\" ({name}) was saved in theme settings."
+msgstr ""
+"Le groupe de blocs « {label} » ({name}) a été enregistré dans les paramètres "
+"du thème."
+
+#: Module.php:554
+msgid "The page model \"{label}\" ({name}) was saved in site settings."
+msgstr ""
+"Le modèle de page « {label} » ({name}) a été enregistré dans les paramètres "
+"du site."
+
+#: Module.php:555
+msgid "The blocks group \"{label}\" ({name}) was saved in site settings."
+msgstr ""
+"Le groupe de blocs « {label} » ({name}) a été enregistré dans les paramètres "
+"du site."
+
+#: view/common/block-template/asset-deprecated-plus.phtml:12
+msgid ""
+"The template \"asset-deprecated-plus\" should be replaced by \"asset-class-"
+"url\" in page {url}."
+msgstr ""
+"Le modèle « asset-deprecated-plus » doit être remplacé par « asset-class-"
+"url » dans la page {url}."
+
+#: view/common/block-template/asset-left-right.phtml:28
+msgid ""
+"The template \"asset-left-right\" should be replaced by new page block "
+"features in page {url}."
+msgstr ""
+"Le modèle « asset-left-right » doit être remplacé par les nouvelles "
+"fonctionnalités des blocs dans la page {url}."
+
+#: src/View/Helper/Breadcrumbs.php:712
 msgid "Contributions"
 msgstr "Contributions"
 
@@ -784,15 +870,16 @@ msgid "Block plus resources"
 msgstr "Block Plus ressources"
 
 #: src/Form/SiteSettingsFieldset.php:33 src/Form/SettingsFieldset.php:64
-msgid "Groups of blocks"
-msgstr "Groupes de blocs"
+msgid "Page models and groups of blocks"
+msgstr "Modèles de page et groupes de blocs"
 
 #: src/Form/SiteSettingsFieldset.php:34 src/Form/SettingsFieldset.php:65
 msgid ""
-"List all groups of blocks formatted as ini with a section for each group."
+"List all page models and blocks groups formatted as ini with a section for "
+"each group."
 msgstr ""
-"Liste des groupes de blocs formatés en ini avec une section pour chaque "
-"groupe."
+"Liste des modèles de page et des groupes de blocs formatés en ini avec une "
+"section pour chaque groupe."
 
 #: src/Form/SiteSettingsFieldset.php:49
 msgid "Crumbs"
@@ -1126,9 +1213,17 @@ msgstr ""
 msgid "Level"
 msgstr "Niveau"
 
-#: src/Form/SitePageForm.php:25
-msgid "Page template"
-msgstr "Modèle de page"
+#: src/Form/SitePageForm.php:22
+msgid "Page models"
+msgstr "Modèles de page"
+
+#: src/Form/SitePageForm.php:26
+msgid "Blocks groups"
+msgstr "Groupes de blocs"
+
+#: src/Form/SitePageForm.php:48
+msgid "Page models and blocks groups"
+msgstr "Modèles de page et groupes de blocs"
 
 #: src/Form/ButtonsFieldset.php:17
 #: src/Site/ResourcePageBlockLayout/Buttons.php:16
@@ -1434,123 +1529,176 @@ msgstr "Spécification \"%s\" invalide"
 msgid "Error reading %s: %s (%s)"
 msgstr "Erreur lors de la lecture %s: %s (%s)"
 
-#: config/module.config.php:123
+#: config/page_models.config.php:23
+msgid "Home page"
+msgstr "Page d’accueil"
+
+#: config/page_models.config.php:24
+msgid ""
+"A page model with blocks browse preview with a template for gallery, html, "
+"heading, and asset."
+msgstr ""
+"Un modèle de page avec les blocs Aperçu des ressources avec le modèle "
+"Galerie, Html, Titre et Fichier."
+
+#: config/page_models.config.php:48
+msgid "Exhibit"
+msgstr "Exposition"
+
+#: config/page_models.config.php:49
+msgid ""
+"A page model for an exhibit summary, with blocks page title, html, heading, "
+"and list of pages."
+msgstr ""
+"Un modèle de page pour un sommaire d’exposition, avec les blocs Titre de "
+"page, Html, Titre et liste des pages."
+
+#: config/page_models.config.php:66
+msgid "Exhibit page"
+msgstr "Page d’exposition"
+
+#: config/page_models.config.php:67
+msgid ""
+"A page model for an exhibit page, with blocks page title, html, heading and "
+"media."
+msgstr ""
+"Un modèle de page pour une page d’exposition, avec les blocs Titre de page, "
+"Html, Titre et Média."
+
+#: config/page_models.config.php:79
+msgid "Simple page"
+msgstr "Simple page"
+
+#: config/page_models.config.php:80
+msgid "A page model for generic needs, with blocks page title and html."
+msgstr ""
+"Un modèle de page générique avec un bloc Titre de page et un bloc Html."
+
+#: config/page_models.config.php:92
 msgid "Resource with text"
 msgstr "Ressource avec texte"
 
-#: config/module.config.php:146
+#: config/page_models.config.php:93
+msgid "A group of blocks with a heading, a media and a field for html."
+msgstr "Un groupe de blocs avec un titre, un média et un champ html."
+
+#: config/module.config.php:123
 msgid "Block Plus: Home page"
 msgstr "Block Plus : Page d’accueil"
 
-#: config/module.config.php:147
+#: config/module.config.php:124
 msgid "Block Plus: Exhibit"
 msgstr "Block Plus : Exposition"
 
-#: config/module.config.php:148
+#: config/module.config.php:125
 msgid "Block Plus: Exhibit page"
 msgstr "Block Plus : Page d’exposition"
 
-#: config/module.config.php:149
+#: config/module.config.php:126
 msgid "Block Plus: Simple page"
 msgstr "Block Plus : Page simple"
 
-#: config/module.config.php:153
+#: config/module.config.php:130
 msgid "Block Plus: Asset with class and url"
 msgstr "Block Plus : Fichier avec classe et url"
 
-#: config/module.config.php:154
+#: config/module.config.php:131
 msgid "Block Plus: Bootstrap Hero"
 msgstr "Block Plus : Bootstrap Hero"
 
-#: config/module.config.php:155
+#: config/module.config.php:132
 msgid "Block Plus: Left Right"
 msgstr "Block Plus : Left Right"
 
-#: config/module.config.php:156
+#: config/module.config.php:133
 msgid "Block Plus: Partners"
 msgstr "Block Plus : Partenaires"
 
-#: config/module.config.php:157
+#: config/module.config.php:134
 msgid "Block Plus: Asset (deprecated)"
 msgstr "Block Plus: Fichier (obsolète)"
 
-#: config/module.config.php:160
+#: config/module.config.php:137
 msgid "Block Plus: Arborescence"
 msgstr "Block Plus : Arborescence"
 
-#: config/module.config.php:161 config/module.config.php:175
+#: config/module.config.php:138 config/module.config.php:153
 msgid "Block Plus: Glossary"
 msgstr "Block Plus : Glossaire"
 
-#: config/module.config.php:164
+#: config/module.config.php:141
 msgid "Block Plus: Omeka breadcrumbs"
 msgstr "Block Plus : Fil d’Ariane Omeka"
 
-#: config/module.config.php:167
+#: config/module.config.php:144
 msgid "Block Plus: Carousel"
 msgstr "Block Plus : Carousel"
 
-#: config/module.config.php:168
+#: config/module.config.php:145
 msgid "Block Plus: Gallery"
 msgstr "Block Plus : Galerie"
 
-#: config/module.config.php:169 config/module.config.php:196
+#: config/module.config.php:146
+msgid "Block Plus: Subjects"
+msgstr "Block Plus : Sujets"
+
+#: config/module.config.php:147 config/module.config.php:174
 msgid "Block Plus: Browse preview (deprecated)"
 msgstr "Block Plus : Aperçu des ressources (obsolète)"
 
-#: config/module.config.php:172
+#: config/module.config.php:150
 msgid "Block Plus: Heading link"
 msgstr "Block Plus : Titre avec lien"
 
-#: config/module.config.php:176
+#: config/module.config.php:154
 msgid "Block Plus: Page header"
 msgstr "Block Plus : Entête de page"
 
-#: config/module.config.php:179
+#: config/module.config.php:157
 msgid "Block Plus: Item with metadata (deprecated)"
 msgstr "Block Plus : Contenu avec métadonnées (obsolète)"
 
-#: config/module.config.php:182
+#: config/module.config.php:160
 msgid "Block Plus: List of pages (deprecated)"
 msgstr "Block Plus : Liste des pages (obsolète)"
 
-#: config/module.config.php:185
+#: config/module.config.php:163
 msgid "Block Plus: List of sites (deprecated)"
 msgstr "Block Plus : Liste des sites (obsolète)"
 
-#: config/module.config.php:189
+#: config/module.config.php:167
 msgid "Block Plus: Item showcase (deprecated)"
 msgstr "Block Plus: Vitrine de contenu (obsolète)"
 
-#: config/module.config.php:190
+#: config/module.config.php:168
 msgid "Block Plus: Resource text (deprecated)"
 msgstr "Block Plus : Ressource avec texte (obsolète)"
 
-#: config/module.config.php:193
+#: config/module.config.php:171
 msgid "Block Plus: Page date time"
 msgstr "Block Plus : Page date heure"
 
-#: config/module.config.php:199
+#: config/module.config.php:177
 msgid "Block Plus: Table of contents (deprecated)"
 msgstr "Block Plus : Table des matières (obsolète)"
 
-#: config/module.config.php:214
+#: config/module.config.php:192
 msgid "Collapse the list of groups of blocks"
 msgstr "Replier la liste des groupes de blocs"
 
-#: config/module.config.php:215
-msgid "Expand to display the groups of blocks"
-msgstr "Déplier pour afficher les groupes de blocs"
+#: config/module.config.php:193
+msgid "Expand to display the list of groups of blocks"
+msgstr "Déplier pour afficher la liste des groupes de blocs"
 
-#: config/module.config.php:216
+#: config/module.config.php:194
 msgid "Insert Footnotes"
 msgstr "Insérer des pieds de page"
 
-#: config/module.config.php:217
+#: config/module.config.php:195
 msgid "Url (deprecated)"
 msgstr "Url (obsolète)"
 
-#: config/module.config.php:218
+#: config/module.config.php:196
 msgid ""
 "Please wait for previous group of blocks to be prepared before adding a new "
 "one."
@@ -1558,18 +1706,69 @@ msgstr ""
 "Veuillez attendre la finalisation du groupe de blocs précédent avant d’en "
 "ajouter un autre."
 
-#: config/module.config.php:287
+#: config/module.config.php:197
+msgid "This group does not contain any block."
+msgstr "Ce groupe ne contient aucun bloc."
+
+#: config/module.config.php:267
 msgid "Know more"
 msgstr "En savoir plus"
 
-#~ msgid "Layouts for block group"
-#~ msgstr "Gabarits pour le bloc Groupe"
+#~ msgid ""
+#~ "It is now possible to append a list of blocks via a simple click when "
+#~ "editing a site page."
+#~ msgstr ""
+#~ "Il est désormais possible d’ajouter une liste de blocs via un simple clic "
+#~ "lorsque la page est modifiée."
+
+#~ msgid ""
+#~ "If you created some lists of blocks in version 3.4.25, the block group is "
+#~ "no more implicit, so you should update each group manually: prepend `o:"
+#~ "block.0.o:layout = \"blockGroup\"` and prepend `blocks.0.` to optional "
+#~ "root `o:layout_data`. Furthermore, the key \"block_groups\" in config was "
+#~ "renamed \"page_models\"."
+#~ msgstr ""
+#~ "Si vous avez créé une liste deblocs dans la version 3.4.25, le bloc "
+#~ "Groupe n’est plus implicite et vous devez donc l’ajouter manuellement à "
+#~ "chaque groupe : ajoutez `o:block.0.o:layout = \"blockGroup\"` et préfixez "
+#~ "`blocks.0.` aux valeurs `o:layout_data` situées à la racine. De plus, la "
+#~ "clé « block_groups » a été renommée « page_models »."
+
+#~ msgid ""
+#~ "It is now possible to select a page model with page settings and blocks "
+#~ "when creating a new page."
+#~ msgstr ""
+#~ "Il est désormais possible de choisir un modèle de page avec les "
+#~ "paramètres et les blocs lors de la création d’une nouvelle page."
+
+#~ msgid ""
+#~ "It is now possible to create a page model or a list of blocks via a "
+#~ "simple click when editing a page."
+#~ msgstr ""
+#~ "Il est désormais possible de créer un modèle de page ou une liste de "
+#~ "blocs d’un simple clic lorsque la page est modifiée."
+
+#, php-format
+#~ msgid ""
+#~ "%s%s\n"
+#~ "-\n"
+#~ "%s"
+#~ msgstr ""
+#~ "%s%s\n"
+#~ "-\n"
+#~ "%s"
+
+#~ msgid "Page layouts"
+#~ msgstr "Gabarits de pages"
+
+#~ msgid "Groups of blocks"
+#~ msgstr "Groupes de blocs"
+
+#~ msgid "Page template"
+#~ msgstr "Modèle de page"
 
 #~ msgid "expand"
 #~ msgstr "déplier"
-
-#~ msgid "Page types"
-#~ msgstr "Types de page"
 
 #~ msgid ""
 #~ "Specify the list of types that will be available to build specific pages."
@@ -1605,12 +1804,6 @@ msgstr "En savoir plus"
 
 #~ msgid "Select the page type…"
 #~ msgstr "Choisir le type de page…"
-
-#~ msgid "Exhibit"
-#~ msgstr "Exposition"
-
-#~ msgid "Simple page"
-#~ msgstr "Simple page"
 
 #~ msgid "Content"
 #~ msgstr "Contenu"
@@ -1996,9 +2189,6 @@ msgstr "En savoir plus"
 #~ msgstr ""
 #~ "Un vocabulaire doit avoir une uri pour l’espace de nom et un préfixe."
 
-#~ msgid "Page date"
-#~ msgstr "Date de la page"
-
 #~ msgid "Division"
 #~ msgstr "Division"
 
@@ -2010,9 +2200,6 @@ msgstr "En savoir plus"
 
 #~ msgid "Long"
 #~ msgstr "Long"
-
-#~ msgid "Full"
-#~ msgstr "Complet"
 
 #~ msgid "Heading for the block, if any."
 #~ msgstr "Entête du bloc, si présent."

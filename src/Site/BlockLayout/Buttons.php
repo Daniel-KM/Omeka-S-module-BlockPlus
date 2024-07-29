@@ -100,7 +100,7 @@ class Buttons extends AbstractBlockLayout implements TemplateableBlockLayoutInte
                         'label' => $translate('Email'), // @translate
                         'attrs' => [
                             'id' => 'button-email',
-                            'href' => 'mailto:?subject=' . $encodedTitle . '&body=' . rawurlencode(sprintf($translate("%s%s\n-\n%s"), $siteTitle, $title === $siteTitle ? '' : "\n-\n" . $title, $url)),
+                            'href' => 'mailto:?subject=' . $encodedTitle . '&body=' . rawurlencode(sprintf($translate('%1$s%2$s' . "\n-\n" . '%3$s'), $siteTitle, $title === $siteTitle ? '' : "\n-\n" . $title, $url)),
                             'title' => $translate('Share by mail'), // @translate
                             'class' => 'share-page icon-mail',
                             'tabindex' => '0',

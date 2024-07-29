@@ -46,7 +46,7 @@ return [
     ],
     'exhibit' => [
         'o:label' => 'Exhibit', // @translate
-        'o:caption' => 'A page template for an exhibit summary, with blocks page title, html, heading, and list of pages.', // @translate
+        'o:caption' => 'A page model for an exhibit summary, with blocks page title, html, heading, and list of pages.', // @translate
         'o:layout_data' => [
             'template_name' => 'exhibit',
         ],
@@ -64,7 +64,7 @@ return [
     ],
     'exhibit_page' => [
         'o:label' => 'Exhibit page', // @translate
-        'o:caption' => 'A page template for an exhibit page, with blocks page title, html, heading and media.', // @translate
+        'o:caption' => 'A page model for an exhibit page, with blocks page title, html, heading and media.', // @translate
         'o:layout_data' => [
             'template_name' => 'exhibit',
         ],
@@ -77,7 +77,7 @@ return [
     ],
     'simple_page' => [
         'o:label' => 'Simple page', // @translate
-        'o:caption' => 'A page template for generic needs, with blocks page title and html.', // @translate
+        'o:caption' => 'A page model for generic needs, with blocks page title and html.', // @translate
         'o:layout_data' => [
             'template_name' => 'exhibit',
         ],
@@ -90,7 +90,7 @@ return [
     // Add block groups.
     'resource_text' => [
         'o:label' => 'Resource with text', // @translate
-        'o:caption' => 'Block group with a heading, a media and a field for html.', // @translate
+        'o:caption' => 'A group of blocks with a heading, a media and a field for html.', // @translate
         'o:block' => [
             [
                 'o:layout' => 'blockGroup',
