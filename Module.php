@@ -697,6 +697,8 @@ class Module extends AbstractModule
      * Unlike site slug slugify, replace with "_" and don't start with a number.
      *
      * @see \Omeka\Api\Adapter\SiteSlugTrait::slugify()
+     * @see \AdvancedSearch\Controller\Admin\SearchConfigController::slugify()
+     * @see \BlockPlus\Module::slugify()
      */
     protected function slugify($input): string
     {

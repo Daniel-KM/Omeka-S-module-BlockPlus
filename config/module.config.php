@@ -236,28 +236,29 @@ return [
                 'buttons' => [],
             ],
             'd3Graph' => [
-                'params' => '{
-    "items": {
-        "limit": 100
-    } ,
-    "item_sets": null,
-    "relations": [
-        "objects",
-        "subjects",
-        "item_sets"
-    ],
-    "config": {
-        "height": 800,
-        "forceCharge": -100,
-        "forceLinkDistance": 100,
-        "baseCirclePow": 0.6,
-        "baseCircleMin": 5,
-        "fontSizeTop": 35,
-        "fontSizeMin": ".1px",
-        "fontSizeMax": "16px"
-    }
-}
-',
+                'params' => <<<'JSON'
+                {
+                    "items": {
+                        "limit": 100
+                    } ,
+                    "item_sets": null,
+                    "relations": [
+                        "objects",
+                        "subjects",
+                        "item_sets"
+                    ],
+                    "config": {
+                        "height": 800,
+                        "forceCharge": -100,
+                        "forceLinkDistance": 100,
+                        "baseCirclePow": 0.6,
+                        "baseCircleMin": 5,
+                        "fontSizeTop": 35,
+                        "fontSizeMin": ".1px",
+                        "fontSizeMax": "16px"
+                    }
+                }
+                JSON,
             ],
             'externalContent' => [
                 'embeds' => [],
