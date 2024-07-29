@@ -6,57 +6,11 @@
  *   - page (PageRepresentation)
  *   - caption (string): the html is purified according to settings
  *   - alt_link_title (string)
- *
- * The optional class and url may be set at start of each caption like:
- * ```
- * url = https://example.org/
- * class = xxx yyy
- * Next lines are the true caption.
- * ```
- *
- * The caption may be an html one.
- * @see \BlockPlus\View\Helper\AssetElement
  */
 
-$plugins = $this->getHelperPluginManager();
-$escape = $plugins->get('escapeHtml');
-$thumbnail = $plugins->get('thumbnail');
-$escapeAttr = $plugins->get('escapeHtmlAttr');
+$this->logger()->warn(
+    'The template "asset-deprecated-plus" should be replaced by "asset-class-url" in page {url}.', // @translate
+    ['url' => $_SERVER['REQUEST_URI']]
+);
 
-// Manage display when the module is disabled.
-$thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
-$captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('captionClassAndUrl') : fn($string) => [trim((string) $string), '', '', $string !== strip_tags($string)];
-?>
-
-<div class="block block-asset assets">
-    <?php
-    foreach ($attachments as $attachment):
-        $asset = $attachment['asset'];
-        $assetImage = $asset ? $thumbnail($asset, 'square') : '';
-        $page = $attachment['page'] ?? null;
-        $caption = trim($attachment['caption'] ?? '');
-        if (strlen($caption)) {
-            [$caption, $class, $url, $isHtmlCaption] = $captionClassAndUrl($caption);
-        } else {
-            $class = '';
-            $url = '';
-        }
-    ?>
-    <div class="asset<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>">
-        <?php $attachmentUrl = $page ? $page->siteUrl() : $url ?>
-        <?php if ($attachmentUrl): ?>
-            <a href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (filter_var($attachmentUrl, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
-                <?= $assetImage ?>
-                <span class="link-title">
-                    <?= $attachment['alt_link_title'] === '' ? ($page ? $escape($page->title()) : '') : $escape($attachment['alt_link_title']) ?>
-                </span>
-            </a>
-        <?php else: ?>
-             <?= $assetImage ?>
-        <?php endif; ?>
-        <?php if (strlen($caption)): ?>
-        <div class="caption"><?= $isHtmlCaption ? $caption : $escape($caption) ?></div>
-        <?php endif; ?>
-    </div>
-    <?php endforeach; ?>
-</div>
+echo $this->partial('common/block-template/asset-class-url');

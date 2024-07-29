@@ -7,25 +7,39 @@
  *   - caption (string): the html is purified according to settings
  *   - alt_link_title (string)
  *
- * The optional class and url may be set at start of each caption like:
+ * The optional class, url and label may be set at start of caption like:
  * ```
  * url = https://example.org/
  * class = xxx yyy
- * Next lines are the true caption.
+ * label = Any zzz
+ * Next lines are the true caption, that may be raw text ot html.
  * ```
  *
- * The caption may be an html one.
+ * The string may be html.
+ * The url may be a local media file, for example `/files/original/xxx.pdf`.
+ * The label is used when there is no page, so no alt_link_title.
+ *
  * @see \BlockPlus\View\Helper\AssetElement
+ * @uses \BlockPlus\View\Helper\CaptionClassAndUrl
  */
+
+// It is recommended to use the grid or a css with nth odd/even.
+$this->logger()->warn(
+    'The template "asset-left-right" should be replaced by new page block features in page {url}.', // @translate
+    ['url' => $_SERVER['REQUEST_URI']]
+);
 
 $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
-$thumbnail = $plugins->get('thumbnail');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
 // Manage display when the module is disabled.
-$thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
-$captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('captionClassAndUrl') : fn($string) => [trim((string) $string), '', '', $string !== strip_tags($string)];
+$assetElement = $plugins->has('assetElement')
+    ? $plugins->get('assetElement')
+    : $plugins->get('thumbnail');
+$captionClassAndUrl = $plugins->get('captionClassAndUrl')
+    ? $plugins->get('captionClassAndUrl')
+    : fn($string) => [trim((string) $string), '', '', '', false, false, $string !== strip_tags($string)];
 ?>
 
 <style>
@@ -38,32 +52,25 @@ $captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('capti
     <?php $index = 0;
     foreach ($attachments as $attachment):
         $asset = $attachment['asset'];
-        $assetImage = $asset ? $thumbnail($asset, 'square') : '';
         $page = $attachment['page'] ?? null;
-        $caption = trim($attachment['caption'] ?? '');
-        if (strlen($caption)) {
-            [$caption, $class, $url, $isHtmlCaption] = $captionClassAndUrl($caption);
-        } else {
-            $class = '';
-            $url = '';
-        }
-    ?>
+        [$caption, $class, $url, $label, $isLocalUrl, $isMediaFile, $isHtmlCaption] = $captionClassAndUrl($attachment['caption'] ?? '');
+        ?>
     <div class="asset<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>">
         <?php if ($asset): ?>
             <?php $attachmentUrl = $page ? $page->siteUrl() : $url ?>
             <?php if ($attachmentUrl): ?>
-        <a class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>" href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (filter_var($attachmentUrl, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
-            <?= $assetElement($asset, ['alt' => $attachment['alt_link_title']]) ?>
+        <a class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>" href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
+            <?= $assetElement($asset, 'square', ['alt' => $attachment['alt_link_title'] ?: ($page ? $page->title() : $label)]) ?>
         </a>
             <?php else: ?>
         <span class="<?= ++$index % 2 ? 'align-left' : 'align-right' ?>">
-            <?= $assetElement($asset, ['alt' => $attachment['alt_link_title'] ?? '']) ?>
+            <?= $assetElement($asset, 'square', ['alt' => $attachment['alt_link_title'] ?: $label]) ?>
         </span>
             <?php endif; ?>
         <?php endif; ?>
         <?php if (strlen($caption)): ?>
         <div class="caption">
-            <?= $caption ?>
+            <?= $isHtmlCaption ? $caption : $escape($caption) ?>
         </div>
         <?php endif; ?>
         <div class="clear"></div>

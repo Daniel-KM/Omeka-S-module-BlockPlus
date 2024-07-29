@@ -7,26 +7,32 @@
  *   - caption (string): the html is purified according to settings
  *   - alt_link_title (string)
  *
- * The optional class and url may be set at start of each caption like:
+ * The optional class, url and label may be set at start of caption like:
  * ```
  * url = https://example.org/
  * class = xxx yyy
- * Next lines are the true caption.
+ * label = Any zzz
+ * Next lines are the true caption, that may be raw text ot html.
  * ```
  *
- * The caption may be an html one.
+ * The string may be html.
+ * The url may be a local media file, for example `/files/original/xxx.pdf`.
+ * The label is used when there is no page, so no alt_link_title.
  *
  * @see \BlockPlus\View\Helper\AssetElement
+ * @uses \BlockPlus\View\Helper\CaptionClassAndUrl
  */
 
 $plugins = $this->getHelperPluginManager();
-$escape = $plugins->get('escapeHtml');
-$thumbnail = $plugins->get('thumbnail');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
-// Manage display when the module is disabled.
-$thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
-$captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('captionClassAndUrl') : fn($string) => [$string, '', '', $string !== strip_tags($string)];
+// Manage minimal display when the module is disabled.
+$assetElement = $plugins->has('assetElement')
+    ? $plugins->get('assetElement')
+    : $plugins->get('thumbnail');
+$captionClassAndUrl = $plugins->get('captionClassAndUrl')
+    ? $plugins->get('captionClassAndUrl')
+    : fn($string) => [trim((string) $string), '', '', '', false, false, $string !== strip_tags($string)];
 ?>
 
 <style>
@@ -41,31 +47,31 @@ $captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('capti
 }
 </style>
 
-<div class="partners assets">
+<div class="assets partners">
     <div class="asset partners-logos">
-    <?php foreach ($attachments as $attachment):
-        if (!$attachment['asset']) continue;
-        $asset = $attachment['asset'];
-        $assetImage = $thumbnail($asset, 'square');
-        $page = $attachment['page'] ?? null;
-        $caption = trim($attachment['caption'] ?? '');
-        if (strlen($caption)) {
-            [$caption, $class, $url, $isHtmlCaption] = $captionClassAndUrl($caption);
-        } else {
-            $class = '';
-            $url = '';
-        }
-        ?>
-        <?php $attachmentUrl = $page ? $page->siteUrl() : $url ?>
-        <?php if ($attachmentUrl): ?>
-        <a class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (filter_var($attachmentUrl, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
-            <img loading="lazy" src="<?= $asset->assetUrl() ?>" alt="<?= empty($attachment['alt_link_title']) ? '' : $escapeAttr($attachment['alt_link_title']) ?>"/>
+        <?php foreach ($attachments as $attachment):
+            if (!$attachment['asset']) continue;
+            $asset = $attachment['asset'];
+            $assetTag = $asset ? $assetElement($asset, 'square') : '';
+            $page = $attachment['page'] ?? null;
+            [$caption, $class, $url, $label, $isLocalUrl, $isMediaFile, $isHtmlCaption] = $captionClassAndUrl($attachment['caption'] ?? '');
+            ?>
+            <?php if ($page): ?>
+            <?php $title = $attachment['alt_link_title'] ?: $page->title(); ?>
+        <a class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" href="<?= $escapeAttr($page->siteUrl()) ?>" title="<?= $escapeAttr($title) ?>">
+            <?= $assetTag ?>
         </a>
-        <?php else: ?>
-        <span class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>">
-            <img loading="lazy" src="<?= $asset->assetUrl() ?>" alt="<?= empty($attachment['alt_link_title']) ? '' : $escapeAttr($attachment['alt_link_title']) ?>"/>
+            <?php elseif ($url): ?>
+            <?php $title = $label ?: ($isHtmlCaption ? strip_tags($caption) : $caption); ?>
+        <a class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" href="<?= $escapeAttr($url) ?>"<?php if ($title): ?> title="<?= $escapeAttr($title) ?>"<?php endif; ?><?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
+            <?= $assetTag ?>
+        </a>
+            <?php else: ?>
+            <?php $title = $label ?: ($isHtmlCaption ? strip_tags($caption) : $caption); ?>
+        <span class="partner-logo<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>"<?php if ($caption): ?> title="<?= $escapeAttr($title) ?>"<?php endif; ?>>
+            <?= $assetTag ?>
         </span>
-        <?php endif; ?>
-    <?php endforeach; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </div>
 </div>

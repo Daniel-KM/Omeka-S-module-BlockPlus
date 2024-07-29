@@ -7,42 +7,42 @@
  *   - caption (string): the html is purified according to settings
  *   - alt_link_title (string)
  *
- * The optional class and url may be set at start of each caption like:
+ * The optional class, url and label may be set at start of caption like:
  * ```
  * url = https://example.org/
  * class = xxx yyy
- * Next lines are the true caption.
+ * label = Any zzz
+ * Next lines are the true caption, that may be raw text ot html.
  * ```
  *
- * The caption may be an html one.
+ * The string may be html.
+ * The url may be a local media file, for example `/files/original/xxx.pdf`.
+ * The label is used when there is no page, so no alt_link_title.
+ *
  * @see \BlockPlus\View\Helper\AssetElement
+ * @uses \BlockPlus\View\Helper\CaptionClassAndUrl
  */
 
 // Note: this hero uses the classes and js of Twitter Bootstrap.
 // The hero uses a random asset.
 
 if (!count($attachments)) return;
+
 $attachment = $attachments[array_rand($attachments)];
 if (empty($attachment['asset'])) return;
 
 $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
-$thumbnail = $plugins->get('thumbnail');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
-// Manage display when the module is disabled.
-$thumbnail = $plugins->has('assetElement') ? $plugins->get('assetElement') : $plugins->get('thumbnail');
-$captionClassAndUrl = $plugins->get('captionClassAndUrl') ? $plugins->get('captionClassAndUrl') : fn($string) => [trim((string) $string), '', '', $string !== strip_tags($string)];
+// Manage minimal display when the module is disabled.
+$captionClassAndUrl = $plugins->get('captionClassAndUrl')
+    ? $plugins->get('captionClassAndUrl')
+    : fn($string) => [trim((string) $string), '', '', '', false, false, $string !== strip_tags($string)];
 
 $asset = $attachment['asset'];
 $page = $attachment['page'] ?? null;
-$caption = trim($attachment['caption'] ?? '');
-if (strlen($caption)) {
-    [$caption, $class, $url, $isHtmlCaption] = $captionClassAndUrl($caption);
-} else {
-    $class = '';
-    $url = '';
-}
+[$caption, $class, $url, $label, $isLocalUrl, $isMediaFile, $isHtmlCaption] = $captionClassAndUrl($attachment['caption'] ?? '');
 ?>
 
 <div class="block header-wrapper<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" style="background-image:url(<?= $asset->assetUrl() ?>);">
@@ -50,11 +50,15 @@ if (strlen($caption)) {
     <div class="container mt-5">
         <div class="row mt-5">
             <div class="col-md-6  offset-3 mt-5">
-                <h1 class="lorem text-uppercase text-center text-justify"><?= $caption ?></h1>
-                <?php $attachmentUrl = $page ? $page->siteUrl() : $url; ?>
-                <?php if ($attachment['alt_link_title'] && $attachmentUrl): ?>
-                <a href="<?= $escapeAttr($attachmentUrl) ?>"<?php if (filter_var($attachmentUrl, FILTER_VALIDATE_URL)): ?> target="_blank" rel="noopener"<?php endif; ?>>
-                    <button class="btn knowmore"><?= $escape($attachment['alt_link_title']) ?></button>
+                <h1 class="lorem text-uppercase text-center text-justify"><?= $isHtmlCaption ? $caption : $escape($caption) ?></h1>
+                <?php if ($page): ?>
+                <?php $altLinkTitle = strlen($attachment['alt_link_title']) ? $attachment['alt_link_title'] : $page->title(); ?>
+                <a href="<?= $escapeAttr($page->siteUrl()) ?>"<?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
+                    <button class="btn knowmore"><?= $escape($altLinkTitle) ?></button>
+                </a>
+                <?php elseif ($url && $label): ?>
+                <a href="<?= $escapeAttr($url) ?>"<?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
+                    <button class="btn knowmore"><?= $escape($label) ?></button>
                 </a>
                 <?php endif; ?>
             </div>
