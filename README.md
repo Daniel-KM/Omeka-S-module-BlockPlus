@@ -5,19 +5,21 @@ Block Plus (module for Omeka S)
 > are available on [GitLab], which seems to respect users and privacy better
 > than the previous repository.__
 
-[Block Plus] is a module for [Omeka S] that adds some new blocks for the static
-pages and improves some of the existing ones: image gallery, D3 graph, mirror
-page, search form, item set showcase, exhibits, footnotes, etc. Some resource
-page blocks are implemented too: breadcrumbs, previous/next resource, section,
-etc.
+[Block Plus] is a module for [Omeka S] that adds page models and new blocks for
+the editorial pages and improves some of the existing ones: image gallery,
+D3 graph, mirror page, search form, item set showcase, exhibits, footnotes, etc.
+Some resource page blocks are implemented too: breadcrumbs, previous/next
+resource, section, etc.
 
-Another feature is the possibility to pre-configure groups of blocks, so it is
-easier to build a new page.
+Another feature is the possibility to pre-configure page models and list of
+blocks, so it is easier to build a new page. The page models and blocks groups
+can be defined via a simple click from an existing page.
 
 **Warning**: Since Omeka S v4.1, many of the features implemented some years ago
-were re-implemented in core. The migration from old blocks of the module to new
-blocks may require some manual updates of the themes when they were customized.
-See below for migration. There is no issue for a new install.
+were re-implemented in core. The migration from old blocks of the module before
+version 3.4.22 to new blocks may require some manual updates of the themes when
+they were customized. See below for migration. There is no issue for a new
+install.
 
 
 Installation
@@ -50,80 +52,129 @@ Then install it like any other Omeka module and follow the config instructions.
 Usage since version 3.4.22/23 for Omeka S v4.1
 ----------------------------------------------
 
-### Pre-configuration of groups of blocks
+### Pre-configuration of page models and list of blocks
 
-The button "Add block group plus" allows to load a pre-configured list of
-blocks, avoiding to recreate it on multiple pages.
-
-This group of blocks is available by default:
-
-- Resource with text: It appends the block Group with class "block-group-resource-text",
-a block "Heading" with level 3, a block Media, and a block Html.
-
-Such blocks can be configured in any module, in the file config/local.config.php
-of the installation, in the main settings, in the site settings, in the file
-config/theme.ini of the current theme or in the theme settings.
-
-Follow the example in the file [module.config.php](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/blob/master/config/module.config.php?ref_type=heads#L122-143)
-of this module: set the name as section, a label as `o:label`, a list of blocks
-with `o:block` and keys `o:layout`, `o:data` and `o:layout_data`.
+When creating a new page, a option allows to select a page model or a blocks
+group. When editing an existing page, the button "Add block group plus" allows
+to load the same list of pre-configured blocks groups, avoiding to recreate it
+on multiple pages.
 
 ![add-new-block-group-plus](data/images/add-new-block-group-plus.png)
 
-In the main and the site settings, the block are configured as ini. All values
-are optional, except the layout name for each block (key "o:layout").
+This pre-configured list of page models and group of blocks can be configured in
+many places. Four page models, one for each of the page templates of the module,
+and one group of blocks are available by default. The page models are similar to
+the ones of Omeka Classic (Omeka 2) to simplify migration.
+
+- Page models:
+  - Home Page: A page template with blocks browse preview, html, heading, and
+    asset.
+  - Exhibit: A page template for an exhibit summary, with blocks page title,
+    html, heading, and list of pages.
+  - Exhibit page: A page template for an exhibit page, with blocks page title,
+    html, heading and media.
+  - Simple page: A page template for generic needs, with blocks page title and
+    html.
+- Blocks groups:
+  - Resource with text: It appends a block Group with class "block-group-resource-text",
+  a block "Heading" with level 3, a block Media, and a block Html.
+
+The block "blockGroup" is not required and the group can be a simple list of
+blocks, so you can configure the blocks of all a page type. If you use the block
+Group, you may specify the data span for the number of the following blocks
+nested inside it. If not set, all blocks until the next block Group will be
+nested.
+
+A page model or a group of blocks is just a pre-configured list of blocks of
+settings, similar to the api representation of a site page, that are available
+in https://example.org/api/site_pages. You can change settings once appended to
+the page.
+
+A page model or a blocks group can be defined via a simple click in the page
+"Edit page". So the current page or the current list of blocks with all of their
+settings will be stored as main setting, site settings or theme settings (if the
+theme supports it).
+
+Such page models and groups of blocks can be configured in any module, in the
+file config/local.config.php of the installation, in the main settings, in the
+site settings, in the file config/theme.ini of the current theme or in the theme
+settings.
+
+A configured element is a page model when the key "o:layout_data" or "layout_data"
+is set with an array, even empty. If the key is not present, the element is a
+blocks groups. Page models are not displayed in the list of blocks groups in the
+"Edit page".
+
+To set the list of page models or groups of blocks in a file (module.config.php,
+local.config.php), follow the example in the file [module.config.php](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/blob/master/config/page_models.config.php?ref_type=heads)
+of this module.
+
+To set the list of page models or groups of blocks in a field in a settings page
+(main settings, site settings, theme settings), use the format "ini".
 
 ```ini
 [asset_text]
 o:label = "Asset with text"
-o:layout_data.class = "block-asset-text"
-o:block.1.o:layout = "heading"
-o:block.1.o:data.text = "Image"
-o:block.1.o:data.level = 3
-o:block.2.o:layout = "asset"
-o:block.3.o:layout = "html"
-o:block.3.o:data.html = "<p>This <strong>image</strong> represents…</p>"
-o:block.4.o:layout= "lineBreak"
-o:block.4.o:data.break_type = "opaque"
-o:block.4.o:layout_data.background_color = "#404e61"
-o:block.4.o:layout_data.min_height = "18px"
+o:caption = "Blocks group with a heading, an asset, a field for html and a line break with some styles"
+o:block.1.o:layout = "blockGroup"
+o:block.1.o:layout_data.class = "block-asset-text"
+o:block.2.o:layout = "heading"
+o:block.2.o:data.text = "Image"
+o:block.2.o:data.level = 3
+o:block.3.o:layout = "asset"
+o:block.4.o:layout = "html"
+o:block.4.o:data.html = "<p>This <strong>image</strong> represents…</p>"
+o:block.5.o:layout= "lineBreak"
+o:block.5.o:data.break_type = "opaque"
+o:block.5.o:layout_data.background_color = "#404e61"
+o:block.5.o:layout_data.min_height = "18px"
 ```
 
-A block group layout is just a pre-configured list of blocks of settings. You
-can change any of them.
+Set the name as section, a label as `o:label`, a description as `o:caption`, a
+list of blocks with `o:block` and keys `o:layout`, `o:data` and `o:layout_data`.
+If you want to create a page model, add a key `o:layout_data` with an array as
+value. Key `o:data` does not exist for page model. All values are  optional,
+except the layout name for each block (key `o:layout`).
 
-For simplicity, you can skip the prefix `o:` for keys `o:label`, `o:block`, `o:layout`,
-`o:data`, and `o:layout_data`, so you can use `label`, `block`, `layout`, `data`,
-and `layout_data`, for example the following config is the same than above:
+For simplicity, you can skip the prefix `o:` for keys `o:label`, `o:caption`,
+`o:block`, `o:layout`, `o:data`, and `o:layout_data`, so you can use `label`,
+`caption`, `block`, `layout`, `data`, and `layout_data`, for example the
+following config is the same than above:
 
 ```ini
 [asset_text]
 label = "Asset with text"
-layout_data.class = "block-asset-text"
-block.1.layout = "heading"
-block.1.data.text = "Image"
-block.1.data.level = 3
-block.2.layout = "asset"
-block.3.layout = "html"
-block.3.data.html = "<p>This <strong>image</strong> represents…</p>"
-block.4.layout= "lineBreak"
-block.4.data.break_type = "opaque"
-block.4.layout_data.background_color = "#404e61"
-block.4.layout_data.min_height = "18px"
+caption = "Blocks group with a heading, an asset, a field for html and a line break with some styles"
+block.1.layout = "blockGroup"
+block.1.layout_data.class = "block-asset-text"
+block.2.layout = "heading"
+block.2.data.text = "Image"
+block.2.data.level = 3
+block.3.layout = "asset"
+block.4.layout = "html"
+block.4.data.html = "<p>This <strong>image</strong> represents…</p>"
+block.5.layout= "lineBreak"
+block.5.data.break_type = "opaque"
+block.5.layout_data.background_color = "#404e61"
+block.5.layout_data.min_height = "18px"
 ```
 
-If you want to add block group in the theme via the file config/theme.ini, you
+If you want to add a group in the theme via the file config/theme.ini, you
 cannot use the section marker for `[layout_name]` and you should prepend the
-main key `block_groups`, then the name of the block group, for example:
+main key `page_models`, then the name of the page model or blocks group, for
+example:
 
 ```ini
-block_groups.asset_html.label = "Asset with html"
-block_groups.asset_html.block.1.layout = "asset"
-block_groups.asset_html.block.2.layout = "html"
+page_models.asset_html.label = "Asset with html"
+page_models.asset_html.block.1.layout = "asset"
+page_models.asset_html.block.2.layout = "html"
 ```
 
-Of course, if there is a setting "block_groups" in the theme config, it will be
-managed like main and site settings in the user interface.
+Of course, if there is a setting "block_page_models" in the theme config, it
+will be managed like main and site settings in the user interface.
+
+When two elements have the same name (root key), the more specific replaces the
+more generic, so config < settings < site settings < theme config < theme settings.
 
 ### New site page blocks and block templates
 
@@ -172,6 +223,8 @@ Europe
                 Roma
                 Florence
 ```
+
+For more complex hierarchy, it is recommended to use modules [Reference] or [Thesaurus].
 
 ##### Glossary
 
@@ -435,25 +488,27 @@ if ($blockMetadata) {
 }
 ```
 
-#### Caption Class And Url
+#### Caption Class And Url And Label
 
-The view helper `CaptionClassAndUrl()` allows to extract the class and the url
-from the start of a string. The optional class and url may be set at start of
-each caption like:
+The view helper `CaptionClassAndUrl()` allows to extract a class, a url and a
+label from the start of a string. The optional class, url and label may be set
+at start of a caption like:
 
 ```
 url = https://example.org/
 class = xxx yyy
+label = Any zzz
 Next lines are the true caption.
 ```
 
 The initial caption may be an html one.
 
-The output is a simple array containing caption, class, url and a flag for html.
+The output is a simple array containing caption, class, url, and label and flags
+for local url (relative url), local media file, and html.
 Get result like:
 
 ```php
-[$caption, $class, $url, $isHtml] = $this->captionClassAndUrl($string);
+[$caption, $class, $url, $label, $isLocalUrl, $isMediaFile, $isHtml] = $this->captionClassAndUrl($string);
 ```
 
 #### Page Metadata
@@ -680,7 +735,7 @@ See above.
 
 Simplify the display of a media on the left or the right (see [user guide]). It
 is the same block that existed in [Omeka Classic] [Exhibit `file-text`]. It was
-migrated to a block group with blocks Media and Html.
+migrated to a block Group with blocks Media and Html.
 
 #### Search form
 
@@ -823,7 +878,7 @@ You should check the theme manually if you use this feature and get class and
 url like other asset templates:
 
 ```php
-[$caption, $class, $url, $isHtml] = $this->captionClassAndUrl($attachment['caption']);
+[$caption, $class, $url, $label, $isLocalUrl, $isMediaFile, $isHtmlCaption] = $this->captionClassAndUrl($attachment['caption']);
 ```
 
 ### Block Browse preview
@@ -848,7 +903,7 @@ The block Division was removed. When the divisions were flat, they were
 converted into a group of blocks, a new feature of Omeka S v4.1.
 
 When the divisions were nested, the migration was not done, so you should do it
-manually with page template "grid" and/or block groups.
+manually with page template "grid" and/or blocks groups.
 
 Furthermore, the option "tag", that can be "div" or "aside", is no more managed.
 
@@ -903,9 +958,10 @@ TODO
 - [ ] Update site of mirror page to get good url for $resource->siteUrl().
 - [x] Merge PageDate with upstream PageDateTime.
 - [ ] Use new events "sort-config" and "view.sort-selector" to order item in item sets.
-- [x] Allow themes to create block group layout.
+- [x] Allow themes to create page models and blocks groups.
 - [ ] Add a button to create a page model from an existing page. See module Internationalisation.
-- [ ] Allow to create a group of block without block Group.
+- [x] Allow to create a group of block without block Group.
+- [ ] Allow to create page models filtered by site (add setting o:site and filter).
 
 
 Warning
@@ -1004,6 +1060,8 @@ Copyright
 [Ontologie du christianisme médiéval en images]: https://omci.inha.fr/s/ocmi/page/images
 [Institut national de l’histoire de l’art]: https://www.inha.fr
 [Menu]: https://gitlab.com/Daniel-KM/Omeka-S-module-Menu
+[Reference]: https://gitlab.com/Daniel-KM/Omeka-S-module-Reference
+[Thesaurus]: https://gitlab.com/Daniel-KM/Omeka-S-module-Thesaurus
 [Shortcode]: https://gitlab.com/Daniel-KM/Omeka-S-module-Shortcode
 [user guide]: https://omeka.org/s/docs/user-manual/sites/site_pages/#media
 [BlockPlus.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/releases
