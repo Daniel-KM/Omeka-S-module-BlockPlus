@@ -16,6 +16,7 @@ use Common\Stdlib\PsrMessage;
  * @var \Laminas\I18n\View\Helper\Translate $translate
  * @var \Doctrine\DBAL\Connection $connection
  * @var \Doctrine\ORM\EntityManager $entityManager
+ * @var \Omeka\Settings\SiteSettings $siteSettings
  * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
  */
 $plugins = $services->get('ControllerPluginManager');
@@ -25,6 +26,7 @@ $translate = $plugins->get('translate');
 $translator = $services->get('MvcTranslator');
 $connection = $services->get('Omeka\Connection');
 $messenger = $plugins->get('messenger');
+$siteSettings = $services->get('Omeka\Settings\Site');
 $entityManager = $services->get('Omeka\EntityManager');
 
 if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.62')) {
@@ -2130,6 +2132,40 @@ if (version_compare($oldVersion, '3.4.24', '<')) {
 
     $message = new PsrMessage(
         'New resource blocks allow to wrap other blocks with html elements <div> and <section>.' // @translate
+    );
+    $messenger->addSuccess($message);
+}
+
+if (version_compare($oldVersion, '3.4.25', '<')) {
+    $message = new PsrMessage(
+        'It is now possible to append a list of blocks via a simple click when editing a site page.' // @translate
+    );
+    $messenger->addSuccess($message);
+}
+
+if (version_compare($oldVersion, '3.4.26', '<')) {
+    // Rename options.
+    $settings->set('blockplus_page_models', $settings->get('blockplus_block_groups') ?: []);
+    $settings->delete('blockplus_block_groups');
+    $siteIds = $api->search('sites', [], ['returnScalar' => 'id'])->getContent();
+    foreach ($siteIds as $siteId) {
+        $siteSettings->setTargetId($siteId);
+        $siteSettings->set('blockplus_page_models', $siteSettings->get('blockplus_block_groups') ?: []);
+        $siteSettings->delete('blockplus_block_groups');
+    }
+
+    if (version_compare($oldVersion, '3.4.25', '=')) {
+        $message = new PsrMessage(
+            'If you created some lists of blocks in version 3.4.25, the block group is no more implicit, so you should update each group manually: prepend `o:block.0.o:layout = "blockGroup"` and prepend `blocks.0.` to optional root `o:layout_data`. Furthermore, the key "block_groups" in config was renamed "page_models".' // @translate
+        );
+        $messenger->addWarning($message);
+    }
+    $message = new PsrMessage(
+        'It is now possible to select a page model with page settings and blocks when creating a new page.' // @translate
+    );
+    $messenger->addSuccess($message);
+    $message = new PsrMessage(
+        'It is now possible to create a page model or a list of blocks via a simple click when editing a page.' // @translate
     );
     $messenger->addSuccess($message);
 }
