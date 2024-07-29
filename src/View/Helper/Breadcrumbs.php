@@ -362,6 +362,7 @@ class Breadcrumbs extends AbstractHelper
                 }
                 break;
 
+            // Module Advanced Search or Search.
             case substr($matchedRouteName, 0, 12) === 'search-page-':
                 if ($options['collections']) {
                     $this->crumbCollections($options, $translate, $url, $siteSlug);
@@ -516,6 +517,7 @@ class Breadcrumbs extends AbstractHelper
                 }
                 break;
 
+            // Module Advanced Search or Search.
             case strpos($matchedRouteName, 'search-page-') === 0:
                 if ($options['current']) {
                     $label = $translate('Search'); // @translate

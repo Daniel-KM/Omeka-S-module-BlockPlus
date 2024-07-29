@@ -31,7 +31,7 @@ $searchValue = $params->fromQuery('fulltext_search', '');
 <div class="block block-search">
     <?= $html ?>
     <?php if ($searchConfig): ?>
-    <?= $this->searchForm($searchConfig) ?>
+    <?= $searchConfig->renderForm() ?>
     <?php else: ?>
     <form action="<?= $escape($searchAction) ?>" id="search-form">
         <?php if ($selector === 'item_sets'): ?>
