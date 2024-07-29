@@ -81,6 +81,19 @@ class Module extends AbstractModule
             [$this, 'handleHtmlPurifier']
         );
 
+        // Manage saving page model and blocks group.
+        $sharedEventManager->attach(
+            'Omeka\Controller\SiteAdmin\Page',
+            'view.edit.page_actions',
+            [$this, 'handleViewPageEdit']
+        );
+        $sharedEventManager->attach(
+            \Omeka\Api\Adapter\SitePageAdapter::class,
+            'api.update.post',
+            [$this, 'handleSitePageUpdatePost']
+        );
+
+        // Manage main and site settings.
         $sharedEventManager->attach(
             \Omeka\Form\SettingForm::class,
             'form.add_elements',
@@ -247,8 +260,10 @@ class Module extends AbstractModule
         // Remove page models, that are available only during page creation.
         $pageModels = $this->getPageModels();
         $blocksGroups = array_filter($pageModels, fn($v): bool => !isset($v['o:layout_data']) && !isset($v['layout_data']));
+        $pageBlocksNames = array_combine(array_keys($pageModels), array_map(fn($k, $v): string => $v['o:label'] ?? $v['label'] ?? $k, array_keys($pageModels), $pageModels));
 
         $script = sprintf('const blocksGroups = %s;', json_encode($blocksGroups, 320));
+        $script .= "\n" . sprintf('const pageBlocksNames = %s;', json_encode($pageBlocksNames, 320));
 
         $view->headLink()
             ->appendStylesheet($assetUrl('css/block-plus-admin.css', 'BlockPlus'));
@@ -301,6 +316,248 @@ class Module extends AbstractModule
         $def->addAttribute('a', 'target', new \HTMLPurifier_AttrDef_Enum(['_blank', '_self', '_target', '_top']));
 
         $event->setParam('config', $config);
+    }
+
+    public function handleViewPageEdit(Event $event): void
+    {
+        // TODO Limit rights? Anyway, new page models or blocks group are appended, not overridden.
+
+        $fieldset = new \Laminas\Form\Fieldset;
+        $fieldset
+            ->setAttribute('id', 'fieldset-page-model')
+            ->add([
+                'name' => 'page_model[type]',
+                'type' => \Laminas\Form\Element\Radio::class,
+                'options' => [
+                    'label' => 'Type', // @translate
+                    'value_options' => [
+                        'blocks_group' => 'Blocks only', // @translate
+                        'page_model' => 'Full page', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'page-model-type',
+                    'value' => 'blocks_group',
+                ],
+            ])
+            ->add([
+                'name' => 'page_model[name]',
+                'type' => \Laminas\Form\Element\Text::class,
+                'options' => [
+                    'label' => 'Name', // @translate
+                    // 'info' => 'Unique name with letters, numbers and "_".', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-model-name',
+                    'required' => true,
+                ],
+            ])
+            ->add([
+                'name' => 'page_model[label]',
+                'type' => \Laminas\Form\Element\Text::class,
+                'options' => [
+                    'label' => 'Label', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-model-label',
+                ],
+            ])
+            ->add([
+                'name' => 'page_model[caption]',
+                'type' => \Laminas\Form\Element\Text::class,
+                'options' => [
+                    'label' => 'Caption', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-model-caption',
+                ],
+            ])
+            ->add([
+                'name' => 'page_model[store]',
+                'type' => \Laminas\Form\Element\Select::class,
+                'options' => [
+                    'label' => 'Settings', // @translate
+                    'value_options' => [
+                        'main' => 'Main settings', // @translate
+                        'site' => 'Site settings', // @translate
+                        'theme' => 'Theme settings (if supported)', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'page-model-store',
+                    'value' => 'main',
+                ],
+            ])
+        ;
+
+        $view = $event->getTarget();
+        $translate = $view->plugin('translate');
+
+        $textCreate = $translate('Create page model'); // @translate
+        $button = <<<HTML
+        <button type="button" id="button-page-model" class="button expand" title="$textCreate" aria-label="$textCreate" data-text-collapse="$textCreate" data-text-expand="$textCreate" href=""><span class="o-icon-settings"></span></button>
+        HTML;
+        echo $button
+            . '<dialog class="fields-page-model collapsible">'
+            . '<legend>'
+            . $translate('Save as page model or blocks groups') // @translate
+            . '</legend>'
+            . '<p>'
+            . $translate('The model will be stored when the current page will be saved.') // @translate
+            . '</p>'
+            . $view->formCollection($fieldset, true)
+            . '</dialog>'
+        ;
+    }
+
+    public function handleSitePageUpdatePost(Event $event): void
+    {
+        /**
+         * @var \Omeka\Api\Request $request
+         * @var \Omeka\Api\Response $response
+         * @var array $sitePage Posted form data or page api data.
+         *
+         * @var array $config
+         * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
+         * @var \Omeka\Entity\SitePage $sitePage
+         * @var \Omeka\Settings\Settings $settings
+         * @var \Omeka\Settings\SiteSettings $siteSettings
+         * @var \Omeka\Site\Theme\Theme $theme
+         * @var \Omeka\Site\Theme\Manager $themeManager
+         *
+         */
+        $services = $this->getServiceLocator();
+        $request = $event->getParam('request');
+        $messenger = $services->get('ControllerPluginManager')->get('messenger');
+
+        $sitePageData = $request->getContent();
+        if (empty($sitePageData['page_model']['name'])) {
+            return;
+        }
+
+        $toCreate = $sitePageData['page_model'];
+        $pageModelName = $toCreate['name'];
+
+        // Check if the page model name is unique.
+        $pageModels = $this->getPageModels();
+
+        if (isset($pageModels[$pageModelName])) {
+            $message = new PsrMessage(
+                'The page model was not saved: the name "{name}" is already used. ', // @translate
+                ['page_model' => $pageModelName]
+            );
+            $messenger->addError($message);
+            return;
+        }
+
+        // Slugify the name or use a random name.
+        $randomString = fn() => '_' . substr(str_replace(["+", "/", "="], "", base64_encode(random_bytes(48))), 0, 8);
+        $name = $this->slugify($pageModelName);
+        if (!$name) {
+            $name = $randomString();
+        }
+        if (isset($pageModels[$name])) {
+            $name = $name . $randomString();
+        }
+
+        $label = trim($toCreate['label'] ?? '') === '' ? $pageModelName : trim($toCreate['label']);
+        $caption = trim($toCreate['caption'] ?? '') === '' ? null : trim($toCreate['caption']);
+        $type = ($toCreate['type'] ?? 'blocks_group') === 'page_model' ? 'page_model' : 'blocks_group';
+        $store = in_array($toCreate['store'] ?? '', ['main', 'site', 'theme']) ? $toCreate['store'] : 'main';
+
+        // Prepare new page model or blocks group.
+        $response = $event->getParam('response');
+        $sitePage = $response->getContent();
+        $siteId = $sitePage->getSite()->getId();
+
+        // Do not store empty values (but "0" is allowed).
+        // Do not store grid settings when layout is not grid.
+        $isNotEmpty = fn ($v) => $v !== '' && $v !== [] && $v !== null;
+        $isNotGrid = fn ($k) => mb_substr($k, 0, 5) !== 'grid_';
+
+        $pageModel = ['o:label' => $label];
+
+        if (isset($caption)) {
+            $pageModel['o:caption'] = $caption;
+        }
+
+        $pageLayout = $sitePage->getLayout();
+
+        // Prepare page settings.
+        if ($type === 'page_model') {
+            if ($pageLayout) {
+                $pageModel['o:layout'] = $pageLayout;
+            }
+            $layoutData = $sitePage->getLayoutData();
+            $layoutData = array_filter($layoutData, $isNotEmpty);
+            if ($pageLayout !== 'grid') {
+                $layoutData = array_filter($layoutData, $isNotGrid, ARRAY_FILTER_USE_KEY);
+            }
+            // This key is required to built a page model, so set it even empty.
+            $pageModel['o:layout_data'] = $layoutData;
+        }
+
+        // Append blocks group.
+        // Attachements are not stored in models.
+        /** @var \Omeka\Entity\SitePageBlock $pageBlock */
+        foreach ($sitePage->getBlocks() as $pageBlock) {
+            $layout = $pageBlock->getLayout();
+            if (!$layout) {
+                continue;
+            }
+            $block = ['o:layout' => $layout];
+            $blockData = $pageBlock->getData();
+            $blockData = array_filter($blockData, $isNotEmpty);
+            if ($blockData) {
+                $block['o:data'] = $blockData;
+            }
+            $blockLayoutData = $pageBlock->getLayoutData();
+            $blockLayoutData = array_filter($blockLayoutData, $isNotEmpty);
+            if ($pageLayout !== 'grid') {
+                $blockLayoutData = array_filter($blockLayoutData, $isNotGrid, ARRAY_FILTER_USE_KEY);
+            }
+            if ($blockLayoutData) {
+                $block['o:layout_data'] = $blockLayoutData;
+            }
+            $pageModel['o:block'][] = $block;
+        }
+
+        // Get the specific page models from main, site, or theme settings to
+        // avoid to mix them.
+        if ($store === 'theme') {
+            $siteSettings = $services->get('Omeka\Settings\Site');
+            $themeManager = $services->get('Omeka\Site\ThemeManager');
+            $theme = $themeManager->getCurrentTheme();
+            $themeSettings = $siteSettings->get($theme->getSettingsKey(), [], $siteId);
+            $pageModels = $themeSettings['page_models'] ?? [];
+        } elseif ($store === 'site') {
+            $siteSettings = $services->get('Omeka\Settings\Site');
+            $pageModels = $siteSettings->get('blockplus_page_models', [], $siteId);
+        } else {
+            $settings = $services->get('Omeka\Settings');
+            $pageModels = $settings->get('blockplus_page_models', []);
+        }
+
+        $pageModels[$name] = $pageModel;
+
+        if ($store === 'theme') {
+            $themeSettings['page_models'] = $pageModels;
+            $siteSettings->set($theme->getSettingsKey(), $themeSettings, $siteId);
+            $message = $type === 'page_model'
+                ? 'The page model "{label}" ({name}) was saved in theme settings.' // @translate
+                : 'The blocks group "{label}" ({name}) was saved in theme settings.'; // @translate
+        } elseif ($store === 'site') {
+            $siteSettings->set('blockplus_page_models', $pageModels, $siteId);
+            $message = $type === 'page_model'
+                ? 'The page model "{label}" ({name}) was saved in site settings.' // @translate
+                : 'The blocks group "{label}" ({name}) was saved in site settings.'; // @translate
+        } else {
+            $settings->set('blockplus_page_models', $pageModels);
+            $message = $type === 'page_model'
+                ? 'The page model "{label}" ({name}) was saved in theme settings.' // @translate
+                : 'The blocks group "{label}" ({name}) was saved in theme settings.'; // @translate
+        }
+        $messenger->addSuccess(new PsrMessage($message, ['label' => $label, 'name' => $name]));
     }
 
     public function handleSiteSettings(Event $event): void
@@ -430,5 +687,30 @@ class Module extends AbstractModule
     protected function fixEndOfLine($string): string
     {
         return str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], (string) $string);
+    }
+
+    /**
+     * Transform the given string into a valid URL slug.
+     *
+     * Unlike site slug slugify, replace with "_" and don't start with a number.
+     *
+     * @see \Omeka\Api\Adapter\SiteSlugTrait::slugify()
+     */
+    protected function slugify($input): string
+    {
+        if (extension_loaded('intl')) {
+            $transliterator = \Transliterator::createFromRules(':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;');
+            $slug = $transliterator->transliterate((string) $input);
+        } elseif (extension_loaded('iconv')) {
+            $slug = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', (string) $input);
+        } else {
+            $slug = (string) $input;
+        }
+        $slug = mb_strtolower((string) $slug, 'UTF-8');
+        $slug = preg_replace('/[^a-z0-9_]+/u', '_', $slug);
+        $slug = preg_replace('/^\d+$/', '_', $slug);
+        $slug = preg_replace('/_{2,}/', '_', $slug);
+        $slug = preg_replace('/_*$/', '', $slug);
+        return $slug;
     }
 }

@@ -7,6 +7,26 @@
         overflow: inherit;
     }
 
+    /* Page model */
+    #button-page-model.button {
+        background: none;
+        border: none;
+        box-shadow: none;
+        margin: 0 6px 12px 0;
+        padding: 6px;
+    }
+    #button-page-model::after {
+        content: "";
+        margin-left: 0;
+    }
+    #button-page-model.collapse .o-icon-settings::before {
+        color: red;
+    }
+    .fields-page-model {
+        text-align: initial;
+        color: #676767;
+    }
+
     /* Block group plus */
     span.add-block-plus {
         padding-right: 3px;
