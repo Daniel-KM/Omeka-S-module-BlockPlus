@@ -305,3 +305,13 @@ nav.breadcrumbs > ul > li,
 nav.breadcrumbs > ol > li {
     display: inline;
 }
+
+/* Browse preview */
+.preview-block ul.resource-values {
+    display: flex;
+    padding-left: 0;
+}
+.preview-block ul.resource-values li {
+    list-style: none;
+    margin-right: 1em;
+}
