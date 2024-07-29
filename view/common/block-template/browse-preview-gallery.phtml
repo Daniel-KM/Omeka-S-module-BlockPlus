@@ -23,18 +23,59 @@ $plugins = $this->getHelperPluginManager();
 $url = $plugins->get('url');
 $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
-$escapeAttr = $plugins->get('escapeHtmlAttr');
 $hyperlink = $plugins->get('hyperlink');
+$siteSetting = $plugins->get('siteSetting');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
 // Append in header is not possible with browse preview, so css and js are set in body, even if it is not standard.
 $assetUrl = $plugins->get('assetUrl');
+
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $plugins->get('lang')();
+$langValue = $filterLocale ? [$lang, ''] : null;
 
 // $showThumbnail = in_array('thumbnail', $components);
 $showHeading = in_array('resource-heading', $components);
 $showBody = in_array('resource-body', $components);
-
-$filterLocale = (bool) $this->siteSetting('filter_locale_values');
-$lang = $filterLocale ? $this->lang() : null;
 ?>
+
+<?php /* // Require two divs with classes container and main above the og-grid.
+<link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/css/default.css') ?>" />
+*/?>
+<link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/css/component.css', 'BlockPlus') ?>" />
+<style>
+    #og-grid img.medium-img {
+        height: 240px;
+    }
+    /* Remove some default styling of component.css. */
+    #og-grid .og-details h3 {
+        font-size: inherit;
+        padding-top: 0;
+        margin-top: 0;
+    }
+    #og-grid .og-details a {
+        font-weight: inherit;
+        font-size: inherit;
+        color: inherit;
+        text-transform: inherit;
+        letter-spacing: inherit;
+        padding: inherit;
+        border: inherit;
+        display: inline-block;
+        margin: inherit;
+        outline: inherit;
+    }
+    #og-grid .og-details a::before {
+        content: '';
+        display: inline-block;
+        margin-right: inherit;
+    }
+</style>
+<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/modernizr/modernizr-custom.js', 'BlockPlus') ?>"></script>
+<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/jquery-smartresize/jquery.debouncedresize.js', 'BlockPlus') ?>"></script>
+<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/imagesloaded/imagesloaded.pkgd.min.js', 'BlockPlus') ?>"></script>
+<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/js/grid.js', 'BlockPlus') ?>"></script>
+<script type="text/javascript" defer="defer" src="<?= $assetUrl('js/browse-preview-gallery.js', 'BlockPlus') ?>"></script>
 
 <div class="block preview-block">
 
@@ -42,43 +83,6 @@ $lang = $filterLocale ? $this->lang() : null;
     <h2><?= $escape($heading) ?></h2>
     <?php endif; ?>
 
-    <?php /* // Require two divs with classes container and main above the og-grid.
-    <link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/css/default.css') ?>" />
-    */?>
-    <link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/css/component.css', 'BlockPlus') ?>" />
-    <style>
-        #og-grid img.medium-img {
-            height: 200px;
-        }
-        /* Remove some default styling of component.css. */
-        #og-grid .og-details h3 {
-            font-size: inherit;
-            padding-top: 0;
-            margin-top: 0;
-        }
-        #og-grid .og-details a {
-            font-weight: inherit;
-            font-size: inherit;
-            color: inherit;
-            text-transform: inherit;
-            letter-spacing: inherit;
-            padding: inherit;
-            border: inherit;
-            display: inline-block;
-            margin: inherit;
-            outline: inherit;
-        }
-        #og-grid .og-details a::before {
-            content: '';
-            display: inline-block;
-            margin-right: inherit;
-        }
-    </style>
-    <script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/modernizr/modernizr-custom.js', 'BlockPlus') ?>"></script>
-    <script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/jquery-smartresize/jquery.debouncedresize.js', 'BlockPlus') ?>"></script>
-    <script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/imagesloaded/imagesloaded.pkgd.min.js', 'BlockPlus') ?>"></script>
-    <script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/js/grid.js', 'BlockPlus') ?>"></script>
-    <script type="text/javascript" defer="defer" src="<?= $assetUrl('js/browse-preview-gallery.js', 'BlockPlus') ?>"></script>
     <div class="preview-grid">
         <ul id="og-grid" class="og-grid">
             <?php
@@ -89,27 +93,27 @@ $lang = $filterLocale ? $this->lang() : null;
                 $media = $resource->primaryMedia();
                 if (!$thumbnail && !$media) continue;
 
-                if ($thumbnail):
+                if ($thumbnail) {
                     $mediaThumbnail = $thumbnail->assetUrl();
                     $mediaLarge = $mediaThumbnail;
-                else:
+                } else {
                     $mediaThumbnail = $media->thumbnailUrl($thumbnailSize);
                     // Speedup process.
                     $mediaLarge = str_replace('/' . $thumbnailSize . '/', '/large/', $mediaThumbnail);
-                endif;
+                }
 
                 $heading = $showHeading ? $resource->displayTitle($untitled, $lang) : '';
 
-                if ($showBody):
+                if ($showBody) {
                     $body = $resource->displayDescription(null, $lang);
                     $body .= '<p>'
                         . $translate('More information')
                         . '<br/>'
                         . $resource->linkPretty()
                         . '</p>';
-                else:
+                } else {
                     $body = '';
-                endif;
+                }
             ?>
             <li>
                 <a href="#" data-largesrc="<?= $mediaLarge ?>" data-title="<?= $heading ?>" data-description="<?= $escapeAttr($body) ?>">
@@ -119,16 +123,12 @@ $lang = $filterLocale ? $this->lang() : null;
             <?php endforeach; ?>
         </ul>
         <?php /* // TODO Require some js to fetch data.
-        <a id="og-additems" href="#"><?= $translate('See more') ?></a>
+        <button id="og-additems" type="button"><?= $translate('See more') ?></button>
         */ ?>
     </div>
 
-    <?php
-    if ($linkText):
-        echo $hyperlink($linkText, $url(
-            'site/resource', ['controller' => $resourceType, 'action' => 'browse'], ['query' => $query], true
-        ));
-    endif;
-    ?>
+    <?php if ($linkText): ?>
+        <?= $hyperlink($linkText, $url('site/resource', ['controller' => $resourceType, 'action' => 'browse'], ['query' => $query], true)) ?>
+    <?php endif; ?>
 
 </div>

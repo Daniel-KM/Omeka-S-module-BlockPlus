@@ -20,6 +20,18 @@ $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
 $searchingValue = $plugins->has('$searchingValue') ? $plugins->get('searchingValue') : null;
 
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $this->lang();
+$langValue = $filterLocale ? [$lang, ''] : null;
+
+$untitled = $translate('[Untitled]');
+
+$showThumbnail = in_array('thumbnail', $components);
+$showHeading = in_array('resource-heading', $components);
+$showBody = in_array('resource-body', $components);
+$headingTerm = $siteSetting('browse_heading_property_term');
+$bodyTerm = $siteSetting('browse_body_property_term');
+
 $this->headLink()->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus'));
 ?>
 
@@ -31,19 +43,17 @@ $this->headLink()->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus')
 
     <ul class="resource-list preview">
         <?php
-        $showThumbnail = in_array('thumbnail', $components);
-        $showHeading = in_array('resource-heading', $components);
-        $showBody = in_array('resource-body', $components);
-        $headingTerm = $siteSetting('browse_heading_property_term');
-        $bodyTerm = $siteSetting('browse_body_property_term');
-
-        $filterLocale = (bool) $siteSetting('filter_locale_values');
-        $lang = $this->lang();
-        $langValue = $filterLocale ? [$lang, ''] : null;
-
         foreach ($resources as $resource):
-            $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $langValue]) : $resource->displayTitle(null, $langValue);
-            $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : $resource->displayDescription(null, $langValue);
+            if ($showHeading) {
+                $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle(null, $langValue);
+            } else {
+                $heading = '';
+            }
+            if ($showBody) {
+                $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : $resource->displayDescription(null, $langValue);
+            } else {
+                $body = '';
+            }
             $subjects = $resource->value('dcterms:subject', ['all' => true, 'lang' => $langValue]);
             $linkContent = '';
             if ($showThumbnail) {
@@ -53,7 +63,7 @@ $this->headLink()->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus')
                 $linkContent .= '<span class="resource-name">' . $escape($heading) . '</span>';
             }
             ?>
-        <li class="<?= $resourceType ?> resource">
+        <li class="resource <?= $resourceType ?>">
             <?php if ($linkContent !== ''): ?>
                 <?= $resource->linkRaw($linkContent, null, ['class' => 'resource-link']) ?>
             <?php endif; ?>

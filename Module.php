@@ -499,6 +499,8 @@ class Module extends AbstractModule
 
         // Append blocks group.
         // Attachements are not stored in models.
+        // Start blocks number at 1 for end user.
+        $i = 0;
         /** @var \Omeka\Entity\SitePageBlock $pageBlock */
         foreach ($sitePage->getBlocks() as $pageBlock) {
             $layout = $pageBlock->getLayout();
@@ -519,7 +521,7 @@ class Module extends AbstractModule
             if ($blockLayoutData) {
                 $block['o:layout_data'] = $blockLayoutData;
             }
-            $pageModel['o:block'][] = $block;
+            $pageModel['o:block'][++$i] = $block;
         }
 
         // Get the specific page models from main, site, or theme settings to

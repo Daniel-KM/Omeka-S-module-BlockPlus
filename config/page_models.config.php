@@ -21,12 +21,24 @@ return [
     // TODO Manage the option "o:site" to create different models by site.
     'home_page' => [
         'o:label' => 'Home page', // @translate
-        'o:caption' => 'A page template with blocks browse preview, html, heading, and asset.', // @translate
+        'o:caption' => 'A page model with blocks browse preview with a template for gallery, html, heading, and asset.', // @translate
         'o:layout_data' => [
             'template_name' => 'home-page',
         ],
         'o:block' => [
-            ['o:layout' => 'browsePreview'],
+            [
+                'o:layout' => 'browsePreview',
+                'o:data' => [
+                    'resource_type' => 'items',
+                    'query' => 'has_media=1',
+                    'limit' => 12,
+                    'components' => ['resource-heading', 'resource-body', 'thumbnail'],
+                    'link-text' => 'Browse all',
+                ],
+                'o:layout_data' => [
+                    'template_name' => 'browse-preview-gallery',
+                ],
+            ],
             ['o:layout' => 'html'],
             ['o:layout' => 'heading'],
             ['o:layout' => 'asset'],

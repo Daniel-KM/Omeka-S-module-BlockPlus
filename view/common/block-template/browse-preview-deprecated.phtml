@@ -27,22 +27,23 @@ $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
+$escapeValueOrGetHtml = $plugins->get('escapeValueOrGetHtml');
 
 $site = $block->page()->site();
+$siteSlug = $site->slug();
 
-$showThumbnail = in_array('thumbnail', $components);
-$showHeading = in_array('resource-heading', $components);
-$showBody = in_array('resource-body', $components);
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $plugins->get('lang')();
+$langValue = $filterLocale ? [$lang, ''] : null;
+
+$untitled = $translate('[Untitled]');
 
 $headingTerm = $siteSetting('browse_heading_property_term');
 $bodyTerm = $siteSetting('browse_body_property_term');
 
-$filterLocale = (bool) $siteSetting('filter_locale_values');
-$lang = $filterLocale ? $this->lang() : null;
-$langValue = $filterLocale ? [$lang, ''] : null;
-
-$untitled = $translate('[Untitled]');
-$siteSlug = $site->slug();
+$showThumbnail = in_array('thumbnail', $components);
+$showHeading = in_array('resource-heading', $components);
+$showBody = in_array('resource-body', $components);
 
 // Deprecated settings are in block layout data. Furthermore, the overridden
 // block allowed to use another site than the current one (useful for a main
@@ -50,11 +51,6 @@ $siteSlug = $site->slug();
 
 $pagination = (bool) $block->layoutDataValue('pagination');
 $sortHeadings = $block->layoutDataValue('sort_headings', []);
-$resourceTemplateId = (int) $block->layoutDataValue('resource_template');
-
-$site ??= $plugins->get('currentSite')();
-$untitled = $translate('[Untitled]');
-$siteSlug = $site->slug();
 ?>
 
 <div class="block preview-block">
@@ -74,28 +70,28 @@ $siteSlug = $site->slug();
     <?php
     foreach ($resources as $resource):
         if ($showHeading) {
-            $heading = $headingTerm ? $resource->value($headingTerm, ['lang' => $langValue]) : null;
-            $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
+            $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle(null, $langValue);
         } else {
             $heading = '';
         }
         if ($showBody) {
-            $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
-            $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
+            $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : $resource->displayDescription(null, $langValue);
         } else {
             $body = '';
         }
         $thumb = $showThumbnail ? $thumbnail($resource, 'medium', ['title' => $heading]) : null;
         ?>
-        <li class="<?= $resourceType ?> resource">
+        <li class="resource <?= $resourceType ?>">
             <?php if ($thumb): ?>
             <?= $resource->linkRaw($thumb) ?>
             <?php endif; ?>
             <?php if ($showHeading && $heading): ?>
-            <h4><span class="resource-name"><?= $resource->link($heading, null, ['class' => 'resource-link']) ?></span></h4>
+            <h4><span class="resource-name"><?= $hyperlink->raw($escape($heading), null, ['class' => 'resource-link']) ?></span></h4>
             <?php endif; ?>
             <?php if ($showBody && $body): ?>
-            <div class="description"><?= $body ?></div>
+            <div class="description">
+                <?= $escapeValueOrGetHtml($body) ?>
+            </div>
             <?php endif; ?>
         </li>
     <?php endforeach; ?>

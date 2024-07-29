@@ -27,7 +27,7 @@
     ],
     "require": {
         "andykirk/ckeditor-footnotes": "^1.2",
-        "asset/thumbnail-grid-expanding-preview": "^0.1",
+        "asset/thumbnail-grid-expanding-preview": "^0.2",
         "d3/d3": "3.5.17",
         "kenwheeler/slick": "1.8.1",
         "oomphinc/composer-installers-extender": "^2.0",
@@ -69,11 +69,11 @@
             "package": {
                 "type": "omeka-addon-asset",
                 "name": "asset/thumbnail-grid-expanding-preview",
-                "version": "0.1",
+                "version": "0.2",
                 "dist": {
                     "type": "zip",
-                    "reference": "0.1",
-                    "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.1.zip"
+                    "reference": "0.2",
+                    "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.2.zip"
                 }
             }
         },
