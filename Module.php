@@ -341,6 +341,17 @@ class Module extends AbstractModule
                 ],
             ])
             ->add([
+                'name' => 'page_model[label]',
+                'type' => \Laminas\Form\Element\Text::class,
+                'options' => [
+                    'label' => 'Label', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-model-label',
+                    'required' => true,
+                ],
+            ])
+            ->add([
                 'name' => 'page_model[name]',
                 'type' => \Laminas\Form\Element\Text::class,
                 'options' => [
@@ -349,17 +360,6 @@ class Module extends AbstractModule
                 ],
                 'attributes' => [
                     'id' => 'page-model-name',
-                    'required' => true,
-                ],
-            ])
-            ->add([
-                'name' => 'page_model[label]',
-                'type' => \Laminas\Form\Element\Text::class,
-                'options' => [
-                    'label' => 'Label', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'page-model-label',
                 ],
             ])
             ->add([
@@ -431,39 +431,38 @@ class Module extends AbstractModule
         $messenger = $services->get('ControllerPluginManager')->get('messenger');
 
         $sitePageData = $request->getContent();
-        if (empty($sitePageData['page_model']['name'])) {
+        if (empty($sitePageData['page_model']['label'])) {
             return;
         }
 
+        $randomString = fn() => '_' . substr(str_replace(["+", "/", "="], "", base64_encode(random_bytes(48))), 0, 4);
+
         $toCreate = $sitePageData['page_model'];
-        $pageModelName = $toCreate['name'];
+
+        $label = trim($toCreate['label'] ?? '') === '' ? $randomString() : trim($toCreate['label']);
+        $name = trim($toCreate['name'] ?? '');
+        $caption = trim($toCreate['caption'] ?? '') === '' ? null : trim($toCreate['caption']);
+        $type = ($toCreate['type'] ?? 'blocks_group') === 'page_model' ? 'page_model' : 'blocks_group';
+        $store = in_array($toCreate['store'] ?? '', ['main', 'site', 'theme']) ? $toCreate['store'] : 'main';
 
         // Check if the page model name is unique.
         $pageModels = $this->getPageModels();
 
-        if (isset($pageModels[$pageModelName])) {
-            $message = new PsrMessage(
-                'The page model was not saved: the name "{name}" is already used. ', // @translate
-                ['page_model' => $pageModelName]
-            );
-            $messenger->addError($message);
-            return;
-        }
-
         // Slugify the name or use a random name.
-        $randomString = fn() => '_' . substr(str_replace(["+", "/", "="], "", base64_encode(random_bytes(48))), 0, 8);
-        $name = $this->slugify($pageModelName);
-        if (!$name) {
-            $name = $randomString();
-        }
-        if (isset($pageModels[$name])) {
-            $name = $name . $randomString();
+        $cleanName = $this->slugify($name === '' ? $label : $name);
+        if (!$cleanName) {
+            $cleanName = $randomString();
         }
 
-        $label = trim($toCreate['label'] ?? '') === '' ? $pageModelName : trim($toCreate['label']);
-        $caption = trim($toCreate['caption'] ?? '') === '' ? null : trim($toCreate['caption']);
-        $type = ($toCreate['type'] ?? 'blocks_group') === 'page_model' ? 'page_model' : 'blocks_group';
-        $store = in_array($toCreate['store'] ?? '', ['main', 'site', 'theme']) ? $toCreate['store'] : 'main';
+        if (isset($pageModels[$cleanName])) {
+            $cleanNamePrev = $cleanName;
+            $cleanName = $cleanName . $randomString();
+            $message = new PsrMessage(
+                '"{name}" is already used as page model and was renamed "{name_2}".', // @translate
+                ['name' => $cleanNamePrev, 'name_2' => $cleanName]
+            );
+            $messenger->addWarning($message);
+        }
 
         // Prepare new page model or blocks group.
         $response = $event->getParam('response');
@@ -538,7 +537,7 @@ class Module extends AbstractModule
             $pageModels = $settings->get('blockplus_page_models', []);
         }
 
-        $pageModels[$name] = $pageModel;
+        $pageModels[$cleanName] = $pageModel;
 
         if ($store === 'theme') {
             $themeSettings['page_models'] = $pageModels;
@@ -557,7 +556,7 @@ class Module extends AbstractModule
                 ? 'The page model "{label}" ({name}) was saved in theme settings.' // @translate
                 : 'The blocks group "{label}" ({name}) was saved in theme settings.'; // @translate
         }
-        $messenger->addSuccess(new PsrMessage($message, ['label' => $label, 'name' => $name]));
+        $messenger->addSuccess(new PsrMessage($message, ['label' => $label, 'name' => $cleanName]));
     }
 
     public function handleSiteSettings(Event $event): void
