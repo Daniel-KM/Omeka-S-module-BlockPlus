@@ -68,6 +68,14 @@ class AssetElement extends AbstractHtmlElementHelper
                 $attribs['preload'] ??= 'none';
                 return sprintf('<audio%s controls="controls"></audio>', $this->htmlAttribs($attribs));
 
+            case $mediaType === 'application/pdf':
+                $attribs['src'] = $url;
+                if (!isset($attribs['loading'])) {
+                    $attribs = ['loading' => 'lazy'] + $attribs;
+                }
+                $attribs['style'] ??= 'width: 100%%; height: 600px';
+                return sprintf('<iframe%s allowfullscreen></iframe>', $this->htmlAttribs($attribs));
+
             default:
                 $attribs['url'] = $url;
                 $attribs['type'] = $mediaType;
