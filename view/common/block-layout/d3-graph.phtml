@@ -131,33 +131,44 @@ foreach ($resources as $resource) {
         ];
     }
 
-    foreach ($relations as $relationType => $rrelations) foreach ($rrelations as $relation) {
-        $relation = $relation instanceof \Omeka\Api\Representation\AbstractResourceEntityRepresentation ? $relation : $relation->valueResource();
-        $relationId = $relation->id();
-        $orderTarget = array_search($relationId, $mapKeysToIds);
-        if ($orderTarget === false) {
-            $orderTarget = array_push($mapKeysToIds, $relationId) - 1;
-            $relationResourceName = $relation->resourceName();
-            $type = $types[$relationResourceName];
-            $data['nodes'][$orderTarget] = [
-                'id' => $relationId,
-                'title' => (string) $relation->displayTitle(null, $lang),
-                'type' => $type,
-                'class' => $relation->resourceClass() ? $relation->resourceClass()->label() : null,
-                // TODO Fetch all totals in one sql query for all resources.
-                'total' => (in_array('objects', $relationTypes) ? count($relation->objectValues()) : 0)
-                    + (in_array('subjects', $relationTypes) && ($rsv = $relation->subjectValues()) ? count(array_merge(...array_values($rsv))) : 0)
-                    + (in_array('item_sets', $relationTypes) && $relationResourceName === 'item_sets' ? $api->search('items', ['item_set_id' => $relationId, 'limit' => 0])->getTotalResults() : 0)
-                    + (in_array('items', $relationTypes) && $relationResourceName === 'items' ? count($relation->itemSets()) : 0),
-            ];
-        }
-        $data['links'][] = [
-            'source' => $orderSource,
-            'target' => $orderTarget,
-            // TODO Compute value here?
-            'value' => 1,
-        ];
-    }
+    foreach ($relations as $relationType => $rrelations) {
+		foreach ($rrelations as $relation) {
+			// Control
+			if ($relation instanceof \Omeka\Api\Representation\AbstractResourceEntityRepresentation) {
+				// $relation is a correct object
+			} elseif (is_object($relation) && method_exists($relation, 'valueResource')) {
+				// $relation is not a correct object
+				$relation = $relation->valueResource();
+			} else {
+				// skip if error
+				error_log('La variabile $relation non è un oggetto o non ha il metodo valueResource');
+				continue;
+			}
+
+			$relationId = $relation->id();
+			$orderTarget = array_search($relationId, $mapKeysToIds);
+			if ($orderTarget === false) {
+				$orderTarget = array_push($mapKeysToIds, $relationId) - 1;
+				$relationResourceName = $relation->resourceName();
+				$type = $types[$relationResourceName];
+				$data['nodes'][$orderTarget] = [
+					'id' => $relationId,
+					'title' => (string) $relation->displayTitle(null, $lang),
+					'type' => $type,
+					'class' => $relation->resourceClass() ? $relation->resourceClass()->label() : null,
+					'total' => (in_array('objects', $relationTypes) ? count($relation->objectValues()) : 0)
+						+ (in_array('subjects', $relationTypes) && ($rsv = $relation->subjectValues()) ? count(array_merge(...array_values($rsv))) : 0)
+						+ (in_array('item_sets', $relationTypes) && $relationResourceName === 'item_sets' ? $api->search('items', ['item_set_id' => $relationId, 'limit' => 0])->getTotalResults() : 0)
+						+ (in_array('items', $relationTypes) && $relationResourceName === 'items' ? count($relation->itemSets()) : 0),
+				];
+			}
+			$data['links'][] = [
+				'source' => $orderSource,
+				'target' => $orderTarget,
+				'value' => 1,
+			];
+		}
+	}
 }
 
 $jsonUrlSite = json_encode($this->url('site', [], true), 320);
