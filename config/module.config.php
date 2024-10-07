@@ -58,6 +58,7 @@ return [
         ],
         'factories' => [
             'externalContent' => Service\BlockLayout\ExternalContentFactory::class,
+            'mappingMapSearch' => Service\BlockLayout\MappingMapSearchFactory::class,
             'mirrorPage' => Service\BlockLayout\MirrorPageFactory::class,
             'showcase' => Service\BlockLayout\ShowcaseFactory::class,
         ],
@@ -295,6 +296,10 @@ return [
                 'pagination' => false,
                 'summaries' => true,
                 'thumbnails' => true,
+            ],
+            'mappingMapSearch' => [
+                // This is a derivative from block Mapping Map Query from module Mapping.
+                // The form and data the same than the original block.
             ],
             'messages' => [
             ],

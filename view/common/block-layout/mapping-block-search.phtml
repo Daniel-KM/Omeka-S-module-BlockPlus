@@ -1,0 +1,37 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var array $data
+ * @var array $query
+ * @var array $features
+ * @var bool $isTimeline
+ * @var array $timelineData
+ * @var array $timelineOptions
+ */
+
+$plugins = $this->getHelperPluginManager();
+$partial = $plugins->get('partial');
+$translate = $plugins->get('translate');
+
+$partialExcludeList = [
+    'common/advanced-search/sort',
+    'common/advanced-search/properties',
+    'common/advanced-search/resource-class',
+    'common/advanced-search/item-sets',
+    'common/advanced-search/site',
+    'common/advanced-search/has-media',
+    'common/advanced-search/media-type',
+    'common/advanced-search/owner',
+    'common/advanced-search/visibility',
+    'common/advanced-search/resource-template-restrict',
+    'common/advanced-search/ids',
+];
+?>
+
+<form id="advanced-search" class="search-mapping">
+    <?= $partial('common/advanced-search', ['query' => $query, 'resourceType' => 'item', 'partialExcludelist' => $partialExcludeList]) ?>
+    <button type="submit"><?= $translate('Chercher sur la carte') ?></button>
+</form>
+
+<?= $partial('common/block-layout/mapping-block') ?>
