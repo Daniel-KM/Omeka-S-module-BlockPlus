@@ -106,6 +106,10 @@ class SearchResultsFieldset extends Fieldset
                     'info' => 'Components to display for each resource. If not set in Site Settings, Heading defaults to resource Title and Body to resource Description', // @translate
                     'value_options' => [
                         [
+                            'value' => 'search-form',
+                            'label' => 'Search form', // @translate
+                        ],
+                        [
                             'value' => 'resource-heading',
                             'label' => 'Heading', // @translate
                         ],

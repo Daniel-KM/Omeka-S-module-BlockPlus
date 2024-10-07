@@ -122,7 +122,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
         // Show all resource components if none set.
         $components = $block->dataValue('components');
         $components = empty($components)
-            ? ['resource-heading', 'resource-body', 'thumbnail']
+            ? ['search-form', 'resource-heading', 'resource-body', 'thumbnail']
             : $components;
 
         /** @var \Omeka\Api\Response $response */

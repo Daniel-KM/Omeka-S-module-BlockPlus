@@ -21,6 +21,7 @@ $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
+$showSearchForm = in_array('search-form', $components);
 $showThumbnail = in_array('thumbnail', $components);
 $showHeading = in_array('resource-heading', $components);
 $showBody = in_array('resource-body', $components);
@@ -40,12 +41,15 @@ $siteSlug = $site->slug();
 ?>
 
 <?php // This block uses two div by default to comply with common themes. ?>
+
+<?php if ($showSearchForm): ?>
 <div class="block search-form-block">
     <form id="search-form">
         <input type="text" name="search" value="<?= $escapeAttr($query['search']) ?>" placeholder="<?= $translate('Search') ?>">
         <button type="submit"><?= $translate('Search') ?></button>
     </form>
 </div>
+<?php endif; ?>
 
 <div class="search-results-block">
     <?php if (!empty($sortHeadings)): ?>
