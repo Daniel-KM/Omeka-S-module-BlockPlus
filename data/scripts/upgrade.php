@@ -2169,3 +2169,33 @@ if (version_compare($oldVersion, '3.4.26', '<')) {
     );
     $messenger->addSuccess($message);
 }
+
+if (version_compare($oldVersion, '3.4.27', '<')) {
+    // Add component search form to block Search and results.
+    $qb = $connection->createQueryBuilder();
+    $qb
+        ->select(
+            'id',
+            'data'
+        )
+        ->from('site_page_block', 'site_page_block')
+        ->orderBy('site_page_block.id', 'asc')
+        ->where('site_page_block.layout = "searchResults"')
+    ;
+    $blockDatas = $connection->executeQuery($qb)->fetchAllKeyValue();
+    foreach ($blockDatas as $id => $blockData) {
+        $blockData = json_decode($blockData, true);
+        $components = $blockData['components'] ?? [];
+        if (empty($components)) {
+            continue;
+        }
+        $blockData['components'][] = 'search-form';
+        $quotedBlock = $connection->quote(json_encode($blockData));
+        $sql = <<<SQL
+            UPDATE `site_page_block`
+            SET `data` = $quotedBlock
+            WHERE `id` = $id;
+            SQL;
+        $connection->executeStatement($sql);
+    }
+}
