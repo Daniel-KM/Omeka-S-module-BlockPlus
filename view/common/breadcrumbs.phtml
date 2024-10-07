@@ -25,9 +25,9 @@ $separator = ' ' . $options['separator'] . " \n";
 $html = empty($nav)
     ? $this->navigation()->breadcrumbs($breadcrumbs)->setSeparator($separator)
     : $nav->breadcrumbs()->setSeparator($separator);
-if (empty($options['linkLast']) && $lastLinkPos = mb_strrpos($html, '</a>' . $separator)):
+if (empty($options['linkLast']) && $lastLinkPos = mb_strrpos($html, '</a>' . $separator)) {
     $html = mb_substr($html, 0, $lastLinkPos + 4 + mb_strlen($separator)) . '<span class="active" aria-currrent="page">' . mb_substr($html, $lastLinkPos + 4 + mb_strlen($separator)) . '</span>';
-endif;
+}
 ?>
 
 <div class="breadcrumbs-parent">

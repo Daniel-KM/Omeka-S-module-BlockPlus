@@ -102,10 +102,10 @@ $showBody = in_array('resource-body', $components);
                     $mediaLarge = str_replace('/' . $thumbnailSize . '/', '/large/', $mediaThumbnail);
                 }
 
-                $heading = $showHeading ? $resource->displayTitle($untitled, $lang) : '';
+                $heading = $showHeading ? $resource->displayTitle($untitled, $langValue) : '';
 
                 if ($showBody) {
-                    $body = $resource->displayDescription(null, $lang);
+                    $body = $resource->displayDescription(null, $langValue);
                     $body .= '<p>'
                         . $translate('More information')
                         . '<br/>'
