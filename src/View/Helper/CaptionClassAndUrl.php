@@ -80,15 +80,15 @@ class CaptionClassAndUrl extends AbstractHelper
             }
 
             if (isset($lines[2]) && ($hasClass || $hasUrl || $hasLabel)) {
-                if (!$hasLabel && preg_match($patternLabel, $lines[1], $matches)) {
+                if (!$hasLabel && preg_match($patternLabel, $lines[2], $matches)) {
                     $label = $matches['label'];
                     $hasLabel = true;
                     unset($lines[2]);
-                } elseif (!$hasUrl && preg_match($patternUrl, $lines[1], $matches)) {
+                } elseif (!$hasUrl && preg_match($patternUrl, $lines[2], $matches)) {
                     $url = $matches['url'];
                     $hasUrl = true;
                     unset($lines[2]);
-                } elseif (!$hasClass && preg_match($patternClass, $lines[1], $matches)) {
+                } elseif (!$hasClass && preg_match($patternClass, $lines[2], $matches)) {
                     $class = $matches['class'];
                     $hasClass = true;
                     unset($lines[2]);
