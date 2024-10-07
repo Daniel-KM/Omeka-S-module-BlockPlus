@@ -433,6 +433,13 @@ class Breadcrumbs extends AbstractHelper
                 }
                 break;
 
+            // Route for the selection of an anonymous visitor.
+            case 'site/selection':
+                if ($options['current']) {
+                    $label = $siteSetting('selection_label', $translate('Selection')); // @translate
+                }
+                break;
+
             case 'site/guest':
             case 'site/guest/anonymous':
             // Routes "guest-user" are kept for the old module GuestUser.
@@ -508,7 +515,7 @@ class Breadcrumbs extends AbstractHelper
                             $label = $translate('Basket'); // @translate
                             break;
                         case 'selection':
-                            $label = $translate('Selection'); // @translate
+                            $label = $siteSetting('selection_label', $translate('Selection')); // @translate
                             break;
                         default:
                             $label = $translate('User'); // @translate
