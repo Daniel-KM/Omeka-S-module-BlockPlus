@@ -37,7 +37,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 $assetElement = $plugins->has('assetElement')
     ? $plugins->get('assetElement')
     : $plugins->get('thumbnail');
-$captionClassAndUrl = $plugins->get('captionClassAndUrl')
+$captionClassAndUrl = $plugins->has('captionClassAndUrl')
     ? $plugins->get('captionClassAndUrl')
     : fn($string) => [trim((string) $string), '', '', '', false, false, $string !== strip_tags($string)];
 ?>

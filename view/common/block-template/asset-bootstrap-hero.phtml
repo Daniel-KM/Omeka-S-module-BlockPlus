@@ -36,7 +36,7 @@ $escape = $plugins->get('escapeHtml');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
 // Manage minimal display when the module is disabled.
-$captionClassAndUrl = $plugins->get('captionClassAndUrl')
+$captionClassAndUrl = $plugins->has('captionClassAndUrl')
     ? $plugins->get('captionClassAndUrl')
     : fn($string) => [trim((string) $string), '', '', '', false, false, $string !== strip_tags($string)];
 
