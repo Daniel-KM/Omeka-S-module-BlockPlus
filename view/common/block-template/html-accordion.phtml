@@ -1,0 +1,30 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ */
+
+/**
+ * To use this template: all the main titles (h3) are converted into details/summaries,
+ * that is the accessible way to create accordions.
+ */
+
+$html = $block->dataValue('html', '');
+
+// Transform all h3 into details/summaries.
+$posFirstTag = mb_strpos($html, '<h3');
+if ($posFirstTag !== false && mb_strpos($html, '</h3>')) {
+    $html = str_replace(
+        ['<h3', '</h3>'],
+        ['<summary><h3', '</h3></summary>'],
+        $html
+    );
+    // Append end and start of element <details>, except first h3, that have only the start tag.
+    $html = mb_substr($html, 0, $posFirstTag)
+        . "<details>\n<summary><h3"
+        . str_replace('<summary><h3', "</details>\n<details>\n<summary><h3", mb_substr($html, $posFirstTag + 12))
+        . "</details>\n";
+}
+?>
+
+<?= $html ?>

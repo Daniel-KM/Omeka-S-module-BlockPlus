@@ -154,6 +154,7 @@ return [
             'heading-link' => 'Block Plus: Heading link', // @translate
         ],
         'html' => [
+            'html-accordion' => 'Block Plus: Accordion (h3)', // @translate
             'html-glossary' => 'Block Plus: Glossary', // @translate
             'html-page-header' => 'Block Plus: Page header', // @translate
         ],

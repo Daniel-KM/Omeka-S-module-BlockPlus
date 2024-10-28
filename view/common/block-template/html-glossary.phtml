@@ -23,7 +23,11 @@ $partial = $plugins->get('partial');
 
 // Fix html purification.
 $html = $block->dataValue('html', '');
-$html = str_replace(['<p><br />', '<p><br/>'], ['<p>&nbsp;</p><p><br />', '<p>&nbsp;</p><p><br />'], $html);
+$html = str_replace(
+    ['<p><br />', '<p><br/>'],
+    ['<p>&nbsp;</p><p><br />', '<p>&nbsp;</p><p><br />'],
+    $html
+);
 $glossary = array_map('trim', explode('<p>&nbsp;</p>', $html));
 
 // Create the glossary alphabet, the list of current letters and current definitions and prepare first letters.
