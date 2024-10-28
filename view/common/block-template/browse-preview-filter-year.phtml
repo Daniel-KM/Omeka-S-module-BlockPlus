@@ -1,0 +1,56 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$thumbnail = $this->plugin('thumbnail');
+?>
+<div class="preview-block">
+
+<?php if ($this->heading): ?>
+<h2><?php echo $escape($this->heading); ?></h2>
+<?php endif; ?>
+
+<ul class="resource-list preview">
+<?php
+$showThumbnail = in_array('thumbnail', $this->components);
+$showHeading = in_array('resource-heading', $this->components);
+$showBody = in_array('resource-body', $this->components);
+$headingTerm = $this->siteSetting('browse_heading_property_term');
+$bodyTerm = $this->siteSetting('browse_body_property_term');
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+$langValue = $filterLocale ? [$lang, ''] : null;
+
+foreach ($this->resources as $resource):
+    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $valueLang]) : $resource->displayTitle(null, $valueLang);
+    $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $valueLang]) : $resource->displayDescription(null, $valueLang);
+?>
+    <li class="<?php echo $this->resourceType; ?> resource">
+        <?php
+        $linkContent = '';
+        if ($showThumbnail):
+            $linkContent .= $this->thumbnail($resource, 'medium');
+        endif;
+        if ($showHeading):
+            $linkContent .= '<span class="resource-name">' . $escape($heading) . '</span>';
+        endif;
+        if ($linkContent !== '') {
+            echo $resource->linkRaw($linkContent, null, ['class' => 'resource-link']);
+        }
+        ?>
+        <?php if ($showBody && $body): ?>
+        <div class="description"><?php echo $escape($body); ?></div>
+        <?php endif; ?>
+    </li>
+<?php endforeach; ?>
+</ul>
+
+<?php
+if ($this->linkText):
+    echo $this->hyperlink($this->linkText, $this->url(
+        'site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query], true
+    ));
+endif;
+?>
+
+</div>
