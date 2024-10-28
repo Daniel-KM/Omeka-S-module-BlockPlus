@@ -49,7 +49,8 @@ class LinkedResourcesByItemSet implements ResourcePageBlockLayoutInterface
         // $perPage = (int) $siteSettings->get('per_page') ?: (int) $settings->get('per_page', 25);
         $perPage = 25;
 
-        $currentItemSetId = ((int) $params->fromQuery('resource_item_set_id')) ?: null;
+        $currentItemSetId = $params->fromQuery('resource_item_set_id');
+        $currentItemSetId = is_numeric($currentItemSetId) ? (int) $currentItemSetId : null;
         try {
             $currentItemSet = $currentItemSetId
                 ? $api->read('item_sets', ['id' => $currentItemSetId ])->getContent()
@@ -129,6 +130,14 @@ class LinkedResourcesByItemSet implements ResourcePageBlockLayoutInterface
                     ->andWhere($expr->eq('resource.id', $currentItemSetId));
             }
             $itemSetsItems = $qb->execute()->fetchAllAssociative();
+
+            // Prepend item ids without item sets.
+            $itemWithoutItemSets = array_diff_key(array_column($subjectValues, 'id', 'id'), array_column($itemSetsItems, 'item_id', 'item_id'));
+            $itemWithoutItemSets = array_map(fn ($v) => ['item_set_id' => 0, 'item_id' => (int) $v], $itemWithoutItemSets);
+
+            $itemSetsItems = $currentItemSetId === 0
+                ? $itemWithoutItemSets
+                : array_merge($itemWithoutItemSets, $itemSetsItems);
         }
 
         return $view->partial('common/resource-page-block-layout/linked-resources-by-item-set', [

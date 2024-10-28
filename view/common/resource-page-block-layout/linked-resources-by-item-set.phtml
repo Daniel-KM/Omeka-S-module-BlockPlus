@@ -6,7 +6,7 @@
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $objectResource Alias of resource.
  * @var array $subjectValues List of all property terms, resource ids and titles (not filtered and not paginated).
  * @var array $itemSetsTitles List of all item set ids and titles (not filtered and not paginated).
- * @var array $itemSetsItems List of all item ids by item set (filtered by current item set, not paginated).
+ * @var array $itemSetsItems List of all item ids by none or item set (filtered by current item set, not paginated).
  * @var string $resourceType Always "items" for now.
  * @var int $totalCount
  * @var int $page
@@ -66,8 +66,8 @@ foreach ($itemIds ? $api->search('items', ['id' => $itemIds])->getContent() : []
     $items[$item->id()] = $item;
 }
 
-// Group the item ids by item sets.
-$itemsByItemSets = [];
+// Group the item ids by item sets. Set items without item sets first.
+$itemsByItemSets = [0 => []];
 foreach ($itemSetsItemsPaged as $itemSetItem) {
     $itemsByItemSets[$itemSetItem['item_set_id']][] = $itemSetItem['item_id'];
 }
@@ -97,6 +97,9 @@ $this->headScript()->appendScript($js);
                     <?= $translate('Filter by item sets:') ?>
                     <select id="resource-item-set-select" name="resource_item_set_id" data-url="<?= $escapeAttr($url(null, [], true)) ?>" data-fragment="resources-linked">
                         <option value=""<?= $currentItemSetId ? '' : ' selected="selected"' ?>><?= $translate('All item sets') ?></option>
+                        <?php if (count($itemsByItemSets[0])): ?>
+                        <option value="0"<?= $currentItemSetId === 0 ? ' selected="selected"' : '' ?> data-id="0"><?= $escape($translate('Items without item set')) ?></option>
+                        <?php endif; ?>
                         <?php foreach ($itemSetsTitles as $itemSetId => $itemSetTitle): ?>
                         <option value="<?= $itemSetId ?>"<?= $currentItemSetId === $itemSetId ? ' selected="selected"' : '' ?> data-id="<?= $itemSetId ?>"><?= $escape($itemSetTitle) ?></option>
                         <?php endforeach; ?>
@@ -107,8 +110,11 @@ $this->headScript()->appendScript($js);
         </div>
 
         <?php
-        foreach ($itemsByItemSets as $itemSetIId => $itemIds):
-            $caption = sprintf($translate('Items of item set: %s'), $itemSetsTitles[$itemSetIId]);
+        foreach ($itemsByItemSets as $itemSetId => $itemIds):
+            if (!count($itemIds)) continue;
+            $caption = $itemSetId
+                ? sprintf($translate('Items of item set: %s'), $itemSetsTitles[$itemSetId])
+                : $translate('Items without item set');
             ?>
         <table>
             <caption class="linked-resource-item-set"><?= $escape($caption) ?></caption>
