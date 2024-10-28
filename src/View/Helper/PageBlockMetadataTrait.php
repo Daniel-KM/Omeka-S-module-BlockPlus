@@ -146,6 +146,8 @@ trait PageBlockMetadataTrait
             case 'is_home_page':
                 return $view->isHomePage($page);
 
+            case 'nav_data':
+                return $this->findPageInNavigation($page->id(), $page->site()->navigation());
             case 'root':
                 $parents = $this->parentPages($page);
                 return empty($parents) ? $page : array_pop($parents);
