@@ -173,6 +173,8 @@ trait PageBlockMetadataTrait
                 return $this->previousNextPages($page, 'next');
             case 'children':
                 return $this->childrenPages($page);
+            case 'siblings':
+                return $this->siblingPages($page);
 
             case 'exhibit':
                 switch ($block->dataValue('type')) {
@@ -354,8 +356,36 @@ trait PageBlockMetadataTrait
      * @param SitePageRepresentation $page
      * @return SitePageRepresentation[]
      */
-    protected function childrenPages(SitePageRepresentation $page)
+    protected function childrenPages(SitePageRepresentation $page): array
     {
+        $site = $page->site();
+        $pageData = $this->findPageInNavigation($page->id(), $site->navigation());
+        return array_intersect_key(
+            $this->sitePages($site),
+            array_flip($pageData['children'])
+        );
+    }
+
+    /**
+     * Get the sibling pages of a page.
+     *
+     * The process uses the parent page.
+     *
+     * @param SitePageRepresentation $page
+     * @return SitePageRepresentation[]
+     */
+    protected function siblingPages(SitePageRepresentation $page): array
+    {
+        $pageData = $this->findPageInNavigation($page);
+        pù($pageData['siblings']);
+        return $pageData['siblings'];
+
+        $parentPages = $this->parentPages($page);
+        if (!$parentPages) {
+            return [];
+        }
+        return empty($parents) ? null : reset($parents);
+
         $site = $page->site();
         $pageData = $this->findPageInNavigation($page->id(), $site->navigation());
         return array_intersect_key(
