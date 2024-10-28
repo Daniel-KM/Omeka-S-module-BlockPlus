@@ -433,6 +433,13 @@ class Breadcrumbs extends AbstractHelper
                 }
                 break;
 
+            // Route for the contact us basket of an anonymous visitor.
+            case 'site/contact-us':
+                if ($options['current']) {
+                    $label = $siteSetting('contactus_label_selection', $translate('Selection for contact')); // @translate
+                }
+                break;
+
             // Route for the selection of an anonymous visitor.
             case 'site/selection':
                 if ($options['current']) {
@@ -479,6 +486,7 @@ class Breadcrumbs extends AbstractHelper
 
             case 'site/guest/guest':
             case 'site/guest/basket':
+            case 'site/guest/contact-us':
             case 'site/guest/selection':
             case 'site/guest-user/guest':
                 $setting = $plugins->get('setting');
@@ -513,6 +521,9 @@ class Breadcrumbs extends AbstractHelper
                             break;
                         case 'basket':
                             $label = $translate('Basket'); // @translate
+                            break;
+                        case 'contact-us':
+                            $label = $siteSetting('contactus_label_selection', $translate('Selection for contact')); // @translate
                             break;
                         case 'selection':
                             $label = $siteSetting('selection_label', $translate('Selection')); // @translate
