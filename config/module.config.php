@@ -36,6 +36,9 @@ return [
             'primaryItemSet' => View\Helper\PrimaryItemSet::class,
             'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
         ],
+        'factories' => [
+            'blockGroupData' => Service\ViewHelper\BlockGroupDataFactory::class,
+        ],
     ],
     'block_layouts' => [
         'invokables' => [
