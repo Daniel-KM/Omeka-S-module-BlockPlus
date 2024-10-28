@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $params
+ */
+
+$htmlPurifier = $block->getServiceLocator()->get('Omeka\HtmlPurifier');
+$html = $htmlPurifier->purify($params);
+?>
+
+<div class="block block-simple block-simple-html">
+    <?= $html ?>
+</div>

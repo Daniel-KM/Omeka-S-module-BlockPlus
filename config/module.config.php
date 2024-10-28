@@ -140,6 +140,7 @@ return [
         'block' => [
             'block-arborescence' => 'Block Plus: Arborescence', // @translate
             'block-glossary' => 'Block Plus: Glossary', // @translate
+            'block-html' => 'Block Plus: Html', // @translate
         ],
         'breadcrumbs' => [
             'breadcrumbs-standard' => 'Block Plus: Omeka breadcrumbs', // @translate
