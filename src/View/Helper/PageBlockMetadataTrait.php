@@ -364,8 +364,14 @@ trait PageBlockMetadataTrait
      * @param int $parentPageId
      * @return array
      */
-    protected function findPageInNavigation($pageId, $navItems, $parentPageId = null)
+    protected function findPageInNavigation($pageId, $navItems, $parentPageId = null): array
     {
+        static $pages;
+
+        if (isset($pages[$pageId])) {
+            return $pages[$pageId];
+        }
+
         $siblings = [];
         foreach ($navItems as $navItem) {
             if ($navItem['type'] === 'page') {
@@ -382,7 +388,7 @@ trait PageBlockMetadataTrait
                 $navItemId = $navItemData['id'];
 
                 if ($navItemId === $pageId) {
-                    return [
+                    $pages[$pageId] = [
                         'id' => $pageId,
                         'parent_id' => $parentPageId,
                         'siblings' => $siblings,
@@ -390,6 +396,7 @@ trait PageBlockMetadataTrait
                             ? []
                             : array_values(array_filter(array_map(fn ($v) => $v['type'] === 'page' ? $v['data']['id'] : null, $navItem['links']))),
                     ];
+                    return $pages[$pageId];
                 }
 
                 if (array_key_exists('links', $navItem)) {
@@ -401,10 +408,12 @@ trait PageBlockMetadataTrait
         foreach ($childLinks as $parentPageId => $links) {
             $childLinkResult = $this->findPageInNavigation($pageId, $links, $parentPageId);
             if ($childLinkResult) {
+                $pages[$pageId] = $childLinkResult;
                 return $childLinkResult;
             }
         }
 
+        $pages[$pageId] = [];
         return [];
     }
 
@@ -430,7 +439,9 @@ trait PageBlockMetadataTrait
         }
 
         $site = $this->currentSite();
-        return $view->api()->searchOne('site_pages', ['site_id' => $site->id(), 'slug' => $pageSlug])->getContent();
+        $page = $view->api()->searchOne('site_pages', ['site_id' => $site->id(), 'slug' => $pageSlug])->getContent();
+        $this->view->page = $page;
+        return $page;
     }
 
     protected function currentBlockMetadata(SitePageRepresentation $page): ?SitePageBlockRepresentation
