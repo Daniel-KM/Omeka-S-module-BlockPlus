@@ -297,6 +297,9 @@ aside.column {
 }
 
 /* Breadcrumbs */
+nav.breadcrumbs {
+    width: 100%;
+}
 nav.breadcrumbs > ul,
 nav.breadcrumbs > ol {
     list-style: none;
