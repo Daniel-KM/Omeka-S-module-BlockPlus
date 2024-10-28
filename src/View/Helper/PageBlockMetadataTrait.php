@@ -39,7 +39,16 @@ trait PageBlockMetadataTrait
             case 'theme_dir':
                 return OMEKA_PATH . '/themes/' . $this->currentSite()->theme();
 
+            case 'template':
+            case 'template_name':
+                return $page->layoutDataValue('template_name') ?: null;
+
             case 'type':
+                if (version_compare(\Omeka\Module::VERSION, '4.1', '>=')) {
+                    $view->logger()->warn('Since Omeka S 4.1, the metadata "type" is replaced by the page template name (key "template"). Check your theme.'); // @translate
+                    return $page->layoutDataValue('template_name') ?: null;
+                }
+                // no break.
             case 'credits':
             case 'summary':
             case 'tags':
