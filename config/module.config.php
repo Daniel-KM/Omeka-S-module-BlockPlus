@@ -153,6 +153,8 @@ return [
         ],
         'heading' => [
             'heading-link' => 'Block Plus: Heading link', // @translate
+            'heading-details-start' => 'Block Plus: Details/summary (start)', // @translate
+            'heading-details-end' => 'Block Plus: Details/summary (end)', // @translate
         ],
         'html' => [
             'html-accordion' => 'Block Plus: Accordion (h3)', // @translate
