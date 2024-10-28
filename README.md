@@ -265,6 +265,8 @@ Some specific templates are available in Browse Preview:
   has a specific option to add to the query to display thumbnails as square or
   medium: `thumbnail_size=medium`. You can see an example on the site [Ontologie du christianisme médiéval en images],
   from French [Institut national de l’histoire de l’art].
+- filter year: added a select on the top to filter the items by year.
+- subjects: append the subjects to each resource.
 
 To use them, simply select the wanted template:
 
@@ -292,6 +294,8 @@ a video on the home page.
 
 Display a html heading `<h1></h1>` to `<h6></h6>` in order to organize your
 blocks.
+
+Two templates allow to wrap next blocks inside a html structure details/summary.
 
 #### HTML (js improvements and templates)
 
