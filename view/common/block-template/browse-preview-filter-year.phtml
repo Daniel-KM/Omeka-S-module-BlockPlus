@@ -1,56 +1,183 @@
 <?php
-$translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
-$thumbnail = $this->plugin('thumbnail');
-?>
-<div class="preview-block">
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $resourceType
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $heading
+ * @var string $linkText
+ * @var array $components
+ * @var array $query
+ *
+ * Here:
+ * @var \Doctrine\ORM\EntityManager $entityManager
+ */
 
-<?php if ($this->heading): ?>
-<h2><?php echo $escape($this->heading); ?></h2>
-<?php endif; ?>
+// Display a select to filter by year (dcterms:date) and manage it.
+// Requires module Advanced Search (uses the filter by year "yreq").
 
-<ul class="resource-list preview">
-<?php
-$showThumbnail = in_array('thumbnail', $this->components);
-$showHeading = in_array('resource-heading', $this->components);
-$showBody = in_array('resource-body', $this->components);
-$headingTerm = $this->siteSetting('browse_heading_property_term');
-$bodyTerm = $this->siteSetting('browse_body_property_term');
+$propertyYear = 'dcterms:date';
 
-$filterLocale = (bool) $this->siteSetting('filter_locale_values');
-$lang = $this->lang();
+// TODO Find a way to avoid to duplicate the api process to search resources.
+// TODO Manage resources without date?
+// TODO Manage pagination.
+// TODO Manage private date more precisely (allow private value of the owner).
+
+/**
+ * @var \Common\Stdlib\EasyMeta $easyMeta
+ */
+$plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
+$api = $plugins->get('api');
+$escape = $plugins->get('escapeHtml');
+$params = $plugins->get('params');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$easyMeta = $plugins->get('easyMeta')();
+$thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+$userIsAllowed = $plugins->get('userIsAllowed');
+$escapeValueOrGetHtml = $plugins->get('escapeValueOrGetHtml');
+
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $plugins->get('lang')();
 $langValue = $filterLocale ? [$lang, ''] : null;
 
-foreach ($this->resources as $resource):
-    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $valueLang]) : $resource->displayTitle(null, $valueLang);
-    $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $valueLang]) : $resource->displayDescription(null, $valueLang);
-?>
-    <li class="<?php echo $this->resourceType; ?> resource">
-        <?php
-        $linkContent = '';
-        if ($showThumbnail):
-            $linkContent .= $this->thumbnail($resource, 'medium');
-        endif;
-        if ($showHeading):
-            $linkContent .= '<span class="resource-name">' . $escape($heading) . '</span>';
-        endif;
-        if ($linkContent !== '') {
-            echo $resource->linkRaw($linkContent, null, ['class' => 'resource-link']);
-        }
-        ?>
-        <?php if ($showBody && $body): ?>
-        <div class="description"><?php echo $escape($body); ?></div>
-        <?php endif; ?>
-    </li>
-<?php endforeach; ?>
-</ul>
+$untitled = $translate('[Untitled]');
 
-<?php
-if ($this->linkText):
-    echo $this->hyperlink($this->linkText, $this->url(
-        'site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query], true
-    ));
-endif;
+$headingTerm = $siteSetting('browse_heading_property_term');
+$bodyTerm = $siteSetting('browse_body_property_term');
+
+$showThumbnail = in_array('thumbnail', $components);
+$showHeading = in_array('resource-heading', $components);
+$showBody = in_array('resource-body', $components);
+
+$services = $block->getServiceLocator();
+$entityManager = $services->get('Omeka\EntityManager');
+
+$propertyId = $easyMeta->propertyId($propertyYear);
+
+$queryAll = ['return_scalar' => 'id', 'sort_by' => 'id', 'sort_order' => 'asc']
+    + array_diff_key($query, array_flip(['sort_by', 'sort_order', 'page', 'per_page', 'limit', 'offset']));
+$resourceNames = ['item' => 'items', 'item-set' => 'item_sets', 'media' => 'media'];
+$resourceName = $resourceNames[$resourceType] ?? $resourceType;
+$allResourceIds = array_keys($api->search($resourceName, $queryAll)->getContent());
+
+$qb = $entityManager->createQueryBuilder();
+$expr = $qb->expr();
+$qb
+    // The casting to integer is the simplest way to get the year: it avoids multiple substring_index, replace, etc.
+    // and it works fine in most of the real cases, except when the date does not look like a standard date.
+    ->select('value.value + 0 AS v')
+    ->from(\Omeka\Entity\Value::class, 'value')
+    ->where($expr->eq('value.property', ':property_id'))
+    ->setParameter('property_id', $propertyId)
+    ->andWhere($expr->in('value.resource', ':resource_ids'))
+    ->setParameter('resource_ids', $allResourceIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+    ->groupBy('v')
+    ->orderBy('v', 'asc')
+;
+$userIsAllowed(\Omeka\Entity\Resource::class, 'view-all') ? null : $qb->andWhere($expr->eq('value.isPublic', 1));
+// getSingleColumnResult() is not working with negative numbers? So use array_column. And fetchAllKeyValue() is just a foreach.
+// $list = $qb->getQuery()->getSingleColumnResult();
+$years = array_keys(array_filter(array_column($qb->getQuery()->getScalarResult(), 'v', 'v')));
+
+// When a year is selected, all resources of this year are displayed.
+$currentYear = (int) $params->fromQuery('value_year');
+// TODO Find a way to avoid to reprocess an api request.
+if ($currentYear) {
+    $originalQuery = $query;
+    $site = $block->page()->site();
+    if ($siteSetting('browse_attached_items', false)) {
+        $query['site_attachments_only'] = true;
+    }
+    $query['site_id'] = $site->id();
+    // $query['limit'] = $block->dataValue('limit', 12);
+    if (!isset($query['sort_by'])) {
+        $query['sort_by_default'] = '';
+        $query['sort_by'] = 'created';
+    }
+    if (!isset($query['sort_order'])) {
+        $query['sort_order_default'] = '';
+        $query['sort_order'] = 'desc';
+    }
+    // Add the query about the year.
+    $query['filter'][] = [
+        'join' => 'and',
+        'field' => $propertyId,
+        'type' => 'yreq',
+        'val' => $currentYear,
+    ];
+    $resources = $api->search($resourceName, $query)->getContent();
+    $query = $originalQuery;
+}
+
+$js = <<<'JS'
+    $(document).ready(function() {
+        const input = $('#value-year-select');
+        input.on('change', function(e) {
+            const url = input.data('url') ? input.data('url') : window.location;
+            const fragment = input.data('fragment') ? '#' + input.data('fragment') : '';
+            const key = input.prop('name');
+            const selectedOption = input.find(':selected');
+            const value = selectedOption.val();
+            window.location = url + '?' + $.param({[key]: value}) + fragment;
+        });
+    });
+    JS;
+$this->headScript()->appendScript($js);
 ?>
+
+<div class="block preview-block browse-preview-filter-year">
+
+    <?php if ($heading): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+
+    <div class="browse-preview-filter-year-header">
+        <div id="browse-preview-filter-year-filter">
+            <label>
+                <?= $translate('Filter by year:') ?>
+                <select id="value-year-select" name="value_year" data-url="<?= $escapeAttr($url(null, [], true)) ?>" data-fragment="browse-preview-filter-year">
+                    <option value=""<?= $currentYear ? '' : ' selected="selected"' ?>><?= $translate('All years') ?></option>
+                    <?php foreach ($years as $year): ?>
+                    <option value="<?= $year ?>"<?= $year === $currentYear ? ' selected="selected"' : '' ?>"><?= $year ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <ul class="resource-list preview">
+    <?php
+    foreach ($resources as $resource):
+        $heading = '';
+        $body = '';
+        if ($showHeading) {
+            $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle($untitled, $langValue);
+        }
+        if ($showBody) {
+            $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : $resource->displayDescription(null, $langValue);
+        }
+        $linkContent = ($showThumbnail ? $thumbnail($resource, 'medium') : '')
+            . ($showHeading ? '<span class="resource-name">' . $escape($heading) . '</span>' : '');
+        ?>
+        <li class="<?= $resourceType ?> resource">
+            <?php if ($linkContent !== ''): ?>
+                <?= $resource->linkRaw($linkContent, null, ['class' => 'resource-link']) ?>
+            <?php endif; ?>
+            <?php if ($showBody && $body): ?>
+            <div class="description"><?= $escapeValueOrGetHtml($body) ?></div>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+
+    <?php if ($linkText): ?>
+        <?= $hyperlink($linkText, $url(
+            'site/resource', ['controller' => $resourceType, 'action' => 'browse'], ['query' => $query], true
+        )) ?>
+    <?php endif; ?>
 
 </div>
