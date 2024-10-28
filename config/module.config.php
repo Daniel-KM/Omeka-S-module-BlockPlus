@@ -80,6 +80,7 @@ return [
             'htmlDivToolsEnd' => Site\ResourcePageBlockLayout\HtmlDivToolsEnd::class,
             'htmlSectionStart' => Site\ResourcePageBlockLayout\HtmlSectionStart::class,
             'htmlSectionEnd' => Site\ResourcePageBlockLayout\HtmlSectionEnd::class,
+            'linkedResourcesByItemSet' => Site\ResourcePageBlockLayout\LinkedResourcesByItemSet::class,
             'mediaPartOfItem' => Site\ResourcePageBlockLayout\MediaPartOfItem::class,
             'messages' => Site\ResourcePageBlockLayout\Messages::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,

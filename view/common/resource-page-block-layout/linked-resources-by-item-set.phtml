@@ -1,0 +1,148 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $objectResource Alias of resource.
+ * @var array $subjectValues List of all property terms, resource ids and titles (not filtered and not paginated).
+ * @var array $itemSetsTitles List of all item set ids and titles (not filtered and not paginated).
+ * @var array $itemSetsItems List of all item ids by item set (filtered by current item set, not paginated).
+ * @var string $resourceType Always "items" for now.
+ * @var int $totalCount
+ * @var int $page
+ * @var int $perPage Always 25 for now.
+ * @var \Omeka\Api\Representation\ItemSetRepresentation $currentItemSet Filtering item set if any.
+ * @var int|null $currentItemSetId Filtering item set id if any.
+ *
+ * Here:
+ * @var \Omeka\Api\Representation\ItemRepresentation[] $items[]
+ */
+
+// To simplify themes, the ids and classes are the same than the resource block linked-resources.
+
+use \Laminas\Form\Element\Select;
+
+// linked-resource, search/result and item/browse are similar.
+
+if (!$subjectValues) return;
+
+$plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
+$api = $plugins->get('api');
+$setting = $plugins->get('setting');
+$escape = $plugins->get('escapeHtml');
+$assetUrl = $plugins->get('assetUrl');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
+$pagination = $plugins->get('pagination');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
+// Set up pagination.
+$pagination = $pagination(null, $totalCount, $page, $perPage);
+$fragment = 'resources-linked';
+$pagination->setFragment($fragment);
+
+// Set up locale.
+$filterLocale = (bool) $setting('filter_locale_values');
+$siteLang = $plugins->get('lang')();
+$lang = $filterLocale ? $siteLang : null;
+$langValue = $filterLocale ? [$siteLang, ''] : null;
+$untitled = $translate('[Untitled]');
+
+// Limit to the current page.
+$itemSetsItemsPaged = array_slice($itemSetsItems, ($page - 1) * $perPage, $perPage, true);
+
+// List item ids to prepare full items, that should be indexed by item id.
+$items = [];
+$itemIds = [];
+$itemsByItemSets = [];
+foreach ($itemSetsItemsPaged as $itemSetItem) {
+    $itemIds[$itemSetItem['item_id']] = null;
+}
+$itemIds = array_keys($itemIds);
+foreach ($itemIds ? $api->search('items', ['id' => $itemIds])->getContent() : [] as $item) {
+    $items[$item->id()] = $item;
+}
+
+// Group the item ids by item sets.
+$itemsByItemSets = [];
+foreach ($itemSetsItemsPaged as $itemSetItem) {
+    $itemsByItemSets[$itemSetItem['item_set_id']][] = $itemSetItem['item_id'];
+}
+
+$js = <<<'JS'
+    $(document).ready(function() {
+        const input = $('#resource-item-set-select');
+        input.on('change', function(e) {
+            const url = input.data('url') ? input.data('url') : window.location;
+            const fragment = input.data('fragment') ? '#' + input.data('fragment') : '';
+            const key = input.prop('name');
+            const selectedOption = input.find(':selected');
+            const value = selectedOption.val();
+            window.location = url + '?' + $.param({[key]: value}) + fragment;
+        });
+    });
+    JS;
+$this->headScript()->appendScript($js);
+?>
+
+<div id="resources-linked" class="block resource-block block-linked-resources">
+    <h3><?= $translate('Linked resources') ?></h3>
+    <div id="linked-resources">
+        <div class="linked-header">
+            <div id="linked-filter">
+                <label>
+                    <?= $translate('Filter by item sets:') ?>
+                    <select id="resource-item-set-select" name="resource_item_set_id" data-url="<?= $escapeAttr($url(null, [], true)) ?>" data-fragment="resources-linked">
+                        <option value=""<?= $currentItemSetId ? '' : ' selected="selected"' ?>><?= $translate('All item sets') ?></option>
+                        <?php foreach ($itemSetsTitles as $itemSetId => $itemSetTitle): ?>
+                        <option value="<?= $itemSetId ?>"<?= $currentItemSetId === $itemSetId ? ' selected="selected"' : '' ?> data-id="<?= $itemSetId ?>"><?= $escape($itemSetTitle) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+            </div>
+            <?= $pagination ?>
+        </div>
+
+        <?php
+        foreach ($itemsByItemSets as $itemSetIId => $itemIds):
+            $caption = sprintf($translate('Items of item set: %s'), $itemSetsTitles[$itemSetIId]);
+            ?>
+        <table>
+            <caption class="linked-resource-item-set"><?= $escape($caption) ?></caption>
+            <thead>
+                <tr>
+                    <th><?= $translate('Title') ?></th>
+                    <th><?= $translate('Item sets') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($itemIds as $itemId): ?>
+                <tr class="linked-resource">
+                    <td><?= $items[$itemId]->linkPretty('square', null, null, null, $langValue) ?></td>
+                    <td class="multiple item-sets">
+                        <?php $itemItemSets = $items[$itemId]->itemSets();
+                        if ($itemItemSets): ?>
+                        <ul class="item-sets">
+                            <?php foreach ($items[$itemId]->itemSets() as $itemSet): ?>
+                            <li><span class="item-set"><?= $itemSet->link($itemSetsTitles[$itemSet->id()]) ?></span></li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php endforeach; ?>
+
+        <?php if ($totalCount > $perPage): ?>
+        <div class="linked-footer">
+            <?= $pagination ?>
+        </div>
+        <?php endif; ?>
+
+    </div>
+</div>

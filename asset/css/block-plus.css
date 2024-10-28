@@ -315,3 +315,8 @@ nav.breadcrumbs > ol > li {
     list-style: none;
     margin-right: 1em;
 }
+
+/* Linked resources by item set */
+#linked-resources .item-sets {
+    list-style-type: none;
+}
