@@ -20,7 +20,7 @@ $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
-$searchingValue = $plugins->has('$searchingValue') ? $plugins->get('searchingValue') : null;
+$searchingValue = $plugins->has('searchingValue') ? $plugins->get('searchingValue') : null;
 
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $this->lang();
