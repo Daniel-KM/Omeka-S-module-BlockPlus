@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-29 00:00+0000\n"
+"POT-Creation-Date: 2024-10-28 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "This module requires module %1$s version %2$s or greater."
 msgstr ""
 
-#: data/scripts/upgrade.php:32 Module.php:37
+#: data/scripts/upgrade.php:34 Module.php:37
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr ""
@@ -122,12 +122,12 @@ msgid "Print"
 msgstr ""
 
 #: src/View/Helper/Breadcrumbs.php:408 src/View/Helper/Breadcrumbs.php:418
-#: src/View/Helper/Breadcrumbs.php:446 src/View/Helper/Breadcrumbs.php:481
-#: src/View/Helper/Breadcrumbs.php:487
+#: src/View/Helper/Breadcrumbs.php:460 src/View/Helper/Breadcrumbs.php:496
+#: src/View/Helper/Breadcrumbs.php:502
 msgid "Dashboard"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:424 src/View/Helper/Breadcrumbs.php:508
+#: src/View/Helper/Breadcrumbs.php:424 src/View/Helper/Breadcrumbs.php:523
 msgid "Basket"
 msgstr ""
 
@@ -135,39 +135,43 @@ msgstr ""
 msgid "Collecting"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:449
-msgid "Login"
+#: src/View/Helper/Breadcrumbs.php:439 src/View/Helper/Breadcrumbs.php:526
+msgid "Selection for contact"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:452
-msgid "Register"
-msgstr ""
-
-#: src/View/Helper/Breadcrumbs.php:455
-msgid "Authentication error"
-msgstr ""
-
-#: src/View/Helper/Breadcrumbs.php:499
-msgid "Update account"
-msgstr ""
-
-#: src/View/Helper/Breadcrumbs.php:502
-msgid "Update email"
-msgstr ""
-
-#: src/View/Helper/Breadcrumbs.php:505
-msgid "Accept terms"
-msgstr ""
-
-#: src/View/Helper/Breadcrumbs.php:511
+#: src/View/Helper/Breadcrumbs.php:446 src/View/Helper/Breadcrumbs.php:529
 msgid "Selection"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:529
+#: src/View/Helper/Breadcrumbs.php:463
+msgid "Login"
+msgstr ""
+
+#: src/View/Helper/Breadcrumbs.php:466
+msgid "Register"
+msgstr ""
+
+#: src/View/Helper/Breadcrumbs.php:469
+msgid "Authentication error"
+msgstr ""
+
+#: src/View/Helper/Breadcrumbs.php:514
+msgid "Update account"
+msgstr ""
+
+#: src/View/Helper/Breadcrumbs.php:517
+msgid "Update email"
+msgstr ""
+
+#: src/View/Helper/Breadcrumbs.php:520
+msgid "Accept terms"
+msgstr ""
+
+#: src/View/Helper/Breadcrumbs.php:547
 msgid "Current page"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:572
+#: src/View/Helper/Breadcrumbs.php:590
 msgid "Collections"
 msgstr ""
 
@@ -176,6 +180,10 @@ msgstr ""
 #: view/common/block-template/breadcrumbs-standard.phtml:25
 #: view/common/breadcrumbs.phtml:34
 msgid "Breadcrumb"
+msgstr ""
+
+#: view/common/block-layout/mapping-block-search.phtml:34
+msgid "Search on map"
 msgstr ""
 
 #: view/common/block-layout/twitter.phtml:16
@@ -247,45 +255,45 @@ msgstr ""
 msgid "The vocabulary \"{vocabulary}\" was updated successfully."
 msgstr ""
 
-#: data/scripts/upgrade.php:111
+#: data/scripts/upgrade.php:113
 msgid ""
 "Change: The method \"blockMetadata()\" returns an array by default for key "
 "\"params_json\". Use key \"params_json_object\" to keep object output."
 msgstr ""
 
-#: data/scripts/upgrade.php:121
+#: data/scripts/upgrade.php:123
 msgid "The vocabulary \"{vocabulary}\" is not installed."
 msgstr ""
 
-#: data/scripts/upgrade.php:135
+#: data/scripts/upgrade.php:137
 msgid "Is reserved Access"
 msgstr ""
 
-#: data/scripts/upgrade.php:136
+#: data/scripts/upgrade.php:138
 msgid "Gives an ability for private resource to be previewed."
 msgstr ""
 
-#: data/scripts/upgrade.php:140
+#: data/scripts/upgrade.php:142
 msgid "Is new resource"
 msgstr ""
 
-#: data/scripts/upgrade.php:141
+#: data/scripts/upgrade.php:143
 msgid "Allows to identify a resource as a new one."
 msgstr ""
 
-#: data/scripts/upgrade.php:145
+#: data/scripts/upgrade.php:147
 msgid "Category"
 msgstr ""
 
-#: data/scripts/upgrade.php:146
+#: data/scripts/upgrade.php:148
 msgid "Non-standard topic that can be used for some purposes."
 msgstr ""
 
-#: data/scripts/upgrade.php:219
+#: data/scripts/upgrade.php:221
 msgid "The block \"Assets\" was merged with the new upstream block \"Asset\"."
 msgstr ""
 
-#: data/scripts/upgrade.php:223
+#: data/scripts/upgrade.php:225
 msgid ""
 "You may have to check the pages when a specific template is used, in "
 "particular for deprecated keys \"title\", replaced by \"alt_link_title\", "
@@ -293,191 +301,191 @@ msgid ""
 "title, or asset title)."
 msgstr ""
 
-#: data/scripts/upgrade.php:227
+#: data/scripts/upgrade.php:229
 msgid ""
 "Furthermore, it is recommended to rename \"assets\" templates as \"asset-"
 "xxx\" and to update pages accordingly. You may replace the default template "
 "with \"asset-block\" too."
 msgstr ""
 
-#: data/scripts/upgrade.php:231
+#: data/scripts/upgrade.php:233
 msgid "The block still supports html captions and media assets."
 msgstr ""
 
-#: data/scripts/upgrade.php:238
+#: data/scripts/upgrade.php:240
 msgid "It’s now possible to maximize the field \"Html\" in page edition."
 msgstr ""
 
-#: data/scripts/upgrade.php:242
+#: data/scripts/upgrade.php:244
 msgid "It’s now possible to add footnotes in fields \"Html\" in page edition."
 msgstr ""
 
-#: data/scripts/upgrade.php:268
+#: data/scripts/upgrade.php:270
 msgid ""
 "It’s now possible to choose mode of display to edit html blocks of pages in "
 "main params."
 msgstr ""
 
-#: data/scripts/upgrade.php:275
+#: data/scripts/upgrade.php:277
 msgid ""
 "The output for block D3 Graph was modified. Check it if you modified the "
 "template in your theme."
 msgstr ""
 
-#: data/scripts/upgrade.php:425
+#: data/scripts/upgrade.php:427
 msgid ""
 "Template \"Asset\": The variable $assets has been replaced by $attachments; "
 "attachment key \"title\" by \"alt_link_title\"; attachment key \"url\" was "
 "removed. Check it if you customized template."
 msgstr ""
 
-#: data/scripts/upgrade.php:431
+#: data/scripts/upgrade.php:433
 msgid ""
 "The key \"url\" of attachments of block \"Asset\" was removed. The block "
 "template should be updated if you customized it in pages: {html}"
 msgstr ""
 
-#: data/scripts/upgrade.php:455
+#: data/scripts/upgrade.php:457
 msgid ""
 "The feature \"Breadcrumbs\" was moved from module \"Menu\" into this module. "
 "Upgrade is automatic. Check your options if you use it."
 msgstr ""
 
-#: data/scripts/upgrade.php:460
+#: data/scripts/upgrade.php:462
 msgid ""
 "It is now possible to define a breadcrumbs (may need to be added inside "
 "theme)."
 msgstr ""
 
-#: data/scripts/upgrade.php:478
+#: data/scripts/upgrade.php:480
 msgid ""
 "Two new resource page blocks has been added, in particular to display "
 "buttons to previous and next resource (require module Easy Admin)."
 msgstr ""
 
-#: data/scripts/upgrade.php:772 data/scripts/upgrade.php:1382
+#: data/scripts/upgrade.php:774 data/scripts/upgrade.php:1384
 msgid ""
 "The block \"Separator\" was replaced by the Omeka block \"Line Break\" with "
 "block class \"transparent\" and layout class \"separator\"."
 msgstr ""
 
-#: data/scripts/upgrade.php:792
+#: data/scripts/upgrade.php:794
 msgid ""
 "The options \"alignment\" and \"divclass\" of some blocks were moved to "
 "block layout."
 msgstr ""
 
-#: data/scripts/upgrade.php:841
+#: data/scripts/upgrade.php:843
 msgid ""
 "Site {site_slug} / Page {page_slug}: Type \"intermediate\" and \"end\" "
 "divisions must be after a block \"start\" or \"intermediate\"."
 msgstr ""
 
-#: data/scripts/upgrade.php:859
+#: data/scripts/upgrade.php:861
 msgid ""
 "Site {site_slug} / Page {page_slug}: Unauthorized type \"{type}\" for block "
 "division."
 msgstr ""
 
-#: data/scripts/upgrade.php:877
+#: data/scripts/upgrade.php:879
 msgid ""
 "Site {site_slug} / Page {page_slug}: A block \"division\" cannot be single."
 msgstr ""
 
-#: data/scripts/upgrade.php:890
+#: data/scripts/upgrade.php:892
 msgid ""
 "Site {site_slug} / Page {page_slug}: The first division block must be of "
 "type \"start\"."
 msgstr ""
 
-#: data/scripts/upgrade.php:902
+#: data/scripts/upgrade.php:904
 msgid ""
 "Site {site_slug} / Page {page_slug}: The last division block must be of type "
 "\"end\"."
 msgstr ""
 
-#: data/scripts/upgrade.php:913
+#: data/scripts/upgrade.php:915
 msgid "Site {site_slug} / Page {page_slug}: Some divisions have no end."
 msgstr ""
 
-#: data/scripts/upgrade.php:970
+#: data/scripts/upgrade.php:972
 msgid ""
 "Site {site_slug} / Page {page_slug}: The migration does not manage nested "
 "divisions. You should finalize migration of the page manually, for example "
 "with grid and block groups."
 msgstr ""
 
-#: data/scripts/upgrade.php:1028
+#: data/scripts/upgrade.php:1030
 msgid ""
 "The blocks Division were replaced by a group of blocks when possible (not "
 "nested). See messages above or logs for issues."
 msgstr ""
 
-#: data/scripts/upgrade.php:1081
+#: data/scripts/upgrade.php:1083
 msgid ""
 "The setting \"html\" was removed from block Browse Preview. A new block "
 "\"Html\" was prepended to all blocks that had a filled html. You may check "
 "pages for styles: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:1143
+#: data/scripts/upgrade.php:1145
 msgid ""
 "The block Browse Preview is no more managed by this module. If you used "
 "specific settings, use the block Search Results."
 msgstr ""
 
-#: data/scripts/upgrade.php:1150 data/scripts/upgrade.php:1501
+#: data/scripts/upgrade.php:1152 data/scripts/upgrade.php:1503
 msgid ""
 "The block \"Browse Preview\" filled with specific features (query with "
 "specific site, pagination and sort headings) were replaced by block Search "
 "results and template \"search-results-browse-preview-deprecated\": {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:1229
+#: data/scripts/upgrade.php:1231
 msgid ""
 "The setting \"heading\" was removed from blocks. A new block \"Heading\" was "
 "prepended to all blocks that had a filled heading. You may check pages for "
 "styles: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:1236
+#: data/scripts/upgrade.php:1238
 msgid ""
 "A new block \"Heading\" allows to separate blocks with a html heading and "
 "replaces previous blocks with setting \"heading\"."
 msgstr ""
 
-#: data/scripts/upgrade.php:1261
+#: data/scripts/upgrade.php:1263
 msgid ""
 "The old block \"Page Date\" was replaced by the core one \"Page Date Time\". "
 "The variable names were changed, so check your theme if needed."
 msgstr ""
 
-#: data/scripts/upgrade.php:1311
+#: data/scripts/upgrade.php:1313
 msgid ""
 "For block Asset, the keys \"class\" and \"url\" of assets were moved to the "
 "start of the caption and available only with specific block templates."
 msgstr ""
 
-#: data/scripts/upgrade.php:1316
+#: data/scripts/upgrade.php:1318
 msgid ""
 "The block Item Showcase was renamed Media in Omeka S v4.1. The option "
 "\"linkType\" was renamed \"link\". Check your themes to update them."
 msgstr ""
 
-#: data/scripts/upgrade.php:1321
+#: data/scripts/upgrade.php:1323
 msgid ""
 "The templates item-showcase-xxx were renamed media-item-showcase-xxx. Check "
 "your themes to update them or to move them to common/block-template and to "
 "add them in theme.ini as templates for block \"Media\"."
 msgstr ""
 
-#: data/scripts/upgrade.php:1326
+#: data/scripts/upgrade.php:1328
 msgid ""
 "The old template mechanism of the module BlockPlus was replaced by the new "
 "mechanism of Omeka S v4.1."
 msgstr ""
 
-#: data/scripts/upgrade.php:1331
+#: data/scripts/upgrade.php:1333
 msgid ""
 "It is recommended to check your themes and to move specific templates from "
 "\"view/common/block-layout\" to \"view/common/block-template\" and to "
@@ -486,7 +494,7 @@ msgid ""
 "should be updated in each page."
 msgstr ""
 
-#: data/scripts/upgrade.php:1336
+#: data/scripts/upgrade.php:1338
 msgid ""
 "Because old features of the module were integrated inside Omeka S since v4.1 "
 "({link}user doc{link_end}, {link_2}dev doc{link_end}), the blocks Asset, "
@@ -494,14 +502,14 @@ msgid ""
 "Date, and Page Title are no more overridden."
 msgstr ""
 
-#: data/scripts/upgrade.php:1347
+#: data/scripts/upgrade.php:1349
 msgid ""
 "Warning: It is important to check all site pages because the integration of "
 "the module features in Omeka S is a complex process and some features are "
 "not upgradable."
 msgstr ""
 
-#: data/scripts/upgrade.php:1351
+#: data/scripts/upgrade.php:1353
 msgid ""
 "In particular, check deprecated block templates and blocks Asset, Browse "
 "Preview and nested Division. Check styles too, because some html <div> and "
@@ -510,78 +518,78 @@ msgid ""
 "time, some old settings will be removed."
 msgstr ""
 
-#: data/scripts/upgrade.php:1431
+#: data/scripts/upgrade.php:1433
 msgid ""
 "The template name of some of the blocks {list} where renamed for "
 "deprecation. Check your theme if you use them. Matching pages: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:1553
+#: data/scripts/upgrade.php:1555
 msgid ""
 "The setting \"heading\" was removed from blocks Search Results. A new block "
 "\"Heading\" was prepended to all blocks that had a filled heading. You may "
 "check pages for styles: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:1633
+#: data/scripts/upgrade.php:1635
 msgid ""
 "These templates for block \"Html\" should contain `$block->dataValue('html', "
 "'')` because `$html` is no more available by default. Matching files: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:1659
+#: data/scripts/upgrade.php:1661
 msgid ""
 "The block \"Browse Preview\" do not have the variable `$site` anymore. Check "
 "your theme if you customized it. Matching pages: {json}."
 msgstr ""
 
-#: data/scripts/upgrade.php:1705
+#: data/scripts/upgrade.php:1707
 msgid ""
 "The template layout of some blocks was renamed. Check your theme if you used "
 "them. Matching pages: {json}."
 msgstr ""
 
-#: data/scripts/upgrade.php:1814
+#: data/scripts/upgrade.php:1816
 msgid ""
 "The data of blocks \"Asset\" were migrated to manage asset class and url as "
 "the first two lines of the caption. Update your theme like asset templates. "
 "Matching pages: {json}."
 msgstr ""
 
-#: data/scripts/upgrade.php:1909
+#: data/scripts/upgrade.php:1911
 msgid ""
 "The setting \"heading\" was removed from block Media. A new block "
 "\"Heading\" was prepended to all blocks that had a filled heading. You may "
 "check pages for styles: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2026
+#: data/scripts/upgrade.php:2028
 msgid ""
 "The block Resource Text has been converted to a group of blocks Media and "
 "Html. The option \"caption position\" was moved to layout class. You may "
 "check pages for styles: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2042
+#: data/scripts/upgrade.php:2044
 msgid ""
 "The variables \"$html\" and \"$captionPosition\" were removed from block "
 "Resource Text (converted into block Media). You should fix them: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2090
+#: data/scripts/upgrade.php:2092
 msgid ""
 "The option \"type\" of block Page Metadata was migrated to page layout "
 "option and page templates were added. Update your theme if needed. Matching "
 "pages: {json}."
 msgstr ""
 
-#: data/scripts/upgrade.php:2100
+#: data/scripts/upgrade.php:2102
 msgid ""
 "The option \"type\" of block Page Metadata cannot be migrated because a page "
 "layout template was already set. Matching pages: {json}."
 msgstr ""
 
-#: data/scripts/upgrade.php:2108
+#: data/scripts/upgrade.php:2110
 msgid ""
 "All themes that contain custom templates of the blocks should be moved from "
 "\"view/common/block-layout\" to \"view/common/block-template\" except if "
@@ -589,10 +597,37 @@ msgid ""
 "for more information about migration."
 msgstr ""
 
-#: data/scripts/upgrade.php:2132
+#: data/scripts/upgrade.php:2134
 msgid ""
 "New resource blocks allow to wrap other blocks with html elements <div> and "
 "<section>."
+msgstr ""
+
+#: data/scripts/upgrade.php:2141
+msgid ""
+"It is now possible to append a list of blocks via a simple click when "
+"editing a site page."
+msgstr ""
+
+#: data/scripts/upgrade.php:2159
+msgid ""
+"If you created some lists of blocks in version 3.4.25, the block group is no "
+"more implicit, so you should update each group manually: prepend `o:block.0."
+"o:layout = \"blockGroup\"` and prepend `blocks.0.` to optional root `o:"
+"layout_data`. Furthermore, the key \"block_groups\" in config was renamed "
+"\"page_models\"."
+msgstr ""
+
+#: data/scripts/upgrade.php:2164
+msgid ""
+"It is now possible to select a page model with page settings and blocks when "
+"creating a new page."
+msgstr ""
+
+#: data/scripts/upgrade.php:2168
+msgid ""
+"It is now possible to create a page model or a list of blocks via a simple "
+"click when editing a page."
 msgstr ""
 
 #: Module.php:46
@@ -667,7 +702,13 @@ msgid ""
 "features in page {url}."
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:712
+#: src/View/Helper/PageBlockMetadataTrait.php:48
+msgid ""
+"Since Omeka S 4.1, the metadata \"type\" is replaced by the page template "
+"name (key \"template\"). Check your theme."
+msgstr ""
+
+#: src/View/Helper/Breadcrumbs.php:730
 msgid "Contributions"
 msgstr ""
 
@@ -899,6 +940,11 @@ msgstr ""
 msgid "Select resource template…"
 msgstr ""
 
+#: src/Form/SearchResultsFieldset.php:110
+#: src/Site/BlockLayout/SearchForm.php:21
+msgid "Search form"
+msgstr ""
+
 #: src/Form/D3GraphFieldset.php:17 src/Form/PageMetadataFieldset.php:62
 #: src/Form/BlockFieldset.php:17
 msgid "Params"
@@ -1075,6 +1121,10 @@ msgstr ""
 msgid "Download primary media"
 msgstr ""
 
+#: src/Site/ResourcePageBlockLayout/LinkedResourcesByItemSet.php:14
+msgid "Linked resources by item set"
+msgstr ""
+
 #: src/Site/ResourcePageBlockLayout/Messages.php:16
 #: src/Site/BlockLayout/Messages.php:21
 msgid "Messages"
@@ -1120,10 +1170,6 @@ msgstr ""
 msgid "Showcase"
 msgstr ""
 
-#: src/Site/BlockLayout/SearchForm.php:21
-msgid "Search form"
-msgstr ""
-
 #: src/Site/BlockLayout/SearchForm.php:62
 #, php-format
 msgid "The search config \"%s\" has no form associated."
@@ -1131,6 +1177,10 @@ msgstr ""
 
 #: src/Site/BlockLayout/PageMetadata.php:17
 msgid "Page metadata"
+msgstr ""
+
+#: src/Site/BlockLayout/MappingMapSearch.php:13
+msgid "Map by search"
 msgstr ""
 
 #: src/Site/BlockLayout/RedirectToUrl.php:15
@@ -1337,132 +1387,152 @@ msgstr ""
 msgid "A group of blocks with a heading, a media and a field for html."
 msgstr ""
 
-#: config/module.config.php:123
+#: config/module.config.php:128
 msgid "Block Plus: Home page"
 msgstr ""
 
-#: config/module.config.php:124
+#: config/module.config.php:129
 msgid "Block Plus: Exhibit"
 msgstr ""
 
-#: config/module.config.php:125
+#: config/module.config.php:130
 msgid "Block Plus: Exhibit page"
 msgstr ""
 
-#: config/module.config.php:126
+#: config/module.config.php:131
 msgid "Block Plus: Simple page"
 msgstr ""
 
-#: config/module.config.php:130
+#: config/module.config.php:135
 msgid "Block Plus: Asset with class and url"
 msgstr ""
 
-#: config/module.config.php:131
+#: config/module.config.php:136
 msgid "Block Plus: Bootstrap Hero"
 msgstr ""
 
-#: config/module.config.php:132
+#: config/module.config.php:137
 msgid "Block Plus: Left Right"
 msgstr ""
 
-#: config/module.config.php:133
+#: config/module.config.php:138
 msgid "Block Plus: Partners"
 msgstr ""
 
-#: config/module.config.php:134
+#: config/module.config.php:139
 msgid "Block Plus: Asset (deprecated)"
 msgstr ""
 
-#: config/module.config.php:137
+#: config/module.config.php:142
 msgid "Block Plus: Arborescence"
 msgstr ""
 
-#: config/module.config.php:138 config/module.config.php:153
+#: config/module.config.php:143 config/module.config.php:163
 msgid "Block Plus: Glossary"
 msgstr ""
 
-#: config/module.config.php:141
+#: config/module.config.php:144
+msgid "Block Plus: Html"
+msgstr ""
+
+#: config/module.config.php:147
 msgid "Block Plus: Omeka breadcrumbs"
 msgstr ""
 
-#: config/module.config.php:144
+#: config/module.config.php:150
 msgid "Block Plus: Carousel"
 msgstr ""
 
-#: config/module.config.php:145
+#: config/module.config.php:151
+msgid "Block Plus: Filter by year"
+msgstr ""
+
+#: config/module.config.php:152
 msgid "Block Plus: Gallery"
 msgstr ""
 
-#: config/module.config.php:146
+#: config/module.config.php:153
 msgid "Block Plus: Subjects"
 msgstr ""
 
-#: config/module.config.php:147 config/module.config.php:174
+#: config/module.config.php:154 config/module.config.php:184
 msgid "Block Plus: Browse preview (deprecated)"
 msgstr ""
 
-#: config/module.config.php:150
+#: config/module.config.php:157
 msgid "Block Plus: Heading link"
 msgstr ""
 
-#: config/module.config.php:154
+#: config/module.config.php:158
+msgid "Block Plus: Details/summary (start)"
+msgstr ""
+
+#: config/module.config.php:159
+msgid "Block Plus: Details/summary (end)"
+msgstr ""
+
+#: config/module.config.php:162
+msgid "Block Plus: Accordion (h3)"
+msgstr ""
+
+#: config/module.config.php:164
 msgid "Block Plus: Page header"
 msgstr ""
 
-#: config/module.config.php:157
+#: config/module.config.php:167
 msgid "Block Plus: Item with metadata (deprecated)"
 msgstr ""
 
-#: config/module.config.php:160
+#: config/module.config.php:170
 msgid "Block Plus: List of pages (deprecated)"
 msgstr ""
 
-#: config/module.config.php:163
+#: config/module.config.php:173
 msgid "Block Plus: List of sites (deprecated)"
 msgstr ""
 
-#: config/module.config.php:167
+#: config/module.config.php:177
 msgid "Block Plus: Item showcase (deprecated)"
 msgstr ""
 
-#: config/module.config.php:168
+#: config/module.config.php:178
 msgid "Block Plus: Resource text (deprecated)"
 msgstr ""
 
-#: config/module.config.php:171
+#: config/module.config.php:181
 msgid "Block Plus: Page date time"
 msgstr ""
 
-#: config/module.config.php:177
+#: config/module.config.php:187
 msgid "Block Plus: Table of contents (deprecated)"
 msgstr ""
 
-#: config/module.config.php:192
+#: config/module.config.php:202
 msgid "Collapse the list of groups of blocks"
 msgstr ""
 
-#: config/module.config.php:193
+#: config/module.config.php:203
 msgid "Expand to display the list of groups of blocks"
 msgstr ""
 
-#: config/module.config.php:194
+#: config/module.config.php:204
 msgid "Insert Footnotes"
 msgstr ""
 
-#: config/module.config.php:195
+#: config/module.config.php:205
 msgid "Url (deprecated)"
 msgstr ""
 
-#: config/module.config.php:196
+#: config/module.config.php:206
 msgid ""
 "Please wait for previous group of blocks to be prepared before adding a new "
 "one."
 msgstr ""
 
-#: config/module.config.php:197
+#: config/module.config.php:207
 msgid "This group does not contain any block."
 msgstr ""
 
-#: config/module.config.php:267
+#: config/module.config.php:277
 msgid "Know more"
 msgstr ""
