@@ -113,6 +113,7 @@ return [
             Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldset::class,
         ],
         'factories' => [
+            Form\Element\PageModelSelect::class => Service\Form\Element\PageModelSelectFactory::class,
             /** @deprecated Since Omeka S v4.1, use core block template mechanism. Will be removed once all modules will be upgraded. */
             Form\Element\TemplateSelect::class => Service\Form\Element\TemplateSelectFactory::class,
             Form\SearchFormFieldset::class => Service\Form\SearchFormFieldsetFactory::class,
