@@ -13,8 +13,8 @@ use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
 
 /**
- * This block is copied in module Internationalisation.
- *
+ * Copy in:
+ * @see \BlockPlus\Site\BlockLayout\MirrorPage
  * @see \Internationalisation\Site\BlockLayout\MirrorPage
  */
 class MirrorPage extends AbstractBlockLayout

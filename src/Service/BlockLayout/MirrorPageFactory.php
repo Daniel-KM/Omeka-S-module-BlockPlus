@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace BlockPlus\Service\BlockLayout;
 
 use BlockPlus\Site\BlockLayout\MirrorPage;
