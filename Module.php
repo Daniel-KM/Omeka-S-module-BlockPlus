@@ -154,12 +154,13 @@ class Module extends AbstractModule
          * @var \Laminas\Log\Logger $logger
          */
         $services = $this->getServiceLocator();
+        $plugins = $services->get('ControllerPluginManager');
         $request = $event->getParam('request');
 
-        $pageModels = $this->getPageModels();
+        $pageModels = $plugins->get('pageModels')();
         $pageModel = $pageModels[$post['page_model']] ?? null;
         if ($pageModel === null) {
-            $messenger = $services->get('ControllerPluginManager')->get('messenger');
+            $messenger = $plugins->get('messenger');
             $logger = $services->get('Omeka\Logger');
             $message = new PsrMessage(
                 'The page model "{page_model}" does not exist.', // @translate
@@ -257,8 +258,11 @@ class Module extends AbstractModule
         $view = $event->getTarget();
         $assetUrl = $view->plugin('assetUrl');
 
+        $services = $this->getServiceLocator();
+        $plugins = $services->get('ControllerPluginManager');
+
         // Remove page models, that are available only during page creation.
-        $pageModels = $this->getPageModels();
+        $pageModels = $plugins->get('pageModels')();
         $blocksGroups = array_filter($pageModels, fn($v): bool => !isset($v['o:layout_data']) && !isset($v['layout_data']));
         $pageBlocksNames = array_combine(array_keys($pageModels), array_map(fn($k, $v): string => $v['o:label'] ?? $v['label'] ?? $k, array_keys($pageModels), $pageModels));
 
@@ -428,8 +432,9 @@ class Module extends AbstractModule
          *
          */
         $services = $this->getServiceLocator();
+        $plugins = $services->get('ControllerPluginManager');
         $request = $event->getParam('request');
-        $messenger = $services->get('ControllerPluginManager')->get('messenger');
+        $messenger = $plugins->get('messenger');
 
         $sitePageData = $request->getContent();
         if (empty($sitePageData['page_model']['label'])) {
@@ -447,7 +452,7 @@ class Module extends AbstractModule
         $store = in_array($toCreate['store'] ?? '', ['main', 'site', 'theme']) ? $toCreate['store'] : 'main';
 
         // Check if the page model name is unique.
-        $pageModels = $this->getPageModels();
+        $pageModels = $plugins->get('pageModels')();
 
         // Slugify the name or use a random name.
         $cleanName = $this->slugify($name === '' ? $label : $name);
@@ -632,43 +637,6 @@ class Module extends AbstractModule
             ];
         }
         ksort($result);
-
-        return $result;
-    }
-
-    /**
-     * Copied:
-     * @see \BlockPlus\Module::getPageModels()
-     * @see \BlockPlus\Service\Form\SitePageFormFactory::getPageModels()
-     */
-    protected function getPageModels(): array
-    {
-        /**
-         * @var array $config
-         * @var \Omeka\Settings\Settings $settings
-         * @var \Omeka\Settings\SiteSettings $siteSettings
-         * @var \Omeka\Site\Theme\Manager $themeManager
-         */
-        $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $settings = $services->get('Omeka\Settings');
-        $siteSettings = $services->get('Omeka\Settings\Site');
-        $themeManager = $services->get('Omeka\Site\ThemeManager');
-
-        $theme = $themeManager->getCurrentTheme();
-        $themeConfig = $theme->getConfigSpec();
-        $themeSettings = $siteSettings->get($theme->getSettingsKey(), []);
-
-        $result = array_merge(
-            $config['page_models'] ?? [],
-            $settings->get('blockplus_page_models', []),
-            $siteSettings->get('blockplus_page_models', []),
-            $themeConfig['page_models'] ?? [],
-            $themeSettings['page_models'] ?? []
-        );
-
-        // TODO Keep main/site/theme order? Use nested select? Add an icon in the list?
-        uasort($result, fn ($a, $b) => strcasecmp($a['o:label'] ?? '', $b['o:label'] ?? ''));
 
         return $result;
     }

@@ -2,15 +2,10 @@
 
 namespace BlockPlus\Form;
 
-use Common\Form\Element as CommonElement;
+use BlockPlus\Form\Element as BlockPlusElement;
 
 class SitePageForm extends \Omeka\Form\SitePageForm
 {
-    /**
-     * @var array
-     */
-    protected $pageModels;
-
     public function init()
     {
         parent::init();
@@ -43,22 +38,15 @@ class SitePageForm extends \Omeka\Form\SitePageForm
             $this
                 ->add([
                     'name' => 'page_model',
-                    'type' => CommonElement\OptionalSelect::class,
+                    'type' => BlockPlusElement\PageModelSelect::class,
                     'options' => [
                         'label' => 'Page models and blocks groups', // @translate
                         'empty_option' => 'Default', // @translate
-                        'value_options' => $models,
                     ],
                     'attributes' => [
                         'id' => 'page-model',
                     ],
                 ]);
         }
-    }
-
-    public function setPageModels(?array $pageModels): self
-    {
-        $this->pageModels = $pageModels;
-        return $this;
     }
 }
