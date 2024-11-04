@@ -14,7 +14,7 @@ use Laminas\Session\Container;
 use Omeka\Module\AbstractModule;
 
 /**
- * BlockPlus
+ * BlockPlus.
  *
  * @copyright Daniel Berthereau, 2018-2024
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
@@ -91,6 +91,24 @@ class Module extends AbstractModule
             \Omeka\Api\Adapter\SitePageAdapter::class,
             'api.update.post',
             [$this, 'handleSitePageUpdatePost']
+        );
+
+        // As long as the core SitePageForm has no event, all derivative forms
+        // should be set.
+        $sharedEventManager->attach(
+            \Omeka\Form\SitePageForm::class,
+            'form.add_elements',
+            [$this, 'handleSitePageForm']
+        );
+        $sharedEventManager->attach(
+            \BlockPlus\Form\SitePageForm::class,
+            'form.add_elements',
+            [$this, 'handleSitePageForm']
+        );
+        $sharedEventManager->attach(
+            \Internationalisation\Form\SitePageForm::class,
+            'form.add_elements',
+            [$this, 'handleSitePageForm']
         );
 
         // Manage main and site settings.
@@ -565,6 +583,39 @@ class Module extends AbstractModule
                 : 'The blocks group "{label}" ({name}) was saved in theme settings.'; // @translate
         }
         $messenger->addSuccess(new PsrMessage($message, ['label' => $label, 'name' => $cleanName]));
+    }
+
+    public function handleSitePageForm(Event $event): void
+    {
+        /** @var \Laminas\Form\Form $form */
+        $form = $event->getTarget();
+
+        // The select for page models is added only on a new page.
+        if (!$form->getOption('addPage')) {
+            return;
+        }
+
+        // The form is updated only when there are page models.
+        $services = $this->getServiceLocator();
+        $plugins = $services->get('ControllerPluginManager');
+        $pageModels = $plugins->get('pageModels')();
+        if (!$pageModels) {
+            return;
+        }
+
+        $form
+            ->add([
+                'name' => 'page_model',
+                'type' => \BlockPlus\Form\Element\PageModelSelect::class,
+                'options' => [
+                    'label' => 'Page models and blocks groups', // @translate
+                    'empty_option' => 'Default', // @translate
+                    'separate_pages_and_blocks' => true,
+                ],
+                'attributes' => [
+                    'id' => 'page-model',
+                ],
+            ]);
     }
 
     public function handleSiteSettings(Event $event): void
