@@ -41,7 +41,7 @@ $pagination = $plugins->get('pagination');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
 // Set up pagination.
-$pagination = $pagination(null, $totalCount, $page, $perPage);
+$pagination = $pagination(null, $currentItemSetId === null ? $totalCount : count($itemSetsItems), $page, $perPage);
 $fragment = 'resources-linked';
 $pagination->setFragment($fragment);
 
