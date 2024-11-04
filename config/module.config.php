@@ -123,6 +123,11 @@ return [
             \Omeka\Form\SitePageForm::class => Form\SitePageForm::class,
         ],
     ],
+    'controller_plugins' => [
+        'factories' => [
+            'pageModels' => Service\ControllerPlugin\PageModelsFactory::class,
+        ],
+    ],
     'page_models' => $pageModels,
     'page_templates' => [
         'home-page' => 'Block Plus: Home page', // @translate
