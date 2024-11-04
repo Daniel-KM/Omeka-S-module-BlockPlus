@@ -49,6 +49,7 @@ class LinkedResourcesByItemSet implements ResourcePageBlockLayoutInterface
         // $perPage = (int) $siteSettings->get('per_page') ?: (int) $settings->get('per_page', 25);
         $perPage = 25;
 
+        // Here, 0 means to display the resources without item set.
         $currentItemSetId = $params->fromQuery('resource_item_set_id');
         $currentItemSetId = is_numeric($currentItemSetId) ? (int) $currentItemSetId : null;
         try {
@@ -65,6 +66,7 @@ class LinkedResourcesByItemSet implements ResourcePageBlockLayoutInterface
         // when filtering item sets. They are already filtered for visibility.
         // There is no pagination here.
         // TODO Filter subject values directly by the item set if any.
+        // $subjectValues is an array of values with keys term, id and title.
         $resourceEntity = $api->read($resourceName, $resource->id(), [], ['responseContent' => 'resource', 'initialize' => false, 'finalize' =>false])->getContent();
         $subjectValues = $currentItemSetId && !$currentItemSet
             ? []
@@ -135,9 +137,11 @@ class LinkedResourcesByItemSet implements ResourcePageBlockLayoutInterface
             $itemWithoutItemSets = array_diff_key(array_column($subjectValues, 'id', 'id'), array_column($itemSetsItems, 'item_id', 'item_id'));
             $itemWithoutItemSets = array_map(fn ($v) => ['item_set_id' => 0, 'item_id' => (int) $v], $itemWithoutItemSets);
 
-            $itemSetsItems = $currentItemSetId === 0
-                ? $itemWithoutItemSets
-                : array_merge($itemWithoutItemSets, $itemSetsItems);
+            if ($currentItemSetId === 0) {
+                $itemSetsItems = $itemWithoutItemSets;
+            } elseif ($currentItemSetId === null) {
+                $itemSetsItems = array_merge($itemWithoutItemSets, $itemSetsItems);
+            }
         }
 
         return $view->partial('common/resource-page-block-layout/linked-resources-by-item-set', [
@@ -153,6 +157,7 @@ class LinkedResourcesByItemSet implements ResourcePageBlockLayoutInterface
             'perPage' => $perPage,
             'currentItemSet' => $currentItemSet,
             'currentItemSetId' => $currentItemSetId,
+            'totalWithoutItemSets' => isset($itemWithoutItemSets) ? count($itemWithoutItemSets) : 0,
             // 'resourcePropertiesAll' => $resourcePropertiesAll,
         ]);
     }

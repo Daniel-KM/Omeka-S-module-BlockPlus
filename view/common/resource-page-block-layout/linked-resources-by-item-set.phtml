@@ -13,6 +13,7 @@
  * @var int $perPage Always 25 for now.
  * @var \Omeka\Api\Representation\ItemSetRepresentation $currentItemSet Filtering item set if any.
  * @var int|null $currentItemSetId Filtering item set id if any.
+ * @var int $totalWithoutItemSets
  *
  * Here:
  * @var \Omeka\Api\Representation\ItemRepresentation[] $items[]
@@ -97,7 +98,7 @@ $this->headScript()->appendScript($js);
                     <?= $translate('Filter by item sets:') ?>
                     <select id="resource-item-set-select" name="resource_item_set_id" data-url="<?= $escapeAttr($url(null, [], true)) ?>" data-fragment="resources-linked">
                         <option value=""<?= $currentItemSetId ? '' : ' selected="selected"' ?>><?= $translate('All item sets') ?></option>
-                        <?php if (count($itemsByItemSets[0])): ?>
+                        <?php if ($totalWithoutItemSets): ?>
                         <option value="0"<?= $currentItemSetId === 0 ? ' selected="selected"' : '' ?> data-id="0"><?= $escape($translate('Items without item set')) ?></option>
                         <?php endif; ?>
                         <?php foreach ($itemSetsTitles as $itemSetId => $itemSetTitle): ?>
