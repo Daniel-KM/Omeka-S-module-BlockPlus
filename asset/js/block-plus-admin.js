@@ -56,7 +56,7 @@
          * `block`, `layout`, `data`, `layout_data` are allowed for simplicity.
          */
 
-        $('#button-page-model').insertAfter('#page-actions a.button.o-icon-public');
+        $('#button-page-model').insertAfter('#page-actions input[name="o:is_public"]');
         $('#page-actions .fields-page-model').insertAfter('#button-page-model');
 
         /**
