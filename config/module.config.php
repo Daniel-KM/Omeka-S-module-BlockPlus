@@ -221,6 +221,7 @@ return [
         ],
         'site_settings' => [
             // Layouts.
+            'blockplus_page_model_rights' => false,
             'blockplus_page_models' => [],
             // Breadcrumbs.
             'blockplus_breadcrumbs_crumbs' => [

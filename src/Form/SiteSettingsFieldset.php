@@ -26,6 +26,18 @@ class SiteSettingsFieldset extends Fieldset
             // Layouts.
 
             ->add([
+                'name' => 'blockplus_page_model_rights',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'element_group' => 'block_plus',
+                    'label' => 'Allow site editor to create page models and groups of blocks', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_page_model_rights',
+                ],
+            ])
+
+            ->add([
                 'name' => 'blockplus_page_models',
                 'type' => CommonElement\IniTextarea::class,
                 'options' => [

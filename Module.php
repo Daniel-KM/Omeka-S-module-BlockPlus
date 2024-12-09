@@ -8,10 +8,13 @@ if (!class_exists(\Common\TraitModule::class)) {
 
 use Common\Stdlib\PsrMessage;
 use Common\TraitModule;
+use Doctrine\Common\Collections\Criteria;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Session\Container;
 use Omeka\Module\AbstractModule;
+use Omeka\Permissions\Assertion\HasSitePermissionAssertion;
+use Omeka\Entity\Site;
 
 /**
  * BlockPlus.
@@ -342,7 +345,15 @@ class Module extends AbstractModule
 
     public function handleViewPageEdit(Event $event): void
     {
-        // TODO Limit rights? Anyway, new page models or blocks group are appended, not overridden.
+        /**
+         * @var \Doctrine\ORM\EntityManager $entityManager
+         */
+        $view = $event->getTarget();
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $siteEntity = $entityManager->find(\Omeka\Entity\Site::class, $view->site->id());
+        if (!$this->canEditPageModel($siteEntity)) {
+            return;
+        }
 
         $fieldset = new \Laminas\Form\Fieldset;
         $fieldset
@@ -413,7 +424,6 @@ class Module extends AbstractModule
             ])
         ;
 
-        $view = $event->getTarget();
         $translate = $view->plugin('translate');
 
         $textCreate = $translate('Create page model'); // @translate
@@ -441,23 +451,32 @@ class Module extends AbstractModule
          * @var array $sitePage Posted form data or page api data.
          *
          * @var array $config
-         * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
          * @var \Omeka\Entity\SitePage $sitePage
          * @var \Omeka\Settings\Settings $settings
          * @var \Omeka\Settings\SiteSettings $siteSettings
          * @var \Omeka\Site\Theme\Theme $theme
          * @var \Omeka\Site\Theme\Manager $themeManager
-         *
+         * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
          */
         $services = $this->getServiceLocator();
-        $plugins = $services->get('ControllerPluginManager');
         $request = $event->getParam('request');
-        $messenger = $plugins->get('messenger');
 
         $sitePageData = $request->getContent();
         if (empty($sitePageData['page_model']['label'])) {
             return;
         }
+
+        $response = $event->getParam('response');
+        $sitePage = $response->getContent();
+        $site = $sitePage->getSite();
+        $siteId = $site->getId();
+
+        if (!$this->canEditPageModel($site)) {
+            return;
+        }
+
+        $plugins = $services->get('ControllerPluginManager');
+        $messenger = $plugins->get('messenger');
 
         $randomString = fn() => '_' . substr(str_replace(["+", "/", "="], "", base64_encode(random_bytes(48))), 0, 4);
 
@@ -489,9 +508,6 @@ class Module extends AbstractModule
         }
 
         // Prepare new page model or blocks group.
-        $response = $event->getParam('response');
-        $sitePage = $response->getContent();
-        $siteId = $sitePage->getSite()->getId();
 
         // Do not store empty values (but "0" is allowed).
         // Do not store grid settings when layout is not grid.
@@ -690,6 +706,51 @@ class Module extends AbstractModule
         ksort($result);
 
         return $result;
+    }
+
+    protected function canEditPageModel(Site $site): bool
+    {
+        /**
+         * @var \Omeka\Permissions\Acl $acl
+         * @var \Omeka\Entity\User $user
+         * @var \Omeka\Entity\SitePermission $sitePermission
+         * @var \Omeka\Settings\SiteSettings $siteSettings
+         *
+         * @see \Omeka\Service\AclFactory::addRulesForSites()
+         * @see \Omeka\Permissions\Assertion\HasSitePermissionAssertion::assert()
+         */
+        $services = $this->getServiceLocator();
+
+        $user = $services->get('Omeka\AuthenticationService')->getIdentity();
+        if (!$user) {
+            return false;
+        }
+
+        $acl = $services->get('Omeka\Acl');
+        $role = $user->getRole();
+        if ($acl->isAdminRole($role)) {
+            return true;
+        }
+
+        if ($site->getOwner()->getId() === $user->getId()) {
+            return true;
+        }
+
+        // HasSitePermissionAssertion is a complex assertion, so use the query
+        // directly.
+        $expr = Criteria::expr();
+        $criteria = Criteria::create()
+            ->where($expr->eq('site', $site))
+            ->andWhere($expr->eq('user', $user));
+        $sitePermission = $site->getSitePermissions()
+            ->matching($criteria)->first();
+        if (!$sitePermission) {
+            return false;
+        }
+
+        $siteSettings = $services->get('Omeka\Settings\Site');
+        $rights = (bool) $siteSettings->get('blockplus_page_model_rights', false, $site->getId());
+        return in_array($sitePermission->getRole(), $rights ? ['admin', 'editor'] : ['admin']);
     }
 
     /**
