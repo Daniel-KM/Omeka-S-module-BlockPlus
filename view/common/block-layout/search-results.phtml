@@ -79,7 +79,7 @@ $siteSlug = $site->slug();
             <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
             <?php endif; ?>
             <?php if ($showHeading && $heading): ?>
-            <h4><span class="resource-name"><?= $resource->link($heading, null, ['class' => 'resource-link']) ?></span></h4>
+            <h4><span class="resource-name"><?= $resource->linkRaw($heading, null, ['class' => 'resource-link']) ?></span></h4>
             <?php endif; ?>
             <?php if ($showBody && $body): ?>
             <div class="description"><?= $body ?></div>
