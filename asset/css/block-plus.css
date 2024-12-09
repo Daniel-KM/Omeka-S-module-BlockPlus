@@ -111,6 +111,15 @@ aside.column {
     stroke-opacity: .3;
 }
 
+/** Dialog */
+
+.dialog-header-close-button {
+    display: block;
+    margin-left: auto;
+    padding: 0;
+    background-color: transparent;
+}
+
 /** Glossary */
 @media screen {
     .glossary-alphabet {

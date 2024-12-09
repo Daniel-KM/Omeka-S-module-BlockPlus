@@ -167,6 +167,7 @@ return [
         ],
         'html' => [
             'html-accordion' => 'Block Plus: Accordion (h3)', // @translate
+            'html-dialog' => 'Block Plus: Dialog (class for name)', // @translate
             'html-glossary' => 'Block Plus: Glossary', // @translate
             'html-page-header' => 'Block Plus: Page header', // @translate
         ],

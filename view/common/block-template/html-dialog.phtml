@@ -1,0 +1,40 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ *
+ * To use this template: add a button or a link somewhere with class="button-dialog"
+ * and an attribute data-dialog-name that has the same name than the html block class to open it.
+ * If the block has no class, the page slug and the block id concatened with an hyphen is used.
+ */
+
+// TODO CSS
+
+$plugins = $this->getHelperPluginManager();
+$assetUrl = $plugins->get('assetUrl');
+$translate = $plugins->get('translate');
+
+$html = $block->dataValue('html', '');
+
+$this->headLink()
+    ->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus'));
+$this->headScript()
+    ->appendFile($assetUrl('js/block-plus.js', 'BlockPlus', 'text/javascript', ['defer' => 'defer']));
+?>
+
+<dialog class="popup popup-dialog" data-dialog-name="<?= $block->layoutDataValue('class') ?: ($block->page()->slug() . '-' . $block->id()) ?>">
+    <div class="dialog-background">
+        <div class="dialog-panel">
+            <div class="dialog-header">
+                <button type="button" class="dialog-header-close-button" title="<?= $translate('Close') ?>">
+                    <span class="dialog-close">🗙</span>
+                </button>
+            </div>
+            <div class="dialog-contents">
+                <div class="blocks-inner page-layout-normal">
+                    <?= $html ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
