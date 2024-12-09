@@ -263,10 +263,12 @@ Some specific templates are available in Browse Preview:
   [Shortcode Carousel] for [Omeka Classic].
 - gallery display with a quick viewer too ("browse-preview-gallery"). This one
   has a specific option to add to the query to display thumbnails as square or
-  medium: `thumbnail_size=medium`. You can see an example on the site [Ontologie du christianisme médiéval en images],
-  from French [Institut national de l’histoire de l’art].
+  medium: `thumbnail_size=medium`. You can see an example on the site
+  [Ontologie du christianisme médiéval en images], from French [Institut national de l’histoire de l’art].
 - filter year: added a select on the top to filter the items by year.
 - subjects: append the subjects to each resource.
+- timeline list: display the list of resources by year and by date. Adapted from
+  the plugin [Timeline Shortcode].
 
 To use them, simply select the wanted template:
 
@@ -309,6 +311,13 @@ Two new options are added in main settings:
 Furthermore, it is possible to add footnotes inside each html field.
 
 For the templates:
+- accordion: display an accordion, for example for a faq. The accordion parts
+  are set with the html heading `h3`.
+- dialog: display a html dialog box. The name of the dialog box should be set in
+  the field "class", for example `dialog-info`. To open it, add a button or an
+  anchor somewhere in the page with the class "button-dialog" and the attribute
+  "data-dialog-name", that should be the same than the name of the dialog:
+  `<button class="button-dialog" data-dialog-name="dialog-info">Open me!</button>`.
 - glossary: display a glossary (see block Block above).
 - page header: a default template with a specific class.
 
@@ -1029,6 +1038,10 @@ See [MIT] license here: http://tympanus.net/codrops/licensing/
 The original template was fixed by KevinMwangi and updated for newer version of
 components (modernizr, smartresize, imagesloaded).
 
+### Timeline list
+
+Adapted from [Timeline Shortcode].
+
 
 Copyright
 ---------
@@ -1063,6 +1076,7 @@ Copyright
 [core block "asset"]: https://omeka.org/s/docs/user-manual/sites/site_pages/#asset
 [Ontologie du christianisme médiéval en images]: https://omci.inha.fr/s/ocmi/page/images
 [Institut national de l’histoire de l’art]: https://www.inha.fr
+[Timeline Shortcode]: https://github.com/ebellempire/TimelineShortcode
 [Menu]: https://gitlab.com/Daniel-KM/Omeka-S-module-Menu
 [Reference]: https://gitlab.com/Daniel-KM/Omeka-S-module-Reference
 [Thesaurus]: https://gitlab.com/Daniel-KM/Omeka-S-module-Thesaurus
