@@ -2199,3 +2199,19 @@ if (version_compare($oldVersion, '3.4.27', '<')) {
         $connection->executeStatement($sql);
     }
 }
+
+if (version_compare($oldVersion, '3.4.30', '<')) {
+    $siteIds = $api->search('sites', [], ['returnScalar' => 'id'])->getContent();
+    foreach ($siteIds as $siteId) {
+        $siteSettings->set('blockplus_page_model_rights', false, $siteId);
+    }
+
+    $message = new PsrMessage(
+        'A new site setting allows to permit site editors to create page models and blocks groups.' // @translate
+    );
+    $messenger->addSuccess($message);
+    $message = new PsrMessage(
+        'New templates were added to block html in order to display an accordion and a dialog box.' // @translate
+    );
+    $messenger->addSuccess($message);
+}
