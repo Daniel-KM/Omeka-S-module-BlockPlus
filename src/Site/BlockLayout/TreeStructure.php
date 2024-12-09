@@ -14,7 +14,7 @@ class TreeStructure extends AbstractBlockLayout implements TemplateableBlockLayo
     /**
      * The default partial view script.
      */
-    const PARTIAL_NAME = 'common/block-layout/tree';
+    const PARTIAL_NAME = 'common/block-layout/tree-structure';
 
     public function getLabel()
     {
