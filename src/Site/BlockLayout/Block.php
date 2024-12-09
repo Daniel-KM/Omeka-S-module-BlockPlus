@@ -44,8 +44,7 @@ class Block extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
         $fieldset->populateValues($dataForm);
 
         $html = '<p>'
-            . $view->translate('A simple block allows to display a partial from the theme.') // @translate
-            . ' ' . $view->translate('Provided samples are a block to display the config, and a block to display the tree view from a tsv/csv file.') // @translate
+            . $view->translate('A simple block allows to display data via one of the templates set in the block layout settings.') // @translate
             . '</p>';
         $html .= $view->formCollection($fieldset, false);
         return $html;

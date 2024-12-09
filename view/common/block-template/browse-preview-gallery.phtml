@@ -86,6 +86,8 @@ $showBody = in_array('resource-body', $components);
     <div class="preview-grid">
         <ul id="og-grid" class="og-grid">
             <?php
+            $heading = '';
+            $body = '';
             $thumbnailSize = @$query['thumbnail_size'] ?: 'square';
             $untitled = $translate('[Untitled]');
             foreach ($resources as $resource):
@@ -102,7 +104,9 @@ $showBody = in_array('resource-body', $components);
                     $mediaLarge = str_replace('/' . $thumbnailSize . '/', '/large/', $mediaThumbnail);
                 }
 
-                $heading = $showHeading ? $resource->displayTitle($untitled, $langValue) : '';
+                if ($showHeading) {
+                    $heading = $resource->displayTitle($untitled, $langValue);
+                }
 
                 if ($showBody) {
                     $body = $resource->displayDescription(null, $langValue);
@@ -111,8 +115,6 @@ $showBody = in_array('resource-body', $components);
                         . '<br/>'
                         . $resource->linkPretty()
                         . '</p>';
-                } else {
-                    $body = '';
                 }
             ?>
             <li>

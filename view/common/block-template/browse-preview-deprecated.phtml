@@ -68,16 +68,14 @@ $sortHeadings = $block->layoutDataValue('sort_headings', []);
 
     <ul class="resource-list preview">
     <?php
+    $heading = '';
+    $body = '';
     foreach ($resources as $resource):
         if ($showHeading) {
             $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle(null, $langValue);
-        } else {
-            $heading = '';
         }
         if ($showBody) {
             $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : $resource->displayDescription(null, $langValue);
-        } else {
-            $body = '';
         }
         $thumb = $showThumbnail ? $thumbnail($resource, 'medium', ['title' => $heading]) : null;
         ?>

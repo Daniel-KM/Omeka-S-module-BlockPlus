@@ -151,9 +151,9 @@ $this->headScript()->appendScript($js);
 
     <ul class="resource-list preview">
     <?php
+    $heading = '';
+    $body = '';
     foreach ($resources as $resource):
-        $heading = '';
-        $body = '';
         if ($showHeading) {
             $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle($untitled, $langValue);
         }

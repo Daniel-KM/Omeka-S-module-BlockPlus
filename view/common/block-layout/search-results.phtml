@@ -6,7 +6,7 @@
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var string $resourceType
  * @var array $query
- * @var array|false $pagination
+ * @var bool $pagination
  * @var array $sortHeadings
  * @var array $components
  * @var string $linkText
@@ -37,7 +37,7 @@ $langValue = $filterLocale ? [$lang, ''] : null;
 $untitled = $translate('[Untitled]');
 $siteSlug = $site->slug();
 
-// Total is available through $this->pagination()->getPaginator().
+// $totalCount = $this->pagination()->getPaginator()->getTotalCount();
 ?>
 
 <?php // This block uses two div by default to comply with common themes. ?>
@@ -60,20 +60,18 @@ $siteSlug = $site->slug();
 
     <ul class="resource-list preview">
     <?php
+    $heading = '';
+    $body = '';
     foreach ($resources as $resource):
         if ($showThumbnailOrHeading) {
             $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : null;
             $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
-        } else {
-            $heading = '';
         }
         if ($showBody) {
             $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
             $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
-        } else {
-            $body = '';
         }
-    ?>
+        ?>
         <li class="<?= $resourceType ?> resource">
             <?php if ($showThumbnail): ?>
             <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
@@ -88,16 +86,12 @@ $siteSlug = $site->slug();
     <?php endforeach; ?>
     </ul>
 
-    <?php
-    if (!empty($pagination)):
-        echo $this->pagination();
-    endif;
-    ?>
+    <?php if (!empty($pagination)): ?>
+        <?= $this->pagination() ?>
+    <?php endif; ?>
 
-    <?php
-    if ($linkText):
-        echo $hyperlink($linkText, $url('site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $siteSlug], ['query' => $query], true));
-    endif;
-    ?>
+    <?php if ($linkText): ?>
+        <?= $hyperlink($linkText, $url('site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $siteSlug], ['query' => $query], true)) ?>
+    <?php endif; ?>
 
 </div>

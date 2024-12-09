@@ -81,9 +81,9 @@ ksort($resourcesByDate);
 
     <ul class="resource-list preview resource-list-date">
     <?php
+    $heading = '';
+    $body = '';
     foreach ($resourcesForDate as $resource):
-        $heading = '';
-        $body = '';
         if ($showHeading) {
             $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle($untitled, $langValue);
         }
