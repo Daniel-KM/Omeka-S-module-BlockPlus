@@ -243,6 +243,38 @@ aside.column {
     }
 }
 
+/** Browse preview timeline */
+/** Adapted from https://github.com/ebellempire/TimelineShortcode */
+
+.timeline-year {
+    font-size: 200%;
+    font-weight: bold;
+    margin: 1em auto;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: .25em;
+}
+.timeline-section-date {
+    font-size: 100%;
+    text-transform: uppercase;
+    font-weight: normal;
+    opacity: .8;
+}
+.timeline-section ul {
+    padding-left: 0;
+    margin-top: 0;
+    list-style-type:none;
+}
+.timeline-section ul li {
+    background: #f2f2f2;
+    margin: .5em 0;
+    padding: 1em;
+}
+.timeline-section ul li img {
+    height: 2em;
+    margin: 0 1em 0 0;
+    vertical-align: bottom;
+}
+
 /* Genericization of omeka item-showcase */
 .showcase .entries {
     margin: 1rem 0;

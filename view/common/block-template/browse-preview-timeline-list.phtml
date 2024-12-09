@@ -1,0 +1,117 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var string $resourceType
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $heading
+ * @var string $linkText
+ * @var array $components
+ * @var array $query
+ */
+
+// TODO Use dl/dt/dd?
+
+$propertyDate = 'dcterms:date';
+
+/**
+ * @var \Common\Stdlib\EasyMeta $easyMeta
+ */
+$plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$easyMeta = $plugins->get('easyMeta')();
+$thumbnail = $plugins->get('thumbnail');
+$siteSetting = $plugins->get('siteSetting');
+$escapeValueOrGetHtml = $plugins->get('escapeValueOrGetHtml');
+
+$filterLocale = (bool) $siteSetting('filter_locale_values');
+$lang = $plugins->get('lang')();
+$langValue = $filterLocale ? [$lang, ''] : null;
+
+$untitled = $translate('[Untitled]');
+
+$headingTerm = $siteSetting('browse_heading_property_term');
+$bodyTerm = $siteSetting('browse_body_property_term');
+
+$showThumbnail = in_array('thumbnail', $components);
+$showHeading = in_array('resource-heading', $components);
+$showBody = in_array('resource-body', $components);
+
+// Sort selected resources by date (the user may forgot it in the query).
+
+$noDate = $translate('[No date]');
+
+$resourcesByDate = [];
+foreach ($resources as $resource) {
+    $date = $resource->value($propertyDate);
+    if ($date) {
+        try {
+            $dateTime = new \DateTime($date);
+            $resourcesByDate[$dateTime->format('Y-m-d')][] = $resource;
+            continue;
+        } catch (Exception $e) {
+            // Skip.
+        }
+    }
+    $resourcesByDate[$noDate][] = $resource;
+}
+ksort($resourcesByDate);
+?>
+
+<div class="block preview-block browse-preview-timeline-list">
+
+    <?php if ($heading): ?>
+    <h2><?= $escape($heading) ?></h2>
+    <?php endif; ?>
+
+    <?php
+    $prevYear = false;
+    foreach ($resourcesByDate as $date => $resourcesForDate):
+        $isDate = $date !== $noDate;
+        $dateTime = $isDate ? (new \DateTime($date)) : null;
+        $year = $dateTime ? $dateTime->format('Y') : null;
+        if ($year !== $prevYear): ?>
+        <div class="timeline-year year-id-<?= $year ?>"><?= $year ?></div>
+        <?php endif; ?>
+        <div id="date-<?= $isDate ? $date : 'none' ?>" class="timeline-section">
+            <div class="timeline-section-date"><?= $dateTime ? $dateTime->format('d F') : $noDate ?></div>
+
+    <ul class="resource-list preview resource-list-date">
+    <?php
+    foreach ($resourcesForDate as $resource):
+        $heading = '';
+        $body = '';
+        if ($showHeading) {
+            $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle($untitled, $langValue);
+        }
+        if ($showBody) {
+            $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : $resource->displayDescription(null, $langValue);
+        }
+        $linkContent = ($showThumbnail ? $thumbnail($resource, 'medium') : '')
+            . ($showHeading ? '<span class="resource-name">' . $escape($heading) . '</span>' : '');
+        ?>
+        <li class="<?= $resourceType ?> resource">
+            <?php if ($linkContent !== ''): ?>
+                <?= $resource->linkRaw($linkContent, null, ['class' => 'resource-link']) ?>
+            <?php endif; ?>
+            <?php if ($showBody && $body): ?>
+            <div class="description"><?= $escapeValueOrGetHtml($body) ?></div>
+            <?php endif; ?>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+
+        </div>
+        <?php $prevYear = $year; ?>
+    <?php endforeach; ?>
+
+    <?php if ($linkText): ?>
+        <?= $hyperlink($linkText, $url(
+            'site/resource', ['controller' => $resourceType, 'action' => 'browse'], ['query' => $query], true
+        )) ?>
+    <?php endif; ?>
+
+</div>
