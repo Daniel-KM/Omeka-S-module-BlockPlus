@@ -58,9 +58,10 @@ class SearchForm extends AbstractBlockLayout implements TemplateableBlockLayoutI
             /** @var \AdvancedSearch\Api\Representation\SearchConfigRepresentation $searchConfig */
             $searchConfig = $view->getSearchConfig($searchConfigId);
             if ($searchConfig && !$searchConfig->form()) {
-                $message = new \Omeka\Stdlib\Message(
-                    'The search config "%s" has no form associated.', // @translate
-                    $searchConfig->path()
+                $message = new \Common\Stdlib\PsrMessage(
+                    'The search config "{search_slug}" has no form associated.', // @translate
+                    // Support of old version of module AdvancedSearch.
+                    ['search_slug' => method_exists($searchConfig, 'path') ? $searchConfig->path() : $searchConfig->slug()]
                 );
                 $view->logger()->err($message);
                 return '';
