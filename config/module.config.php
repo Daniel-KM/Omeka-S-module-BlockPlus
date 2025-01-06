@@ -164,12 +164,14 @@ return [
             'heading-link' => 'Block Plus: Heading link', // @translate
             'heading-details-start' => 'Block Plus: Details/summary (start)', // @translate
             'heading-details-end' => 'Block Plus: Details/summary (end)', // @translate
+            'heading-skip' => 'Block Plus: Skip', // @translate
         ],
         'html' => [
             'html-accordion' => 'Block Plus: Accordion (h3)', // @translate
             'html-dialog' => 'Block Plus: Dialog (class for name)', // @translate
             'html-glossary' => 'Block Plus: Glossary', // @translate
             'html-page-header' => 'Block Plus: Page header', // @translate
+            'html-skip' => 'Block Plus: Skip', // @translate
         ],
         'itemWithMetadata' => [
             'item-with-metadata-deprecated' => 'Block Plus: Item with metadata (deprecated)', // @translate
@@ -187,6 +189,9 @@ return [
         ],
         'pageDateTime' => [
             'page-date-time-plus' => 'Block Plus: Page date time', // @translate
+        ],
+        'pageTitle' => [
+            'page-title-skip' => 'Block Plus: Skip', // @translate
         ],
         'searchResults' => [
             'search-results-browse-preview-deprecated' => 'Block Plus: Browse preview (deprecated)', // @translate
