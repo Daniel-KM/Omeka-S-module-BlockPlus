@@ -1,4 +1,4 @@
-@media screen {
+@media all {
 
     /* Allows to display chosen-select in the bottom of a block. */
     .block.value .collapse + .collapsible {
