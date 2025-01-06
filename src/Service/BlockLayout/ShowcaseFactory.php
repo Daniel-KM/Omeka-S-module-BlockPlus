@@ -10,13 +10,13 @@ class ShowcaseFactory implements FactoryInterface
 {
     /**
      * Create the Showcase block layout service.
+     *
      * @return Showcase
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         return new Showcase(
-            $services->get('Omeka\ApiManager'),
-            $services->get('Omeka\HtmlPurifier')
+            $services->get('Omeka\ApiManager')
         );
     }
 }

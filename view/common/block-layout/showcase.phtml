@@ -3,7 +3,6 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SiteRepresentation $site
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
- * @var string $html
  * @var array $entries Array with keys "entry", "resource_name", "resource", and "site".
  * @var string $thumbnailType
  * @var string $showTitleOption
@@ -27,15 +26,10 @@ $lang = $filterLocale ? $siteLang : null;
 $siteSlug = $site->slug();
 ?>
 
-<div class="block showcase">
-    <?php if (!empty($html)): ?>
-    <div class="content">
-        <?= $html ?>
-    </div>
-    <?php endif; ?>
+<div class="block block-showcase">
     <div class="entries">
         <?php
-        // TODO Move to a function.
+        // TODO Move to a function in the block.
         foreach ($entries as $entry):
             if (empty($entry['entry'])) continue;
             $resource = $entry['resource'];

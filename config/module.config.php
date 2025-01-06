@@ -358,7 +358,6 @@ return [
                 'linkText' => '',
             ],
             'showcase' => [
-                'html' => '',
                 'entries' => [],
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',

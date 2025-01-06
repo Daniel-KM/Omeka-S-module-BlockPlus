@@ -4,7 +4,6 @@ namespace BlockPlus\Form;
 
 use BlockPlus\Form\Element as BlockPlusElement;
 use Common\Form\Element as CommonElement;
-use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 use Omeka\Form\Element as OmekaElement;
 
@@ -15,14 +14,6 @@ class ShowcaseFieldset extends Fieldset
         // Attachments fields are managed separately.
 
         $this
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][html]',
-                'type' => Element\Textarea::class,
-                'attributes' => [
-                    'id' => 'showcase-html',
-                    'class' => 'block-html full wysiwyg',
-                ],
-            ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][entries]',
                 'type' => OmekaElement\ArrayTextarea::class,

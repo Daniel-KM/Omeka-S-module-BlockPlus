@@ -12,7 +12,6 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 use Omeka\Stdlib\ErrorStore;
-use Omeka\Stdlib\HtmlPurifier;
 
 class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
@@ -20,23 +19,19 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
 
     /**
      * The default partial view script.
+     *
+     * Omeka before 4.1 used "item-showcase" and "file". Now, it is "file" only.
      */
     const PARTIAL_NAME = 'common/block-layout/showcase';
 
     /**
-     * @var ApiManager
+     * @var \Omeka\Api\Manager
      */
     protected $api;
 
-    /**
-     * @var HtmlPurifier
-     */
-    protected $htmlPurifier;
-
-    public function __construct(ApiManager $api, HtmlPurifier $htmlPurifier)
+    public function __construct(ApiManager $api)
     {
         $this->api = $api;
-        $this->htmlPurifier = $htmlPurifier;
     }
 
     public function getLabel()
@@ -63,7 +58,6 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $block->getPage()->getSite()
             );
         }
-        $data['html'] = $this->fixEndOfLine($this->htmlPurifier->purify(trim($data['html'])));
         $block->setData($data);
     }
 
@@ -102,9 +96,8 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
         // TODO Include attachments.
         $site = $block->page()->site();
         $vars = [
-            'block' => $block,
             'site' => $site,
-            'html' => $block->dataValue('html', ''),
+            'block' => $block,
             'entries' => $this->listEntryResources($block->dataValue('entries', []) ?? [], $site),
             'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
             'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
