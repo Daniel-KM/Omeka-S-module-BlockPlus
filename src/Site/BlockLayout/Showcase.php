@@ -2,6 +2,7 @@
 
 namespace BlockPlus\Site\BlockLayout;
 
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Manager as ApiManager;
@@ -29,9 +30,15 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
      */
     protected $api;
 
-    public function __construct(ApiManager $api)
+    /**
+     * @param \Laminas\ServiceManager\ServiceLocatorInterface
+     */
+    protected $services;
+
+    public function __construct(ApiManager $api, ServiceLocatorInterface $services)
     {
         $this->api = $api;
+        $this->services = $services;
     }
 
     public function getLabel()
@@ -48,16 +55,9 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
+        $blockRepresentation = new SitePageBlockRepresentation($block, $this->services);
         $data = $block->getData();
-        if (empty($data['entries'])) {
-            $data['entries'] = [];
-        } else {
-            $data['entries'] = $this->listEntries(
-                // TODO ArrayTextarea is not yet filtered here.
-                is_array($data['entries']) ? $data['entries'] : array_map('trim', explode("\n", $this->fixEndOfLine(trim($data['entries'])))),
-                $block->getPage()->getSite()
-            );
-        }
+        $data['entries'] = $this->prepareEntries($blockRepresentation);
         $block->setData($data);
     }
 
@@ -94,13 +94,13 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         // TODO Include attachments.
-        $site = $block->page()->site();
 
-        $entries = $this->listEntryResources($block->dataValue('entries', []) ?? []);
+        $entries = $this->listEntryResources($view, $block);
         if (!$entries) {
             return '';
         }
 
+        $site = $block->page()->site();
         $layout = $block->dataValue('layout');
         $mediaDisplay = $block->dataValue('media_display');
         $thumbnailType = $block->dataValue('thumbnail_type', 'square');
@@ -141,45 +141,62 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
     }
 
     /**
+     * Check and prepare entries one time to be stored.
+     *
      * @see \Feed\Controller\FeedController::appendEntries()
      * @todo Better management of Clean url.
      */
-    protected function listEntries(array $entries, \Omeka\Entity\Site $site): array
+    protected function prepareEntries(SitePageBlockRepresentation $block): array
     {
-        $result = [];
+        $entries = $block->dataValue('entries');
 
+        // TODO ArrayTextarea may not be filtered here yet.
+        $entries = is_array($entries)
+            ? $entries
+            : array_map('trim', explode("\n", $this->fixEndOfLine(trim((string) $entries))));
+        if (!$entries) {
+            return [];
+        }
+
+        $page = $block->page();
+        $site = $page->site();
         $currentSiteId = (int) $site->getId();
         $currentSiteSlug = $site->getSlug();
 
         $baseEntry = [
             'entry' => null,
-            'resource_name' => null,
             'resource' => null,
+            'resource_name' => null,
             'site' => null,
+            // "data" may be appended for external resource.
         ];
 
+        $result = [];
         foreach ($entries as $entry) {
             $normEntry = $baseEntry;
             $normEntry['entry'] = $entry;
-            // Keep empty entries as possible separator.
+            // Keep empty entry as possible separator.
             if (!$entry) {
                 $result[] = $normEntry;
                 continue;
             }
 
             $cleanEntry = trim($entry, '/');
+
             // Resource?
             if (is_numeric($cleanEntry)) {
                 try {
-                    $resource = $this->api->read('resources', ['id' => $cleanEntry])->getContent();
+                    $resource = $this->api->read('resources', ['id' => (int) $cleanEntry])->getContent();
                     $normEntry['resource_name'] = $resource->resourceName();
                     $normEntry['resource'] = $resource->id();
                 } catch (NotFoundException $e) {
+                    // Skip.
                 }
                 $result[] = $normEntry;
                 continue;
             }
 
+            // External resource?
             if (mb_substr($entry, 0, 8) === 'https://' || mb_substr($entry, 0, 7) === 'http://') {
                 [$url, $asset, $title, $caption, $body] = array_map('trim', explode('=', $entry, 5)) + ['', '', '', '', ''];
                 $normEntry['data'] = [
@@ -279,11 +296,58 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
         return $result;
     }
 
-    protected function listEntryResources(array $entries): array
+    protected function listEntryResources(PhpRenderer $view, SitePageBlockRepresentation $block): array
     {
+        $entries = $block->dataValue('entries');
+        if (!$entries) {
+            return [];
+        }
+
+        /**
+         * @var \Common\Stdlib\EasyMeta $easyMeta
+         * @var \BlockPlus\View\Helper\PageMetadata $pageMetadata
+         */
+        $easyMeta = $this->services->get('Common\EasyMeta');
+        $plugins = $view->getHelperPluginManager();
+        $siteLang = $plugins->get('lang')();
+        $hyperlink = $plugins->get('hyperlink');
+        $thumbnail = $plugins->get('thumbnail');
+        $siteSetting = $plugins->get('siteSetting');
+        $pageMetadata = $plugins->get('pageMetadata');
+
+        $link = $siteSetting('attachment_link_type', 'item');
+        $linkType = $link;
+
+        $mediaDisplay = $block->dataValue('media_display');
+        $thumbnailType = $block->dataValue('thumbnail_type', 'square');
+        $showTitleOption = $block->dataValue('show_title_option', 'item_title');
+        $showTitle = $showTitleOption && $showTitleOption !== 'no_title';
+
+        $filterLocale = (bool) $siteSetting('filter_locale_values');
+        $lang = $filterLocale ? $siteLang : null;
+
+        $page = $block->page();
+        $site = $page->site();
+        $currentSiteSlug = $site->slug();
+
+        $baseEntry = [
+            'entry' => null,
+            'resource' => null,
+            'resource_name' => null,
+            'resource_type' => null,
+            'site' => null,
+            'render' => null,
+            'title' => null,
+            'url' => null,
+            'link_class' => null,
+            'caption' => null,
+            'body' => null,
+        ];
+
         foreach ($entries as &$entry) {
-            // The site may be private for the user.
-            if (!empty($entry['site'])) {
+            $entry = array_replace($baseEntry, $entry);
+            // The site may be private or removed.
+            if (!empty($entry['site']) && is_numeric($entry['site'])) {
                 try {
                     $entry['site'] = $this->api->read('sites', ['id' => $entry['site']])->getContent();
                 } catch (NotFoundException $e) {
@@ -291,7 +355,8 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 }
             }
 
-            if (!empty($entry['resource_name']) && !empty($entry['resource'])) {
+            // The resource may be private or removed.
+            if (!empty($entry['resource']) && is_numeric($entry['resource'] && !empty($entry['resource_name']))) {
                 try {
                     $entry['resource'] = $this->api->read($entry['resource_name'], ['id' => $entry['resource']])->getContent();
                 } catch (NotFoundException $e) {
@@ -301,6 +366,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 }
             }
 
+            // The resource may be removed.
             if (!empty($entry['data']['asset']) && is_numeric($entry['data']['asset'])) {
                 try {
                     $entry['data']['asset'] = $this->api->read('assets', ['id' => $entry['data']['asset']])->getContent();
@@ -308,6 +374,106 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                     $entry['data']['asset'] = null;
                 }
             }
+
+            // Prefill entry data that are needed in template.
+
+            $resource = $entry['resource'];
+            if (empty($resource)) {
+                // Check for external data.
+                if (empty($entry['data'])) {
+                    continue;
+                }
+                $entry['resource_type'] = 'link';
+                $entry['link_class'] = 'link';
+                /**
+                 * Reset variables first.
+                 * @var string $url
+                 * @var \Omeka\Api\Representation\AssetRepresentation $asset
+                 * @var string $title
+                 * @var string $caption
+                 * @var string $body
+                 */
+                $url = null;
+                $asset = null;
+                $title = null;
+                $entry['caption'] = null;
+                $body = null;
+                extract($entry['data']);
+                $entry['url'] = $url;
+                $entry['title'] = $showTitle ? $title : null;
+                $entry['caption'] = $caption;
+                $entry['body'] = $body;
+                $entry['render'] = is_object($asset) ? $thumbnail($asset, $thumbnailType) : null;
+            } elseif (!is_object($resource)) {
+                // In the case that the resource is private, or it may be an
+                // unidentified relative url.
+                continue;
+            } elseif ($resource instanceof \Omeka\Api\Representation\SiteRepresentation) {
+                $entry['resource_type'] = 'site';
+                $entry['link_class'] = 'site-link';
+                $entry['title'] = $showTitle ? $resource->title() : null;
+                $entry['url'] = $resource->siteUrl();
+                $entry['caption'] = $resource->summary();
+                $entryThumbnail = $resource->thumbnail();
+                if ($entryThumbnail) {
+                    $entry['render'] = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-thumbnail-image']);
+                }
+            } elseif ($resource instanceof \Omeka\Api\Representation\SitePageRepresentation) {
+                $entry['resource_type'] = 'site-page';
+                $entry['link_class'] = 'site-page-link';
+                $entry['title'] = $showTitle ? $title = $resource->title() : null;
+                $entry['url'] = $resource->siteUrl();
+                $entry['caption'] = $pageMetadata('summary', $resource);
+                $entryThumbnail = $pageMetadata('main_image', $resource);
+                if ($entryThumbnail) {
+                    $entry['render'] = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-page-thumbnail-image']);
+                }
+            } elseif ($resource instanceof \Omeka\Api\Representation\AssetRepresentation) {
+                $entry['resource_type'] = 'asset';
+                $entry['link_class'] = 'asset-link';
+                $entry['title'] = $showTitle ? $resource->altText() : null;
+                $entry['url'] = $resource->assetUrl();
+                $entry['render'] = $thumbnail($resource, $thumbnailType);
+            } else {
+                // Standard resource.
+                $resourceType = $resource->getControllerName();
+                $entry['resource_type'] = $resourceType;
+                $media = $resource->primaryMedia();
+                if (!$showTitleOption || $showTitleOption === 'no_title') {
+                    $entry['link_class'] = 'resource-link';
+                } elseif ($resourceType === 'media' && $showTitleOption == 'file_name') {
+                    $entry['link_class'] = 'media-file';
+                    $entry['title'] = $media->displayTitle(null, $lang);
+                } else {
+                    $entry['link_class'] = 'resource-link';
+                    $entry['title'] = $resourceType === 'media'
+                        ? $resource->item()->displayTitle(null, $lang)
+                        : $resource->displayTitle(null, $lang);
+                }
+                $resourceSiteSlug = is_object($entry['site']) ? $entry['site']->slug() : $currentSiteSlug;
+                if ($resourceType === 'media') {
+                    if ($linkType === 'media') {
+                        $entry['url'] = $media->siteUrl($resourceSiteSlug);
+                    } elseif ($linkType === 'original' && $media->hasOriginal()) {
+                        $entry['url'] = $media->originalUrl();
+                    } else {
+                        $entry['url'] = $resource->siteUrl($resourceSiteSlug);
+                    }
+                } else {
+                    $entry['url'] = $resource->siteUrl($resourceSiteSlug);
+                }
+                $entry['caption'] = $resource->displayDescription(null, $lang);
+                // Manage the option "media display" even for item.
+                if ($mediaDisplay === 'thumbnail' || !$media) {
+                    $entry['render'] = $hyperlink->raw($thumbnail($media, $thumbnailType), $entry['url'], ['class' => $entry['link_class']]);
+                    // TODO Made possible to render an item.
+                } else {
+                    $entry['render'] = $media->render([
+                        'thumbnailType' => $thumbnailType,
+                        'link' => $linkType,
+                    ]);
+                }
+            };
         }
         unset($entry);
 
