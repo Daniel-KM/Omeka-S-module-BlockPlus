@@ -292,12 +292,20 @@ resource neither an asset file, so currently not manageable inside Omeka. With
 a block of html in a group of blocks, it may be used to display a html text with
 a video on the home page.
 
+A template is available:
+- external-content-html: prepend html when it is in a group of blocks with html.
+
 #### Heading
 
 Display a html heading `<h1></h1>` to `<h6></h6>` in order to organize your
 blocks.
 
-Two templates allow to wrap next blocks inside a html structure details/summary.
+Some templates are available:
+- heading-details-start and heading-details-end: allow to wrap next blocks
+  inside a html structure details/summary.
+- heading-ling: allow to set a link as a title. Set the anchor directly in the
+  field like `<a href="xxx">Title</a>`.
+- skip: do not display anything. To be used with a group of block to get html.
 
 #### HTML (js improvements and templates)
 
@@ -320,6 +328,7 @@ For the templates:
   `<button class="button-dialog" data-dialog-name="dialog-info">Open me!</button>`.
 - glossary: display a glossary (see block Block above).
 - page header: a default template with a specific class.
+- skip: do not display anything. To be used with a group of block to get html.
 
 #### Item Set showcase (deprecated)
 
@@ -358,6 +367,11 @@ This is an equivalent for the [shortcode as a page] in [Omeka Classic] too.
 
 Allow to specify some metadata to the page for theme creators.
 
+#### Page Title
+
+A template is added for this core block:
+- skip: do not display anything. To be used with a group of block to get html.
+
 #### Redirect to URL
 
 Allow to redirect the page to another page, inside or outside Omeka. It is
@@ -368,6 +382,9 @@ the page item/browse as a the home page, or some other use cases.
 
 Include a specific search form in a specific page. The default query may be
 adapted to the page via the theme.
+
+A template is available:
+- search-form-html: prepend html when it is in a group of blocks with html.
 
 #### Search form and results
 
@@ -380,6 +397,9 @@ action for the search in default template `common/search-form`.
 
 Generic complete block to display any selected resources, site, page, asset or
 url.
+
+A template is available:
+- showcase-html: prepend html when it is in a group of blocks with html.
 
 #### Table of contents (improvement)
 
@@ -1046,7 +1066,7 @@ Adapted from [Timeline Shortcode].
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2018-2024 (see [Daniel-KM] on GitLab)
+* Copyright Daniel Berthereau, 2018-2025 (see [Daniel-KM] on GitLab)
 * Copyright Codrops, 2013 ([image gallery], see vendor/ for more infos)
 * Copyright Andy Kirk, 2014-2021 (See https://github.com/andykirk)
 * Copyright Jan Sorgalla, 2014 (See http://sorgalla.com/jcarousel)
