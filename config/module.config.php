@@ -196,6 +196,9 @@ return [
         'searchResults' => [
             'search-results-browse-preview-deprecated' => 'Block Plus: Browse preview (deprecated)', // @translate
         ],
+        'showcase' => [
+            'showcase-html' => 'Block Plus: Include html from group', // @translate
+        ],
         'tableOfContents' => [
             'table-of-contents-deprecated' => 'Block Plus: Table of contents (deprecated)', // @translate
         ],
