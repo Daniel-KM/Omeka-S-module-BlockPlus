@@ -23,15 +23,17 @@ class ShowcaseFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'showcase-entries',
-                    'rows' => 7,
-                    'placeholder' => '1
-item-set/2
-main-site
-/s/main-site/page/about
-/s/other-site/item/3
-asset/1
-https://example.org = assetId = Title = Caption = Body
-',
+                    'rows' => 8,
+                    'placeholder' => <<<'TEXT'
+                    1
+                    item-set/2
+                    main-site
+                    contact-us
+                    /s/main-site/page/about
+                    /s/other-site/item/3
+                    asset/1
+                    https://example.org = assetId = Title = Caption = Body
+                    TEXT,
                 ],
             ])
             ->add([

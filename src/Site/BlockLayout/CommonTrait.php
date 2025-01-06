@@ -12,8 +12,8 @@ trait CommonTrait
      * @param string $string
      * @return string
      */
-    protected function fixEndOfLine($string)
+    protected function fixEndOfLine($string): string
     {
-        return str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], $string);
+        return str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], (string) $string);
     }
 }

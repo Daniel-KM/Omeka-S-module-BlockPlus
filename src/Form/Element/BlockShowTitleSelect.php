@@ -2,10 +2,13 @@
 
 namespace BlockPlus\Form\Element;
 
+use Common\Form\Element\TraitOptionalElement;
 use Laminas\Form\Element\Select;
 
 class BlockShowTitleSelect extends Select
 {
+    use TraitOptionalElement;
+
     protected $label = 'Show attachment title'; // @translate
 
     protected $valueOptions = [

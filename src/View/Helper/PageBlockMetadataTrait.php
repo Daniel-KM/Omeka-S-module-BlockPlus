@@ -377,7 +377,6 @@ trait PageBlockMetadataTrait
     protected function siblingPages(SitePageRepresentation $page): array
     {
         $pageData = $this->findPageInNavigation($page);
-        pù($pageData['siblings']);
         return $pageData['siblings'];
 
         $parentPages = $this->parentPages($page);
