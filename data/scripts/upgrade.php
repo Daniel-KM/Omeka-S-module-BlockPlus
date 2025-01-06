@@ -29,10 +29,10 @@ $messenger = $plugins->get('messenger');
 $siteSettings = $services->get('Omeka\Settings\Site');
 $entityManager = $services->get('Omeka\EntityManager');
 
-if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.64')) {
+if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.65')) {
     $message = new \Omeka\Stdlib\Message(
         $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
-        'Common', '3.4.64'
+        'Common', '3.4.65'
     );
     throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
 }
@@ -2212,6 +2212,93 @@ if (version_compare($oldVersion, '3.4.30', '<')) {
     $messenger->addSuccess($message);
     $message = new PsrMessage(
         'New templates were added to block html in order to display an accordion and a dialog box.' // @translate
+    );
+    $messenger->addSuccess($message);
+}
+
+if (version_compare($oldVersion, '3.4.31', '<')) {
+    /**
+     * Prepend a specific block "Html" before ExternalContent and SearchForm
+     * when filled.
+     */
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+
+    $pagesWithHtml = [];
+    $processedBlocksId = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        $position = 0;
+        $prevBlockGroup = null;
+        foreach ($page->getBlocks() as $block) {
+            $block->setPosition(++$position);
+            $layout = $block->getLayout();
+            if (!in_array($layout, ['externalContent', 'searchForm'])) {
+                $prevBlockGroup = $layout === 'blockGroup' ? $block : null;
+                continue;
+            }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            $html = $data['html'] ?? '';
+            $hasHtml = !in_array(str_replace([' ', "\n", "\r", "\t"], '', $html), ['', '<div></div>', '<p></p>']);
+            if ($hasHtml && !isset($processedBlocksId[$blockId])) {
+                // Fix basic issue with block group, but not all. Anyway not a frequent block.
+                // TODO Added a check for nested groups of blocks.
+                if ($prevBlockGroup) {
+                    $prevData = $prevBlockGroup->getData();
+                    $prevSpan = $prevData['span'] ?? 0;
+                    $prevBlockGroup->setData(['span' => ++$prevSpan] + $prevData);
+                } else {
+                    $bg = new \Omeka\Entity\SitePageBlock();
+                    $bg->setLayout('blockGroup');
+                    $bg->setPage($page);
+                    $bg->setPosition(++$position);
+                    $bg->setData([
+                        'span' => 2,
+                    ]);
+                    $entityManager->persist($bg);
+                }
+                $b = new \Omeka\Entity\SitePageBlock();
+                $b->setLayout('html');
+                $b->setPage($page);
+                $b->setPosition(++$position);
+                $b->setData([
+                    'html' => $html,
+                ]);
+                $b->setLayoutData([
+                    'template_name' => 'html-skip',
+                ]);
+                $entityManager->persist($b);
+                $block->setPosition(++$position);
+                $pagesWithHtml[$siteSlug][$pageSlug] = $pageSlug;
+                $processedBlocksId[$blockId] = $blockId;
+            }
+            unset($data['html']);
+            $block->setData($data);
+            $prevBlockLayout = null;
+        }
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    if (!empty($pagesWithHtml)) {
+        $pagesWithHtml = array_map('array_values', $pagesWithHtml);
+        $message = new PsrMessage(
+            'The setting "html" was removed from block External Content and Search Form. A new block "Html" was prepended to all blocks that had a filled html. You may check pages for styles: {json}', // @translate
+            ['json' => json_encode($pagesWithHtml, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger = $services->get('Omeka\Logger');
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+
+    $message = new PsrMessage(
+        'New templates were added to blocks Showcase, External Content and Search form.' // @translate
     );
     $messenger->addSuccess($message);
 }
