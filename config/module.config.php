@@ -359,6 +359,8 @@ return [
             ],
             'showcase' => [
                 'entries' => [],
+                'layout' => '',
+                'media_display' => '',
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',
             ],

@@ -5,7 +5,12 @@
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var array $entries Array with keys "entry", "resource_name", "resource", and "site".
  * @var string $thumbnailType
+ * @var string $link
+ * @var string $linkType
  * @var string $showTitleOption
+ * @var array $classes
+ * @var string $mediaDisplay
+ * @var string $layout
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -17,7 +22,6 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 $pageMetadata = $plugins->get('pageMetadata');
 
 // TODO Use link type only for attachments.
-$linkType = $siteSetting('attachment_link_type', 'item');
 $showTitle = $showTitleOption !== 'no_title';
 
 $filterLocale = (bool) $siteSetting('filter_locale_values');

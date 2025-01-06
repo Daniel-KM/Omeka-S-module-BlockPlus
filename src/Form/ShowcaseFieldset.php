@@ -35,6 +35,34 @@ https://example.org = assetId = Title = Caption = Body
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][layout]',
+                'type' => CommonElement\OptionalRadio::class,
+                'options' => [
+                    'label' => 'Layout', // @translate
+                    'value_options' => [
+                        '' => 'Vertical', // @translate
+                        'horizontal' => 'Horizontal', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'showcase-layout',
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][media_display]',
+                'type' => CommonElement\OptionalRadio::class,
+                'options' => [
+                    'label' => 'Media display',, // @translate
+                    'value_options' => [
+                        '' => 'Embed media', // @translate
+                        'thumbnail' => 'Thumbnail only', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'showcase-media-display',
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][thumbnail_type]',
                 'type' => CommonElement\ThumbnailTypeSelect::class,
                 'options' => [

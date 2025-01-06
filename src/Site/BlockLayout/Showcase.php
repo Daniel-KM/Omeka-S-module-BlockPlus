@@ -95,13 +95,43 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
     {
         // TODO Include attachments.
         $site = $block->page()->site();
+
+        $entries = $this->listEntryResources($block->dataValue('entries', []) ?? []);
+        if (!$entries) {
+            return '';
+        }
+
+        $layout = $block->dataValue('layout');
+        $mediaDisplay = $block->dataValue('media_display');
+        $thumbnailType = $block->dataValue('thumbnail_type', 'square');
+        $showTitleOption = $block->dataValue('show_title_option', 'item_title');
+
+        $linkType = $view->siteSetting('attachment_link_type', 'item');
+
+        $classes = ['media-embed'];
+        $classes[] = $layout === 'horizontal'
+            ? 'layout-horizontal'
+            : 'layout-vertical';
+        $classes[] = $mediaDisplay === 'thumbnail'
+            ? 'media-display-thumbnail'
+            : 'media-display-embed';
+        $classes[] = count($entries) > 3
+            ? 'multiple-attachments multiple-entries'
+            : 'attachment-count-' . count($entries);
+
         $vars = [
             'site' => $site,
             'block' => $block,
-            'entries' => $this->listEntryResources($block->dataValue('entries', []) ?? [], $site),
-            'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
-            'showTitleOption' => $block->dataValue('show_title_option', 'item_title'),
+            'entries' => $entries,
+            'thumbnailType' => $thumbnailType,
+            'link' => $linkType,
+            'linkType' => $linkType,
+            'showTitleOption' => $showTitleOption,
+            'classes' => $classes,
+            'mediaDisplay' => $mediaDisplay,
+            'layout' => $layout,
         ];
+
         return $view->partial($templateViewScript, $vars);
     }
 
