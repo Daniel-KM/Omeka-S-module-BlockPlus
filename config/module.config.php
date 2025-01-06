@@ -345,7 +345,6 @@ return [
                 'url' => '',
             ],
             'searchForm' => [
-                'html' => '',
                 'link' => '',
                 'search_config' => null,
                 'selector' => '',

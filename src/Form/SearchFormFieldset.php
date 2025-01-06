@@ -17,18 +17,6 @@ class SearchFormFieldset extends Fieldset
     {
         $this
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][html]',
-                'type' => Element\Textarea::class,
-                'options' => [
-                    'label' => 'Html to display', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'search-form-html',
-                    'class' => 'block-html full wysiwyg',
-                    'rows' => '5',
-                ],
-            ])
-            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][link]',
                 'type' => Element\Text::class,
                 'options' => [

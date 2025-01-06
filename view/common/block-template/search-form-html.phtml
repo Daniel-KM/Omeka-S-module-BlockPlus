@@ -7,6 +7,8 @@
  * @var string $selector
  */
 
+// This template is mainly used for compatibility with old themes.
+
 $plugins = $this->getHelperPluginManager();
 $url = $plugins->get('url');
 $escape = $plugins->get('escapeHtml');
@@ -14,6 +16,7 @@ $params = $plugins->get('params');
 $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
 $siteSetting = $plugins->get('siteSetting');
+$blockGroupData = $plugins->get('blockGroupData');
 
 $searchType = $siteSetting('search_type', 'sitewide');
 switch ($searchType) {
@@ -26,9 +29,12 @@ switch ($searchType) {
 }
 
 $searchValue = $params->fromQuery('fulltext_search', '');
+
+$html = $blockGroupData($block, 'html', 'text');
 ?>
 
 <div class="block block-search">
+    <?= $html ?>
     <?php if ($searchConfig): ?>
     <?= $searchConfig->renderForm() ?>
     <?php else: ?>
