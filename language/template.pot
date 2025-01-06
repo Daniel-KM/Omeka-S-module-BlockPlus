@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-09 00:00+0000\n"
+"POT-Creation-Date: 2025-01-06 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,8 +192,12 @@ msgid ""
 "file inside /asset/data/) or \"file = https://example.com/file.tsv\"."
 msgstr ""
 
-#: view/common/block-template/browse-preview-gallery.phtml:110
+#: view/common/block-template/browse-preview-gallery.phtml:114
 msgid "More information"
+msgstr ""
+
+#: view/common/block-template/browse-preview-timeline-list.phtml:45
+msgid "[No date]"
 msgstr ""
 
 #: view/common/block-template/page-date-time-plus.phtml:36
@@ -638,6 +642,18 @@ msgid ""
 "a dialog box."
 msgstr ""
 
+#: data/scripts/upgrade.php:2292
+msgid ""
+"The setting \"html\" was removed from blocks External Content and Search "
+"Form. A new block \"Html\" was prepended to all blocks that had a filled "
+"html. You may check pages for styles: {json}"
+msgstr ""
+
+#: data/scripts/upgrade.php:2300
+msgid ""
+"New templates were added to block Showcase, External Content and Search form."
+msgstr ""
+
 #: Module.php:49
 msgid ""
 "The javascript library should be installed. See module’s installation "
@@ -851,7 +867,7 @@ msgid ""
 "Query to limit and sort the list of item sets for the previous/next buttons"
 msgstr ""
 
-#: src/Form/ItemSetShowcaseFieldset.php:34 src/Form/ShowcaseFieldset.php:50
+#: src/Form/ItemSetShowcaseFieldset.php:34 src/Form/ShowcaseFieldset.php:71
 msgid "Thumbnail type"
 msgstr ""
 
@@ -891,34 +907,30 @@ msgid "Select a property…"
 msgstr ""
 
 #: src/Form/SearchFormFieldset.php:23
-msgid "Html to display"
-msgstr ""
-
-#: src/Form/SearchFormFieldset.php:35
 msgid "Link to display"
 msgstr ""
 
-#: src/Form/SearchFormFieldset.php:36
+#: src/Form/SearchFormFieldset.php:24
 msgid "Formatted as \"/url/full/path Label of the link\"."
 msgstr ""
 
-#: src/Form/SearchFormFieldset.php:46
+#: src/Form/SearchFormFieldset.php:34
 msgid "Main filter"
 msgstr ""
 
-#: src/Form/SearchFormFieldset.php:50
+#: src/Form/SearchFormFieldset.php:38
 msgid "Resource classes"
 msgstr ""
 
-#: src/Form/SearchFormFieldset.php:62
+#: src/Form/SearchFormFieldset.php:50
 msgid "Search config page (module Advanced Search)"
 msgstr ""
 
-#: src/Form/SearchFormFieldset.php:64
+#: src/Form/SearchFormFieldset.php:52
 msgid "Search config of the site"
 msgstr ""
 
-#: src/Form/SearchFormFieldset.php:73
+#: src/Form/SearchFormFieldset.php:61
 msgid "Select a search engine…"
 msgstr ""
 
@@ -1068,6 +1080,10 @@ msgstr ""
 msgid "Level"
 msgstr ""
 
+#: src/Form/ShowcaseFieldset.php:57
+msgid "Media display"
+msgstr ""
+
 #: src/Form/ButtonsFieldset.php:17
 #: src/Site/ResourcePageBlockLayout/Buttons.php:16
 #: src/Site/BlockLayout/Buttons.php:21
@@ -1182,7 +1198,8 @@ msgstr ""
 msgid "Html div for tools (start)"
 msgstr ""
 
-#: src/Site/BlockLayout/Showcase.php:44
+#: src/Site/BlockLayout/Showcase.prev.php:39
+#: src/Site/BlockLayout/Showcase.php:46
 msgid "Showcase"
 msgstr ""
 
@@ -1442,7 +1459,7 @@ msgstr ""
 msgid "Block Plus: Arborescence"
 msgstr ""
 
-#: config/module.config.php:149 config/module.config.php:170
+#: config/module.config.php:149 config/module.config.php:175
 msgid "Block Plus: Glossary"
 msgstr ""
 
@@ -1470,88 +1487,101 @@ msgstr ""
 msgid "Block Plus: Subjects"
 msgstr ""
 
-#: config/module.config.php:160 config/module.config.php:191
+#: config/module.config.php:160
+msgid "Block Plus: Timeline list"
+msgstr ""
+
+#: config/module.config.php:161 config/module.config.php:200
 msgid "Block Plus: Browse preview (deprecated)"
 msgstr ""
 
-#: config/module.config.php:163
+#: config/module.config.php:164 config/module.config.php:203
+msgid "Block Plus: Include html from group"
+msgstr ""
+
+#: config/module.config.php:167
 msgid "Block Plus: Heading link"
 msgstr ""
 
-#: config/module.config.php:164
+#: config/module.config.php:168
 msgid "Block Plus: Details/summary (start)"
 msgstr ""
 
-#: config/module.config.php:165
+#: config/module.config.php:169
 msgid "Block Plus: Details/summary (end)"
 msgstr ""
 
-#: config/module.config.php:168
+#: config/module.config.php:170 config/module.config.php:177
+#: config/module.config.php:197
+msgid "Block Plus: Skip"
+msgstr ""
+
+#: config/module.config.php:173
 msgid "Block Plus: Accordion (h3)"
 msgstr ""
 
-#: config/module.config.php:169
+#: config/module.config.php:174
 msgid "Block Plus: Dialog (class for name)"
 msgstr ""
 
-#: config/module.config.php:171
+#: config/module.config.php:176
 msgid "Block Plus: Page header"
 msgstr ""
 
-#: config/module.config.php:174
+#: config/module.config.php:180
 msgid "Block Plus: Item with metadata (deprecated)"
 msgstr ""
 
-#: config/module.config.php:177
+#: config/module.config.php:183
 msgid "Block Plus: List of pages (deprecated)"
 msgstr ""
 
-#: config/module.config.php:180
+#: config/module.config.php:186
 msgid "Block Plus: List of sites (deprecated)"
 msgstr ""
 
-#: config/module.config.php:184
+#: config/module.config.php:190
 msgid "Block Plus: Item showcase (deprecated)"
 msgstr ""
 
-#: config/module.config.php:185
+#: config/module.config.php:191
 msgid "Block Plus: Resource text (deprecated)"
 msgstr ""
 
-#: config/module.config.php:188
+#: config/module.config.php:194
 msgid "Block Plus: Page date time"
 msgstr ""
 
-#: config/module.config.php:194
+#: config/module.config.php:206
 msgid "Block Plus: Table of contents (deprecated)"
 msgstr ""
 
-#: config/module.config.php:209
+#: config/module.config.php:221
 msgid "Collapse the list of groups of blocks"
 msgstr ""
 
-#: config/module.config.php:210
+#: config/module.config.php:222
 msgid "Expand to display the list of groups of blocks"
 msgstr ""
 
-#: config/module.config.php:211
+#: config/module.config.php:223
 msgid "Insert Footnotes"
 msgstr ""
 
-#: config/module.config.php:212
+#: config/module.config.php:224
 msgid "Url (deprecated)"
 msgstr ""
 
-#: config/module.config.php:213
+#: config/module.config.php:225
 msgid ""
 "Please wait for previous group of blocks to be prepared before adding a new "
 "one."
 msgstr ""
 
-#: config/module.config.php:214
+#: config/module.config.php:226
 msgid "This group does not contain any block."
 msgstr ""
 
-#: config/module.config.php:285
+#: config/module.config.php:296
 msgid "Know more"
 msgstr ""
