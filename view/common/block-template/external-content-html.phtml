@@ -10,8 +10,13 @@
 
 $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
-$escapeAttr = $plugins->get('escapeHtmlAttr');
 $hyperlink = $plugins->get('hyperlink');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+$blockGroupData = $plugins->get('blockGroupData');
+
+// This template is mainly used for compatibility with old themes.
+
+$html = $blockGroupData($block, 'html', 'text');
 ?>
 
 <div class="block external-content media-text">
@@ -35,8 +40,8 @@ $hyperlink = $plugins->get('hyperlink');
                 $escapeAttr($height),
                 $escapeAttr($title)
             );
-        } elseif (!empty($data['html'])) {
-            $this->logger()->err('For page {page_slug}, use template "external-content-html', ['page_slug' => $block->page()->slug()]);
+        } elseif ($html) {
+            echo $html;
         } else {
             $showTitleOption = 'title';
         }

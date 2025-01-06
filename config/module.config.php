@@ -160,6 +160,9 @@ return [
             'browse-preview-timeline-list' => 'Block Plus: Timeline list', // @translate
             'browse-preview-deprecated' => 'Block Plus: Browse preview (deprecated)', // @translate
         ],
+        'externalContent' => [
+            'external-content-html' => 'Block Plus: Include html from group', // @translate
+        ],
         'heading' => [
             'heading-link' => 'Block Plus: Heading link', // @translate
             'heading-details-start' => 'Block Plus: Details/summary (start)', // @translate
@@ -289,7 +292,6 @@ return [
             ],
             'externalContent' => [
                 'embeds' => [],
-                'html' => '',
                 'show_title_option' => 'title',
                 'link_text' => 'Know more', // @translate
                 'link_url' => '#',
