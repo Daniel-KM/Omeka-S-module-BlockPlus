@@ -47,6 +47,14 @@ trait PageBlockMetadataTrait
             'siblings',
             'exhibit',
             'exhibit_nav',
+            // Pre-rdf metadata.
+            'dcterms:title',
+            'dcterms:creator',
+            'dcterms:description',
+            'dcterms:subject',
+            'curation:featured',
+            'curation:new',
+            'curation:data',
         ],
         'block_metadata' => [
             'block',
@@ -57,6 +65,7 @@ trait PageBlockMetadataTrait
             'tags',
             'type_label',
             'featured',
+            'new',
             'cover',
             'cover_url',
             'attachments',
@@ -70,6 +79,21 @@ trait PageBlockMetadataTrait
             'params_key_value_array',
             'params_key_value',
             // And others.
+        ],
+        'fallback_block_metadata' => [
+            'credits',
+            'summary',
+            'tags',
+            'featured',
+            'new',
+            'params',
+            'params_raw',
+            'params_json',
+            'params_json_array',
+            'params_json_object',
+            'params_ini',
+            'params_key_value_array',
+            'params_key_value',
         ],
     ];
 
@@ -86,6 +110,15 @@ trait PageBlockMetadataTrait
     ) {
         $view = $this->getView();
 
+        $mapMetadata = [
+            'credits' => 'dcterms:creator',
+            'summary' => 'dcterms:description',
+            'tags' => 'dcterms:subject',
+            'featured' => 'curation:featured',
+            'new' => 'curation:new',
+            'params' => 'curation:data',
+        ];
+
         switch ($metadata) {
             case 'block':
             case is_null($metadata):
@@ -93,6 +126,7 @@ trait PageBlockMetadataTrait
 
             case 'page':
                 return $page;
+            case 'dctermsdcterms:title':
             case 'title':
                 return $page->title();
             case 'slug':
@@ -105,16 +139,38 @@ trait PageBlockMetadataTrait
             case 'template_name':
                 return $page->layoutDataValue('template_name') ?: null;
 
+            case 'dcterms:creator':
+            case 'dcterms:description':
+            case 'dcterms:subject':
+            case 'curation:featured':
+            case 'curation:new':
+            case 'curation:data':
+                return $page->layoutDataValue($metadata) ?: null;
+
             case 'type':
                 $view->logger()->warn('Since Omeka S 4.1, the metadata "type" is replaced by the page template name (key "template"). Check your theme.'); // @translate
                 return $page->layoutDataValue('template_name') ?: null;
 
             case 'credits':
             case 'summary':
+                if ($block) {
+                    $result = $block->dataValue($metadata);
+                    if ($result !== null && $result !== '' && $result !== []) {
+                        return $result;
+                    }
+                }
+                return $page->layoutDataValue($mapMetadata[$metadata]);
             case 'tags':
-                return $block
-                    ? $block->dataValue($metadata)
-                    : null;
+                if ($block) {
+                    $result = $block->dataValue('tags');
+                    if ($result !== null && $result !== '' && $result !== []) {
+                        return (array) $result;
+                    }
+                }
+                $result = $page->layoutDataValue($mapMetadata[$metadata], []) ?: [];
+                return is_array($result)
+                    ? $result
+                    : array_map('trim', explode(',', $result));
 
             case 'type_label':
                 if (!$block) {
@@ -125,9 +181,15 @@ trait PageBlockMetadataTrait
                 return $pageTypes[$type] ?? null;
 
             case 'featured':
-                return $block
-                    ? (bool) $block->dataValue('featured')
-                    : false;
+            case 'new':
+                if ($block) {
+                    $result = $block->dataValue($metadata);
+                    if ($result !== null && $result !== '' && $result !== []) {
+                        return (bool) $result;
+                    }
+                }
+                return (bool) $page->layoutDataValue($mapMetadata[$metadata]);
+
             case 'cover':
             case 'cover_url':
                 if (!$block) {
@@ -296,10 +358,14 @@ trait PageBlockMetadataTrait
 
             case 'params':
             case 'params_raw':
-                if (!$block) {
-                    return null;
+                if ($block) {
+                    $result = $block->dataValue('params');
+                    if ($result !== null && $result !== '' && $result !== []) {
+                        return $result;
+                    }
                 }
-                return $block->dataValue('params', '');
+                return $page->layoutDataValue('curation:data');
+
             case 'params_json':
             case 'params_json_array':
                 if (!$block) {

@@ -31,7 +31,7 @@ class PageMetadata extends AbstractHelper
         $requireBlockMetadata = !in_array($metadata, $this->require['page_metadata'], true);
         if ($requireBlockMetadata) {
             $block = $this->currentBlockMetadata($page);
-            if (!$block) {
+            if (!$block && !in_array($metadata, $this->require['fallback_block_metadata'], true)) {
                 return null;
             }
         } else {
