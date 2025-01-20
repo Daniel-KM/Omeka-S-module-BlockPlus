@@ -38,6 +38,19 @@ class SiteSettingsFieldset extends Fieldset
             ])
 
             ->add([
+                'name' => 'blockplus_page_model_skip_blockplus',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'element_group' => 'block_plus',
+                    'label' => 'Skip page models defined internally by the module Block Plus', // @translate
+                    'info' => 'Default page models are mainly used as examples or for upgrade from Omeka Classic: home_page, exhibit, exhibit_page, simple_page and resource_text.', // @translate'
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_page_model_skip_blockplus',
+                ],
+            ])
+
+            ->add([
                 'name' => 'blockplus_page_models',
                 'type' => CommonElement\IniTextarea::class,
                 'options' => [

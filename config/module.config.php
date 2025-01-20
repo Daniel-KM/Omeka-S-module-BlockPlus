@@ -239,6 +239,7 @@ return [
         ],
         'site_settings' => [
             // Layouts.
+            'blockplus_page_model_skip_blockplus' => false,
             'blockplus_page_model_rights' => false,
             'blockplus_page_models' => [],
             // Breadcrumbs.

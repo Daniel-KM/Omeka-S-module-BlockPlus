@@ -58,8 +58,19 @@ class PageModels extends AbstractPlugin
         $themeConfig = $theme->getConfigSpec();
         $themeSettings = $this->siteSettings->get($theme->getSettingsKey(), []);
 
+        $configPageModels = $this->config['page_models'] ?? [];
+        if ($configPageModels && $this->siteSettings->get('blockplus_page_model_skip_blockplus')) {
+            unset(
+                $configPageModels['home_page'],
+                $configPageModels['exhibit'],
+                $configPageModels['exhibit_page'],
+                $configPageModels['simple_page'],
+                $configPageModels['resource_text']
+            );
+        }
+
         $result = array_merge(
-            $this->config['page_models'] ?? [],
+            $configPageModels,
             $this->settings->get('blockplus_page_models', []),
             $this->siteSettings->get('blockplus_page_models', []),
             $themeConfig['page_models'] ?? [],
