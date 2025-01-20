@@ -54,7 +54,7 @@ class ShowcaseFieldset extends Fieldset
                 'name' => 'o:block[__blockIndex__][o:data][media_display]',
                 'type' => CommonElement\OptionalRadio::class,
                 'options' => [
-                    'label' => 'Media display',, // @translate
+                    'label' => 'Media display', // @translate
                     'value_options' => [
                         '' => 'Embed media', // @translate
                         'thumbnail' => 'Thumbnail only', // @translate

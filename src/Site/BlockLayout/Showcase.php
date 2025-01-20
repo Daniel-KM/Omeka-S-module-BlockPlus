@@ -160,8 +160,8 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
 
         $page = $block->page();
         $site = $page->site();
-        $currentSiteId = (int) $site->getId();
-        $currentSiteSlug = $site->getSlug();
+        $currentSiteId = (int) $site->id();
+        $currentSiteSlug = $site->slug();
 
         $baseEntry = [
             'entry' => null,
@@ -358,7 +358,10 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
             }
 
             // The resource may be private or removed.
-            if (!empty($entry['resource']) && is_numeric($entry['resource'] && !empty($entry['resource_name']))) {
+            if (!empty($entry['resource'])
+                && !empty($entry['resource_name'])
+                && is_numeric($entry['resource'])
+            ) {
                 try {
                     $entry['resource'] = $this->api->read($entry['resource_name'], ['id' => $entry['resource']])->getContent();
                 } catch (NotFoundException $e) {

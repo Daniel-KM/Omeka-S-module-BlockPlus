@@ -115,8 +115,8 @@ trait PageBlockMetadataTrait
                             } catch (\Omeka\Api\Exception\NotFoundException $e) {
                             }
                         }
-                    } elseif ($layout === 'assets') {
-                        foreach ($block->dataValue('assets', []) as $asset) {
+                    } elseif ($layout === 'asset') {
+                        foreach ($block->dataValue('asset', []) as $asset) {
                             try {
                                 return $api->read('assets', ['id' => $asset['asset']])->getContent();
                             } catch (\Omeka\Api\Exception\NotFoundException $e) {
