@@ -664,8 +664,8 @@ class Module extends AbstractModule
         } else {
             $settings->set('blockplus_page_models', $pageModels);
             $message = $type === 'page_model'
-                ? 'The page model "{label}" ({name}) was saved in theme settings.' // @translate
-                : 'The blocks group "{label}" ({name}) was saved in theme settings.'; // @translate
+                ? 'The page model "{label}" ({name}) was saved in main settings.' // @translate
+                : 'The blocks group "{label}" ({name}) was saved in main settings.'; // @translate
         }
         $messenger->addSuccess(new PsrMessage($message, ['label' => $label, 'name' => $cleanName]));
     }
