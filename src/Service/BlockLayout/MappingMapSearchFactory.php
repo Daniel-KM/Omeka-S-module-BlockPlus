@@ -16,7 +16,7 @@ class MappingMapSearchFactory implements FactoryInterface
         $moduleManager = $services->get('Omeka\ModuleManager');
         $module = $moduleManager->getModule('Mapping');
         if (!$module
-            || !$module->getState() === ModuleManager::STATE_ACTIVE
+            || $module->getState() !== ModuleManager::STATE_ACTIVE
         ) {
             return new Fallback($requestedName);
         }
@@ -29,7 +29,7 @@ class MappingMapSearchFactory implements FactoryInterface
             );
         }
 
-        $blockLayout = new MappingMapSearch;
+        $blockLayout = new MappingMapSearch();
         $blockLayout->setHtmlPurifier($services->get('Omeka\HtmlPurifier'));
         $blockLayout->setModuleManager($services->get('Omeka\ModuleManager'));
         $blockLayout->setFormElementManager($services->get('FormElementManager'));
