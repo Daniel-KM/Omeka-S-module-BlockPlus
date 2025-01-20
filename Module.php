@@ -114,6 +114,25 @@ class Module extends AbstractModule
             [$this, 'handleSitePageForm']
         );
 
+        // Add page metadata with the page layout data form.
+        // TODO May be \Omeka\Form\PageLayoutDataForm, but it should be fixed in core.
+        $sharedEventManager->attach(
+            // \Omeka\Form\PageLayoutDataForm::class,
+            \Omeka\Form\SitePageForm::class,
+            'form.add_elements',
+            [$this, 'handleSitePageFormMetadata']
+        );
+        $sharedEventManager->attach(
+            \BlockPlus\Form\SitePageForm::class,
+            'form.add_elements',
+            [$this, 'handleSitePageFormMetadata']
+        );
+        $sharedEventManager->attach(
+            \Internationalisation\Form\SitePageForm::class,
+            'form.add_elements',
+            [$this, 'handleSitePageFormMetadata']
+        );
+
         // Manage main and site settings.
         $sharedEventManager->attach(
             \Omeka\Form\SettingForm::class,
@@ -678,6 +697,116 @@ class Module extends AbstractModule
                 ],
                 'attributes' => [
                     'id' => 'page-model',
+                ],
+            ]);
+    }
+
+    public function handleSitePageFormMetadata(Event $event): void
+    {
+        /** @var \Laminas\Form\Form $form */
+        $form = $event->getTarget();
+
+        // The fieldset is added only on an existing page.
+        if ($form->getOption('addPage')) {
+            return;
+        }
+
+        // TODO Ideally, the metadata of the page should not be stored in the layout data.
+        // TODO The metadata of the page should be available via the api at the root of the page (or in a key o:metadata, but not recommended).
+        $form
+            // The element groups are not working for now, but it may be
+            // possible in the future.
+            ->setOption('element_groups', $form->getOption('element_groups') ?? [] + [
+                'page_metadata' => 'Page metadata', // @translate
+            ])
+
+            ->add([
+                'name' => 'o:layout_data',
+                'type' => \Laminas\Form\Fieldset::class,
+                'options' => [
+                    'element_groups', 'page_metadata',
+                    'label' => 'Page metadata', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-metadata',
+                    'data-fieldset' => 'page-metadata',
+                ],
+            ])
+
+            ->get('o:layout_data')
+
+            ->add([
+                'name' => 'dcterms:creator',
+                'type' => \Laminas\Form\Element\Text::class,
+                'options' => [
+                    'label' => 'Credits', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-metadata-dcterms-creator',
+                    'data-fieldset' => 'page-metadata',
+                ],
+            ])
+            ->add([
+                'name' => 'dcterms:subject',
+                'type' => \Common\Form\Element\ArrayText::class,
+                'options' => [
+                    'label' => 'Tags', // @translate
+                    'infos' => 'Comma-separated list of keywords', // @translate
+                    // TODO For now, it does not work because formatter is not triggered.
+                    'value_separator' => ',',
+                ],
+                'attributes' => [
+                    'id' => 'page-metadata-dcterms-subject',
+                    'placeholder' => 'alpha, beta, gamma',
+                    'data-fieldset' => 'page-metadata',
+                ],
+            ])
+            ->add([
+                'name' => 'curation:featured',
+                'type' => \Laminas\Form\Element\Checkbox::class,
+                'options' => [
+                    'label' => 'Featured', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-metadata-curation-featured',
+                    'data-fieldset' => 'page-metadata',
+                ],
+            ])
+            ->add([
+                'name' => 'curation:new',
+                'type' => \Laminas\Form\Element\Checkbox::class,
+                'options' => [
+                    'label' => 'Is new', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-metadata-new',
+                    'data-fieldset' => 'page-metadata',
+                ],
+            ])
+            ->add([
+                'name' => 'dcterms:description',
+                'type' => \Laminas\Form\Element\Textarea::class,
+                'options' => [
+                    'label' => 'Summary', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-metadata-dcterms-description',
+                    'class' => 'block-html full wysiwyg',
+                    'rows' => 5,
+                    'data-fieldset' => 'page-metadata',
+                ],
+            ])
+            ->add([
+                'name' => 'curation:data',
+                'type' => \Laminas\Form\Element\Textarea::class,
+                'options' => [
+                    'label' => 'Params', // @translate
+                    'info' => 'The params can be fetched as raw text, key/value pairs, or json depending on theme.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'page-metadata-data',
+                    'rows' => 5,
+                    'data-fieldset' => 'page-metadata',
                 ],
             ]);
     }

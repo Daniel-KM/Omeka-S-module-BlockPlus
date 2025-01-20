@@ -14,7 +14,7 @@ class PageMetadata extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Page metadata'; // @translate
+        return 'Page metadata (deprecated)'; // @translate
     }
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
@@ -58,7 +58,7 @@ class PageMetadata extends AbstractBlockLayout
 
         $translate = $view->plugin('translate');
         $html = '<p>'
-            . $translate('This block doesn’t display anything, but stores various metadata for themes.') // @translate
+            . $translate('This block doesn’t display anything, but stores various metadata for themes. It will be removed soon and replaced by the main page metadata above.') // @translate
             . '</p>';
         $html .= $view->formCollection($fieldset, false);
         $html .= $view->blockAttachmentsForm($block);

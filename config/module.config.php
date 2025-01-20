@@ -226,9 +226,10 @@ return [
         'Collapse the list of groups of blocks', // @translate
         'Expand to display the list of groups of blocks', // @translate
         'Insert Footnotes', // @translate
-        'Url (deprecated)', // @translate
+        'Page metadata', // @translate
         'Please wait for previous group of blocks to be prepared before adding a new one.', // @translate
         'This group does not contain any block.', // @translate
+        'Url (deprecated)', // @translate
     ],
     'blockplus' => [
         'settings' => [

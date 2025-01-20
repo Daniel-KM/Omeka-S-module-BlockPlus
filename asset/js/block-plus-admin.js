@@ -47,6 +47,24 @@
         });
 
         /**
+         * Regroup Metadata elements in a fieldset for details/summary.
+         */
+        const sitePageForm = $('#site-page-form');
+        const sitePageMetadataElements = sitePageForm.find('.field .inputs [data-fieldset="page-metadata"]').closest('.field');
+        sitePageMetadataElements
+            .wrapAll(`
+                <details id="site-page-metadata-details" class="field">
+                    <fieldset id="site-page-metadata" class="site-page-metadata collapsible"></fieldset>
+                </details>
+            `);
+        $('#site-page-metadata-details')
+            .prepend(`
+                <summary class="field-meta expand collapse">
+                    <span class="label">${Omeka.jsTranslate('Page metadata')}</span>
+                </summary>
+            `);
+
+        /**
          * Block group plus.
          *
          * Note: the methods inside site-page-edit.js are not available.

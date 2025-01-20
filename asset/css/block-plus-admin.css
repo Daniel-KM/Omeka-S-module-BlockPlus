@@ -1,11 +1,25 @@
 @media all {
 
+    [hidden],
+    .hidden {
+        display: none;
+    }
+
     /* Allows to display chosen-select in the bottom of a block. */
     .block.value .collapse + .collapsible {
         display: block;
         clear: both;
         overflow: inherit;
     }
+
+    /* Page metadata with details/summary */
+    #site-page-metadata-details summary::after {
+        margin-left: 12px;
+        content: "";
+     }
+    #site-page-metadata-details[open] summary::after {
+        content: "";
+     }
 
     /* Page model */
     #button-page-model.button {
