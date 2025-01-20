@@ -440,7 +440,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['title'] = $showTitle ? $title = $resource->title() : null;
                 $entry['url'] = $resource->siteUrl();
                 $entry['caption'] = $pageMetadata('summary', $resource);
-                $entryThumbnail = $pageMetadata('main_image', $resource);
+                $entryThumbnail = $pageMetadata('first_image', $resource);
                 if ($entryThumbnail) {
                     $entry['thumbnail_url'] = $entryThumbnail->assetUrl();
                     $thumb = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-page-thumbnail-image']);

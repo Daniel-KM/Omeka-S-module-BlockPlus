@@ -32,6 +32,7 @@ trait PageBlockMetadataTrait
             'template',
             'template_name',
             'type',
+            'first_image',
             'is_home_page',
             'nav_data',
             'root',
@@ -59,7 +60,6 @@ trait PageBlockMetadataTrait
             'cover',
             'cover_url',
             'attachments',
-            'first_image',
             'main_image',
             'params',
             'params_raw',
@@ -152,21 +152,9 @@ trait PageBlockMetadataTrait
                 return $block->attachments();
 
             case 'first_image':
-                // @deprecated Use "main_image", not "first_image".
-            case 'main_image':
-                if (!$block) {
-                    return null;
-                }
+                // First image in the page in any block (pageMetadata or asset).
                 $api = $view->api();
-                // Check if acover is defined in the current block.
-                $asset = $block->dataValue('cover');
-                if ($asset) {
-                    try {
-                        return $api->read('assets', ['id' => $asset])->getContent();
-                    } catch (NotFoundException $e) {
-                    }
-                }
-                // Search for a block pageMetadata or asset/
+                // Search for a block pageMetadata or asset.
                 foreach ($page->blocks() as $block) {
                     $layout = $block->layout();
                     if ($layout === 'pageMetadata') {
@@ -183,6 +171,48 @@ trait PageBlockMetadataTrait
                                 return $api->read('assets', ['id' => $asset['id']])->getContent();
                             } catch (\Omeka\Api\Exception\NotFoundException $e) {
                             }
+                        }
+                    }
+                    // Search for attachments of the current block.
+                    foreach ($block->attachments() as $attachment) {
+                        $media = $attachment->media();
+                        if ($media && ($media->hasThumbnails() || $media->thumbnail())) {
+                            return $media;
+                        }
+                        $item = $attachment->item();
+                        if ($item) {
+                            if ($thumbnail = $item->thumbnail()) {
+                                return $thumbnail;
+                            }
+                            $media = $item->primaryMedia();
+                            if ($media && ($media->hasThumbnails() || $media->thumbnail())) {
+                                return $media;
+                            }
+                        }
+                    }
+                }
+                return null;
+            case 'main_image':
+                // Main image checks current block only, metadata or asset.
+                if (!$block) {
+                    return null;
+                }
+                $api = $view->api();
+                $layout = $block->layout();
+                // Check if acover is defined in the current block.
+                if ($layout === 'pageMetadata') {
+                    $asset = $block->dataValue('cover');
+                    if ($asset) {
+                        try {
+                            return $api->read('assets', ['id' => $asset])->getContent();
+                        } catch (\Omeka\Api\Exception\NotFoundException $e) {
+                        }
+                    }
+                } elseif ($layout === 'asset') {
+                    foreach ($block->data() as $asset) {
+                        try {
+                            return $api->read('assets', ['id' => $asset['id']])->getContent();
+                        } catch (\Omeka\Api\Exception\NotFoundException $e) {
                         }
                     }
                 }
