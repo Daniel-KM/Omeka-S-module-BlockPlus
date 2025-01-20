@@ -39,72 +39,72 @@ if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActi
 
 if (version_compare($oldVersion, '3.0.3', '<')) {
     $sql = <<<'SQL'
-UPDATE site_page_block
-SET
-    layout = "resourceText",
-    data = REPLACE(data, '"partial":"common\\/block-layout\\/media-text', '"partial":"common\\/block-layout\\/resource-text')
-WHERE layout = "mediaText";
-SQL;
+        UPDATE site_page_block
+        SET
+            layout = "resourceText",
+            data = REPLACE(data, '"partial":"common\\/block-layout\\/media-text', '"partial":"common\\/block-layout\\/resource-text')
+        WHERE layout = "mediaText";
+        SQL;
     $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.0.5', '<')) {
     $sql = <<<'SQL'
-UPDATE site_page_block
-SET
-    data = REPLACE(data, '"partial":"', '"template":"')
-WHERE
-    layout IN ('block', 'browsePreview', 'column', 'itemShowCase', 'itemWithMetadata', 'listOfSites', 'pageTitle', 'searchForm', 'separator', 'tableOfContents', 'assets', 'embedText', 'html', 'resourceText', 'simplePage');
-SQL;
+        UPDATE site_page_block
+        SET
+            data = REPLACE(data, '"partial":"', '"template":"')
+        WHERE
+            layout IN ('block', 'browsePreview', 'column', 'itemShowCase', 'itemWithMetadata', 'listOfSites', 'pageTitle', 'searchForm', 'separator', 'tableOfContents', 'assets', 'embedText', 'html', 'resourceText', 'simplePage');
+        SQL;
     $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.3', '<')) {
     $sql = <<<'SQL'
-UPDATE site_page_block
-SET layout = "mirrorPage"
-WHERE layout = "simplePage";
-SQL;
+        UPDATE site_page_block
+        SET layout = "mirrorPage"
+        WHERE layout = "simplePage";
+        SQL;
     $connection->executeStatement($sql);
     $sql = <<<'SQL'
-UPDATE site_page_block
-SET layout = "externalContent"
-WHERE layout = "embedText";
-SQL;
+        UPDATE site_page_block
+        SET layout = "externalContent"
+        WHERE layout = "embedText";
+        SQL;
     $connection->executeStatement($sql);
     $sql = <<<'SQL'
-UPDATE site_page_block
-SET data = REPLACE(data, "/embed-text", "/external-content")
-WHERE layout = "externalContent";
-SQL;
+        UPDATE site_page_block
+        SET data = REPLACE(data, "/embed-text", "/external-content")
+        WHERE layout = "externalContent";
+        SQL;
     $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.4', '<')) {
     $sql = <<<'SQL'
-UPDATE site_page_block
-SET layout = "division"
-WHERE layout = "column";
-SQL;
+        UPDATE site_page_block
+        SET layout = "division"
+        WHERE layout = "column";
+        SQL;
     $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.3.11.7', '<')) {
     $sql = <<<'SQL'
-UPDATE site_page_block
-SET
-    data = REPLACE(
-        REPLACE(
-            data,
-            '"use_api_v1":"0"',
-            '"api":"2.0"'
-        ),
-        '"use_api_v1":"1"',
-        '"api":"1.1"'
-    )
-WHERE
-    layout = "twitter";
-SQL;
+        UPDATE site_page_block
+        SET
+            data = REPLACE(
+                REPLACE(
+                    data,
+                    '"use_api_v1":"0"',
+                    '"api":"2.0"'
+                ),
+                '"use_api_v1":"1"',
+                '"api":"1.1"'
+            )
+        WHERE
+            layout = "twitter";
+        SQL;
     $connection->executeStatement($sql);
 }
 
@@ -150,15 +150,15 @@ if (version_compare($oldVersion, '3.3.11.8', '<')) {
         ];
         foreach ($properties as $property) {
             $sql = <<<SQL
-INSERT INTO property
-    (owner_id, vocabulary_id, local_name, label, comment)
-VALUES
-    ($ownerId, $vocabularyId, "{$property['local_name']}", "{$property['label']}", "{$property['comment']}")
-ON DUPLICATE KEY UPDATE
-   label = "{$property['label']}",
-   comment = "{$property['comment']}"
-;
-SQL;
+                INSERT INTO property
+                    (owner_id, vocabulary_id, local_name, label, comment)
+                VALUES
+                    ($ownerId, $vocabularyId, "{$property['local_name']}", "{$property['label']}", "{$property['comment']}")
+                ON DUPLICATE KEY UPDATE
+                   label = "{$property['label']}",
+                   comment = "{$property['comment']}"
+                ;
+                SQL;
             $connection->executeStatement($sql);
         }
     }
@@ -169,7 +169,7 @@ if (version_compare($oldVersion, '3.3.13.0', '<')) {
 }
 
 if (version_compare($oldVersion, '3.3.13.1', '<')) {
-    // Convert assets into "assets" to merge with new upstream feature.
+    // Convert "assets" into "asset" to merge with new upstream feature.
     $qb = $connection->createQueryBuilder();
     $qb
         ->select(
@@ -208,12 +208,12 @@ if (version_compare($oldVersion, '3.3.13.1', '<')) {
 
         $quotedBlock = $connection->quote(json_encode($blockData));
         $sql = <<<SQL
-UPDATE `site_page_block`
-SET
-    `layout` = "asset",
-    `data` = $quotedBlock
-WHERE `id` = $id;
-SQL;
+            UPDATE `site_page_block`
+            SET
+                `layout` = "asset",
+                `data` = $quotedBlock
+            WHERE `id` = $id;
+            SQL;
         $connection->executeStatement($sql);
     }
 
@@ -378,11 +378,11 @@ if (version_compare($oldVersion, '3.4.15.7', '<')) {
         }
         $quotedBlock = $connection->quote(json_encode($blockData));
         $sql = <<<SQL
-UPDATE `site_page_block`
-SET
-    `data` = $quotedBlock
-WHERE `id` = $id;
-SQL;
+            UPDATE `site_page_block`
+            SET
+                `data` = $quotedBlock
+            WHERE `id` = $id;
+            SQL;
         $connection->executeStatement($sql);
     }
 
@@ -406,11 +406,11 @@ SQL;
         $blockData['query'] = http_build_query($query, '', '&', PHP_QUERY_RFC3986);
         $quotedBlock = $connection->quote(json_encode($blockData));
         $sql = <<<SQL
-UPDATE `site_page_block`
-SET
-    `data` = $quotedBlock
-WHERE `id` = $id;
-SQL;
+            UPDATE `site_page_block`
+            SET
+                `data` = $quotedBlock
+            WHERE `id` = $id;
+            SQL;
         $connection->executeStatement($sql);
         $pageId = (int) $block['page_id'];
         if (!isset($pages[$pageId])) {
@@ -465,14 +465,14 @@ if (version_compare($oldVersion, '3.4.16', '<')) {
     }
 
     $sql = <<<SQL
-UPDATE `site_page_block`
-SET
-    `data` = CONCAT(SUBSTRING(`data`, 1, LENGTH(`data`) - 1), ',"searchConfig":null}')
-WHERE `layout` = 'searchForm'
-    AND `data` IS NOT NULL
-    AND `data` != ''
-;
-SQL;
+        UPDATE `site_page_block`
+        SET
+            `data` = CONCAT(SUBSTRING(`data`, 1, LENGTH(`data`) - 1), ',"searchConfig":null}')
+        WHERE `layout` = 'searchForm'
+            AND `data` IS NOT NULL
+            AND `data` != ''
+        ;
+        SQL;
     $connection->executeStatement($sql);
 }
 
@@ -520,32 +520,32 @@ if (version_compare($oldVersion, '3.4.19', '<')) {
     }
 
     $sql = <<<SQL
-UPDATE `vocabulary`
-SET
-    `comment` = 'Generic and common properties that are useful in Omeka for the curation of resources. The use of more common or more precise ontologies is recommended when it is possible.'
-WHERE `prefix` = 'curation'
-;
-UPDATE `property`
-JOIN `vocabulary` on `vocabulary`.`id` = `property`.`vocabulary_id`
-SET
-    `property`.`local_name` = 'start',
-    `property`.`label` = 'Start',
-    `property`.`comment` = 'A start related to the resource, for example the start of an embargo.'
-WHERE
-    `vocabulary`.`prefix` = 'curation'
-    AND `property`.`local_name` = 'dateStart'
-;
-UPDATE `property`
-JOIN `vocabulary` on `vocabulary`.`id` = `property`.`vocabulary_id`
-SET
-    `property`.`local_name` = 'end',
-    `property`.`label` = 'End',
-    `property`.`comment` = 'A end related to the resource, for example the end of an embargo.'
-WHERE
-    `vocabulary`.`prefix` = 'curation'
-    AND `property`.`local_name` = 'dateEnd'
-;
-SQL;
+        UPDATE `vocabulary`
+        SET
+            `comment` = 'Generic and common properties that are useful in Omeka for the curation of resources. The use of more common or more precise ontologies is recommended when it is possible.'
+        WHERE `prefix` = 'curation'
+        ;
+        UPDATE `property`
+        JOIN `vocabulary` on `vocabulary`.`id` = `property`.`vocabulary_id`
+        SET
+            `property`.`local_name` = 'start',
+            `property`.`label` = 'Start',
+            `property`.`comment` = 'A start related to the resource, for example the start of an embargo.'
+        WHERE
+            `vocabulary`.`prefix` = 'curation'
+            AND `property`.`local_name` = 'dateStart'
+        ;
+        UPDATE `property`
+        JOIN `vocabulary` on `vocabulary`.`id` = `property`.`vocabulary_id`
+        SET
+            `property`.`local_name` = 'end',
+            `property`.`label` = 'End',
+            `property`.`comment` = 'A end related to the resource, for example the end of an embargo.'
+        WHERE
+            `vocabulary`.`prefix` = 'curation'
+            AND `property`.`local_name` = 'dateEnd'
+        ;
+        SQL;
     $connection->executeStatement($sql);
 }
 
@@ -1207,14 +1207,14 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
 
     // In all cases, remove empty headings from all module blocks with heading.
     $sql = <<<'SQL'
-UPDATE site_page_block
-SET
-    data = REPLACE(REPLACE(REPLACE(data,
-        ',"heading":""', ''),
-        '"heading":"",', ''),
-        '"heading":""', '')
-WHERE layout IN (:layouts)
-SQL;
+        UPDATE site_page_block
+        SET
+            data = REPLACE(REPLACE(REPLACE(data,
+                ',"heading":""', ''),
+                '"heading":"",', ''),
+                '"heading":""', '')
+        WHERE layout IN (:layouts)
+        SQL;
     $connection->executeStatement(
         $sql,
         ['layouts' => array_keys($blockTemplatesHeading)],
