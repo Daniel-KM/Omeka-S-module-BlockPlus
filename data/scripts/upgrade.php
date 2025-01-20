@@ -2302,3 +2302,10 @@ if (version_compare($oldVersion, '3.4.31', '<')) {
     );
     $messenger->addSuccess($message);
 }
+
+if (version_compare($oldVersion, '3.4.32', '<')) {
+    $message = new PsrMessage(
+        'The block Page metadata is deprecated in favor of an integrated form and will be removed in a future version. The metadata will be available as standard rdf data too.' // @translate
+    );
+    $messenger->addSuccess($message);
+}
