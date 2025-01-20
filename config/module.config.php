@@ -2,6 +2,7 @@
 
 namespace BlockPlus;
 
+// Page models and blocks group are stored in the same place, with the key "page_models".
 $pageModels = include __DIR__ . '/page_models.config.php';
 
 return [

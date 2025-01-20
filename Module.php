@@ -355,24 +355,11 @@ class Module extends AbstractModule
             return;
         }
 
+        $canThemeStorePageModels = $this->canThemeStorePageModels();
+
         $fieldset = new \Laminas\Form\Fieldset;
         $fieldset
             ->setAttribute('id', 'fieldset-page-model')
-            ->add([
-                'name' => 'page_model[type]',
-                'type' => \Laminas\Form\Element\Radio::class,
-                'options' => [
-                    'label' => 'Type', // @translate
-                    'value_options' => [
-                        'blocks_group' => 'Blocks only', // @translate
-                        'page_model' => 'Full page', // @translate
-                    ],
-                ],
-                'attributes' => [
-                    'id' => 'page-model-type',
-                    'value' => 'blocks_group',
-                ],
-            ])
             ->add([
                 'name' => 'page_model[label]',
                 'type' => \Laminas\Form\Element\Text::class,
@@ -407,14 +394,43 @@ class Module extends AbstractModule
                 ],
             ])
             ->add([
+                'name' => 'page_model[type]',
+                'type' => \Laminas\Form\Element\Radio::class,
+                'options' => [
+                    'label' => 'Type', // @translate
+                    'value_options' => [
+                        'blocks_group' => 'Blocks only', // @translate
+                        'page_model' => 'Full page', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'page-model-type',
+                    'value' => 'blocks_group',
+                ],
+            ])
+            ->add([
                 'name' => 'page_model[store]',
                 'type' => \Laminas\Form\Element\Select::class,
                 'options' => [
                     'label' => 'Settings', // @translate
                     'value_options' => [
-                        'main' => 'Main settings', // @translate
-                        'site' => 'Site settings', // @translate
-                        'theme' => 'Theme settings (if supported)', // @translate
+                        [
+                            'value' => 'main',
+                            'label' => 'Main settings', // @translate
+                        ],
+                        [
+                            'value' => 'site',
+                            'label' => 'Site settings', // @translate
+                        ],
+                        [
+                            'value' => 'theme',
+                            'label' => $canThemeStorePageModels
+                                ? 'Theme settings' // @translate
+                                : 'Theme settings (unsupported)', // @translate
+                            'attributes' => [
+                                'disabled' => !$canThemeStorePageModels,
+                            ],
+                        ],
                     ],
                 ],
                 'attributes' => [
@@ -580,6 +596,15 @@ class Module extends AbstractModule
         // Get the specific page models from main, site, or theme settings to
         // avoid to mix them.
         if ($store === 'theme') {
+            if (!$this->canThemeStorePageModels()) {
+                // The message is probably useless, because there is a check
+                // before input.
+                $messenger->addWarning((new PsrMessage(
+                    'The blocks group cannot be stored in the theme settings: the theme does not support it. See {link}readme{link_end}.', // @translate
+                    ['link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus#theme-config-and-theme-settings" target="_blank" rel="noopener">', 'link_end' => '</a>']
+                ))->setEscapeHtml(false));
+                return;
+            }
             $siteSettings = $services->get('Omeka\Settings\Site');
             $themeManager = $services->get('Omeka\Site\ThemeManager');
             $theme = $themeManager->getCurrentTheme();
@@ -774,6 +799,19 @@ class Module extends AbstractModule
         $siteSettings = $services->get('Omeka\Settings\Site');
         $rights = (bool) $siteSettings->get('blockplus_page_model_rights', false, $site->getId());
         return in_array($sitePermission->getRole(), $rights ? ['admin', 'editor'] : ['admin']);
+    }
+
+    /**
+     * Check if the current theme can store page models in theme settings.
+     */
+    protected function canThemeStorePageModels(): bool
+    {
+        $services = $this->getServiceLocator();
+        $siteSettings = $services->get('Omeka\Settings\Site');
+        $themeManager = $services->get('Omeka\Site\ThemeManager');
+        $theme = $themeManager->getCurrentTheme();
+        $result = $theme->getConfigSpec()['elements']['page_models'] ?? null;
+        return $result !== null;
     }
 
     /**
