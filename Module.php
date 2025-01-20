@@ -12,9 +12,8 @@ use Doctrine\Common\Collections\Criteria;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Session\Container;
-use Omeka\Module\AbstractModule;
-use Omeka\Permissions\Assertion\HasSitePermissionAssertion;
 use Omeka\Entity\Site;
+use Omeka\Module\AbstractModule;
 
 /**
  * BlockPlus.
@@ -303,8 +302,11 @@ class Module extends AbstractModule
 
         // Remove page models, that are available only during page creation.
         $pageModels = $plugins->get('pageModels')();
-        $blocksGroups = array_filter($pageModels, fn($v): bool => !isset($v['o:layout_data']) && !isset($v['layout_data']));
-        $pageBlocksNames = array_combine(array_keys($pageModels), array_map(fn($k, $v): string => $v['o:label'] ?? $v['label'] ?? $k, array_keys($pageModels), $pageModels));
+        $blocksGroups = array_filter($pageModels, fn ($v): bool => !isset($v['o:layout_data']) && !isset($v['layout_data']));
+        $pageBlocksNames = array_combine(
+            array_keys($pageModels),
+            array_map(fn ($k, $v): string => $v['o:label'] ?? $v['label'] ?? $k, array_keys($pageModels), $pageModels)
+        );
 
         $script = sprintf('const blocksGroups = %s;', json_encode($blocksGroups, 320));
         $script .= "\n" . sprintf('const pageBlocksNames = %s;', json_encode($pageBlocksNames, 320));
@@ -513,7 +515,7 @@ class Module extends AbstractModule
         $plugins = $services->get('ControllerPluginManager');
         $messenger = $plugins->get('messenger');
 
-        $randomString = fn() => '_' . substr(str_replace(["+", "/", "="], "", base64_encode(random_bytes(48))), 0, 4);
+        $randomString = fn () => '_' . substr(str_replace(["+", "/", "="], "", base64_encode(random_bytes(48))), 0, 4);
 
         $toCreate = $sitePageData['page_model'];
 

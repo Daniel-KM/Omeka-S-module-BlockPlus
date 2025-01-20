@@ -96,7 +96,7 @@ class CaptionClassAndUrl extends AbstractHelper
             }
         }
 
-        $isLocalUrl =  $url
+        $isLocalUrl = $url
             && substr($url, 0, 1) === '/';
 
         $isMediaFile = $isLocalUrl

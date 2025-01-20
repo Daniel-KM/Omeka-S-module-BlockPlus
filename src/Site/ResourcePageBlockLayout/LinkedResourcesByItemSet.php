@@ -67,7 +67,7 @@ class LinkedResourcesByItemSet implements ResourcePageBlockLayoutInterface
         // There is no pagination here.
         // TODO Filter subject values directly by the item set if any.
         // $subjectValues is an array of values with keys term, id and title.
-        $resourceEntity = $api->read($resourceName, $resource->id(), [], ['responseContent' => 'resource', 'initialize' => false, 'finalize' =>false])->getContent();
+        $resourceEntity = $api->read($resourceName, $resource->id(), [], ['responseContent' => 'resource', 'initialize' => false, 'finalize' => false])->getContent();
         $subjectValues = $currentItemSetId && !$currentItemSet
             ? []
             : $adapter->getSubjectValuesSimple($resourceEntity, null, 'items', $excludeResourcesNotInSite ? $site->id() : null);

@@ -3,9 +3,9 @@
 namespace BlockPlus\Mvc\Controller\Plugin;
 
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
-use Omeka\Site\Theme\Manager as ThemeManager;
 use Omeka\Settings\Settings;
 use Omeka\Settings\SiteSettings;
+use Omeka\Site\Theme\Manager as ThemeManager;
 
 class PageModels extends AbstractPlugin
 {

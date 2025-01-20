@@ -497,7 +497,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                         'link' => $linkType,
                     ]);
                 }
-            };
+            }
         }
         unset($entry);
 

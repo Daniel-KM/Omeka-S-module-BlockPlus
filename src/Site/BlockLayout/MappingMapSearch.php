@@ -3,8 +3,8 @@
 namespace BlockPlus\Site\BlockLayout;
 
 use Laminas\View\Renderer\PhpRenderer;
-use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Mapping\Site\BlockLayout\MapQuery;
+use Omeka\Api\Representation\SitePageBlockRepresentation;
 
 class MappingMapSearch extends MapQuery
 {
