@@ -7,9 +7,6 @@ use Omeka\Site\Theme\Manager as ThemeManager;
 use Omeka\Settings\Settings;
 use Omeka\Settings\SiteSettings;
 
-/**
- * Get all page models.
- */
 class PageModels extends AbstractPlugin
 {
     /**
@@ -37,6 +34,9 @@ class PageModels extends AbstractPlugin
      */
     protected $themeManager;
 
+    /**
+     * Get all page models from config, settings, site settings and theme.
+     */
     public function __construct(
         array $config,
         Settings $settings,

@@ -26,7 +26,15 @@ class PageModelSelect extends Select
     public function getValueOptions(): array
     {
         if (!$this->separatePagesAndBlocks) {
-            return $this->valueOptions;
+            $result = [];
+            foreach ($this->valueOptions as $key => $value) {
+                $val = $value;
+                if (is_array($value) && !isset($value['label'])) {
+                    $val['label'] = $value['o:label'] ?? '[no label]';
+                }
+                $result[$key] = $val;
+            }
+            return $result;
         }
 
         // Separate full page model and simple list of blocks.
@@ -42,7 +50,7 @@ class PageModelSelect extends Select
         ];
 
         foreach ($this->valueOptions as $name => $pageModel) {
-            $key = isset($pageModel['o:layout_data']) || isset($pageModel['layout_data'])
+            $key = isset($pageModel['o:layout_data']) || isset($pageModel['layout_data']) || !empty($pageModel['is_page_template'])
                 ? 'page_models'
                 : 'block_groups';
             $models[$key]['options'][$name] = $pageModel['o:label'] ?? $pageModel['label'] ?? '[Untitled]';

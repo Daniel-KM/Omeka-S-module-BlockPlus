@@ -10,11 +10,18 @@ class PageModelSelectFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
+        $currentTheme = $services->get('Omeka\Site\ThemeManager')->getCurrentTheme();
+        $config = $currentTheme->getConfigSpec();
+        $pageTemplates = $config['page_templates'] ?: [];
+
         $pageModels = $services->get('ControllerPluginManager')->get('pageModels');
+        $pageModels = $pageModels();
+
+        $pageModels += array_map(fn ($v) => ['label' => $v, 'is_page_template' => true], $pageTemplates);
 
         $element = new PageModelSelect(null, $options ?? []);
         return $element
-            ->setValueOptions($pageModels())
+            ->setValueOptions($pageModels)
             ->setEmptyOption('Select a page model…'); // @translate
     }
 }
