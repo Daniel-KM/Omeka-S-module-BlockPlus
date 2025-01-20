@@ -593,6 +593,15 @@ class Module extends AbstractModule
             $pageModels = $settings->get('blockplus_page_models', []);
         }
 
+        // This fix is needed to fix an unknown error.
+        if (!$pageModels) {
+            $pageModels = [];
+        } elseif (!is_array($pageModels)) {
+            $pageModels = is_string($pageModels)
+                ? (json_decode($pageModels, true) ?: [])
+                : [];
+        }
+
         $pageModels[$cleanName] = $pageModel;
 
         if ($store === 'theme') {
