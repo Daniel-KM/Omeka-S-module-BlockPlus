@@ -28,7 +28,16 @@ class PageMetadata extends AbstractHelper
             }
         }
 
-        $block = $this->currentBlockMetadata($page);
-        return $this->metadataBlock($metadata, $block);
+        $requireBlockMetadata = !in_array($metadata, $this->require['page_metadata'], true);
+        if ($requireBlockMetadata) {
+            $block = $this->currentBlockMetadata($page);
+            if (!$block) {
+                return null;
+            }
+        } else {
+            $block = null;
+        }
+
+        return $this->metadataBlock($metadata, $page, $block);
     }
 }

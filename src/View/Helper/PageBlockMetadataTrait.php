@@ -14,21 +14,83 @@ use Omeka\Api\Representation\SiteRepresentation;
 trait PageBlockMetadataTrait
 {
     /**
-     * Get metadata of a block.
+     * There are two cases. Metadata may require:
+     * - page data
+     * - block metadata data
+     * Threre are two situations:
+     * - from the page
+     * - from a block.
      *
+     * @var array
+     */
+    protected $require = [
+        'page_metadata' => [
+            'page',
+            'title',
+            'slug',
+            'theme_dir',
+            'template',
+            'template_name',
+            'type',
+            'is_home_page',
+            'nav_data',
+            'root',
+            'subroot',
+            'sub_root',
+            'parent',
+            'parents',
+            'prev',
+            'previous',
+            'next',
+            'children',
+            'siblings',
+            'exhibit',
+            'exhibit_nav',
+        ],
+        'block_metadata' => [
+            'block',
+            null,
+            'type',
+            'credits',
+            'summary',
+            'tags',
+            'type_label',
+            'featured',
+            'cover',
+            'cover_url',
+            'attachments',
+            'first_image',
+            'main_image',
+            'params',
+            'params_raw',
+            'params_json',
+            'params_json_array',
+            'params_json_object',
+            'params_ini',
+            'params_key_value_array',
+            'params_key_value',
+            // And others.
+        ],
+    ];
+
+    /**
+     * Get metadata of a page or a block metadata.
+     *
+     * The block should be the block metadata of the page.
      * If the block is not available, only common page metadata are available.
      */
-    protected function metadataBlock(?string $metadata = null, ?SitePageBlockRepresentation $block = null)
-    {
+    protected function metadataBlock(
+        ?string $metadata,
+        SitePageRepresentation $page,
+        ?SitePageBlockRepresentation $block
+    ) {
         $view = $this->getView();
-        $page = $block ? $block->page() : $this->currentPage();
-        if (!$page) {
-            return null;
-        }
 
         switch ($metadata) {
             case 'block':
+            case is_null($metadata):
                 return $block;
+
             case 'page':
                 return $page;
             case 'title':
@@ -44,11 +106,9 @@ trait PageBlockMetadataTrait
                 return $page->layoutDataValue('template_name') ?: null;
 
             case 'type':
-                if (version_compare(\Omeka\Module::VERSION, '4.1', '>=')) {
-                    $view->logger()->warn('Since Omeka S 4.1, the metadata "type" is replaced by the page template name (key "template"). Check your theme.'); // @translate
-                    return $page->layoutDataValue('template_name') ?: null;
-                }
-                // no break.
+                $view->logger()->warn('Since Omeka S 4.1, the metadata "type" is replaced by the page template name (key "template"). Check your theme.'); // @translate
+                return $page->layoutDataValue('template_name') ?: null;
+
             case 'credits':
             case 'summary':
             case 'tags':
@@ -98,6 +158,7 @@ trait PageBlockMetadataTrait
                     return null;
                 }
                 $api = $view->api();
+                // Check if acover is defined in the current block.
                 $asset = $block->dataValue('cover');
                 if ($asset) {
                     try {
@@ -105,6 +166,7 @@ trait PageBlockMetadataTrait
                     } catch (NotFoundException $e) {
                     }
                 }
+                // Search for a block pageMetadata or asset/
                 foreach ($page->blocks() as $block) {
                     $layout = $block->layout();
                     if ($layout === 'pageMetadata') {
@@ -116,28 +178,28 @@ trait PageBlockMetadataTrait
                             }
                         }
                     } elseif ($layout === 'asset') {
-                        foreach ($block->dataValue('asset', []) as $asset) {
+                        foreach ($block->data() as $asset) {
                             try {
-                                return $api->read('assets', ['id' => $asset['asset']])->getContent();
+                                return $api->read('assets', ['id' => $asset['id']])->getContent();
                             } catch (\Omeka\Api\Exception\NotFoundException $e) {
                             }
                         }
-                        continue;
                     }
-                    foreach ($block->attachments() as $attachment) {
-                        $media = $attachment->media();
+                }
+                // Search for attachments of the current block.
+                foreach ($block->attachments() as $attachment) {
+                    $media = $attachment->media();
+                    if ($media && ($media->hasThumbnails() || $media->thumbnail())) {
+                        return $media;
+                    }
+                    $item = $attachment->item();
+                    if ($item) {
+                        if ($thumbnail = $item->thumbnail()) {
+                            return $thumbnail;
+                        }
+                        $media = $item->primaryMedia();
                         if ($media && ($media->hasThumbnails() || $media->thumbnail())) {
                             return $media;
-                        }
-                        $item = $attachment->item();
-                        if ($item) {
-                            if ($thumbnail = $item->thumbnail()) {
-                                return $thumbnail;
-                            }
-                            $media = $item->primaryMedia();
-                            if ($media && ($media->hasThumbnails() || $media->thumbnail())) {
-                                return $media;
-                            }
                         }
                     }
                 }
@@ -178,7 +240,9 @@ trait PageBlockMetadataTrait
                 return $this->siblingPages($page);
 
             case 'exhibit':
-                switch ($block->dataValue('type')) {
+                $type = $page->layoutDataValue('template_name') ?: null;
+                switch ($type) {
+                    case 'exhibit-page':
                     case 'exhibit_page':
                         $parentPages = $this->parentPages($page);
                         foreach ($parentPages as $parentPage) {
@@ -199,9 +263,6 @@ trait PageBlockMetadataTrait
                 return $exhibit
                     ? $this->navigationForPage($exhibit)
                     : null;
-
-            case is_null($metadata):
-                return $block;
 
             case 'params':
             case 'params_raw':
