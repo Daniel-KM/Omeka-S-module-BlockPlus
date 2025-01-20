@@ -563,6 +563,20 @@ class Module extends AbstractModule
             $pageModel['o:block'][++$i] = $block;
         }
 
+        /**
+         * Check page model or blocks group: it can't contains double quote '"'.
+         * @todo Fix issue in IniTextarea when a "Value can not contain double quotes".
+         * @see \Laminas\Config\Writer::prepareValue()
+         */
+        $check = false;
+        array_walk_recursive($pageModel, fn ($v) => $check = ($check || is_string($v) && strpos($v, '"') !== false));
+        if ($check) {
+            $messenger->addWarning(new PsrMessage(
+                'The page models can’t contain a value with a double quote (")' // @translate
+            ));
+            return;
+        }
+
         // Get the specific page models from main, site, or theme settings to
         // avoid to mix them.
         if ($store === 'theme') {
