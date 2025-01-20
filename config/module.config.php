@@ -142,6 +142,7 @@ return [
             'asset-bootstrap-hero' => 'Block Plus: Bootstrap Hero', // @translate
             'asset-left-right' => 'Block Plus: Left Right', // @translate
             'asset-partners' => 'Block Plus: Partners', // @translate
+            'asset-skip' => 'Block Plus: Skip', // @translate
             'asset-deprecated-plus' => 'Block Plus: Asset (deprecated)', // @translate
         ],
         'block' => [
@@ -178,6 +179,9 @@ return [
         ],
         'itemWithMetadata' => [
             'item-with-metadata-deprecated' => 'Block Plus: Item with metadata (deprecated)', // @translate
+        ],
+        'lineBreak' => [
+            'list-break-skip' => 'Block Plus: Skip', // @translate
         ],
         'listOfPages' => [
             'list-of-pages-deprecated' => 'Block Plus: List of pages (deprecated)', // @translate
