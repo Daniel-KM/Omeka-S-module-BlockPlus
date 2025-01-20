@@ -262,6 +262,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                     continue;
                 }
             }
+
             if ($matches[2] === 'page' || $matches[2] === 'pages') {
                 try {
                     $page = $this->api->read('site_pages', ['site' => $entrySiteId, 'slug' => $matches[3]])->getContent();
@@ -485,8 +486,10 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['thumbnail_url'] = $resource->thumbnailDisplayUrl($thumbnailType);
                 $entry['caption'] = $resource->displayDescription(null, $lang);
                 // Manage the option "media display" even for item.
-                if ($mediaDisplay === 'thumbnail' || !$media) {
-                    $entry['render'] = $hyperlink->raw($thumbnail($media, $thumbnailType), $entry['url'], ['class' => $entry['link_class']]);
+                if ($mediaDisplay === 'thumbnail') {
+                    $entry['render'] = $media
+                        ? $hyperlink->raw($thumbnail($media, $thumbnailType), $entry['url'], ['class' => $entry['link_class']])
+                        : $resource->link($resource->displayTitle(), 'show', ['class' => $entry['link_class']]);
                     // TODO Make possible to render an item.
                 } else {
                     $entry['render'] = $media->render([
