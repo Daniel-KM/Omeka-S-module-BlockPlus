@@ -4,29 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ea99b51364e9b6c17a09626299fdc14",
+    "content-hash": "10de6babd59a91c2af85d459878dc6ba",
     "packages": [
         {
             "name": "andykirk/ckeditor-footnotes",
             "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/andykirk/CKEditor-Footnotes.git",
-                "reference": "v1.2.0"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://github.com/andykirk/CKEditorFootnotes/archive/refs/tags/v1.2.0.zip"
+                "type": "tar",
+                "url": "https://github.com/andykirk/CKEditorFootnotes/archive/refs/tags/v1.2.0.tar.gz"
             },
             "type": "omeka-addon-asset"
         },
         {
             "name": "asset/thumbnail-grid-expanding-preview",
-            "version": "0.2",
+            "version": "0.1",
             "dist": {
-                "type": "zip",
-                "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/0.2.zip",
-                "reference": "0.2"
+                "type": "tar",
+                "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/refs/tags/0.1.tar.gz",
+                "reference": "0.1"
             },
             "type": "omeka-addon-asset"
         },
@@ -190,8 +185,8 @@
             "name": "kenwheeler/slick",
             "version": "1.8.1",
             "dist": {
-                "type": "zip",
-                "url": "https://github.com/kenwheeler/slick/archive/refs/heads/master.zip",
+                "type": "tar",
+                "url": "https://github.com/kenwheeler/slick/archive/refs/heads/master.tar.gz",
                 "reference": ""
             },
             "type": "omeka-addon-asset"
@@ -257,8 +252,8 @@
             "name": "thetechy/jslists",
             "version": "0.4.5",
             "dist": {
-                "type": "zip",
-                "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.zip",
+                "type": "tar",
+                "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.tar.gz",
                 "reference": ""
             },
             "type": "omeka-addon-asset"
@@ -272,5 +267,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
