@@ -160,11 +160,13 @@
             }
         }
 
+        // Add the button for block groups only when there are blocks groups.
+        
         const addBlockGroupPlus = $('<button>', {
             type: 'button',
             id: 'add-block-group-plus',
             value: 'addBlockGroupPlus',
-            class: 'add-block-group-plus expand',
+            class: 'add-block-group-plus expand' + (blocksGroups && Object.keys(blocksGroups).length ? '' : ' hidden'),
             title: Omeka.jsTranslate('Expand to display the list of groups of blocks'),
             'aria-label': Omeka.jsTranslate('Expand to display the list of groups of blocks'),
             'data-text-expand': Omeka.jsTranslate('Expand to display the list of groups of blocks'),
