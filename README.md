@@ -62,9 +62,11 @@ on multiple pages.
 ![add-new-block-group-plus](data/images/add-new-block-group-plus.png)
 
 This pre-configured list of page models and group of blocks can be configured in
-many places. Four page models, one for each of the page templates of the module,
-and one group of blocks are available by default. The page models are similar to
-the ones of Omeka Classic (Omeka 2) to simplify migration.
+many places.
+
+As an example, [four page models], one for each of the page templates of the
+module, and one group of blocks are available by default. The page models are
+similar to the ones of Omeka Classic (Omeka 2) to simplify migration.
 
 - Page models:
   - Home Page: A page template with blocks browse preview, html, heading, and
@@ -100,10 +102,12 @@ file config/local.config.php of the installation, in the main settings, in the
 site settings, in the file config/theme.ini of the current theme or in the theme
 settings.
 
-A configured element is a page model when the key "o:layout_data" or "layout_data"
-is set with an array, even empty. If the key is not present, the element is a
-blocks groups. Page models are not displayed in the list of blocks groups in the
-"Edit page".
+A configured element is a page model when the first level key "o:layout_data" or
+"layout_data" is set with an array, even empty. If the key is not present, the
+element is a blocks groups. Page models are not displayed in the list of blocks
+groups in the "Edit page".
+
+#### Example of config and settings
 
 To set the list of page models or groups of blocks in a file (module.config.php,
 local.config.php), follow the example in the file [module.config.php](https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/blob/master/config/page_models.config.php?ref_type=heads)
@@ -159,22 +163,46 @@ block.5.layout_data.background_color = "#404e61"
 block.5.layout_data.min_height = "18px"
 ```
 
-If you want to add a group in the theme via the file config/theme.ini, you
-cannot use the section marker for `[layout_name]` and you should prepend the
-main key `page_models`, then the name of the page model or blocks group, for
-example:
+#### Theme config and theme settings
+
+The theme settings work the same than the main and site settings, but there
+should be a form element to store them, so add this to your file `config/theme.ini`
+first:
 
 ```ini
-page_models.asset_html.label = "Asset with html"
-page_models.asset_html.block.1.layout = "asset"
-page_models.asset_html.block.2.layout = "html"
+element_groups.pages = "Pages"
+
+elements.page_models.name = "page_models"
+elements.page_models.type = "Common\Form\Element\IniTextarea"
+elements.page_models.options.element_group = "pages"
+elements.page_models.options.label = "Page models and blocks groups"
+elements.page_models.options.info = "Page models and blocks groups are configured as ini."
+elements.page_models.options.documentation = "https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus#example-of-config-and-settings"
+elements.page_models.attributes.id = "page_models"
+elements.page_models.attributes.rows = "12"
 ```
 
-Of course, if there is a setting "block_page_models" in the theme config, it
-will be managed like main and site settings in the user interface.
+And the user will input:
+
+```ini
+[asset_html]
+label = "Asset and html"
+block.1.layout = "asset"
+block.2.layout = "html"
+```
+
+The theme may contain static page models too. For them, add them with the key
+"page_models", because the use of section mark `[xxx]` is not possible, since
+a section is already set with `[config]`:
+
+```ini
+page_models.my-page-model.label = "My page model"
+```
+
+#### Priorities
 
 When two elements have the same name (root key), the more specific replaces the
-more generic, so config < settings < site settings < theme config < theme settings.
+more generic, so theme settings > theme config > site settings > main settings > config.
 
 ### New site page blocks and block templates
 
@@ -981,6 +1009,7 @@ be removed in a future version.
 TODO
 ----
 
+- [ ] Make page metadata available via resource templates, as any resource (or via a new module).
 - [ ] Merge more similar blocks into a main block (with automatic upgrade).
 - [x] Integrate Shortcodes (module [Shortcode])
 - [ ] Merge module [Menu] inside BlockPlus?
@@ -1079,6 +1108,8 @@ Copyright
 [shortcode as a page]: https://github.com/omeka/plugin-SimplePages/pull/24
 [user doc]: https://omeka.org/s/docs/user-manual/sites/site_pages/#edit-a-page
 [dev doc]: https://omeka.org/s/docs/developer/themes/theme_templates
+[four page models]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/blob/master/config/page_models.config.php?ref_type=heads
+[module.config.php]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/blob/master/config/page_models.config.php?ref_type=heads
 [Omeka Classic]: https://omeka.org/classic
 [Exhibit `file-text`]: https://omeka.org/classic/docs/Plugins/ExhibitBuilder
 [Fondation de la Maison de Salins]: https://collections.maison-salins.fr
