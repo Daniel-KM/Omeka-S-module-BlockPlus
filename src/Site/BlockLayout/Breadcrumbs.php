@@ -53,9 +53,10 @@ class Breadcrumbs extends AbstractBlockLayout implements TemplateableBlockLayout
         $plugins = $view->getHelperPluginManager();
         $siteSetting = $plugins->get('siteSetting');
 
-        $crumbs = $siteSetting('blockplus_breadcrumbs_crumbs', []);
-        $vars['prependHome'] = in_array('home', $crumbs);
-        $vars['appendCurrent'] = in_array('current', $crumbs);
+        $crumbOptions = $siteSetting('blockplus_breadcrumbs_crumbs', []);
+        $vars['prependHome'] = in_array('home', $crumbOptions);
+        $vars['appendCurrent'] = in_array('current', $crumbOptions) || in_array('current_link', $crumbOptions);
+        $vars['linkLast'] = in_array('current_link', $crumbOptions);
         $vars['separator'] = (string) $siteSetting('blockplus_breadcrumbs_separator');
 
         return $view->partial($templateViewScript, $vars);

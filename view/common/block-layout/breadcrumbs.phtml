@@ -8,6 +8,7 @@
  * @var array $activePage
  * @var bool $prependHome
  * @var bool $appendCurrent
+ * @var bool $linkLast
  * @var string $separator
  */
 
@@ -27,12 +28,14 @@ $activePage = $nav->findActive($nav->getContainer());
     <?php if ($displayOnHomePage || !$isHomePage /* && $activePage['depth'] !== 0 */): ?>
 <nav class="breadcrumbs" aria-label="<?= $translate('Breadcrumb') ?>">
     <?= $prependHome && $homePage ? $homePage->link($homePage->title()) . $separator : '' ?>
-    <?= $nav->breadcrumbs()->setSeparator($separator) ?>
+    <?= $nav->breadcrumbs()->setSeparator($separator)->setLinkLast($linkLast) ?>
 </nav>
     <?php endif; ?>
 <?php elseif ($prependHome || $appendCurrent): // Isolated page. ?>
 <nav class="breadcrumbs" aria-label="<?= $translate('Breadcrumb') ?>">
     <?= $prependHome && $homePage ? $homePage->link($homePage->title()) . ($appendCurrent ? $separator : '') : '' ?>
-    <?= $appendCurrent ? '<span>' . $this->escapeHtml($page->title()) . '</span>' : '' ?>
+    <?php if ($appendCurrent): ?>
+    <?= $linkLast ? $page->link($page->title()) : '<span>' . $this->escapeHtml($page->title()) . '</span>' ?>
+    <?php endif; ?>
 </nav>
 <?php endif; ?>

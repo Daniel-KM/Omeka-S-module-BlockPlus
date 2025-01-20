@@ -65,6 +65,7 @@ class SiteSettingsFieldset extends Fieldset
                         'itemset' => 'Include main item set for item', // @translate,
                         'itemsetstree' => 'Include item sets tree', // @translate,
                         'current' => 'Append current resource', // @translate
+                        'current_link' => 'Append current resource as a link', // @translate
                     ],
                 ],
                 'attributes' => [

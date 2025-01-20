@@ -35,10 +35,12 @@ foreach ($navBreadcrumbs->getContainer()->findAllBy('uri', '') as $navLink) {
     $navLink->setClass('no-link');
 }
 
+$navBreadcrumbs->setLinkLast(!empty($options['linkLast']));
+
 // Use (string) instead of render() to manage exception.
 $html = (string) $navBreadcrumbs;
 
-// TODO Use standard method to convert <a> into <span>.
+// TODO Check if the check is still needed for convert <a> into <span> with aria.
 if (empty($options['linkLast']) && $lastLinkPos = mb_strrpos($html, '</a>' . $separator)) {
     $html = mb_substr($html, 0, $lastLinkPos + 4 + mb_strlen($separator)) . '<span class="active" aria-currrent="page">' . mb_substr($html, $lastLinkPos + 4 + mb_strlen($separator)) . '</span>';
 }

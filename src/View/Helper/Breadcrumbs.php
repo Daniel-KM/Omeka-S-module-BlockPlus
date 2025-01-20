@@ -55,7 +55,7 @@ class Breadcrumbs extends AbstractHelper
      * - separator (string) Separator, escaped for html (no default: use css)
      * - template (string) The partial to use (default: "common/breadcrumbs")
      * Options are passed to the partial too.
-     * @return string The html breadcrumb.
+     * @return string The html breadcrumb via the partial.
      */
     public function __invoke(array $options = [])
     {
