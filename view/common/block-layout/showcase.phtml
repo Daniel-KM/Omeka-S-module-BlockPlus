@@ -9,13 +9,14 @@
  *   - resource_name (string): Api name
  *   - resource_type (string): Controller or class name
  *   - site (SiteRepresentation): When the link use another site
- *   - render (html): the link with the thumbnail and title or the media rendering
- *     according to the options
  *   - title (string)
  *   - url (string)
  *   - link_class (string)
  *   - caption (html)
  *   - body (html)
+ *   - thumbnail_url (string)
+ *   - render (html): the link with the thumbnail and title or the media rendering
+ *     according to the options
  *   - data (array) For external url
  * @var string $thumbnailType May be original, large, medium or square.
  * @var string $linkType May be original, item or media (site setting)
@@ -39,7 +40,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
     <?php foreach ($entries as $entry):
         if (empty($entry['entry'])) continue;
         ?>
-    <div class="entry entry-<?= $entry['resource_type'] ?> item resource">
+    <article class="entry entry-<?= $entry['resource_type'] ?> item resource">
         <?= $entry['render'] ?>
         <?php if ($showTitleOption !== 'no_title'): ?>
         <h3>
@@ -56,6 +57,6 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
         <?php if ($entry['body']): ?>
         <div class="body"><?= $entry['body'] ?></div>
         <?php endif; ?>
-    </div>
+    </article>
     <?php endforeach; ?>
 </div>

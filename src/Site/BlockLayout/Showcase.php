@@ -336,12 +336,14 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
             'resource_name' => null,
             'resource_type' => null,
             'site' => null,
-            'render' => null,
             'title' => null,
             'url' => null,
             'link_class' => null,
             'caption' => null,
             'body' => null,
+            'thumbnail_url' => null,
+            'render' => null,
+            'data' => null,
         ];
 
         foreach ($entries as &$entry) {
@@ -404,6 +406,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['caption'] = $caption;
                 $entry['body'] = $body;
                 if (is_object($asset)) {
+                    $entry['thumbnail_url'] = $asset->assetUrl();
                     $thumb = $thumbnail($asset, $thumbnailType);
                     $entry['render'] = $entry['url']
                         ? $hyperlink->raw($thumb, $entry['url'], ['class' => $entry['link_class']])
@@ -421,6 +424,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['caption'] = $resource->summary();
                 $entryThumbnail = $resource->thumbnail();
                 if ($entryThumbnail) {
+                    $entry['thumbnail_url'] = $entryThumbnail->assetUrl();
                     $thumb = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-thumbnail-image']);
                     $entry['render'] = $entry['url']
                         ? $hyperlink->raw($thumb, $entry['url'], ['class' => $entry['link_class']])
@@ -434,6 +438,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['caption'] = $pageMetadata('summary', $resource);
                 $entryThumbnail = $pageMetadata('main_image', $resource);
                 if ($entryThumbnail) {
+                    $entry['thumbnail_url'] = $entryThumbnail->assetUrl();
                     $thumb = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-page-thumbnail-image']);
                     $entry['render'] = $entry['url']
                         ? $hyperlink->raw($thumb, $entry['url'], ['class' => $entry['link_class']])
@@ -444,6 +449,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['link_class'] = 'asset-link';
                 $entry['title'] = $showTitle ? $resource->altText() : null;
                 $entry['url'] = $resource->assetUrl();
+                $entry['thumbnail_url'] = $entryThumbnail->assetUrl();
                 $entry['render'] = $thumbnail($resource, $thumbnailType);
             } else {
                 // Standard resource.
@@ -473,6 +479,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 } else {
                     $entry['url'] = $resource->siteUrl($resourceSiteSlug);
                 }
+                $entry['thumbnail_url'] = $resource->thumbnailDisplayUrl($thumbnailType);
                 $entry['caption'] = $resource->displayDescription(null, $lang);
                 // Manage the option "media display" even for item.
                 if ($mediaDisplay === 'thumbnail' || !$media) {
