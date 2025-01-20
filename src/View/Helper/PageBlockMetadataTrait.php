@@ -309,7 +309,7 @@ trait PageBlockMetadataTrait
             if (empty($pageData['parent_id'])) {
                 return $pages;
             }
-            $pages[] = $sitePages[$pageData['parent_id']];
+            $pages[] = $sitePages[$pageData['parent_id']] ?? null;
             $pageId = $pageData['parent_id'];
         }
         return $pages;
@@ -360,10 +360,13 @@ trait PageBlockMetadataTrait
     {
         $site = $page->site();
         $pageData = $this->findPageInNavigation($page->id(), $site->navigation());
-        return array_intersect_key(
-            $this->sitePages($site),
-            array_flip($pageData['children'])
-        );
+        if (empty($pageData['children'])) {
+            return [];
+        }
+        $ids = array_values(array_filter(array_map(fn ($v) => $v && $v['type'] === 'page' ? $v['id'] : null, $pageData['children'])));
+        return $ids
+            ? array_intersect_key($this->sitePages($site), array_flip($ids))
+            : [];
     }
 
     /**
@@ -376,21 +379,11 @@ trait PageBlockMetadataTrait
      */
     protected function siblingPages(SitePageRepresentation $page): array
     {
-        $pageData = $this->findPageInNavigation($page);
-        return $pageData['siblings'];
-
-        $parentPages = $this->parentPages($page);
-        if (!$parentPages) {
-            return [];
-        }
-        return empty($parents) ? null : reset($parents);
-
         $site = $page->site();
         $pageData = $this->findPageInNavigation($page->id(), $site->navigation());
-        return array_intersect_key(
-            $this->sitePages($site),
-            array_flip($pageData['children'])
-        );
+        return empty($pageData['siblings'])
+            ? []
+            : array_intersect_key($this->sitePages($site), array_flip($pageData['siblings']));
     }
 
     /**
@@ -404,57 +397,51 @@ trait PageBlockMetadataTrait
      * @param int $parentPageId
      * @return array
      */
-    protected function findPageInNavigation($pageId, $navItems, $parentPageId = null): array
+    protected function findPageInNavigation($pageId, $navItems, $parentPageId = null, $navId = 0): array
     {
-        static $pages;
+        static $pages = [];
 
         if (isset($pages[$pageId])) {
             return $pages[$pageId];
         }
 
-        $siblings = [];
         foreach ($navItems as $navItem) {
-            if ($navItem['type'] === 'page') {
-                $navItemData = $navItem['data'];
-                $navItemId = $navItemData['id'];
-                $siblings[] = $navItemId;
-            }
-        }
+            ++$navId;
+            $isPage = $navItem['type'] === 'page';
 
-        $childLinks = [];
-        foreach ($navItems as $navItem) {
-            if ($navItem['type'] === 'page') {
-                $navItemData = $navItem['data'];
-                $navItemId = $navItemData['id'];
+            $navItemId = $isPage
+                ? $navItem['data']['id']
+                : "_$navId";
 
-                if ($navItemId === $pageId) {
-                    $pages[$pageId] = [
-                        'id' => $pageId,
-                        'parent_id' => $parentPageId,
-                        'siblings' => $siblings,
-                        'children' => empty($navItem['links'])
-                            ? []
-                            : array_values(array_filter(array_map(fn ($v) => $v['type'] === 'page' ? $v['data']['id'] : null, $navItem['links']))),
-                    ];
-                    return $pages[$pageId];
-                }
-
-                if (array_key_exists('links', $navItem)) {
-                    $childLinks[$navItemId] = $navItem['links'];
+            $siblings = [];
+            foreach ($navItems as $navItemSibling) {
+                if ($navItemSibling['type'] === 'page') {
+                    $siblings[] = $navItemSibling['data']['id'];
                 }
             }
-        }
 
-        foreach ($childLinks as $parentPageId => $links) {
-            $childLinkResult = $this->findPageInNavigation($pageId, $links, $parentPageId);
-            if ($childLinkResult) {
-                $pages[$pageId] = $childLinkResult;
-                return $childLinkResult;
+            $childLinks = [];
+            if (!empty($navItem['links'])) {
+                foreach ($navItem['links'] as $link) {
+                    $subNavId = $link['type'] === 'page'
+                        ? $link['data']['id']
+                        : ++$navId;
+                    $childLinks[] = $this->findPageInNavigation($subNavId, $navItem['links'], $navItemId, $navId);
+                }
             }
+
+            $pages[$navItemId] = [
+                'id' => $navItemId,
+                'type' => $navItem['type'],
+                'parent_id' => $parentPageId,
+                'siblings' => $siblings,
+                'children' => $childLinks,
+                'label' => $navItem['data']['label'] ?? null,
+                'is_public' => $navItem['data']['is_public'] ?? null,
+            ];
         }
 
-        $pages[$pageId] = [];
-        return [];
+        return $pages[$pageId] ?? [];
     }
 
     protected function currentSite(): ?SiteRepresentation
