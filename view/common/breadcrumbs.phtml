@@ -20,11 +20,25 @@
 $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
 
+$navBreadcrumbs = empty($nav)
+    ? $this->navigation()->breadcrumbs($breadcrumbs)
+    : $nav->breadcrumbs();
+
 // The separator should be a string, else the default one (" &gt; ") is used.
 $separator = ' ' . $options['separator'] . " \n";
-$html = empty($nav)
-    ? $this->navigation()->breadcrumbs($breadcrumbs)->setSeparator($separator)
-    : $nav->breadcrumbs()->setSeparator($separator);
+$navBreadcrumbs->setSeparator($separator);
+
+// Append a class when there is no uri (for element Structure from module Menu).
+// It may be possible to set it invisible too directly in the container.
+/** @var \Laminas\Navigation\Page\Uri $navLink */
+foreach ($navBreadcrumbs->getContainer()->findAllBy('uri', '') as $navLink) {
+    $navLink->setClass('no-link');
+}
+
+// Use (string) instead of render() to manage exception.
+$html = (string) $navBreadcrumbs;
+
+// TODO Use standard method to convert <a> into <span>.
 if (empty($options['linkLast']) && $lastLinkPos = mb_strrpos($html, '</a>' . $separator)) {
     $html = mb_substr($html, 0, $lastLinkPos + 4 + mb_strlen($separator)) . '<span class="active" aria-currrent="page">' . mb_substr($html, $lastLinkPos + 4 + mb_strlen($separator)) . '</span>';
 }
