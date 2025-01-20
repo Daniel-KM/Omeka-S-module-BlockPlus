@@ -152,6 +152,7 @@ trait PageBlockMetadataTrait
                 $parents = $this->parentPages($page);
                 return empty($parents) ? $page : array_pop($parents);
             case 'subroot':
+            case 'sub_root':
                 $parents = $this->parentPages($page);
                 if (empty($parents)) {
                     return null;
