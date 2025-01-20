@@ -403,7 +403,12 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['title'] = $showTitle ? $title : null;
                 $entry['caption'] = $caption;
                 $entry['body'] = $body;
-                $entry['render'] = is_object($asset) ? $thumbnail($asset, $thumbnailType) : null;
+                if (is_object($asset)) {
+                    $thumb = $thumbnail($asset, $thumbnailType);
+                    $entry['render'] = $entry['url']
+                        ? $hyperlink->raw($thumb, $entry['url'], ['class' => $entry['link_class']])
+                        : $thumb;
+                }
             } elseif (!is_object($resource)) {
                 // In the case that the resource is private, or it may be an
                 // unidentified relative url.
@@ -416,7 +421,10 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['caption'] = $resource->summary();
                 $entryThumbnail = $resource->thumbnail();
                 if ($entryThumbnail) {
-                    $entry['render'] = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-thumbnail-image']);
+                    $thumb = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-thumbnail-image']);
+                    $entry['render'] = $entry['url']
+                        ? $hyperlink->raw($thumb, $entry['url'], ['class' => $entry['link_class']])
+                        : $thumb;
                 }
             } elseif ($resource instanceof \Omeka\Api\Representation\SitePageRepresentation) {
                 $entry['resource_type'] = 'site-page';
@@ -426,7 +434,10 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['caption'] = $pageMetadata('summary', $resource);
                 $entryThumbnail = $pageMetadata('main_image', $resource);
                 if ($entryThumbnail) {
-                    $entry['render'] = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-page-thumbnail-image']);
+                    $thumb = $thumbnail($entryThumbnail, $thumbnailType, ['class' => 'site-page-thumbnail-image']);
+                    $entry['render'] = $entry['url']
+                        ? $hyperlink->raw($thumb, $entry['url'], ['class' => $entry['link_class']])
+                        : $thumb;
                 }
             } elseif ($resource instanceof \Omeka\Api\Representation\AssetRepresentation) {
                 $entry['resource_type'] = 'asset';
@@ -466,7 +477,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 // Manage the option "media display" even for item.
                 if ($mediaDisplay === 'thumbnail' || !$media) {
                     $entry['render'] = $hyperlink->raw($thumbnail($media, $thumbnailType), $entry['url'], ['class' => $entry['link_class']]);
-                    // TODO Made possible to render an item.
+                    // TODO Make possible to render an item.
                 } else {
                     $entry['render'] = $media->render([
                         'thumbnailType' => $thumbnailType,
