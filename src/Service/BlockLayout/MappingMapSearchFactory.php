@@ -21,7 +21,7 @@ class MappingMapSearchFactory implements FactoryInterface
             return new Fallback($requestedName);
         }
 
-        // The refactoring after version 2.0 is not yet versionned.
+        // Until version 2.0.
         if (!method_exists(\BlockPlus\Site\BlockLayout\MappingMapSearch::class, 'setFormElementManager')) {
             return new MappingMapSearch(
                 $services->get('Omeka\HtmlPurifier'),
@@ -29,10 +29,11 @@ class MappingMapSearchFactory implements FactoryInterface
             );
         }
 
+        // Since version 2.1.
         $blockLayout = new MappingMapSearch();
-        $blockLayout->setHtmlPurifier($services->get('Omeka\HtmlPurifier'));
         $blockLayout->setModuleManager($services->get('Omeka\ModuleManager'));
         $blockLayout->setFormElementManager($services->get('FormElementManager'));
+        $blockLayout->setApiManager($services->get('Omeka\ApiManager'));
         return $blockLayout;
     }
 }
