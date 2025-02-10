@@ -44,12 +44,13 @@ class CkEditor extends AbstractHelper
             && ($controller === 'Page' || $controller === 'page')
             && $action === 'edit';
 
+        $hasDataTypeRdf = class_exists('DataTypeRdf\Module', false);
         $isSiteAdminResource = $isAdmin
             && in_array($controller, ['Item', 'ItemSet', 'Media', 'Annotation', 'item', 'item-set', 'media', 'annotation'])
             && ($action === 'edit' || $action === 'add')
             // To avoid to prepare a factory to check if module DataTypeRdf
             // is enabled, just check the class.
-            && class_exists('DataTypeRdf\Module');
+            && $hasDataTypeRdf;
 
         $script = '';
         $customConfigJs = 'js/ckeditor_config.js';
@@ -60,9 +61,8 @@ class CkEditor extends AbstractHelper
             $htmlMode = $setting($module . '_html_mode_' . $pageOrResource);
             if ($htmlMode && $htmlMode !== 'inline') {
                 $script = <<<JS
-CKEDITOR.config.customHtmlMode = '$htmlMode';
-
-JS;
+                    CKEDITOR.config.customHtmlMode = '$htmlMode';
+                    JS . "\n";
             }
 
             $htmlConfig = $setting($module . '_html_config_' . $pageOrResource);
@@ -75,8 +75,8 @@ JS;
 
         $customConfigUrl = $escapeJs($assetUrl($customConfigJs, 'BlockPlus'));
         $script .= <<<JS
-CKEDITOR.config.customConfig = '$customConfigUrl';
-JS;
+            CKEDITOR.config.customConfig = '$customConfigUrl';
+            JS;
 
         // The footnotes icon is not loaded automaically, so add css.
         // Only this css rule is needed.
