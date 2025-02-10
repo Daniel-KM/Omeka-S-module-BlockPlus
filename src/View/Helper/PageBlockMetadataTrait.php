@@ -54,8 +54,10 @@ trait PageBlockMetadataTrait
             'dcterms:subject',
             'curation:featured',
             'curation:new',
+            // This is the raw block params.
             'curation:data',
         ],
+        // Priority to old block metadata.
         'block_metadata' => [
             'block',
             null,
@@ -118,6 +120,13 @@ trait PageBlockMetadataTrait
             'new' => 'curation:new',
             'params' => 'curation:data',
         ];
+
+        $getParams = function () use ($page, $block) {
+            $p = $block ? trim((string) $block->dataValue('params')) : '';
+            return $p === ''
+                ? (string) $page->layoutDataValue('curation:data')
+                : $p;
+        };
 
         switch ($metadata) {
             case 'block':
@@ -358,48 +367,30 @@ trait PageBlockMetadataTrait
 
             case 'params':
             case 'params_raw':
-                if ($block) {
-                    $result = $block->dataValue('params');
-                    if ($result !== null && $result !== '' && $result !== []) {
-                        return $result;
-                    }
-                }
-                return $page->layoutDataValue('curation:data');
-
+                return $getParams();
             case 'params_json':
             case 'params_json_array':
-                if (!$block) {
-                    return [];
-                }
-                return @json_decode($block->dataValue('params', ''), true) ?: [];
+                $p = $getParams();
+                return @json_decode($p, true) ?: [];
             case 'params_json_object':
-                if (!$block) {
-                    return (object) [];
-                }
-                return @json_decode($block->dataValue('params', '')) ?: (object) [];
+                $p = $getParams();
+                return @json_decode($p) ?: (object) [];
             case 'params_ini':
                 $reader = new \Laminas\Config\Reader\Ini();
-                return $reader->fromString($block->dataValue('params', ''));
+                $p = $getParams();
+                return $reader->fromString($p);
             case 'params_key_value_array':
-                if (!$block) {
-                    return [];
-                }
-                $params = array_map('trim', explode("\n", trim($block->dataValue('params', ''))));
+                $p = $getParams();
+                $params = array_map('trim', explode("\n", $p));
                 $list = [];
                 foreach ($params as $keyValue) {
                     $list[] = array_map('trim', explode('=', $keyValue, 2)) + ['', ''];
                 }
                 return $list;
             case 'params_key_value':
-                if (!$block) {
-                    return [];
-                }
-                // no break
             default:
-                if (!$block) {
-                    return null;
-                }
-                $params = array_filter(array_map('trim', explode("\n", trim($block->dataValue('params', '')))), 'strlen');
+                $p = $getParams();
+                $params = array_filter(array_map('trim', explode("\n", $p)), 'strlen');
                 $list = [];
                 foreach ($params as $keyValue) {
                     [$key, $value] = mb_strpos($keyValue, '=') === false
