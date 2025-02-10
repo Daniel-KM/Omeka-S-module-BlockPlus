@@ -54,16 +54,15 @@ class ItemSetShowcase extends AbstractBlockLayout implements TemplateableBlockLa
 
         $itemSets = [];
         $itemSetIds = $block->dataValue('item_sets', []);
-        foreach ($itemSetIds as $id) {
-            $itemSet = $api->searchOne('item_sets', ['id' => $id])->getContent();
-            if ($itemSet) {
-                $itemSets[] = $itemSet;
-            }
+        if ($itemSetIds) {
+            $itemSets = $api->search('item_sets', ['id' => $itemSetIds, 'sort_by' => 'id', 'sort_order' => 'desc'])->getContent();
         }
 
         if (empty($itemSets)) {
             return '';
         }
+
+        // TODO Order by selected ids when chosen query will support order.
 
         $vars = [
             'block' => $block,
