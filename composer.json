@@ -55,7 +55,7 @@
                 "type": "omeka-addon-asset",
                 "dist": {
                     "type": "tar",
-                    "url": "https://github.com/andykirk/CKEditorFootnotes/archive/refs/tags/v1.2.0.tar.gz"
+                    "url": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.4.33/CKEditorFootnotes.1.2.0-fix-blockplus.tar.gz"
                 }
             }
         },
@@ -132,12 +132,7 @@
                 "type:omeka-addon-asset"
             ]
         },
-        "installer-name" : "BlockPlus",
-        "patches": {
-            "andykirk/ckeditor-footnotes": {
-                "Fix footnotes": "patches/ckeditor-footnotes-omeka.patch"
-            }
-        }
+        "installer-name" : "BlockPlus"
     },
     "scripts": {
         "pre-install-cmd": "@build-pre",
