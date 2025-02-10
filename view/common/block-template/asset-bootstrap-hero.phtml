@@ -55,11 +55,11 @@ $title = strlen($attachment['alt_link_title']) ? $attachment['alt_link_title'] :
                 <h1 class="lorem text-uppercase text-center text-justify"><?= $isHtmlCaption ? $caption : $escape($caption) ?></h1>
                 <?php if ($page): ?>
                 <a href="<?= $escapeAttr($page->siteUrl()) ?>"<?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
-                    <button class="btn knowmore"><?= $escape($title) ?></button>
+                    <button class="button btn knowmore"><?= $escape($title) ?></button>
                 </a>
                 <?php elseif ($url && $title): ?>
                 <a href="<?= $escapeAttr($url) ?>"<?php if (!$isLocalUrl || $isMediaFile): ?> target="_blank"<?php endif; ?><?php if (!$isLocalUrl): ?> rel="noopener"<?php endif; ?>>
-                    <button class="btn knowmore"><?= $escape($title) ?></button>
+                    <button class="button btn knowmore"><?= $escape($title) ?></button>
                 </a>
                 <?php endif; ?>
             </div>

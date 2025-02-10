@@ -76,7 +76,7 @@ $html = $blockGroupData($block, 'html', 'text');
             ]) ?>
         <?php endif; ?>
         <input type="text" name="fulltext_search" value="<?= $escape($searchValue) ?>" placeholder="<?= $translate('Search') ?>" aria-label="<?= $translate('Search') ?>">
-        <button type="submit"><?= $translate('Search') ?></button>
+        <button type="submit" class="button"><?= $translate('Search') ?></button>
     </form>
     <?php endif;  ?>
     <?php if ($link): ?>

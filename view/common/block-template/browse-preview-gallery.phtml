@@ -119,13 +119,13 @@ $showBody = in_array('resource-body', $components);
             ?>
             <li>
                 <a href="#" data-largesrc="<?= $mediaLarge ?>" data-title="<?= $heading ?>" data-description="<?= $escapeAttr($body) ?>">
-                    <img loading="lazy" class="medium-img" src="<?= $mediaThumbnail ?>" alt="<?= $heading ?>"/>
+                    <img loading="lazy" class="button medium-img" src="<?= $mediaThumbnail ?>" alt="<?= $heading ?>"/>
                 </a>
             </li>
             <?php endforeach; ?>
         </ul>
         <?php /* // TODO Require some js to fetch data.
-        <button id="og-additems" type="button"><?= $translate('See more') ?></button>
+        <button id="og-additems" type="button" class="button"><?= $translate('See more') ?></button>
         */ ?>
     </div>
 
