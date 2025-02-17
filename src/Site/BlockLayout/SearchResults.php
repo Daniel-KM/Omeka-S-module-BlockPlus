@@ -187,7 +187,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
         ];
 
         // There is no list of media in public views.
-        $linkText = $resourceType === 'media' ? '' : ($data['link-text'] ?? '');
+        $linkText = $resourceType === 'media' ? '' : $block->dataValue('link-text', null);
 
         $vars = [
             'block' => $block,
