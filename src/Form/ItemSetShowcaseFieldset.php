@@ -3,7 +3,6 @@
 namespace BlockPlus\Form;
 
 use Common\Form\Element as CommonElement;
-use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 use Omeka\Form\Element\ItemSetSelect;
 
@@ -28,6 +27,21 @@ class ItemSetShowcaseFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][components]',
+                'type' => CommonElement\OptionalMultiCheckbox::class,
+                'options' => [
+                    'label' => 'Components', // @translate
+                    'value_options' => [
+                        'heading' => 'Title', // @translate
+                        'body' => 'Description', // @translate
+                        'thumbnail' => 'Thumbnail', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'item-set-showcase-components',
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][thumbnail_type]',
                 'type' => CommonElement\ThumbnailTypeSelect::class,
                 'options' => [
@@ -37,15 +51,6 @@ class ItemSetShowcaseFieldset extends Fieldset
                     'class' => 'chosen-select',
                 ],
             ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][show_title_option]',
-                'type' => Element\Checkbox::class,
-                'options' => [
-                    'label' => 'Show title', // @translate
-                    'checked_value' => 'item_set_title',
-                    'unchecked_value' => 'no_title',
-                    'use_hidden_element' => true,
-                ],
-            ]);
+        ;
     }
 }

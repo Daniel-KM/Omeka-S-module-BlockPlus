@@ -310,8 +310,8 @@ return [
             // TODO Migrate itemSetShowcase to showcase or Media.
             'itemSetShowcase' => [
                 'item_sets' => [],
+                'components' => [],
                 'thumbnail_type' => 'square',
-                'show_title_option' => 'item_set_title',
             ],
             'links' => [
                 'links' => [],

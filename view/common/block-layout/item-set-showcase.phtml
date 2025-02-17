@@ -3,14 +3,14 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var \Omeka\Api\Representation\ItemSetRepresentation[] $itemSets
+ * @var array $components heading, body, and thumbnail.
  * @var string $thumbnailType
- * @var string $showTitleOption
+ * @var string $showTitleOption (deprecated)
  */
 
 // Use hyperlink to allow to get resource url from api: method $resource->url() does not work for api.
 
 $plugins = $this->getHelperPluginManager();
-$escape = $plugins->get('escapeHtml');
 $hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
 
@@ -24,24 +24,31 @@ $lang = $filterLocale ? $this->lang() : null;
 <div class="block item-set-showcase">
     <?php
     foreach ($itemSets as $itemSet):
-        $render = null;
-        $title = null;
-        $link = null;
-
-        $itemSetThumbnail = $thumbnail($itemSet, $thumbnailType) ?: $defaultThumbnail;
-        $render = $hyperlink->raw($itemSetThumbnail, $itemSet->siteurl());
-
-        if ($showTitleOption !== 'no_title'):
-            $title = $itemSet->displayTitle(null, $lang);
-            $link = $hyperlink($title, $itemSet->siteurl());
-        endif;
-    ?>
+        $itemSetUrl = $itemSet->siteUrl();
+        if (in_array('thumbnail', $components)) {
+            $itemSetThumbnail = $thumbnail($itemSet, $thumbnailType) ?: $defaultThumbnail;
+            $render = $hyperlink->raw($itemSetThumbnail, $itemSetUrl);
+        } else {
+            $itemSetThumbnail = null;
+            $render = null;
+        }
+        if (in_array('heading', $components)) {
+            $heading = $itemSet->displayTitle(null, $lang);
+            $link = $hyperlink($heading, $itemSetUrl);
+        } else {
+            $heading = null;
+            $link = null;
+        }
+        $body = in_array('body', $components) ? $itemSet->displayDescription(null, $lang) : null;
+        ?>
     <div class="item-set resource">
         <?= $render ?>
         <?= $link ?>
+        <?php if ($body): ?>
         <div class="caption">
-            <?= $itemSet->displayDescription(null, $lang) ?>
+            <?= $body ?>
         </div>
+        <?php endif; ?>
     </div>
     <?php endforeach; ?>
 </div>
