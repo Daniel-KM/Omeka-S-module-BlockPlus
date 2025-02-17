@@ -4,7 +4,7 @@ namespace BlockPlus\Form;
 
 use Common\Form\Element as CommonElement;
 use Laminas\Form\Fieldset;
-use Omeka\Form\Element\ItemSetSelect;
+use Omeka\Form\Element as OmekaElement;
 
 class ItemSetShowcaseFieldset extends Fieldset
 {
@@ -13,7 +13,7 @@ class ItemSetShowcaseFieldset extends Fieldset
         $this
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][item_sets]',
-                'type' => ItemSetSelect::class,
+                'type' => OmekaElement\ItemSetSelect::class,
                 'options' => [
                     'label' => 'Item sets', // @translate
                     // 'disable_group_by_owner' => true,
@@ -48,6 +48,7 @@ class ItemSetShowcaseFieldset extends Fieldset
                     'label' => 'Thumbnail type', // @translate
                 ],
                 'attributes' => [
+                    'id' => 'item-set-showcase-thumbnail-type',
                     'class' => 'chosen-select',
                 ],
             ])

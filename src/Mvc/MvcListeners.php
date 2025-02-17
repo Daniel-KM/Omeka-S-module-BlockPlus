@@ -13,6 +13,7 @@ class MvcListeners extends AbstractListenerAggregate
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
             [$this, 'handleItemSetShow'],
+            // Less prioritary than AdvancedSearch.
             -20
         );
     }
@@ -20,7 +21,9 @@ class MvcListeners extends AbstractListenerAggregate
     /**
      * Set default order of items in public item set show.
      *
-     * @param MvcEvent $event
+     * Adapted:
+     * @see \AdvancedSearch\Mvc\MvcListeners::redirectItemSetToSearch()
+     * @see \BlockPlus\Mvc\MvcListeners::handleItemSetShow()
      */
     public function handleItemSetShow(MvcEvent $event): void
     {
@@ -36,11 +39,11 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         // Don't process if an order is set.
+        // Check for module Advanced Search and Block Plus.
         $request = $event->getRequest();
         /** @var \Laminas\Stdlib\Parameters $query */
         $query = $request->getQuery();
         if (!empty($query['sort_by'])
-            // Manage module Advanced Search too.
             || !empty($query['sort'])
         ) {
             return;
