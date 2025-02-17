@@ -12,6 +12,7 @@ use Common\Stdlib\PsrMessage;
  *
  * @var \Omeka\Api\Manager $api
  * @var \Omeka\View\Helper\Url $url
+ * @var \Laminas\Log\Logger $logger
  * @var \Omeka\Settings\Settings $settings
  * @var \Laminas\I18n\View\Helper\Translate $translate
  * @var \Doctrine\DBAL\Connection $connection
@@ -21,6 +22,7 @@ use Common\Stdlib\PsrMessage;
  */
 $plugins = $services->get('ControllerPluginManager');
 $api = $plugins->get('api');
+$logger = $services->get('Omeka\Logger');
 $settings = $services->get('Omeka\Settings');
 $translate = $plugins->get('translate');
 $translator = $services->get('MvcTranslator');
@@ -551,9 +553,6 @@ if (version_compare($oldVersion, '3.4.19', '<')) {
 
 if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     // Migrate blocks of this module to new blocks of Omeka S v4.1.
-
-    /** @var \Laminas\Log\Logger $logger */
-    $logger = $services->get('Omeka\Logger');
 
     // The process can be run multiple times without issue: migrated blocks are
     // not remigrated.
@@ -1361,8 +1360,6 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
 ) {
     // Migrate blocks of this module to new blocks of Omeka S v4.1.
 
-    $logger = $services->get('Omeka\Logger');
-
     $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
     $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
 
@@ -1615,7 +1612,6 @@ $checkStringsInFiles = function ($stringsOrRegex, string $globPath = '', bool $i
 if (version_compare($oldVersion, '3.4.22-beta', '<')) {
     // Add warnings about files in themes to migrate.
 
-    $logger = $services->get('Omeka\Logger');
     $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
     $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
 
@@ -1667,7 +1663,6 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')) {
 }
 
 if (version_compare($oldVersion, '3.4.22', '<')) {
-    $logger = $services->get('Omeka\Logger');
     $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
     $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
 
@@ -1823,9 +1818,6 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
 
 // There should have been a 3.4.22-beta.2 and this one would be the real 3.4.22.
 if (version_compare($oldVersion, '3.4.23', '<')) {
-    /** @var \Laminas\Log\Logger $logger */
-    $logger = $services->get('Omeka\Logger');
-
     /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
     $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
     $blocksRepository = $entityManager->getRepository(\Omeka\Entity\SitePageBlock::class);
@@ -2293,7 +2285,6 @@ if (version_compare($oldVersion, '3.4.31', '<')) {
             ['json' => json_encode($pagesWithHtml, 448)]
         );
         $messenger->addWarning($message);
-        $logger = $services->get('Omeka\Logger');
         $logger->warn($message->getMessage(), $message->getContext());
     }
 
@@ -2308,4 +2299,53 @@ if (version_compare($oldVersion, '3.4.32', '<')) {
         'The block Page metadata is deprecated in favor of an integrated form and will be removed in a future version. The metadata will be available as standard rdf data too.' // @translate
     );
     $messenger->addSuccess($message);
+}
+
+if (version_compare($oldVersion, '3.4.34', '<')) {
+    /**
+     * Replace in item set showcase the option "show_title_option" by a list of components.
+     */
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+
+    $pagesUpdated = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        foreach ($page->getBlocks() as $block) {
+            $layout = $block->getLayout();
+            if ($layout !== 'itemSetShowcase') {
+                continue;
+            }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            $showTitleOption = ($data['show_title_option'] ?? null) !== 'no_title';
+            $data['components'] = $showTitleOption
+                ? ['heading', 'body', 'thumbnail']
+                : ['body', 'thumbnail'];
+            $block->setData($data);
+            $pagesUpdated[$siteSlug][$pageSlug] = $pageSlug;
+        }
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    if ($pagesUpdated) {
+        $result = array_map('array_values', $pagesUpdated);
+        $message = new PsrMessage(
+            'The setting "show title" was replaced by components (title, body, thumbnail) in block Item Set Showcase. You may check pages: {json}', // @translate
+            ['json' => json_encode($result, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    } else {
+        $message = new PsrMessage(
+            'The setting "show title" was replaced by components (title, body, thumbnail) in block Item Set Showcase.' // @translate
+        );
+        $messenger->addSuccess($message);
+    }
 }
