@@ -1,0 +1,30 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $resourceType
+ * @var string $heading
+ * @var string $linkText
+ * @var array $components
+ * @var array $query
+ *
+ * Removed during migration to Omeka S block Asset and not managed for now:
+ * @var array $sortHeadings
+ * @var array|false $pagination
+ * @todo Manage pagination for gallery (or convert for block search-and-result without form).
+ *
+ * @copyright 2013, Codrops
+ * @copyright 2020-2025, Daniel Berthereau
+ * @link https://github.com/Daniel-KM/ThumbnailGridExpandingPreview
+ * @license MIT http://tympanus.net/codrops/licensing/
+ *
+ * The original template was fixed by KevinMwangi and updated newer version of components (modernizr, smartresize, imagesloaded).
+ * Then components were removed and only native javascript is used.
+ */
+
+$vars = $this->vars();
+$vars->offsetSet('thumbnailType', 'medium');
+$vars->offsetSet('useItemMetadata', true);
+
+echo $this->partial('common/block-template/browse-preview-gallery');

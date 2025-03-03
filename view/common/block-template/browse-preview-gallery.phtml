@@ -11,6 +11,7 @@
  *
  * Passed from other templates
  * @var string $thumbnailType
+ * @var bool $useItemMetadata
  *
  * Removed during migration to Omeka S block Asset and not managed for now:
  * @var array $sortHeadings
@@ -104,13 +105,23 @@ $this->headScript()
             <?php
             $heading = '';
             $body = '';
+
             $thumbnailType = $query['thumbnail_type'] ?? $thumbnailType ?? 'square';
+
+            $isMedia = $resourceType === 'media';
+            $useItemMetadata = $isMedia && !empty($useItemMetadata);
+
             $untitled = $translate('[Untitled]');
             $displayInfo = $escapeAttr($translate('Display info'));
+
             foreach ($resources as $resource):
                 $thumbnail = $resource->thumbnail($thumbnailType);
                 $media = $resource->primaryMedia();
                 if (!$thumbnail && !$media) continue;
+
+                if ($useItemMetadata) {
+                    $resource = $resource->item();
+                }
 
                 if ($thumbnail) {
                     $mediaThumbnail = $thumbnail->assetUrl();
