@@ -293,6 +293,9 @@ Some specific templates are available in Browse Preview:
   has a specific option to add to the query to display thumbnails as square or
   medium: `thumbnail_size=medium`. You can see an example on the site
   [Ontologie du christianisme médiéval en images], from French [Institut national de l’histoire de l’art].
+  If you don't want to use the argument, use the other template "browse-preview-gallery-medium".
+  The template "browse-preview-gallery-medium-item" allows to querying on media,
+  but displaying items metadata and link to item.
 - filter year: added a select on the top to filter the items by year.
 - subjects: append the subjects to each resource.
 - timeline list: display the list of resources by year and by date. Adapted from
@@ -1084,8 +1087,9 @@ One of the CKEditor ones [GPL]. See [CKEditor-Footnotes].
 ### Gallery of images
 
 See [MIT] license here: http://tympanus.net/codrops/licensing/
-The original template was fixed by KevinMwangi and updated for newer version of
-components (modernizr, smartresize, imagesloaded).
+The original template was fixed by KevinMwangi and alii, then updated for newer
+version of components (modernizr, smartresize, imagesloaded), then upgraded to
+native javascript.
 
 ### Timeline list
 
