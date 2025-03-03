@@ -25,7 +25,9 @@ $hyperlink = $plugins->get('hyperlink');
 $easyMeta = $plugins->get('easyMeta')();
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
-$escapeValueOrGetHtml = $plugins->get('escapeValueOrGetHtml');
+$escapeValueOrGetHtml = $plugins->has('escapeValueOrGetHtml')
+    ? $plugins->get('escapeValueOrGetHtml')
+    : fn ($string) => mb_substr((string) $string, 0, 1) === '<' && mb_substr((string) $string, -1) === '>' ? (string) $string : $escape((string) $string);
 
 $filterLocale = (bool) $siteSetting('filter_locale_values');
 $lang = $plugins->get('lang')();
