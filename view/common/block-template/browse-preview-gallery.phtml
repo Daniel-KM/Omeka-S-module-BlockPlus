@@ -12,12 +12,18 @@
  * Removed during migration to Omeka S block Asset and not managed for now:
  * @var array $sortHeadings
  * @var array|false $pagination
+ * @todo Manage pagination for gallery (or convert for block search-and-result without form).
  *
- * @link https://github.com/codrops/ThumbnailGridExpandingPreview
  * @copyright 2013, Codrops
- * @license http://tympanus.net/codrops/licensing/ (not-standard open source license)
+ * @copyright 2020-2025, Daniel Berthereau
+ * @link https://github.com/Daniel-KM/ThumbnailGridExpandingPreview
+ * @license MIT http://tympanus.net/codrops/licensing/
+ *
  * The original template was fixed by KevinMwangi and updated newer version of components (modernizr, smartresize, imagesloaded).
+ * Then components were removed and only native javascript is used.
  */
+
+// Add the thumbnail type via the block query: ?thumbnail_size=xxx (square, medium, large).
 
 $plugins = $this->getHelperPluginManager();
 $url = $plugins->get('url');
@@ -37,45 +43,52 @@ $langValue = $filterLocale ? [$lang, ''] : null;
 // $showThumbnail = in_array('thumbnail', $components);
 $showHeading = in_array('resource-heading', $components);
 $showBody = in_array('resource-body', $components);
-?>
 
-<?php /* // Require two divs with classes container and main above the og-grid.
-<link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/css/default.css') ?>" />
-*/?>
-<link rel="stylesheet" type="text/css" href="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/css/component.css', 'BlockPlus') ?>" />
-<style>
-    #og-grid img.medium-img {
-        height: 240px;
-    }
-    /* Remove some default styling of component.css. */
-    #og-grid .og-details h3 {
-        font-size: inherit;
-        padding-top: 0;
-        margin-top: 0;
-    }
-    #og-grid .og-details a {
-        font-weight: inherit;
-        font-size: inherit;
-        color: inherit;
-        text-transform: inherit;
-        letter-spacing: inherit;
-        padding: inherit;
-        border: inherit;
-        display: inline-block;
-        margin: inherit;
-        outline: inherit;
-    }
-    #og-grid .og-details a::before {
-        content: '';
-        display: inline-block;
-        margin-right: inherit;
-    }
-</style>
-<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/modernizr/modernizr-custom.js', 'BlockPlus') ?>"></script>
-<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/jquery-smartresize/jquery.debouncedresize.js', 'BlockPlus') ?>"></script>
-<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/imagesloaded/imagesloaded.pkgd.min.js', 'BlockPlus') ?>"></script>
-<script type="text/javascript" defer="defer" src="<?= $assetUrl('vendor/ThumbnailGridExpandingPreview/js/grid.js', 'BlockPlus') ?>"></script>
-<script type="text/javascript" defer="defer" src="<?= $assetUrl('js/browse-preview-gallery.js', 'BlockPlus') ?>"></script>
+$css = <<<'CSS'
+.og-grid img.medium-img {
+    height: 240px;
+}
+/* Remove some default styling of component.css. */
+.og-grid .og-details h3 {
+    font-size: inherit;
+    padding-top: 0;
+    margin-top: 0;
+}
+.og-grid .og-details a {
+    font-weight: inherit;
+    font-size: inherit;
+    color: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+    padding: inherit;
+    border: inherit;
+    display: inline-block;
+    margin: inherit;
+    outline: inherit;
+}
+.og-grid button,
+.og-grid button img {
+    padding: 0;
+}
+.og-grid .og-details a::before,
+.og-grid .og-details button::before {
+    content: '';
+    display: inline-block;
+    margin-right: inherit;
+}
+CSS;
+
+$this->headLink()
+    // Require two divs with classes container and main above the og-grid.
+    // ->appendStylesheet($assetUrl('vendor/thumbnail-grid-expanding-preview/css/default.css'))
+    ->appendStylesheet($assetUrl('vendor/thumbnail-grid-expanding-preview/css/component.css', 'BlockPlus'));
+$this->headStyle()
+    ->appendStyle($css);
+
+$this->headScript()
+    ->appendFile($assetUrl('vendor/thumbnail-grid-expanding-preview/js/grid.js', 'BlockPlus'))
+    ->appendFile($assetUrl('js/browse-preview-gallery.js', 'BlockPlus'));
+?>
 
 <div class="block preview-block">
 
@@ -90,6 +103,7 @@ $showBody = in_array('resource-body', $components);
             $body = '';
             $thumbnailSize = @$query['thumbnail_size'] ?: 'square';
             $untitled = $translate('[Untitled]');
+            $displayInfo = $escapeAttr($translate('Display info'));
             foreach ($resources as $resource):
                 $thumbnail = $resource->thumbnail($thumbnailSize);
                 $media = $resource->primaryMedia();
@@ -118,9 +132,9 @@ $showBody = in_array('resource-body', $components);
                 }
             ?>
             <li>
-                <a href="#" data-largesrc="<?= $mediaLarge ?>" data-title="<?= $heading ?>" data-description="<?= $escapeAttr($body) ?>">
+                <button type="button" aria-label="<?= $displayInfo ?>" data-url="" data-largesrc="<?= $mediaLarge ?>" data-title="<?= $heading ?>" data-description="<?= $escapeAttr($body) ?>">
                     <img loading="lazy" class="button medium-img" src="<?= $mediaThumbnail ?>" alt="<?= $heading ?>"/>
-                </a>
+                </button>
             </li>
             <?php endforeach; ?>
         </ul>

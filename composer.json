@@ -27,7 +27,7 @@
     ],
     "require": {
         "andykirk/ckeditor-footnotes": "^1.2",
-        "asset/thumbnail-grid-expanding-preview": "^0.1",
+        "asset/thumbnail-grid-expanding-preview": "^0.3",
         "d3/d3": "3.5.17",
         "kenwheeler/slick": "1.8.1",
         "oomphinc/composer-installers-extender": "^2.0",
@@ -64,11 +64,11 @@
             "package": {
                 "type": "omeka-addon-asset",
                 "name": "asset/thumbnail-grid-expanding-preview",
-                "version": "0.1",
+                "version": "0.3.0",
                 "dist": {
                     "type": "tar",
-                    "reference": "0.1",
-                    "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/refs/tags/0.1.tar.gz"
+                    "reference": "0.3.0",
+                    "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/refs/tags/0.3.0.tar.gz"
                 }
             }
         },
@@ -133,25 +133,6 @@
             ]
         },
         "installer-name" : "BlockPlus"
-    },
-    "scripts": {
-        "pre-install-cmd": "@build-pre",
-        "pre-update-cmd": "@build-pre",
-        "post-install-cmd": "@build",
-        "post-update-cmd": "@build",
-        "build-pre": [
-            "@php -r 'shell_exec(\"rm -rf ./asset/vendor/thumbnail-grid-expanding-preview\");'"
-        ],
-        "build": [
-            "@php -r '@rename(__DIR__ . \"/asset/vendor/thumbnail-grid-expanding-preview\", __DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview\");'",
-            "@php -r '@rename(__DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview/vendor/imagesloaded\", __DIR__ . \"/asset/vendor/imagesloaded\");'",
-            "@php -r '@rename(__DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview/vendor/jquery-smartresize\", __DIR__ . \"/asset/vendor/jquery-smartresize\");'",
-            "@php -r '@rename(__DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview/vendor/modernizr\", __DIR__ . \"/asset/vendor/modernizr/\");'",
-
-            "#@php -r 'sleep(1);'",
-            "@php -r '@rmdir(__DIR__ . \"/asset/vendor/ThumbnailGridExpandingPreview/vendor\");'",
-            "@php -r 'shell_exec(\"rm -rf ./asset/vendor/thumbnail-grid-expanding-preview\");'"
-        ]
     },
     "config": {
         "allow-plugins": {
