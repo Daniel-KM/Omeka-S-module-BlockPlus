@@ -737,6 +737,11 @@ class Breadcrumbs extends AbstractHelper
         $nested = [];
         $last = count($flat) - 1;
         foreach (array_values($flat) as $level => $sub) {
+            // This is required on new versions of php: issue with "structure"
+            // of module Menu.
+            if (!isset($sub['uri'])) {
+                $sub['uri'] = '';
+            }
             if ($level === 0) {
                 $nested[] = $sub;
                 $current = &$nested[0];
