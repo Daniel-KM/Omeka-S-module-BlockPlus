@@ -753,7 +753,7 @@ class Module extends AbstractModule
                 'type' => \Common\Form\Element\ArrayText::class,
                 'options' => [
                     'label' => 'Tags', // @translate
-                    'infos' => 'Comma-separated list of keywords', // @translate
+                    'info' => 'Comma-separated list of keywords', // @translate
                     // TODO For now, it does not work because formatter is not triggered.
                     'value_separator' => ',',
                 ],

@@ -48,7 +48,7 @@ class PageMetadataFieldset extends Fieldset
                 'type' => Element\Text::class,
                 'options' => [
                     'label' => 'Tags', // @translate
-                    'infos' => 'Comma-separated list of keywords', // @translate
+                    'info' => 'Comma-separated list of keywords', // @translate
                 ],
                 'attributes' => [
                     'id' => 'page-metadata-tags',
