@@ -16,6 +16,7 @@ use Common\Stdlib\PsrMessage;
  * @var \Omeka\Settings\Settings $settings
  * @var \Laminas\I18n\View\Helper\Translate $translate
  * @var \Doctrine\DBAL\Connection $connection
+ * @var \Laminas\Mvc\I18n\Translator $translator
  * @var \Doctrine\ORM\EntityManager $entityManager
  * @var \Omeka\Settings\SiteSettings $siteSettings
  * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
@@ -2348,4 +2349,55 @@ if (version_compare($oldVersion, '3.4.34', '<')) {
         );
         $messenger->addSuccess($message);
     }
+}
+
+if (version_compare($oldVersion, '3.4.35', '<')) {
+    // Check themes that use "$html" and "$captionPosition" in block Media.
+    $strings = [
+        'vendor/ThumbnailGridExpandingPreview',
+    ];
+    $manageModuleAndResources = $this->getManageModuleAndResources();
+    $result = $manageModuleAndResources->checkStringsInFiles($strings, 'themes/*/view/common/block-template/*');
+    if ($result) {
+        $message = new PsrMessage(
+            'The js library "ThumbnailGridExpandingPreview" was renamed "thumbnail-grid-expanding-preview". You should fix your theme: {json}', // @translate
+            ['json' => json_encode($result, 448)]
+        );
+        $messenger->addError($message);
+        $logger->err($message->getMessage(), $message->getContext());
+    }
+
+    /**
+     * Replace the query argument "thumbnail_size" by "thumbnail_type" in block Browse Preview Gallery.
+     */
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+
+    $pagesUpdated = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        foreach ($page->getBlocks() as $block) {
+            $layout = $block->getLayout();
+            if ($layout !== 'browsePreview') {
+                continue;
+            }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            $data['query'] = str_replace('thumbnail_size', 'thumbnail_query', $data['query'] ?? '');
+            $block->setData($data);
+            $pagesUpdated[$siteSlug][$pageSlug] = $pageSlug;
+        }
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+
+    $message = new PsrMessage(
+        'A sub-template was added to display the block browse preview gallery with thumbnail "medium".' // @translate
+    );
+    $messenger->addSuccess($message);
 }
