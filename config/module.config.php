@@ -157,7 +157,8 @@ return [
         'browsePreview' => [
             'browse-preview-carousel' => 'Block Plus: Carousel', // @translate
             'browse-preview-filter-year' => 'Block Plus: Filter by year', // @translate
-            'browse-preview-gallery' => 'Block Plus: Gallery', // @translate
+            'browse-preview-gallery' => 'Block Plus: Gallery (square)', // @translate
+            'browse-preview-gallery-medium' => 'Block Plus: Gallery (medium)', // @translate
             'browse-preview-subjects' => 'Block Plus: Subjects', // @translate
             'browse-preview-timeline-list' => 'Block Plus: Timeline list', // @translate
             'browse-preview-deprecated' => 'Block Plus: Browse preview (deprecated)', // @translate
