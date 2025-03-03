@@ -9,6 +9,9 @@
  * @var array $components
  * @var array $query
  *
+ * Passed from other templates
+ * @var string $thumbnailType
+ *
  * Removed during migration to Omeka S block Asset and not managed for now:
  * @var array $sortHeadings
  * @var array|false $pagination
@@ -101,7 +104,7 @@ $this->headScript()
             <?php
             $heading = '';
             $body = '';
-            $thumbnailType = @$query['thumbnail_type'] ?: 'square';
+            $thumbnailType = $query['thumbnail_type'] ?? $thumbnailType ?? 'square';
             $untitled = $translate('[Untitled]');
             $displayInfo = $escapeAttr($translate('Display info'));
             foreach ($resources as $resource):
