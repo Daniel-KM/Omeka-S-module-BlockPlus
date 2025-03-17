@@ -3,6 +3,7 @@
 namespace BlockPlus\Site\BlockLayout;
 
 use Laminas\View\Renderer\PhpRenderer;
+use Mapping\Form\BlockLayoutMapQueryForm;
 use Mapping\Site\BlockLayout\MapQuery;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 
@@ -15,13 +16,66 @@ class MappingMapSearch extends MapQuery
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        // Copy of the parent block, but check if user runs a query.
-        // Furthermore, the partial is different and block and query are output.
-
         $query = $view->params()->fromQuery() ?: [];
         $query = array_filter($query);
         unset($query['basemap_provider']);
         unset($query['mapping_basemap_provider']);
+
+        $isOldMapping = !method_exists($this, 'setFormElementManager');
+        if ($isOldMapping) {
+            return $this->render20($view, $block, $query);
+        }
+
+        // Copy of the parent block, but check if user runs a query.
+        // Furthermore, the partial is different and block and query are output.
+
+        $form = $this->formElementManager->get(BlockLayoutMapQueryForm::class);
+        $data = $form->prepareBlockData($block->data());
+
+        $isTimeline = (bool) $data['timeline']['data_type_properties'];
+        $timelineIsAvailable = $this->timelineIsAvailable();
+
+        if ($query) {
+            $itemsQuery = $query;
+        } else {
+            $itemsQuery = null;
+            parse_str($data['query'], $itemsQuery);
+        }
+
+        $featuresQuery = [];
+
+        // Get all events for the items.
+        $events = [];
+        if ($isTimeline && $timelineIsAvailable) {
+            $itemsQuery['site_id'] = $block->page()->site()->id();
+            $itemsQuery['has_features'] = true;
+            $itemsQuery['limit'] = 100000;
+            $itemIds = $this->apiManager->search('items', $itemsQuery, ['returnScalar' => 'id'])->getContent();
+            foreach ($itemIds as $itemId) {
+                // Set the timeline event for this item.
+                $event = $this->getTimelineEvent($itemId, $data['timeline']['data_type_properties'], $view);
+                if ($event) {
+                    $events[] = $event;
+                }
+            }
+        }
+
+        return $view->partial('common/block-layout/mapping-block-search', [
+            'block' => $block,
+            'data' => $data,
+            'query' => $query,
+            'itemsQuery' => $itemsQuery,
+            'featuresQuery' => $featuresQuery,
+            'isTimeline' => $isTimeline,
+            'timelineData' => $this->getTimelineData($events, $data, $view),
+            'timelineOptions' => $this->getTimelineOptions($data),
+        ]);
+    }
+
+    protected function render20(PhpRenderer $view, SitePageBlockRepresentation $block, array $query)
+    {
+        // Copy of the parent block, but check if user runs a query.
+        // Furthermore, the partial is different and block and query are output.
 
         $data = $this->filterBlockData($block->data());
         $isTimeline = (bool) $data['timeline']['data_type_properties'];

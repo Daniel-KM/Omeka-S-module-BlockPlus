@@ -14,18 +14,38 @@ $plugins = $this->getHelperPluginManager();
 $partial = $plugins->get('partial');
 $translate = $plugins->get('translate');
 
+// Keep only full text search by default.
 $partialExcludeList = [
     'common/advanced-search/sort',
     'common/advanced-search/properties',
+    'common/advanced-search/properties-improved',
+    'common/advanced-search/filters',
     'common/advanced-search/resource-class',
-    'common/advanced-search/item-sets',
-    'common/advanced-search/site',
-    'common/advanced-search/has-media',
-    'common/advanced-search/media-type',
-    'common/advanced-search/owner',
-    'common/advanced-search/visibility',
+    'common/advanced-search/resource-class-improved',
+    'common/advanced-search/resource-template',
+    'common/advanced-search/resource-template-improved',
     'common/advanced-search/resource-template-restrict',
+    'common/advanced-search/item-sets',
+    'common/advanced-search/item-sets-improved',
+    'common/advanced-search/site',
+    'common/advanced-search/site-improved',
+    'common/advanced-search/has-media',
+    'common/advanced-search/has-media-radio',
+    'common/advanced-search/media-types',
+    'common/advanced-search/media-type',
+    'common/advanced-search/media-type-improved',
+    'common/advanced-search/owner',
+    'common/advanced-search/owner-improved',
+    'common/advanced-search/visibility',
+    'common/advanced-search/visibility-radio',
     'common/advanced-search/ids',
+    'common/advanced-search/date-time',
+    'common/advanced-search/has-original',
+    'common/advanced-search/has-thumbnails',
+    'common/advanced-search/has-asset',
+    'common/advanced-search/data-type-geography',
+    'common/advanced-search/item-set-is-dynamic',
+    'common/numeric-data-types-advanced-search',
 ];
 ?>
 
