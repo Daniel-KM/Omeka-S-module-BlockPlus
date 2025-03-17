@@ -2438,4 +2438,37 @@ if (version_compare($oldVersion, '3.4.36', '<')) {
     // Do a clear to fix issues with new blocks created during migration.
     $entityManager->flush();
     $entityManager->clear();
+
+    /**
+     * Add params type to simple block with glossary.
+     */
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+
+    $pagesUpdated = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        foreach ($page->getBlocks() as $block) {
+            $layout = $block->getLayout();
+            if ($layout !== 'block') {
+                continue;
+            }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            $templateName = $data['template_name'] ?? null;
+            if ($templateName !== 'block-glossary') {
+                continue;
+            }
+            $data['params_type'] = 'key_value_array';
+            $block->setData($data);
+            $pagesUpdated[$siteSlug][$pageSlug] = $pageSlug;
+        }
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
 }
