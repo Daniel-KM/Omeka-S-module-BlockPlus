@@ -268,6 +268,7 @@ return [
         'block_settings' => [
             'block' => [
                 'params' => '',
+                'params_type' => 'auto',
             ],
             'breadcrumbs' => [
             ],

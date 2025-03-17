@@ -3,19 +3,11 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var string $params
- */
-
-/*
- Fill this partial as you want. The view is available, so any feature can be used.
-
- Use params if any. Access to them:
- - as a whole: $params
- - as a decoded json: $this->blockMetadata('params_json', $block)
- - as a list of keys-values: $this->blockMetadata('params_key_value', $block)
- - as a list of two-values arrays: $this->blockMetadata('params_key_value_array', $block)
- - a specific key of the list of keys-values: $this->blockMetadata('my_key', $block)
-
- Warning: check security of any user input.
+ * @var string $paramType "auto", "raw", "ini", "json_array", "key_value", "key_value_array".
+ * @var string|array $parameters Params according to type.
+ *
+ * Fill this partial as you want. The view is available, so any feature can be used.
+ * Warning: check security of any user input.
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -23,5 +15,5 @@ $escape = $plugins->get('escapeHtml');
 ?>
 
 <div class="block block-simple">
-    <?= $escape($params) ?>
+    <?= nl2br(is_array($params) ? $escape(json_encode($params, 448)) : $escape($params)) ?>
 </div>

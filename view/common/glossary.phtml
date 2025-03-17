@@ -32,7 +32,7 @@ $currentPage = (int) ($query['page'] ?? 1) ?: 1;
 $perPage = (int) ($query['per_page'] ?? 0) ?: $defaultPerPage;
 // On the first load, the first letter is the first available one: see below.
 // There may be multiple first letters to consolidate small lists.
-$startWith = array_filter((array) ($startWith['startwith'] ?? []), 'strlen');
+$startWith = array_filter((array) ($query['startwith'] ?? []), 'strlen');
 
 $hasExtensionIntl = extension_loaded('intl');
 $hasExtensionIconv = extension_loaded('iconv');
