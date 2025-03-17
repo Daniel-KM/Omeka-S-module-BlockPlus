@@ -2401,3 +2401,41 @@ if (version_compare($oldVersion, '3.4.35', '<')) {
     );
     $messenger->addSuccess($message);
 }
+
+if (version_compare($oldVersion, '3.4.36', '<')) {
+    /**
+     * Replace query array as query string in search results.
+     */
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+
+    $pagesUpdated = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        foreach ($page->getBlocks() as $block) {
+            $layout = $block->getLayout();
+            if ($layout !== 'searchResults') {
+                continue;
+            }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            if (empty($data['query'])) {
+                $data['query'] = [];
+            } elseif (!is_array($data['query'])) {
+                $query = [];
+                parse_str(ltrim($data['query'], "? \t\n\r\0\x0B"), $query);
+                $data['query'] = $query;
+            }
+            $data['query'] = array_filter($data['query'], fn ($v) => $v !== '' && $v !== [] && $v !== null);
+            $block->setData($data);
+            $pagesUpdated[$siteSlug][$pageSlug] = $pageSlug;
+        }
+    }
+
+    // Do a clear to fix issues with new blocks created during migration.
+    $entityManager->flush();
+    $entityManager->clear();
+}
