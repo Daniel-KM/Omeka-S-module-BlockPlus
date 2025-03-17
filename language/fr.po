@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-03 00:00+0000\n"
-"PO-Revision-Date: 2025-03-03 00:00+0000\n"
+"POT-Creation-Date: 2025-03-31 00:00+0000\n"
+"PO-Revision-Date: 2025-03-31 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "This module requires module %1$s version %2$s or greater."
 msgstr "Ce module requiert le module %1$s version %2$s ou supérieur."
 
-#: data/scripts/upgrade.php:36 Module.php:39
+#: data/scripts/upgrade.php:37 Module.php:39
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou ultérieure."
@@ -196,7 +196,7 @@ msgstr "Collections"
 msgid "Breadcrumb"
 msgstr "Fil d’Ariane"
 
-#: view/common/block-layout/mapping-block-search.phtml:34
+#: view/common/block-layout/mapping-block-search.phtml:54
 msgid "Search on map"
 msgstr "Chercher sur la carte"
 
@@ -204,7 +204,7 @@ msgstr "Chercher sur la carte"
 msgid "No message."
 msgstr "Pas de message."
 
-#: view/common/block-template/block-arborescence.phtml:16
+#: view/common/block-template/block-arborescence.phtml:21
 msgid ""
 "No file defined. Set the param in the block: \"file = filename.tsv\" (use a "
 "file inside /asset/data/) or \"file = https://example.com/file.tsv\"."
@@ -280,7 +280,7 @@ msgstr "Pas de ressource suivante"
 msgid "The vocabulary \"{vocabulary}\" was updated successfully."
 msgstr "Le vocabulaire « {vocabulary} » a été correctement mis à jour."
 
-#: data/scripts/upgrade.php:115
+#: data/scripts/upgrade.php:116
 msgid ""
 "Change: The method \"blockMetadata()\" returns an array by default for key "
 "\"params_json\". Use key \"params_json_object\" to keep object output."
@@ -289,40 +289,40 @@ msgstr ""
 "par défaut pour la clé \"params_json\". Utilisé la clé "
 "\"params_json_object\" pour garder la sortie objet."
 
-#: data/scripts/upgrade.php:125
+#: data/scripts/upgrade.php:126
 msgid "The vocabulary \"{vocabulary}\" is not installed."
 msgstr "Le vocabulaire « {vocabulary} » n’est pas installé."
 
-#: data/scripts/upgrade.php:139
+#: data/scripts/upgrade.php:140
 msgid "Is reserved Access"
 msgstr "Est en accès restreint"
 
-#: data/scripts/upgrade.php:140
+#: data/scripts/upgrade.php:141
 msgid "Gives an ability for private resource to be previewed."
 msgstr "Permet aux ressources privées d’être listées (prévisualisées)."
 
-#: data/scripts/upgrade.php:144
+#: data/scripts/upgrade.php:145
 msgid "Is new resource"
 msgstr "Est une nouvelle ressource"
 
-#: data/scripts/upgrade.php:145
+#: data/scripts/upgrade.php:146
 msgid "Allows to identify a resource as a new one."
 msgstr "Permet d’identifier la ressource comme nouvelle."
 
-#: data/scripts/upgrade.php:149
+#: data/scripts/upgrade.php:150
 msgid "Category"
 msgstr "Catégorie"
 
-#: data/scripts/upgrade.php:150
+#: data/scripts/upgrade.php:151
 msgid "Non-standard topic that can be used for some purposes."
 msgstr "Thème non-standard pouvant être utilisé dans certains cas."
 
-#: data/scripts/upgrade.php:223
+#: data/scripts/upgrade.php:224
 msgid "The block \"Assets\" was merged with the new upstream block \"Asset\"."
 msgstr ""
 "Le bloc \"Fichiers\" a été fusionné avec le nouveau bloc Omeka \"Fichier\"."
 
-#: data/scripts/upgrade.php:227
+#: data/scripts/upgrade.php:228
 msgid ""
 "You may have to check the pages when a specific template is used, in "
 "particular for deprecated keys \"title\", replaced by \"alt_link_title\", "
@@ -334,7 +334,7 @@ msgstr ""
 "\"alt_link_title\", et \"url\", remplacé par \"page\" (ou contourné avec "
 "\"caption\", \"alt_link_title\" ou le titre du fichier)."
 
-#: data/scripts/upgrade.php:231
+#: data/scripts/upgrade.php:232
 msgid ""
 "Furthermore, it is recommended to rename \"assets\" templates as \"asset-"
 "xxx\" and to update pages accordingly. You may replace the default template "
@@ -344,22 +344,22 @@ msgstr ""
 "xxx\" et de mettre à jour les pages. Vous pouvez également remplacer le "
 "modèle par défaut avec \"asset-block\"."
 
-#: data/scripts/upgrade.php:235
+#: data/scripts/upgrade.php:236
 msgid "The block still supports html captions and media assets."
 msgstr "Le bloc supporte toujours les légendes html et les fichiers médias."
 
-#: data/scripts/upgrade.php:242
+#: data/scripts/upgrade.php:243
 msgid "It’s now possible to maximize the field \"Html\" in page edition."
 msgstr ""
 "Il est désormais possible de maximiser les champs d’édition html des pages."
 
-#: data/scripts/upgrade.php:246
+#: data/scripts/upgrade.php:247
 msgid "It’s now possible to add footnotes in fields \"Html\" in page edition."
 msgstr ""
 "Il est désormais possible d’ajouter des pieds de page dans les champs "
 "\"Html\" des pages."
 
-#: data/scripts/upgrade.php:272
+#: data/scripts/upgrade.php:273
 msgid ""
 "It’s now possible to choose mode of display to edit html blocks of pages in "
 "main params."
@@ -367,7 +367,7 @@ msgstr ""
 "Il est désormais possible de choisir le mode d’affichage pour l’édition des "
 "blocs html."
 
-#: data/scripts/upgrade.php:279
+#: data/scripts/upgrade.php:280
 msgid ""
 "The output for block D3 Graph was modified. Check it if you modified the "
 "template in your theme."
@@ -375,7 +375,7 @@ msgstr ""
 "La sortie du bloc D3 Graph a été modifiée. Il convient de mettre à jour le "
 "thème si le fichier du thème a été modifié."
 
-#: data/scripts/upgrade.php:429
+#: data/scripts/upgrade.php:430
 msgid ""
 "Template \"Asset\": The variable $assets has been replaced by $attachments; "
 "attachment key \"title\" by \"alt_link_title\"; attachment key \"url\" was "
@@ -385,7 +385,7 @@ msgstr ""
 "clé \"title\" a été remplacée par \"alt_link_title\"; la clé \"url\" a été "
 "supprimée. Vérifiez si vous avez modifier les fichiers du thème."
 
-#: data/scripts/upgrade.php:435
+#: data/scripts/upgrade.php:436
 msgid ""
 "The key \"url\" of attachments of block \"Asset\" was removed. The block "
 "template should be updated if you customized it in pages: {html}"
@@ -394,7 +394,7 @@ msgstr ""
 "Vérifiez le fichier du thème si vous l’avez personnalisé dans les pages "
 "{html}."
 
-#: data/scripts/upgrade.php:459
+#: data/scripts/upgrade.php:460
 msgid ""
 "The feature \"Breadcrumbs\" was moved from module \"Menu\" into this module. "
 "Upgrade is automatic. Check your options if you use it."
@@ -403,7 +403,7 @@ msgstr ""
 "module. La mise à jour est automatique. Vérifiez vos options si vous "
 "l’utilisez."
 
-#: data/scripts/upgrade.php:464
+#: data/scripts/upgrade.php:465
 msgid ""
 "It is now possible to define a breadcrumbs (may need to be added inside "
 "theme)."
@@ -411,7 +411,7 @@ msgstr ""
 "Il est désormais possible de définir un fil d'Ariane (il peut être "
 "nécessaire de l'ajouter dans le thème)."
 
-#: data/scripts/upgrade.php:482
+#: data/scripts/upgrade.php:483
 msgid ""
 "Two new resource page blocks has been added, in particular to display "
 "buttons to previous and next resource (require module Easy Admin)."
@@ -420,7 +420,7 @@ msgstr ""
 "afficher les boutons vers la ressource précédente et la ressource suivante "
 "(nécessite le module Easy Admin)."
 
-#: data/scripts/upgrade.php:773 data/scripts/upgrade.php:1381
+#: data/scripts/upgrade.php:774 data/scripts/upgrade.php:1382
 msgid ""
 "The block \"Separator\" was replaced by the Omeka block \"Line Break\" with "
 "block class \"transparent\" and layout class \"separator\"."
@@ -428,7 +428,7 @@ msgstr ""
 "Le bloc « Séparateur » a été remplacé par le bloc Omeka « Saut de ligne » "
 "avec la classe de bloc « transparent » et la classe de gabarit « separator »."
 
-#: data/scripts/upgrade.php:793
+#: data/scripts/upgrade.php:794
 msgid ""
 "The options \"alignment\" and \"divclass\" of some blocks were moved to "
 "block layout."
@@ -436,7 +436,7 @@ msgstr ""
 "Les options « alignment » et « divclass » de certains blocs ont été "
 "déplacées vers le options de disposition des blocs."
 
-#: data/scripts/upgrade.php:842
+#: data/scripts/upgrade.php:843
 msgid ""
 "Site {site_slug} / Page {page_slug}: Type \"intermediate\" and \"end\" "
 "divisions must be after a block \"start\" or \"intermediate\"."
@@ -445,7 +445,7 @@ msgstr ""
 "« intermédiaire » et « fin » doivent être situées après un bloc « début » ou "
 "« intermédiaire »."
 
-#: data/scripts/upgrade.php:860
+#: data/scripts/upgrade.php:861
 msgid ""
 "Site {site_slug} / Page {page_slug}: Unauthorized type \"{type}\" for block "
 "division."
@@ -453,14 +453,14 @@ msgstr ""
 "Site {site_slug} / Page {page_slug} : Type non autorisé « {type} » pour le "
 "bloc de division."
 
-#: data/scripts/upgrade.php:878
+#: data/scripts/upgrade.php:879
 msgid ""
 "Site {site_slug} / Page {page_slug}: A block \"division\" cannot be single."
 msgstr ""
 "Site {site_slug} / Page {page_slug} : Un bloc « division » ne peut pas être "
 "utilisé seul."
 
-#: data/scripts/upgrade.php:891
+#: data/scripts/upgrade.php:892
 msgid ""
 "Site {site_slug} / Page {page_slug}: The first division block must be of "
 "type \"start\"."
@@ -468,7 +468,7 @@ msgstr ""
 "Site {site_slug} / Page {page_slug} : Le premier bloc de division doit être "
 "de type « début »."
 
-#: data/scripts/upgrade.php:903
+#: data/scripts/upgrade.php:904
 msgid ""
 "Site {site_slug} / Page {page_slug}: The last division block must be of type "
 "\"end\"."
@@ -476,12 +476,12 @@ msgstr ""
 "Site {site_slug} / Page {page_slug} : Le dernier bloc de division doit être "
 "de type « fin »."
 
-#: data/scripts/upgrade.php:914
+#: data/scripts/upgrade.php:915
 msgid "Site {site_slug} / Page {page_slug}: Some divisions have no end."
 msgstr ""
 "Site {site_slug} / Page {page_slug} : certaines divisions n’ont pas de fin."
 
-#: data/scripts/upgrade.php:971
+#: data/scripts/upgrade.php:972
 msgid ""
 "Site {site_slug} / Page {page_slug}: The migration does not manage nested "
 "divisions. You should finalize migration of the page manually, for example "
@@ -491,7 +491,7 @@ msgstr ""
 "imbriquées. Vous devez finaliser la migration de la page manuellement, par "
 "exemple avec des grilles et les groupes de blocs."
 
-#: data/scripts/upgrade.php:1029
+#: data/scripts/upgrade.php:1030
 msgid ""
 "The blocks Division were replaced by a group of blocks when possible (not "
 "nested). See messages above or logs for issues."
@@ -500,7 +500,7 @@ msgstr ""
 "était possible (non imbriqués). Voir les messages ci-dessus ou les journaux "
 "pour les problèmes."
 
-#: data/scripts/upgrade.php:1082
+#: data/scripts/upgrade.php:1083
 msgid ""
 "The setting \"html\" was removed from block Browse Preview. A new block "
 "\"Html\" was prepended to all blocks that had a filled html. You may check "
@@ -510,7 +510,7 @@ msgstr ""
 "Heading » a été ajouté à tous les blocs qui avaient un titre rempli. Vous "
 "pouvez vérifier les styles des pages : {json}"
 
-#: data/scripts/upgrade.php:1144
+#: data/scripts/upgrade.php:1145
 msgid ""
 "The block Browse Preview is no more managed by this module. If you used "
 "specific settings, use the block Search Results."
@@ -518,7 +518,7 @@ msgstr ""
 "Le bloc « Aperçu des ressources » n’est plus géré par ce module. Vérifiez "
 "vos thèmes si vous l’avez utilisé ou utilisez le bloc Résultats de recherche."
 
-#: data/scripts/upgrade.php:1151 data/scripts/upgrade.php:1500
+#: data/scripts/upgrade.php:1152 data/scripts/upgrade.php:1501
 msgid ""
 "The block \"Browse Preview\" filled with specific features (query with "
 "specific site, pagination and sort headings) were replaced by block Search "
@@ -529,7 +529,7 @@ msgstr ""
 "été remplacé par le bloc Search results et le gabarit « search-results-"
 "browse-preview-deprecated » : {json}"
 
-#: data/scripts/upgrade.php:1230
+#: data/scripts/upgrade.php:1231
 msgid ""
 "The setting \"heading\" was removed from blocks. A new block \"Heading\" was "
 "prepended to all blocks that had a filled heading. You may check pages for "
@@ -539,7 +539,7 @@ msgstr ""
 "Heading » a été ajouté à tous les blocs qui avaient un titre rempli. Vous "
 "pouvez vérifier les styles des pages : {json}"
 
-#: data/scripts/upgrade.php:1237
+#: data/scripts/upgrade.php:1238
 msgid ""
 "A new block \"Heading\" allows to separate blocks with a html heading and "
 "replaces previous blocks with setting \"heading\"."
@@ -547,7 +547,7 @@ msgstr ""
 "Un nouveau bloc « Heading » permet de séparer les blocs avec un titre html. "
 "Il remplace les blocs précédents qui contenait le paramètre html « heading »."
 
-#: data/scripts/upgrade.php:1262
+#: data/scripts/upgrade.php:1263
 msgid ""
 "The old block \"Page Date\" was replaced by the core one \"Page Date Time\". "
 "The variable names were changed, so check your theme if needed."
@@ -556,7 +556,7 @@ msgstr ""
 "et heure de la page ». Les noms des variables ont été modifiés, il convient "
 "donc de vérifier votre thème si nécessaire."
 
-#: data/scripts/upgrade.php:1312
+#: data/scripts/upgrade.php:1313
 msgid ""
 "For block Asset, the keys \"class\" and \"url\" of assets were moved to the "
 "start of the caption and available only with specific block templates."
@@ -565,7 +565,7 @@ msgstr ""
 "attachés ont été déplacées au début de la légende et disponibles seulement "
 "avec les gabarits spécifiques."
 
-#: data/scripts/upgrade.php:1317
+#: data/scripts/upgrade.php:1318
 msgid ""
 "The block Item Showcase was renamed Media in Omeka S v4.1. The option "
 "\"linkType\" was renamed \"link\". Check your themes to update them."
@@ -574,7 +574,7 @@ msgstr ""
 "« linkType » a été renommée « link ». Vérifiez vos thèmes pour les mettre à "
 "jour."
 
-#: data/scripts/upgrade.php:1322
+#: data/scripts/upgrade.php:1323
 msgid ""
 "The templates item-showcase-xxx were renamed media-item-showcase-xxx. Check "
 "your themes to update them or to move them to common/block-template and to "
@@ -585,7 +585,7 @@ msgstr ""
 "block-template et les ajouter dans theme.ini comme gabarits pour le bloc "
 "« Media »."
 
-#: data/scripts/upgrade.php:1327
+#: data/scripts/upgrade.php:1328
 msgid ""
 "The old template mechanism of the module BlockPlus was replaced by the new "
 "mechanism of Omeka S v4.1."
@@ -593,7 +593,7 @@ msgstr ""
 "L’ancien mécanisme de gabarit du module BlockPlus a été remplacé par le "
 "nouveau mécanisme d’Omeka S v4.1."
 
-#: data/scripts/upgrade.php:1332
+#: data/scripts/upgrade.php:1333
 msgid ""
 "It is recommended to check your themes and to move specific templates from "
 "\"view/common/block-layout\" to \"view/common/block-template\" and to "
@@ -607,7 +607,7 @@ msgstr ""
 "pour le gabarit par défaut des blocs. Après le déplacement, l’option "
 "« template » de chaque bloc doit être mise à jour dans chaque page."
 
-#: data/scripts/upgrade.php:1337
+#: data/scripts/upgrade.php:1338
 msgid ""
 "Because old features of the module were integrated inside Omeka S since v4.1 "
 "({link}user doc{link_end}, {link_2}dev doc{link_end}), the blocks Asset, "
@@ -621,7 +621,7 @@ msgstr ""
 "pages, Dates de la page et Titre de la page ne sont plus prises en charge "
 "par le module."
 
-#: data/scripts/upgrade.php:1348
+#: data/scripts/upgrade.php:1349
 msgid ""
 "Warning: It is important to check all site pages because the integration of "
 "the module features in Omeka S is a complex process and some features are "
@@ -631,7 +631,7 @@ msgstr ""
 "l’intégration des fonctionnalités du module dans Omeka S est un processus "
 "complexe et certaines fonctionnalités n’ont pas été conservées."
 
-#: data/scripts/upgrade.php:1352
+#: data/scripts/upgrade.php:1353
 msgid ""
 "In particular, check deprecated block templates and blocks Asset, Browse "
 "Preview and nested Division. Check styles too, because some html <div> and "
@@ -646,7 +646,7 @@ msgstr ""
 "pas une page, les anciens paramètres fonctionnent. Une fois enregistrée une "
 "nouvelle fois, certains anciens paramètres sont supprimés."
 
-#: data/scripts/upgrade.php:1430
+#: data/scripts/upgrade.php:1431
 msgid ""
 "The template name of some of the blocks {list} where renamed for "
 "deprecation. Check your theme if you use them. Matching pages: {json}"
@@ -655,7 +655,7 @@ msgstr ""
 "d’obsolescence. Vérifiez votre thème si vous les utilisez. Pages "
 "correspondantes : {json}"
 
-#: data/scripts/upgrade.php:1552
+#: data/scripts/upgrade.php:1553
 msgid ""
 "The setting \"heading\" was removed from blocks Search Results. A new block "
 "\"Heading\" was prepended to all blocks that had a filled heading. You may "
@@ -665,7 +665,7 @@ msgstr ""
 "« Titre » (Html Heading) a été ajouté à tous les blocs qui avaient un titre "
 "rempli. Vous pouvez vérifier les styles des pages : {json}"
 
-#: data/scripts/upgrade.php:1631
+#: data/scripts/upgrade.php:1632
 msgid ""
 "These templates for block \"Html\" should contain `$block->dataValue('html', "
 "'')` because `$html` is no more available by default. Matching files: {json}"
@@ -674,7 +674,7 @@ msgstr ""
 ">dataValue('html', '')` car `$html` n'est plus disponible par défaut. "
 "Fichiers correspondants : {json}"
 
-#: data/scripts/upgrade.php:1657
+#: data/scripts/upgrade.php:1658
 msgid ""
 "The block \"Browse Preview\" do not have the variable `$site` anymore. Check "
 "your theme if you customized it. Matching pages: {json}."
@@ -682,7 +682,7 @@ msgstr ""
 "Le bloc « Aperçu des ressources » n’a plus la variable `$site`. Vérifiez "
 "votre thème si vous l'avez personnalisé. Pages correspondantes : {json}."
 
-#: data/scripts/upgrade.php:1702
+#: data/scripts/upgrade.php:1703
 msgid ""
 "The template layout of some blocks was renamed. Check your theme if you used "
 "them. Matching pages: {json}."
@@ -690,7 +690,7 @@ msgstr ""
 "Le gabarit de certains blocs a été renommé. Vérifiez votre thème si vous "
 "l’avez personnalisé. Pages correspondantes : {json}."
 
-#: data/scripts/upgrade.php:1811
+#: data/scripts/upgrade.php:1812
 msgid ""
 "The data of blocks \"Asset\" were migrated to manage asset class and url as "
 "the first two lines of the caption. Update your theme like asset templates. "
@@ -701,7 +701,7 @@ msgstr ""
 "Mettez à jour votre thème si besoin comme les autres gabarits du bloc "
 "Fichier. Pages correspondantes : {json}."
 
-#: data/scripts/upgrade.php:1903
+#: data/scripts/upgrade.php:1904
 msgid ""
 "The setting \"heading\" was removed from block Media. A new block "
 "\"Heading\" was prepended to all blocks that had a filled heading. You may "
@@ -711,7 +711,7 @@ msgstr ""
 "« Titre Html » a été ajouté à tous les blocs qui avaient un titre rempli. "
 "Vous pouvez vérifier les styles des pages : {json}"
 
-#: data/scripts/upgrade.php:2020
+#: data/scripts/upgrade.php:2021
 msgid ""
 "The block Resource Text has been converted to a group of blocks Media and "
 "Html. The option \"caption position\" was moved to layout class. You may "
@@ -721,7 +721,7 @@ msgstr ""
 "Html. L’option « position de la légende » a été déplacée dans une classe du "
 "gabarit. Vous pouvez vérifier les pages pour les syles : {json}"
 
-#: data/scripts/upgrade.php:2036
+#: data/scripts/upgrade.php:2037
 msgid ""
 "The variables \"$html\" and \"$captionPosition\" were removed from block "
 "Resource Text (converted into block Media). You should fix them: {json}"
@@ -730,7 +730,7 @@ msgstr ""
 "Ressource avec texte (converti en un bloc Média). Vous devez les corriger : "
 "{json}"
 
-#: data/scripts/upgrade.php:2084
+#: data/scripts/upgrade.php:2085
 msgid ""
 "The option \"type\" of block Page Metadata was migrated to page layout "
 "option and page templates were added. Update your theme if needed. Matching "
@@ -740,7 +740,7 @@ msgstr ""
 "l’option Modèle de page et les modèles de page correspondants ont été "
 "ajoutés. Mettez à jour votre thème si besoin. Pages correspondantes : {json}."
 
-#: data/scripts/upgrade.php:2094
+#: data/scripts/upgrade.php:2095
 msgid ""
 "The option \"type\" of block Page Metadata cannot be migrated because a page "
 "layout template was already set. Matching pages: {json}."
@@ -749,7 +749,7 @@ msgstr ""
 "un modèle de gabarit est déjà défini pour la page. Pages correspondantes : "
 "{json}."
 
-#: data/scripts/upgrade.php:2102
+#: data/scripts/upgrade.php:2103
 msgid ""
 "All themes that contain custom templates of the blocks should be moved from "
 "\"view/common/block-layout\" to \"view/common/block-template\" except if "
@@ -762,7 +762,7 @@ msgstr ""
 "Consultez le {link}lisez-moi{link_end} pour plus d’informations sur la "
 "migration."
 
-#: data/scripts/upgrade.php:2126
+#: data/scripts/upgrade.php:2127
 msgid ""
 "New resource blocks allow to wrap other blocks with html elements <div> and "
 "<section>."
@@ -770,7 +770,7 @@ msgstr ""
 "De nouveaux blocs de ressources permettent de grouper d’autres blocs avec "
 "les éléments html <div> et <section>."
 
-#: data/scripts/upgrade.php:2133
+#: data/scripts/upgrade.php:2134
 msgid ""
 "It is now possible to append a list of blocks via a simple click when "
 "editing a site page."
@@ -778,7 +778,7 @@ msgstr ""
 "Il est désormais possible d’ajouter une liste de blocs via un simple clic "
 "lorsque la page est modifiée."
 
-#: data/scripts/upgrade.php:2151
+#: data/scripts/upgrade.php:2152
 msgid ""
 "If you created some lists of blocks in version 3.4.25, the block group is no "
 "more implicit, so you should update each group manually: prepend `o:block.0."
@@ -792,7 +792,7 @@ msgstr ""
 "` aux valeurs `o:layout_data` situées à la racine. De plus, la clé "
 "« block_groups » a été renommée « page_models »."
 
-#: data/scripts/upgrade.php:2156
+#: data/scripts/upgrade.php:2157
 msgid ""
 "It is now possible to select a page model with page settings and blocks when "
 "creating a new page."
@@ -800,7 +800,7 @@ msgstr ""
 "Il est désormais possible de choisir un modèle de page avec les paramètres "
 "et les blocs lors de la création d’une nouvelle page."
 
-#: data/scripts/upgrade.php:2160
+#: data/scripts/upgrade.php:2161
 msgid ""
 "It is now possible to create a page model or a list of blocks via a simple "
 "click when editing a page."
@@ -808,7 +808,7 @@ msgstr ""
 "Il est désormais possible de créer un modèle de page ou une liste de blocs "
 "d’un simple clic lorsque la page est modifiée."
 
-#: data/scripts/upgrade.php:2202
+#: data/scripts/upgrade.php:2203
 msgid ""
 "A new site setting allows to permit site editors to create page models and "
 "blocks groups."
@@ -816,7 +816,7 @@ msgstr ""
 "Un nouveau paramètre de site permet d’autoriser les éditeurs de site à créer "
 "les modèles de page et des groupes de blocs."
 
-#: data/scripts/upgrade.php:2206
+#: data/scripts/upgrade.php:2207
 msgid ""
 "New templates were added to block html in order to display an accordion and "
 "a dialog box."
@@ -824,7 +824,7 @@ msgstr ""
 "De nouveaux gabarits ont été ajoutés au bloc html pour afficher un accordéon "
 "et une boîte de dialogue."
 
-#: data/scripts/upgrade.php:2284
+#: data/scripts/upgrade.php:2285
 msgid ""
 "The setting \"html\" was removed from block External Content and Search "
 "Form. A new block \"Html\" was prepended to all blocks that had a filled "
@@ -834,7 +834,7 @@ msgstr ""
 "de recherche. Un nouveau bloc « Html » a été ajouté à tous les blocs qui "
 "avaient un html rempli. Vous pouvez vérifier les styles des pages : {json}"
 
-#: data/scripts/upgrade.php:2292
+#: data/scripts/upgrade.php:2293
 msgid ""
 "New templates were added to blocks Showcase, External Content and Search "
 "form."
@@ -842,7 +842,7 @@ msgstr ""
 "De nouveaux gabarits ont été ajoutés au bloc Vitrine, Contenu externe et "
 "Formulaire de recherche."
 
-#: data/scripts/upgrade.php:2299
+#: data/scripts/upgrade.php:2300
 msgid ""
 "The block Page metadata is deprecated in favor of an integrated form and "
 "will be removed in a future version. The metadata will be available as "
@@ -852,7 +852,7 @@ msgstr ""
 "intégré au niveau de la page. Il sera supprimé dans une prochaine version. "
 "Les métadonnées seront également disponibles au standard rdf."
 
-#: data/scripts/upgrade.php:2340
+#: data/scripts/upgrade.php:2341
 msgid ""
 "The setting \"show title\" was replaced by components (title, body, "
 "thumbnail) in block Item Set Showcase. You may check pages: {json}"
@@ -861,7 +861,7 @@ msgstr ""
 "corps, vignette) dans le bloc Vitrine de collections. Vous pouvez vérifier "
 "les pages : {json}"
 
-#: data/scripts/upgrade.php:2347
+#: data/scripts/upgrade.php:2348
 msgid ""
 "The setting \"show title\" was replaced by components (title, body, "
 "thumbnail) in block Item Set Showcase."
@@ -869,7 +869,16 @@ msgstr ""
 "Le paramètre « Afficher le titre » a été remplacé par des composants (titre, "
 "corps, vignette) dans le bloc Vitrine de collections."
 
-#: data/scripts/upgrade.php:2384
+#: data/scripts/upgrade.php:2363
+msgid ""
+"The js library \"ThumbnailGridExpandingPreview\" was renamed \"thumbnail-"
+"grid-expanding-preview\". You should fix your theme: {json}"
+msgstr ""
+"La bibliothèque js « ThumbnailGridExpandingPreview » a été renommé "
+"« thumbnail-grid-expanding-preview ». Vous devez corriger votre thème : "
+"{json}"
+
+#: data/scripts/upgrade.php:2400
 msgid ""
 "A sub-template was added to display the block browse preview gallery with "
 "thumbnail \"medium\"."
@@ -1010,7 +1019,7 @@ msgid "Is new"
 msgstr "Est nouveau"
 
 #: Module.php:805 src/Form/D3GraphFieldset.php:17
-#: src/Form/PageMetadataFieldset.php:62 src/Form/BlockFieldset.php:17
+#: src/Form/PageMetadataFieldset.php:62 src/Form/BlockFieldset.php:18
 msgid "Params"
 msgstr "Paramètres"
 
@@ -1020,7 +1029,7 @@ msgid ""
 "theme."
 msgstr ""
 "Les paramètres peuvent être récupérés en tant que texte brut, paires clé/"
-"valeur et json selon le thème"
+"valeur et json selon le thème."
 
 #: view/common/block-template/asset-deprecated-plus.phtml:13
 msgid ""
@@ -1327,7 +1336,7 @@ msgstr "Choisir un modèle de ressource…"
 msgid "Search form"
 msgstr "Champ de recherche"
 
-#: src/Form/D3GraphFieldset.php:18 src/Form/BlockFieldset.php:18
+#: src/Form/D3GraphFieldset.php:18 src/Form/BlockFieldset.php:19
 msgid "The params are passed directly to the block layout."
 msgstr "Les paramètres sont passés directement au gabarit du bloc."
 
@@ -1488,6 +1497,36 @@ msgstr ""
 "choisie, elle sera cachée au public. La pacte courante et les pages qui la "
 "contiennent récursivement sont interdites."
 
+#: src/Form/BlockFieldset.php:26
+msgid "Params type"
+msgstr "Type des paramètres"
+
+#: src/Form/BlockFieldset.php:28
+msgid "Automatic"
+msgstr "Automatique"
+
+#: src/Form/BlockFieldset.php:29
+msgid "Raw string"
+msgstr "Plein texte"
+
+#: src/Form/BlockFieldset.php:30
+msgid "Format \"Ini\""
+msgstr "Format « ini »"
+
+#: src/Form/BlockFieldset.php:31
+msgid "Json"
+msgstr "Json"
+
+#: src/Form/BlockFieldset.php:32
+msgid "Associative array of key / value pairs (separated with \"=\")"
+msgstr "Liste associative de paires clé / valeur (séparées par =)"
+
+#: src/Form/BlockFieldset.php:33
+msgid ""
+"List of arrays with two values, the key and the value (separated with \"=\")"
+msgstr ""
+"Liste de listes avec deux valeurs, la clé et la valeur (séparées par =)"
+
 #: src/Form/LinksFieldset.php:17 src/Site/BlockLayout/Links.php:23
 msgid "Links"
 msgstr "Liens"
@@ -1557,9 +1596,9 @@ msgstr ""
 
 #: src/Site/BlockLayout/PageMetadata.php:17
 msgid "Page metadata (deprecated)"
-msgstr "Métadonnées de la page)"
+msgstr "Métadonnées de la page (obsolète)"
 
-#: src/Site/BlockLayout/MappingMapSearch.php:13
+#: src/Site/BlockLayout/MappingMapSearch.php:14
 msgid "Map by search"
 msgstr "Carte par recherche"
 
@@ -1966,7 +2005,7 @@ msgstr "Ce groupe ne contient aucun bloc."
 msgid "Url (deprecated)"
 msgstr "Url (obsolète)"
 
-#: config/module.config.php:305
+#: config/module.config.php:306
 msgid "Know more"
 msgstr "En savoir plus"
 
@@ -2273,9 +2312,6 @@ msgstr "En savoir plus"
 
 #~ msgid "Format date"
 #~ msgstr "Format de la date"
-
-#~ msgid "Format time"
-#~ msgstr "Format de l’heure"
 
 #~ msgid ""
 #~ "Templates are in folder \"common/block-layout\" of the theme and should "
