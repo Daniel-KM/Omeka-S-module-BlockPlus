@@ -46,17 +46,22 @@ $siteSlug = $site->slug();
 // block allowed to use another site than the current one (useful for a main
 // site and specific ones).
 
-$query = ltrim($block->dataValue('query', ''), "? \t\n\r\0\x0B");
-$isQuerySiteOverridden = $query && preg_match('~site_page_id=\d+~', $query);
+$query = $block->dataValue('query', '');
+if (is_array($query)) {
+    $query = http_build_query($query, '', '&amp;', PHP_QUERY_RFC3986);
+}
+$query = ltrim($query, "? \t\n\r\0\x0B");
+$matches = [];
+$isQuerySiteOverridden = $query && preg_match('~site_page_id=(\d+)~', $query, $matches) && (int) $matches[1] !== $block->page()->site()->id();
 // If site is overridden, redo the query.
+// TODO Check if the site is overridden: normally it should not be possible.
 if ($isQuerySiteOverridden) {
-
+    $resources = $this->api()->search($resourceType, $query)->getContent();
 }
 
-$querySiteId =
 $pagination = (bool) $block->layoutDataValue('pagination');
 $sortHeadings = $block->layoutDataValue('sort_headings', []);
-$resourceTemplateId = (int) $block->layoutDataValue('resource_template');
+// $resourceTemplateId = (int) $block->layoutDataValue('resource_template');
 ?>
 
 <div class="block preview-block">
