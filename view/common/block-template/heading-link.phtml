@@ -9,11 +9,19 @@
 $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
 
+$anchorXml = function (string $string): ?\SimpleXMLElement {
+    try {
+        return new \SimpleXMLElement($string);
+    } catch (\Exception $e) {
+        return null;
+    }
+};
+
 // Check anchor for security.
 $text = trim($text);
 if (mb_substr($text, 0, 3) === '<a '
     && mb_substr($text, -4) === '</a>'
-    && ($anchor = new SimpleXMLElement($text))
+    && ($anchor = $anchorXml($text))
     // Don't allow children.
     && !$anchor ->count()
 ) {
