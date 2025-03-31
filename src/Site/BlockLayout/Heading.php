@@ -3,6 +3,7 @@
 namespace BlockPlus\Site\BlockLayout;
 
 use Laminas\View\Renderer\PhpRenderer;
+use Omeka\Api\Adapter\SiteSlugTrait;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
@@ -13,6 +14,8 @@ use Omeka\Stdlib\ErrorStore;
 
 class Heading extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
+    use SiteSlugTrait;
+
     /**
      * The default partial view script.
      */
@@ -27,6 +30,7 @@ class Heading extends AbstractBlockLayout implements TemplateableBlockLayoutInte
     {
         $data = $block->getData();
         $data['text'] = isset($data['text']) ? trim((string) $data['text']) : '';
+        $data['slug'] = $this->slugify($data['text']);
         $data['level'] = (int) ($data['level'] ?? 3);
         $data['level'] = $data['level'] < 1 || $data['level'] > 6 ? 3 : $data['level'];
         $block->setData($data);
@@ -60,6 +64,9 @@ class Heading extends AbstractBlockLayout implements TemplateableBlockLayoutInte
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = self::PARTIAL_NAME)
     {
         $vars = ['block' => $block] + $block->data();
+        if (!isset($vars['slug'])) {
+            $vars['slug'] = isset($vars['text']) ? $this->slugify($vars['text']) : '';
+        }
         return $view->partial($templateViewScript, $vars);
     }
 

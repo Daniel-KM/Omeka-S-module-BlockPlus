@@ -3,6 +3,7 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var string $text
+ * @var string $slug
  * @var int $level
  */
 
@@ -46,7 +47,7 @@ if (mb_substr($text, 0, 3) === '<a '
 ?>
 
 <?php if (isset($attributes)): ?>
-<h<?= $level ?> class="heading-link"><a<?= $htmlAttribs($attributes) ?>><?= $escape($content) ?></a></h<?= $level ?>>
+<h<?= $level ?> id="<?= $slug ?>" class="heading-link"><a<?= $htmlAttribs($attributes) ?>><?= $escape($content) ?></a></h<?= $level ?>>
 <?php else: ?>
-<h<?= $level ?>><?= $escape($text) ?></h<?= $level ?>>
+<h<?= $level ?> id="<?= $slug ?>"><?= $escape($text) ?></h<?= $level ?>>
 <?php endif; ?>

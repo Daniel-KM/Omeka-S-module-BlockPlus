@@ -3,6 +3,7 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var string $text
+ * @var string $slug
  * @var int $level
  */
 
@@ -12,7 +13,7 @@ $escape = $this->plugin('escapeHtml');
 <details class="block block-heading block-heading-details">
 
     <summary>
-        <h<?= $level ?>><?= $escape($text) ?></h<?= $level ?>>
+        <h<?= $level ?> id="<?= $slug ?>"><?= $escape($text) ?></h<?= $level ?>>
     </summary>
 
     <?php // Avoid to close the current block. The block heading-details-end should be appended to reopen it, so all blocks are wrapped inside details. ?>

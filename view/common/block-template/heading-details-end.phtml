@@ -3,6 +3,7 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
  * @var string $text
+ * @var string $slug
  * @var int $level
  */
 
@@ -10,7 +11,7 @@ $escape = $this->plugin('escapeHtml');
 ?>
 
         <?php if (strlen($text)): ?>
-        <h<?= $level ?>><?= $escape($text) ?></h<?= $level ?>>
+        <h<?= $level ?> id="<?= $slug ?>"><?= $escape($text) ?></h<?= $level ?>>
         <?php endif; ?>
 
     </div><?php // End of fake wrapper-blocks. ?>
