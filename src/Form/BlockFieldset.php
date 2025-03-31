@@ -21,7 +21,7 @@ class BlockFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][params_type]',
-                'type' => CommonElement\OptionalRadio::class,
+                'type' => CommonElement\OptionalSelect::class,
                 'options' => [
                     'label' => 'Params type', // @translate
                     'value_options' => [
