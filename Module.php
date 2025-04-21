@@ -42,7 +42,7 @@ class Module extends AbstractModule
             throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
         }
 
-        $js = __DIR__ . '/asset/vendor/ThumbnailGridExpandingPreview/js/grid.js';
+        $js = __DIR__ . '/asset/vendor/thumbnail-grid-expanding-preview/js/grid.js';
         if (!file_exists($js)) {
             $message = new PsrMessage(
                 'The javascript library should be installed. See module’s installation documentation.' // @translate
