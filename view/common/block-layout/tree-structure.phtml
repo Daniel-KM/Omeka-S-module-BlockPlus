@@ -8,14 +8,16 @@
  * @var int $expanded
  */
 
-$escape = $this->plugin('escapeHtml');
-$api = $this->api();
+$plugins = $this->getHelperPluginManager();
+$url = $plugins->get('url');
+$api = $plugins->get('api');
+$escape = $plugins->get('escapeHtml');
 
 // Avoid infinite loop.
 $maxLevel = 20;
 // Allow to get url quickly.
 $tempPlaceholder = '00999999990999999001';
-$url = str_replace(['controller', $tempPlaceholder], ['{controller}', '{reference}'], $this->url('site/resource-id', ['controller' => 'controller', 'action' => 'show', 'id' => $tempPlaceholder], true));
+$url = strtr($url('site/resource-id', ['controller' => 'controller', 'action' => 'show', 'id' => $tempPlaceholder], true), ['controller' => '{controller}', $tempPlaceholder => '{reference}']);
 $resourceNames = [
     'items' => 'item',
     'item_sets' => 'item-set',
@@ -42,7 +44,7 @@ $treeMenu = function ($resource, $level = 0) use (&$treeMenu, $term, $api, $esca
     ?>
     <li class="nav-item has-treeview<?php if ($level < $expanded): ?> menu-open<?php endif; ?>">
         <i class="nav-icon fas <?= $children ? 'fa-plus' : 'fa-minus' ?>"></i>
-        <a href="<?= str_replace(['{controller}', '{reference}'], [$resourceNames[$resource->resourceName()], $resource->id()], $url) ?>" class="nav-link">
+        <a href="<?= strtr($url, ['{controller}' => $resourceNames[$resource->resourceName()], '{reference}' => $resource->id()]) ?>" class="nav-link">
             <span class="ml-2"><?= $escape($title) ?></span>
         </a>
         <ul class="nav nav-treeview"<?php if ($level >= $expanded): ?> style="display: none;"<?php endif; ?>>

@@ -356,7 +356,7 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
                     }
                 }
             }
-            $message = str_replace(array_keys($replace), array_values($replace), $text);
+            $message = strtr($text, $replace);
             $content = [
                 'tweet' => $tweet,
                 'id' => $id,
@@ -510,7 +510,7 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
                     }
                 }
             }
-            $message = str_replace(array_keys($replace), array_values($replace), $text);
+            $message = strtr($text, $replace);
             $content = [
                 'tweet' => $tweet,
                 'id' => $id,

@@ -204,7 +204,7 @@ if (version_compare($oldVersion, '3.3.13.1', '<')) {
         }
         $blockData['template'] = empty($blockData['template'])
             ? 'common/block-layout/asset-block'
-            : str_replace('/assets-', '/asset-', $blockData['template']);
+            : strtr($blockData['template'], ['/assets-' => '/asset-']);
         $blockData['className'] = '';
         $blockData['alignment'] = 'default';
         unset($blockData['assets']);
@@ -1054,7 +1054,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
             $blockId = $block->getId();
             $data = $block->getData() ?: [];
             $html = $data['html'] ?? '';
-            $hasHtml = !in_array(str_replace([' ', "\n", "\r", "\t"], '', $html), ['', '<div></div>', '<p></p>']);
+            $hasHtml = !in_array(strtr($html, [' '=> '', "\n"=> '', "\r"=> '', "\t"=> '']), ['', '<div></div>', '<p></p>']);
             if ($hasHtml && !isset($processedBlocksId[$blockId])) {
                 $b = new \Omeka\Entity\SitePageBlock();
                 $b->setLayout('html');
@@ -1752,7 +1752,7 @@ if (version_compare($oldVersion, '3.4.22', '<')) {
                 }
                 // Fix Windows and Apple copy/paste from a textarea input.
                 $caption = $dataValue['caption'] ?? '';
-                $caption = str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], $caption);
+                $caption = strtr($caption, ["\r\n" => "\n", "\n\r" => "\n", "\r" => "\n"]);
                 $isHtmlCaption = mb_substr($caption, 0, 1) === '<'
                     && mb_substr($caption, -1) === '>'
                     && $caption !== strip_tags($caption);
@@ -1958,7 +1958,7 @@ if (version_compare($oldVersion, '3.4.23', '<')) {
             $blockId = $block->getId();
             $data = $block->getData() ?: [];
             $html = $data['html'] ?? '';
-            $hasHtml = !in_array(str_replace([' ', "\n", "\r", "\t"], '', $html), ['', '<div></div>', '<p></p>']);
+            $hasHtml = !in_array(strtr($html, [' '=> '', "\n"=> '', "\r"=> '', "\t"=> '']), ['', '<div></div>', '<p></p>']);
             if ($hasHtml && !isset($processedBlocksId[$blockId])) {
                 // Prepend a block group for two blocks.
                 // Fix basic issue with block group, but not all. Anyway not a frequent block.
@@ -2236,7 +2236,7 @@ if (version_compare($oldVersion, '3.4.31', '<')) {
             $blockId = $block->getId();
             $data = $block->getData() ?: [];
             $html = $data['html'] ?? '';
-            $hasHtml = !in_array(str_replace([' ', "\n", "\r", "\t"], '', $html), ['', '<div></div>', '<p></p>']);
+            $hasHtml = !in_array(strtr($html, [' '=> '', "\n"=> '', "\r"=> '', "\t"=> '']), ['', '<div></div>', '<p></p>']);
             if ($hasHtml && !isset($processedBlocksId[$blockId])) {
                 // Fix basic issue with block group, but not all. Anyway not a frequent block.
                 // TODO Added a check for nested groups of blocks.
@@ -2386,7 +2386,7 @@ if (version_compare($oldVersion, '3.4.35', '<')) {
             }
             $blockId = $block->getId();
             $data = $block->getData() ?: [];
-            $data['query'] = str_replace('thumbnail_size', 'thumbnail_query', $data['query'] ?? '');
+            $data['query'] = strtr($data['query'] ?? '', ['thumbnail_size' => 'thumbnail_query']);
             $block->setData($data);
             $pagesUpdated[$siteSlug][$pageSlug] = $pageSlug;
         }

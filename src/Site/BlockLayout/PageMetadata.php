@@ -20,8 +20,8 @@ class PageMetadata extends AbstractBlockLayout
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
         $data = $block->getData() + ['summary' => '', 'params' => '', 'tags' => []];
-        $data['summary'] = str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], $data['summary']);
-        $data['params'] = str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], $data['params']);
+        $data['summary'] = strtr($data['summary'], ["\r\n" => "\n", "\n\r" => "\n", "\r" => "\n"]);
+        $data['params'] = strtr($data['params'], ["\r\n" => "\n", "\n\r" => "\n", "\r" => "\n"]);
         if (empty($data['tags'])) {
             $data['tags'] = [];
         } elseif (!is_array($data['tags'])) {

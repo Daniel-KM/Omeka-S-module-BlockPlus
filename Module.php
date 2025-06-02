@@ -515,7 +515,7 @@ class Module extends AbstractModule
         $plugins = $services->get('ControllerPluginManager');
         $messenger = $plugins->get('messenger');
 
-        $randomString = fn () => '_' . substr(str_replace(["+", "/", "="], "", base64_encode(random_bytes(48))), 0, 4);
+        $randomString = fn () => '_' . substr(strtr(base64_encode(random_bytes(48)), ['+' => '', '/' => '', '=' => '']), 0, 4);
 
         $toCreate = $sitePageData['page_model'];
 
@@ -867,7 +867,7 @@ class Module extends AbstractModule
         // "0" is the default order, so it is always single.
         $result = [];
         foreach ($list as $row) {
-            [$ids, $sortBy, $sortOrder] = array_map('trim', explode(' ', str_replace("\t", ' ', $row) . '  ', 3));
+            [$ids, $sortBy, $sortOrder] = array_map('trim', explode(' ', strtr($row, ["\t" => ' ']) . '  ', 3));
             $ids = trim((string) $ids, ', ');
             if (!strlen($ids) || empty($sortBy)) {
                 continue;
@@ -960,7 +960,7 @@ class Module extends AbstractModule
      */
     protected function fixEndOfLine($string): string
     {
-        return str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], (string) $string);
+        return strtr((string) $string, ["\r\n" => "\n", "\n\r" => "\n", "\r" => "\n"]);
     }
 
     /**

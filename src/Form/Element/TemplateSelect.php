@@ -69,12 +69,12 @@ class TemplateSelect extends Select
         $isWindows = PHP_OS_FAMILY === 'Windows';
 
         if ($isWindows) {
-            $dir = str_replace('\\', '/', $dir);
+            $dir = strtr($dir, '\\', '/');
             $base = rtrim($dir, '/');
             if (!$base) {
                 return [];
             }
-            $layout = str_replace('\\', '/', $layout);
+            $layout = strtr($layout, '\\', '/');
             $layout = ltrim($layout, '/');
         } else {
             $base = rtrim($dir, '\\/') ?: '/';

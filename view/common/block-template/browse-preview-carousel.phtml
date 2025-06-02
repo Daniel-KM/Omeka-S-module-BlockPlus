@@ -39,7 +39,7 @@ $headingTerm = $this->siteSetting('browse_heading_property_term');
 // $bodyTerm = $this->siteSetting('browse_body_property_term');
 $untitled = $translate('[Untitled]');
 
-$idSuffix = substr(str_replace(['+', '/', '='], ['', '', ''], base64_encode(random_bytes(128))), 0, 6);
+$idSuffix = substr(strtr(base64_encode(random_bytes(128)), ['+' => '', '/' => '', '=' => '']), 0, 6);
 $configs = [
     'carousel' => [
         'showTitles' => false,

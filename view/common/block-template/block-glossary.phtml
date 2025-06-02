@@ -24,13 +24,13 @@ $glossary = $parameters;
 
 // Create the glossary alphabet, the list of current letters and current definitions and prepare first letters.
 foreach ($glossary as $key => $termDefinition) {
-    $term = str_replace("\t", '    ', (string) reset($termDefinition));
+    $term = strtr((string) reset($termDefinition), ["\t" => '    ']);
     if ($term === '') {
         unset($glossary[$key]);
         continue;
     }
     $definition = $termDefinition[1] ?? '';
-    $definition = str_replace("\t", '    ', $definition);
+    $definition = strtr($definition, ["\t" => '    ']);
     $glossary[$key] = [
         'term' => $term,
         'definition' => $definition,

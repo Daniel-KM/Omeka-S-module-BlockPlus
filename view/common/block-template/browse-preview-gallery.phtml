@@ -129,7 +129,7 @@ $this->headScript()
                 } else {
                     $mediaThumbnail = $media->thumbnailUrl($thumbnailType);
                     // Speedup process.
-                    $mediaLarge = str_replace('/' . $thumbnailType . '/', '/large/', $mediaThumbnail);
+                    $mediaLarge = strtr($mediaThumbnail, ["/$thumbnailType/" => '/large/']);
                 }
 
                 if ($showHeading) {

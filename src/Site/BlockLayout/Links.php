@@ -30,7 +30,7 @@ class Links extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
 
         $links = $data['links'] ?? [];
         if (is_string($links)) {
-            $string = str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], $links);
+            $string = strtr($links, ["\r\n" => "\n", "\n\r" => "\n", "\r" => "\n"]);
             $array = array_filter(array_map('trim', explode("\n", $string)), 'strlen');
             $links = [];
             foreach ($array as $keyValue) {
