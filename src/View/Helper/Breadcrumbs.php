@@ -373,7 +373,11 @@ class Breadcrumbs extends AbstractHelper
                 if ($options['itemset']) {
                     $itemSetId = $routeMatch->getParam('item-set-id', null) ?: $view->params()->fromQuery('collection');
                     if ($itemSetId) {
-                        $itemSet = $this->api->searchOne('item_sets', ['id' => $itemSetId])->getContent();
+                        try {
+                            $itemSet = $this->api->read('item_sets', ['id' => $itemSetId])->getContent();
+                        } catch (\Exception $e) {
+                            $itemSet = null;
+                        }
                         // Don't add the item set if it is not search in order
                         // to avoid to duplicate it when current is set.
                         if (!$options['current']) {
@@ -384,7 +388,11 @@ class Breadcrumbs extends AbstractHelper
                 } elseif ($options['itemsetstree']) {
                     $itemSetId = $routeMatch->getParam('item-set-id', null) ?: $view->params()->fromQuery('collection');
                     if ($itemSetId) {
-                        $itemSet = $this->api->searchOne('item_sets', ['id' => $itemSetId])->getContent();
+                        try {
+                            $itemSet = $this->api->read('item_sets', ['id' => $itemSetId])->getContent();
+                        } catch (\Exception $e) {
+                            $itemSet = null;
+                        }
                         // Don't add the item set if it is not search in order
                         // to avoid to duplicate it when current is set.
                         if (!$options['current']) {

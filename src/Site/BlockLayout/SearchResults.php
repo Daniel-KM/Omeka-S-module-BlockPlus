@@ -121,8 +121,12 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
 
         $components = $block->dataValue('components') ?: [];
 
-        /** @var \Omeka\Api\Response $response */
+        /**
+         * @var \Omeka\Api\Response $response
+         * @var \Common\View\Helper\EasyMeta $easyMeta
+         */
         $api = $view->api();
+        $easyMeta = $view->easyMeta();
         $response = $api->search($resourceType, $query);
 
         // TODO Currently, there can be only one pagination by page.
@@ -150,16 +154,19 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
                         $label = $translate('Class'); // @translate
                         break;
                     default:
-                        $property = $api->searchOne('properties', ['term' => $sortHeading])->getContent();
-                        if ($property) {
+                        $propertyId = $easyMeta->propertyId($sortHeading);
+                        if ($propertyId) {
+                            $propertyLabel = $easyMeta->propertyLabel($propertyId);
+                            $label = $translate($propertyLabel);
                             if ($resourceTemplate) {
-                                $templateProperty = $resourceTemplate->resourceTemplateProperty($property->id());
+                                $templateProperty = $resourceTemplate->resourceTemplateProperty($propertyId);
                                 if ($templateProperty) {
-                                    $label = $translate($templateProperty->alternateLabel() ?: $property->label());
-                                    break;
+                                    $alternateLabel = $templateProperty->alternateLabel();
+                                    if ($alternateLabel) {
+                                        $label = $translate($alternateLabel);
+                                    }
                                 }
                             }
-                            $label = $translate($property->label());
                         } else {
                             unset($sortHeadings[$key]);
                             continue 2;

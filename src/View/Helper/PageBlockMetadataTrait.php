@@ -615,6 +615,7 @@ trait PageBlockMetadataTrait
         }
 
         $site = $this->currentSite();
+        // TODO Replace by api->read().
         $page = $view->api()->searchOne('site_pages', ['site_id' => $site->id(), 'slug' => $pageSlug])->getContent();
         $this->view->page = $page;
         return $page;

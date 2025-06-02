@@ -15,7 +15,7 @@ class ListOfSitesFieldset extends Fieldset
             'main' => 'Main site', // @translate
             'current' => 'Current site', // @translate
         ];
-        if (class_exists(\Internationalisation\Form\LanguageSwitcherFieldset::class)) {
+        if (class_exists('Internationalisation\Form\LanguageSwitcherFieldset', false)) {
             $exclude['translated'] = 'Translated sites'; // @translate
         }
 
