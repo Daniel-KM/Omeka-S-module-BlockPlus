@@ -76,7 +76,7 @@ $glossary = array_values($glossary);
 // Order glossary and current definition list by default.
 if (!$keepOriginalOrder) {
     if (extension_loaded('intl')) {
-        $collator = new \Collator(null);
+        $collator = new \Collator('');
         usort($glossary, function($a, $b) use ($collator) {
             return $collator->compare($a['term'], $b['term']);
         });
