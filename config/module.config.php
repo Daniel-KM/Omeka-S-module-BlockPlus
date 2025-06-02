@@ -314,7 +314,11 @@ return [
             // TODO Migrate itemSetShowcase to showcase or Media.
             'itemSetShowcase' => [
                 'item_sets' => [],
-                'components' => [],
+                'components' => [
+                    'heading',
+                    'body',
+                    'thumbnail',
+                ],
                 'thumbnail_type' => 'square',
             ],
             'links' => [
@@ -369,7 +373,12 @@ return [
                 'pagination' => true,
                 'sort_headings' => [],
                 'resource_template' => null,
-                'components' => [],
+                'components' => [
+                    'search-form',
+                    'resource-heading',
+                    'resource-body',
+                    'thumbnail',
+                ],
                 'linkText' => '',
             ],
             'showcase' => [

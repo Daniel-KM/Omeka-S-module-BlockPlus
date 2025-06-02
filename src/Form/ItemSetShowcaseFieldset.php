@@ -39,6 +39,11 @@ class ItemSetShowcaseFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'item-set-showcase-components',
+                    'value' => [
+                        'heading',
+                        'body',
+                        'thumbnail',
+                    ],
                 ],
             ])
             ->add([

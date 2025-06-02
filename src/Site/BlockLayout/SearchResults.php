@@ -119,11 +119,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
             $query['sort_order'] = 'desc';
         }
 
-        // Show all resource components if none set.
-        $components = $block->dataValue('components');
-        $components = empty($components)
-            ? ['search-form', 'resource-heading', 'resource-body', 'thumbnail']
-            : $components;
+        $components = $block->dataValue('components') ?: [];
 
         /** @var \Omeka\Api\Response $response */
         $api = $view->api();

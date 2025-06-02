@@ -123,6 +123,15 @@ class SearchResultsFieldset extends Fieldset
                         ],
                     ],
                 ],
+                'attributes' => [
+                    'id' => 'search-results-components',
+                    'value' => [
+                        'search-form',
+                        'resource-heading',
+                        'resource-body',
+                        'thumbnail',
+                    ],
+                ],
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][link-text]',
@@ -130,6 +139,9 @@ class SearchResultsFieldset extends Fieldset
                 'options' => [
                     'label' => 'Link text', // @translate
                     'info' => 'Text for link to full browse view, if any.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'search-results-link-text',
                 ],
             ])
         ;

@@ -64,11 +64,10 @@ class ItemSetShowcase extends AbstractBlockLayout implements TemplateableBlockLa
 
         // TODO Order by selected ids when chosen query will support order.
 
-        // Show all resource components if none set.
-        $components = $block->dataValue('components') ?: ['heading', 'body', 'thumbnail'];
+        $components = $block->dataValue('components') ?: [];
 
         // For old themes.
-        $showTitleOption = in_array('heading', $components) ? 'item_set_tile' : 'no_title';
+        $showTitleOption = in_array('heading', $components) ? 'item_set_title' : 'no_title';
 
         $vars = [
             'block' => $block,
