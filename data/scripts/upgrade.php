@@ -2472,3 +2472,45 @@ if (version_compare($oldVersion, '3.4.36', '<')) {
     $entityManager->flush();
     $entityManager->clear();
 }
+
+if (version_compare($oldVersion, '3.4.38', '<')) {
+    /**
+     * Fill empty components for item set showcase and search results.
+     */
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+
+    $configBlockSettings = $this->getModuleConfig('block_settings');
+
+    $pagesUpdated = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        foreach ($page->getBlocks() as $block) {
+            $layout = $block->getLayout();
+            if (!in_array($layout, ['itemSetShowcase', 'searchResults'])) {
+                continue;
+            }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            if (empty($data['components'])) {
+                $data['components'] = $configBlockSettings[$layout]['components'];
+            }
+            $block->setData($data);
+            $pagesUpdated[$siteSlug][$pageSlug] = $pageSlug;
+        }
+    }
+    $entityManager->flush();
+    $entityManager->clear();
+    if ($pagesUpdated) {
+        $result = array_map('array_values', $pagesUpdated);
+        $message = new PsrMessage(
+            'The setting "components" of blocks Item Set Showcase and Search Results were updated: to set empty components now means no component. You may check pages: {json}', // @translate
+            ['json' => json_encode($result, 448)]
+        );
+    $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    }
+}
