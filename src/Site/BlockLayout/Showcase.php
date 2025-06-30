@@ -457,6 +457,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['render'] = $thumbnail($resource, $thumbnailType);
             } else {
                 // Standard resource.
+                // For a media, the resource and the media are the same.
                 $resourceType = $resource->getControllerName();
                 $entry['resource_type'] = $resourceType;
                 $media = $resource->primaryMedia();
@@ -492,7 +493,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                         : $resource->link($resource->displayTitle(), 'show', ['class' => $entry['link_class']]);
                     // TODO Make possible to render an item.
                 } else {
-                    $entry['render'] = $media->render([
+                    $entry['render'] = empty($media) ? '' : $media->render([
                         'thumbnailType' => $thumbnailType,
                         'link' => $linkType,
                     ]);
