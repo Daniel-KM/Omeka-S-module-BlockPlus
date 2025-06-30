@@ -11,4 +11,6 @@ $easyMeta = $plugins->get('easyMeta');
 $resourceType = $resource->getControllerName();
 ?>
 
-<div class="resource-type <?= $resourceType ?>"><?= $translate(ucfirst($easyMeta->resourceLabel($resourceType))) ?></div>
+<div class="block resource-block block-resource-type">
+    <div class="resource-type <?= $resourceType ?>"><?= $translate(ucfirst($easyMeta->resourceLabel($resourceType))) ?></div>
+</div>

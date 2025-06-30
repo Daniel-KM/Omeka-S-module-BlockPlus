@@ -14,6 +14,8 @@ $lang = $this->lang();
 $langValue = $filterLocale ? [$lang, ''] : null;
 ?>
 
-<p class="media-parent-item">
-    <?= sprintf($translate('Part of %s'), $item->link($item->displayTitle(null, $langValue))) ?>
-</p>
+<div class="block block-resource block-media-part-of-item">
+    <p class="media-parent-item">
+        <?= sprintf($translate('Part of %s'), $item->link($item->displayTitle(null, $langValue))) ?>
+    </p>
+</div>

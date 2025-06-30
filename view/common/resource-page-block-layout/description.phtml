@@ -17,6 +17,6 @@ $string = trim($resource->displayDescription(null, $langValue) ?? '');
 if ($string === '') return;
 ?>
 
-<div class="block-resource block-description">
+<div class="block block-resource block-description">
     <?= $isHtml($string) ? $string : $escape($string) ?>
 </div>

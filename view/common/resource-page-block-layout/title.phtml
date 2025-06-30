@@ -12,4 +12,6 @@ $lang = $this->lang();
 $langValue = $filterLocale ? [$lang, ''] : null;
 ?>
 
-<?= $this->pageTitle($resource->displayTitle(null, $langValue), 2) ?>
+<div class="block resource-block block-title">
+    <?= $this->pageTitle($resource->displayTitle(null, $langValue), 2) ?>
+</div>
