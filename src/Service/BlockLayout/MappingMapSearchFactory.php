@@ -22,7 +22,9 @@ class MappingMapSearchFactory implements FactoryInterface
         }
 
         // Until version 2.0.
-        if (!method_exists(\BlockPlus\Site\BlockLayout\MappingMapSearch::class, 'setFormElementManager')) {
+        $mappingVersion = $module ->getIni('version');
+
+        if (version_compare($mappingVersion, '2.1', '<')) {
             return new MappingMapSearch(
                 $services->get('Omeka\HtmlPurifier'),
                 $moduleManager
