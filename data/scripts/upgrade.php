@@ -2510,7 +2510,14 @@ if (version_compare($oldVersion, '3.4.38', '<')) {
             'The setting "components" of blocks Item Set Showcase and Search Results were updated: to set empty components now means no component. You may check pages: {json}', // @translate
             ['json' => json_encode($result, 448)]
         );
-    $messenger->addWarning($message);
+        $messenger->addWarning($message);
         $logger->warn($message->getMessage(), $message->getContext());
     }
+}
+
+if (version_compare($oldVersion, '3.4.40', '<')) {
+    $message = new PsrMessage(
+        'A resource block was added to be displayed when no item or no media is available.' // @translate
+    );
+    $messenger->addSuccess($message);
 }
