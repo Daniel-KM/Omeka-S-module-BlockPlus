@@ -1,0 +1,19 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\ItemSetRepresentation $resource
+ * @var \Omeka\Api\Representation\ItemSetRepresentation $itemSet
+ */
+
+if ($itemSet->itemCount()) return;
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+?>
+
+<div class="block block-resource block-no-resource block-no-item">
+    <p class="resource-none item-none">
+        <?= $escape($translate('No item')) ?>
+    </p>
+</div>
