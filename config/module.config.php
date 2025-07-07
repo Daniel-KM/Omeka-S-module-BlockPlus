@@ -84,6 +84,7 @@ return [
             'linkedResourcesByItemSet' => Site\ResourcePageBlockLayout\LinkedResourcesByItemSet::class,
             'mediaPartOfItem' => Site\ResourcePageBlockLayout\MediaPartOfItem::class,
             'messages' => Site\ResourcePageBlockLayout\Messages::class,
+            'noMedia' => Site\ResourcePageBlockLayout\NoMedia::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
             'resourceType' => Site\ResourcePageBlockLayout\ResourceType::class,
             'thumbnail' => Site\ResourcePageBlockLayout\Thumbnail::class,

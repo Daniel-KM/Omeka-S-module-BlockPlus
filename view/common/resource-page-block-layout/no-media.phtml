@@ -1,0 +1,24 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\ItemRepresentation $resource
+ * @var \Omeka\Api\Representation\ItemRepresentation $item
+ */
+
+if ($item->media()) return;
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$assetUrl = $plugins->get('assetUrl');
+$translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+?>
+
+<div class="block block-resource block-no-resource block-no-media">
+    <div class="asset asset-no-media">
+        <img src="<?= $escapeAttr($assetUrl('thumbnails/default.png')) ?>" alt="<?= $escapeAttr($translate('Unavailable resource')) ?>">
+    </div>
+    <p class="resource-none media-none">
+        <?= $escape($translate('Unavailable resource')) ?>
+    </p>
+</div>
