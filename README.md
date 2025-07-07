@@ -509,6 +509,14 @@ Display the messages (notice, warning and errors), like in admin. This block may
 be useful for modules like Contact Us, Contribute, Guest, Bulk export, etc. that
 add some interactions with the visitor.
 
+#### No Item
+
+Add a text to indicate that the item set has no item.
+
+#### No Media
+
+Add a text to indicate that the item has no media.
+
 #### Previous/Next
 
 Allow to display buttons previous resource and next resource in the list.
