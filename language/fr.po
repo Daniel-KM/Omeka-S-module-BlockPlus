@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-31 00:00+0000\n"
-"PO-Revision-Date: 2025-03-31 00:00+0000\n"
+"POT-Creation-Date: 2025-07-07 00:00+0000\n"
+"PO-Revision-Date: 2025-07-07 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -90,7 +90,7 @@ msgid ""
 "This block displays the messages to the visitor or user, for example for "
 "modules Bulk Export, Contact Us, Contribute, and Guest."
 msgstr ""
-"Ce bloc affiche les messages destinés au visiteur ou à l'utilisateur, par "
+"Ce bloc affiche les messages destinés au visiteur ou à l’utilisateur, par "
 "exemple pour les modules Bulk Export, Contact Us, Contribute et Guest."
 
 #: src/Site/BlockLayout/MirrorPage.php:97
@@ -135,57 +135,57 @@ msgstr "Télécharger le fichier"
 msgid "Print"
 msgstr "Imprimer"
 
-#: src/View/Helper/Breadcrumbs.php:408 src/View/Helper/Breadcrumbs.php:418
-#: src/View/Helper/Breadcrumbs.php:460 src/View/Helper/Breadcrumbs.php:496
-#: src/View/Helper/Breadcrumbs.php:502
+#: src/View/Helper/Breadcrumbs.php:416 src/View/Helper/Breadcrumbs.php:426
+#: src/View/Helper/Breadcrumbs.php:468 src/View/Helper/Breadcrumbs.php:504
+#: src/View/Helper/Breadcrumbs.php:510
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: src/View/Helper/Breadcrumbs.php:424 src/View/Helper/Breadcrumbs.php:523
+#: src/View/Helper/Breadcrumbs.php:432 src/View/Helper/Breadcrumbs.php:531
 msgid "Basket"
 msgstr "Panier"
 
-#: src/View/Helper/Breadcrumbs.php:432
+#: src/View/Helper/Breadcrumbs.php:440
 msgid "Collecting"
 msgstr "Collectes"
 
-#: src/View/Helper/Breadcrumbs.php:439 src/View/Helper/Breadcrumbs.php:526
+#: src/View/Helper/Breadcrumbs.php:447 src/View/Helper/Breadcrumbs.php:534
 msgid "Selection for contact"
 msgstr "Sélection pour contact"
 
-#: src/View/Helper/Breadcrumbs.php:446 src/View/Helper/Breadcrumbs.php:529
+#: src/View/Helper/Breadcrumbs.php:454 src/View/Helper/Breadcrumbs.php:537
 msgid "Selection"
 msgstr "Sélection"
 
-#: src/View/Helper/Breadcrumbs.php:463
+#: src/View/Helper/Breadcrumbs.php:471
 msgid "Login"
 msgstr "Connexion"
 
-#: src/View/Helper/Breadcrumbs.php:466
+#: src/View/Helper/Breadcrumbs.php:474
 msgid "Register"
 msgstr "Inscrivez-vous"
 
-#: src/View/Helper/Breadcrumbs.php:469
+#: src/View/Helper/Breadcrumbs.php:477
 msgid "Authentication error"
 msgstr "Erreur d’authentification"
 
-#: src/View/Helper/Breadcrumbs.php:514
+#: src/View/Helper/Breadcrumbs.php:522
 msgid "Update account"
 msgstr "Mettre à jour le compte"
 
-#: src/View/Helper/Breadcrumbs.php:517
+#: src/View/Helper/Breadcrumbs.php:525
 msgid "Update email"
 msgstr "Mettre à jour le mail"
 
-#: src/View/Helper/Breadcrumbs.php:520
+#: src/View/Helper/Breadcrumbs.php:528
 msgid "Accept terms"
 msgstr "Accepter les conditions"
 
-#: src/View/Helper/Breadcrumbs.php:547
+#: src/View/Helper/Breadcrumbs.php:555
 msgid "Current page"
 msgstr "Page en cours"
 
-#: src/View/Helper/Breadcrumbs.php:590
+#: src/View/Helper/Breadcrumbs.php:598
 msgid "Collections"
 msgstr "Collections"
 
@@ -259,6 +259,15 @@ msgstr "Bloc simple pour personnalisation dans le thème"
 #, php-format
 msgid "Download file (%s)"
 msgstr "Télécharger le fichier (%s)"
+
+#: view/common/resource-page-block-layout/no-item.phtml:17
+msgid "No item"
+msgstr "Pas de contenu"
+
+#: view/common/resource-page-block-layout/no-media.phtml:19
+#: view/common/resource-page-block-layout/no-media.phtml:22
+msgid "Unavailable resource"
+msgstr "Ressource indisponible"
 
 #: view/common/resource-page-block-layout/previous-next.phtml:19
 msgid "Previous resource"
@@ -381,7 +390,7 @@ msgid ""
 "attachment key \"title\" by \"alt_link_title\"; attachment key \"url\" was "
 "removed. Check it if you customized template."
 msgstr ""
-"Bloc \"Fichier\" : la variable $assets a été remplacée par $attachments ; la "
+"Bloc \"Fichier\" : la variable $assets a été remplacée par $attachments ; la "
 "clé \"title\" a été remplacée par \"alt_link_title\"; la clé \"url\" a été "
 "supprimée. Vérifiez si vous avez modifier les fichiers du thème."
 
@@ -408,8 +417,8 @@ msgid ""
 "It is now possible to define a breadcrumbs (may need to be added inside "
 "theme)."
 msgstr ""
-"Il est désormais possible de définir un fil d'Ariane (il peut être "
-"nécessaire de l'ajouter dans le thème)."
+"Il est désormais possible de définir un fil d’Ariane (il peut être "
+"nécessaire de l’ajouter dans le thème)."
 
 #: data/scripts/upgrade.php:483
 msgid ""
@@ -441,7 +450,7 @@ msgid ""
 "Site {site_slug} / Page {page_slug}: Type \"intermediate\" and \"end\" "
 "divisions must be after a block \"start\" or \"intermediate\"."
 msgstr ""
-"Site {site_slug} / Page {page_slug} : Les divisions de type "
+"Site {site_slug} / Page {page_slug} : Les divisions de type "
 "« intermédiaire » et « fin » doivent être situées après un bloc « début » ou "
 "« intermédiaire »."
 
@@ -450,14 +459,14 @@ msgid ""
 "Site {site_slug} / Page {page_slug}: Unauthorized type \"{type}\" for block "
 "division."
 msgstr ""
-"Site {site_slug} / Page {page_slug} : Type non autorisé « {type} » pour le "
+"Site {site_slug} / Page {page_slug} : Type non autorisé « {type} » pour le "
 "bloc de division."
 
 #: data/scripts/upgrade.php:879
 msgid ""
 "Site {site_slug} / Page {page_slug}: A block \"division\" cannot be single."
 msgstr ""
-"Site {site_slug} / Page {page_slug} : Un bloc « division » ne peut pas être "
+"Site {site_slug} / Page {page_slug} : Un bloc « division » ne peut pas être "
 "utilisé seul."
 
 #: data/scripts/upgrade.php:892
@@ -465,7 +474,7 @@ msgid ""
 "Site {site_slug} / Page {page_slug}: The first division block must be of "
 "type \"start\"."
 msgstr ""
-"Site {site_slug} / Page {page_slug} : Le premier bloc de division doit être "
+"Site {site_slug} / Page {page_slug} : Le premier bloc de division doit être "
 "de type « début »."
 
 #: data/scripts/upgrade.php:904
@@ -473,13 +482,13 @@ msgid ""
 "Site {site_slug} / Page {page_slug}: The last division block must be of type "
 "\"end\"."
 msgstr ""
-"Site {site_slug} / Page {page_slug} : Le dernier bloc de division doit être "
+"Site {site_slug} / Page {page_slug} : Le dernier bloc de division doit être "
 "de type « fin »."
 
 #: data/scripts/upgrade.php:915
 msgid "Site {site_slug} / Page {page_slug}: Some divisions have no end."
 msgstr ""
-"Site {site_slug} / Page {page_slug} : certaines divisions n’ont pas de fin."
+"Site {site_slug} / Page {page_slug} : certaines divisions n’ont pas de fin."
 
 #: data/scripts/upgrade.php:972
 msgid ""
@@ -487,7 +496,7 @@ msgid ""
 "divisions. You should finalize migration of the page manually, for example "
 "with grid and block groups."
 msgstr ""
-"Site {site_slug} / Page {page_slug} : la migration ne gère pas les divisions "
+"Site {site_slug} / Page {page_slug} : la migration ne gère pas les divisions "
 "imbriquées. Vous devez finaliser la migration de la page manuellement, par "
 "exemple avec des grilles et les groupes de blocs."
 
@@ -508,7 +517,7 @@ msgid ""
 msgstr ""
 "Le paramètre « heading » a été supprimé des blocs. Un nouveau bloc « Html "
 "Heading » a été ajouté à tous les blocs qui avaient un titre rempli. Vous "
-"pouvez vérifier les styles des pages : {json}"
+"pouvez vérifier les styles des pages : {json}"
 
 #: data/scripts/upgrade.php:1145
 msgid ""
@@ -527,7 +536,7 @@ msgstr ""
 "Le bloc « Aperçu des ressources » qui utilisait des fonctionnalités "
 "spécifiques (requête avec site spécifique, pagination et titres de tri) a "
 "été remplacé par le bloc Search results et le gabarit « search-results-"
-"browse-preview-deprecated » : {json}"
+"browse-preview-deprecated » : {json}"
 
 #: data/scripts/upgrade.php:1231
 msgid ""
@@ -537,7 +546,7 @@ msgid ""
 msgstr ""
 "Le paramètre « heading » a été supprimé des blocs. Un nouveau bloc « Html "
 "Heading » a été ajouté à tous les blocs qui avaient un titre rempli. Vous "
-"pouvez vérifier les styles des pages : {json}"
+"pouvez vérifier les styles des pages : {json}"
 
 #: data/scripts/upgrade.php:1238
 msgid ""
@@ -627,7 +636,7 @@ msgid ""
 "the module features in Omeka S is a complex process and some features are "
 "not upgradable."
 msgstr ""
-"Attention : il est important de vérifier toutes les pages de site car "
+"Attention : il est important de vérifier toutes les pages de site car "
 "l’intégration des fonctionnalités du module dans Omeka S est un processus "
 "complexe et certaines fonctionnalités n’ont pas été conservées."
 
@@ -642,7 +651,7 @@ msgstr ""
 "En particulier, vérifier les gabarits obsolètes des blocs et les blocs "
 "Fichier, Aperçu des ressources et Division (imbriquée). Vérifiez également "
 "les styles, car certaines <div> html et classes ont été ajoutées ou "
-"supprimées par Omeka S et le module. Attention : tant que vous ne resauvez "
+"supprimées par Omeka S et le module. Attention : tant que vous ne resauvez "
 "pas une page, les anciens paramètres fonctionnent. Une fois enregistrée une "
 "nouvelle fois, certains anciens paramètres sont supprimés."
 
@@ -653,7 +662,7 @@ msgid ""
 msgstr ""
 "Le nom du gabarit de certains blocs {list} a été renommé pour des raisons "
 "d’obsolescence. Vérifiez votre thème si vous les utilisez. Pages "
-"correspondantes : {json}"
+"correspondantes : {json}"
 
 #: data/scripts/upgrade.php:1553
 msgid ""
@@ -663,7 +672,7 @@ msgid ""
 msgstr ""
 "Le paramètre « titre du bloc » a été supprimé des blocs. Un nouveau bloc "
 "« Titre » (Html Heading) a été ajouté à tous les blocs qui avaient un titre "
-"rempli. Vous pouvez vérifier les styles des pages : {json}"
+"rempli. Vous pouvez vérifier les styles des pages : {json}"
 
 #: data/scripts/upgrade.php:1632
 msgid ""
@@ -671,8 +680,8 @@ msgid ""
 "'')` because `$html` is no more available by default. Matching files: {json}"
 msgstr ""
 "Ces gabarits pour le bloc « Html » devraient contenir `$block-"
-">dataValue('html', '')` car `$html` n'est plus disponible par défaut. "
-"Fichiers correspondants : {json}"
+">dataValue('html', '')` car `$html` n’est plus disponible par défaut. "
+"Fichiers correspondants : {json}"
 
 #: data/scripts/upgrade.php:1658
 msgid ""
@@ -680,7 +689,7 @@ msgid ""
 "your theme if you customized it. Matching pages: {json}."
 msgstr ""
 "Le bloc « Aperçu des ressources » n’a plus la variable `$site`. Vérifiez "
-"votre thème si vous l'avez personnalisé. Pages correspondantes : {json}."
+"votre thème si vous l’avez personnalisé. Pages correspondantes : {json}."
 
 #: data/scripts/upgrade.php:1703
 msgid ""
@@ -688,7 +697,7 @@ msgid ""
 "them. Matching pages: {json}."
 msgstr ""
 "Le gabarit de certains blocs a été renommé. Vérifiez votre thème si vous "
-"l’avez personnalisé. Pages correspondantes : {json}."
+"l’avez personnalisé. Pages correspondantes : {json}."
 
 #: data/scripts/upgrade.php:1812
 msgid ""
@@ -699,7 +708,7 @@ msgstr ""
 "Les données des blocs « Fichier » ont été migrées pour gérer les classes et "
 "les urls de chaque fichier via les deux premières lignes de la légende. "
 "Mettez à jour votre thème si besoin comme les autres gabarits du bloc "
-"Fichier. Pages correspondantes : {json}."
+"Fichier. Pages correspondantes : {json}."
 
 #: data/scripts/upgrade.php:1904
 msgid ""
@@ -709,7 +718,7 @@ msgid ""
 msgstr ""
 "Le paramètre « heading » a été supprimé du bloc Media. Un nouveau bloc "
 "« Titre Html » a été ajouté à tous les blocs qui avaient un titre rempli. "
-"Vous pouvez vérifier les styles des pages : {json}"
+"Vous pouvez vérifier les styles des pages : {json}"
 
 #: data/scripts/upgrade.php:2021
 msgid ""
@@ -738,7 +747,7 @@ msgid ""
 msgstr ""
 "L’option « type » du bloc « Métadonnées de la page » a été migrée dans "
 "l’option Modèle de page et les modèles de page correspondants ont été "
-"ajoutés. Mettez à jour votre thème si besoin. Pages correspondantes : {json}."
+"ajoutés. Mettez à jour votre thème si besoin. Pages correspondantes : {json}."
 
 #: data/scripts/upgrade.php:2095
 msgid ""
@@ -788,7 +797,7 @@ msgid ""
 msgstr ""
 "Si vous avez créé une liste deblocs dans la version 3.4.25, le bloc Groupe "
 "n’est plus implicite et vous devez donc l’ajouter manuellement à chaque "
-"groupe : ajoutez `o:block.0.o:layout = \"blockGroup\"` et préfixez `blocks.0."
+"groupe : ajoutez `o:block.0.o:layout = \"blockGroup\"` et préfixez `blocks.0."
 "` aux valeurs `o:layout_data` situées à la racine. De plus, la clé "
 "« block_groups » a été renommée « page_models »."
 
@@ -832,7 +841,7 @@ msgid ""
 msgstr ""
 "Le paramètre « html » a été supprimé des blocs Contenu externe et Formulaire "
 "de recherche. Un nouveau bloc « Html » a été ajouté à tous les blocs qui "
-"avaient un html rempli. Vous pouvez vérifier les styles des pages : {json}"
+"avaient un html rempli. Vous pouvez vérifier les styles des pages : {json}"
 
 #: data/scripts/upgrade.php:2293
 msgid ""
@@ -885,6 +894,24 @@ msgid ""
 msgstr ""
 "Un sous-gabarit a été ajouté pour afficher le bloc Aperçu des ressources "
 "(gallerie) avec la vignette « moyenne »."
+
+#: data/scripts/upgrade.php:2510
+msgid ""
+"The setting \"components\" of blocks Item Set Showcase and Search Results "
+"were updated: to set empty components now means no component. You may check "
+"pages: {json}"
+msgstr ""
+"Le paramètre Composants des blocs Vitrine de collections et Résultats de "
+"recherche ont été mis à jour : n’en indiquer aucun signifie désormais n’en "
+"afficher aucun. Vous pouvez vérifier les pages : {json}"
+
+#: data/scripts/upgrade.php:2520
+msgid ""
+"A resource block was added to be displayed when no item or no media is "
+"available."
+msgstr ""
+"Un bloc de ressource peut être affiché quand aucun contenu ou média n’est "
+"disponible."
 
 #: Module.php:48
 msgid ""
@@ -994,7 +1021,7 @@ msgstr ""
 msgid "Page models and blocks groups"
 msgstr "Modèles de page et groupes de blocs"
 
-#: Module.php:722 Module.php:730 config/module.config.php:231
+#: Module.php:722 Module.php:730 config/module.config.php:234
 msgid "Page metadata"
 msgstr "Métadonnées de la page"
 
@@ -1055,7 +1082,7 @@ msgstr ""
 "Depuis Omeka S 4.1, la métadonnée the metadata « type » a été remplacée par "
 "le nom du gabarit de page (clé « template »). Vérifiez votre thème."
 
-#: src/View/Helper/Breadcrumbs.php:730
+#: src/View/Helper/Breadcrumbs.php:738
 msgid "Contributions"
 msgstr "Contributions"
 
@@ -1222,7 +1249,7 @@ msgstr ""
 "Requête pour limiter et trier la liste des collections pour les boutons "
 "précédent/suivant"
 
-#: src/Form/ItemSetShowcaseFieldset.php:48 src/Form/ShowcaseFieldset.php:71
+#: src/Form/ItemSetShowcaseFieldset.php:53 src/Form/ShowcaseFieldset.php:71
 msgid "Thumbnail type"
 msgstr "Type de vignette"
 
@@ -1309,7 +1336,7 @@ msgstr ""
 
 #: src/Form/SearchResultsFieldset.php:69
 msgid "Sort headings"
-msgstr "Entêtes de tri"
+msgstr "En-têtes de tri"
 
 #: src/Form/SearchResultsFieldset.php:70
 msgid "Display sort links for the list of results."
@@ -1552,6 +1579,10 @@ msgstr "Messages"
 msgid "Html section (start)"
 msgstr "Html section (début)"
 
+#: src/Site/ResourcePageBlockLayout/NoMedia.php:16
+msgid "No Media"
+msgstr "Pas de média"
+
 #: src/Site/ResourcePageBlockLayout/Block.php:16
 msgid "Simple block for theme"
 msgstr "Bloc simple pour le thème"
@@ -1571,6 +1602,10 @@ msgstr "Html section (fin)"
 #: src/Site/ResourcePageBlockLayout/HtmlDivToolsEnd.php:16
 msgid "Html div for tools (end)"
 msgstr "Html div pour les outils (fin)"
+
+#: src/Site/ResourcePageBlockLayout/NoItem.php:16
+msgid "No Item"
+msgstr "Pas de contenu"
 
 #: src/Site/ResourcePageBlockLayout/MediaPartOfItem.php:16
 msgid "Media part of item"
@@ -1698,7 +1733,7 @@ msgid ""
 "The Twitter account \"%s\" is available, but has no message currently, or "
 "the rate limit has been reached."
 msgstr ""
-"Le compte Twitter \"%s\" est disponible, mais n'a pas de message "
+"Le compte Twitter \"%s\" est disponible, mais n’a pas de message "
 "actuellement ou le seuil maximum a été atteint."
 
 #: src/Site/BlockLayout/Twitter.php:112
@@ -1831,165 +1866,169 @@ msgstr "Ressource avec texte"
 msgid "A group of blocks with a heading, a media and a field for html."
 msgstr "Un groupe de blocs avec un titre, un média et un champ html."
 
-#: config/module.config.php:135
+#: config/module.config.php:137
 msgid "Block Plus: Home page"
 msgstr "Block Plus : Page d’accueil"
 
-#: config/module.config.php:136
+#: config/module.config.php:138
 msgid "Block Plus: Exhibit"
 msgstr "Block Plus : Exposition"
 
-#: config/module.config.php:137
+#: config/module.config.php:139
 msgid "Block Plus: Exhibit page"
 msgstr "Block Plus : Page d’exposition"
 
-#: config/module.config.php:138
+#: config/module.config.php:140
 msgid "Block Plus: Simple page"
 msgstr "Block Plus : Page simple"
 
-#: config/module.config.php:142
-msgid "Block Plus: Asset with class and url"
-msgstr "Block Plus : Fichier avec classe et url"
-
-#: config/module.config.php:143
-msgid "Block Plus: Bootstrap Hero"
-msgstr "Block Plus : Bootstrap Hero"
-
 #: config/module.config.php:144
-msgid "Block Plus: Left Right"
-msgstr "Block Plus : Left Right"
+msgid "Block Plus: Asset with class and url"
+msgstr "Block Plus : Fichier avec classe et url"
 
 #: config/module.config.php:145
-msgid "Block Plus: Partners"
-msgstr "Block Plus : Partenaires"
+msgid "Block Plus: Bootstrap Hero"
+msgstr "Block Plus : Bootstrap Hero"
 
-#: config/module.config.php:146 config/module.config.php:174
-#: config/module.config.php:181 config/module.config.php:187
-#: config/module.config.php:204
+#: config/module.config.php:146
+msgid "Block Plus: Left Right"
+msgstr "Block Plus : Left Right"
+
+#: config/module.config.php:147
+msgid "Block Plus: Partners"
+msgstr "Block Plus : Partenaires"
+
+#: config/module.config.php:148 config/module.config.php:176
+#: config/module.config.php:184 config/module.config.php:190
+#: config/module.config.php:207
 msgid "Block Plus: Skip"
 msgstr "Block Plus : Ignorer"
 
-#: config/module.config.php:147
+#: config/module.config.php:149
 msgid "Block Plus: Asset (deprecated)"
 msgstr "Block Plus: Fichier (obsolète)"
 
-#: config/module.config.php:150
-msgid "Block Plus: Arborescence"
-msgstr "Block Plus : Arborescence"
-
-#: config/module.config.php:151 config/module.config.php:179
-msgid "Block Plus: Glossary"
-msgstr "Block Plus : Glossaire"
-
 #: config/module.config.php:152
+msgid "Block Plus: Arborescence"
+msgstr "Block Plus : Arborescence"
+
+#: config/module.config.php:153 config/module.config.php:182
+msgid "Block Plus: Glossary"
+msgstr "Block Plus : Glossaire"
+
+#: config/module.config.php:154
 msgid "Block Plus: Html"
-msgstr "Block Plus : Html"
+msgstr "Block Plus : Html"
 
-#: config/module.config.php:155
+#: config/module.config.php:157
 msgid "Block Plus: Omeka breadcrumbs"
-msgstr "Block Plus : Fil d’Ariane Omeka"
-
-#: config/module.config.php:158
-msgid "Block Plus: Carousel"
-msgstr "Block Plus : Carousel"
-
-#: config/module.config.php:159
-msgid "Block Plus: Filter by year"
-msgstr "Block Plus : Filtre par année"
+msgstr "Block Plus : Fil d’Ariane Omeka"
 
 #: config/module.config.php:160
-msgid "Block Plus: Gallery (square)"
-msgstr "Block Plus : Galerie (carré)"
+msgid "Block Plus: Carousel"
+msgstr "Block Plus : Carousel"
 
 #: config/module.config.php:161
-msgid "Block Plus: Gallery (medium)"
-msgstr "Block Plus : Galerie (moyen)"
+msgid "Block Plus: Filter by year"
+msgstr "Block Plus : Filtre par année"
 
 #: config/module.config.php:162
-msgid "Block Plus: Gallery (medium, link to item)"
-msgstr "Block Plus : Galerie (moyen, lien vers le contenu)"
+msgid "Block Plus: Gallery (square)"
+msgstr "Block Plus : Galerie (carré)"
 
 #: config/module.config.php:163
+msgid "Block Plus: Gallery (medium)"
+msgstr "Block Plus : Galerie (moyen)"
+
+#: config/module.config.php:164
+msgid "Block Plus: Gallery (medium, link to item)"
+msgstr "Block Plus : Galerie (moyen, lien vers le contenu)"
+
+#: config/module.config.php:165
 msgid "Block Plus: Subjects"
 msgstr "Block Plus : Sujets"
 
-#: config/module.config.php:164
+#: config/module.config.php:166
 msgid "Block Plus: Timeline list"
 msgstr "Block Plus : Liste pour Timeline"
 
-#: config/module.config.php:165 config/module.config.php:207
+#: config/module.config.php:167 config/module.config.php:210
 msgid "Block Plus: Browse preview (deprecated)"
-msgstr "Block Plus : Aperçu des ressources (obsolète)"
+msgstr "Block Plus : Aperçu des ressources (obsolète)"
 
-#: config/module.config.php:168 config/module.config.php:210
+#: config/module.config.php:170 config/module.config.php:213
 msgid "Block Plus: Include html from group"
 msgstr "Block Plus : Ajout du html du groupe"
 
-#: config/module.config.php:171
+#: config/module.config.php:173
 msgid "Block Plus: Heading link"
 msgstr "Block Plus : Titre avec lien"
 
-#: config/module.config.php:172
+#: config/module.config.php:174
 msgid "Block Plus: Details/summary (start)"
-msgstr "Block Plus : Détails/sommaire (début)"
+msgstr "Block Plus : Détails/sommaire (début)"
 
-#: config/module.config.php:173
+#: config/module.config.php:175
 msgid "Block Plus: Details/summary (end)"
-msgstr "Block Plus : Détails/sommaire (fin)"
+msgstr "Block Plus : Détails/sommaire (fin)"
 
-#: config/module.config.php:177
+#: config/module.config.php:179
 msgid "Block Plus: Accordion (h3)"
-msgstr "Block Plus : Accordéon (h3)"
-
-#: config/module.config.php:178
-msgid "Block Plus: Dialog (class for name)"
-msgstr "Block Plus : Dialogue (classe pour nom)"
+msgstr "Block Plus : Accordéon (h3)"
 
 #: config/module.config.php:180
+msgid "Block Plus: Anchor for headings"
+msgstr "Block Plus : Ancre pour les en-têtes"
+
+#: config/module.config.php:181
+msgid "Block Plus: Dialog (class for name)"
+msgstr "Block Plus : Dialogue (classe pour nom)"
+
+#: config/module.config.php:183
 msgid "Block Plus: Page header"
-msgstr "Block Plus : Entête de page"
+msgstr "Block Plus : En-tête de page"
 
-#: config/module.config.php:184
+#: config/module.config.php:187
 msgid "Block Plus: Item with metadata (deprecated)"
-msgstr "Block Plus : Contenu avec métadonnées (obsolète)"
-
-#: config/module.config.php:190
-msgid "Block Plus: List of pages (deprecated)"
-msgstr "Block Plus : Liste des pages (obsolète)"
+msgstr "Block Plus : Contenu avec métadonnées (obsolète)"
 
 #: config/module.config.php:193
-msgid "Block Plus: List of sites (deprecated)"
-msgstr "Block Plus : Liste des sites (obsolète)"
+msgid "Block Plus: List of pages (deprecated)"
+msgstr "Block Plus : Liste des pages (obsolète)"
 
-#: config/module.config.php:197
+#: config/module.config.php:196
+msgid "Block Plus: List of sites (deprecated)"
+msgstr "Block Plus : Liste des sites (obsolète)"
+
+#: config/module.config.php:200
 msgid "Block Plus: Item showcase (deprecated)"
 msgstr "Block Plus: Vitrine de contenu (obsolète)"
 
-#: config/module.config.php:198
+#: config/module.config.php:201
 msgid "Block Plus: Resource text (deprecated)"
 msgstr "Block Plus : Ressource avec texte (obsolète)"
 
-#: config/module.config.php:201
+#: config/module.config.php:204
 msgid "Block Plus: Page date time"
-msgstr "Block Plus : Page date heure"
+msgstr "Block Plus : Page date heure"
 
-#: config/module.config.php:213
+#: config/module.config.php:216
 msgid "Block Plus: Table of contents (deprecated)"
-msgstr "Block Plus : Table des matières (obsolète)"
+msgstr "Block Plus : Table des matières (obsolète)"
 
-#: config/module.config.php:228
+#: config/module.config.php:231
 msgid "Collapse the list of groups of blocks"
 msgstr "Replier la liste des groupes de blocs"
 
-#: config/module.config.php:229
+#: config/module.config.php:232
 msgid "Expand to display the list of groups of blocks"
 msgstr "Déplier pour afficher la liste des groupes de blocs"
 
-#: config/module.config.php:230
+#: config/module.config.php:233
 msgid "Insert Footnotes"
 msgstr "Insérer des pieds de page"
 
-#: config/module.config.php:232
+#: config/module.config.php:235
 msgid ""
 "Please wait for previous group of blocks to be prepared before adding a new "
 "one."
@@ -1997,17 +2036,20 @@ msgstr ""
 "Veuillez attendre la finalisation du groupe de blocs précédent avant d’en "
 "ajouter un autre."
 
-#: config/module.config.php:233
+#: config/module.config.php:236
 msgid "This group does not contain any block."
 msgstr "Ce groupe ne contient aucun bloc."
 
-#: config/module.config.php:234
+#: config/module.config.php:237
 msgid "Url (deprecated)"
 msgstr "Url (obsolète)"
 
-#: config/module.config.php:306
+#: config/module.config.php:309
 msgid "Know more"
 msgstr "En savoir plus"
+
+#~ msgid "Resource unavailable"
+#~ msgstr "Ressource indisponible"
 
 #~ msgid "Html to display"
 #~ msgstr "Html à afficher"
@@ -2077,7 +2119,7 @@ msgstr "En savoir plus"
 #~ msgstr "Contenu"
 
 #~ msgid "Block Plus: Browse preview plus"
-#~ msgstr "Block Plus : Aperçu des ressources Plus"
+#~ msgstr "Block Plus : Aperçu des ressources Plus"
 
 #~ msgid ""
 #~ "This block adds a simple div with class \"break separator\" to clear css."
@@ -2287,7 +2329,7 @@ msgstr "En savoir plus"
 #~ msgid "End division"
 #~ msgstr "Fin de la division"
 
-# "Balise" n'est pas utilisé pour conserver "Tag" dans d'autres module
+# "Balise" n’est pas utilisé pour conserver "Tag" dans d’autres module
 #~ msgid "Tag"
 #~ msgstr "Tag"
 
@@ -2361,7 +2403,7 @@ msgstr "En savoir plus"
 #~ "exists. Resolve the conflict before installing this module."
 #~ msgstr ""
 #~ "Une erreur est survenue en ajoutant le préfixe \"%s\" : un autre "
-#~ "vocabulaire existe. Merci de résoudre le conflit avant d'installer ce "
+#~ "vocabulaire existe. Merci de résoudre le conflit avant d’installer ce "
 #~ "module."
 
 #, php-format
@@ -2378,7 +2420,7 @@ msgstr "En savoir plus"
 #~ "installing this module."
 #~ msgstr ""
 #~ "Un modèle de ressource nommé \"%s\" existe : merci de le renommer ou de "
-#~ "le supprimer avant d'installer ce module."
+#~ "le supprimer avant d’installer ce module."
 
 #, php-format
 #~ msgid "The vocabulary \"%s\" was already installed and was kept."
@@ -2389,9 +2431,9 @@ msgstr "En savoir plus"
 #~ "An error occured when adding the prefix \"%s\": another vocabulary exists "
 #~ "with the same prefix. Resolve the conflict before installing this module."
 #~ msgstr ""
-#~ "Une erreur est survenue lors de l'ajout du préfixe \"%s\" : un autre "
+#~ "Une erreur est survenue lors de l’ajout du préfixe \"%s\" : un autre "
 #~ "vocabulaire existe avec le même préfixe. Merci de résoudre le conflit "
-#~ "avant d'installer ce module."
+#~ "avant d’installer ce module."
 
 #, php-format
 #~ msgid ""
@@ -2430,7 +2472,7 @@ msgstr "En savoir plus"
 
 #, php-format
 #~ msgid "The custom vocab named \"%s\" is not available."
-#~ msgstr "Le vocabulaire personnalisé nommé \"%s\" n'est pas disponible."
+#~ msgstr "Le vocabulaire personnalisé nommé \"%s\" n’est pas disponible."
 
 #~ msgid "No file or url set for the vocabulary."
 #~ msgstr "Pas de fichier ou d’url pour le vocabulaire."
@@ -2464,7 +2506,7 @@ msgstr "En savoir plus"
 #~ msgstr "Long"
 
 #~ msgid "Heading for the block, if any."
-#~ msgstr "Entête du bloc, si présent."
+#~ msgstr "En-tête du bloc, si présent."
 
 #~ msgid "Assets"
 #~ msgstr "Fichiers"
@@ -2489,11 +2531,11 @@ msgstr "En savoir plus"
 #~ "Heading defaults to resource Title and Body to resource Description"
 #~ msgstr ""
 #~ "Métadonnées à afficher pour chaque ressource. Si non spécifié dans les "
-#~ "paramètres du site, l'entête sera le titre de la ressource et le corps "
+#~ "paramètres du site, l’en-tête sera le titre de la ressource et le corps "
 #~ "sera la description"
 
 #~ msgid "Heading"
-#~ msgstr "Entête"
+#~ msgstr "En-tête"
 
 #~ msgid "Body"
 #~ msgstr "Corps"
@@ -2509,8 +2551,8 @@ msgstr "En savoir plus"
 #~ "A custom vocab named \"%s\" exists and has not the needed language "
 #~ "(\"%s\"): check it or remove it before installing this module."
 #~ msgstr ""
-#~ "Un vocabulaire personnalisé nommé \"%s\" existe et n'utilise pas la même "
-#~ "langue (\"%s\") : merci de vérifier ou de le supprimer avant d'installer "
+#~ "Un vocabulaire personnalisé nommé \"%s\" existe et n’utilise pas la même "
+#~ "langue (\"%s\") : merci de vérifier ou de le supprimer avant d’installer "
 #~ "ce module."
 
 #~ msgid "If you don’t have a dev account, use the module Block Plus Twitter"
