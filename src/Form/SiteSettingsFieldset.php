@@ -72,6 +72,7 @@ class SiteSettingsFieldset extends Fieldset
                     'element_group' => 'breadcrumbs',
                     'label' => 'Crumbs', // @translate
                     'value_options' => [
+                        // Copy options in view helper \BlockPlus\View\Helper\Breadcrumbs.
                         'home' => 'Prepend home', // @translate
                         'collections' => 'Include "Collections"', // @translate,
                         'itemset' => 'Include main item set for item', // @translate,

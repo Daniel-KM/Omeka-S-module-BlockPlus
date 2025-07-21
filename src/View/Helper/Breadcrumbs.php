@@ -81,8 +81,9 @@ class Breadcrumbs extends AbstractHelper
         $translate = $plugins->get('translate');
         $siteSetting = $plugins->get('siteSetting');
 
-        $crumbsSettings = $siteSetting('blockplus_breadcrumbs_crumbs', false);
+        $crumbsSettings = $siteSetting('blockplus_breadcrumbs_crumbs');
         // The multicheckbox skips keys of unset boxes, so they are added.
+        // Copy options from fieldset \BlockPlus\Form\SiteSettingsFieldset.
         if (is_array($crumbsSettings)) {
             $crumbsSettings = array_fill_keys($crumbsSettings, true) + [
                 'home' => false,
@@ -90,11 +91,19 @@ class Breadcrumbs extends AbstractHelper
                 'itemset' => false,
                 'itemsetstree' => false,
                 'current' => false,
+                'current_link' => false,
             ];
         } else {
             // This param has never been set in site settings, so use default
             // values.
-            $crumbsSettings = [];
+            $crumbsSettings = array_fill_keys($crumbsSettings, true) + [
+                'home' => true,
+                'collections' => true,
+                'itemset' => true,
+                'itemsetstree' => true,
+                'current' => true,
+                'current_link' => false,
+            ];
         }
 
         $hasItemSetsTree = $plugins->has('itemSetsTree');
@@ -363,7 +372,7 @@ class Breadcrumbs extends AbstractHelper
                 break;
 
             // Module Advanced Search or Search.
-            case substr($matchedRouteName, 0, 12) === 'search-page-':
+            case strpos($matchedRouteName, 'search-page-') === 0:
                 if ($options['collections']) {
                     $this->crumbCollections($options, $translate, $url, $siteSlug);
                 }
@@ -540,13 +549,6 @@ class Breadcrumbs extends AbstractHelper
                             $label = $translate('User'); // @translate
                             break;
                     }
-                }
-                break;
-
-            // Module Advanced Search or Search.
-            case strpos($matchedRouteName, 'search-page-') === 0:
-                if ($options['current']) {
-                    $label = $translate('Search'); // @translate
                 }
                 break;
 

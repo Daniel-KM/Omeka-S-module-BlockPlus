@@ -53,7 +53,7 @@ class Breadcrumbs extends AbstractBlockLayout implements TemplateableBlockLayout
         $plugins = $view->getHelperPluginManager();
         $siteSetting = $plugins->get('siteSetting');
 
-        $crumbOptions = $siteSetting('blockplus_breadcrumbs_crumbs', []);
+        $crumbOptions = $siteSetting('blockplus_breadcrumbs_crumbs') ?: [];
         $vars['prependHome'] = in_array('home', $crumbOptions);
         $vars['appendCurrent'] = in_array('current', $crumbOptions) || in_array('current_link', $crumbOptions);
         $vars['linkLast'] = in_array('current_link', $crumbOptions);
