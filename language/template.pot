@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-07 00:00+0000\n"
+"POT-Creation-Date: 2025-07-21 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,57 +118,57 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:416 src/View/Helper/Breadcrumbs.php:426
-#: src/View/Helper/Breadcrumbs.php:468 src/View/Helper/Breadcrumbs.php:504
-#: src/View/Helper/Breadcrumbs.php:510
+#: src/View/Helper/Breadcrumbs.php:425 src/View/Helper/Breadcrumbs.php:435
+#: src/View/Helper/Breadcrumbs.php:477 src/View/Helper/Breadcrumbs.php:513
+#: src/View/Helper/Breadcrumbs.php:519
 msgid "Dashboard"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:432 src/View/Helper/Breadcrumbs.php:531
+#: src/View/Helper/Breadcrumbs.php:441 src/View/Helper/Breadcrumbs.php:540
 msgid "Basket"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:440
+#: src/View/Helper/Breadcrumbs.php:449
 msgid "Collecting"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:447 src/View/Helper/Breadcrumbs.php:534
+#: src/View/Helper/Breadcrumbs.php:456 src/View/Helper/Breadcrumbs.php:543
 msgid "Selection for contact"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:454 src/View/Helper/Breadcrumbs.php:537
+#: src/View/Helper/Breadcrumbs.php:463 src/View/Helper/Breadcrumbs.php:546
 msgid "Selection"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:471
+#: src/View/Helper/Breadcrumbs.php:480
 msgid "Login"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:474
+#: src/View/Helper/Breadcrumbs.php:483
 msgid "Register"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:477
+#: src/View/Helper/Breadcrumbs.php:486
 msgid "Authentication error"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:522
+#: src/View/Helper/Breadcrumbs.php:531
 msgid "Update account"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:525
+#: src/View/Helper/Breadcrumbs.php:534
 msgid "Update email"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:528
+#: src/View/Helper/Breadcrumbs.php:537
 msgid "Accept terms"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:555
+#: src/View/Helper/Breadcrumbs.php:557
 msgid "Current page"
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:598
+#: src/View/Helper/Breadcrumbs.php:600
 msgid "Collections"
 msgstr ""
 
@@ -577,33 +577,33 @@ msgid ""
 "check pages for styles: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2021
+#: data/scripts/upgrade.php:2020
 msgid ""
 "The block Resource Text has been converted to a group of blocks Media and "
 "Html. The option \"caption position\" was moved to layout class. You may "
 "check pages for styles: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2037
+#: data/scripts/upgrade.php:2036
 msgid ""
 "The variables \"$html\" and \"$captionPosition\" were removed from block "
 "Resource Text (converted into block Media). You should fix them: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2085
+#: data/scripts/upgrade.php:2084
 msgid ""
 "The option \"type\" of block Page Metadata was migrated to page layout "
 "option and page templates were added. Update your theme if needed. Matching "
 "pages: {json}."
 msgstr ""
 
-#: data/scripts/upgrade.php:2095
+#: data/scripts/upgrade.php:2094
 msgid ""
 "The option \"type\" of block Page Metadata cannot be migrated because a page "
 "layout template was already set. Matching pages: {json}."
 msgstr ""
 
-#: data/scripts/upgrade.php:2103
+#: data/scripts/upgrade.php:2102
 msgid ""
 "All themes that contain custom templates of the blocks should be moved from "
 "\"view/common/block-layout\" to \"view/common/block-template\" except if "
@@ -611,19 +611,19 @@ msgid ""
 "for more information about migration."
 msgstr ""
 
-#: data/scripts/upgrade.php:2127
+#: data/scripts/upgrade.php:2126
 msgid ""
 "New resource blocks allow to wrap other blocks with html elements <div> and "
 "<section>."
 msgstr ""
 
-#: data/scripts/upgrade.php:2134
+#: data/scripts/upgrade.php:2133
 msgid ""
 "It is now possible to append a list of blocks via a simple click when "
 "editing a site page."
 msgstr ""
 
-#: data/scripts/upgrade.php:2152
+#: data/scripts/upgrade.php:2151
 msgid ""
 "If you created some lists of blocks in version 3.4.25, the block group is no "
 "more implicit, so you should update each group manually: prepend `o:block.0."
@@ -632,85 +632,96 @@ msgid ""
 "\"page_models\"."
 msgstr ""
 
-#: data/scripts/upgrade.php:2157
+#: data/scripts/upgrade.php:2156
 msgid ""
 "It is now possible to select a page model with page settings and blocks when "
 "creating a new page."
 msgstr ""
 
-#: data/scripts/upgrade.php:2161
+#: data/scripts/upgrade.php:2160
 msgid ""
 "It is now possible to create a page model or a list of blocks via a simple "
 "click when editing a page."
 msgstr ""
 
-#: data/scripts/upgrade.php:2203
+#: data/scripts/upgrade.php:2202
 msgid ""
 "A new site setting allows to permit site editors to create page models and "
 "blocks groups."
 msgstr ""
 
-#: data/scripts/upgrade.php:2207
+#: data/scripts/upgrade.php:2206
 msgid ""
 "New templates were added to block html in order to display an accordion and "
 "a dialog box."
 msgstr ""
 
-#: data/scripts/upgrade.php:2285
+#: data/scripts/upgrade.php:2283
 msgid ""
 "The setting \"html\" was removed from block External Content and Search "
 "Form. A new block \"Html\" was prepended to all blocks that had a filled "
 "html. You may check pages for styles: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2293
+#: data/scripts/upgrade.php:2291
 msgid ""
 "New templates were added to blocks Showcase, External Content and Search "
 "form."
 msgstr ""
 
-#: data/scripts/upgrade.php:2300
+#: data/scripts/upgrade.php:2298
 msgid ""
 "The block Page metadata is deprecated in favor of an integrated form and "
 "will be removed in a future version. The metadata will be available as "
 "standard rdf data too."
 msgstr ""
 
-#: data/scripts/upgrade.php:2341
+#: data/scripts/upgrade.php:2339
 msgid ""
 "The setting \"show title\" was replaced by components (title, body, "
 "thumbnail) in block Item Set Showcase. You may check pages: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2348
+#: data/scripts/upgrade.php:2346
 msgid ""
 "The setting \"show title\" was replaced by components (title, body, "
 "thumbnail) in block Item Set Showcase."
 msgstr ""
 
-#: data/scripts/upgrade.php:2363
+#: data/scripts/upgrade.php:2361
 msgid ""
 "The js library \"ThumbnailGridExpandingPreview\" was renamed \"thumbnail-"
 "grid-expanding-preview\". You should fix your theme: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2400
+#: data/scripts/upgrade.php:2398
 msgid ""
 "A sub-template was added to display the block browse preview gallery with "
 "thumbnail \"medium\"."
 msgstr ""
 
-#: data/scripts/upgrade.php:2510
+#: data/scripts/upgrade.php:2508
 msgid ""
 "The setting \"components\" of blocks Item Set Showcase and Search Results "
 "were updated: to set empty components now means no component. You may check "
 "pages: {json}"
 msgstr ""
 
-#: data/scripts/upgrade.php:2520
+#: data/scripts/upgrade.php:2518
 msgid ""
 "A resource block was added to be displayed when no item or no media is "
 "available."
+msgstr ""
+
+#: data/scripts/upgrade.php:2628
+msgid ""
+"The block Showcase has now a setting \"components\", the key \"title\" was "
+"renamed \"heading\", and option \"media_display\" was removed. The field "
+"html was re-upgraded. You may check pages: {json}"
+msgstr ""
+
+#: data/scripts/upgrade.php:2635
+msgid "The block Showcase has now a setting \"components\"."
 msgstr ""
 
 #: Module.php:48
@@ -799,7 +810,7 @@ msgstr ""
 msgid "Page models and blocks groups"
 msgstr ""
 
-#: Module.php:722 Module.php:730 config/module.config.php:234
+#: Module.php:722 Module.php:730 config/module.config.php:233
 msgid "Page metadata"
 msgstr ""
 
@@ -852,7 +863,7 @@ msgid ""
 "name (key \"template\"). Check your theme."
 msgstr ""
 
-#: src/View/Helper/Breadcrumbs.php:738
+#: src/View/Helper/Breadcrumbs.php:740
 msgid "Contributions"
 msgstr ""
 
@@ -902,102 +913,102 @@ msgstr ""
 msgid "Crumbs"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:75
+#: src/Form/SiteSettingsFieldset.php:76
 msgid "Prepend home"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:76
+#: src/Form/SiteSettingsFieldset.php:77
 msgid "Include \"Collections\""
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:77
+#: src/Form/SiteSettingsFieldset.php:78
 msgid "Include main item set for item"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:78
+#: src/Form/SiteSettingsFieldset.php:79
 msgid "Include item sets tree"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:79
+#: src/Form/SiteSettingsFieldset.php:80
 msgid "Append current resource"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:80
+#: src/Form/SiteSettingsFieldset.php:81
 msgid "Append current resource as a link"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:92
+#: src/Form/SiteSettingsFieldset.php:93
 msgid "Prepended links"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:93
+#: src/Form/SiteSettingsFieldset.php:94
 msgid ""
 "List of urls followed by a label, separated by a \"=\", one by line, that "
 "will be prepended to the breadcrumb."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:110
+#: src/Form/SiteSettingsFieldset.php:111
 msgid "Url for collections"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:111
+#: src/Form/SiteSettingsFieldset.php:112
 msgid ""
 "The url to use for the link \"Collections\", if set above. Let empty to use "
 "the default one."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:123
+#: src/Form/SiteSettingsFieldset.php:124
 msgid "Separator"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:124
+#: src/Form/SiteSettingsFieldset.php:125
 msgid ""
 "The separator between crumbs may be set as raw text or via css. it should be "
 "set as an html text (\"&gt;\")."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:136
+#: src/Form/SiteSettingsFieldset.php:137
 msgid "Display on home page"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:150
+#: src/Form/SiteSettingsFieldset.php:151
 msgid "Settings for the resource block Buttons"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:154 src/Form/ButtonsFieldset.php:20
+#: src/Form/SiteSettingsFieldset.php:155 src/Form/ButtonsFieldset.php:20
 msgid "Share by email"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:157 src/Form/ButtonsFieldset.php:23
+#: src/Form/SiteSettingsFieldset.php:158 src/Form/ButtonsFieldset.php:23
 msgid "Share on Twitter (now X)"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:172
+#: src/Form/SiteSettingsFieldset.php:173
 msgid "Default items order in each item set"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:173
+#: src/Form/SiteSettingsFieldset.php:174
 msgid ""
 "Set order for item set, one by row, format \"id,id,id property order\". Use "
 "\"0\" for the default."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:188
+#: src/Form/SiteSettingsFieldset.php:189
 msgid "Query to limit and sort the list of items for the previous/next buttons"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:189 src/Form/SiteSettingsFieldset.php:202
+#: src/Form/SiteSettingsFieldset.php:190 src/Form/SiteSettingsFieldset.php:203
 msgid ""
 "Use a standard query. Arguments from module Advanced Search are supported if "
 "present and needed."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:201
+#: src/Form/SiteSettingsFieldset.php:202
 msgid ""
 "Query to limit and sort the list of item sets for the previous/next buttons"
 msgstr ""
 
-#: src/Form/ItemSetShowcaseFieldset.php:53 src/Form/ShowcaseFieldset.php:71
+#: src/Form/ItemSetShowcaseFieldset.php:53 src/Form/ShowcaseFieldset.php:73
 msgid "Thumbnail type"
 msgstr ""
 
@@ -1204,8 +1215,8 @@ msgstr ""
 msgid "Level"
 msgstr ""
 
-#: src/Form/ShowcaseFieldset.php:57
-msgid "Media display"
+#: src/Form/ShowcaseFieldset.php:84
+msgid "Show attachment title (when heading is included above)"
 msgstr ""
 
 #: src/Form/ButtonsFieldset.php:17
@@ -1563,182 +1574,182 @@ msgstr ""
 msgid "A group of blocks with a heading, a media and a field for html."
 msgstr ""
 
-#: config/module.config.php:137
+#: config/module.config.php:136
 msgid "Block Plus: Home page"
 msgstr ""
 
-#: config/module.config.php:138
+#: config/module.config.php:137
 msgid "Block Plus: Exhibit"
 msgstr ""
 
-#: config/module.config.php:139
+#: config/module.config.php:138
 msgid "Block Plus: Exhibit page"
 msgstr ""
 
-#: config/module.config.php:140
+#: config/module.config.php:139
 msgid "Block Plus: Simple page"
 msgstr ""
 
-#: config/module.config.php:144
+#: config/module.config.php:143
 msgid "Block Plus: Asset with class and url"
 msgstr ""
 
-#: config/module.config.php:145
+#: config/module.config.php:144
 msgid "Block Plus: Bootstrap Hero"
 msgstr ""
 
-#: config/module.config.php:146
+#: config/module.config.php:145
 msgid "Block Plus: Left Right"
 msgstr ""
 
-#: config/module.config.php:147
+#: config/module.config.php:146
 msgid "Block Plus: Partners"
 msgstr ""
 
-#: config/module.config.php:148 config/module.config.php:176
-#: config/module.config.php:184 config/module.config.php:190
-#: config/module.config.php:207
+#: config/module.config.php:147 config/module.config.php:175
+#: config/module.config.php:183 config/module.config.php:189
+#: config/module.config.php:206
 msgid "Block Plus: Skip"
 msgstr ""
 
-#: config/module.config.php:149
+#: config/module.config.php:148
 msgid "Block Plus: Asset (deprecated)"
 msgstr ""
 
-#: config/module.config.php:152
+#: config/module.config.php:151
 msgid "Block Plus: Arborescence"
 msgstr ""
 
-#: config/module.config.php:153 config/module.config.php:182
+#: config/module.config.php:152 config/module.config.php:181
 msgid "Block Plus: Glossary"
 msgstr ""
 
-#: config/module.config.php:154
+#: config/module.config.php:153
 msgid "Block Plus: Html"
 msgstr ""
 
-#: config/module.config.php:157
+#: config/module.config.php:156
 msgid "Block Plus: Omeka breadcrumbs"
 msgstr ""
 
-#: config/module.config.php:160
+#: config/module.config.php:159
 msgid "Block Plus: Carousel"
 msgstr ""
 
-#: config/module.config.php:161
+#: config/module.config.php:160
 msgid "Block Plus: Filter by year"
 msgstr ""
 
-#: config/module.config.php:162
+#: config/module.config.php:161
 msgid "Block Plus: Gallery (square)"
 msgstr ""
 
-#: config/module.config.php:163
+#: config/module.config.php:162
 msgid "Block Plus: Gallery (medium)"
 msgstr ""
 
-#: config/module.config.php:164
+#: config/module.config.php:163
 msgid "Block Plus: Gallery (medium, link to item)"
 msgstr ""
 
-#: config/module.config.php:165
+#: config/module.config.php:164
 msgid "Block Plus: Subjects"
 msgstr ""
 
-#: config/module.config.php:166
+#: config/module.config.php:165
 msgid "Block Plus: Timeline list"
 msgstr ""
 
-#: config/module.config.php:167 config/module.config.php:210
+#: config/module.config.php:166 config/module.config.php:209
 msgid "Block Plus: Browse preview (deprecated)"
 msgstr ""
 
-#: config/module.config.php:170 config/module.config.php:213
+#: config/module.config.php:169 config/module.config.php:212
 msgid "Block Plus: Include html from group"
 msgstr ""
 
-#: config/module.config.php:173
+#: config/module.config.php:172
 msgid "Block Plus: Heading link"
 msgstr ""
 
-#: config/module.config.php:174
+#: config/module.config.php:173
 msgid "Block Plus: Details/summary (start)"
 msgstr ""
 
-#: config/module.config.php:175
+#: config/module.config.php:174
 msgid "Block Plus: Details/summary (end)"
 msgstr ""
 
-#: config/module.config.php:179
+#: config/module.config.php:178
 msgid "Block Plus: Accordion (h3)"
 msgstr ""
 
-#: config/module.config.php:180
+#: config/module.config.php:179
 msgid "Block Plus: Anchor for headings"
 msgstr ""
 
-#: config/module.config.php:181
+#: config/module.config.php:180
 msgid "Block Plus: Dialog (class for name)"
 msgstr ""
 
-#: config/module.config.php:183
+#: config/module.config.php:182
 msgid "Block Plus: Page header"
 msgstr ""
 
-#: config/module.config.php:187
+#: config/module.config.php:186
 msgid "Block Plus: Item with metadata (deprecated)"
 msgstr ""
 
-#: config/module.config.php:193
+#: config/module.config.php:192
 msgid "Block Plus: List of pages (deprecated)"
 msgstr ""
 
-#: config/module.config.php:196
+#: config/module.config.php:195
 msgid "Block Plus: List of sites (deprecated)"
 msgstr ""
 
-#: config/module.config.php:200
+#: config/module.config.php:199
 msgid "Block Plus: Item showcase (deprecated)"
 msgstr ""
 
-#: config/module.config.php:201
+#: config/module.config.php:200
 msgid "Block Plus: Resource text (deprecated)"
 msgstr ""
 
-#: config/module.config.php:204
+#: config/module.config.php:203
 msgid "Block Plus: Page date time"
 msgstr ""
 
-#: config/module.config.php:216
+#: config/module.config.php:215
 msgid "Block Plus: Table of contents (deprecated)"
 msgstr ""
 
-#: config/module.config.php:231
+#: config/module.config.php:230
 msgid "Collapse the list of groups of blocks"
 msgstr ""
 
-#: config/module.config.php:232
+#: config/module.config.php:231
 msgid "Expand to display the list of groups of blocks"
 msgstr ""
 
-#: config/module.config.php:233
+#: config/module.config.php:232
 msgid "Insert Footnotes"
 msgstr ""
 
-#: config/module.config.php:235
+#: config/module.config.php:234
 msgid ""
 "Please wait for previous group of blocks to be prepared before adding a new "
 "one."
 msgstr ""
 
-#: config/module.config.php:236
+#: config/module.config.php:235
 msgid "This group does not contain any block."
 msgstr ""
 
-#: config/module.config.php:237
+#: config/module.config.php:236
 msgid "Url (deprecated)"
 msgstr ""
 
-#: config/module.config.php:309
+#: config/module.config.php:308
 msgid "Know more"
 msgstr ""
