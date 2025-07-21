@@ -2007,7 +2007,6 @@ if (version_compare($oldVersion, '3.4.23', '<')) {
             unset($data['html']);
             $block->setData($data);
             $prevBlock = null;
-            $prevBlockLayout = null;
         }
     }
 
@@ -2271,7 +2270,6 @@ if (version_compare($oldVersion, '3.4.31', '<')) {
             }
             unset($data['html']);
             $block->setData($data);
-            $prevBlockLayout = null;
         }
     }
 
@@ -2520,4 +2518,122 @@ if (version_compare($oldVersion, '3.4.40', '<')) {
         'A resource block was added to be displayed when no item or no media is available.' // @translate
     );
     $messenger->addSuccess($message);
+}
+
+if (version_compare($oldVersion, '3.4.41', '<')) {
+    /**
+     * Improvements on Showcase.
+     * - Reprocess upgrade with html (prepend block);
+     * - Renamed key title as heading in entries;
+     * - Added components;
+     * - Removed option media_display;
+     * - Removed value "no_title" in show_title_option.
+     */
+
+    /** @see \Omeka\Db\Migrations\MigrateBlockLayoutData */
+    $pageRepository = $entityManager->getRepository(\Omeka\Entity\SitePage::class);
+
+    $pagesUpdated = [];
+    $processedBlocksId = [];
+    foreach ($pageRepository->findAll() as $page) {
+        $pageId = $page->getId();
+        $pageSlug = $page->getSlug();
+        $siteSlug = $page->getSite()->getSlug();
+        $position = 0;
+        $prevBlockGroup = null;
+        foreach ($page->getBlocks() as $block) {
+            $layout = $block->getLayout();
+            if ($layout !== 'showcase') {
+                $prevBlockGroup = $layout === 'blockGroup' ? $block : null;
+                continue;
+            }
+            $blockId = $block->getId();
+            $data = $block->getData() ?: [];
+            // Check if html was already upgraded.
+            // It fixes bad downgrade/upgrade or reimport of table data.
+            $html = $data['html'] ?? '';
+            $hasHtml = !in_array(strtr($html, [' '=> '', "\n"=> '', "\r"=> '', "\t"=> '']), ['', '<div></div>', '<p></p>']);
+            if ($hasHtml && !isset($processedBlocksId[$blockId])) {
+                // Fix basic issue with block group, but not all. Anyway not a frequent block.
+                // TODO Added a check for nested groups of blocks.
+                if ($prevBlockGroup) {
+                    $prevData = $prevBlockGroup->getData();
+                    $prevSpan = $prevData['span'] ?? 0;
+                    $prevBlockGroup->setData(['span' => ++$prevSpan] + $prevData);
+                } else {
+                    $bg = new \Omeka\Entity\SitePageBlock();
+                    $bg->setLayout('blockGroup');
+                    $bg->setPage($page);
+                    $bg->setPosition(++$position);
+                    $bg->setData([
+                        'span' => 2,
+                    ]);
+                    $entityManager->persist($bg);
+                }
+                $b = new \Omeka\Entity\SitePageBlock();
+                $b->setLayout('html');
+                $b->setPage($page);
+                $b->setPosition(++$position);
+                $b->setData([
+                    'html' => $html,
+                ]);
+                $layoutData = $block->getLayoutData();
+                if (empty($layoutData['template_name'])
+                    || $layoutData['template_name'] === 'showcase-html'
+                ) {
+                    $b->setLayoutData([
+                        'template_name' => 'html-skip',
+                    ]);
+                    $layoutData['template_name'] = 'showcase-html';
+                }
+                $entityManager->persist($b);
+                $block->setPosition(++$position);
+                $processedBlocksId[$blockId] = $blockId;
+            }
+            unset($data['html']);
+            // Keep heading if already upgraded.
+            foreach ($data['entries'] ?? [] as $key => $entry) {
+                $entry['heading'] ??= $entry['title'] ?? null;
+                unset($entry['title']);
+                $data['entries'][$key] = $entry;
+            }
+            // Avoid a double upgrade when already upgraded.
+            if (!isset($data['components'])) {
+                $components = [];
+                $showTitleOption = in_array($data['show_title_option'] ?? null, ['item_title', 'file_name']) ? $data['show_title_option'] : 'no_title';
+                if ($showTitleOption === 'no_title') {
+                    $components[] = 'heading';
+                    $showTitleOption = 'item_title';
+                }
+                $components[] = 'caption';
+                $components[] = 'body';
+                if (($data['media_display'] ?? null) === 'thumbnail') {
+                    $components[] = 'thumbnail';
+                } else {
+                    $components[] = 'media';
+                }
+                unset($data['media_display']);
+                $data['show_title_option'] = $showTitleOption;
+                $data['components'] = $components;
+            }
+            $block->setData($data);
+            $pagesUpdated[$siteSlug][$pageSlug] = $pageSlug;
+        }
+    }
+    $entityManager->flush();
+    $entityManager->clear();
+    if ($pagesUpdated) {
+        $result = array_map('array_values', $pagesUpdated);
+        $message = new PsrMessage(
+            'The block Showcase has now a setting "components", the key "title" was renamed "heading", and option "media_display" was removed. The field html was re-upgraded. You may check pages: {json}', // @translate
+            ['json' => json_encode($result, 448)]
+        );
+        $messenger->addWarning($message);
+        $logger->warn($message->getMessage(), $message->getContext());
+    } else {
+        $message = new PsrMessage(
+            'The block Showcase has now a setting "components".' // @translate
+        );
+        $messenger->addSuccess($message);
+    }
 }
