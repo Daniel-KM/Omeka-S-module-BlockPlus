@@ -1,59 +1,36 @@
-.media-text::after {
-    content: "";
-    display: block;
-    clear: both;
-}
-.caption-center .resource h3,
-.media-text .captions-center .resource h3,
-.media-text .captions-center .resource .caption {
-    text-align: center;
-}
-.caption-left .resource h3,
-.media-text .captions-left .resource h3,
-.media-text .captions-left .resource .caption {
-    text-align: left;
-}
-.caption-right .resource h3,
-.media-text .captions-right .resource h3,
-.media-text .captions-right .resource .caption {
-    text-align: right;
+ /** Arborescence */
+@media all {
+    .block #arborescence {
+        margin-top: 24px;
+    }
+    .block #arborescence li {
+        line-height: 24px;
+        list-style-type: none;
+        list-style-position: outside;
+        margin-bottom: 0;
+        margin-left: 12px;
+    }
 }
 
-.main.column {
-    width: 69%;
-}
-aside.column {
-    width: 29%;
-}
+/** Aside column */
+@media all {
+    .main.column {
+        width: 69%;
+    }
+    aside.column {
+        width: 29%;
+    }
 
-.align-left {
-    float: left;
+    .align-left {
+        float: left;
+    }
+    .align-right {
+        float: right;
+    }
+    .clear {
+        clear: both;
+    }
 }
-.align-right {
-    float: right;
-}
-.clear {
-    clear: both;
-}
-
-.wrapper-iframe {
-    width: 100%;
-}
-.wrapper-iframe .container-iframe {
-    height: 0;
-    width: 100%;
-    padding-bottom: 50%;
-    overflow: hidden;
-    position: relative;
-}
-.wrapper-iframe .container-iframe iframe {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-}
-
 @media screen and (max-width: 640px) {
     .main.column {
         width: 100%;
@@ -63,52 +40,100 @@ aside.column {
     }
 }
 
-.block #arborescence {
-    margin-top: 24px;
-}
-.block #arborescence li {
-    line-height: 24px;
-    list-style-type: none;
-    list-style-position: outside;
-    margin-bottom: 0;
-    margin-left: 12px;
+/* Breadcrumbs */
+@media all {
+    nav.breadcrumbs {
+        width: 100%;
+    }
+    nav.breadcrumbs > ul,
+    nav.breadcrumbs > ol {
+        list-style: none;
+    }
+    nav.breadcrumbs > ul > li,
+    nav.breadcrumbs > ol > li {
+        display: inline;
+    }
 }
 
-.block.d3-graph .graph .bg-loading {
-    min-height: 600px;
-    background-image: url(../img/loading-content.gif);
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
+    /* Browse preview */
+@media all {
+    .preview-block ul.resource-values {
+        display: flex;
+        padding-left: 0;
+    }
+    .preview-block ul.resource-values li {
+        list-style: none;
+        margin-right: 1em;
+    }
+
+    /* Linked resources by item set */
+    #linked-resources .item-sets {
+        list-style-type: none;
+    }
 }
-.block.d3-graph .graph svg {
-    background-color: transparent;
+
+/** Captions */
+@media all {
+    .media-text::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    .caption-center .resource h3,
+    .media-text .captions-center .resource h3,
+    .media-text .captions-center .resource .caption {
+        text-align: center;
+    }
+    .caption-left .resource h3,
+    .media-text .captions-left .resource h3,
+    .media-text .captions-left .resource .caption {
+        text-align: left;
+    }
+    .caption-right .resource h3,
+    .media-text .captions-right .resource h3,
+    .media-text .captions-right .resource .caption {
+        text-align: right;
+    }
 }
-.block.d3-graph .graph .node circle {
-    fill: #e2e0d6;
-    transition: all 0.2s ease;
-}
-.block.d3-graph .graph .node.item-set circle {
-    fill: #f9ea9e;
-    transition: all 0.2s ease;
-}
-.block.d3-graph .graph .node:hover circle {
-    /*r: 9;*/
-    fill: #A7A97E;
-}
-.block.d3-graph .graph .node text {
-    font-weight: bold;
-    fill: #666;
-    z-index: 1000;
-    transition: all 0.2s ease;
-}
-.block.d3-graph .graph .node:hover text {
-    font-size: 16px !important;
-}
-.block.d3-graph .graph .link {
-    fill: none;
-    stroke: #aaa;
-    stroke-opacity: .3;
+
+/** D3 */
+@media all {
+    .block.d3-graph .graph .bg-loading {
+        min-height: 600px;
+        background-image: url(../img/loading-content.gif);
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+    .block.d3-graph .graph svg {
+        background-color: transparent;
+    }
+    .block.d3-graph .graph .node circle {
+        fill: #e2e0d6;
+        transition: all 0.2s ease;
+    }
+    .block.d3-graph .graph .node.item-set circle {
+        fill: #f9ea9e;
+        transition: all 0.2s ease;
+    }
+    .block.d3-graph .graph .node:hover circle {
+        /*r: 9;*/
+        fill: #A7A97E;
+    }
+    .block.d3-graph .graph .node text {
+        font-weight: bold;
+        fill: #666;
+        z-index: 1000;
+        transition: all 0.2s ease;
+    }
+    .block.d3-graph .graph .node:hover text {
+        font-size: 16px !important;
+    }
+    .block.d3-graph .graph .link {
+        fill: none;
+        stroke: #aaa;
+        stroke-opacity: .3;
+    }
 }
 
 /** Dialog */
@@ -244,7 +269,6 @@ aside.column {
         margin-bottom: 45px;
     }
 }
-
 @media screen and (max-width: 780px) {
     .glossary-alphabet > li > span,
     .glossary-alphabet > li > a {
@@ -271,120 +295,116 @@ aside.column {
     }
 }
 
-/** Browse preview timeline */
+/** Iframe */
+@media all {
+    .wrapper-iframe {
+        width: 100%;
+    }
+    .wrapper-iframe .container-iframe {
+        height: 0;
+        width: 100%;
+        padding-bottom: 50%;
+        overflow: hidden;
+        position: relative;
+    }
+    .wrapper-iframe .container-iframe iframe {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+}
+
+/* Showcase (genericization of omeka item-showcase, rebranded Media) */ 
+@media all {
+    /* Deprecated: the new block uses classes of default block Media, that is similar but with grid. */
+    .showcase .entries {
+        margin: 1rem 0;
+        border-top: 1px solid #dfdfdf;
+        border-bottom: 1px solid #dfdfdf;
+        padding: calc(1rem - 1px) 0 0;
+        overflow: hidden;
+        text-align: center;
+        clear: both;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .showcase .entry .caption {
+        font-size: .875rem;
+        line-height: 1.5rem;
+    }
+    .showcase .entry .caption * {
+        margin: 0 0 1rem 0;
+    }
+    .showcase .entry .caption > *:last-child {
+        margin-bottom: 0;
+    }
+    .showcase .entry {
+        vertical-align: top;
+        margin-bottom: 1rem;
+    }
+    .showcase .entry img {
+        margin-right: .5rem;
+        max-width: 100%;
+    }
+    .showcase .entry:only-child img {
+        margin: 0 auto;
+    }
+    .showcase .entry:not(:only-child) {
+        width: 25%;
+        clear: none;
+        padding: 0 .5rem;
+    }
+    .showcase .entry:not(:only-child) h3 {
+        clear: left;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        margin: .5rem 0 0;
+    }
+    .showcase .entry:not(:only-child) img {
+        max-height: 7rem;
+        width: auto;
+        float: none;
+        margin-right: 0;
+        vertical-align: top;
+    }
+    /* Adaptation for new block: force same heights. */
+    .entries.media-embed.layout-horizontal {
+        align-items: initial;
+    }
+}
+
+/** Timeline for browse preview */
 /** Adapted from https://github.com/ebellempire/TimelineShortcode */
-
-.timeline-year {
-    font-size: 200%;
-    font-weight: bold;
-    margin: 1em auto;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: .25em;
-}
-.timeline-section-date {
-    font-size: 100%;
-    text-transform: uppercase;
-    font-weight: normal;
-    opacity: .8;
-}
-.timeline-section ul {
-    padding-left: 0;
-    margin-top: 0;
-    list-style-type:none;
-}
-.timeline-section ul li {
-    background: #f2f2f2;
-    margin: .5em 0;
-    padding: 1em;
-}
-.timeline-section ul li img {
-    height: 2em;
-    margin: 0 1em 0 0;
-    vertical-align: bottom;
-}
-
-/* Showcase (genericization of omeka item-showcase, rebranded Media) */
-/* Deprecated: the new block uses classes of default block Media, that is similar but with grid. */
-.showcase .entries {
-    margin: 1rem 0;
-    border-top: 1px solid #dfdfdf;
-    border-bottom: 1px solid #dfdfdf;
-    padding: calc(1rem - 1px) 0 0;
-    overflow: hidden;
-    text-align: center;
-    clear: both;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.showcase .entry .caption {
-    font-size: .875rem;
-    line-height: 1.5rem;
-}
-.showcase .entry .caption * {
-    margin: 0 0 1rem 0;
-}
-.showcase .entry .caption > *:last-child {
-    margin-bottom: 0;
-}
-.showcase .entry {
-    vertical-align: top;
-    margin-bottom: 1rem;
-}
-.showcase .entry img {
-    margin-right: .5rem;
-    max-width: 100%;
-}
-.showcase .entry:only-child img {
-    margin: 0 auto;
-}
-.showcase .entry:not(:only-child) {
-    width: 25%;
-    clear: none;
-    padding: 0 .5rem;
-}
-.showcase .entry:not(:only-child) h3 {
-    clear: left;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    margin: .5rem 0 0;
-}
-.showcase .entry:not(:only-child) img {
-    max-height: 7rem;
-    width: auto;
-    float: none;
-    margin-right: 0;
-    vertical-align: top;
-}
-/* Adaptation for new block: force same heights. */
-.entries.media-embed.layout-horizontal {
-    align-items: initial;
-}
-
-/* Breadcrumbs */
-nav.breadcrumbs {
-    width: 100%;
-}
-nav.breadcrumbs > ul,
-nav.breadcrumbs > ol {
-    list-style: none;
-}
-nav.breadcrumbs > ul > li,
-nav.breadcrumbs > ol > li {
-    display: inline;
-}
-
-/* Browse preview */
-.preview-block ul.resource-values {
-    display: flex;
-    padding-left: 0;
-}
-.preview-block ul.resource-values li {
-    list-style: none;
-    margin-right: 1em;
-}
-
-/* Linked resources by item set */
-#linked-resources .item-sets {
-    list-style-type: none;
+@media all {
+    .timeline-year {
+        font-size: 200%;
+        font-weight: bold;
+        margin: 1em auto;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: .25em;
+    }
+    .timeline-section-date {
+        font-size: 100%;
+        text-transform: uppercase;
+        font-weight: normal;
+        opacity: .8;
+    }
+    .timeline-section ul {
+        padding-left: 0;
+        margin-top: 0;
+        list-style-type:none;
+    }
+    .timeline-section ul li {
+        background: #f2f2f2;
+        margin: .5em 0;
+        padding: 1em;
+    }
+    .timeline-section ul li img {
+        height: 2em;
+        margin: 0 1em 0 0;
+        vertical-align: bottom;
+    }
 }
