@@ -94,7 +94,6 @@ return [
     ],
     'form_elements' => [
         'invokables' => [
-            Form\Element\BlockShowTitleSelect::class => Form\Element\BlockShowTitleSelect::class,
             // Blocks.
             Form\BlockFieldset::class => Form\BlockFieldset::class,
             Form\ButtonsFieldset::class => Form\ButtonsFieldset::class,
@@ -385,8 +384,14 @@ return [
             ],
             'showcase' => [
                 'entries' => [],
+                'components' => [
+                    'heading',
+                    'caption',
+                    'body',
+                    'media',
+                    // 'thumbnail',
+                ],
                 'layout' => '',
-                'media_display' => '',
                 'thumbnail_type' => 'square',
                 'show_title_option' => 'item_title',
             ],

@@ -2,7 +2,6 @@
 
 namespace BlockPlus\Form;
 
-use BlockPlus\Form\Element as BlockPlusElement;
 use Common\Form\Element as CommonElement;
 use Laminas\Form\Fieldset;
 use Omeka\Form\Element as OmekaElement;
@@ -50,20 +49,23 @@ class ShowcaseFieldset extends Fieldset
                     'id' => 'showcase-layout',
                 ],
             ])
+
             ->add([
-                'name' => 'o:block[__blockIndex__][o:data][media_display]',
-                'type' => CommonElement\OptionalRadio::class,
+                'name' => 'o:block[__blockIndex__][o:data][components]',
+                'type' => CommonElement\OptionalMultiCheckbox::class,
                 'options' => [
-                    'label' => 'Media display', // @translate
+                    'label' => 'Components', // @translate
+                    'info' => 'Components to display for each resource. If not set in Site Settings, Heading defaults to resource Title and Body to resource Description', // @translate
                     'value_options' => [
-                        '' => 'Embed media', // @translate
-                        'thumbnail' => 'Thumbnail only', // @translate
+                        'heading' => 'Heading', // @translate
+                        'caption' => 'Caption', // @translate
+                        'body' => 'Body', // @translate
+                        'media' => 'Embed media', // @translate
+                        'thumbnail' => 'Thumbnail', // @translate
                     ],
                 ],
-                'attributes' => [
-                    'id' => 'showcase-media-display',
-                ],
             ])
+
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][thumbnail_type]',
                 'type' => CommonElement\ThumbnailTypeSelect::class,
@@ -77,7 +79,14 @@ class ShowcaseFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][show_title_option]',
-                'type' => BlockPlusElement\BlockShowTitleSelect::class,
+                'type' => CommonElement\OptionalRadio::class,
+                'values' => [
+                    'label' => 'Show attachment title (when heading is included above)', // @translate'
+                    'value_options' => [
+                        'item_title' => 'item title', // @translate
+                        'file_name' => 'media title', // @translate
+                    ],
+                ],
                 'attributes' => [
                     'id' => 'showcase-show-title-option',
                     'class' => 'chosen-select',

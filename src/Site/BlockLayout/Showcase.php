@@ -102,27 +102,38 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
 
         $site = $block->page()->site();
         $layout = $block->dataValue('layout');
-        $mediaDisplay = $block->dataValue('media_display');
+        $components = $block->dataValue('components');
         $thumbnailType = $block->dataValue('thumbnail_type', 'square');
         $showTitleOption = $block->dataValue('show_title_option', 'item_title');
 
         $linkType = $view->siteSetting('attachment_link_type', 'item');
 
+        /**
+         * Include default classes of block Media to get standard display.
+         * @see \Omeka\Site\BlockLayout\Media::render()
+         */
         $classes = ['media-embed'];
         $classes[] = $layout === 'horizontal'
             ? 'layout-horizontal'
             : 'layout-vertical';
-        $classes[] = $mediaDisplay === 'thumbnail'
-            ? 'media-display-thumbnail'
-            : 'media-display-embed';
+        if (in_array('media', $components)) {
+            $classes[] = 'media-display-embed';
+        }
+        if (in_array('thumbnail', $components)) {
+            $classes[] = 'media-display-thumbnail';
+        }
         $classes[] = count($entries) > 3
             ? 'multiple-attachments multiple-entries'
             : 'attachment-count-' . count($entries);
+
+        // Media display is kept for compatibility with old themes.
+        $mediaDisplay = in_array('thumbnail', $components) ? 'thumbnail' : '';
 
         $vars = [
             'site' => $site,
             'block' => $block,
             'entries' => $entries,
+            'components' => $components,
             'thumbnailType' => $thumbnailType,
             'link' => $linkType,
             'linkType' => $linkType,
@@ -198,16 +209,16 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
 
             // External resource?
             if (mb_substr($entry, 0, 8) === 'https://' || mb_substr($entry, 0, 7) === 'http://') {
-                [$url, $asset, $title, $caption, $body] = array_map('trim', explode('=', $entry, 5)) + ['', '', '', '', ''];
+                [$url, $asset, $heading, $caption, $body] = array_map('trim', explode('=', $entry, 5)) + ['', '', '', '', ''];
                 $normEntry['data'] = [
                     'url' => $url,
                     'asset' => $asset,
-                    'title' => $title,
+                    'heading' => $heading,
                     'caption' => $caption,
                     'body' => $body,
                 ];
-                if (($asset . $title . $caption . $body) === '' && strpos(trim($entry), ' ')) {
-                    [$normEntry['data']['url'], $normEntry['data']['title']] = explode(' ', $entry, 2);
+                if (($asset . $heading . $caption . $body) === '' && strpos(trim($entry), ' ')) {
+                    [$normEntry['data']['url'], $normEntry['data']['heading']] = explode(' ', $entry, 2);
                 }
                 $result[] = $normEntry;
                 continue;
@@ -319,10 +330,12 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
         $link = $siteSetting('attachment_link_type', 'item');
         $linkType = $link;
 
-        $mediaDisplay = $block->dataValue('media_display');
+        $components = $block->dataValue('components');
         $thumbnailType = $block->dataValue('thumbnail_type', 'square');
-        $showTitleOption = $block->dataValue('show_title_option', 'item_title');
-        $showTitle = $showTitleOption && $showTitleOption !== 'no_title';
+
+        // Now, show title may be set to empty according to component "heading".
+        $showHeading = in_array('heading', $components);
+        $showTitleOption = $showHeading ? $block->dataValue('show_title_option', 'item_title') : 'no_title';
 
         $filterLocale = (bool) $siteSetting('filter_locale_values');
         $lang = $filterLocale ? $siteLang : null;
@@ -331,12 +344,14 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
         $site = $page->site();
         $currentSiteSlug = $site->slug();
 
+        // "title" is replaced by "heading", but kept for old themes.
         $baseEntry = [
             'entry' => null,
             'resource' => null,
             'resource_name' => null,
             'resource_type' => null,
             'site' => null,
+            'heading' => null,
             'title' => null,
             'url' => null,
             'link_class' => null,
@@ -395,18 +410,19 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                  * Reset variables first.
                  * @var string $url
                  * @var \Omeka\Api\Representation\AssetRepresentation $asset
-                 * @var string $title
+                 * @var string $heading
                  * @var string $caption
                  * @var string $body
                  */
                 $url = null;
                 $asset = null;
-                $title = null;
+                $heading = null;
                 $entry['caption'] = null;
                 $body = null;
+                // The function "extract" fills the variables above.
                 extract($entry['data']);
                 $entry['url'] = $url;
-                $entry['title'] = $showTitle ? $title : null;
+                $entry['heading'] = $showHeading ? $heading : null;
                 $entry['caption'] = $caption;
                 $entry['body'] = $body;
                 if (is_object($asset)) {
@@ -423,7 +439,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
             } elseif ($resource instanceof \Omeka\Api\Representation\SiteRepresentation) {
                 $entry['resource_type'] = 'site';
                 $entry['link_class'] = 'site-link';
-                $entry['title'] = $showTitle ? $resource->title() : null;
+                $entry['heading'] = $showHeading ? $resource->title() : null;
                 $entry['url'] = $resource->siteUrl();
                 $entry['caption'] = $resource->summary();
                 $entryThumbnail = $resource->thumbnail();
@@ -437,7 +453,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
             } elseif ($resource instanceof \Omeka\Api\Representation\SitePageRepresentation) {
                 $entry['resource_type'] = 'site-page';
                 $entry['link_class'] = 'site-page-link';
-                $entry['title'] = $showTitle ? $title = $resource->title() : null;
+                $entry['heading'] = $showHeading ? $heading = $resource->title() : null;
                 $entry['url'] = $resource->siteUrl();
                 $entry['caption'] = $pageMetadata('summary', $resource);
                 $entryThumbnail = $pageMetadata('first_image', $resource);
@@ -451,7 +467,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
             } elseif ($resource instanceof \Omeka\Api\Representation\AssetRepresentation) {
                 $entry['resource_type'] = 'asset';
                 $entry['link_class'] = 'asset-link';
-                $entry['title'] = $showTitle ? $resource->altText() : null;
+                $entry['heading'] = $showHeading ? $resource->altText() : null;
                 $entry['url'] = $resource->assetUrl();
                 $entry['thumbnail_url'] = $entryThumbnail->assetUrl();
                 $entry['render'] = $thumbnail($resource, $thumbnailType);
@@ -461,14 +477,15 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $resourceType = $resource->getControllerName();
                 $entry['resource_type'] = $resourceType;
                 $media = $resource->primaryMedia();
-                if (!$showTitleOption || $showTitleOption === 'no_title') {
+                if (!$showHeading) {
                     $entry['link_class'] = 'resource-link';
                 } elseif ($resourceType === 'media' && $showTitleOption == 'file_name') {
                     $entry['link_class'] = 'media-file';
-                    $entry['title'] = $media->displayTitle(null, $lang);
+                    $entry['heading'] = $media->displayTitle(null, $lang);
                 } else {
+                    // Use item title for media.
                     $entry['link_class'] = 'resource-link';
-                    $entry['title'] = $resourceType === 'media'
+                    $entry['heading'] = $resourceType === 'media'
                         ? $resource->item()->displayTitle(null, $lang)
                         : $resource->displayTitle(null, $lang);
                 }
@@ -486,19 +503,24 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 }
                 $entry['thumbnail_url'] = $resource->thumbnailDisplayUrl($thumbnailType);
                 $entry['caption'] = $resource->displayDescription(null, $lang);
-                // Manage the option "media display" even for item.
-                if ($mediaDisplay === 'thumbnail') {
-                    $entry['render'] = $media
-                        ? $hyperlink->raw($thumbnail($media, $thumbnailType), $entry['url'], ['class' => $entry['link_class']])
-                        : $resource->link($resource->displayTitle(), 'show', ['class' => $entry['link_class']]);
-                    // TODO Make possible to render an item.
-                } else {
-                    $entry['render'] = empty($media) ? '' : $media->render([
+                // It is useless to render "media" and "thumbnail".
+                if (in_array('media', $components) && $media) {
+                    // There is no link when rendered as a media.
+                    $entry['render'] = $media->render([
                         'thumbnailType' => $thumbnailType,
                         'link' => $linkType,
                     ]);
+                } elseif (in_array('thumbnail', $components)) {
+                    $thumb = $thumbnail($resource, $thumbnailType);
+                    $entry['render'] = $thumb
+                        ? $hyperlink->raw($thumb, $entry['url'], ['class' => $entry['link_class']])
+                        : $resource->link($resource->displayTitle(), 'show', ['class' => $entry['link_class']]);
+                } else {
+                    $entry['render'] = '';
                 }
             }
+            // Kept for compatibility with old themes.
+            $entry['title'] = $entry['heading'];
         }
         unset($entry);
 

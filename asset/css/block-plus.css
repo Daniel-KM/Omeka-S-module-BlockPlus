@@ -303,7 +303,8 @@ aside.column {
     vertical-align: bottom;
 }
 
-/* Genericization of omeka item-showcase */
+/* Showcase (genericization of omeka item-showcase, rebranded Media) */
+/* Deprecated: the new block uses classes of default block Media, that is similar but with grid. */
 .showcase .entries {
     margin: 1rem 0;
     border-top: 1px solid #dfdfdf;
@@ -354,6 +355,10 @@ aside.column {
     float: none;
     margin-right: 0;
     vertical-align: top;
+}
+/* Adaptation for new block: force same heights. */
+.entries.media-embed.layout-horizontal {
+    align-items: initial;
 }
 
 /* Breadcrumbs */

@@ -9,7 +9,7 @@
  *   - resource_name (string): Api name
  *   - resource_type (string): Controller or class name
  *   - site (SiteRepresentation): When the link use another site
- *   - title (string)
+ *   - heading (string)
  *   - url (string)
  *   - link_class (string)
  *   - caption (html)
@@ -18,12 +18,14 @@
  *   - render (html): the link with the thumbnail and title or the media rendering
  *     according to the options
  *   - data (array) For external url
+ *   - title (string): Deprecated. Same as heading, kept for old themes.
+ * @var string $components Parts of each article to display.
  * @var string $thumbnailType May be original, large, medium or square.
  * @var string $linkType May be original, item or media (site setting)
  * @var string $link Alias of $linkType for compatibility.
- * @var string $showTitleOption May be item_title, file_name or no_title.
+ * @var string $showTitleOption May be item_title or file_name, when component "heading" is used.
  * @var array $classes A list of classes according to entry and options.
- * @var string $mediaDisplay May be thumbnail or embed (default when empty).
+ * @var string $mediaDisplay May be thumbnail or embed (default when empty). Deprecated, replaced by components.
  * @var string $layout Option of the form that may be horizontal or vertical (default), included in $classes.
  */
 
@@ -36,27 +38,29 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 // $blockGroupData = $plugins->get('blockGroupData');
 ?>
 
-<div class="block-showcase entries <?= $escapeAttr(implode(' ', $classes)) ?>">
-    <?php foreach ($entries as $entry):
-        if (empty($entry['entry'])) continue;
-        ?>
-    <article class="entry entry-<?= $entry['resource_type'] ?> item resource">
-        <?= $entry['render'] ?>
-        <?php if ($showTitleOption !== 'no_title'): ?>
-        <h3>
-            <?php if ($entry['title'] && $entry['url']): ?>
-            <?= $hyperlink($entry['title'], $entry['url'], ['class' => $entry['link_class']]) ?>
-            <?php elseif ($entry['title']): ?>
-            <?= $escape($entry['title']) ?>
+<div class="block block-showcase">
+    <div class="showcase-entries entries <?= $escapeAttr(implode(' ', $classes)) ?>">
+        <?php foreach ($entries as $entry):
+            if (empty($entry['entry'])) continue;
+            ?>
+        <article class="entry entry-<?= $entry['resource_type'] ?> item resource">
+            <?= $entry['render'] ?>
+            <?php if (in_array('heading', $components)): ?>
+            <h3>
+                <?php if ($entry['heading'] && $entry['url']): ?>
+                <?= $hyperlink($entry['heading'], $entry['url'], ['class' => $entry['link_class']]) ?>
+                <?php elseif ($entry['heading']): ?>
+                <?= $escape($entry['heading']) ?>
+                <?php endif; ?>
+            </h3>
             <?php endif; ?>
-        </h3>
-        <?php endif; ?>
-        <?php if ($entry['caption']): ?>
-        <div class="caption"><?= $entry['caption'] ?></div>
-        <?php endif; ?>
-        <?php if ($entry['body']): ?>
-        <div class="body"><?= $entry['body'] ?></div>
-        <?php endif; ?>
-    </article>
-    <?php endforeach; ?>
+            <?php if (in_array('caption', $components) && $entry['caption']): ?>
+            <div class="caption"><?= $entry['caption'] ?></div>
+            <?php endif; ?>
+            <?php if (in_array('caption', $components) && $entry['body']): ?>
+            <div class="body"><?= $entry['body'] ?></div>
+            <?php endif; ?>
+        </article>
+        <?php endforeach; ?>
+    </div>
 </div>
