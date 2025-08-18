@@ -12,12 +12,12 @@ use Omeka\Module\Exception\ModuleCannotInstallException;
  */
 $services = $this->getServiceLocator();
 
-if (!method_exists($this, 'getManageModuleAndResources')) {
+if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.72')) {
     $plugins = $services->get('ControllerPluginManager');
     $translate = $plugins->get('translate');
     $message = new \Omeka\Stdlib\Message(
         $translate('This module requires module %1$s version %2$s or greater.'), // @translate
-        'Common', '3.4.70'
+        'Common', '3.4.72'
     );
     throw new ModuleCannotInstallException((string) $message);
 }
