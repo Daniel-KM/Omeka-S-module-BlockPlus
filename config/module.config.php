@@ -218,7 +218,7 @@ return [
     'translator' => [
         'translation_file_patterns' => [
             [
-                'type' => 'gettext',
+                'type' => \Laminas\I18n\Translator\Loader\Gettext::class,
                 'base_dir' => dirname(__DIR__) . '/language',
                 'pattern' => '%s.mo',
                 'text_domain' => null,
@@ -254,6 +254,7 @@ return [
                 'itemset',
                 'itemsetstree',
                 'current',
+                // 'current_link',
             ],
             'blockplus_breadcrumbs_prepend' => [],
             'blockplus_breadcrumbs_collections_url' => '',

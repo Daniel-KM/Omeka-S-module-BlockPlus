@@ -81,42 +81,7 @@ class Breadcrumbs extends AbstractHelper
         $translate = $plugins->get('translate');
         $siteSetting = $plugins->get('siteSetting');
 
-        $crumbsSettings = $siteSetting('blockplus_breadcrumbs_crumbs');
-        // The multicheckbox skips keys of unset boxes, so they are added.
-        // Copy options from fieldset \BlockPlus\Form\SiteSettingsFieldset.
-        if (is_array($crumbsSettings)) {
-            $crumbsSettings = array_fill_keys($crumbsSettings, true) + [
-                'home' => false,
-                'collections' => false,
-                'itemset' => false,
-                'itemsetstree' => false,
-                'current' => false,
-                'current_link' => false,
-            ];
-        } else {
-            // This param has never been set in site settings, so use default
-            // values.
-            $crumbsSettings = array_fill_keys($crumbsSettings, true) + [
-                'home' => true,
-                'collections' => true,
-                'itemset' => true,
-                'itemsetstree' => true,
-                'current' => true,
-                'current_link' => false,
-            ];
-        }
-
-        $hasItemSetsTree = $plugins->has('itemSetsTree');
-        if (!$hasItemSetsTree) {
-            $crumbsSettings['itemsetstree'] = false;
-        }
-
-        // Avoid duplication between main item set and item sets tree.
-        if (!empty($crumbsSettings['itemset']) && !empty($crumbsSettings['itemsetstree'])) {
-            $crumbsSettings['itemset'] = false;
-        }
-
-        $defaults = $crumbsSettings + [
+        $crumbsSettingsDefault = [
             'home' => true,
             'prepend' => [],
             'collections' => true,
@@ -129,7 +94,39 @@ class Breadcrumbs extends AbstractHelper
             'separator' => $siteSetting('blockplus_breadcrumbs_separator', ''),
             'template' => $this->defaultTemplate,
         ];
-        $options += $defaults;
+
+        // Default values when not set in the site.
+        $crumbsSettings = $siteSetting('blockplus_breadcrumbs_crumbs', [
+            'home' => true,
+            'collections' => true,
+            'itemset' => true,
+            'itemsetstree' => true,
+            'current' => true,
+            'current_link' => false,
+        ]);
+
+        // The multicheckbox skips keys of unset boxes, so they are added.
+        // Copy options from fieldset \BlockPlus\Form\SiteSettingsFieldset.
+        $crumbsSettings = array_fill_keys($crumbsSettings, true) + [
+            'home' => false,
+            'collections' => false,
+            'itemset' => false,
+            'itemsetstree' => false,
+            'current' => false,
+            'current_link' => false,
+        ];
+
+        $hasItemSetsTree = $plugins->has('itemSetsTree');
+        if (!$hasItemSetsTree) {
+            $crumbsSettings['itemsetstree'] = false;
+        }
+
+        // Avoid duplication between main item set and item sets tree.
+        if (!empty($crumbsSettings['itemset']) && !empty($crumbsSettings['itemsetstree'])) {
+            $crumbsSettings['itemset'] = false;
+        }
+
+        $options += $crumbsSettings + $crumbsSettingsDefault;
 
         /** @var \Laminas\Router\Http\RouteMatch $routeMatch */
         $routeMatch = $site->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
