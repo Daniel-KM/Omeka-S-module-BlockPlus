@@ -75,6 +75,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
 
         $data = $block ? ($block->data() ?? []) + $defaultSettings : $defaultSettings;
 
+        // Denormalize entries.
         foreach ($data['entries'] as &$entry) {
             $entry = $entry['entry'] ?? '';
         }
@@ -164,7 +165,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
         // TODO ArrayTextarea may not be filtered here yet.
         $entries = is_array($entries)
             ? $entries
-            : array_map('trim', explode("\n", $this->fixEndOfLine(trim((string) $entries))));
+            : array_values(array_map('trim', explode("\n", $this->fixEndOfLine(trim((string) $entries)))));
         if (!$entries) {
             return [];
         }
@@ -190,6 +191,20 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
             if (!$entry) {
                 $result[] = $normEntry;
                 continue;
+            }
+
+            // Avoid issue when the entry is already formatted or with badly
+            // formatted data.
+            if (is_array($entry)) {
+                if (empty($entry['entry'])) {
+                    $this->services->get('Omeka\Logger')->err(
+                        '[Block Plus] Showcase is badly formatted. Save the following page manually: {site_slug}/{page_slug}.', // @translate
+                        ['site_slug' => $site->slug(), 'page_slug' => $page->slug()]
+                    );
+                    continue;
+                }
+                // The entry is already processed, but it can be updated.
+                $entry = $entry['entry'];
             }
 
             $cleanEntry = trim($entry, '/');
