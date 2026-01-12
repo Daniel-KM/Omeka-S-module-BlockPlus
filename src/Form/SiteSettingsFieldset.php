@@ -14,7 +14,6 @@ class SiteSettingsFieldset extends Fieldset
         'block_plus' => 'Block plus', // @translate
         'breadcrumbs' => 'Breadcrumbs', // @translate
         'block_plus_resources' => 'Block plus resources', // @translate
-        'download_zip' => 'Download zip', // @translate
     ];
 
     public function init(): void
@@ -175,88 +174,6 @@ class SiteSettingsFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'blockplus_block_display_as_button',
-                ],
-            ])
-
-            // Download zip settings.
-
-            ->add([
-                'name' => 'blockplus_download_enabled',
-                'type' => Element\Checkbox::class,
-                'options' => [
-                    'element_group' => 'download_zip',
-                    'label' => 'Enable download zip', // @translate
-                    'info' => 'Allow visitors to download resource files. When disabled, the download button is hidden and the download endpoint returns a 404 error.', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'blockplus_download_enabled',
-                ],
-            ])
-            ->add([
-                'name' => 'blockplus_download_content',
-                'type' => CommonElement\OptionalRadio::class,
-                'options' => [
-                    'element_group' => 'download_zip',
-                    'label' => 'Download content', // @translate
-                    'value_options' => [
-                        'all' => 'All media files (zip archive)', // @translate
-                        'primary' => 'Primary media only (single file, no zip)', // @translate
-                    ],
-                ],
-                'attributes' => [
-                    'id' => 'blockplus_download_content',
-                ],
-            ])
-            ->add([
-                'name' => 'blockplus_download_type',
-                'type' => CommonElement\OptionalRadio::class,
-                'options' => [
-                    'element_group' => 'download_zip',
-                    'label' => 'File type', // @translate
-                    'value_options' => [
-                        'original' => 'Original', // @translate
-                        'large' => 'Large', // @translate
-                        'medium' => 'Medium', // @translate
-                        'square' => 'Square', // @translate
-                    ],
-                ],
-                'attributes' => [
-                    'id' => 'blockplus_download_type',
-                ],
-            ])
-            ->add([
-                'name' => 'blockplus_download_single_as_file',
-                'type' => Element\Checkbox::class,
-                'options' => [
-                    'element_group' => 'download_zip',
-                    'label' => 'Output single file as native file', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'blockplus_download_single_as_file',
-                ],
-            ])
-            ->add([
-                'name' => 'blockplus_download_zip_text',
-                'type' => Element\Textarea::class,
-                'options' => [
-                    'element_group' => 'download_zip',
-                    'label' => 'Copyright text', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'blockplus_download_zip_text',
-                    'rows' => 6,
-                    'placeholder' => <<<'TXT'
-                        Source: {main_title}
-                        Document: {resource_title}
-                        Author: {dcterms:creator}
-                        Date: {dcterms:date}
-                        Number of files: {file_count}
-                        Downloaded on: {date}
-                        
-                        Citation: {citation}
-                        
-                        URL: {resource_url}
-                        TXT,
                 ],
             ])
 
