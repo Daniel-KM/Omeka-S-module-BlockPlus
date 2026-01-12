@@ -52,7 +52,6 @@
 
 $plugins = $this->getHelperPluginManager();
 $api = $plugins->get('api');
-$escape = $plugins->get('escapeHtml');
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;

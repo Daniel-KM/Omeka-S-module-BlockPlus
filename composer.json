@@ -28,7 +28,7 @@
     "require": {
         "andykirk/ckeditor-footnotes": "^1.2",
         "asset/thumbnail-grid-expanding-preview": "^0.3",
-        "d3/d3": "3.5.17",
+        "d3/d3": "7.9.0",
         "kenwheeler/slick": "1.8.1",
         "oomphinc/composer-installers-extender": "^2.0",
         "thetechy/jslists": "0.4.5"
@@ -77,11 +77,11 @@
             "package": {
                 "type": "omeka-addon-asset",
                 "name": "d3/d3",
-                "version": "3.5.17",
+                "version": "7.9.0",
                 "dist": {
                     "type": "file",
-                    "reference": "3.5.17",
-                    "url": "https://d3js.org/d3.v3.min.js"
+                    "reference": "7.9.0",
+                    "url": "https://unpkg.com/d3@7.9.0/dist/d3.min.js"
                 }
             }
         },

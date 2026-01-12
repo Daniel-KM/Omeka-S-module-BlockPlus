@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60eb885926a2a0c0593c11a04a3dbde9",
+    "content-hash": "5fdda164208f93e875e8a35314d39556",
     "packages": [
         {
             "name": "andykirk/ckeditor-footnotes",
@@ -173,11 +173,11 @@
         },
         {
             "name": "d3/d3",
-            "version": "3.5.17",
+            "version": "7.9.0",
             "dist": {
                 "type": "file",
-                "url": "https://d3js.org/d3.v3.min.js",
-                "reference": "3.5.17"
+                "url": "https://unpkg.com/d3@7.9.0/dist/d3.min.js",
+                "reference": "7.9.0"
             },
             "type": "omeka-addon-asset"
         },
