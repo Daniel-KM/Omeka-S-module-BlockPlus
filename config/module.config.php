@@ -270,6 +270,7 @@ return [
             // Resource blocks.
             // Buttons.
             'blockplus_block_buttons' => [],
+            'blockplus_block_display_as_button' => false,
             // See also (similar resources).
             // TODO How to implement heading for all resource blocks?
             'blockplus_seealso_heading' => 'See also', // @translate
@@ -291,6 +292,7 @@ return [
             ],
             'buttons' => [
                 'buttons' => [],
+                'display_as_button' => false,
             ],
             'd3Graph' => [
                 'params' => <<<'JSON'

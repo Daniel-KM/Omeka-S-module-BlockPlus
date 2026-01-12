@@ -2,7 +2,8 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
- * @var array $buttons List of buttons.
+ * @var array $buttons
+ * @var bool $displayAsButton
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -11,6 +12,12 @@ $htmlAttributes = $plugins->get('htmlAttributes');
 ?>
 
 <div class="block resource-block block-buttons">
+
+<?php if ($displayAsButton): ?>
+<details class="button-details buttons-details">
+    <summary class="button" title="<?= $translate('Share') ?>" aria-label="<?= $translate('Share') ?>" aria-expanded="false"><span class="fas fa-share-alt"></span></summary>
+<?php endif; ?>
+
     <?php if ($buttons): ?>
     <ul class="share-buttons">
     <?php foreach ($buttons as $button => $data): ?>
@@ -33,4 +40,9 @@ $htmlAttributes = $plugins->get('htmlAttributes');
     <?php endforeach; ?>
     </ul>
     <?php endif; ?>
+
+<?php if ($displayAsButton): ?>
+</details>
+<?php endif; ?>
+
 </div>

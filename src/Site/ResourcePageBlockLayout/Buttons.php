@@ -27,11 +27,16 @@ class Buttons implements ResourcePageBlockLayoutInterface
 
     public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
     {
-        $buttons = $view->siteSetting('blockplus_block_buttons') ?: [];
+        $plugins = $view->getHelperPluginManager();
+        $partial = $plugins->get('partial');
+        $siteSetting = $plugins->get('siteSetting');
+
+        $buttons = $siteSetting('blockplus_block_buttons') ?: [];
         $buttons = $this->shareLinks($view, $resource, $buttons);
-        return $view->partial('common/resource-page-block-layout/buttons', [
+        return $partial('common/resource-page-block-layout/buttons', [
             'resource' => $resource,
             'buttons' => $buttons,
+            'displayAsButton' => (bool) $siteSetting('blockplus_block_display_as_button'),
         ]);
     }
 

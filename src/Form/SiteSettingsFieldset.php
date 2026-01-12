@@ -162,6 +162,18 @@ class SiteSettingsFieldset extends Fieldset
                     'id' => 'blockplus_block_buttons',
                 ],
             ])
+            ->add([
+                'name' => 'blockplus_block_display_as_button',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Single button', // @translate
+                    'info' => "Check to display all buttons as a single one", // @translate
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_block_display_as_button',
+                ],
+            ])
 
             // Resource block See also (similar resources).
 

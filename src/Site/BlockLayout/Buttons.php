@@ -50,6 +50,7 @@ class Buttons extends AbstractBlockLayout implements TemplateableBlockLayoutInte
     {
         $vars = ['block' => $block] + $block->data();
         $vars['buttons'] = $this->shareLinks($view, $block->page(), $vars['buttons'] ?? []);
+        $vars['displayAsButton'] = !empty($vars['display_as_button']);
         return $view->partial($templateViewScript, $vars);
     }
 

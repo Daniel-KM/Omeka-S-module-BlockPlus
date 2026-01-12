@@ -3,6 +3,7 @@
 namespace BlockPlus\Form;
 
 use Common\Form\Element as CommonElement;
+use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
 class ButtonsFieldset extends Fieldset
@@ -22,6 +23,14 @@ class ButtonsFieldset extends Fieldset
                         'pinterest' => 'Share on Pinterest', // @translate
                         'twitter' => 'Share on Twitter (now X)', // @translate
                     ],
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][display_as_button]',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'label' => 'Single button', // @translate
+                    'info' => "Check to display all buttons as a single one", // @translate
                 ],
             ])
         ;
