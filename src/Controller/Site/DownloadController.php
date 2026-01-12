@@ -18,8 +18,12 @@ class DownloadController extends AbstractActionController
      */
     public function downloadAction()
     {
-        $resourceType = $this->params('resource-type');
         $resourceId = $this->params('resource-id');
+        if ($resourceId === null) {
+            return $this->downloadQueryAction();
+        }
+
+        $resourceType = $this->params('resource-type');
         $content = $this->params()->fromQuery('content', 'primary');
         $type = $this->params()->fromQuery('type', 'original');
         $singleAsFile = (bool) $this->params()->fromQuery('single_as_file', false);
@@ -38,8 +42,8 @@ class DownloadController extends AbstractActionController
             return $this->notFoundAction();
         }
 
-        // Validate resource type.
-        $validTypes = ['item', 'media'];
+        // Validate resource type (singular in route, plural for api).
+        $validTypes = ['resource', 'item', 'media'];
         if (!in_array($resourceType, $validTypes)) {
             return $this->notFoundAction();
         }
@@ -51,7 +55,7 @@ class DownloadController extends AbstractActionController
             $type = 'original';
         }
 
-        // Get the right resource name (items/media).
+        // Get the right resource name (resources/items/media).
         $resourceType = $this->easyMeta()->resourceName($resourceType);
 
         // Get the resource.
@@ -96,6 +100,91 @@ class DownloadController extends AbstractActionController
         }
 
         return $this->streamZipArchive($medias, $type, $resource);
+    }
+
+    /**
+     * Stream a zip archive for multiple resources via api query.
+     */
+    protected function downloadQuery()
+    {
+        $resourceType = $this->params('resource-type') ?: 'resource';
+        $type = $this->params()->fromQuery('type', 'original');
+
+        // Check if download is enabled for this site.
+        $siteSettings = $this->siteSettings();
+        if (!$siteSettings->get('blockplus_download_enabled', false)) {
+            $this->logger()->warn(
+                'Attempt to download zip via query for {resource_type} on site "{site}" without download enabled.', // @translate
+                [
+                    'resource_type' => $resourceType,
+                    'site' => $this->currentSite()->slug(),
+                ]
+            );
+            return $this->notFoundAction();
+        }
+
+        // Get the right resource name (resources/items/media).
+        $resourceType = $this->easyMeta()->resourceName($resourceType);
+
+        // Validate resource type (singular in route, plural for api).
+        $validTypes = ['resources', 'items', 'media'];
+        if (!in_array($resourceType, $validTypes)) {
+            return $this->notFoundAction();
+        }
+
+        // Validate file type.
+        $validFileTypes = ['original', 'large', 'medium', 'square'];
+        if (!in_array($type, $validFileTypes)) {
+            $type = 'original';
+        }
+
+        // Build query from request parameters.
+        $query = $this->params()->fromQuery();
+        unset($query['type']);
+
+        // Apply limit from site settings.
+        $maxResources = (int) $siteSettings->get('blockplus_download_max', 25);
+        if ($maxResources > 0) {
+            $query['limit'] = min($query['limit'] ?? $maxResources, $maxResources);
+        }
+
+        // Limit to current site.
+        $query['site_id'] = $this->currentSite()->id();
+
+        // Search resources.
+        try {
+            $response = $this->api()->search($resourceType, $query);
+            $resources = $response->getContent();
+        } catch (\Exception $e) {
+            return $this->notFoundAction();
+        }
+
+        if (empty($resources)) {
+            return $this->notFoundAction();
+        }
+
+        // Collect all downloadable medias from resources.
+        $allMedias = [];
+        foreach ($resources as $resource) {
+            $medias = $this->getDownloadableMedias($resource, 'all');
+            foreach ($medias as $media) {
+                $allMedias[] = $media;
+            }
+        }
+
+        if (empty($allMedias)) {
+            return $this->notFoundAction();
+        }
+
+        // Check if ZipStream is available.
+        if (!class_exists(\ZipStream\ZipStream::class)) {
+            $this->messenger()->addError(
+                'The ZipStream library is required to download multiple files as zip.' // @translate
+            );
+            return $this->redirect()->toRoute('site', [], [], true);
+        }
+
+        return $this->streamZipArchiveQuery($allMedias, $type, $resources);
     }
 
     /**
@@ -215,6 +304,109 @@ class DownloadController extends AbstractActionController
                 $mediaFilename,
                 $filepath
             );
+        }
+
+        $zip->finish();
+
+        // Prevent further output.
+        ini_set('display_errors', '0');
+
+        return $response;
+    }
+
+    /**
+     * Stream a zip archive for multiple resources from query.
+     */
+    protected function streamZipArchiveQuery(
+        array $medias,
+        string $type,
+        array $resources
+    ): HttpResponse {
+        $site = $this->currentSite();
+        $filename = $this->sanitizeFilename($site->title()) . '_' . date('Ymd_His') . '.zip';
+
+        // Get copyright text for batch download.
+        $copyrightText = $this->buildCopyrightTextQuery($resources, $medias, $type);
+
+        // Get response and set headers.
+        /** @var \Laminas\Http\PhpEnvironment\Response $response */
+        $response = $this->getResponse();
+        $headers = $response->getHeaders();
+
+        $headers
+            ->addHeaderLine('Content-Type: application/zip')
+            ->addHeaderLine(sprintf('Content-Disposition: attachment; filename="%s"', $filename))
+            ->addHeaderLine('Content-Transfer-Encoding: binary')
+            ->addHeaderLine('Cache-Control: no-cache, no-store, must-revalidate')
+            ->addHeaderLine('Pragma: no-cache')
+            ->addHeaderLine('Expires: 0');
+
+        // Fix deprecated warning.
+        $errorReporting = error_reporting();
+        error_reporting($errorReporting & ~E_DEPRECATED);
+
+        $response->sendHeaders();
+
+        error_reporting($errorReporting);
+
+        // Clear output buffers.
+        $response->setContent('');
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        // Stream the zip using ZipStream.
+        // Use STORE (no compression) by default since media files are already compressed.
+        $zip = new ZipStream(
+            null,
+            '',
+            null,
+            0,
+            6,
+            true,
+            true,
+            false,
+            null,
+            $filename
+        );
+
+        // Add copyright file if configured.
+        if ($copyrightText) {
+            $zip->addFile(
+                'COPYRIGHT.txt',
+                $copyrightText
+            );
+        }
+
+        // Add each media file organized by resource.
+        $resourceIndex = 0;
+        $mediasByItem = [];
+        foreach ($medias as $media) {
+            $itemId = $media->item() ? $media->item()->id() : 0;
+            $mediasByItem[$itemId][] = $media;
+        }
+
+        foreach ($mediasByItem as $itemId => $itemMedias) {
+            $resourceIndex++;
+            $item = $itemMedias[0]->item();
+            $folderName = $item
+                ? sprintf('%03d_%s', $resourceIndex, $this->sanitizeFilename($item->displayTitle()))
+                : sprintf('%03d_media', $resourceIndex);
+
+            foreach ($itemMedias as $mediaIndex => $media) {
+                $filepath = $this->getMediaFilePath($media, $type);
+                if (!$filepath || !file_exists($filepath)) {
+                    continue;
+                }
+
+                $mediaFilename = $this->buildMediaFilename($media, $type, $mediaIndex);
+
+                // Stream file from disk without compression.
+                $zip->addFileFromPath(
+                    $folderName . '/' . $mediaFilename,
+                    $filepath
+                );
+            }
         }
 
         $zip->finish();
@@ -432,5 +624,64 @@ class DownloadController extends AbstractActionController
         $citation .= '. ' . sprintf($translate('Accessed on %s'), date('Y-m-d'));
 
         return $citation;
+    }
+
+    /**
+     * Build copyright text for batch download from query.
+     */
+    protected function buildCopyrightTextQuery(
+        array $resources,
+        array $medias,
+        string $type
+    ): ?string {
+        $siteSettings = $this->siteSettings();
+        $template = $siteSettings->get('blockplus_download_zip_text', '');
+
+        if (empty($template)) {
+            return null;
+        }
+
+        // Build placeholders.
+        $placeholders = [
+            '{file_count}' => (string) count($medias),
+            '{resource_count}' => (string) count($resources),
+            '{file_type}' => $type,
+        ];
+
+        // Add site info.
+        $site = $this->currentSite();
+        if ($site) {
+            $placeholders['{site_title}'] = $site->title();
+            $placeholders['{site_url}'] = $site->siteUrl(null, true);
+        }
+
+        // Add installation title.
+        $settings = $this->settings();
+        $placeholders['{main_title}'] = $settings->get('installation_title', 'Omeka S');
+
+        // Add date.
+        $placeholders['{date}'] = date('Y-m-d');
+        $placeholders['{datetime}'] = date('Y-m-d H:i:s');
+
+        // For batch download, resource-specific placeholders are not applicable.
+        $placeholders['{resource_id}'] = '';
+        $placeholders['{resource_title}'] = '';
+        $placeholders['{resource_url}'] = '';
+        $placeholders['{citation}'] = '';
+
+        // Apply placeholders.
+        $text = strtr($template, $placeholders);
+
+        return $text;
+    }
+
+    /**
+     * Sanitize a string for use as filename.
+     */
+    protected function sanitizeFilename(string $name): string
+    {
+        $name = preg_replace('/[^a-zA-Z0-9_\-\.\s]/', '', $name);
+        $name = preg_replace('/\s+/', '_', $name);
+        return substr($name, 0, 100) ?: 'download';
     }
 }

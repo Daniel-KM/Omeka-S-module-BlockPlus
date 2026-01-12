@@ -54,9 +54,9 @@ return [
                     'download-zip' => [
                         'type' => \Laminas\Router\Http\Segment::class,
                         'options' => [
-                            'route' => '/download/:resource-type/:resource-id',
+                            'route' => '/download/:resource-type[/:resource-id]',
                             'constraints' => [
-                                'resource-type' => 'item|media',
+                                'resource-type' => 'resource|item|media',
                                 'resource-id' => '\d+',
                             ],
                             'defaults' => [
@@ -311,6 +311,7 @@ return [
             'blockplus_download_content' => 'all',
             'blockplus_download_type' => 'original',
             'blockplus_download_single_as_file' => false,
+            'blockplus_download_max' => 25,
             'blockplus_download_zip_text' => <<<'TXT'
                 Source: {main_title}
                 Document: {resource_title}

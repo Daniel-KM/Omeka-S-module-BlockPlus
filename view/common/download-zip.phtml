@@ -2,7 +2,8 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SiteRepresentation $site
- * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation|null $resource
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
  * @var \Omeka\Api\Representation\MediaRepresentation[] $medias
  * @var string $downloadUrl
  * @var string $filename
@@ -13,7 +14,9 @@
  * @var int $totalSize
  * @var string $formattedSize
  * @var int $mediaCount
+ * @var int $resourceCount
  * @var bool $isSingleFile
+ * @var bool $isQuery
  */
 
 $plugins = $this->getHelperPluginManager();
