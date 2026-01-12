@@ -4,7 +4,7 @@
 
     // Config copied from application/asset/js/site-page-edit.js for the sidebar asset.
     function wysiwyg(context) {
-        var config = {
+        const config = {
             toolbar:
             [
                 ['Sourcedialog', 'Bold', 'Italic', 'Underline', 'Link', 'Unlink', 'PasteFromWord'],
@@ -16,7 +16,7 @@
             if ($(this).data('ckeditor-overridden')) {
                 return;
             }
-            var editor = $(this).ckeditor().editor;
+            let editor = $(this).ckeditor().editor;
             if (editor) {
                 editor.destroy();
                 $(this).next('.cke_textarea_inline').remove();
@@ -147,7 +147,7 @@
             const blockSettingsLayoutData = blockSettings['o:layout_data'] ?? blockSettings['layout_data'] ?? null;
             if (blockSettingsLayoutData) {
                 // For layout data, the data are set as data and in hidden inputs.
-                var blockLayoutData = block.data('block-layout-data');
+                const blockLayoutData = block.data('block-layout-data');
                 for (const [key, value] of Object.entries(blockSettingsLayoutData)) {
                     blockLayoutData[key] = value;
                     // All layout data are hidden and there is no multiple.
@@ -161,12 +161,14 @@
         }
 
         // Add the button for block groups only when there are blocks groups.
-        
+        // Ensure blocksGroups is defined (set by the server-side template).
+        const blocksGroupsDefined = typeof blocksGroups !== 'undefined' ? blocksGroups : {};
+
         const addBlockGroupPlus = $('<button>', {
             type: 'button',
             id: 'add-block-group-plus',
             value: 'addBlockGroupPlus',
-            class: 'add-block-group-plus expand' + (blocksGroups && Object.keys(blocksGroups).length ? '' : ' hidden'),
+            class: 'add-block-group-plus expand' + (Object.keys(blocksGroupsDefined).length ? '' : ' hidden'),
             title: Omeka.jsTranslate('Expand to display the list of groups of blocks'),
             'aria-label': Omeka.jsTranslate('Expand to display the list of groups of blocks'),
             'data-text-expand': Omeka.jsTranslate('Expand to display the list of groups of blocks'),
@@ -178,7 +180,7 @@
             class: 'collapsible add-block-group-list',
         });
 
-        for (const [layout, data] of Object.entries(blocksGroups)) {
+        for (const [layout, data] of Object.entries(blocksGroupsDefined)) {
             const buttonBlockGroup = $('<button>', {
                 type: 'button',
                 class: 'option',
@@ -216,7 +218,7 @@
             const blockGroupLayout = buttonBlockGroup.val();
 
             // The list of block should use "o:block" but "block" is allowed for simplicity.
-            const blockGroupData = blocksGroups[blockGroupLayout];
+            const blockGroupData = blocksGroupsDefined[blockGroupLayout];
             const groupedBlocks = blockGroupData['o:block'] ?? blockGroupData['block'] ?? {};
             if (!Object.values(groupedBlocks).length) {
                 alert(Omeka.jsTranslate('This group does not contain any block.'));
@@ -259,20 +261,20 @@
 
             // Get the last existing block.
             const lastExistingBlockIndex = addBlockGroupPlus.data('count-existing-div-blocks');
-            var lastExistingBlock = lastExistingBlockIndex ? $(`#blocks > .block.value[data-block-layout]:nth-child(${lastExistingBlockIndex})`).first() : null;
+            let lastExistingBlock = lastExistingBlockIndex ? $(`#blocks > .block.value[data-block-layout]:nth-child(${lastExistingBlockIndex})`).first() : null;
             if (lastExistingBlock && !lastExistingBlock.length) {
                 lastExistingBlock = null;
             }
 
             // Reorder appended blocks, manage nested blocks in block Group and set settings of each blocks.
-            const blockGroupData = blocksGroups[blockGroupLayout];
+            const blockGroupData = blocksGroupsDefined[blockGroupLayout];
             const groupedBlocks = blockGroupData['o:block'] ?? blockGroupData['block'] ?? {};
-            var blockGroupBlocks;
-            var previousBlockGroup = null;
-            var previousBlockGroupSpan = 0;
-            var previousBlockGroupSpanPredefined = 0;
+            let blockGroupBlocks;
+            let previousBlockGroup = null;
+            let previousBlockGroupSpan = 0;
+            let previousBlockGroupSpanPredefined = 0;
 
-            for (var blockSettings of Object.values(groupedBlocks)) {
+            for (const blockSettings of Object.values(groupedBlocks)) {
                 const blockLayout = blockSettings['o:layout'] ?? blockSettings['layout'] ?? null;
                 if (blockLayout) {
                     const groupedBlock = lastExistingBlock
@@ -336,8 +338,8 @@
         });
 
         $(document).on('click', 'button.expand, button.collapse', function(e) {
-            var message, eventName;
-            var toggle = $(this);
+            let message, eventName;
+            const toggle = $(this);
             toggle.toggleClass('collapse').toggleClass('expand');
             if (toggle.hasClass('expand')) {
                 message = toggle.data('text-expand') ? toggle.data('text-expand') : Omeka.jsTranslate('Expand');

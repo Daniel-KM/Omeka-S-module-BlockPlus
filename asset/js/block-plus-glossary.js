@@ -20,15 +20,19 @@ $(document).ready(function() {
 
         $('.glossary-pagination .pagination-current').val(currentPage);
         $('.glossary-pagination .pagination-total').html(pageCount);
+        const prevLabel = Omeka.jsTranslate('Previous');
+        const prevDisabledLabel = Omeka.jsTranslate('No previous');
+        const nextLabel = Omeka.jsTranslate('Next');
+        const nextDisabledLabel = Omeka.jsTranslate('No next');
         $('.glossary-pagination .pagination-previous').replaceWith(
             previousPage
-                ? `<a data-page="${ previousPage }" href="" class="pagination-previous" title="Précédent" aria-label="Précédent"></a>`
-                : `<span class="pagination-previous" title="Sans précédent" aria-label="Sans précédent"></span>`
+                ? `<a data-page="${ previousPage }" href="" class="pagination-previous" title="${prevLabel}" aria-label="${prevLabel}"></a>`
+                : `<span class="pagination-previous" title="${prevDisabledLabel}" aria-label="${prevDisabledLabel}"></span>`
         );
         $('.glossary-pagination .pagination-next').replaceWith(
             nextPage
-                ? `<a data-page="${ nextPage }" href="" class="pagination-next" title="Suivant" aria-label="Suivant"></a>`
-                : `<span class="pagination-next" title="Sans suivant" aria-label="Sans suivant"></span>`
+                ? `<a data-page="${ nextPage }" href="" class="pagination-next" title="${nextLabel}" aria-label="${nextLabel}"></a>`
+                : `<span class="pagination-next" title="${nextDisabledLabel}" aria-label="${nextDisabledLabel}"></span>`
         );
 
         $('.glossary-items .glossary-item').hide();

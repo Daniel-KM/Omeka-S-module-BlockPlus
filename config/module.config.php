@@ -231,13 +231,19 @@ return [
     'js_translate_strings' => [
         'Cancel', // @translate
         'Class', // @translate
+        'Collapse', // @translate
         'Collapse the list of groups of blocks', // @translate
         'Confirm download', // @translate
         'Download', // @translate
+        'Expand', // @translate
         'Expand to display the list of groups of blocks', // @translate
         'Insert Footnotes', // @translate
+        'Next', // @translate
+        'No next', // @translate
+        'No previous', // @translate
         'Page metadata', // @translate
         'Please wait for previous group of blocks to be prepared before adding a new one.', // @translate
+        'Previous', // @translate
         'This group does not contain any block.', // @translate
         'Url (deprecated)', // @translate
     ],

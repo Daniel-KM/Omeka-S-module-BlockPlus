@@ -33,7 +33,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.allowedContent = true;
     // Add extra plugins
     config.extraPlugins = [
-        'sourcedialog' ,
+        'sourcedialog',
         'removeformat',
         'footnotes',
     ];
