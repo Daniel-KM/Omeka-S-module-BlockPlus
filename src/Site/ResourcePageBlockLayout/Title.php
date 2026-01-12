@@ -2,39 +2,13 @@
 
 namespace BlockPlus\Site\ResourcePageBlockLayout;
 
-use Laminas\View\Renderer\PhpRenderer;
-use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
-use Omeka\Site\ResourcePageBlockLayout\ResourcePageBlockLayoutInterface;
-
 /**
  * Display the title of the resource and set it as page title.
+ *
+ * @see \Omeka\Api\Representation\AbstractResourceEntityRepresentation::displayTitle()
  */
-class Title implements ResourcePageBlockLayoutInterface
+class Title extends AbstractResourcePageBlockBase
 {
-    public function getLabel() : string
-    {
-        return 'Title'; // @translate
-    }
-
-    public function getCompatibleResourceNames() : array
-    {
-        return [
-            'items',
-            'media',
-            'item_sets',
-        ];
-    }
-
-    /**
-     *@see \Omeka\Api\Representation\AbstractResourceEntityRepresentation::displayTitle()
-     *
-     * {@inheritDoc}
-     * @see \Omeka\Site\ResourcePageBlockLayout\ResourcePageBlockLayoutInterface::render()
-     */
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource): string
-    {
-        return $view->partial('common/resource-page-block-layout/title', [
-            'resource' => $resource,
-        ]);
-    }
+    protected $label = 'Title'; // @translate
+    protected $partial = 'common/resource-page-block-layout/title';
 }

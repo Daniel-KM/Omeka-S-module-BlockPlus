@@ -2,33 +2,11 @@
 
 namespace BlockPlus\Site\ResourcePageBlockLayout;
 
-use Laminas\View\Renderer\PhpRenderer;
-use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
-use Omeka\Site\ResourcePageBlockLayout\ResourcePageBlockLayoutInterface;
-
 /**
  * Append a generic html div start tag with class "block-resource block-tools".
  */
-class HtmlDivToolsStart implements ResourcePageBlockLayoutInterface
+class HtmlDivToolsStart extends AbstractResourcePageBlockBase
 {
-    public function getLabel() : string
-    {
-        return 'Html div for tools (start)'; // @translate
-    }
-
-    public function getCompatibleResourceNames() : array
-    {
-        return [
-            'items',
-            'media',
-            'item_sets',
-        ];
-    }
-
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
-    {
-        return $view->partial('common/resource-page-block-layout/html-div-tools-start', [
-            'resource' => $resource,
-        ]);
-    }
+    protected $label = 'Html div for tools (start)'; // @translate
+    protected $partial = 'common/resource-page-block-layout/html-div-tools-start';
 }

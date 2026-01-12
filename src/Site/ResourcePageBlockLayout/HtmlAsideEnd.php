@@ -2,33 +2,11 @@
 
 namespace BlockPlus\Site\ResourcePageBlockLayout;
 
-use Laminas\View\Renderer\PhpRenderer;
-use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
-use Omeka\Site\ResourcePageBlockLayout\ResourcePageBlockLayoutInterface;
-
 /**
  * Append a generic html aside end tag.
  */
-class HtmlAsideEnd implements ResourcePageBlockLayoutInterface
+class HtmlAsideEnd extends AbstractResourcePageBlockBase
 {
-    public function getLabel() : string
-    {
-        return 'Html aside (end)'; // @translate
-    }
-
-    public function getCompatibleResourceNames() : array
-    {
-        return [
-            'items',
-            'media',
-            'item_sets',
-        ];
-    }
-
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
-    {
-        return $view->partial('common/resource-page-block-layout/html-aside-end', [
-            'resource' => $resource,
-        ]);
-    }
+    protected $label = 'Html aside (end)'; // @translate
+    protected $partial = 'common/resource-page-block-layout/html-aside-end';
 }
