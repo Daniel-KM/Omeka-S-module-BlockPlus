@@ -77,6 +77,8 @@ return [
             // Keep logical order.
             'htmlDivStart' => Site\ResourcePageBlockLayout\HtmlDivStart::class,
             'htmlDivEnd' => Site\ResourcePageBlockLayout\HtmlDivEnd::class,
+            'htmlDivMoreStart' => Site\ResourcePageBlockLayout\HtmlDivMoreStart::class,
+            'htmlDivMoreEnd' => Site\ResourcePageBlockLayout\HtmlDivMoreEnd::class,
             'htmlDivToolsStart' => Site\ResourcePageBlockLayout\HtmlDivToolsStart::class,
             'htmlDivToolsEnd' => Site\ResourcePageBlockLayout\HtmlDivToolsEnd::class,
             'htmlSectionStart' => Site\ResourcePageBlockLayout\HtmlSectionStart::class,
