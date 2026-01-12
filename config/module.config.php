@@ -75,6 +75,8 @@ return [
             'description' => Site\ResourcePageBlockLayout\Description::class,
             'downloadPrimary' => Site\ResourcePageBlockLayout\DownloadPrimary::class,
             // Keep logical order.
+            'htmlArticleStart' => Site\ResourcePageBlockLayout\HtmlArticleStart::class,
+            'htmlArticleEnd' => Site\ResourcePageBlockLayout\HtmlArticleEnd::class,
             'htmlDivStart' => Site\ResourcePageBlockLayout\HtmlDivStart::class,
             'htmlDivEnd' => Site\ResourcePageBlockLayout\HtmlDivEnd::class,
             'htmlDivMoreStart' => Site\ResourcePageBlockLayout\HtmlDivMoreStart::class,
