@@ -11,6 +11,7 @@
  * @var array $components
  * @var array $properties
  * @var string $linkText
+ * @var string|null $formAction
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -45,10 +46,12 @@ $siteSlug = $site->slug();
 
 <?php // This block uses two div by default to comply with common themes. ?>
 
+<div id="block-<?= $block->id() ?>" class="block block-searchResults">
+
 <?php if ($showSearchForm): ?>
 <div class="block search-form-block">
-    <form id="search-form">
-        <input type="text" name="search" value="<?= $escapeAttr($query['search']) ?>" placeholder="<?= $translate('Search') ?>">
+    <form id="search-form"<?= $formAction ? ' action="' . $escapeAttr($formAction) . '"' : '' ?>>
+        <input type="text" name="search" value="<?= $escapeAttr($query['search'] ?? '') ?>" placeholder="<?= $escapeAttr($translate('Search')) ?>">
         <button type="submit" class="button"><?= $translate('Search') ?></button>
     </form>
 </div>
@@ -129,5 +132,7 @@ $siteSlug = $site->slug();
     <?php if ($linkText): ?>
         <?= $hyperlink($linkText, $url('site/resource', ['controller' => $resourceType, 'action' => 'browse', 'site-slug' => $siteSlug], ['query' => $query], true)) ?>
     <?php endif; ?>
+
+</div>
 
 </div>

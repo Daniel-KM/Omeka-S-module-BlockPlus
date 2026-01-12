@@ -373,6 +373,7 @@ return [
                 'query' => [],
                 'limit' => 12,
                 'pagination' => true,
+                'autoscroll' => false,
                 'sort_headings' => [],
                 'resource_template' => null,
                 'components' => [

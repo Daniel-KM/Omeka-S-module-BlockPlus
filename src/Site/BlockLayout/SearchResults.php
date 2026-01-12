@@ -197,6 +197,12 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
         // There is no list of media in public views.
         $linkText = $resourceType === 'media' ? '' : $block->dataValue('link-text', null);
 
+        // Determine the form action URL for autoscroll.
+        // When autoscroll is enabled, include the fragment so the page scrolls
+        // to this block after form submission.
+        $autoscroll = !empty($block->dataValue('autoscroll'));
+        $formAction = $autoscroll ? '#block-' . $block->id() : null;
+
         $vars = [
             'block' => $block,
             'site' => $site,
@@ -208,6 +214,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
             'components' => $components,
             'properties' => $properties,
             'linkText' => $linkText,
+            'formAction' => $formAction,
         ];
         return $view->partial($templateViewScript, $vars);
     }

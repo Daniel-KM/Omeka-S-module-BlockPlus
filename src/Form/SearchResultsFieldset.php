@@ -63,6 +63,17 @@ class SearchResultsFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][autoscroll]',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'label' => 'Auto-scroll to block', // @translate
+                    'info' => 'When enabled, the page will scroll to this block after form submission. Useful when the block is not at the top of the page.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'search-results-autoscroll',
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][sort_headings]',
                 'type' => OmekaElement\PropertySelect::class,
                 'options' => [
