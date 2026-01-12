@@ -1,0 +1,43 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ * @var \Omeka\Api\Representation\MediaRepresentation[] $medias
+ * @var string $downloadUrl
+ * @var string $filename
+ * @var string $label
+ * @var string $class
+ * @var array $attributes
+ * @var string $dialogMessage
+ * @var int $totalSize
+ * @var string $formattedSize
+ * @var int $mediaCount
+ * @var bool $isSingleFile
+ */
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
+$attrs = [
+    'href' => $downloadUrl,
+    'class' => trim('download-zip-link ' . $class),
+    'data-dialog-confirm' => 'true',
+    'data-dialog-message' => $dialogMessage,
+    'data-file-size' => $totalSize,
+    'data-file-count' => $mediaCount,
+    'data-filename' => $filename,
+    'download' => $filename,
+];
+foreach ($attributes as $key => $value) {
+    $attrs[$key] = $value;
+}
+
+$attrHtml = '';
+foreach ($attrs as $key => $value) {
+    $attrHtml .= ' ' . $escapeAttr($key) . '="' . $escapeAttr((string) $value) . '"';
+}
+?>
+
+<a<?= $attrHtml ?>><span class="download-label"><?= $escape($label) ?></span></a>

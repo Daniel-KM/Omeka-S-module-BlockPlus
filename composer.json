@@ -30,6 +30,7 @@
         "asset/thumbnail-grid-expanding-preview": "^0.3",
         "d3/d3": "3.5.17",
         "kenwheeler/slick": "1.8.1",
+        "maennchen/zipstream-php": "^3.2",
         "oomphinc/composer-installers-extender": "^2.0",
         "thetechy/jslists": "0.4.5"
     },

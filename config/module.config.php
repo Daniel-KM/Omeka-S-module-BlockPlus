@@ -31,6 +31,7 @@ return [
             'breadcrumbs' => View\Helper\Breadcrumbs::class,
             'captionClassAndUrl' => View\Helper\CaptionClassAndUrl::class,
             'ckEditor' => View\Helper\CkEditor::class,
+            'downloadZip' => View\Helper\DownloadZip::class,
             'isHtml4' => View\Helper\IsHtml4::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
@@ -39,6 +40,34 @@ return [
         ],
         'factories' => [
             'blockGroupData' => Service\ViewHelper\BlockGroupDataFactory::class,
+        ],
+    ],
+    'controllers' => [
+        'invokables' => [
+            Controller\Site\DownloadController::class => Controller\Site\DownloadController::class,
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'site' => [
+                'child_routes' => [
+                    'download-zip' => [
+                        'type' => \Laminas\Router\Http\Segment::class,
+                        'options' => [
+                            'route' => '/download/:resource-type/:resource-id',
+                            'constraints' => [
+                                'resource-type' => 'item|media',
+                                'resource-id' => '\d+',
+                            ],
+                            'defaults' => [
+                                '__NAMESPACE__' => 'BlockPlus\Controller\Site',
+                                'controller' => 'DownloadController',
+                                'action' => 'download',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ],
     ],
     'block_layouts' => [
@@ -235,8 +264,11 @@ return [
         ],
     ],
     'js_translate_strings' => [
+        'Cancel', // @translate
         'Class', // @translate
         'Collapse the list of groups of blocks', // @translate
+        'Confirm download', // @translate
+        'Download', // @translate
         'Expand to display the list of groups of blocks', // @translate
         'Insert Footnotes', // @translate
         'Page metadata', // @translate
@@ -273,6 +305,23 @@ return [
             // Buttons.
             'blockplus_block_buttons' => [],
             'blockplus_block_display_as_button' => false,
+            // Download zip.
+            'blockplus_download_enabled' => false,
+            'blockplus_download_content' => 'all',
+            'blockplus_download_type' => 'original',
+            'blockplus_download_single_as_file' => false,
+            'blockplus_download_zip_text' => <<<'TXT'
+                Source: {main_title}
+                Document: {resource_title}
+                Author: {dcterms:creator}
+                Date: {dcterms:date}
+                Number of files: {file_count}
+                Downloaded on: {date}
+                
+                Citation: {citation}
+                
+                URL: {resource_url}
+                TXT,
             // See also (similar resources).
             // TODO How to implement heading for all resource blocks?
             'blockplus_seealso_heading' => 'See also', // @translate
