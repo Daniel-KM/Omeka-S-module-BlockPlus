@@ -80,8 +80,8 @@ class ShowcaseFieldset extends Fieldset
             ->add([
                 'name' => 'o:block[__blockIndex__][o:data][show_title_option]',
                 'type' => CommonElement\OptionalRadio::class,
-                'values' => [
-                    'label' => 'Show attachment title (when heading is included above)', // @translate'
+                'options' => [
+                    'label' => 'Show attachment title (when heading is included above)', // @translate
                     'value_options' => [
                         'item_title' => 'item title', // @translate
                         'file_name' => 'media title', // @translate

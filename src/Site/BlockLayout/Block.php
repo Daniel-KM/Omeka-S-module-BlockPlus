@@ -88,7 +88,7 @@ class Block extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
                 $vars['parameters'] = $params;
                 break;
             case 'json_array':
-                $vars['parameters'] = @json_decode($params, true) ?: [];
+                $vars['parameters'] = json_decode($params, true) ?: [];
                 break;
             case 'ini':
                 $reader = new \Laminas\Config\Reader\Ini();

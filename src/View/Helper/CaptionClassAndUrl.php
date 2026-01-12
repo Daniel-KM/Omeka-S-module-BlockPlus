@@ -44,55 +44,34 @@ class CaptionClassAndUrl extends AbstractHelper
         $hasLabel = false;
 
         $lines = array_values(array_filter(array_map('trim', explode("\n", strip_tags($string))), 'strlen'));
-        $matches = [];
 
-        // TODO Replace by a one pattern managing any order.
-        $patternUrl = '~^url\s*=\s*(?<url>[^\s]+)$~';
-        $patternClass = '~^class\s*=\s*(?<class>.+)$~';
-        $patternLabel = '~^label\s*=\s*(?<label>.+)$~';
-        if (preg_match($patternClass, $lines[0], $matches)) {
-            $class = $matches['class'];
-            $hasClass = true;
-            unset($lines[0]);
-        } elseif (preg_match($patternUrl, $lines[0], $matches)) {
-            $url = $matches['url'];
-            $hasUrl = true;
-            unset($lines[0]);
-        } elseif (preg_match($patternLabel, $lines[0], $matches)) {
-            $label = $matches['label'];
-            $hasLabel = true;
-            unset($lines[0]);
-        }
-
-        if (isset($lines[1]) && ($hasClass || $hasUrl || $hasLabel)) {
-            if (!$hasUrl && preg_match($patternUrl, $lines[1], $matches)) {
-                $url = $matches['url'];
-                $hasUrl = true;
-                unset($lines[1]);
-            } elseif (!$hasLabel && preg_match($patternLabel, $lines[1], $matches)) {
-                $label = $matches['label'];
-                $hasLabel = true;
-                unset($lines[1]);
-            } elseif (!$hasClass && preg_match($patternClass, $lines[1], $matches)) {
-                $class = $matches['class'];
-                $hasClass = true;
-                unset($lines[1]);
+        // Single pattern matching class, url, or label in any order (first 3 lines max).
+        $pattern = '~^(?<key>url|class|label)\s*=\s*(?<value>.+)$~';
+        for ($i = 0; $i < min(3, count($lines)); $i++) {
+            if (!isset($lines[$i])) {
+                break;
             }
-
-            if (isset($lines[2]) && ($hasClass || $hasUrl || $hasLabel)) {
-                if (!$hasLabel && preg_match($patternLabel, $lines[2], $matches)) {
-                    $label = $matches['label'];
-                    $hasLabel = true;
-                    unset($lines[2]);
-                } elseif (!$hasUrl && preg_match($patternUrl, $lines[2], $matches)) {
-                    $url = $matches['url'];
+            $matches = [];
+            if (preg_match($pattern, $lines[$i], $matches)) {
+                $key = $matches['key'];
+                $value = $key === 'url' ? trim($matches['value']) : $matches['value'];
+                // Only set if not already set.
+                if ($key === 'url' && !$hasUrl) {
+                    $url = $value;
                     $hasUrl = true;
-                    unset($lines[2]);
-                } elseif (!$hasClass && preg_match($patternClass, $lines[2], $matches)) {
-                    $class = $matches['class'];
+                    unset($lines[$i]);
+                } elseif ($key === 'class' && !$hasClass) {
+                    $class = $value;
                     $hasClass = true;
-                    unset($lines[2]);
+                    unset($lines[$i]);
+                } elseif ($key === 'label' && !$hasLabel) {
+                    $label = $value;
+                    $hasLabel = true;
+                    unset($lines[$i]);
                 }
+            } else {
+                // Stop at first non-matching line.
+                break;
             }
         }
 

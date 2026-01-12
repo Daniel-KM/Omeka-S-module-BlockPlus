@@ -17,7 +17,7 @@ trait PageBlockMetadataTrait
      * There are two cases. Metadata may require:
      * - page data
      * - block metadata data
-     * Threre are two situations:
+     * There are two situations:
      * - from the page
      * - from a block.
      *
@@ -135,7 +135,7 @@ trait PageBlockMetadataTrait
 
             case 'page':
                 return $page;
-            case 'dctermsdcterms:title':
+            case 'dcterms:title':
             case 'title':
                 return $page->title();
             case 'slug':
@@ -371,10 +371,10 @@ trait PageBlockMetadataTrait
             case 'params_json':
             case 'params_json_array':
                 $p = $getParams();
-                return @json_decode($p, true) ?: [];
+                return json_decode($p, true) ?: [];
             case 'params_json_object':
                 $p = $getParams();
-                return @json_decode($p) ?: (object) [];
+                return json_decode($p) ?: (object) [];
             case 'params_ini':
                 $reader = new \Laminas\Config\Reader\Ini();
                 $p = $getParams();
@@ -615,8 +615,11 @@ trait PageBlockMetadataTrait
         }
 
         $site = $this->currentSite();
-        // TODO Replace by api->read().
-        $page = $view->api()->searchOne('site_pages', ['site_id' => $site->id(), 'slug' => $pageSlug])->getContent();
+        try {
+            $page = $view->api()->read('site_pages', ['site' => $site->id(), 'slug' => $pageSlug])->getContent();
+        } catch (\Exception $e) {
+            $page = null;
+        }
         $this->view->page = $page;
         return $page;
     }

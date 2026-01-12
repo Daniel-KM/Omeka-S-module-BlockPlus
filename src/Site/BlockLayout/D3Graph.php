@@ -60,7 +60,7 @@ class D3Graph extends AbstractBlockLayout implements TemplateableBlockLayoutInte
     {
         // TODO Store params as array.
         $vars = ['block' => $block] + $block->data();
-        $vars['params'] = @json_decode($vars['params'], true) ?: [];
+        $vars['params'] = json_decode($vars['params'], true) ?: [];
 
         if (empty($vars['params'])) {
             $view->logger()->warn(

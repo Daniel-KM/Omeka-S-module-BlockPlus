@@ -28,9 +28,9 @@ class BlockFieldset extends Fieldset
                         'auto' => 'Automatic', // @translate
                         'raw' => 'Raw string', // @translate
                         'ini' => 'Format "Ini"', // @translate
-                        'json_array' => 'Json', // @translate'
-                        'key_value' => 'Associative array of key / value pairs (separated with "=")', // @translate'
-                        'key_value_array' => 'List of arrays with two values, the key and the value (separated with "=")', // @translate'
+                        'json_array' => 'Json', // @translate
+                        'key_value' => 'Associative array of key / value pairs (separated with "=")', // @translate
+                        'key_value_array' => 'List of arrays with two values, the key and the value (separated with "=")', // @translate
                     ],
                 ],
                 'attributes' => [

@@ -44,7 +44,7 @@ class MirrorPage extends AbstractBlockLayout
 
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore): void
     {
-        $mirrorPage = (int) $block->getData()['page'] ?: $this->defaultSettings['page'];
+        $mirrorPage = (int) ($block->getData()['page'] ?? 0);
 
         if (empty($mirrorPage)) {
             $errorStore->addError('o:block[__blockIndex__][o:data][page]', 'A page should be selected to create a mirror page.'); // @translate
@@ -197,7 +197,7 @@ class MirrorPage extends AbstractBlockLayout
      * @param array $blocks
      * @return bool
      */
-    protected function checkMirrorPage(SitePage $page, SitePage $mirrorPage)
+    protected function checkMirrorPage(SitePage $page, SitePage $mirrorPage): bool
     {
         if ($page->getId() === $mirrorPage->getId()) {
             return false;

@@ -41,7 +41,7 @@ class SiteSettingsFieldset extends Fieldset
                 'options' => [
                     'element_group' => 'block_plus',
                     'label' => 'Skip page models defined internally by the module Block Plus', // @translate
-                    'info' => 'Default page models are mainly used as examples or for upgrade from Omeka Classic: home_page, exhibit, exhibit_page, simple_page and resource_text.', // @translate'
+                    'info' => 'Default page models are mainly used as examples or for upgrade from Omeka Classic: home_page, exhibit, exhibit_page, simple_page and resource_text.', // @translate
                 ],
                 'attributes' => [
                     'id' => 'blockplus_page_model_skip_blockplus',

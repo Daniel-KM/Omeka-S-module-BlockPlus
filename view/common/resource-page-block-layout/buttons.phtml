@@ -34,7 +34,7 @@ $htmlAttributes = $plugins->get('htmlAttributes');
             case 'twitter':
             default:
             ?>
-        <a <?= $htmlAttributes($data['attrs']) ?>>
+        <a <?= empty($data['attrs']) ? '' : $htmlAttributes($data['attrs']) ?>>
             <?= $translate($data['label']) ?>
         </a>
         <?php break;

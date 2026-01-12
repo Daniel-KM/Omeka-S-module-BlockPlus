@@ -11,6 +11,11 @@ use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 use Omeka\Stdlib\ErrorStore;
 
+/**
+ * Adapted:
+ * @see \BlockPlus\Site\BlockLayout\SearchResults
+ * @see \Comment\Site\BlockLayout\CommentsBrowse
+ */
 class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**

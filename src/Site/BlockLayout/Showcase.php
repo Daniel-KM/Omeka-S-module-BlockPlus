@@ -239,8 +239,8 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 continue;
             }
 
-            // Site or page of this site?
-            if (!mb_strpos($cleanEntry, '/')) {
+            // Site or page of this site (no "/" in slug).
+            if (mb_strpos($cleanEntry, '/') === false) {
                 try {
                     $resource = $this->api->read('sites', ['slug' => $cleanEntry])->getContent();
                     $normEntry['resource_name'] = 'sites';
@@ -422,20 +422,17 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['resource_type'] = 'link';
                 $entry['link_class'] = 'link';
                 /**
-                 * Reset variables first.
                  * @var string $url
                  * @var \Omeka\Api\Representation\AssetRepresentation $asset
                  * @var string $heading
                  * @var string $caption
                  * @var string $body
                  */
-                $url = null;
-                $asset = null;
-                $heading = null;
-                $entry['caption'] = null;
-                $body = null;
-                // The function "extract" fills the variables above.
-                extract($entry['data']);
+                $url = $entry['data']['url'] ?? null;
+                $asset = $entry['data']['asset'] ?? null;
+                $heading = $entry['data']['heading'] ?? null;
+                $caption = $entry['data']['caption'] ?? null;
+                $body = $entry['data']['body'] ?? null;
                 $entry['url'] = $url;
                 $entry['heading'] = $showHeading ? $heading : null;
                 $entry['caption'] = $caption;
@@ -483,8 +480,9 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 $entry['resource_type'] = 'asset';
                 $entry['link_class'] = 'asset-link';
                 $entry['heading'] = $showHeading ? $resource->altText() : null;
+                // For asset, url and thumbnail url are the same here.
                 $entry['url'] = $resource->assetUrl();
-                $entry['thumbnail_url'] = $entryThumbnail->assetUrl();
+                $entry['thumbnail_url'] = $resource->assetUrl();
                 $entry['render'] = $thumbnail($resource, $thumbnailType);
             } else {
                 // Standard resource.

@@ -60,8 +60,22 @@ class ThumbnailUrl extends AbstractHelper
         }
 
         // Any media in the site.
-        // FIXME This works only with module AdvancedSearchPlus or ApiInfo.
-        return $api->searchOne('media', ['site_id' => $site->id(), 'has_thumbnails' => true])->getContent();
+        // Note: site_id and has_thumbnails require module AdvancedSearch or ApiInfo.
+        // Without these modules, fallback to first media with a thumbnail.
+        if (class_exists('AdvancedSearch\Module', false)) {
+            $media = $api->searchOne('media', ['site_id' => $site->id(), 'has_thumbnails' => true])->getContent();
+            if ($media) {
+                return $media;
+            }
+        }
+
+        // Fallback: get first media from first item in site.
+        $item = $api->searchOne('items', ['site_id' => $site->id()])->getContent();
+        if ($item) {
+            return $item->primaryMedia();
+        }
+
+        return null;
     }
 
     protected function thumbnailUrlPage(SitePageRepresentation $page): ?AbstractRepresentation
@@ -96,7 +110,7 @@ class ThumbnailUrl extends AbstractHelper
                     // Asset can be the standard one (with attachments) or
                     // improved from the last version of block plus before
                     // integration.
-                    // Note: This is not an array of attachements, but data.
+                    // Note: This is not an array of attachments, but data.
                     /** @var \Omeka\Site\BlockLayout\Asset $assetBlockLayout */
                     $assetBlockLayout = $block->getServiceLocator()->get('Omeka\BlockLayoutManager')->get('asset');
                     foreach ($assetBlockLayout->prepareAssetAttachments($view, $block->data(), $page->site()) as $attachmentData) {
@@ -106,7 +120,7 @@ class ThumbnailUrl extends AbstractHelper
                         if (!empty($attachmentData['page'])) {
                             $repr = $this->thumbnailUrlPage($attachmentData['page']);
                             if ($repr) {
-                                return $repr ;
+                                return $repr;
                             }
                         }
                     }
@@ -116,7 +130,7 @@ class ThumbnailUrl extends AbstractHelper
                 case 'itemShowCase':
                 case 'itemWithMetadata':
                 case 'resourceText':
-                    /** @var \Omeka\Api\Representation\SiteBlockAttachmentRepresentation $attachement */
+                    /** @var \Omeka\Api\Representation\SiteBlockAttachmentRepresentation $attachment */
                     $attachments = $block->attachments();
                     if (empty($attachments)) {
                         break;
