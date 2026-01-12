@@ -18,7 +18,7 @@ use Omeka\Module\AbstractModule;
 /**
  * BlockPlus.
  *
- * @copyright Daniel Berthereau, 2018-2025
+ * @copyright Daniel Berthereau, 2018-2026
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule

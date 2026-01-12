@@ -2637,3 +2637,151 @@ if (version_compare($oldVersion, '3.4.41', '<')) {
         $messenger->addSuccess($message);
     }
 }
+
+if (version_compare((string) $oldVersion, '3.4.43', '<')) {
+    // Check if Breadcrumbs are used in one the themes, in page block and
+    // resource page blocks, to forbid upgrade unless module Menu 3.4.12+ is
+    // installed first.
+    $breadcrumbsUsage = [];
+
+    // Check if breadcrumbs block layout is used in any site page.
+    $sql = <<<'SQL'
+        SELECT site.slug AS site_slug, site_page.slug AS page_slug
+        FROM site_page_block
+        JOIN site_page ON site_page.id = site_page_block.page_id
+        JOIN site ON site.id = site_page.site_id
+        WHERE site_page_block.layout = 'breadcrumbs'
+        ORDER BY site.slug, site_page.slug
+        SQL;
+    $sitePageSlugs = $connection->executeQuery($sql)->fetchAllAssociative();
+    if ($sitePageSlugs) {
+        $slugList = array_map(fn ($row) => $row['site_slug'] . '/' . $row['page_slug'], $sitePageSlugs);
+        $breadcrumbsUsage[] = (new PsrMessage(
+            'Site page blocks: {site_page_slugs}', // @translate
+            ['site_page_slugs' => implode(', ', $slugList)]
+        ))->setTranslator($translator);
+    }
+
+    // Check if breadcrumbs resource page block is used in any site settings.
+    $sql = <<<'SQL'
+        SELECT site.slug AS site_slug
+        FROM site_setting
+        JOIN site ON site.id = site_setting.site_id
+        WHERE site_setting.id LIKE '%resource_page_block%' AND site_setting.value LIKE '%breadcrumbs%'
+        ORDER BY site.slug
+        SQL;
+    $siteSlugs = $connection->executeQuery($sql)->fetchFirstColumn();
+    if ($siteSlugs) {
+        $breadcrumbsUsage[] = (new PsrMessage(
+            'Sites with resource page blocks: {site_slugs}', // @translate
+            ['site_slugs' => implode(', ', $siteSlugs)]
+        ))->setTranslator($translator);
+    }
+
+    // Check for breadcrumbs in theme templates (check common theme directories).
+    $themesPath = OMEKA_PATH . '/themes';
+    if (is_dir($themesPath)) {
+        $list = [];
+        $themes = array_diff(scandir($themesPath), ['.', '..']);
+        foreach ($themes as $theme) {
+            $themePath = $themesPath . '/' . $theme;
+            if (!is_dir($themePath)) {
+                continue;
+            }
+            // Check for breadcrumbs usage in theme php files.
+            $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($themePath, \RecursiveDirectoryIterator::SKIP_DOTS));
+            foreach ($iterator as $file) {
+                if ($file->getExtension() === 'phtml' || $file->getExtension() === 'php') {
+                    $content = file_get_contents($file->getPathname());
+                    if (strpos($content, 'breadcrumbs(') !== false) {
+                        $list[] = $theme;
+                        break;
+                    }
+                }
+            }
+        }
+        if ($list) {
+            $breadcrumbsUsage[] = (new PsrMessage(
+                'Themes: {list}', // @translate
+                ['list' => implode(', ', $list)]
+            ))->setTranslator($translator);
+        }
+    }
+
+    if (count($breadcrumbsUsage)) {
+        $menuModuleOk = $this->checkModuleActiveVersion('Menu', '3.4.12');
+        if (!$menuModuleOk) {
+            $message = new PsrMessage(
+                'Breadcrumbs were moved to module Menu. Please install module Menu version 3.4.12 or later before upgrading Block Plus. Used in: {usage}', // @translate
+                ['usage' => implode(', ', array_unique($breadcrumbsUsage))]
+            );
+            throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message->setTranslator($translator));
+        }
+    }
+
+    $message = new PsrMessage(
+        'Breadcrumbs (view helper, block layout, and resource page block layout) was moved to module {link}Menu{link_end}.', // @translate
+        ['link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Menu" target="_blank">', 'link_end' => '</a>']
+    );
+    $messenger->addSuccess($message->setEscapeHtml(false));
+
+    // Check if any site uses resource block downloadPrimary.
+    // This block was moved to module ZipDownload, so it must be installed first.
+    $sql = <<<'SQL'
+        SELECT site.slug FROM site_setting JOIN site ON site.id = site_setting.site_id WHERE value LIKE '%downloadPrimary%';
+        SQL;
+    $siteSlugs = $connection->executeQuery($sql)->fetchFirstColumn();
+    if ($siteSlugs && !$this->checkModuleActiveVersion('ZipDownload', '3.4.1')) {
+        $message = new PsrMessage(
+            'The resource block "Download Primary" was moved to module ZipDownload. Please install it before upgrading Block Plus. Used in sites: {site_slugs}.', // @translate
+            ['site_slugs' => implode(', ', $siteSlugs)]
+        );
+        throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message->setTranslator($translator));
+    }
+
+    $message = new PsrMessage(
+        'The resource block "Download Primary" was moved to module {link}ZipDownload{link_end}.', // @translate
+        ['link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-ZipDownload" target="_blank">', 'link_end' => '</a>']
+    );
+    $messenger->addSuccess($message->setEscapeHtml(false));
+
+    // Finalize migration to module menu when needed.
+    $sites = $api->search('sites', [], ['returnScalar' => 'id'])->getContent();
+    foreach ($sites as $siteId) {
+        $siteSettings->delete('blockplus_breadcrumbs_crumbs', $siteId);
+        $siteSettings->delete('blockplus_breadcrumbs_prepend', $siteId);
+        $siteSettings->delete('blockplus_breadcrumbs_collections_url', $siteId);
+        $siteSettings->delete('blockplus_breadcrumbs_separator', $siteId);
+        $siteSettings->delete('blockplus_breadcrumbs_homepage', $siteId);
+    }
+
+    // D3.js library upgraded from v3 to v7.9.
+    // Check if D3Graph block is used in any site page and warn users.
+    $sql = <<<'SQL'
+        SELECT site.slug AS site_slug, site_page.slug AS page_slug
+        FROM site_page_block
+        JOIN site_page ON site_page.id = site_page_block.page_id
+        JOIN site ON site.id = site_page.site_id
+        WHERE site_page_block.layout = 'd3Graph'
+        ORDER BY site.slug, site_page.slug
+        SQL;
+    $d3GraphPages = $connection->executeQuery($sql)->fetchAllAssociative();
+
+    if ($d3GraphPages) {
+        $slugList = array_map(fn ($row) => $row['site_slug'] . '/' . $row['page_slug'], $d3GraphPages);
+        $message = new PsrMessage(
+            'The D3.js library has been upgraded from version 3 to version 7.9. If you have customized the D3 Graph block in your theme (overriding "d3-graph.phtml" or "d3-graph.js"), you must update your customizations to use the D3 v7 API. The main changes are: "d3.layout.force()" becomes "d3.forceSimulation()", "force.drag" becomes "d3.drag()", and "svg:a" becomes "a". See {link}D3 v7 migration guide{link_end}. Pages using D3 Graph: {pages}.', // @translate
+            [
+                'link' => '<a href="https://observablehq.com/@d3/d3v6-migration-guide" target="_blank" rel="noopener">',
+                'link_end' => '</a>',
+                'pages' => implode(', ', $slugList),
+            ]
+        );
+        $messenger->addWarning($message->setEscapeHtml(false));
+    } else {
+        $message = new PsrMessage(
+            'The D3.js library has been upgraded from version 3 to version 7.9. If you use the D3 Graph block in the future and have theme customizations, ensure they use the D3 v7 API.' // @translate
+        );
+        $messenger->addSuccess($message);
+    }
+}
