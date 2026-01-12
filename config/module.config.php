@@ -104,6 +104,7 @@ return [
             'citationResource' => Site\ResourcePageBlockLayout\CitationResource::class,
             'description' => Site\ResourcePageBlockLayout\Description::class,
             'downloadPrimary' => Site\ResourcePageBlockLayout\DownloadPrimary::class,
+            'downloadZip' => Site\ResourcePageBlockLayout\DownloadZip::class,
             // Keep logical order.
             'htmlArticleStart' => Site\ResourcePageBlockLayout\HtmlArticleStart::class,
             'htmlArticleEnd' => Site\ResourcePageBlockLayout\HtmlArticleEnd::class,
