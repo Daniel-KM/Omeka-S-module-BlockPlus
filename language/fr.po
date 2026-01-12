@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-21 00:00+0000\n"
-"PO-Revision-Date: 2025-07-21 00:00+0000\n"
+"POT-Creation-Date: 2026-01-12 00:00+0000\n"
+"PO-Revision-Date: 2026-01-12 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.6\n"
 
 #: data/scripts/upgrade_vocabulary.php:19
 #, php-format
@@ -30,6 +30,18 @@ msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou ultérieur
 #: Module.php:466
 msgid "Create page model"
 msgstr "Créer un modèle de page"
+
+#: Module.php:473
+msgid "Save as page model or blocks groups"
+msgstr "Sauvegarde comme modèle de page ou groupe de blocs"
+
+#: Module.php:476
+msgid ""
+"If a label is set, the model will be stored when the current page will be "
+"saved."
+msgstr ""
+"Si un libellé est indiqué, le modèle sera enregistré en même temps que la "
+"page."
 
 #: src/Site/BlockLayout/Block.php:47
 msgid ""
@@ -48,13 +60,13 @@ msgstr ""
 "site{link_end}, sauf si vous utilisez le gabarit Omeka dans la config du "
 "bloc."
 
-#: src/Site/BlockLayout/Buttons.php:86 src/Site/BlockLayout/Buttons.php:90
-#: src/Site/ResourcePageBlockLayout/Buttons.php:79
+#: src/Site/BlockLayout/Buttons.php:87 src/Site/BlockLayout/Buttons.php:91
+#: src/Site/ResourcePageBlockLayout/Buttons.php:84
 msgid "Download"
 msgstr "Télécharger"
 
-#: src/Site/BlockLayout/Buttons.php:103
-#: src/Site/ResourcePageBlockLayout/Buttons.php:111
+#: src/Site/BlockLayout/Buttons.php:104
+#: src/Site/ResourcePageBlockLayout/Buttons.php:116
 #, php-format
 msgid ""
 "%1$s%2$s\n"
@@ -65,23 +77,23 @@ msgstr ""
 "-\n"
 "%3$s"
 
-#: src/Site/BlockLayout/Buttons.php:104
-#: src/Site/ResourcePageBlockLayout/Buttons.php:112
+#: src/Site/BlockLayout/Buttons.php:105
+#: src/Site/ResourcePageBlockLayout/Buttons.php:117
 msgid "Share by mail"
 msgstr "Partager par mail"
 
-#: src/Site/BlockLayout/Buttons.php:117
-#: src/Site/ResourcePageBlockLayout/Buttons.php:125
+#: src/Site/BlockLayout/Buttons.php:118
+#: src/Site/ResourcePageBlockLayout/Buttons.php:130
 msgid "Share on Facebook"
 msgstr "Partager sur Facebook"
 
-#: src/Site/BlockLayout/Buttons.php:132
-#: src/Site/ResourcePageBlockLayout/Buttons.php:140
+#: src/Site/BlockLayout/Buttons.php:133
+#: src/Site/ResourcePageBlockLayout/Buttons.php:176
 msgid "Share on Pinterest"
 msgstr "Partager sur Pinterest"
 
-#: src/Site/BlockLayout/Buttons.php:147
-#: src/Site/ResourcePageBlockLayout/Buttons.php:155
+#: src/Site/BlockLayout/Buttons.php:148
+#: src/Site/ResourcePageBlockLayout/Buttons.php:191
 msgid "Share on Twitter"
 msgstr "Partager avec Twitter"
 
@@ -126,85 +138,100 @@ msgstr ""
 msgid "Redirect to %s"
 msgstr "Rediriger vers %s"
 
-#: src/Site/ResourcePageBlockLayout/Buttons.php:83
+#: src/Site/ResourcePageBlockLayout/Buttons.php:88
 msgid "Download file"
 msgstr "Télécharger le fichier"
 
-#: src/Site/ResourcePageBlockLayout/Buttons.php:94
-#: src/Site/ResourcePageBlockLayout/Buttons.php:98
+#: src/Site/ResourcePageBlockLayout/Buttons.php:99
+#: src/Site/ResourcePageBlockLayout/Buttons.php:103
+#: view/common/resource-page-block-layout/print.phtml:13
+#: view/common/resource-page-block-layout/print.phtml:15
 msgid "Print"
 msgstr "Imprimer"
 
-#: src/View/Helper/Breadcrumbs.php:425 src/View/Helper/Breadcrumbs.php:435
-#: src/View/Helper/Breadcrumbs.php:477 src/View/Helper/Breadcrumbs.php:513
-#: src/View/Helper/Breadcrumbs.php:519
+#: src/Site/ResourcePageBlockLayout/Buttons.php:147
+msgid "Open Instagram"
+msgstr "Ouvrir Instagram"
+
+#: src/Site/ResourcePageBlockLayout/Buttons.php:161
+msgid "Share on LinkedIn"
+msgstr "Partager sur LinkedIn"
+
+#: src/View/Helper/Breadcrumbs.php:422 src/View/Helper/Breadcrumbs.php:432
+#: src/View/Helper/Breadcrumbs.php:474 src/View/Helper/Breadcrumbs.php:510
+#: src/View/Helper/Breadcrumbs.php:516
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: src/View/Helper/Breadcrumbs.php:441 src/View/Helper/Breadcrumbs.php:540
+#: src/View/Helper/Breadcrumbs.php:438 src/View/Helper/Breadcrumbs.php:537
 msgid "Basket"
 msgstr "Panier"
 
-#: src/View/Helper/Breadcrumbs.php:449
+#: src/View/Helper/Breadcrumbs.php:446
 msgid "Collecting"
 msgstr "Collectes"
 
-#: src/View/Helper/Breadcrumbs.php:456 src/View/Helper/Breadcrumbs.php:543
+#: src/View/Helper/Breadcrumbs.php:453 src/View/Helper/Breadcrumbs.php:540
 msgid "Selection for contact"
 msgstr "Sélection pour contact"
 
-#: src/View/Helper/Breadcrumbs.php:463 src/View/Helper/Breadcrumbs.php:546
+#: src/View/Helper/Breadcrumbs.php:460 src/View/Helper/Breadcrumbs.php:543
 msgid "Selection"
 msgstr "Sélection"
 
-#: src/View/Helper/Breadcrumbs.php:480
+#: src/View/Helper/Breadcrumbs.php:477
 msgid "Login"
 msgstr "Connexion"
 
-#: src/View/Helper/Breadcrumbs.php:483
+#: src/View/Helper/Breadcrumbs.php:480
 msgid "Register"
 msgstr "Inscrivez-vous"
 
-#: src/View/Helper/Breadcrumbs.php:486
+#: src/View/Helper/Breadcrumbs.php:483
 msgid "Authentication error"
 msgstr "Erreur d’authentification"
 
-#: src/View/Helper/Breadcrumbs.php:531
+#: src/View/Helper/Breadcrumbs.php:528
 msgid "Update account"
 msgstr "Mettre à jour le compte"
 
-#: src/View/Helper/Breadcrumbs.php:534
+#: src/View/Helper/Breadcrumbs.php:531
 msgid "Update email"
 msgstr "Mettre à jour le mail"
 
-#: src/View/Helper/Breadcrumbs.php:537
+#: src/View/Helper/Breadcrumbs.php:534
 msgid "Accept terms"
 msgstr "Accepter les conditions"
 
-#: src/View/Helper/Breadcrumbs.php:557
+#: src/View/Helper/Breadcrumbs.php:554
 msgid "Current page"
 msgstr "Page en cours"
 
-#: src/View/Helper/Breadcrumbs.php:600
+#: src/View/Helper/Breadcrumbs.php:597
 msgid "Collections"
 msgstr "Collections"
 
-#: view/common/block-layout/breadcrumbs.phtml:29
-#: view/common/block-layout/breadcrumbs.phtml:35
-#: view/common/block-template/breadcrumbs-standard.phtml:26
-#: view/common/breadcrumbs.phtml:50
+#: view/common/block-layout/breadcrumbs.phtml:31
+#: view/common/block-layout/breadcrumbs.phtml:37
+#: view/common/block-template/breadcrumbs-standard.phtml:27
+#: view/common/breadcrumbs.phtml:51
 msgid "Breadcrumb"
 msgstr "Fil d’Ariane"
+
+#: view/common/block-layout/buttons.phtml:17
+#: view/common/resource-page-block-layout/buttons.phtml:17
+msgid "Share"
+msgstr "Partager"
 
 #: view/common/block-layout/mapping-block-search.phtml:54
 msgid "Search on map"
 msgstr "Chercher sur la carte"
 
-#: view/common/block-layout/twitter.phtml:16
+#: view/common/block-layout/twitter.phtml:17
 msgid "No message."
 msgstr "Pas de message."
 
-#: view/common/block-template/block-arborescence.phtml:21
+#: view/common/block-template/block-arborescence.phtml:23
 msgid ""
 "No file defined. Set the param in the block: \"file = filename.tsv\" (use a "
 "file inside /asset/data/) or \"file = https://example.com/file.tsv\"."
@@ -212,6 +239,14 @@ msgstr ""
 "Aucun fichier défini. Indiquer le paramètre dans le block : \"file = "
 "filename.tsv\" (utilise le fichier dans /asset/data/) ou \"file = https://"
 "example.com/file.tsv\"."
+
+#: view/common/block-template/browse-preview-filter-year.phtml:143
+msgid "Filter by year:"
+msgstr "Filtrer par année :"
+
+#: view/common/block-template/browse-preview-filter-year.phtml:145
+msgid "All years"
+msgstr "Toutes les années"
 
 #: view/common/block-template/browse-preview-gallery.phtml:115
 msgid "Display info"
@@ -221,7 +256,7 @@ msgstr "Afficher les infos"
 msgid "More information"
 msgstr "Plus d’infos"
 
-#: view/common/block-template/browse-preview-timeline-list.phtml:47
+#: view/common/block-template/browse-preview-timeline-list.phtml:48
 msgid "[No date]"
 msgstr "[Pas de date]"
 
@@ -235,19 +270,19 @@ msgstr "Créé le %s, mis à jour le %s"
 msgid "Created on %s"
 msgstr "Créée le %s"
 
-#: view/common/glossary.phtml:147
+#: view/common/glossary.phtml:146
 msgid "First"
 msgstr "Premier"
 
-#: view/common/glossary.phtml:149
+#: view/common/glossary.phtml:147
 msgid "No previous"
 msgstr "Pas de précédent"
 
-#: view/common/glossary.phtml:158
+#: view/common/glossary.phtml:149
 msgid "No next"
 msgstr "Pas de suivant"
 
-#: view/common/glossary.phtml:162
+#: view/common/glossary.phtml:151
 msgid "Last"
 msgstr "Dernier"
 
@@ -255,10 +290,53 @@ msgstr "Dernier"
 msgid "Simple block to customize in theme"
 msgstr "Bloc simple pour personnalisation dans le thème"
 
-#: view/common/resource-page-block-layout/download-primary.phtml:21
+#: view/common/resource-page-block-layout/citation-resource.phtml:44
 #, php-format
-msgid "Download file (%s)"
-msgstr "Télécharger le fichier (%s)"
+msgid "%1$s and %2$s"
+msgstr "%1$s et %2$s"
+
+#: view/common/resource-page-block-layout/citation-resource.phtml:48
+#, php-format
+msgid "%1$s, %2$s, and %3$s"
+msgstr "%1$s, %2$s, et %3$s"
+
+#: view/common/resource-page-block-layout/citation-resource.phtml:52
+#, php-format
+msgid "%s et al."
+msgstr "%s et al."
+
+#: view/common/resource-page-block-layout/citation-resource.phtml:69
+#: view/common/resource-page-block-layout/citation-resource.phtml:71
+msgid "online"
+msgstr "en ligne"
+
+#: view/common/resource-page-block-layout/citation-resource.phtml:101
+#, php-format
+msgid "put online %1$s"
+msgstr "mis en ligne le %1$s"
+
+#: view/common/resource-page-block-layout/citation-resource.phtml:106
+#, php-format
+msgid "Accessed on %1$s"
+msgstr "Consulté sur %1$s"
+
+#: view/common/resource-page-block-layout/linked-resources-by-item-set.phtml:98
+msgid "Filter by item sets:"
+msgstr "Filtrer par collection :"
+
+#: view/common/resource-page-block-layout/linked-resources-by-item-set.phtml:100
+msgid "All item sets"
+msgstr "Toutes les collections"
+
+#: view/common/resource-page-block-layout/linked-resources-by-item-set.phtml:102
+#: view/common/resource-page-block-layout/linked-resources-by-item-set.phtml:118
+msgid "Items without item set"
+msgstr "Contenus sans collection"
+
+#: view/common/resource-page-block-layout/linked-resources-by-item-set.phtml:117
+#, php-format
+msgid "Items of item set: %s"
+msgstr "Contenus de la collection : %s"
 
 #: view/common/resource-page-block-layout/no-item.phtml:17
 msgid "No item"
@@ -284,6 +362,10 @@ msgstr "Ressource suivante"
 #: view/common/resource-page-block-layout/previous-next.phtml:35
 msgid "No next resource"
 msgstr "Pas de ressource suivante"
+
+#: view/common/resource-page-block-layout/see-also.phtml:24
+msgid "No similar resources."
+msgstr "Pas de ressource similaires."
 
 #: data/scripts/upgrade_vocabulary.php:36
 msgid "The vocabulary \"{vocabulary}\" was updated successfully."
@@ -790,15 +872,15 @@ msgstr ""
 #: data/scripts/upgrade.php:2151
 msgid ""
 "If you created some lists of blocks in version 3.4.25, the block group is no "
-"more implicit, so you should update each group manually: prepend `o:block.0."
-"o:layout = \"blockGroup\"` and prepend `blocks.0.` to optional root `o:"
-"layout_data`. Furthermore, the key \"block_groups\" in config was renamed "
-"\"page_models\"."
+"more implicit, so you should update each group manually: prepend "
+"`o:block.0.o:layout = \"blockGroup\"` and prepend `blocks.0.` to optional "
+"root `o:layout_data`. Furthermore, the key \"block_groups\" in config was "
+"renamed \"page_models\"."
 msgstr ""
 "Si vous avez créé une liste deblocs dans la version 3.4.25, le bloc Groupe "
 "n’est plus implicite et vous devez donc l’ajouter manuellement à chaque "
-"groupe : ajoutez `o:block.0.o:layout = \"blockGroup\"` et préfixez `blocks.0."
-"` aux valeurs `o:layout_data` situées à la racine. De plus, la clé "
+"groupe : ajoutez `o:block.0.o:layout = \"blockGroup\"` et préfixez "
+"`blocks.0.` aux valeurs `o:layout_data` situées à la racine. De plus, la clé "
 "« block_groups » a été renommée « page_models »."
 
 #: data/scripts/upgrade.php:2156
@@ -927,6 +1009,16 @@ msgstr ""
 msgid "The block Showcase has now a setting \"components\"."
 msgstr "Le bloc Vitrine a désormais une option Composants."
 
+#: data/scripts/upgrade.php:2649
+msgid ""
+"The following sites {site_slugs} use resource block Download Primary. This "
+"block was moved to module {link}Zip Download{link_end}. You should install "
+"it."
+msgstr ""
+"Les sites suivants {site_slugs} utilisent le bloc Télécharger le média "
+"principal. Ce bloc a été déplacé dans le module {link}Zip "
+"Download{link_end}. Vous devez l’installer."
+
 #: Module.php:48
 msgid ""
 "The javascript library should be installed. See module’s installation "
@@ -962,18 +1054,6 @@ msgstr "Paramètres du site"
 #: Module.php:450
 msgid "Theme settings (unsupported)"
 msgstr "Paramètres du thème (non pris en charge)"
-
-#: Module.php:473
-msgid "Save as page model or blocks groups"
-msgstr "Sauvegarde comme modèle de page ou groupe de blocs"
-
-#: Module.php:476
-msgid ""
-"If a label is set, the model will be stored when the current page will be "
-"saved."
-msgstr ""
-"Si un libellé est indiqué, le modèle sera enregistré en même temps que la "
-"page."
 
 #: Module.php:541
 msgid "\"{name}\" is already used as page model and was renamed \"{name_2}\"."
@@ -1035,7 +1115,7 @@ msgstr ""
 msgid "Page models and blocks groups"
 msgstr "Modèles de page et groupes de blocs"
 
-#: Module.php:722 Module.php:730 config/module.config.php:233
+#: Module.php:722 Module.php:730 config/module.config.php:249
 msgid "Page metadata"
 msgstr "Métadonnées de la page"
 
@@ -1096,7 +1176,7 @@ msgstr ""
 "Depuis Omeka S 4.1, la métadonnée the metadata « type » a été remplacée par "
 "le nom du gabarit de page (clé « template »). Vérifiez votre thème."
 
-#: src/View/Helper/Breadcrumbs.php:740
+#: src/View/Helper/Breadcrumbs.php:737
 msgid "Contributions"
 msgstr "Contributions"
 
@@ -1222,33 +1302,91 @@ msgstr "Afficher sur la page d’accueil"
 msgid "Settings for the resource block Buttons"
 msgstr "Paramètres pour le bloc de ressources Boutons"
 
-#: src/Form/SiteSettingsFieldset.php:155 src/Form/ButtonsFieldset.php:20
+#: src/Form/SiteSettingsFieldset.php:155 src/Form/ButtonsFieldset.php:22
 msgid "Share by email"
 msgstr "Partager par mail"
 
-#: src/Form/SiteSettingsFieldset.php:158 src/Form/ButtonsFieldset.php:23
+#: src/Form/SiteSettingsFieldset.php:157 src/Form/ButtonsFieldset.php:24
+msgid "Share on Instagram"
+msgstr "Partager sur Instragram"
+
+#: src/Form/SiteSettingsFieldset.php:160 src/Form/ButtonsFieldset.php:27
 msgid "Share on Twitter (now X)"
 msgstr "Partager avec Twitter (désormais X)"
 
-#: src/Form/SiteSettingsFieldset.php:173
+#: src/Form/SiteSettingsFieldset.php:172 src/Form/ButtonsFieldset.php:35
+msgid "Single button"
+msgstr "Bouton unique"
+
+#: src/Form/SiteSettingsFieldset.php:173 src/Form/ButtonsFieldset.php:36
+msgid "Check to display all buttons as a single one"
+msgstr "Cocher pour afficher tous les boutons en un seul"
+
+#: src/Form/SiteSettingsFieldset.php:188
+msgid "Heading for \"See also\" block"
+msgstr "En-tête pour le bloc \"Voir aussi\""
+
+#: src/Form/SiteSettingsFieldset.php:189
+msgid ""
+"Text displayed as heading above similar resources. Leave empty for no "
+"heading."
+msgstr ""
+"Texte affiché dans l’en-tête au dessus des ressources similaires. Laisser "
+"vide pour supprimer."
+
+#: src/Form/SiteSettingsFieldset.php:200
+msgid "Number of similar resources to display in block See also"
+msgstr "Nombre de ressources similaires affichées dans le bloc Voir aussi"
+
+#: src/Form/SiteSettingsFieldset.php:213
+msgid "Query to limit similar resources in block See also"
+msgstr "Requête pour limiter les ressources similaires dans le bloc Voir aussi"
+
+#: src/Form/SiteSettingsFieldset.php:214
+msgid ""
+"When set, this query defines the pool of resources. When empty, properties "
+"below are used to find similar resources."
+msgstr ""
+"Cette requête permet de définir un lot de ressources. Si vide, les "
+"propriétés ci-dessous sont utilisées pour trouver des ressources similaires."
+
+#: src/Form/SiteSettingsFieldset.php:226
+msgid "Properties to match for similar resources in block See also"
+msgstr ""
+"Propriétés utilisées pour trouver des ressources similaires dans le bloc "
+"Voir aussi"
+
+#: src/Form/SiteSettingsFieldset.php:227
+msgid "Used only when query above is empty."
+msgstr "Utilisé seulement quand la requête ci-dessus est vide."
+
+#: src/Form/SiteSettingsFieldset.php:234
+msgid "Select properties…"
+msgstr "Choisir des propriétés…"
+
+#: src/Form/SiteSettingsFieldset.php:242
+msgid "Search similar resources in all sites"
+msgstr "Rechercher des ressources similaires dans tous les sites"
+
+#: src/Form/SiteSettingsFieldset.php:256
 msgid "Default items order in each item set"
 msgstr "Ordre des contenus dans chaque collection"
 
-#: src/Form/SiteSettingsFieldset.php:174
+#: src/Form/SiteSettingsFieldset.php:257
 msgid ""
 "Set order for item set, one by row, format \"id,id,id property order\". Use "
 "\"0\" for the default."
 msgstr ""
-"Indiquer l’ordre pour chaque collection, une par ligne, selon le format « id,"
-"id,id ordre de la propriété ». Utiliser « 0 » pour l’ordre par défaut."
+"Indiquer l’ordre pour chaque collection, une par ligne, selon le format "
+"« id,id,id ordre de la propriété ». Utiliser « 0 » pour l’ordre par défaut."
 
-#: src/Form/SiteSettingsFieldset.php:189
+#: src/Form/SiteSettingsFieldset.php:274
 msgid "Query to limit and sort the list of items for the previous/next buttons"
 msgstr ""
 "Requête pour limiter et trier la liste des contenus pour les boutons "
 "précédent/suivant"
 
-#: src/Form/SiteSettingsFieldset.php:190 src/Form/SiteSettingsFieldset.php:203
+#: src/Form/SiteSettingsFieldset.php:275 src/Form/SiteSettingsFieldset.php:288
 msgid ""
 "Use a standard query. Arguments from module Advanced Search are supported if "
 "present and needed."
@@ -1256,7 +1394,7 @@ msgstr ""
 "Utiliser une requête standard. Les arguments du module Advanced Search sont "
 "pris en charge si présents et nécessaires."
 
-#: src/Form/SiteSettingsFieldset.php:202
+#: src/Form/SiteSettingsFieldset.php:287
 msgid ""
 "Query to limit and sort the list of item sets for the previous/next buttons"
 msgstr ""
@@ -1464,10 +1602,6 @@ msgstr ""
 "Le standard \"oEmbed\" normalise l’integration des ressources externes. Les "
 "principaux sites tiers sont gérés. Indiquer l’url à utiliser pour l’iframe."
 
-#: src/Form/ExternalContentFieldset.php:25
-msgid "Show title"
-msgstr "Afficher le titre"
-
 #: src/Form/ExternalContentFieldset.php:43
 msgid "Link url"
 msgstr "Lien pour l’url"
@@ -1492,7 +1626,7 @@ msgstr "Niveau"
 msgid "Show attachment title (when heading is included above)"
 msgstr "Titre de la pièce jointe (quand le composant \"entête\" est inclus)"
 
-#: src/Form/ButtonsFieldset.php:17
+#: src/Form/ButtonsFieldset.php:18
 #: src/Site/ResourcePageBlockLayout/Buttons.php:16
 #: src/Site/BlockLayout/Buttons.php:21
 msgid "Buttons"
@@ -1576,9 +1710,9 @@ msgstr "Liens"
 msgid "Select a page model…"
 msgstr "Choisir le modèle de page…"
 
-#: src/Site/ResourcePageBlockLayout/DownloadPrimary.php:16
-msgid "Download primary media"
-msgstr "Télécharger le média principal"
+#: src/Site/ResourcePageBlockLayout/HtmlArticleEnd.php:16
+msgid "Html article (end)"
+msgstr "Html article (fin)"
 
 #: src/Site/ResourcePageBlockLayout/LinkedResourcesByItemSet.php:14
 msgid "Linked resources by item set"
@@ -1588,6 +1722,24 @@ msgstr "Ressources liées par collection"
 #: src/Site/BlockLayout/Messages.php:21
 msgid "Messages"
 msgstr "Messages"
+
+#: src/Site/ResourcePageBlockLayout/HtmlAsideEnd.php:16
+msgid "Html aside (end)"
+msgstr "Html aside (fin)"
+
+#: src/Site/ResourcePageBlockLayout/CitationResource.php:16
+msgid "Citation"
+msgstr "Citation"
+
+#: src/Site/ResourcePageBlockLayout/SeeAlso.php:19
+msgid "See also (similar resources)"
+msgstr "Voir aussi (ressources similaires)"
+
+#: src/Site/ResourcePageBlockLayout/SeeAlso.php:107
+msgid "SeeAlso block: Error searching for similar resources: {message}"
+msgstr ""
+"Bloc Voir aussi : Erreur lors de la recherche des ressources similaires : "
+"{message}"
 
 #: src/Site/ResourcePageBlockLayout/HtmlSectionStart.php:16
 msgid "Html section (start)"
@@ -1625,17 +1777,41 @@ msgstr "Pas de contenu"
 msgid "Media part of item"
 msgstr "Média partie du contenu"
 
+#: src/Site/ResourcePageBlockLayout/HtmlAsideStart.php:16
+msgid "Html aside (start)"
+msgstr "Html aside (début)"
+
 #: src/Site/ResourcePageBlockLayout/HtmlDivEnd.php:16
 msgid "Html div (end)"
 msgstr "Html div (fin)"
+
+#: src/Site/ResourcePageBlockLayout/HtmlDivMoreEnd.php:16
+msgid "Html div more (end)"
+msgstr "Html div plus (fin)"
+
+#: src/Site/ResourcePageBlockLayout/HtmlDivMoreStart.php:16
+msgid "Html div more (start)"
+msgstr "Html div plus (début)"
 
 #: src/Site/ResourcePageBlockLayout/HtmlDivToolsStart.php:16
 msgid "Html div for tools (start)"
 msgstr "Html div pour les outils (début)"
 
+#: src/Site/ResourcePageBlockLayout/HtmlArticleStart.php:16
+msgid "Html article (start)"
+msgstr "Html article (début)"
+
 #: src/Site/BlockLayout/Showcase.php:46
 msgid "Showcase"
 msgstr "Vitrine"
+
+#: src/Site/BlockLayout/Showcase.php:201
+msgid ""
+"[Block Plus] Showcase is badly formatted. Save the following page manually: "
+"{site_slug}/{page_slug}."
+msgstr ""
+"[Block Plus] La vitrine est configurée incorrectement. Enregistrez les pages "
+"suivantes manuellement : {site_slug}/{page_slug}."
 
 #: src/Site/BlockLayout/SearchForm.php:62
 msgid "The search config \"{search_slug}\" has no form associated."
@@ -1695,7 +1871,7 @@ msgstr ""
 msgid "Cannot render this mirror page for now: {exception}."
 msgstr "Impossible de rendre la page miroir actuellement : {exception}."
 
-#: src/Site/BlockLayout/SearchResults.php:23
+#: src/Site/BlockLayout/SearchResults.php:28
 msgid "Search form and results"
 msgstr "Champ de recherche et résultats"
 
@@ -1880,169 +2056,173 @@ msgstr "Ressource avec texte"
 msgid "A group of blocks with a heading, a media and a field for html."
 msgstr "Un groupe de blocs avec un titre, un média et un champ html."
 
-#: config/module.config.php:136
+#: config/module.config.php:144
 msgid "Block Plus: Home page"
 msgstr "Block Plus : Page d’accueil"
 
-#: config/module.config.php:137
+#: config/module.config.php:145
 msgid "Block Plus: Exhibit"
 msgstr "Block Plus : Exposition"
 
-#: config/module.config.php:138
+#: config/module.config.php:146
 msgid "Block Plus: Exhibit page"
 msgstr "Block Plus : Page d’exposition"
 
-#: config/module.config.php:139
+#: config/module.config.php:147
 msgid "Block Plus: Simple page"
 msgstr "Block Plus : Page simple"
 
-#: config/module.config.php:143
+#: config/module.config.php:151
 msgid "Block Plus: Asset with class and url"
 msgstr "Block Plus : Fichier avec classe et url"
 
-#: config/module.config.php:144
+#: config/module.config.php:152
 msgid "Block Plus: Bootstrap Hero"
 msgstr "Block Plus : Bootstrap Hero"
 
-#: config/module.config.php:145
+#: config/module.config.php:153
 msgid "Block Plus: Left Right"
 msgstr "Block Plus : Left Right"
 
-#: config/module.config.php:146
+#: config/module.config.php:154
 msgid "Block Plus: Partners"
 msgstr "Block Plus : Partenaires"
 
-#: config/module.config.php:147 config/module.config.php:175
-#: config/module.config.php:183 config/module.config.php:189
-#: config/module.config.php:206
+#: config/module.config.php:155 config/module.config.php:183
+#: config/module.config.php:191 config/module.config.php:197
+#: config/module.config.php:214
 msgid "Block Plus: Skip"
 msgstr "Block Plus : Ignorer"
 
-#: config/module.config.php:148
+#: config/module.config.php:156
 msgid "Block Plus: Asset (deprecated)"
 msgstr "Block Plus: Fichier (obsolète)"
 
-#: config/module.config.php:151
+#: config/module.config.php:159
 msgid "Block Plus: Arborescence"
 msgstr "Block Plus : Arborescence"
 
-#: config/module.config.php:152 config/module.config.php:181
+#: config/module.config.php:160 config/module.config.php:189
 msgid "Block Plus: Glossary"
 msgstr "Block Plus : Glossaire"
 
-#: config/module.config.php:153
+#: config/module.config.php:161
 msgid "Block Plus: Html"
 msgstr "Block Plus : Html"
 
-#: config/module.config.php:156
+#: config/module.config.php:164
 msgid "Block Plus: Omeka breadcrumbs"
 msgstr "Block Plus : Fil d’Ariane Omeka"
 
-#: config/module.config.php:159
+#: config/module.config.php:167
 msgid "Block Plus: Carousel"
 msgstr "Block Plus : Carousel"
 
-#: config/module.config.php:160
+#: config/module.config.php:168
 msgid "Block Plus: Filter by year"
 msgstr "Block Plus : Filtre par année"
 
-#: config/module.config.php:161
+#: config/module.config.php:169
 msgid "Block Plus: Gallery (square)"
 msgstr "Block Plus : Galerie (carré)"
 
-#: config/module.config.php:162
+#: config/module.config.php:170
 msgid "Block Plus: Gallery (medium)"
 msgstr "Block Plus : Galerie (moyen)"
 
-#: config/module.config.php:163
+#: config/module.config.php:171
 msgid "Block Plus: Gallery (medium, link to item)"
 msgstr "Block Plus : Galerie (moyen, lien vers le contenu)"
 
-#: config/module.config.php:164
+#: config/module.config.php:172
 msgid "Block Plus: Subjects"
 msgstr "Block Plus : Sujets"
 
-#: config/module.config.php:165
+#: config/module.config.php:173
 msgid "Block Plus: Timeline list"
 msgstr "Block Plus : Liste pour Timeline"
 
-#: config/module.config.php:166 config/module.config.php:209
+#: config/module.config.php:174 config/module.config.php:217
 msgid "Block Plus: Browse preview (deprecated)"
 msgstr "Block Plus : Aperçu des ressources (obsolète)"
 
-#: config/module.config.php:169 config/module.config.php:212
+#: config/module.config.php:177 config/module.config.php:220
 msgid "Block Plus: Include html from group"
 msgstr "Block Plus : Ajout du html du groupe"
 
-#: config/module.config.php:172
+#: config/module.config.php:180
 msgid "Block Plus: Heading link"
 msgstr "Block Plus : Titre avec lien"
 
-#: config/module.config.php:173
+#: config/module.config.php:181
 msgid "Block Plus: Details/summary (start)"
 msgstr "Block Plus : Détails/sommaire (début)"
 
-#: config/module.config.php:174
+#: config/module.config.php:182
 msgid "Block Plus: Details/summary (end)"
 msgstr "Block Plus : Détails/sommaire (fin)"
 
-#: config/module.config.php:178
+#: config/module.config.php:186
 msgid "Block Plus: Accordion (h3)"
 msgstr "Block Plus : Accordéon (h3)"
 
-#: config/module.config.php:179
+#: config/module.config.php:187
 msgid "Block Plus: Anchor for headings"
 msgstr "Block Plus : Ancre pour les en-têtes"
 
-#: config/module.config.php:180
+#: config/module.config.php:188
 msgid "Block Plus: Dialog (class for name)"
 msgstr "Block Plus : Dialogue (classe pour nom)"
 
-#: config/module.config.php:182
+#: config/module.config.php:190
 msgid "Block Plus: Page header"
 msgstr "Block Plus : En-tête de page"
 
-#: config/module.config.php:186
+#: config/module.config.php:194
 msgid "Block Plus: Item with metadata (deprecated)"
 msgstr "Block Plus : Contenu avec métadonnées (obsolète)"
 
-#: config/module.config.php:192
+#: config/module.config.php:200
 msgid "Block Plus: List of pages (deprecated)"
 msgstr "Block Plus : Liste des pages (obsolète)"
 
-#: config/module.config.php:195
+#: config/module.config.php:203
 msgid "Block Plus: List of sites (deprecated)"
 msgstr "Block Plus : Liste des sites (obsolète)"
 
-#: config/module.config.php:199
+#: config/module.config.php:207
 msgid "Block Plus: Item showcase (deprecated)"
 msgstr "Block Plus: Vitrine de contenu (obsolète)"
 
-#: config/module.config.php:200
+#: config/module.config.php:208
 msgid "Block Plus: Resource text (deprecated)"
 msgstr "Block Plus : Ressource avec texte (obsolète)"
 
-#: config/module.config.php:203
+#: config/module.config.php:211
 msgid "Block Plus: Page date time"
 msgstr "Block Plus : Page date heure"
 
-#: config/module.config.php:215
+#: config/module.config.php:223
 msgid "Block Plus: Table of contents (deprecated)"
 msgstr "Block Plus : Table des matières (obsolète)"
 
-#: config/module.config.php:230
+#: config/module.config.php:240
 msgid "Collapse the list of groups of blocks"
 msgstr "Replier la liste des groupes de blocs"
 
-#: config/module.config.php:231
+#: config/module.config.php:241
+msgid "Confirm download"
+msgstr "Confirmer le téléchargement"
+
+#: config/module.config.php:244
 msgid "Expand to display the list of groups of blocks"
 msgstr "Déplier pour afficher la liste des groupes de blocs"
 
-#: config/module.config.php:232
+#: config/module.config.php:245
 msgid "Insert Footnotes"
 msgstr "Insérer des pieds de page"
 
-#: config/module.config.php:234
+#: config/module.config.php:250
 msgid ""
 "Please wait for previous group of blocks to be prepared before adding a new "
 "one."
@@ -2050,17 +2230,31 @@ msgstr ""
 "Veuillez attendre la finalisation du groupe de blocs précédent avant d’en "
 "ajouter un autre."
 
-#: config/module.config.php:235
+#: config/module.config.php:252
 msgid "This group does not contain any block."
 msgstr "Ce groupe ne contient aucun bloc."
 
-#: config/module.config.php:236
+#: config/module.config.php:253
 msgid "Url (deprecated)"
 msgstr "Url (obsolète)"
 
-#: config/module.config.php:308
+#: config/module.config.php:286
+msgid "See also"
+msgstr "Voir aussi"
+
+#: config/module.config.php:335
 msgid "Know more"
 msgstr "En savoir plus"
+
+#, php-format
+#~ msgid "Download file (%s)"
+#~ msgstr "Télécharger le fichier (%s)"
+
+#~ msgid "Download primary media"
+#~ msgstr "Télécharger le média principal"
+
+#~ msgid "Show title"
+#~ msgstr "Afficher le titre"
 
 #~ msgid "Media display"
 #~ msgstr "Affichage du média"
@@ -2521,9 +2715,6 @@ msgstr "En savoir plus"
 
 #~ msgid "Long"
 #~ msgstr "Long"
-
-#~ msgid "Heading for the block, if any."
-#~ msgstr "En-tête du bloc, si présent."
 
 #~ msgid "Assets"
 #~ msgstr "Fichiers"
