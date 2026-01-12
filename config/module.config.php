@@ -381,6 +381,7 @@ return [
                     'resource-body',
                     'thumbnail',
                 ],
+                'properties' => [],
                 'linkText' => '',
             ],
             'showcase' => [

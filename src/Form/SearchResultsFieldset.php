@@ -134,6 +134,22 @@ class SearchResultsFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'o:block[__blockIndex__][o:data][properties]',
+                'type' => OmekaElement\ArrayTextarea::class,
+                'options' => [
+                    'label' => 'Properties to display for each result', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'search-results-properties',
+                    'rows' => 5,
+                    'placeholder' => <<<TXT
+                        dcterms:creator
+                        dcterms:date
+                        dcterms:subject
+                        TXT,
+                ],
+            ])
+            ->add([
                 'name' => 'o:block[__blockIndex__][o:data][link-text]',
                 'type' => Element\Text::class,
                 'options' => [

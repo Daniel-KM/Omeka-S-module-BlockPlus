@@ -120,6 +120,11 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
         }
 
         $components = $block->dataValue('components') ?: [];
+        $properties = $block->dataValue('properties') ?: [];
+        // Normalize properties to array (may be stored as string in old data).
+        if (is_string($properties)) {
+            $properties = array_filter(array_map('trim', explode("\n", $properties)), 'strlen');
+        }
 
         /**
          * @var \Omeka\Api\Response $response
@@ -201,6 +206,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
             'pagination' => $showPagination,
             'sortHeadings' => $sortHeadings,
             'components' => $components,
+            'properties' => $properties,
             'linkText' => $linkText,
         ];
         return $view->partial($templateViewScript, $vars);

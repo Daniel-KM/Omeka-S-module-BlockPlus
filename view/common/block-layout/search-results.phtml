@@ -9,6 +9,7 @@
  * @var bool $pagination
  * @var array $sortHeadings
  * @var array $components
+ * @var array $properties
  * @var string $linkText
  */
 
@@ -26,11 +27,13 @@ $showThumbnail = in_array('thumbnail', $components);
 $showHeading = in_array('resource-heading', $components);
 $showBody = in_array('resource-body', $components);
 $showThumbnailOrHeading = $showThumbnail || $showHeading;
+$showProperties = !empty($properties);
 
 $headingTerm = $siteSetting('browse_heading_property_term');
 $bodyTerm = $siteSetting('browse_body_property_term');
 
 $filterLocale = (bool) $siteSetting('filter_locale_values');
+$showLocale = (bool) $siteSetting('show_locale_label');
 $lang = $filterLocale ? $this->lang() : null;
 $langValue = $filterLocale ? [$lang, ''] : null;
 
@@ -67,7 +70,7 @@ $siteSlug = $site->slug();
             $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : null;
             $heading = $heading ? $heading->asHtml() : $escape($resource->displayTitle($untitled, $lang));
         }
-        if ($showBody) {
+        if ($showBody && !$showProperties) {
             $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $langValue]) : null;
             $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
         }
@@ -81,6 +84,39 @@ $siteSlug = $site->slug();
             <?php endif; ?>
             <?php if ($showBody && $body): ?>
             <div class="description"><?= $body ?></div>
+            <?php endif; ?>
+            <?php if ($showProperties): ?>
+            <dl class="properties">
+                <?php foreach ($properties as $property):
+                    $values = $resource->value($property, ['all' => true, 'lang' => $langValue]);
+                    if ($values): ?>
+                <div class="property">
+                    <dt><?= $escape($translate($this->easyMeta()->propertyLabel($property))) ?></dt>
+                    <?php foreach ($values as $value):
+                        $valueType = $value->type();
+                        $valueLang = $value->lang();
+                        $class = ['value'];
+                        if ('resource' === $valueType || strpos($valueType, 'resource') !== false) {
+                            $class[] = 'resource';
+                            $class[] = $escape($value->valueResource()->resourceName());
+                        } elseif ('uri' === $valueType) {
+                            $class[] = 'uri';
+                        }
+                    ?>
+                    <dd class="<?= implode(' ', $class) ?>"<?= $valueLang ? ' lang="' . $escapeAttr($valueLang) . '"' : '' ?>>
+                        <?php if ($showLocale && $valueLang): ?>
+                        <span class="language"><?= $escape($valueLang) ?></span>
+                        <?php endif; ?>
+                        <span class="value-content"><?= $value->asHtml() ?></span>
+                        <?php if (!$value->isPublic()): ?>
+                        <span class="o-icon-private" role="img" title="<?= $escapeAttr($translate('Private')) ?>" aria-label="<?= $escapeAttr($translate('Private')) ?>"></span>
+                        <?php endif; ?>
+                    </dd>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </dl>
             <?php endif; ?>
         </li>
     <?php endforeach; ?>
