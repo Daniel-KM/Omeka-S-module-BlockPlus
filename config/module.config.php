@@ -28,7 +28,6 @@ return [
         'invokables' => [
             'assetElement' => View\Helper\AssetElement::class,
             'blockMetadata' => View\Helper\BlockMetadata::class,
-            'breadcrumbs' => View\Helper\Breadcrumbs::class,
             'captionClassAndUrl' => View\Helper\CaptionClassAndUrl::class,
             'ckEditor' => View\Helper\CkEditor::class,
             'isHtml4' => View\Helper\IsHtml4::class,
@@ -44,7 +43,6 @@ return [
     'block_layouts' => [
         'invokables' => [
             'block' => Site\BlockLayout\Block::class,
-            'breadcrumbs' => Site\BlockLayout\Breadcrumbs::class,
             'buttons' => Site\BlockLayout\Buttons::class,
             'd3Graph' => Site\BlockLayout\D3Graph::class,
             'heading' => Site\BlockLayout\Heading::class,
@@ -70,7 +68,6 @@ return [
     'resource_page_block_layouts' => [
         'invokables' => [
             'block' => Site\ResourcePageBlockLayout\Block::class,
-            'breadcrumbs' => Site\ResourcePageBlockLayout\Breadcrumbs::class,
             'buttons' => Site\ResourcePageBlockLayout\Buttons::class,
             'citationResource' => Site\ResourcePageBlockLayout\CitationResource::class,
             'description' => Site\ResourcePageBlockLayout\Description::class,
@@ -159,9 +156,6 @@ return [
             'block-arborescence' => 'Block Plus: Arborescence', // @translate
             'block-glossary' => 'Block Plus: Glossary', // @translate
             'block-html' => 'Block Plus: Html', // @translate
-        ],
-        'breadcrumbs' => [
-            'breadcrumbs-standard' => 'Block Plus: Omeka breadcrumbs', // @translate
         ],
         'browsePreview' => [
             'browse-preview-carousel' => 'Block Plus: Carousel', // @translate
@@ -258,19 +252,6 @@ return [
             'blockplus_page_model_skip_blockplus' => false,
             'blockplus_page_model_rights' => false,
             'blockplus_page_models' => [],
-            // Breadcrumbs.
-            'blockplus_breadcrumbs_crumbs' => [
-                'home',
-                'collections',
-                'itemset',
-                'itemsetstree',
-                'current',
-                // 'current_link',
-            ],
-            'blockplus_breadcrumbs_prepend' => [],
-            'blockplus_breadcrumbs_collections_url' => '',
-            'blockplus_breadcrumbs_separator' => '',
-            'blockplus_breadcrumbs_homepage' => false,
             // Resource blocks.
             // Buttons.
             'blockplus_block_buttons' => [],
@@ -291,8 +272,6 @@ return [
             'block' => [
                 'params' => '',
                 'params_type' => 'auto',
-            ],
-            'breadcrumbs' => [
             ],
             'buttons' => [
                 'buttons' => [],
