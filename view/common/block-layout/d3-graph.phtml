@@ -68,7 +68,27 @@ $types = [
 // TODO Extract the table from the database in one or two sql queries.
 // TODO Use /api or /api/infos.
 // TODO Add links with the same values (like references or indexes).
-$relationTypes = $params['relations'] ?? ['objects', 'subjects', 'item_sets', 'items'];
+
+// Relations can be a simple list or an associative array with property terms.
+// Simple: ["objects", "subjects", "item_sets"]
+// With properties: {"objects": ["dcterms:relation", "dcterms:hasPart"], "subjects": null}
+// When properties is null or empty array, all properties are used.
+$relationsParam = $params['relations'] ?? ['objects', 'subjects', 'item_sets', 'items'];
+$relationTypes = [];
+$relationProperties = [];
+if (is_array($relationsParam)) {
+    // Check if it's an associative array (with property filters) or a simple list.
+    if (array_keys($relationsParam) !== range(0, count($relationsParam) - 1)) {
+        // Associative array: keys are relation types, values are property terms.
+        foreach ($relationsParam as $type => $properties) {
+            $relationTypes[] = $type;
+            $relationProperties[$type] = is_array($properties) ? $properties : [];
+        }
+    } else {
+        // Simple list of relation types.
+        $relationTypes = $relationsParam;
+    }
+}
 
 /** @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources */
 $resources = [];
@@ -95,10 +115,35 @@ foreach ($resources as $resource) {
     $relationItems = 0;
     foreach ($relationTypes as $relationType) switch ($relationType) {
         case 'objects':
-            $relations['objects'] = $resource->objectValues();
+            $properties = $relationProperties['objects'] ?? [];
+            if ($properties) {
+                // Filter by specific properties.
+                $objectValues = [];
+                foreach ($properties as $term) {
+                    $objectValues = array_merge($objectValues, $resource->objectValues($term));
+                }
+                $relations['objects'] = $objectValues;
+            } else {
+                $relations['objects'] = $resource->objectValues();
+            }
             break;
         case 'subjects':
-            $relations['subjects'] = ($rsv = $resource->subjectValues()) ? array_merge(...array_values($rsv)) : [];
+            $properties = $relationProperties['subjects'] ?? [];
+            $rsv = $resource->subjectValues();
+            if ($rsv) {
+                if ($properties) {
+                    // Filter by specific properties.
+                    $subjectValues = [];
+                    foreach ($properties as $term) {
+                        if (isset($rsv[$term])) {
+                            $subjectValues = array_merge($subjectValues, $rsv[$term]);
+                        }
+                    }
+                    $relations['subjects'] = $subjectValues;
+                } else {
+                    $relations['subjects'] = array_merge(...array_values($rsv));
+                }
+            }
             break;
         case 'item_sets':
             if ($resourceName === 'items') {
