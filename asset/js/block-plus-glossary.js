@@ -64,4 +64,27 @@ $(document).ready(function() {
         updateGlossary();
     });
 
+    // Handle url fragment on page load (for example #W).
+    var initFromHash = function() {
+        const hash = window.location.hash;
+        if (hash && hash.length > 1) {
+            const skiplink = decodeURIComponent(hash.substring(1));
+            const $link = $('.glossary-alphabet a[data-skiplink="' + skiplink + '"]');
+            if ($link.length) {
+                $('.glossary-alphabet a.current').removeClass('current');
+                $link.addClass('current');
+                $('.glossary-pagination .pagination-current').val(1);
+                updateGlossary();
+            }
+        }
+    };
+
+    // Initialize on page load.
+    initFromHash();
+
+    // Handle browser back/forward navigation.
+    $(window).on('hashchange', function() {
+        initFromHash();
+    });
+
 });

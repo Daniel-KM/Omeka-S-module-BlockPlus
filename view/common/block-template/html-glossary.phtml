@@ -25,7 +25,7 @@ $partial = $plugins->get('partial');
 $html = $block->dataValue('html', '');
 $html = strtr($html, [
     '<p><br />' => '<p>&nbsp;</p><p><br />',
-    '<p><br/>'] => '<p>&nbsp;</p><p><br />',
+    '<p><br/>' => '<p>&nbsp;</p><p><br />',
 ]);
 $glossary = array_map('trim', explode('<p>&nbsp;</p>', $html));
 
