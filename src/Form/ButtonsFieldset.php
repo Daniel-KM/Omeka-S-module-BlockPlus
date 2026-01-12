@@ -18,8 +18,11 @@ class ButtonsFieldset extends Fieldset
                     'label' => 'Buttons', // @translate
                     'value_options' => [
                         'download' => 'Download', // @translate
+                        'print' => 'Print', // @translate
                         'email' => 'Share by email', // @translate
                         'facebook' => 'Share on Facebook', // @translate
+                        'instagram' => 'Share on Instagram', // @translate
+                        'linkedin' => 'Share on LinkedIn', // @translate
                         'pinterest' => 'Share on Pinterest', // @translate
                         'twitter' => 'Share on Twitter (now X)', // @translate
                     ],

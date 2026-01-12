@@ -45,7 +45,7 @@ class Buttons implements ResourcePageBlockLayoutInterface
      * @see \BlockPlus\Site\BlockLayout\Buttons::shareLinks()
      * @see \BlockPlus\Site\ResourcePageBlockLayout\Buttons::shareLinks()
      */
-    public function shareLinks(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $buttons): array
+    protected function shareLinks(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $buttons): array
     {
         if (!$buttons) {
             return [];
@@ -131,6 +131,37 @@ class Buttons implements ResourcePageBlockLayoutInterface
                             'onclick' => $onclick,
                             'target' => '_blank',
                             'class' => 'share-page icon-facebook',
+                            'tabindex' => '0',
+                        ],
+                    ];
+                    break;
+
+                case 'instagram':
+                    // No official web share for Instagram. Link to a configured profile if available.
+                    $instagramUrl = 'https://www.instagram.com/';
+                    $data = [
+                        'label' => 'Instagram',
+                        'attrs' => [
+                            'id' => 'button-instagram',
+                            'href' => $instagramUrl,
+                            'title' => $translate('Open Instagram'), // @translate
+                            'target' => '_blank',
+                            'class' => 'share-page icon-instagram',
+                            'tabindex' => '0',
+                        ],
+                    ];
+                    break;
+
+                case 'linkedin':
+                    $data = [
+                        'label' => 'LinkedIn',
+                        'attrs' => [
+                            'id' => 'button-linkedin',
+                            'href' => 'https://www.linkedin.com/sharing/share-offsite/?url=' . $encodedUrl,
+                            'title' => $translate('Share on LinkedIn'), // @translate
+                            'onclick' => $onclick,
+                            'target' => '_blank',
+                            'class' => 'share-page icon-linkedin',
                             'tabindex' => '0',
                         ],
                     ];

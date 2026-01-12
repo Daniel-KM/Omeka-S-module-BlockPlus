@@ -154,6 +154,8 @@ class SiteSettingsFieldset extends Fieldset
                         'print' => 'Print', // @translate
                         'email' => 'Share by email', // @translate
                         'facebook' => 'Share on Facebook', // @translate
+                        'instagram' => 'Share on Instagram', // @translate
+                        'linkedin' => 'Share on LinkedIn', // @translate
                         'pinterest' => 'Share on Pinterest', // @translate
                         'twitter' => 'Share on Twitter (now X)', // @translate
                     ],
@@ -256,9 +258,11 @@ class SiteSettingsFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'blockplus_items_order_for_itemsets',
-                    'placeholder' => '0 dcterms:identifier asc
-17,24 created desc
-73 dcterms:title asc',
+                    'placeholder' => <<<'TXT'
+                        0 dcterms:identifier asc
+                        17,24 created desc
+                        73 dcterms:title asc
+                        TXT,
                 ],
             ])
             // TODO Use omeka element query, but check compatibility with module Advanced Search.
