@@ -94,6 +94,7 @@ return [
             'noMedia' => Site\ResourcePageBlockLayout\NoMedia::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
             'resourceType' => Site\ResourcePageBlockLayout\ResourceType::class,
+            'seeAlso' => Site\ResourcePageBlockLayout\SeeAlso::class,
             'thumbnail' => Site\ResourcePageBlockLayout\Thumbnail::class,
             'title' => Site\ResourcePageBlockLayout\Title::class,
         ],
@@ -269,6 +270,13 @@ return [
             // Resource blocks.
             // Buttons.
             'blockplus_block_buttons' => [],
+            // See also (similar resources).
+            // TODO How to implement heading for all resource blocks?
+            'blockplus_seealso_heading' => 'See also', // @translate
+            'blockplus_seealso_limit' => 4,
+            'blockplus_seealso_pool' => '',
+            'blockplus_seealso_properties' => [],
+            'blockplus_seealso_all_sites' => false,
             // Previous/Next resources.
             'blockplus_items_order_for_itemsets' => [],
             'blockplus_prevnext_items_query' => '',

@@ -1,0 +1,43 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $similarResources
+ * @var string $resourceType
+ * @var string $heading
+ */
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$thumbnail = $plugins->get('thumbnail');
+?>
+
+<div class="block resource-block block-see-also preview-block">
+
+    <?php if (!empty($heading)): ?>
+    <h2><?= $escape($translate($heading)) ?></h2>
+    <?php endif; ?>
+
+    <?php if (empty($similarResources)): ?>
+    <p class="no-similar-resources"><?= $translate('No similar resources.') ?></p>
+    <?php else: ?>
+    <ul class="see-also-resources resource-list preview">
+    <?php foreach ($similarResources as $similarResource): ?>
+        <li class="<?= $escape($similarResource->resourceName()) ?> resource see-also-resource">
+            <?php
+            $linkContent = '';
+            $thumb = $similarResource->primaryMedia();
+            if ($thumb) {
+                $linkContent .= $thumbnail($thumb, 'medium');
+            }
+            $linkContent .= '<span class="resource-name">' . $escape($similarResource->displayTitle()) . '</span>';
+            echo $similarResource->linkRaw($linkContent, null, ['class' => 'resource-link']);
+            ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    <?php endif; ?>
+
+</div>

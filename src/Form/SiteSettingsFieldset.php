@@ -163,6 +163,75 @@ class SiteSettingsFieldset extends Fieldset
                 ],
             ])
 
+            // Resource block See also (similar resources).
+
+            // TODO How to implement heading for all resource blocks?
+            ->add([
+                'name' => 'blockplus_seealso_heading',
+                'type' => Element\Text::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Heading for "See also" block', // @translate
+                    'info' => 'Text displayed as heading above similar resources. Leave empty for no heading.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_seealso_heading',
+                ],
+            ])
+            ->add([
+                'name' => 'blockplus_seealso_limit',
+                'type' => Element\Number::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Number of similar resources to display in block See also', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_seealso_limit',
+                    'min' => 0,
+                    'max' => 100,
+                ],
+            ])
+            ->add([
+                'name' => 'blockplus_seealso_pool',
+                'type' => \Omeka\Form\Element\Query::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Query to limit similar resources in block See also', // @translate
+                    'info' => 'When set, this query defines the pool of resources. When empty, properties below are used to find similar resources.', // @translate
+                    'query_resource_type' => 'items',
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_seealso_pool',
+                ],
+            ])
+            ->add([
+                'name' => 'blockplus_seealso_properties',
+                'type' => CommonElement\OptionalPropertySelect::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Properties to match for similar resources in block See also', // @translate
+                    'info' => 'Used only when query above is empty.', // @translate
+                    'term_as_value' => true,
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_seealso_properties',
+                    'multiple' => true,
+                    'class' => 'chosen-select',
+                    'data-placeholder' => 'Select properties…', // @translate
+                ],
+            ])
+            ->add([
+                'name' => 'blockplus_seealso_all_sites',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'element_group' => 'block_plus_resources',
+                    'label' => 'Search similar resources in all sites', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_seealso_all_sites',
+                ],
+            ])
+
             // Resource block Previous/Next resources.
 
             ->add([
