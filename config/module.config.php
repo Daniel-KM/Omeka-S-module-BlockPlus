@@ -93,6 +93,7 @@ return [
             'printPage' => Site\ResourcePageBlockLayout\PrintPage::class,
             'resourceType' => Site\ResourcePageBlockLayout\ResourceType::class,
             'seeAlso' => Site\ResourcePageBlockLayout\SeeAlso::class,
+            'similarContent' => Site\ResourcePageBlockLayout\SimilarContent::class,
             'thumbnail' => Site\ResourcePageBlockLayout\Thumbnail::class,
             'title' => Site\ResourcePageBlockLayout\Title::class,
         ],
@@ -256,13 +257,19 @@ return [
             // Buttons.
             'blockplus_block_buttons' => [],
             'blockplus_block_display_as_button' => false,
-            // See also (similar resources).
+            // See also (related resources).
             // TODO How to implement heading for all resource blocks?
             'blockplus_seealso_heading' => 'See also', // @translate
             'blockplus_seealso_limit' => 4,
             'blockplus_seealso_pool' => '',
             'blockplus_seealso_properties' => [],
             'blockplus_seealso_all_sites' => false,
+            // Similar content (duplicate of See also for different use case).
+            'blockplus_similarcontent_heading' => 'Similar content', // @translate
+            'blockplus_similarcontent_limit' => 4,
+            'blockplus_similarcontent_pool' => '',
+            'blockplus_similarcontent_properties' => [],
+            'blockplus_similarcontent_all_sites' => false,
             // Previous/Next resources.
             'blockplus_items_order_for_itemsets' => [],
             'blockplus_prevnext_items_query' => '',

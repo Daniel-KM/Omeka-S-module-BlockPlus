@@ -7,16 +7,19 @@ use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Site\ResourcePageBlockLayout\ResourcePageBlockLayoutInterface;
 
 /**
- * Display related resources based on main metadata of the current resource.
+ * Display similar content based on main metadata of the current resource.
  *
- * Related resources are found via a search query using shared metadata values
+ * Similar resources are found via a search query using shared metadata values
  * like subjects, types, classes, and item sets.
+ *
+ * This block is a duplicate of SeeAlso with separate settings, allowing two
+ * different configurations for different use cases.
  */
-class SeeAlso implements ResourcePageBlockLayoutInterface
+class SimilarContent implements ResourcePageBlockLayoutInterface
 {
     public function getLabel(): string
     {
-        return 'See also'; // @translate
+        return 'Similar content'; // @translate
     }
 
     public function getCompatibleResourceNames(): array
@@ -36,27 +39,27 @@ class SeeAlso implements ResourcePageBlockLayoutInterface
         $site = $view->currentSite();
 
         // Get the limit from site settings.
-        $limit = (int) $siteSettings->get('blockplus_seealso_limit', 4);
+        $limit = (int) $siteSettings->get('blockplus_similarcontent_limit', 4);
         if ($limit <= 0) {
             return '';
         }
 
-        $heading = $siteSettings->get('blockplus_seealso_heading', 'See also');
-        $seeAlsoPool = $siteSettings->get('blockplus_seealso_pool', '');
-        $allSites = (bool) $siteSettings->get('blockplus_seealso_all_sites', false);
+        $heading = $siteSettings->get('blockplus_similarcontent_heading', 'Similar content');
+        $similarContentPool = $siteSettings->get('blockplus_similarcontent_pool', '');
+        $allSites = (bool) $siteSettings->get('blockplus_similarcontent_all_sites', false);
 
         $resourceName = $resource->resourceName();
         $resourceId = $resource->id();
 
         // Build the search query.
-        if ($seeAlsoPool) {
+        if ($similarContentPool) {
             // Use predefined query.
             $query = [];
-            parse_str($seeAlsoPool, $query);
+            parse_str($similarContentPool, $query);
             $query['limit'] = $limit;
         } else {
-            // Use properties to find related resources via fulltext search.
-            $properties = $siteSettings->get('blockplus_seealso_properties', []);
+            // Use properties to find similar resources via fulltext search.
+            $properties = $siteSettings->get('blockplus_similarcontent_properties', []);
 
             // Collect values from configured properties for fulltext search.
             $searchTerms = [];
@@ -76,10 +79,10 @@ class SeeAlso implements ResourcePageBlockLayoutInterface
 
             // If no properties configured or no metadata to search by, return partial with empty results.
             if (empty($properties) || empty($searchTerms)) {
-                return $view->partial('common/resource-page-block-layout/see-also', [
+                return $view->partial('common/resource-page-block-layout/similar-content', [
                     'site' => $site,
                     'resource' => $resource,
-                    'relatedResources' => [],
+                    'similarResources' => [],
                     'resourceType' => $resourceName,
                     'heading' => $heading,
                 ]);
@@ -98,25 +101,25 @@ class SeeAlso implements ResourcePageBlockLayoutInterface
             $query['site_id'] = $site->id();
         }
 
-        // Search for related resources.
+        // Search for similar resources.
         try {
             $response = $api->search($resourceName, $query);
-            $relatedResources = $response->getContent();
+            $similarResources = $response->getContent();
         } catch (\Exception $e) {
             $services->get('Omeka\Logger')->err(
-                'SeeAlso block: Error searching for related resources: {message}', // @translate
+                'SimilarContent block: Error searching for similar resources: {message}', // @translate
                 ['message' => $e->getMessage()]
             );
-            $relatedResources = [];
+            $similarResources = [];
         }
 
         // Remove the current resource from results.
-        $relatedResources = array_filter($relatedResources, fn ($r) => $r->id() !== $resourceId);
+        $similarResources = array_filter($similarResources, fn ($r) => $r->id() !== $resourceId);
 
-        return $view->partial('common/resource-page-block-layout/see-also', [
+        return $view->partial('common/resource-page-block-layout/similar-content', [
             'site' => $site,
             'resource' => $resource,
-            'relatedResources' => $relatedResources,
+            'similarResources' => $similarResources,
             'resourceType' => $resourceName,
             'heading' => $heading,
         ]);
