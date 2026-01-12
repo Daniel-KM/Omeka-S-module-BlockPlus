@@ -79,7 +79,7 @@ class AssetElement extends AbstractHtmlElementHelper
             default:
                 $attribs['url'] = $url;
                 $attribs['type'] = $mediaType;
-                return sprintf('<span%s>%s</span', $this->htmlAttribs($attribs), htmlentities($name, ENT_NOQUOTES | ENT_HTML5));
+                return sprintf('<span%s>%s</span>', $this->htmlAttribs($attribs), htmlentities($name, ENT_NOQUOTES | ENT_HTML5));
         }
     }
 }
