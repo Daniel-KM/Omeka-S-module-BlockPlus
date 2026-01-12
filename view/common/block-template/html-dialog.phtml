@@ -13,6 +13,7 @@
 $plugins = $this->getHelperPluginManager();
 $assetUrl = $plugins->get('assetUrl');
 $translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $html = $block->dataValue('html', '');
 
@@ -22,11 +23,11 @@ $this->headScript()
     ->appendFile($assetUrl('js/block-plus.js', 'BlockPlus', 'text/javascript', ['defer' => 'defer']));
 ?>
 
-<dialog class="popup popup-dialog" data-dialog-name="<?= $block->layoutDataValue('class') ?: ($block->page()->slug() . '-' . $block->id()) ?>">
+<dialog class="popup popup-dialog" data-dialog-name="<?= $escapeAttr($block->layoutDataValue('class') ?: ($block->page()->slug() . '-' . $block->id())) ?>">
     <div class="dialog-background">
         <div class="dialog-panel">
             <div class="dialog-header">
-                <button type="button" class="dialog-header-close-button" title="<?= $translate('Close') ?>" autofocus="autofocus">
+                <button type="button" class="dialog-header-close-button" title="<?= $escapeAttr($translate('Close')) ?>" autofocus="autofocus">
                     <span class="dialog-close">🗙</span>
                 </button>
             </div>

@@ -33,7 +33,7 @@ if ($first === $second) $second = null;
 ?>
 
 <?php if ($second): ?>
-    <?= sprintf($translate('Created on %s, updated on %s'), $first, $second) // @translate ?>
+    <?= sprintf($escape($translate('Created on %s, updated on %s')), $escape($first), $escape($second)) // @translate ?>
 <?php else: ?>
-    <?= sprintf($translate('Created on %s'), $first) // @translate ?>
+    <?= sprintf($escape($translate('Created on %s')), $escape($first)) // @translate ?>
 <?php endif; ?>

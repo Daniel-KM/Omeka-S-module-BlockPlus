@@ -78,7 +78,7 @@ $siteSlug = $site->slug();
             $body = $body ? $body->asHtml() : $escape($resource->displayDescription(null, $lang));
         }
         ?>
-        <li class="resource <?= $resourceType ?>" data-id="<?= $resource->id() ?>">
+        <li class="resource <?= $escapeAttr($resourceType) ?>" data-id="<?= $escapeAttr($resource->id()) ?>">
             <?php if ($showThumbnail): ?>
             <?= $resource->linkRaw($thumbnail($resource, 'medium', ['title' => $heading])) ?>
             <?php endif; ?>

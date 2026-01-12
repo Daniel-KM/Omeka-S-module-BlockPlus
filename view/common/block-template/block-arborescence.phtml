@@ -11,8 +11,10 @@
  */
 
 $plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
 $assetUrl = $plugins->get('assetUrl');
 $translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $file = is_array($parameters) ? $parameters['file'] ?? null : $parameters;
 
@@ -98,13 +100,17 @@ $this->headScript()
     // Not deferable and script should be set after the div.
     ->appendFile($assetUrl('vendor/jslists/jsLists.js', 'BlockPlus'));
 
-$liBranch = '
-<li data-row="%d">
+$liBranch = function($row, $self) use ($escape, $escapeAttr) {
+    return '
+<li data-row="' . $escapeAttr($row) . '">
     <i class="fas fa-folder-o" aria-hidden="true"></i>
-    <span class="folder">%s</span>
+    <span class="folder">' . $escape($self) . '</span>
     <ul>';
-$liLeaf = '
-<li data-row="%d" data-type="leaf"><i class="fas fa-file-text-o" aria-hidden="true"></i> %s</li>';
+};
+$liLeaf = function($row, $self) use ($escape, $escapeAttr) {
+    return '
+<li data-row="' . $escapeAttr($row) . '" data-type="leaf"><i class="fas fa-file-text-o" aria-hidden="true"></i> ' . $escape($self) . '</li>';
+};
 $liBranchEnd = '
 </ul>
 </li>';
@@ -122,7 +128,7 @@ $liBranchEnd = '
             echo str_repeat($liBranchEnd, $prev['depth'] - $element['depth']);
         endif;
         $li = $isLeaf ? $liLeaf : $liBranch;
-        echo sprintf($li, $row, $element['self']);
+        echo $li($row, $element['self']);
         if (!$hasNext):
             echo str_repeat($liBranchEnd, $element['depth']);
         endif;

@@ -11,11 +11,13 @@
 // Use hyperlink to allow to get resource url from api: method $resource->url() does not work for api.
 
 $plugins = $this->getHelperPluginManager();
+$assetUrl = $plugins->get('assetUrl');
 $hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
-$defaultThumbnail = $this->assetUrl('thumbnails/default.png', 'Omeka', true);
-$defaultThumbnail = '<img loading="lazy" src="' . $defaultThumbnail . '"/>';
+$defaultThumbnail = $assetUrl('thumbnails/default.png', 'Omeka', true);
+$defaultThumbnail = '<img loading="lazy" src="' . $escapeAttr($defaultThumbnail) . '"/>';
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $filterLocale ? $this->lang() : null;

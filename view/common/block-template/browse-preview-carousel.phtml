@@ -22,7 +22,7 @@
 $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
 $escape = $plugins->get('escapeHtml');
-// $escapeAttr = $plugins->get('escapeHtmlAttr');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 // $hyperlink = $plugins->get('hyperlink');
 $thumbnail = $plugins->get('thumbnail');
 // $url = $plugins->get('url');
@@ -64,7 +64,7 @@ $langValue = $filterLocale ? [$lang, ''] : null;
 jQuery(function() {
     var carouselConfig = <?= json_encode($configs['carousel']) ?>;
     var configs = <?= json_encode($configs) ?>;
-    var carousel = jQuery('#jcarousel-<?= $idSuffix ?>').jcarousel(carouselConfig);
+    var carousel = jQuery('#jcarousel-<?= $escapeAttr($idSuffix) ?>').jcarousel(carouselConfig);
     <?php if (isset($configs['autoscroll'])): ?>
     var autoscrollConfig = <?= json_encode($configs['autoscroll']) ?>;
     carousel.jcarouselAutoscroll(autoscrollConfig);
@@ -89,7 +89,7 @@ jQuery(function() {
     <?php endif; ?>
 
     <div class="jcarousel-wrapper">
-        <div class="jcarousel" id="jcarousel-<?php echo $idSuffix; ?>">
+        <div class="jcarousel" id="jcarousel-<?= $escapeAttr($idSuffix) ?>">
             <ul>
                 <?php foreach ($resources as $resource):
                     $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $untitled, 'lang' => $langValue]) : $resource->displayTitle(null, $lang);

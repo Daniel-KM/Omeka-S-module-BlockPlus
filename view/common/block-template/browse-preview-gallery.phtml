@@ -146,8 +146,8 @@ $this->headScript()
                 }
             ?>
             <li>
-                <button type="button" aria-label="<?= $displayInfo ?>" data-url="" data-largesrc="<?= $mediaLarge ?>" data-title="<?= $heading ?>" data-description="<?= $escapeAttr($body) ?>">
-                    <img loading="lazy" class="button medium-img" src="<?= $mediaThumbnail ?>" alt="<?= $heading ?>"/>
+                <button type="button" aria-label="<?= $displayInfo ?>" data-url="" data-largesrc="<?= $escapeAttr($mediaLarge) ?>" data-title="<?= $escapeAttr($heading) ?>" data-description="<?= $escapeAttr($body) ?>">
+                    <img loading="lazy" class="button medium-img" src="<?= $escapeAttr($mediaThumbnail) ?>" alt="<?= $escapeAttr($heading) ?>"/>
                 </button>
             </li>
             <?php endforeach; ?>

@@ -9,6 +9,7 @@
 
 $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $anchorXml = function (string $string): ?\SimpleXMLElement {
     try {
@@ -47,7 +48,7 @@ if (mb_substr($text, 0, 3) === '<a '
 ?>
 
 <?php if (isset($attributes)): ?>
-<h<?= $level ?> id="<?= $slug ?>" class="heading-link"><a<?= $htmlAttribs($attributes) ?>><?= $escape($content) ?></a></h<?= $level ?>>
+<h<?= (int) $level ?> id="<?= $escapeAttr($slug) ?>" class="heading-link"><a<?= $htmlAttribs($attributes) ?>><?= $escape($content) ?></a></h<?= (int) $level ?>>
 <?php else: ?>
-<h<?= $level ?> id="<?= $slug ?>"><?= $escape($text) ?></h<?= $level ?>>
+<h<?= (int) $level ?> id="<?= $escapeAttr($slug) ?>"><?= $escape($text) ?></h<?= (int) $level ?>>
 <?php endif; ?>

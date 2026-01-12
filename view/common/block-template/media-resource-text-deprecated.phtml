@@ -9,6 +9,7 @@
 
 $plugins = $this->getHelperPluginManager();
 $hyperlink = $plugins->get('hyperlink');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 $siteSetting = $plugins->get('siteSetting');
 
 $linkType = $siteSetting('attachment_link_type', 'item');
@@ -18,7 +19,7 @@ $lang = $filterLocale ? $this->lang() : null;
 ?>
 
 <div class="block media-text">
-    <div class="<?= $thumbnailType ?> media file">
+    <div class="<?= $escapeAttr($thumbnailType) ?> media file">
         <div class="attachments">
             <?php
             foreach ($attachments as $attachment):

@@ -26,6 +26,7 @@ $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $site = $block->page()->site();
 
@@ -93,7 +94,7 @@ $sortHeadings = $block->layoutDataValue('sort_headings', []);
         }
         $thumb = $showThumbnail ? $thumbnail($resource, 'medium', ['title' => $heading]) : null;
         ?>
-        <li class="<?= $resourceType ?> resource">
+        <li class="<?= $escapeAttr($resourceType) ?> resource">
             <?php if ($thumb): ?>
             <?= $resource->linkRaw($thumb) ?>
             <?php endif; ?>

@@ -144,7 +144,7 @@ $this->headScript()->appendScript($js);
                 <select id="value-year-select" name="value_year" data-url="<?= $escapeAttr($url(null, [], true)) ?>" data-fragment="browse-preview-filter-year">
                     <option value=""<?= $currentYear ? '' : ' selected="selected"' ?>><?= $translate('All years') ?></option>
                     <?php foreach ($years as $year): ?>
-                    <option value="<?= $year ?>"<?= $year === $currentYear ? ' selected="selected"' : '' ?>"><?= $year ?></option>
+                    <option value="<?= $escapeAttr($year) ?>"<?= $year === $currentYear ? ' selected="selected"' : '' ?>><?= $escape($year) ?></option>
                     <?php endforeach; ?>
                 </select>
             </label>
@@ -165,7 +165,7 @@ $this->headScript()->appendScript($js);
         $linkContent = ($showThumbnail ? $thumbnail($resource, 'medium') : '')
             . ($showHeading ? '<span class="resource-name">' . $escape($heading) . '</span>' : '');
         ?>
-        <li class="<?= $resourceType ?> resource">
+        <li class="<?= $escapeAttr($resourceType) ?> resource">
             <?php if ($linkContent !== ''): ?>
                 <?= $resource->linkRaw($linkContent, null, ['class' => 'resource-link']) ?>
             <?php endif; ?>

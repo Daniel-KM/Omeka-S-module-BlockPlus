@@ -8,14 +8,15 @@
 
 $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 $htmlAttributes = $plugins->get('htmlAttributes');
 ?>
 
 <div class="block resource-block block-buttons">
 
-<?php if ($displayAsButton): ?>
+<?php if ($displayAsButton): $labelShare = $escapeAttr($translate('Share')); ?>
 <details class="button-details buttons-details">
-    <summary class="button" title="<?= $translate('Share') ?>" aria-label="<?= $translate('Share') ?>" aria-expanded="false"><span class="fas fa-share-alt"></span></summary>
+    <summary class="button" title="<?= $labelShare ?>" aria-label="<?= $labelShare ?>" aria-expanded="false"><span class="fas fa-share-alt"></span></summary>
 <?php endif; ?>
 
     <?php if ($buttons): ?>

@@ -54,7 +54,7 @@ $html = $blockGroupData($block, 'html', 'text');
         <?php foreach ($entries as $entry):
             if (empty($entry['entry'])) continue;
             ?>
-        <article class="entry entry-<?= $entry['resource_type'] ?> item resource">
+        <article class="entry entry-<?= $escapeAttr($entry['resource_type']) ?> item resource">
             <?= $entry['render'] ?>
             <?php if (in_array('heading', $components)): ?>
             <h3>

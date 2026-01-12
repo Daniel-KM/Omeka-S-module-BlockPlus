@@ -7,6 +7,7 @@
 
 $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
+$escape = $plugins->get('escapeHtml');
 $hyperlink = $plugins->get('hyperlink');
 $missingPage = $translate('[Missing Page]');
 
@@ -15,12 +16,12 @@ $iterate = null;
 
 <div class="block list-of-pages">
     <ul>
-        <?php $iterate = function ($pages) use (&$iterate, $hyperlink, $missingPage) {
+        <?php $iterate = function ($pages) use (&$iterate, $escape, $hyperlink, $missingPage) {
             foreach ($pages as $page) {
                 $pageName = $page['text'];
                 $pageLink = $page['data']['url'];
                 if (empty($pageLink)) {
-                    echo '<li>' . $missingPage . '</li>';
+                    echo '<li>' . $escape($missingPage) . '</li>';
                 } else {
                     echo '<li>' . $hyperlink($pageName, $pageLink) . '</li>';
                 }

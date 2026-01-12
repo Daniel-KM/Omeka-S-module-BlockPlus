@@ -25,6 +25,7 @@ $hyperlink = $plugins->get('hyperlink');
 $easyMeta = $plugins->get('easyMeta')();
 $thumbnail = $plugins->get('thumbnail');
 $siteSetting = $plugins->get('siteSetting');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 $escapeValueOrGetHtml = $plugins->has('escapeValueOrGetHtml')
     ? $plugins->get('escapeValueOrGetHtml')
     : fn ($string) => mb_substr((string) $string, 0, 1) === '<' && mb_substr((string) $string, -1) === '>' ? (string) $string : $escape((string) $string);
@@ -76,10 +77,10 @@ ksort($resourcesByDate);
         $dateTime = $isDate ? (new \DateTime($date)) : null;
         $year = $dateTime ? $dateTime->format('Y') : null;
         if ($year !== $prevYear): ?>
-        <div class="timeline-year year-id-<?= $year ?>"><?= $year ?></div>
+        <div class="timeline-year year-id-<?= $escapeAttr($year) ?>"><?= $escape($year) ?></div>
         <?php endif; ?>
-        <div id="date-<?= $isDate ? $date : 'none' ?>" class="timeline-section">
-            <div class="timeline-section-date"><?= $dateTime ? $dateTime->format('d F') : $noDate ?></div>
+        <div id="date-<?= $escapeAttr($isDate ? $date : 'none') ?>" class="timeline-section">
+            <div class="timeline-section-date"><?= $escape($dateTime ? $dateTime->format('d F') : $noDate) ?></div>
 
     <ul class="resource-list preview resource-list-date">
     <?php
@@ -95,7 +96,7 @@ ksort($resourcesByDate);
         $linkContent = ($showThumbnail ? $thumbnail($resource, 'medium') : '')
             . ($showHeading ? '<span class="resource-name">' . $escape($heading) . '</span>' : '');
         ?>
-        <li class="<?= $resourceType ?> resource">
+        <li class="<?= $escapeAttr($resourceType) ?> resource">
             <?php if ($linkContent !== ''): ?>
                 <?= $resource->linkRaw($linkContent, null, ['class' => 'resource-link']) ?>
             <?php endif; ?>

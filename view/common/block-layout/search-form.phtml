@@ -9,11 +9,11 @@
 
 $plugins = $this->getHelperPluginManager();
 $url = $plugins->get('url');
-$escape = $plugins->get('escapeHtml');
 $params = $plugins->get('params');
 $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
 $siteSetting = $plugins->get('siteSetting');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $searchType = $siteSetting('search_type', 'sitewide');
 switch ($searchType) {
@@ -32,7 +32,7 @@ $searchValue = $params->fromQuery('fulltext_search', '');
     <?php if ($searchConfig): ?>
     <?= $searchConfig->renderForm() ?>
     <?php else: ?>
-    <form action="<?= $escape($searchAction) ?>" id="search-form">
+    <form action="<?= $escapeAttr($searchAction) ?>" id="search-form">
         <?php if ($selector === 'item_sets'): ?>
             <?= $this->itemSetSelect([
                 'name' => 'item_set_id[]',
@@ -69,7 +69,8 @@ $searchValue = $params->fromQuery('fulltext_search', '');
                 ],
             ]) ?>
         <?php endif; ?>
-        <input type="text" name="fulltext_search" value="<?= $escape($searchValue) ?>" placeholder="<?= $translate('Search') ?>" aria-label="<?= $translate('Search') ?>">
+        <?php $labelSearch = $escapeAttr($translate('Search')); ?>
+        <input type="text" name="fulltext_search" value="<?= $escapeAttr($searchValue) ?>" placeholder="<?= $labelSearch ?>" aria-label="<?= $labelSearch ?>">
         <button type="submit" class="button"><?= $translate('Search') ?></button>
     </form>
     <?php endif;  ?>

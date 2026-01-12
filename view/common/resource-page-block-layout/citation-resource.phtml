@@ -15,6 +15,7 @@
 $plugins = $this->getHelperPluginManager();
 $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
 // Some params.
 $appendSite = !empty($appendSite);
@@ -106,12 +107,11 @@ if ($appendDate) {
 }
 
 $url = $resource->siteUrl(null, true);
-$citation .= $asText
-    ? ', ' . $url
-    : ', ' . '<a class="citation-url item-info-quote-url" href="' . $url . '">' . $url . '</a>';
-
+if ($asText) {
+    $citation .= ', ' . $url;
+}
 ?>
 
 <div class="block resource-block block-citation block-citation-resource">
-    <p class="citation"><?= $escape($citation) ?></p>
+    <p class="citation"><?= $escape($citation) ?><?php if (!$asText): ?>, <a class="citation-url item-info-quote-url" href="<?= $escapeAttr($url) ?>"><?= $escape($url) ?></a><?php endif; ?></p>
 </div>

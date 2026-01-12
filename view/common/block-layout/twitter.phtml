@@ -6,9 +6,10 @@
  * @var array $messages
  */
 
-$translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
-$hyperlink = $this->plugin('hyperlink');
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 ?>
 
 <div class="block block-twitter">
@@ -17,7 +18,7 @@ $hyperlink = $this->plugin('hyperlink');
     <?php else: ?>
     <ul class="messages">
     <?php foreach ($messages as $message): ?>
-        <li data-id="<?= $message['id'] ?>">
+        <li data-id="<?= $escapeAttr($message['id']) ?>">
             <h4><?= $hyperlink->raw('<span>@</span>' . $account['fullname'], $account['url'], ['rel' => 'nofollow noopener', 'target' => '_blank']) ?></h4>
             <div class="message"><?= $message['content'] ?></div>
         </li>

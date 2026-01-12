@@ -47,7 +47,7 @@ $page = $attachment['page'] ?? null;
 $title = strlen($attachment['alt_link_title']) ? $attachment['alt_link_title'] : ($page ? $page->title() : ($label ?: ($caption && $isHtmlCaption ? strip_tags($caption) : $caption)));
 ?>
 
-<div class="block header-wrapper<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" style="background-image:url(<?= $asset->assetUrl() ?>);">
+<div class="block header-wrapper<?= strlen($class) ? ' ' . $escapeAttr($class) : '' ?>" style="background-image:url(<?= $escapeAttr($asset->assetUrl()) ?>);">
     <?php if (strlen($caption)): ?>
     <div class="container mt-5">
         <div class="row mt-5">

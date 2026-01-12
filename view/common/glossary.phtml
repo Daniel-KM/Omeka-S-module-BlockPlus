@@ -136,30 +136,37 @@ $this->headScript()
     <ul class="glossary-alphabet">
         <?php foreach ($skiplinks as $skiplink => $isSet): ?>
         <li><?= $isSet
-            ? sprintf('<a data-skiplink="%s" %shref="#%s">%s</a>', $skiplink, in_array($skiplink, $currentLetters) ? 'class="current" ' : '', $skiplink, $skiplink)
-            : sprintf('<span class="inactive">%s</span>', $skiplink)
+            ? sprintf('<a data-skiplink="%s" %shref="#%s">%s</a>', $escapeAttr($skiplink), in_array($skiplink, $currentLetters) ? 'class="current" ' : '', $escapeAttr($skiplink), $escape($skiplink))
+            : sprintf('<span class="inactive">%s</span>', $escape($skiplink))
         ?></li>
         <?php endforeach; ?>
     </ul>
 
-    <?php if ($perPage): ?>
-    <nav data-per-page="<?= $perPage ?>" class="pagination glossary-pagination" role="navigation">
-        <a data-page="1" class="pagination-first" href="" title="<?= $translate('First') ?>" aria-label="<?= $translate('First') ?>"></a>
+    <?php if ($perPage):
+        $labelFirst = $escapeAttr($translate('First'));
+        $labelNoPrevious = $escapeAttr($translate('No previous'));
+        $labelPrevious = $escapeAttr($translate('Previous'));
+        $labelNoNext = $escapeAttr($translate('No next'));
+        $labelNext = $escapeAttr($translate('Next'));
+        $labelLast = $escapeAttr($translate('Last'));
+    ?>
+    <nav data-per-page="<?= $escapeAttr($perPage) ?>" class="pagination glossary-pagination" role="navigation">
+        <a data-page="1" class="pagination-first" href="" title="<?= $labelFirst ?>" aria-label="<?= $labelFirst ?>"></a>
         <?php if ($currentPage <= 1): ?>
-        <span class="pagination-previous" title="<?= $translate('No previous') ?>" aria-label="<?= $translate('No previous') ?>"></span>
+        <span class="pagination-previous" title="<?= $labelNoPrevious ?>" aria-label="<?= $labelNoPrevious ?>"></span>
         <?php else: ?>
-        <a data-page="<?= $previousPage ?>" class="pagination-previous" href="" title="<?= $translate('Previous') ?>" aria-label="<?= $translate('Previous') ?>"></a>
+        <a data-page="<?= $escapeAttr($previousPage) ?>" class="pagination-previous" href="" title="<?= $labelPrevious ?>" aria-label="<?= $labelPrevious ?>"></a>
         <?php endif; ?>
         <form action="">
-            <input class="pagination-current" name="page" type="tel" value="<?= $currentPage ?>"/>
+            <input class="pagination-current" name="page" type="tel" value="<?= $escapeAttr($currentPage) ?>"/>
         </form>
-        <span class="pagination-total"><?= $pageCount ?></span>
+        <span class="pagination-total"><?= $escape($pageCount) ?></span>
         <?php if ($currentPage >= $pageCount): ?>
-        <span class="pagination-next" title="<?= $translate('No next') ?>" aria-label="<?= $translate('No next') ?>"></span>
+        <span class="pagination-next" title="<?= $labelNoNext ?>" aria-label="<?= $labelNoNext ?>"></span>
         <?php else: ?>
-        <a data-page="<?= $nextPage ?>" class="pagination-next" href="" title="<?= $translate('Next') ?>" aria-label="<?= $translate('Next') ?>"></a>
+        <a data-page="<?= $escapeAttr($nextPage) ?>" class="pagination-next" href="" title="<?= $labelNext ?>" aria-label="<?= $labelNext ?>"></a>
         <?php endif; ?>
-        <a data-page="<?= $pageCount ?>" class="pagination-last" href="" title="<?= $translate('Last') ?>" aria-label="<?= $translate('Last') ?>"></a>
+        <a data-page="<?= $escapeAttr($pageCount) ?>" class="pagination-last" href="" title="<?= $labelLast ?>" aria-label="<?= $labelLast ?>"></a>
     </nav>
     <?php endif; ?>
 

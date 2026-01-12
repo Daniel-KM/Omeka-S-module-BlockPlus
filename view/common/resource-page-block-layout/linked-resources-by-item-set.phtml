@@ -102,7 +102,7 @@ $this->headScript()->appendScript($js);
                         <option value="0"<?= $currentItemSetId === 0 ? ' selected="selected"' : '' ?> data-id="0"><?= $escape($translate('Items without item set')) ?></option>
                         <?php endif; ?>
                         <?php foreach ($itemSetsTitles as $itemSetId => $itemSetTitle): ?>
-                        <option value="<?= $itemSetId ?>"<?= $currentItemSetId === $itemSetId ? ' selected="selected"' : '' ?> data-id="<?= $itemSetId ?>"><?= $escape($itemSetTitle) ?></option>
+                        <option value="<?= $escapeAttr($itemSetId) ?>"<?= $currentItemSetId === $itemSetId ? ' selected="selected"' : '' ?> data-id="<?= $escapeAttr($itemSetId) ?>"><?= $escape($itemSetTitle) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </label>
