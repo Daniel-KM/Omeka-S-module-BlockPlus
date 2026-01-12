@@ -72,6 +72,7 @@ return [
             'block' => Site\ResourcePageBlockLayout\Block::class,
             'breadcrumbs' => Site\ResourcePageBlockLayout\Breadcrumbs::class,
             'buttons' => Site\ResourcePageBlockLayout\Buttons::class,
+            'citationResource' => Site\ResourcePageBlockLayout\CitationResource::class,
             'description' => Site\ResourcePageBlockLayout\Description::class,
             'downloadPrimary' => Site\ResourcePageBlockLayout\DownloadPrimary::class,
             // Keep logical order.
