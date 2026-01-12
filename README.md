@@ -8,8 +8,8 @@ Block Plus (module for Omeka S)
 [Block Plus] is a module for [Omeka S] that adds page models and new blocks for
 the editorial pages and improves some of the existing ones: image gallery,
 D3 graph, mirror page, search form, item set showcase, exhibits, footnotes, etc.
-Some resource page blocks are implemented too: breadcrumbs, previous/next
-resource, section, etc.
+Some resource page blocks are implemented too: previous/next resource, section,
+etc.
 
 Another feature is the possibility to pre-configure page models and list of
 blocks, so it is easier to build a new page. The page models and blocks groups
@@ -20,6 +20,12 @@ were re-implemented in core. The migration from old blocks of the module before
 version 3.4.22 to new blocks may require some manual updates of the themes when
 they were customized. See below for migration. There is no issue for a new
 install.
+
+**Note**: Since version 3.4.44, the **Breadcrumbs** feature (view helper, site
+page block, and resource page block) has been moved to module [Menu]. If you
+were using breadcrumbs, please ensure the Menu module (at least version 3.4.12)
+is installed and updated. Settings will be automatically migrated when you
+upgrade the Menu module.
 
 
 Installation
@@ -287,11 +293,6 @@ definition of beta continued…
 To insert a line, it is recommended to set the cursor at the start of the line.
 It will avoid possible issues.
 
-#### Breadcrumbs
-
-This block displays the breadcrumbs of the current page according to site
-settings.
-
 ### Browse preview (templates)
 
 Some specific templates are available in Browse Preview:
@@ -321,9 +322,146 @@ Available buttons are Download, Email, Facebook, Pinterest and Twitter.
 
 #### D3 Graph
 
-The D3 graph adds the [D3 library] to display relations between items in a graph:
-links between subjects and objects, links between items and item sets, etc.
+The D3 Graph block uses the [D3 library] (version 7.9) to display an interactive
+force-directed graph showing relations between resources: links between subjects
+and objects, links between items and item sets, etc. Users can drag nodes to
+rearrange the graph.
+
 An example of use can be seen on the digital library of the [Fondation de la Maison de Salins].
+
+##### Configuration
+
+The block accepts a JSON configuration in the "Params" field:
+
+```json
+{
+    "items": {
+        "limit": 100
+    },
+    "item_sets": null,
+    "relations": [
+        "objects",
+        "subjects",
+        "item_sets"
+    ],
+    "config": {
+        "height": 800,
+        "forceCharge": -100,
+        "forceLinkDistance": 100,
+        "baseCirclePow": 0.6,
+        "baseCircleMin": 5,
+        "fontSizeTop": 35,
+        "fontSizeMin": ".1px",
+        "fontSizeMax": "16px"
+    }
+}
+```
+
+##### Parameters
+
+| Parameter    | Type         | Description                                                      |
+|--------------|--------------|------------------------------------------------------------------|
+| `items`      | object/null  | Query parameters to filter items (e.g., `{"limit": 100}`).       |
+|              |              | Set to `null` to exclude items.                                  |
+| `item_sets`  | object/null  | Query parameters to filter item sets. Set to `null` to exclude.  |
+| `relations`  | array/object | Types of relations to display (see below).                       |
+| `config`     | object       | Visual configuration (see below).                                |
+
+##### Relations Configuration
+
+The `relations` parameter supports two formats:
+
+**Simple list** (all properties):
+```json
+"relations": ["objects", "subjects", "item_sets"]
+```
+
+**With property filters** (specific properties only):
+```json
+"relations": {
+    "objects": ["dcterms:relation", "dcterms:hasPart"],
+    "subjects": ["dcterms:isPartOf"],
+    "item_sets": null
+}
+```
+
+| Relation Type | Description                                                        |
+|---------------|--------------------------------------------------------------------|
+| `objects`     | Resources linked as objects (current resource references them).    |
+| `subjects`    | Resources linked as subjects (they reference current resource).    |
+| `item_sets`   | Item set membership (for items only).                              |
+| `items`       | Items belonging to item sets (for item sets only).                 |
+
+When using property filters, set the value to `null` or `[]` to include all
+properties for that relation type.
+
+##### Visual Configuration Options
+
+| Option              | Default | Description                                                 |
+|---------------------|---------|-------------------------------------------------------------|
+| `height`            | 800     | Height of the graph in pixels.                              |
+| `forceCharge`       | -100    | Repulsion force between nodes (negative = push apart).      |
+| `forceLinkDistance` | 100     | Default distance between linked nodes.                      |
+| `baseCirclePow`     | 0.6     | Exponent for calculating node size from connection count.   |
+| `baseCircleMin`     | 5       | Minimum radius of nodes in pixels.                          |
+| `fontSizeTop`       | 35      | Connection threshold for showing large font.                |
+| `fontSizeMin`       | ".1px"  | Font size for nodes below the threshold.                    |
+| `fontSizeMax`       | "16px"  | Font size for nodes above threshold or special types.       |
+
+##### Examples
+
+Display items from a specific item set with their relations:
+```json
+{
+    "items": {
+        "item_set_id": 5,
+        "limit": 50
+    },
+    "relations": ["objects", "subjects"]
+}
+```
+
+Display item sets and their member items:
+```json
+{
+    "item_sets": {
+        "limit": 20
+    },
+    "items": {
+        "limit": 200
+    },
+    "relations": ["item_sets"]
+}
+```
+
+Display only `dcterms:relation` and `dcterms:isPartOf` links:
+```json
+{
+    "items": {
+        "limit": 100
+    },
+    "relations": {
+        "objects": ["dcterms:relation", "dcterms:isPartOf"],
+        "subjects": ["dcterms:hasPart"]
+    }
+}
+```
+
+##### Styling
+
+The graph can be styled via CSS. Key classes:
+- `.d3-graph`: Container element
+- `.node`: All graph nodes
+- `.node.item`, `.node.item-set`, `.node.value`: Node types
+- `.link`: Lines connecting nodes
+- `.cluster`: Node circles
+
+Example CSS customization:
+```css
+.d3-graph .node.item circle { fill: #1f77b4; }
+.d3-graph .node.item-set circle { fill: #ff7f0e; }
+.d3-graph .link { stroke: #999; stroke-opacity: 0.6; }
+```
 
 #### External content
 
@@ -487,11 +625,6 @@ digital library.
 
 A block that does nothing, but that may be useful for theme developer.
 
-#### Breadcrumbs
-
-This block displays the breadcrumbs of the current page according to site
-settings.
-
 #### Buttons
 
 This block displays buttons to share the current page in a privacy-compliant way.
@@ -552,6 +685,43 @@ It can be used as a theme helper too (see below).
 
 Allow to wrap a list of block with a html element `<section>`. It is useful to use
 a theme natively.
+
+#### See Also
+
+Display a list of related resources based on the current resource's metadata.
+Related resources are found via a fulltext search using values from configured
+properties (e.g., dcterms:subject, dcterms:type), or from a predefined query.
+
+The following options can be configured in site settings:
+- Heading: Text displayed above related resources (default: "See also")
+- Limit: Maximum number of related resources to display (default: 4)
+- Query: An api query to predefine the pool of resources. When set, properties
+  are not used.
+- Properties: Which properties to use for finding related resources. Used only
+  when query is empty.
+- All sites: When checked, related resources are searched across all sites, not
+  just the current one.
+
+The block uses the same classes as the core browse-preview block for consistent
+styling.
+
+#### Similar Content
+
+Display a list of similar resources based on the current resource's metadata.
+This block is a duplicate of "See Also" with independent settings, allowing two
+different configurations for different use cases (e.g., "See Also" for related
+items within the same collection, and "Similar Content" for recommendations
+based on different criteria).
+
+The following options can be configured in site settings:
+- Heading: Text displayed above similar resources (default: "Similar content")
+- Limit: Maximum number of similar resources to display (default: 4)
+- Query: An api query to predefine the pool of resources. When set, properties
+  are not used.
+- Properties: Which properties to use for finding similar resources. Used only
+  when query is empty.
+- All sites: When checked, similar resources are searched across all sites, not
+  just the current one.
 
 ### Theme view helpers
 
@@ -651,16 +821,6 @@ if ($pagesMetadata) {
     $data = $pagesMetadata('exhibit_page');
 }
 ```
-
-#### Breadcrumbs
-
-A breadcrumb may be added on resources pages via the command `echo $this->breadcrumbs();`.
-The default template is `common/breadcrumbs.phtml`, so the breadcrumb can be
-themed. Some options are available too.
-By default, the breadcrumbs for an item use the first item set as the parent
-crumb. The first item set is the item set with the smallest id. If you want to
-use another item set, set it as resource in the property that is set in the main
-settings, or in the options of the view helper.
 
 #### Buttons Previous/Next
 
@@ -1032,8 +1192,7 @@ TODO
 - [ ] Make page metadata available via resource templates, as any resource (or via a new module).
 - [ ] Merge more similar blocks into a main block (with automatic upgrade).
 - [x] Integrate Shortcodes (module [Shortcode])
-- [ ] Merge module [Menu] inside BlockPlus?
-- [ ] Normalize breadcrumbs.
+- [x] Move Breadcrumbs to module [Menu] (v3.4.44).
 - [x] Integrate attachments for block Showcase
 - [x] Integrate sidebar forms for block Showcase
 - [ ] Auto-create asset when image is uploaded in a Html field.
