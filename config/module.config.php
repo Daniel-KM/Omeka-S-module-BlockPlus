@@ -94,6 +94,7 @@ return [
             'noItem' => Site\ResourcePageBlockLayout\NoItem::class,
             'noMedia' => Site\ResourcePageBlockLayout\NoMedia::class,
             'previousNext' => Site\ResourcePageBlockLayout\PreviousNext::class,
+            'printPage' => Site\ResourcePageBlockLayout\PrintPage::class,
             'resourceType' => Site\ResourcePageBlockLayout\ResourceType::class,
             'seeAlso' => Site\ResourcePageBlockLayout\SeeAlso::class,
             'thumbnail' => Site\ResourcePageBlockLayout\Thumbnail::class,

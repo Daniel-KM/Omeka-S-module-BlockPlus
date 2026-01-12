@@ -1,0 +1,16 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ */
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+?>
+
+<button type="button" class="button link-print" title="<?= $title = $escapeAttr($translate('Print')) ?>" aria-label="<?= $title ?>" onclick="window.print();">
+    <span class="button-print o-icon- fa fa-print"></span>
+    <?= $escape($translate('Print')) ?>
+</button>
