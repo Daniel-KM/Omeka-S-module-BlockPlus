@@ -27,7 +27,7 @@ class D3Graph extends AbstractBlockLayout implements TemplateableBlockLayoutInte
         $view->headLink()
             ->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus'));
         $view->headScript()
-            ->appendFile($assetUrl('vendor/d3/d3.v7.min.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($assetUrl('vendor/d3/d3.min.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer'])
             ->appendFile($assetUrl('js/d3-graph.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
     }
 
