@@ -62,7 +62,17 @@ class ItemSetShowcase extends AbstractBlockLayout implements TemplateableBlockLa
             return '';
         }
 
-        // TODO Order by selected ids when chosen query will support order.
+        // Order by selected ids (the API sorts by id desc by default).
+        $itemSetsById = [];
+        foreach ($itemSets as $itemSet) {
+            $itemSetsById[$itemSet->id()] = $itemSet;
+        }
+        $itemSets = [];
+        foreach ($itemSetIds as $id) {
+            if (isset($itemSetsById[(int) $id])) {
+                $itemSets[] = $itemSetsById[(int) $id];
+            }
+        }
 
         $components = $block->dataValue('components') ?: [];
 
