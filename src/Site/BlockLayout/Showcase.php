@@ -331,10 +331,8 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
         }
 
         /**
-         * @var \Common\Stdlib\EasyMeta $easyMeta
          * @var \BlockPlus\View\Helper\PageMetadata $pageMetadata
          */
-        $easyMeta = $this->services->get('Common\EasyMeta');
         $plugins = $view->getHelperPluginManager();
         $siteLang = $plugins->get('lang')();
         $hyperlink = $plugins->get('hyperlink');

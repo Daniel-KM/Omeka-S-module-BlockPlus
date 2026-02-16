@@ -10,11 +10,11 @@ return [
         'invokables' => [
             Mvc\MvcListeners::class => Mvc\MvcListeners::class,
         ],
-        'factories' => [
+        'factories' => version_compare(\Omeka\Module::VERSION, '4.2', '<')
             // Override theme factory to inject module pages and block templates.
             // Copied in BlockPlus, Reference, Timeline.
-            'Omeka\Site\ThemeManager' => Service\ThemeManagerFactory::class,
-        ],
+            ? ['Omeka\Site\ThemeManager' => Service\ThemeManagerFactory::class]
+            : [],
     ],
     'listeners' => [
         Mvc\MvcListeners::class,

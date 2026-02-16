@@ -74,7 +74,7 @@ $searchValue = $params->fromQuery('fulltext_search', '');
         <button type="submit" class="button"><?= $translate('Search') ?></button>
     </form>
     <?php endif;  ?>
-    <?php if ($link): ?>
+    <?php if (!empty($link)): ?>
     <div class="block-search-link">
     <?= $hyperlink($link['label'], $link['url']) ?>
     </div>
