@@ -1,37 +1,32 @@
 {
     "name": "daniel-km/omeka-s-module-block-plus",
-    "type": "library",
-    "description": "Module for Omeka S that adds some new blocks for the static pages and improves the existing ones.",
+    "type": "omeka-s-module",
+    "description": "Module for Omeka S: Add page models, groups of blocks and new blocks for editorial site pages (image gallery, D3 graph, mirror page, search form, showcase, exhibits, etc.) and resource pages (title, thumbnail, previous/next, etc.).",
+    "keywords": [
+        "Omeka S",
+        "Omeka S module",
+        "block",
+        "page",
+        "theme"
+    ],
     "license": "CECILL-2.1",
+    "homepage": "https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus",
     "authors": [
         {
             "name": "Daniel Berthereau",
             "email": "Daniel.packagist@Berthereau.net"
         }
     ],
-    "homepage": "https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus",
     "support": {
         "issues": "https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus/-/issues",
         "forum": "https://forum.omeka.org/"
     },
-    "keywords": [
-        "Omeka S",
-        "module",
-        "feature",
-        "theme",
-        "admin",
-        "gallery",
-        "tree structure",
-        "footnotes",
-        "carousel"
-    ],
+    "_require (not set until Omeka S merges PR #2412)": {
+        "omeka/omeka-s": "^4.1",
+        "daniel-km/omeka-s-module-common": "*"
+    },
     "require": {
-        "andykirk/ckeditor-footnotes": "^1.2",
-        "asset/thumbnail-grid-expanding-preview": "^0.3",
-        "d3/d3": "7.9.0",
-        "kenwheeler/slick": "1.8.1",
-        "oomphinc/composer-installers-extender": "^2.0",
-        "thetechy/jslists": "0.4.5"
+        "sempia/external-assets": "^1.0"
     },
     "replace": {
         "jsor/jcarousel": "*"
@@ -46,98 +41,20 @@
             "BlockPlusTest\\": "tests/BlockPlusTest/"
         }
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "andykirk/ckeditor-footnotes",
-                "version": "1.2.0",
-                "type": "omeka-addon-asset",
-                "dist": {
-                    "type": "tar",
-                    "url": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.4.33/CKEditorFootnotes.1.2.0-fix-blockplus.tar.gz"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "type": "omeka-addon-asset",
-                "name": "asset/thumbnail-grid-expanding-preview",
-                "version": "0.3.0",
-                "dist": {
-                    "type": "tar",
-                    "reference": "0.3.0",
-                    "url": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/refs/tags/0.3.0.tar.gz"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "type": "omeka-addon-asset",
-                "name": "d3/d3",
-                "version": "7.9.0",
-                "dist": {
-                    "type": "file",
-                    "reference": "7.9.0",
-                    "url": "https://unpkg.com/d3@7.9.0/dist/d3.min.js"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "type": "omeka-addon-asset",
-                "name": "jsor/jcarousel",
-                "version": "0.3.9",
-                "dist": {
-                    "type": "tar",
-                    "reference": "0.3.9",
-                    "url": "https://github.com/jsor/jcarousel/archive/refs/heads/master.tar.gz"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "type": "omeka-addon-asset",
-                "name": "kenwheeler/slick",
-                "version": "1.8.1",
-                "dist": {
-                    "type": "tar",
-                    "reference": "",
-                    "url": "https://github.com/kenwheeler/slick/archive/refs/heads/master.tar.gz"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "type": "omeka-addon-asset",
-                "name": "thetechy/jslists",
-                "version": "0.4.5",
-                "dist": {
-                    "type": "tar",
-                    "reference": "",
-                    "url": "https://github.com/TheTechy/jslists/archive/refs/heads/master.tar.gz"
-                }
-            }
-        }
-    ],
     "extra": {
-        "installer-types": ["omeka-addon-asset"],
-        "installer-paths": {
-            "asset/vendor/{$name}/": [
-                "type:omeka-addon-asset"
-            ]
-        },
-        "installer-name" : "BlockPlus"
+        "installer-name": "BlockPlus",
+        "external-assets": {
+            "asset/vendor/ckeditor-footnotes/": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.4.33/CKEditorFootnotes.1.2.0-fix-blockplus.tar.gz",
+            "asset/vendor/thumbnail-grid-expanding-preview/": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/refs/tags/0.3.0.tar.gz",
+            "asset/vendor/d3/d3.min.js": "https://unpkg.com/d3@7.9.0/dist/d3.min.js",
+            "asset/vendor/jcarousel/": "https://github.com/jsor/jcarousel/archive/refs/heads/master.tar.gz",
+            "asset/vendor/slick/": "https://github.com/kenwheeler/slick/archive/refs/heads/master.tar.gz",
+            "asset/vendor/jslists/": "https://github.com/TheTechy/jslists/archive/refs/heads/master.tar.gz"
+        }
     },
     "config": {
         "allow-plugins": {
-            "composer/installers": true,
-            "oomphinc/composer-installers-extender": true
+            "sempia/external-assets": true
         }
     }
 }
