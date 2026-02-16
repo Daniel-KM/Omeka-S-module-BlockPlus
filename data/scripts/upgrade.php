@@ -37,7 +37,8 @@ if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActi
         $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
         'Common', '3.4.79'
     );
-    throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+    $messenger->addError($message);
+    throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $translate('Missing requirement. Unable to upgrade.')); // @translate
 }
 
 if (version_compare($oldVersion, '3.0.3', '<')) {
@@ -1300,6 +1301,10 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
             $existingTemplateName = $layoutData['template_name'] ?? '';
             if (!$existingTemplateName) {
                 $layoutData['template_name'] = $blockTemplatesRenamed[$templateName] ?? $templateName;
+            // Fix: Also rename when Omeka core migration already set template_name
+            // before BlockPlus could rename it (core runs before module upgrade).
+            } elseif (isset($blockTemplatesRenamed[$existingTemplateName])) {
+                $layoutData['template_name'] = $blockTemplatesRenamed[$existingTemplateName];
             }
             $block->setLayoutData($layoutData);
         }
@@ -1842,6 +1847,10 @@ if (version_compare($oldVersion, '3.4.23', '<')) {
             $layoutData['template_name'] = isset($blockLayoutTemplatesRenamed[$templateName])
                 ? $blockLayoutTemplatesRenamed[$templateName]
                 : $templateName;
+        // Fix: Also rename when Omeka core migration already set template_name
+        // before BlockPlus could rename it (core runs before module upgrade).
+        } elseif (isset($blockLayoutTemplatesRenamed[$existingTemplateName])) {
+            $layoutData['template_name'] = $blockLayoutTemplatesRenamed[$existingTemplateName];
         }
         $block->setLayoutData($layoutData);
         unset($data['template']);
@@ -1923,6 +1932,10 @@ if (version_compare($oldVersion, '3.4.23', '<')) {
             $layoutData['template_name'] = $templateName === 'resource-text'
                 ? 'media-resource-text-deprecated'
                 : $templateName;
+        // Fix: Also rename when Omeka core migration already set template_name
+        // before BlockPlus could rename it (core runs before module upgrade).
+        } elseif ($existingTemplateName === 'resource-text') {
+            $layoutData['template_name'] = 'media-resource-text-deprecated';
         }
         $block->setLayoutData($layoutData);
         unset($data['template']);
