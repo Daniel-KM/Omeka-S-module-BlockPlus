@@ -78,16 +78,44 @@ class CkEditor extends AbstractHelper
             CKEDITOR.config.customConfig = '$customConfigUrl';
             JS;
 
-        // The footnotes icon is not loaded automaically, so add css.
+        // Check if the footnotes plugin is available (requires external
+        // assets). Register it via addExternal so CKEditor knows where to
+        // find it, and gracefully degrade when missing.
+        $footnotesPluginPath = dirname(__DIR__, 3) . '/asset/vendor/ckeditor-footnotes/footnotes/plugin.js';
+        $hasFootnotes = file_exists($footnotesPluginPath);
+        if ($hasFootnotes) {
+            $footnotesUrl = $escapeJs($assetUrl('vendor/ckeditor-footnotes/footnotes/', 'BlockPlus'));
+            $script .= "\n" . <<<JS
+                CKEDITOR.plugins.addExternal('footnotes', '$footnotesUrl', 'plugin.js');
+                JS;
+        } else {
+            // Remove footnotes from extraPlugins to prevent CKEditor from
+            // failing to load the editor when the plugin is missing.
+            $script .= "\n" . <<<'JS'
+                CKEDITOR.on('instanceCreated', function(event) {
+                    var ep = event.editor.config.extraPlugins;
+                    if (typeof ep === 'string') {
+                        event.editor.config.extraPlugins = ep.replace(/,?footnotes/, '').replace(/^,/, '');
+                    } else if (Array.isArray(ep)) {
+                        event.editor.config.extraPlugins = ep.filter(function(p) { return p !== 'footnotes'; });
+                    }
+                });
+                JS;
+        }
+
+        // The footnotes icon is not loaded automatically, so add css.
         // Only this css rule is needed.
         // The js for block-plus-admin is already loaded with the blocks.
         $view->headLink()
             ->appendStylesheet($assetUrl('css/block-plus-admin.css', 'BlockPlus'));
 
         $view->headScript()
-            // Don't use defer for now.
-            ->appendFile($assetUrl('vendor/ckeditor/ckeditor.js', 'Omeka'))
-            ->appendFile($assetUrl('vendor/ckeditor-footnotes/footnotes/plugin.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($assetUrl('vendor/ckeditor/ckeditor.js', 'Omeka'));
+        if ($hasFootnotes) {
+            $view->headScript()
+                ->appendFile($assetUrl('vendor/ckeditor-footnotes/footnotes/plugin.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
+        }
+        $view->headScript()
             ->appendFile($assetUrl('vendor/ckeditor/adapters/jquery.js', 'Omeka'))
             ->appendScript($script);
     }
