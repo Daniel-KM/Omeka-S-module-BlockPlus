@@ -31,6 +31,7 @@ return [
             'captionClassAndUrl' => View\Helper\CaptionClassAndUrl::class,
             'ckEditor' => View\Helper\CkEditor::class,
             'isHtml4' => View\Helper\IsHtml4::class,
+            'itemSetPosition' => View\Helper\ItemSetPosition::class,
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
             'primaryItemSet' => View\Helper\PrimaryItemSet::class,
