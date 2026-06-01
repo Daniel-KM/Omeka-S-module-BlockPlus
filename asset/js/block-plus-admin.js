@@ -338,19 +338,22 @@
         });
 
         $(document).on('click', 'button.expand, button.collapse', function(e) {
-            let message, eventName;
+            let message, eventName, expanded;
             const toggle = $(this);
             toggle.toggleClass('collapse').toggleClass('expand');
             if (toggle.hasClass('expand')) {
                 message = toggle.data('text-expand') ? toggle.data('text-expand') : Omeka.jsTranslate('Expand');
                 eventName = 'o:collapsed';
+                expanded = 'false';
             } else {
                 message = toggle.data('text-collapse') ? toggle.data('text-collapse') : Omeka.jsTranslate('Collapse');
                 eventName = 'o:expanded';
+                expanded = 'true';
             }
             toggle
                 .attr('aria-label', message)
                 .attr('title', message)
+                .attr('aria-expanded', expanded)
                 .trigger(eventName);
         });
 
