@@ -1,0 +1,16 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ */
+
+$plugins = $this->getHelperPluginManager();
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
+$html = $block->dataValue('html', '');
+$class = $block->layoutDataValue('class');
+?>
+
+<div id="<?= $escapeAttr($class) ?>" class="<?= $escapeAttr($class) ?>">
+	<?= $html ?>
+</div>
