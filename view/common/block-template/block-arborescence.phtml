@@ -32,7 +32,11 @@ if ($isUrl):
 else:
     // A security check.
     if (strpos($file, '../') !== false) return;
-    $themePath = OMEKA_PATH . '/themes/' . $block->page()->site()->theme();
+    $themeId = $block->page()->site()->theme();
+    $themePath = OMEKA_PATH . '/themes/' . $themeId;
+    if (!is_dir($themePath)) {
+        $themePath = OMEKA_PATH . '/composer-addons/themes/' . $themeId;
+    }
     $filepath = $themePath . '/asset/data/' . $file;
     if (!file_exists($filepath) || !is_readable($filepath)) return;
     $file = basename($filepath);

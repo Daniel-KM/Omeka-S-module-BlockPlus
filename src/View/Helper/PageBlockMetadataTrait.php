@@ -142,7 +142,8 @@ trait PageBlockMetadataTrait
                 return $page->slug();
 
             case 'theme_dir':
-                return OMEKA_PATH . '/themes/' . $this->currentSite()->theme();
+                $theme = $this->currentSite()->theme();
+                return (is_dir(OMEKA_PATH . '/themes/' . $theme) ? OMEKA_PATH . '/themes/' : OMEKA_PATH . '/composer-addons/themes/') . $theme;
 
             case 'template':
             case 'template_name':

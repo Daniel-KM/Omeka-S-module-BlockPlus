@@ -48,7 +48,7 @@ class TemplateSelect extends Select
 
         // Check filenames in the theme.
         if (mb_strlen($this->theme)) {
-            $directory = OMEKA_PATH . '/themes/' . $this->theme . '/view/';
+            $directory = (is_dir(OMEKA_PATH . '/themes/' . $this->theme) ? OMEKA_PATH . '/themes/' : OMEKA_PATH . '/composer-addons/themes/') . $this->theme . '/view/';
             $recursiveList = $this->filteredFilesInFolder($directory, $layout, 'phtml');
             $templates += $recursiveList;
         }

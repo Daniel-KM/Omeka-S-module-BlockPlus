@@ -34,14 +34,26 @@ class ThemeManagerFactory implements FactoryInterface
         $iniReader = new IniReader;
 
         // Get all themes from the filesystem.
-        foreach (new DirectoryIterator(OMEKA_PATH . '/themes') as $dir) {
+        $themeDirs = [OMEKA_PATH . '/themes'];
+        $composerThemesPath = OMEKA_PATH . '/composer-addons/themes';
+        if (is_dir($composerThemesPath)) {
+            $themeDirs[] = $composerThemesPath;
+        }
+        foreach ($themeDirs as $themesDir) {
+            foreach (new DirectoryIterator($themesDir) as $dir) {
 
             // Theme must be a directory
             if (!$dir->isDir() || $dir->isDot()) {
                 continue;
             }
 
-            $theme = $manager->registerTheme($dir->getBasename());
+            // Local themes/ take priority over composer-addons/themes/.
+            $basename = $dir->getBasename();
+            if ($themesDir !== OMEKA_PATH . '/themes' && $manager->getTheme($basename)) {
+                continue;
+            }
+
+            $theme = $manager->registerTheme($basename);
 
             // Theme directory must contain config/module.ini
             $iniFile = new SplFileInfo($dir->getPathname() . '/config/theme.ini');
@@ -90,6 +102,7 @@ class ThemeManagerFactory implements FactoryInterface
                 // Array_map() removes keys.
                 : array_replace_recursive($moduleBlockTemplates, $configSpec['block_templates']);
             $theme->setConfigSpec($configSpec);
+            }
         }
 
         // Note that, unlike the ModuleManagerFactory, this does not register
