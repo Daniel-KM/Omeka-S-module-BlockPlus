@@ -26,10 +26,7 @@
         "daniel-km/omeka-s-module-common": "*"
     },
     "require": {
-        "sempia/external-assets": "^1.0"
-    },
-    "replace": {
-        "jsor/jcarousel": "*"
+        "sempia/external-assets": "^1.1"
     },
     "autoload": {
         "psr-4": {
@@ -47,7 +44,6 @@
             "asset/vendor/ckeditor-footnotes/": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.4.33/CKEditorFootnotes.1.2.0-fix-blockplus.tar.gz",
             "asset/vendor/thumbnail-grid-expanding-preview/": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/refs/tags/0.3.0.tar.gz",
             "asset/vendor/d3/d3.min.js": "https://unpkg.com/d3@7.9.0/dist/d3.min.js",
-            "asset/vendor/jcarousel/": "https://github.com/jsor/jcarousel/archive/refs/heads/master.tar.gz",
             "asset/vendor/slick/": "https://github.com/kenwheeler/slick/archive/refs/heads/master.tar.gz",
             "asset/vendor/jslists/": "https://github.com/TheTechy/jslists/archive/refs/heads/master.tar.gz"
         }
@@ -56,5 +52,8 @@
         "allow-plugins": {
             "sempia/external-assets": true
         }
+    },
+    "provide": {
+        "jsor/jcarousel": "*"
     }
 }
