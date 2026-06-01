@@ -99,7 +99,7 @@ $sortHeadings = $block->layoutDataValue('sort_headings', []);
             <?= $resource->linkRaw($thumb) ?>
             <?php endif; ?>
             <?php if ($showHeading && $heading): ?>
-            <h4><span class="resource-name"><?= $resource->link($heading, null, ['class' => 'resource-link']) ?></span></h4>
+            <h3><span class="resource-name"><?= $resource->link($heading, null, ['class' => 'resource-link']) ?></span></h3>
             <?php endif; ?>
             <?php if ($showBody && $body): ?>
             <div class="description"><?= $body ?></div>
