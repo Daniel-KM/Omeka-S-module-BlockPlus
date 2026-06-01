@@ -108,7 +108,8 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
 
         $currentPage = $view->params()->fromQuery('page', 1);
         $query['page'] = $currentPage;
-        $query['per_page'] = $limit;
+        $perPage = (int) $view->params()->fromQuery('per_page');
+        $query['per_page'] = $perPage ?: $limit;
 
         $sortBy = $view->params()->fromQuery('sort_by');
         if ($sortBy) {
@@ -141,7 +142,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
 
         // TODO Currently, there can be only one pagination by page.
         $totalCount = $response->getTotalResults();
-        $view->pagination(null, $totalCount, $currentPage, $limit);
+        $view->pagination(null, $totalCount, $currentPage, $perPage ?: $limit);
 
         /** @var \Omeka\Api\Representation\ResourceTemplateRepresentation $resourceTemplate */
         $resourceTemplate = $block->dataValue('resource_template');
