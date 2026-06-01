@@ -135,3 +135,22 @@
         min-height: 0;
     }
 }
+
+#asset-options .asset-resource-status {
+    margin-bottom: 12px;
+}
+
+#asset-options .asset-resource-link button + button {
+    margin-left: 6px;
+}
+
+#asset-options .asset-resource-link .asset-option-selection {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+#asset-options .asset-resource-link .asset-option-selection .o-icon-external {
+    margin-left: auto;
+}

@@ -43,6 +43,7 @@ return [
     ],
     'block_layouts' => [
         'invokables' => [
+            'assetLinks' => Site\BlockLayout\AssetLinks::class,
             'block' => Site\BlockLayout\Block::class,
             'buttons' => Site\BlockLayout\Buttons::class,
             'd3Graph' => Site\BlockLayout\D3Graph::class,
