@@ -104,7 +104,7 @@ class SimilarContent implements ResourcePageBlockLayoutInterface
 
         // Search for similar resources.
         try {
-            $response = $api->search($resourceName, $query);
+            $response = $api->search($resourceName, $query, ['countQuery' => false]);
             $similarResources = $response->getContent();
         } catch (\Throwable $e) {
             $services->get('Omeka\Logger')->err(

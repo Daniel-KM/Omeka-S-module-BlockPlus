@@ -101,7 +101,7 @@ class SeeAlso implements ResourcePageBlockLayoutInterface
 
         // Search for related resources.
         try {
-            $response = $api->search($resourceName, $query);
+            $response = $api->search($resourceName, $query, ['countQuery' => false]);
             $relatedResources = $response->getContent();
         } catch (\Throwable $e) {
             $services->get('Omeka\Logger')->err(

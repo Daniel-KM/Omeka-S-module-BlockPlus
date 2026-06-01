@@ -107,7 +107,6 @@
                 const inputName = `.block-content [name="o:block[${blockIndex}][o:data][${key}]${appendMultiple}"]`;
                 let input = block.find(inputName);
                 if (!input.length) {
-                    console.log('Field not found: ' + inputName);
                     continue;
                 }
                 // Manage the element hidden added by laminas before checkbox.

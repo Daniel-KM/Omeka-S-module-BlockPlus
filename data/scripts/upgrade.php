@@ -184,7 +184,7 @@ if (version_compare($oldVersion, '3.3.13.1', '<')) {
         ->orderBy('site_page_block.id', 'asc')
         ->where('site_page_block.layout = "assets"')
     ;
-    $blockDatas = $connection->executeQuery($qb)->fetchAllKeyValue();
+    $blockDatas = $connection->executeQuery($qb->getSQL(), $qb->getParameters())->fetchAllKeyValue();
     foreach ($blockDatas as $id => $blockData) {
         $blockData = json_decode($blockData, true);
         $attachments = $blockData['assets'] ?? [];
@@ -299,7 +299,7 @@ if (version_compare($oldVersion, '3.4.15.7', '<')) {
         ->where('site_page_block.layout = "asset"')
     ;
     $pages = [];
-    $blocks = $connection->executeQuery($qb)->fetchAllAssociativeIndexed();
+    $blocks = $connection->executeQuery($qb->getSQL(), $qb->getParameters())->fetchAllAssociativeIndexed();
     foreach ($blocks as $id => $block) {
         $blockData = json_decode($block['data'], true);
         $matches = [];
@@ -402,7 +402,7 @@ if (version_compare($oldVersion, '3.4.15.7', '<')) {
         ->where('site_page_block.layout = "browsePreview"')
     ;
     $pages = [];
-    $blocks = $connection->executeQuery($qb)->fetchAllAssociativeIndexed();
+    $blocks = $connection->executeQuery($qb->getSQL(), $qb->getParameters())->fetchAllAssociativeIndexed();
     foreach ($blocks as $id => $block) {
         $blockData = json_decode($block['data'], true);
         $query = [];
@@ -523,12 +523,14 @@ if (version_compare($oldVersion, '3.4.19', '<')) {
         }
     }
 
-    $sql = <<<SQL
+    $sqls = [];
+    $sqls[] = <<<SQL
         UPDATE `vocabulary`
         SET
             `comment` = 'Generic and common properties that are useful in Omeka for the curation of resources. The use of more common or more precise ontologies is recommended when it is possible.'
         WHERE `prefix` = 'curation'
-        ;
+        SQL;
+    $sqls[] = <<<SQL
         UPDATE `property`
         JOIN `vocabulary` on `vocabulary`.`id` = `property`.`vocabulary_id`
         SET
@@ -538,7 +540,8 @@ if (version_compare($oldVersion, '3.4.19', '<')) {
         WHERE
             `vocabulary`.`prefix` = 'curation'
             AND `property`.`local_name` = 'dateStart'
-        ;
+        SQL;
+    $sqls[] = <<<SQL
         UPDATE `property`
         JOIN `vocabulary` on `vocabulary`.`id` = `property`.`vocabulary_id`
         SET
@@ -548,9 +551,10 @@ if (version_compare($oldVersion, '3.4.19', '<')) {
         WHERE
             `vocabulary`.`prefix` = 'curation'
             AND `property`.`local_name` = 'dateEnd'
-        ;
         SQL;
-    $connection->executeStatement($sql);
+    foreach ($sqls as $sql) {
+        $connection->executeStatement($sql);
+    }
 }
 
 if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
@@ -2187,7 +2191,7 @@ if (version_compare($oldVersion, '3.4.27', '<')) {
         ->orderBy('site_page_block.id', 'asc')
         ->where('site_page_block.layout = "searchResults"')
     ;
-    $blockDatas = $connection->executeQuery($qb)->fetchAllKeyValue();
+    $blockDatas = $connection->executeQuery($qb->getSQL(), $qb->getParameters())->fetchAllKeyValue();
     foreach ($blockDatas as $id => $blockData) {
         $blockData = json_decode($blockData, true);
         $components = $blockData['components'] ?? [];
@@ -2734,7 +2738,7 @@ if (version_compare((string) $oldVersion, '3.4.43', '<')) {
 
     $message = new PsrMessage(
         'Breadcrumbs (view helper, block layout, and resource page block layout) was moved to module {link}Menu{link_end}.', // @translate
-        ['link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Menu" target="_blank">', 'link_end' => '</a>']
+        ['link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Menu" target="_blank" rel="noopener noreferrer">', 'link_end' => '</a>']
     );
     $messenger->addSuccess($message->setEscapeHtml(false));
 
@@ -2754,7 +2758,7 @@ if (version_compare((string) $oldVersion, '3.4.43', '<')) {
 
     $message = new PsrMessage(
         'The resource block "Download Primary" was moved to module {link}ZipDownload{link_end}.', // @translate
-        ['link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-ZipDownload" target="_blank">', 'link_end' => '</a>']
+        ['link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-ZipDownload" target="_blank" rel="noopener noreferrer">', 'link_end' => '</a>']
     );
     $messenger->addSuccess($message->setEscapeHtml(false));
 
