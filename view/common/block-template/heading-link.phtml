@@ -14,7 +14,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
 $anchorXml = function (string $string): ?\SimpleXMLElement {
     try {
         return new \SimpleXMLElement($string);
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         return null;
     }
 };

@@ -106,7 +106,7 @@ class SimilarContent implements ResourcePageBlockLayoutInterface
         try {
             $response = $api->search($resourceName, $query);
             $similarResources = $response->getContent();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $services->get('Omeka\Logger')->err(
                 'SimilarContent block: Error searching for similar resources: {message}', // @translate
                 ['message' => $e->getMessage()]

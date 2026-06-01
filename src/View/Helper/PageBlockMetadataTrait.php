@@ -617,7 +617,7 @@ trait PageBlockMetadataTrait
         $site = $this->currentSite();
         try {
             $page = $view->api()->read('site_pages', ['site' => $site->id(), 'slug' => $pageSlug])->getContent();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $page = null;
         }
         $this->view->page = $page;

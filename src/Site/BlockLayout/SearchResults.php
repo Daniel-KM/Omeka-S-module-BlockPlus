@@ -149,7 +149,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
         if ($resourceTemplate) {
             try {
                 $resourceTemplate = $api->read('resource_templates', $resourceTemplate)->getContent();
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
             }
         }
 
