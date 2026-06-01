@@ -57,8 +57,8 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
     public function form(
         PhpRenderer $view,
         SiteRepresentation $site,
-        SitePageRepresentation $page = null,
-        SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null,
+        ?SitePageBlockRepresentation $block = null
     ) {
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();

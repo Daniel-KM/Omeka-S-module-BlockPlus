@@ -124,8 +124,8 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
     public function form(
         PhpRenderer $view,
         SiteRepresentation $site,
-        SitePageRepresentation $page = null,
-        SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null,
+        ?SitePageBlockRepresentation $block = null
     ) {
         // Factory is not used to make rendering simpler.
         $services = $site->getServiceLocator();
@@ -226,7 +226,7 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
         ];
     }
 
-    protected function fetchMessages(array $accountData, $limit = 1, $retweet = false, PhpRenderer $view = null): array
+    protected function fetchMessages(array $accountData, $limit = 1, $retweet = false, ?PhpRenderer $view = null): array
     {
         if (empty($accountData['id']) || $limit <= 0) {
             return [];
@@ -237,7 +237,7 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
             : $this->fetchMessagesApi2($accountData, $limit, $retweet, $view);
     }
 
-    protected function fetchMessagesApi1(array $accountData, $limit = 1, $retweet = false, PhpRenderer $view = null): array
+    protected function fetchMessagesApi1(array $accountData, $limit = 1, $retweet = false, ?PhpRenderer $view = null): array
     {
         $accountId = $accountData['id'];
         $account = $accountData['account'];
@@ -377,7 +377,7 @@ class Twitter extends AbstractBlockLayout implements TemplateableBlockLayoutInte
         return $result;
     }
 
-    protected function fetchMessagesApi2(array $accountData, $limit = 1, $retweet = false, PhpRenderer $view = null): array
+    protected function fetchMessagesApi2(array $accountData, $limit = 1, $retweet = false, ?PhpRenderer $view = null): array
     {
         $accountId = $accountData['id'];
         $account = $accountData['account'];

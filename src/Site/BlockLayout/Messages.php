@@ -24,8 +24,8 @@ class Messages extends AbstractBlockLayout implements TemplateableBlockLayoutInt
     public function form(
         PhpRenderer $view,
         SiteRepresentation $site,
-        SitePageRepresentation $page = null,
-        SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null,
+        ?SitePageBlockRepresentation $block = null
     ) {
         return '<p>'
             . $view->translate('This block displays the messages to the visitor or user, for example for modules Bulk Export, Contact Us, Contribute, and Guest.') // @translate

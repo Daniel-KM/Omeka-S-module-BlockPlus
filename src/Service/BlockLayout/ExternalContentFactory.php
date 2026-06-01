@@ -14,7 +14,7 @@ class ExternalContentFactory implements FactoryInterface
      * @param ContainerInterface $services
      * @return ExternalContent
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new ExternalContent(
             $services->get('Config')['oembed']['whitelist'],

@@ -13,7 +13,7 @@ class ShowcaseFactory implements FactoryInterface
      *
      * @return Showcase
      */
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         return new Showcase(
             $services->get('Omeka\ApiManager'),
