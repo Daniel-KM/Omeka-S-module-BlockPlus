@@ -198,6 +198,7 @@ class SearchResults extends AbstractBlockLayout implements TemplateableBlockLayo
             'items' => 'item',
             'item_sets' => 'item-set',
             'media' => 'media',
+            'digital_objects' => 'digital-object',
         ];
 
         // There is no list of media in public views.

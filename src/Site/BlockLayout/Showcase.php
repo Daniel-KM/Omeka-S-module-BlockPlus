@@ -265,7 +265,7 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
             // TODO Manage the case where the name is not "page" with Clean url.
             $matches = [];
             // Take care of sub-path.
-            $r = preg_match('~(?:/?(?:s/)?([^/]+)/)?(pages|page|assets|asset|item_sets|item-set|items|item|media|annotations|annotation)/([^;\?\#]+)~', $entry, $matches);
+            $r = preg_match('~(?:/?(?:s/)?([^/]+)/)?(pages|page|assets|asset|item_sets|item-set|items|item|media|annotations|annotation|digital_objects|digital-object)/([^;\?\#]+)~', $entry, $matches);
             if (!$r) {
                 $part = mb_strpos($entry, '/') === 0 ? mb_substr($entry, 1) : $entry;
                 $matches = [
@@ -487,12 +487,17 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                 // For a media, the resource and the media are the same.
                 $resourceType = $resource->getControllerName();
                 $entry['resource_type'] = $resourceType;
-                $media = $resource->primaryMedia();
+                $media = $resourceType === 'digital-object'
+                    ? null
+                    : $resource->primaryMedia();
                 if (!$showHeading) {
                     $entry['link_class'] = 'resource-link';
                 } elseif ($resourceType === 'media' && $showTitleOption == 'file_name') {
                     $entry['link_class'] = 'media-file';
                     $entry['heading'] = $media->displayTitle(null, $lang);
+                } elseif ($resourceType === 'digital-object' && $showTitleOption == 'file_name') {
+                    $entry['link_class'] = 'media-file';
+                    $entry['heading'] = $resource->displayTitle(null, $lang);
                 } else {
                     // Use item title for media.
                     $entry['link_class'] = 'resource-link';
@@ -506,6 +511,12 @@ class Showcase extends AbstractBlockLayout implements TemplateableBlockLayoutInt
                         $entry['url'] = $media->siteUrl($resourceSiteSlug);
                     } elseif ($linkType === 'original' && $media->hasOriginal()) {
                         $entry['url'] = $media->originalUrl();
+                    } else {
+                        $entry['url'] = $resource->siteUrl($resourceSiteSlug);
+                    }
+                } elseif ($resourceType === 'digital-object') {
+                    if ($linkType === 'original' && $resource->hasOriginal()) {
+                        $entry['url'] = $resource->originalUrl();
                     } else {
                         $entry['url'] = $resource->siteUrl($resourceSiteSlug);
                     }

@@ -46,7 +46,7 @@ class CkEditor extends AbstractHelper
 
         $hasDataTypeRdf = class_exists('DataTypeRdf\Module', false);
         $isSiteAdminResource = $isAdmin
-            && in_array($controller, ['Item', 'ItemSet', 'Media', 'Annotation', 'item', 'item-set', 'media', 'annotation'])
+            && in_array($controller, ['Item', 'ItemSet', 'Media', 'Annotation', 'DigitalObject', 'item', 'item-set', 'media', 'annotation', 'digital-object'])
             && ($action === 'edit' || $action === 'add')
             // To avoid to prepare a factory to check if module DataTypeRdf
             // is enabled, just check the class.

@@ -25,6 +25,7 @@ class SeeAlso implements ResourcePageBlockLayoutInterface
             'items',
             'item_sets',
             'media',
+            'digital_objects',
         ];
     }
 

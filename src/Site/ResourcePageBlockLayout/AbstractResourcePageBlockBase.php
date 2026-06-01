@@ -28,6 +28,7 @@ abstract class AbstractResourcePageBlockBase implements ResourcePageBlockLayoutI
         'items',
         'media',
         'item_sets',
+        'digital_objects',
     ];
 
     public function getLabel(): string
