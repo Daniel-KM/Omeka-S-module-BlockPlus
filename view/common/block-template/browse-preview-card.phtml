@@ -1,0 +1,52 @@
+<?php
+/**
+ * Browse preview using resourceCard() helper with ART card config.
+ *
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation[] $resources
+ * @var string $resourceType
+ * @var string $heading
+ * @var string $limit
+ * @var string $linkText
+ * @var array $components
+ * @var array $query
+ */
+
+$escape = $this->plugin('escapeHtml');
+
+$showThumbnail = in_array('thumbnail', $components);
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $filterLocale ? $this->lang() : null;
+$langValue = $filterLocale ? [$lang, ''] : null;
+
+$cardOptions = [
+    'show_thumbnail' => $showThumbnail,
+    'lang' => $langValue,
+];
+?>
+<div class="preview-block">
+
+<?php if ($heading): ?>
+<h2><?= $escape($heading) ?></h2>
+<?php endif; ?>
+
+<ul class="resource-list preview">
+<?php foreach ($resources as $resource): ?>
+    <?= $this->resourceCard($resource, $cardOptions) ?>
+<?php endforeach; ?>
+</ul>
+
+<?php
+if ($linkText):
+    echo $this->hyperlink($linkText, $this->url(
+        'site/resource',
+        ['controller' => $resourceType, 'action' => 'browse'],
+        ['query' => $query],
+        true
+    ));
+endif;
+?>
+
+</div>
