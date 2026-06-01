@@ -1,0 +1,95 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ * @var array|null $cardConfig Card config from ART (null = use fallback).
+ * @var array $options Rendering options (mode, show_thumbnail, lang…).
+ */
+
+$escape = $this->plugin('escapeHtml');
+$translate = $this->plugin('translate');
+$thumbnail = $this->plugin('thumbnail');
+
+$showThumbnail = $options['show_thumbnail'] ?? true;
+$lang = $options['lang'] ?? null;
+$langArgs = $lang ? ['lang' => $lang] : [];
+
+// Fallback: no ART config, use site settings like core.
+if (!$cardConfig):
+    $headingTerm = $this->siteSetting('browse_heading_property_term');
+    $bodyTerm = $this->siteSetting('browse_body_property_term');
+    $heading = $headingTerm
+        ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')] + $langArgs)
+        : $resource->displayTitle(null, $lang);
+    $body = $bodyTerm
+        ? $resource->value($bodyTerm, $langArgs)
+        : $resource->displayDescription(null, $lang);
+?>
+<li class="resource">
+    <?php
+    $linkContent = '';
+    if ($showThumbnail):
+        $linkContent .= $thumbnail($resource, 'medium');
+    endif;
+    $linkContent .= '<span class="resource-name">' . $escape($heading) . '</span>';
+    echo $resource->linkRaw($linkContent, null, ['class' => 'resource-link']);
+    ?>
+    <?php if ($body): ?>
+    <div class="description"><?= $escape($body) ?></div>
+    <?php endif; ?>
+</li>
+<?php return; endif; ?>
+
+<?php
+// ART card config rendering.
+$headingFields = $cardConfig['heading'] ?? [];
+$bodyFields = $cardConfig['body'] ?? [];
+$metaFields = $cardConfig['meta'] ?? [];
+$footerFields = $cardConfig['footer'] ?? [];
+
+// Resolve heading: first heading field, or fallback to displayTitle.
+$heading = '';
+if ($headingFields) {
+    $field = reset($headingFields);
+    $vals = $resource->value($field['term'], ['all' => true] + $langArgs);
+    if ($vals) {
+        $heading = $field['first_only']
+            ? (string) $vals[0]
+            : implode($field['separator'], array_map('strval', $vals));
+    }
+}
+if ($heading === '') {
+    $heading = $resource->displayTitle(null, $lang);
+}
+?>
+<li class="resource">
+    <?php
+    $linkContent = '';
+    if ($showThumbnail):
+        $linkContent .= $thumbnail($resource, 'medium');
+    endif;
+    $linkContent .= '<span class="resource-name">' . $escape($heading) . '</span>';
+    echo $resource->linkRaw($linkContent, null, ['class' => 'resource-link']);
+    ?>
+
+    <?php foreach (['body' => $bodyFields, 'meta' => $metaFields, 'footer' => $footerFields] as $role => $fields): ?>
+    <?php foreach ($fields as $field):
+        $vals = $resource->value($field['term'], ['all' => true] + $langArgs);
+        if (!$vals) continue;
+        if ($field['first_only']) {
+            $vals = [reset($vals)];
+        } elseif ($field['max'] > 0) {
+            $vals = array_slice($vals, 0, $field['max']);
+        }
+        $text = implode($field['separator'], array_map('strval', $vals));
+        if ($text === '') continue;
+    ?>
+    <div class="card-<?= $role ?>">
+        <?php if (!empty($field['label'])): ?>
+        <span class="card-label"><?= $escape($translate($field['label'])) ?></span>
+        <?php endif; ?>
+        <span class="card-value"><?= $escape($text) ?></span>
+    </div>
+    <?php endforeach; ?>
+    <?php endforeach; ?>
+</li>

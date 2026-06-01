@@ -34,6 +34,7 @@ return [
             'pageMetadata' => View\Helper\PageMetadata::class,
             'pagesMetadata' => View\Helper\PagesMetadata::class,
             'primaryItemSet' => View\Helper\PrimaryItemSet::class,
+            'resourceCard' => View\Helper\ResourceCard::class,
             'thumbnailUrl' => View\Helper\ThumbnailUrl::class,
         ],
         'factories' => [
@@ -159,6 +160,7 @@ return [
             'block-html' => 'Block Plus: Html', // @translate
         ],
         'browsePreview' => [
+            'browse-preview-card' => 'Block Plus: Card (template config)', // @translate
             'browse-preview-carousel' => 'Block Plus: Carousel', // @translate
             'browse-preview-filter-year' => 'Block Plus: Filter by year', // @translate
             'browse-preview-gallery' => 'Block Plus: Gallery (square)', // @translate
