@@ -151,6 +151,14 @@
     gap: 6px;
 }
 
+#asset-options .asset-resource-link .asset-option-selection .asset-selected-resource:empty {
+    display: none;
+}
+
 #asset-options .asset-resource-link .asset-option-selection .o-icon-external {
     margin-left: auto;
+}
+
+#asset-options .asset-resource-link .asset-option-selection .o-icon-external[hidden] {
+    display: none;
 }

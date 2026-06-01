@@ -1,50 +1,72 @@
 (function ($) {
     /**
-     * Augment the core asset-options sidebar with a "Resource link" section,
-     * mirroring the existing "Page link" section but targeting any Omeka
-     * resource (Item, Item set, Media). The hidden input is marked as
+     * Augment the core asset-options sidebar with an "Asset resource link"
+     * section, mirroring the existing "Page link" section but targeting any
+     * Omeka resource (Item, Item set, Media). The hidden input is marked as
      * .asset-option so that the core populate/load loop in site-page-edit.js
      * synchronises values with the per-attachment .asset-resource-id input.
+     *
+     * Class names are prefixed with "asset-resource-" to avoid collision with
+     * the core ".resource-link" rule (display: inline-flex on resource list
+     * links) which would otherwise lay this section on a single line.
      */
     var pickingResourceForAssetLink = false;
 
     function injectResourceLinkSection(translate) {
         var sidebar = $('#asset-options');
-        if (sidebar.length === 0 || sidebar.find('.resource-link').length > 0) {
+        if (sidebar.length === 0 || sidebar.find('.asset-resource-link').length > 0) {
             return;
         }
         var html =
-            '<div class="resource-link" data-default-html="">' +
+            '<div class="asset-resource-link" data-default-html="">' +
             '<h3>' + translate.resource + '</h3>' +
-            '<div class="resource-status">' +
+            '<div class="asset-resource-status">' +
             '<div class="asset-option-selection">' +
-            '<span class="selected-resource"></span>' +
-            '<a href="" target="_blank" class="o-icon-external" aria-label="' + translate.preview + '" title="' + translate.preview + '"></a>' +
+            '<span class="asset-selected-resource"></span>' +
+            '<a href="" target="_blank" class="o-icon-external" hidden aria-label="' + translate.preview + '" title="' + translate.preview + '"></a>' +
             '<span class="none-selected">' + translate.noneSelected + '</span>' +
             '<input type="hidden" name="asset-resource-id" id="asset-resource-id" value="" class="asset-option">' +
             '</div>' +
             '</div>' +
-            '<button type="button" class="resource-select">' + translate.select + '</button>' +
-            '<button type="button" class="resource-clear">' + translate.clear + '</button>' +
+            '<button type="button" class="asset-resource-select">' + translate.select + '</button>' +
+            '<button type="button" class="asset-resource-clear">' + translate.clear + '</button>' +
             '</div>';
-        sidebar.find('#asset-options-confirm-panel').before(html);
-        var defaultHtml = sidebar.find('.resource-link .asset-option-selection').html();
-        sidebar.find('.resource-link').attr('data-default-html', defaultHtml);
+        // Insert inside .sidebar-content (sibling of .page-link), not before
+        // #asset-options-confirm-panel which lives outside .sidebar-content and
+        // would break the layout.
+        var anchor = sidebar.find('.sidebar-content > .page-link');
+        if (anchor.length) {
+            anchor.after(html);
+        } else {
+            sidebar.find('.sidebar-content').append(html);
+        }
+        var defaultHtml = sidebar.find('.asset-resource-link .asset-option-selection').html();
+        sidebar.find('.asset-resource-link').attr('data-default-html', defaultHtml);
     }
 
     function updateResourceDisplay(resourceId, title, url) {
         var sidebar = $('#asset-options');
+        var hasResource = Boolean(resourceId);
         sidebar.find('#asset-resource-id').val(resourceId || '');
-        sidebar.find('.selected-resource').text(title || '');
-        sidebar.find('.selected-resource + a').attr('href', url || '');
+        sidebar.find('.asset-selected-resource').text(title || '');
+        sidebar.find('.asset-selected-resource + a').attr('href', url || '');
+        // Hide the "[No resource selected]" placeholder when a resource is set.
+        sidebar.find('.asset-resource-link .none-selected').toggleClass(
+            'inactive', hasResource
+        );
+        // Hide the external preview icon when no resource is set (otherwise it
+        // would link to an empty href and float to the right of the row).
+        sidebar.find('.asset-resource-link .o-icon-external').prop('hidden', !hasResource);
     }
 
     function clearResourceDisplay() {
         var sidebar = $('#asset-options');
-        var defaultHtml = sidebar.find('.resource-link').attr('data-default-html');
+        var defaultHtml = sidebar.find('.asset-resource-link').attr('data-default-html');
         if (defaultHtml) {
-            sidebar.find('.resource-link .asset-option-selection').html(defaultHtml);
+            sidebar.find('.asset-resource-link .asset-option-selection').html(defaultHtml);
         }
+        sidebar.find('.asset-resource-link .none-selected').removeClass('inactive');
+        sidebar.find('.asset-resource-link .o-icon-external').prop('hidden', true);
     }
 
     $(document).ready(function () {
@@ -63,7 +85,7 @@
         $('#blocks').on('click', '.asset-options-configure', function () {
             var attachment = $(this).closest('.attachment');
             var hasResource = attachment.find('input.asset-resource-id').length > 0;
-            $('#asset-options .resource-link').toggle(hasResource);
+            $('#asset-options .asset-resource-link').toggle(hasResource);
             if (!hasResource) {
                 return;
             }
@@ -81,7 +103,7 @@
         });
 
         // Open the core resource selector sidebar from our section.
-        $('#content').on('click', '#asset-options .resource-select', function (e) {
+        $('#content').on('click', '#asset-options .asset-resource-select', function (e) {
             e.preventDefault();
             pickingResourceForAssetLink = true;
             // Detach selecting-attachment so the core o:resource-selected
@@ -93,18 +115,37 @@
             Omeka.openSidebar(sidebar);
         });
 
-        $('#content').on('click', '#asset-options .resource-clear', function (e) {
+        $('#content').on('click', '#asset-options .asset-resource-clear', function (e) {
             e.preventDefault();
             clearResourceDisplay();
         });
 
-        // Capture the resource selection. The core also listens to this event;
-        // we close any sidebar it may have opened to keep our flow visible.
-        $('#select-resource').on('o:resource-selected', '.select-resource', function () {
+        // Intercept the click on a resource line in capture phase, before the
+        // core delegated handler triggers o:resource-selected. The core flow
+        // ends with openAttachmentOptions(), which opens an extra sidebar
+        // (caption + "Apply changes"); that step is irrelevant here, where we
+        // only need the resource id/title/url. Capture +
+        // stopImmediatePropagation bypass the core entirely for our picker
+        // mode.
+        document.addEventListener('click', function (e) {
             if (!pickingResourceForAssetLink) {
                 return;
             }
-            var resource = $(this).closest('.resource').data('resource-values') || {};
+            var target = e.target.closest ? e.target.closest('.select-resource') : null;
+            if (!target) {
+                return;
+            }
+            var sidebarEl = document.getElementById('select-resource');
+            if (!sidebarEl || !sidebarEl.contains(target)) {
+                return;
+            }
+            // Quick-select multi-pick mode: leave it to the core.
+            if (sidebarEl.querySelector('#item-results.active')) {
+                return;
+            }
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            var resource = $(target).closest('.resource').data('resource-values') || {};
             var siteSlug = $('.page-status').data('site-url') || '';
             var resourceUrl = resource.url
                 || (siteSlug && resource.value_resource_name && resource.value_resource_id
@@ -117,10 +158,12 @@
             );
             pickingResourceForAssetLink = false;
             Omeka.closeSidebar($('#select-resource'));
+            Omeka.closeSidebar($('#resource-details'));
             Omeka.closeSidebar($('#attachment-options'));
-        });
+        }, true);
 
-        // Reset the flag if the user closes the resource sidebar without picking.
+        // Reset the flag if the user closes the resource sidebar without
+        // picking.
         $('#select-resource').on('o:sidebar-closed', function () {
             pickingResourceForAssetLink = false;
         });
@@ -135,8 +178,8 @@
                 return;
             }
             resourceInput
-                .attr('data-resource-title', $('#asset-options .selected-resource').text())
-                .attr('data-resource-url', $('#asset-options .selected-resource + a').attr('href') || '');
+                .attr('data-resource-title', $('#asset-options .asset-selected-resource').text())
+                .attr('data-resource-url', $('#asset-options .asset-selected-resource + a').attr('href') || '');
         });
     });
 })(jQuery);
