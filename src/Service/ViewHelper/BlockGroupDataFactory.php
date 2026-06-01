@@ -3,7 +3,7 @@
 namespace BlockPlus\Service\ViewHelper;
 
 use BlockPlus\View\Helper\BlockGroupData;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class BlockGroupDataFactory implements FactoryInterface

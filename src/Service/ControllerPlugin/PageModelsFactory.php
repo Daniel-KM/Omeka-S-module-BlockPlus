@@ -3,7 +3,7 @@
 namespace BlockPlus\Service\ControllerPlugin;
 
 use BlockPlus\Mvc\Controller\Plugin\PageModels;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class PageModelsFactory implements FactoryInterface

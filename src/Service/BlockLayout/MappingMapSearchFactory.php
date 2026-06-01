@@ -3,7 +3,7 @@
 namespace BlockPlus\Service\BlockLayout;
 
 use BlockPlus\Site\BlockLayout\MappingMapSearch;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\Site\BlockLayout\Fallback;

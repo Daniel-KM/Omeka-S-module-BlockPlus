@@ -3,7 +3,7 @@
 namespace BlockPlus\Service\Form\Element;
 
 use BlockPlus\Form\Element\PageModelSelect;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class PageModelSelectFactory implements FactoryInterface

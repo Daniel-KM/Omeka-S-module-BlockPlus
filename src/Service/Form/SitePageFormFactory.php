@@ -3,7 +3,7 @@
 namespace BlockPlus\Service\Form;
 
 use BlockPlus\Form\SitePageForm;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class SitePageFormFactory implements FactoryInterface

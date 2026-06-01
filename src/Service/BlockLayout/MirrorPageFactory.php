@@ -3,7 +3,7 @@
 namespace BlockPlus\Service\BlockLayout;
 
 use BlockPlus\Site\BlockLayout\MirrorPage;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class MirrorPageFactory implements FactoryInterface
