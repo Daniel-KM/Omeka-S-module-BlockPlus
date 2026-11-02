@@ -81,11 +81,18 @@ class CkEditor extends AbstractHelper
         // The footnotes plugin (external asset) is shipped only by module
         // DataTypeRdf; BlockPlus loads it from there when available. Register
         // it via addExternal so CKEditor knows where to find it, and gracefully
-        // degrade when the module or the asset is missing.
+        // degrade when the module or the asset is missing. The url may be
+        // empty even when the file exists, in particular when module
+        // DataTypeRdf is not active yet (state "needs upgrade"), so it is
+        // checked too: an empty path would make CKEditor look for the plugin
+        // in its own directory.
         $footnotesPluginPath = dirname(__DIR__, 4) . '/DataTypeRdf/asset/vendor/ckeditor-footnotes/footnotes/plugin.js';
-        $hasFootnotes = file_exists($footnotesPluginPath);
+        $footnotesBaseUrl = file_exists($footnotesPluginPath)
+            ? (string) $assetUrl('vendor/ckeditor-footnotes/footnotes/', 'DataTypeRdf')
+            : '';
+        $hasFootnotes = (bool) $footnotesBaseUrl;
         if ($hasFootnotes) {
-            $footnotesUrl = $escapeJs($assetUrl('vendor/ckeditor-footnotes/footnotes/', 'DataTypeRdf'));
+            $footnotesUrl = $escapeJs($footnotesBaseUrl);
             $script .= "\n" . <<<JS
                 CKEDITOR.plugins.addExternal('footnotes', '$footnotesUrl', 'plugin.js');
                 JS;
