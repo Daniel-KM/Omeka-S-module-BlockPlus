@@ -1,29 +1,24 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-04 14:02+0200\n"
-"PO-Revision-Date: 2026-07-28 09:37+0300\n"
-"Last-Translator: Matti Lassila <matti.lassila@gmail.com>\n"
+"POT-Creation-Date: 2026-11-02 00:00+0000\n"
+"PO-Revision-Date: 2026-11-02 00:00+0000\n"
+"Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: Finnish (Finland) (https://app.transifex.com/omeka/teams/14184/fi_FI/)\n"
 "Language: fi_FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.6\n"
 
 #: data/scripts/upgrade_vocabulary.php:19
 #, php-format
 msgid "This module requires module %1$s version %2$s or greater."
 msgstr "Tämä lisäosa edellyttää lisäosan %1$s versiota %2$s tai uudempaa."
 
-#: data/scripts/upgrade.php:37 Module.php:40
+#: data/scripts/upgrade.php:37 Module.php:57
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Lisäosa %1$s tulee päivittää versioon %2$s tai uudempaan."
@@ -32,15 +27,15 @@ msgstr "Lisäosa %1$s tulee päivittää versioon %2$s tai uudempaan."
 msgid "Missing requirement. Unable to upgrade."
 msgstr "Vaatimus puuttuu. Päivitystä ei voi suorittaa."
 
-#: Module.php:473
+#: Module.php:476
 msgid "Create page model"
 msgstr "Luo sivumalli"
 
-#: Module.php:480
+#: Module.php:483
 msgid "Save as page model or blocks groups"
 msgstr "Tallenna sivumallina tai lohkoryhminä"
 
-#: Module.php:483
+#: Module.php:486
 msgid "If a label is set, the model will be stored when the current page will be saved."
 msgstr "Jos tunniste asetetaan, malli tallennetaan, kun nykyinen sivu tallennetaan."
 
@@ -49,12 +44,12 @@ msgid "A simple block allows to display data via one of the templates set in the
 msgstr "Yksinkertaisella lohkolla voi näyttää tietoja käyttämällä jotakin lohkoasettelun asetuksissa määritettyä mallipohjaa."
 
 #: src/Site/BlockLayout/Buttons.php:87 src/Site/BlockLayout/Buttons.php:91
-#: src/Site/ResourcePageBlockLayout/Buttons.php:84
+#: src/Site/ResourcePageBlockLayout/Buttons.php:85
 msgid "Download"
 msgstr "Lataa"
 
 #: src/Site/BlockLayout/Buttons.php:104
-#: src/Site/ResourcePageBlockLayout/Buttons.php:116
+#: src/Site/ResourcePageBlockLayout/Buttons.php:117
 #, php-format
 msgid ""
 "%1$s%2$s\n"
@@ -66,22 +61,22 @@ msgstr ""
 "%3$s"
 
 #: src/Site/BlockLayout/Buttons.php:105
-#: src/Site/ResourcePageBlockLayout/Buttons.php:117
+#: src/Site/ResourcePageBlockLayout/Buttons.php:118
 msgid "Share by mail"
 msgstr "Jaa sähköpostitse"
 
 #: src/Site/BlockLayout/Buttons.php:118
-#: src/Site/ResourcePageBlockLayout/Buttons.php:130
+#: src/Site/ResourcePageBlockLayout/Buttons.php:131
 msgid "Share on Facebook"
 msgstr "Jaa Facebookissa"
 
 #: src/Site/BlockLayout/Buttons.php:133
-#: src/Site/ResourcePageBlockLayout/Buttons.php:176
+#: src/Site/ResourcePageBlockLayout/Buttons.php:177
 msgid "Share on Pinterest"
 msgstr "Jaa Pinterestissä"
 
 #: src/Site/BlockLayout/Buttons.php:148
-#: src/Site/ResourcePageBlockLayout/Buttons.php:191
+#: src/Site/ResourcePageBlockLayout/Buttons.php:192
 msgid "Share on Twitter"
 msgstr "Jaa Twitterissä"
 
@@ -111,24 +106,28 @@ msgstr "Tämä lohko ei näytä mitään, vaan tallentaa teemoja varten erilaisi
 msgid "Redirect to %s"
 msgstr "Ohjaa kohteeseen %s"
 
-#: src/Site/ResourcePageBlockLayout/Buttons.php:88
+#: src/Site/ResourcePageBlockLayout/Buttons.php:89
 msgid "Download file"
 msgstr "Lataa tiedosto"
 
-#: src/Site/ResourcePageBlockLayout/Buttons.php:99
-#: src/Site/ResourcePageBlockLayout/Buttons.php:103
+#: src/Site/ResourcePageBlockLayout/Buttons.php:100
+#: src/Site/ResourcePageBlockLayout/Buttons.php:104
 #: view/common/resource-page-block-layout/print.phtml:13
 #: view/common/resource-page-block-layout/print.phtml:15
 msgid "Print"
 msgstr "Tulosta"
 
-#: src/Site/ResourcePageBlockLayout/Buttons.php:147
+#: src/Site/ResourcePageBlockLayout/Buttons.php:148
 msgid "Open Instagram"
 msgstr "Avaa Instagram"
 
-#: src/Site/ResourcePageBlockLayout/Buttons.php:161
+#: src/Site/ResourcePageBlockLayout/Buttons.php:162
 msgid "Share on LinkedIn"
 msgstr "Jaa LinkedInissä"
+
+#: view/common/asset-links-block-form.phtml:21
+msgid "Asset links"
+msgstr "Omaisuuslinkit"
 
 #: view/common/block-layout/buttons.phtml:17
 #: view/common/resource-page-block-layout/buttons.phtml:17
@@ -258,21 +257,17 @@ msgstr "Ei kohdetta"
 msgid "Unavailable resource"
 msgstr "Resurssi ei ole käytettävissä"
 
-#: view/common/resource-page-block-layout/previous-next.phtml:19
+#: view/common/resource-page-block-layout/previous-next.phtml:16
 msgid "Previous resource"
 msgstr "Edellinen resurssi"
 
-#: view/common/resource-page-block-layout/previous-next.phtml:21
-msgid "No previous resource"
-msgstr "Ei edellistä resurssia"
-
-#: view/common/resource-page-block-layout/previous-next.phtml:33
+#: view/common/resource-page-block-layout/previous-next.phtml:17
 msgid "Next resource"
 msgstr "Seuraava resurssi"
 
-#: view/common/resource-page-block-layout/previous-next.phtml:35
-msgid "No next resource"
-msgstr "Ei seuraavaa resurssia"
+#: view/common/resource-page-block-layout/previous-next.phtml:20
+msgid "Previous and next resources"
+msgstr "Edellinen ja seuraava lähde"
 
 #: view/common/resource-page-block-layout/see-also.phtml:24
 msgid "No related resources."
@@ -350,380 +345,376 @@ msgstr "Sivujen HTML-lohkojen muokkaustavan voi nyt valita pääparametreissa."
 msgid "The output for block D3 Graph was modified. Check it if you modified the template in your theme."
 msgstr "D3 Graph -lohkon tulostetta muutettiin. Tarkista se, jos olet muokannut mallipohjaa teemassasi."
 
-#: data/scripts/upgrade.php:431
+#: data/scripts/upgrade.php:427
 msgid "Template \"Asset\": The variable $assets has been replaced by $attachments; attachment key \"title\" by \"alt_link_title\"; attachment key \"url\" was removed. Check it if you customized template."
 msgstr "Mallipohja \"Asset\": Muuttuja $assets on korvattu muuttujalla $attachments, liitteen avain \"title\" avaimella \"alt_link_title\", ja liitteen avain \"url\" on poistettu. Tarkista mallipohja, jos olet mukauttanut sitä."
 
-#: data/scripts/upgrade.php:437
+#: data/scripts/upgrade.php:433
 msgid "The key \"url\" of attachments of block \"Asset\" was removed. The block template should be updated if you customized it in pages: {html}"
 msgstr "Lohkon \"Asset\" liitteiden avain \"url\" poistettiin. Lohkon mallipohja on päivitettävä, jos olet mukauttanut sitä sivuilla: {html}"
 
-#: data/scripts/upgrade.php:461
+#: data/scripts/upgrade.php:457
 msgid "The feature \"Breadcrumbs\" was moved from module \"Menu\" into this module. Upgrade is automatic. Check your options if you use it."
 msgstr "Toiminto \"Breadcrumbs\" siirrettiin lisäosasta \"Menu\" tähän moduuliin. Päivitys tehdään automaattisesti. Tarkista asetukset, jos käytät toimintoa."
 
-#: data/scripts/upgrade.php:466
+#: data/scripts/upgrade.php:462
 msgid "It is now possible to define a breadcrumbs (may need to be added inside theme)."
 msgstr "Murupolun voi nyt määrittää (se on ehkä lisättävä teemaan)."
 
-#: data/scripts/upgrade.php:484
+#: data/scripts/upgrade.php:480
 msgid "Two new resource page blocks has been added, in particular to display buttons to previous and next resource (require module Easy Admin)."
 msgstr "Kaksi uutta resurssisivun lohkoa on lisätty erityisesti edelliseen ja seuraavaan resurssiin siirtyvien painikkeiden näyttämistä varten (edellyttää Easy Admin -lisäosaa)."
 
-#: data/scripts/upgrade.php:775 data/scripts/upgrade.php:1387
+#: data/scripts/upgrade.php:776 data/scripts/upgrade.php:1397
 msgid "The block \"Separator\" was replaced by the Omeka block \"Line Break\" with block class \"transparent\" and layout class \"separator\"."
 msgstr "Lohko \"Separator\" korvattiin Omekan lohkolla \"Line Break\", jonka lohkoluokka on \"transparent\" ja asetteluluokka \"separator\"."
 
-#: data/scripts/upgrade.php:795
+#: data/scripts/upgrade.php:796
 msgid "The options \"alignment\" and \"divclass\" of some blocks were moved to block layout."
 msgstr "Joidenkin lohkojen asetukset \"alignment\" ja \"divclass\" siirrettiin lohkoasetteluun."
 
-#: data/scripts/upgrade.php:844
+#: data/scripts/upgrade.php:845
 msgid "Site {site_slug} / Page {page_slug}: Type \"intermediate\" and \"end\" divisions must be after a block \"start\" or \"intermediate\"."
 msgstr "Sivusto {site_slug} / sivu {page_slug}: Tyypin \"intermediate\" ja \"end\" jaottelujen on oltava lohkon \"start\" tai \"intermediate\" jälkeen."
 
-#: data/scripts/upgrade.php:862
+#: data/scripts/upgrade.php:863
 msgid "Site {site_slug} / Page {page_slug}: Unauthorized type \"{type}\" for block division."
 msgstr "Sivusto {site_slug} / sivu {page_slug}: Lohkojaottelun tyyppi \"{type}\" ei ole sallittu."
 
-#: data/scripts/upgrade.php:880
+#: data/scripts/upgrade.php:881
 msgid "Site {site_slug} / Page {page_slug}: A block \"division\" cannot be single."
 msgstr "Sivusto {site_slug} / sivu {page_slug}: Lohko \"division\" ei voi olla yksittäinen."
 
-#: data/scripts/upgrade.php:893
+#: data/scripts/upgrade.php:894
 msgid "Site {site_slug} / Page {page_slug}: The first division block must be of type \"start\"."
 msgstr "Sivusto {site_slug} / sivu {page_slug}: Ensimmäisen jaottelulohkon tyypin on oltava \"start\"."
 
-#: data/scripts/upgrade.php:905
+#: data/scripts/upgrade.php:906
 msgid "Site {site_slug} / Page {page_slug}: The last division block must be of type \"end\"."
 msgstr "Sivusto {site_slug} / sivu {page_slug}: Viimeisen jaottelulohkon tyypin on oltava \"end\"."
 
-#: data/scripts/upgrade.php:916
+#: data/scripts/upgrade.php:917
 msgid "Site {site_slug} / Page {page_slug}: Some divisions have no end."
 msgstr "Sivusto {site_slug} / sivu {page_slug}: Joiltakin jaotteluilta puuttuu loppu."
 
-#: data/scripts/upgrade.php:973
+#: data/scripts/upgrade.php:974
 msgid "Site {site_slug} / Page {page_slug}: The migration does not manage nested divisions. You should finalize migration of the page manually, for example with grid and block groups."
 msgstr "Sivusto {site_slug} / sivu {page_slug}: Siirto ei käsittele sisäkkäisiä jaotteluja. Viimeistele sivun siirto käsin esimerkiksi ruudukon ja lohkoryhmien avulla."
 
-#: data/scripts/upgrade.php:1031
+#: data/scripts/upgrade.php:1032
 msgid "The blocks Division were replaced by a group of blocks when possible (not nested). See messages above or logs for issues."
 msgstr "Division-lohkot korvattiin mahdollisuuksien mukaan lohkoryhmällä (ei sisäkkäisiä). Katso ongelmat yllä olevista viesteistä tai lokeista."
 
-#: data/scripts/upgrade.php:1084
+#: data/scripts/upgrade.php:1085
 msgid "The setting \"html\" was removed from block Browse Preview. A new block \"Html\" was prepended to all blocks that had a filled html. You may check pages for styles: {json}"
 msgstr "Asetus \"html\" poistettiin Browse Preview -lohkosta. Uusi \"Html\"-lohko lisättiin kaikkien sellaisten lohkojen alkuun, joissa HTML-sisältö oli täytetty. Sivujen tyylit kannattaa tarkistaa: {json}"
 
-#: data/scripts/upgrade.php:1146
+#: data/scripts/upgrade.php:1154
 msgid "The block Browse Preview is no more managed by this module. If you used specific settings, use the block Search Results."
 msgstr "Tämä lisäosa ei enää hallitse Browse Preview -lohkoa. Jos käytit erityisasetuksia, käytä Search Results -lohkoa."
 
-#: data/scripts/upgrade.php:1153 data/scripts/upgrade.php:1506
+#: data/scripts/upgrade.php:1161 data/scripts/upgrade.php:1523
 msgid "The block \"Browse Preview\" filled with specific features (query with specific site, pagination and sort headings) were replaced by block Search results and template \"search-results-browse-preview-deprecated\": {json}"
 msgstr "Erityistoiminnoilla (tiettyyn sivustoon kohdistuva kysely, sivutus ja lajitteluotsikot) täytetyt \"Browse Preview\" -lohkot korvattiin Search Results -lohkoilla ja mallipohjalla \"search-results-browse-preview-deprecated\": {json}"
 
-#: data/scripts/upgrade.php:1232
+#: data/scripts/upgrade.php:1240
 msgid "The setting \"heading\" was removed from blocks. A new block \"Heading\" was prepended to all blocks that had a filled heading. You may check pages for styles: {json}"
 msgstr "Asetus \"heading\" poistettiin lohkoista. Uusi \"Heading\"-lohko lisättiin kaikkien sellaisten lohkojen alkuun, joissa otsikko oli täytetty. Sivujen tyylit kannattaa tarkistaa: {json}"
 
-#: data/scripts/upgrade.php:1239
+#: data/scripts/upgrade.php:1247
 msgid "A new block \"Heading\" allows to separate blocks with a html heading and replaces previous blocks with setting \"heading\"."
 msgstr "Uudella \"Heading\"-lohkolla lohkot voi erottaa HTML-otsikolla, ja se korvaa aiemmat lohkot, joissa oli asetus \"heading\"."
 
-#: data/scripts/upgrade.php:1264
+#: data/scripts/upgrade.php:1272
 msgid "The old block \"Page Date\" was replaced by the core one \"Page Date Time\". The variable names were changed, so check your theme if needed."
 msgstr "Vanha \"Page Date\" -lohko korvattiin ytimen \"Page Date Time\" -lohkolla. Muuttujien nimet muuttuivat, joten tarkista tarvittaessa teemasi."
 
-#: data/scripts/upgrade.php:1318
+#: data/scripts/upgrade.php:1326
 msgid "For block Asset, the keys \"class\" and \"url\" of assets were moved to the start of the caption and available only with specific block templates."
 msgstr "Asset-lohkossa aineistojen avaimet \"class\" ja \"url\" siirrettiin kuvatekstin alkuun, ja ne ovat käytettävissä vain tietyissä lohkomallipohjissa."
 
-#: data/scripts/upgrade.php:1323
+#: data/scripts/upgrade.php:1331
 msgid "The block Item Showcase was renamed Media in Omeka S v4.1. The option \"linkType\" was renamed \"link\". Check your themes to update them."
 msgstr "Item Showcase -lohko nimettiin Omeka S:n versiossa 4.1 Media-lohkoksi. Asetus \"linkType\" nimettiin \"link\"-asetukseksi. Päivitä teemasi tarvittaessa."
 
-#: data/scripts/upgrade.php:1328
+#: data/scripts/upgrade.php:1336
 msgid "The templates item-showcase-xxx were renamed media-item-showcase-xxx. Check your themes to update them or to move them to common/block-template and to add them in theme.ini as templates for block \"Media\"."
 msgstr "Mallipohjat item-showcase-xxx nimettiin media-item-showcase-xxx-mallipohjiksi. Päivitä teemasi tai siirrä ne hakemistoon common/block-template ja lisää ne theme.ini-tiedostoon \"Media\"-lohkon mallipohjiksi."
 
-#: data/scripts/upgrade.php:1333
+#: data/scripts/upgrade.php:1341
 msgid "The old template mechanism of the module BlockPlus was replaced by the new mechanism of Omeka S v4.1."
 msgstr "BlockPlus-lisäosan vanha mallipohjamekanismi korvattiin Omeka S 4.1:n uudella mekanismilla."
 
-#: data/scripts/upgrade.php:1338
+#: data/scripts/upgrade.php:1346
 msgid "It is recommended to check your themes and to move specific templates from \"view/common/block-layout\" to \"view/common/block-template\" and to declare them in the file theme.ini. This is not needed for the default template of a block. After moving, the option \"template\" of each block should be updated in each page."
 msgstr "On suositeltavaa tarkistaa teemat, siirtää erityiset mallipohjat hakemistosta \"view/common/block-layout\" hakemistoon \"view/common/block-template\" ja ilmoittaa ne theme.ini-tiedostossa. Tätä ei tarvita lohkon oletusmallipohjalle. Siirron jälkeen kunkin lohkon asetus \"template\" on päivitettävä jokaisella sivulla."
 
-#: data/scripts/upgrade.php:1343
+#: data/scripts/upgrade.php:1351
 msgid "Because old features of the module were integrated inside Omeka S since v4.1 ({link}user doc{link_end}, {link_2}dev doc{link_end}), the blocks Asset, Browse Preview, Html, Item Showcase, Item With Metadata, List of Pages, Page Date, and Page Title are no more overridden."
 msgstr "Koska lisäosan vanhat ominaisuudet on integroitu Omeka S:ään versiosta 4.1 alkaen ({link}käyttäjän ohje{link_end}, {link_2}kehittäjän ohje{link_end}), lohkoja Asset, Browse Preview, Html, Item Showcase, Item With Metadata, List of Pages, Page Date ja Page Title ei enää ohiteta."
 
-#: data/scripts/upgrade.php:1354
+#: data/scripts/upgrade.php:1362
 msgid "Warning: It is important to check all site pages because the integration of the module features in Omeka S is a complex process and some features are not upgradable."
 msgstr "Varoitus: Kaikki sivustojen sivut on tärkeää tarkistaa, koska lisäosien ominaisuuksien integrointi Omeka S:ään on monimutkainen prosessi eikä kaikkia ominaisuuksia voi päivittää automaattisesti."
 
-#: data/scripts/upgrade.php:1358
+#: data/scripts/upgrade.php:1366
 msgid "In particular, check deprecated block templates and blocks Asset, Browse Preview and nested Division. Check styles too, because some html <div> and classes were added or removed by Omeka S and the module. Warning: as long as you do not re-save a page, old page settings will work. Once saved a new time, some old settings will be removed."
 msgstr "Tarkista erityisesti vanhentuneet lohkomallipohjat sekä lohkot Asset, Browse Preview ja sisäkkäinen Division. Tarkista myös tyylit, sillä Omeka S ja lisäosa ovat lisänneet tai poistaneet joitakin HTML-<div>-elementtejä ja luokkia. Varoitus: vanhat sivuasetukset toimivat niin kauan kuin sivua ei tallenneta uudelleen. Kun sivu tallennetaan uudelleen, osa vanhoista asetuksista poistetaan."
 
-#: data/scripts/upgrade.php:1436
+#: data/scripts/upgrade.php:1446
 msgid "The template name of some of the blocks {list} where renamed for deprecation. Check your theme if you use them. Matching pages: {json}"
 msgstr "Joidenkin lohkojen {list} mallipohjien nimet muutettiin vanhentumisen vuoksi. Tarkista teemasi, jos käytät niitä. Vastaavat sivut: {json}"
 
-#: data/scripts/upgrade.php:1558
+#: data/scripts/upgrade.php:1575
 msgid "The setting \"heading\" was removed from blocks Search Results. A new block \"Heading\" was prepended to all blocks that had a filled heading. You may check pages for styles: {json}"
 msgstr "Asetus \"heading\" poistettiin Search Results -lohkoista. Uusi \"Heading\"-lohko lisättiin kaikkien sellaisten lohkojen alkuun, joissa otsikko oli täytetty. Sivujen tyylit kannattaa tarkistaa: {json}"
 
-#: data/scripts/upgrade.php:1637
+#: data/scripts/upgrade.php:1654
 msgid "These templates for block \"Html\" should contain `$block->dataValue('html', '')` because `$html` is no more available by default. Matching files: {json}"
 msgstr "Näiden \"Html\"-lohkon mallipohjien tulee sisältää `$block->dataValue('html', '')`, koska `$html` ei ole enää oletusarvoisesti käytettävissä. Vastaavat tiedostot: {json}"
 
-#: data/scripts/upgrade.php:1663
+#: data/scripts/upgrade.php:1680
 msgid "The block \"Browse Preview\" do not have the variable `$site` anymore. Check your theme if you customized it. Matching pages: {json}."
 msgstr "\"Browse Preview\" -lohkossa ei enää ole muuttujaa `$site`. Tarkista teemasi, jos olet mukauttanut sitä. Vastaavat sivut: {json}."
 
-#: data/scripts/upgrade.php:1708
+#: data/scripts/upgrade.php:1725
 msgid "The template layout of some blocks was renamed. Check your theme if you used them. Matching pages: {json}."
 msgstr "Joidenkin lohkojen asettelumallipohja nimettiin uudelleen. Tarkista teemasi, jos käytit niitä. Vastaavat sivut: {json}."
 
-#: data/scripts/upgrade.php:1817
+#: data/scripts/upgrade.php:1834
 msgid "The data of blocks \"Asset\" were migrated to manage asset class and url as the first two lines of the caption. Update your theme like asset templates. Matching pages: {json}."
 msgstr "\"Asset\"-lohkojen tiedot siirrettiin siten, että aineiston luokka ja URL-osoite käsitellään kuvatekstin kahtena ensimmäisenä rivinä. Päivitä teemasi aineistomallipohjien tavoin. Vastaavat sivut: {json}."
 
-#: data/scripts/upgrade.php:1913
+#: data/scripts/upgrade.php:1930
 msgid "The setting \"heading\" was removed from block Media. A new block \"Heading\" was prepended to all blocks that had a filled heading. You may check pages for styles: {json}"
 msgstr "Asetus \"heading\" poistettiin Media-lohkosta. Uusi \"Heading\"-lohko lisättiin kaikkien sellaisten lohkojen alkuun, joissa otsikko oli täytetty. Sivujen tyylit kannattaa tarkistaa: {json}"
 
-#: data/scripts/upgrade.php:2033
+#: data/scripts/upgrade.php:2050
 msgid "The block Resource Text has been converted to a group of blocks Media and Html. The option \"caption position\" was moved to layout class. You may check pages for styles: {json}"
 msgstr "Resource Text -lohko muunnettiin Media- ja Html-lohkojen ryhmäksi. Asetus \"caption position\" siirrettiin asetteluluokkaan. Sivujen tyylit kannattaa tarkistaa: {json}"
 
-#: data/scripts/upgrade.php:2049
+#: data/scripts/upgrade.php:2066
 msgid "The variables \"$html\" and \"$captionPosition\" were removed from block Resource Text (converted into block Media). You should fix them: {json}"
 msgstr "Muuttujat \"$html\" ja \"$captionPosition\" poistettiin Resource Text -lohkosta (joka muunnettiin Media-lohkoksi). Korjaa ne: {json}"
 
-#: data/scripts/upgrade.php:2097
+#: data/scripts/upgrade.php:2114
 msgid "The option \"type\" of block Page Metadata was migrated to page layout option and page templates were added. Update your theme if needed. Matching pages: {json}."
 msgstr "Page Metadata -lohkon asetus \"type\" siirrettiin sivuasettelun asetukseksi, ja sivumallipohjat lisättiin. Päivitä teemasi tarvittaessa. Vastaavat sivut: {json}."
 
-#: data/scripts/upgrade.php:2107
+#: data/scripts/upgrade.php:2124
 msgid "The option \"type\" of block Page Metadata cannot be migrated because a page layout template was already set. Matching pages: {json}."
 msgstr "Page Metadata -lohkon asetusta \"type\" ei voi siirtää, koska sivuasettelun mallipohja on jo asetettu. Vastaavat sivut: {json}."
 
-#: data/scripts/upgrade.php:2115
+#: data/scripts/upgrade.php:2132
 msgid "All themes that contain custom templates of the blocks should be moved from \"view/common/block-layout\" to \"view/common/block-template\" except if they override the default one with the same name. See {link}readme{link_end} for more information about migration."
 msgstr "Kaikkien teemojen, jotka sisältävät lohkojen mukautettuja mallipohjia, tiedostot tulee siirtää hakemistosta \"view/common/block-layout\" hakemistoon \"view/common/block-template\", paitsi jos ne ohittavat samannimisen oletusmallipohjan. Lisätietoja siirrosta on {link}readme-tiedostossa{link_end}."
 
-#: data/scripts/upgrade.php:2139
+#: data/scripts/upgrade.php:2156
 msgid "New resource blocks allow to wrap other blocks with html elements <div> and <section>."
 msgstr "Uusilla resurssilohkoilla muut lohkot voi ympäröidä HTML-elementeillä <div> ja <section>."
 
-#: data/scripts/upgrade.php:2146
+#: data/scripts/upgrade.php:2163
 msgid "It is now possible to append a list of blocks via a simple click when editing a site page."
 msgstr "Sivuston sivua muokattaessa lohkoluettelon voi nyt lisätä yhdellä napsautuksella."
 
-#: data/scripts/upgrade.php:2164
+#: data/scripts/upgrade.php:2181
 msgid "If you created some lists of blocks in version 3.4.25, the block group is no more implicit, so you should update each group manually: prepend `o:block.0.o:layout = \"blockGroup\"` and prepend `blocks.0.` to optional root `o:layout_data`. Furthermore, the key \"block_groups\" in config was renamed \"page_models\"."
 msgstr "Jos loit lohkoluetteloita versiossa 3.4.25, lohkoryhmä ei ole enää implisiittinen, joten jokainen ryhmä on päivitettävä käsin: lisää alkuun `o:block.0.o:layout = \"blockGroup\"` ja lisää etuliite `blocks.0.` valinnaiseen juuritason `o:layout_data`-avaimeen. Lisäksi asetusten avain \"block_groups\" nimettiin uudelleen avaimeksi \"page_models\"."
 
-#: data/scripts/upgrade.php:2169
+#: data/scripts/upgrade.php:2186
 msgid "It is now possible to select a page model with page settings and blocks when creating a new page."
 msgstr "Uutta sivua luotaessa voi nyt valita sivumallin, joka sisältää sivuasetukset ja lohkot."
 
-#: data/scripts/upgrade.php:2173
+#: data/scripts/upgrade.php:2190
 msgid "It is now possible to create a page model or a list of blocks via a simple click when editing a page."
 msgstr "Sivua muokattaessa sivumallin tai lohkoluettelon voi nyt luoda yhdellä napsautuksella."
 
-#: data/scripts/upgrade.php:2215
+#: data/scripts/upgrade.php:2232
 msgid "A new site setting allows to permit site editors to create page models and blocks groups."
 msgstr "Uudella sivustoasetuksella sivuston muokkaajille voi antaa oikeuden luoda sivumalleja ja lohkoryhmiä."
 
-#: data/scripts/upgrade.php:2219
+#: data/scripts/upgrade.php:2236
 msgid "New templates were added to block html in order to display an accordion and a dialog box."
 msgstr "Html-lohkoon lisättiin uudet mallipohjat haitarin ja valintaikkunan näyttämistä varten."
 
-#: data/scripts/upgrade.php:2296
+#: data/scripts/upgrade.php:2313
 msgid "The setting \"html\" was removed from block External Content and Search Form. A new block \"Html\" was prepended to all blocks that had a filled html. You may check pages for styles: {json}"
 msgstr "Asetus \"html\" poistettiin External Content- ja Search Form -lohkoista. Uusi \"Html\"-lohko lisättiin kaikkien sellaisten lohkojen alkuun, joissa HTML-sisältö oli täytetty. Sivujen tyylit kannattaa tarkistaa: {json}"
 
-#: data/scripts/upgrade.php:2304
+#: data/scripts/upgrade.php:2321
 msgid "New templates were added to blocks Showcase, External Content and Search form."
 msgstr "Lohkoihin Showcase, External Content ja Search Form lisättiin uusia mallipohjia."
 
-#: data/scripts/upgrade.php:2311
+#: data/scripts/upgrade.php:2328
 msgid "The block Page metadata is deprecated in favor of an integrated form and will be removed in a future version. The metadata will be available as standard rdf data too."
 msgstr "Page Metadata -lohko on vanhentunut integroidun lomakkeen vuoksi, ja se poistetaan tulevassa versiossa. Metatiedot ovat käytettävissä myös tavallisina RDF-tietoina."
 
-#: data/scripts/upgrade.php:2352
+#: data/scripts/upgrade.php:2369
 msgid "The setting \"show title\" was replaced by components (title, body, thumbnail) in block Item Set Showcase. You may check pages: {json}"
 msgstr "Asetus \"show title\" korvattiin Item Set Showcase -lohkon osilla (otsikko, sisältö, pikkukuva). Sivut kannattaa tarkistaa: {json}"
 
-#: data/scripts/upgrade.php:2359
+#: data/scripts/upgrade.php:2376
 msgid "The setting \"show title\" was replaced by components (title, body, thumbnail) in block Item Set Showcase."
 msgstr "Asetus \"show title\" korvattiin Item Set Showcase -lohkon osilla (otsikko, sisältö, pikkukuva)."
 
-#: data/scripts/upgrade.php:2374
+#: data/scripts/upgrade.php:2391
 msgid "The js library \"ThumbnailGridExpandingPreview\" was renamed \"thumbnail-grid-expanding-preview\". You should fix your theme: {json}"
 msgstr "JavaScript-kirjasto \"ThumbnailGridExpandingPreview\" nimettiin uudelleen muotoon \"thumbnail-grid-expanding-preview\". Korjaa teemasi: {json}"
 
-#: data/scripts/upgrade.php:2411
+#: data/scripts/upgrade.php:2428
 msgid "A sub-template was added to display the block browse preview gallery with thumbnail \"medium\"."
 msgstr "Browse Preview -lohkon gallerian näyttämiseen lisättiin alimallipohja, jossa pikkukuvan koko on \"medium\"."
 
-#: data/scripts/upgrade.php:2521
+#: data/scripts/upgrade.php:2538
 msgid "The setting \"components\" of blocks Item Set Showcase and Search Results were updated: to set empty components now means no component. You may check pages: {json}"
 msgstr "Item Set Showcase- ja Search Results -lohkojen asetus \"components\" päivitettiin: tyhjät osat tarkoittavat nyt, ettei osia ole. Sivut kannattaa tarkistaa: {json}"
 
-#: data/scripts/upgrade.php:2531
+#: data/scripts/upgrade.php:2548
 msgid "A resource block was added to be displayed when no item or no media is available."
 msgstr "Lisättiin resurssilohko, joka näytetään, kun kohdetta tai mediaa ei ole saatavilla."
 
-#: data/scripts/upgrade.php:2641
+#: data/scripts/upgrade.php:2658
 msgid "The block Showcase has now a setting \"components\", the key \"title\" was renamed \"heading\", and option \"media_display\" was removed. The field html was re-upgraded. You may check pages: {json}"
 msgstr "Showcase-lohkossa on nyt asetus \"components\", avain \"title\" nimettiin uudelleen avaimeksi \"heading\", ja asetus \"media_display\" poistettiin. HTML-kenttä päivitettiin uudelleen. Sivut kannattaa tarkistaa: {json}"
 
-#: data/scripts/upgrade.php:2648
+#: data/scripts/upgrade.php:2665
 msgid "The block Showcase has now a setting \"components\"."
 msgstr "Showcase-lohkossa on nyt asetus \"components\"."
 
-#: data/scripts/upgrade.php:2673
+#: data/scripts/upgrade.php:2690
 msgid "Site page blocks: {site_page_slugs}"
 msgstr "Sivustosivujen lohkot: {site_page_slugs}"
 
-#: data/scripts/upgrade.php:2689
+#: data/scripts/upgrade.php:2706
 msgid "Sites with resource page blocks: {site_slugs}"
 msgstr "Sivustot, joilla on resurssisivulohkoja: {site_slugs}"
 
-#: data/scripts/upgrade.php:2718
+#: data/scripts/upgrade.php:2735
 msgid "Themes: {list}"
 msgstr "Teemat: {list}"
 
-#: data/scripts/upgrade.php:2728
+#: data/scripts/upgrade.php:2745
 msgid "Breadcrumbs were moved to module Menu. Please install module Menu version 3.4.12 or later before upgrading Block Plus. Used in: {usage}"
 msgstr "Murupolut siirrettiin Menu-lisäosaan. Asenna Menu-lisäosan versio 3.4.12 tai uudempi ennen Block Plus -lisäosan päivittämistä. Käytössä kohteissa: {usage}"
 
-#: data/scripts/upgrade.php:2736
+#: data/scripts/upgrade.php:2753
 msgid "Breadcrumbs (view helper, block layout, and resource page block layout) was moved to module {link}Menu{link_end}."
 msgstr "Murupolut (näkymäavustin, lohkoasettelu ja resurssisivun lohkoasettelu) siirrettiin lisäosaan {link}Menu{link_end}."
 
-#: data/scripts/upgrade.php:2749
+#: data/scripts/upgrade.php:2766
 msgid "The resource block \"Download Primary\" was moved to module ZipDownload. Please install it before upgrading Block Plus. Used in sites: {site_slugs}."
 msgstr "Resurssilohko \"Download Primary\" siirrettiin ZipDownload-lisäosaan. Asenna se ennen Block Plus -moduulin päivittämistä. Käytössä sivustoilla: {site_slugs}."
 
-#: data/scripts/upgrade.php:2756
+#: data/scripts/upgrade.php:2773
 msgid "The resource block \"Download Primary\" was moved to module {link}ZipDownload{link_end}."
 msgstr "Resurssilohko \"Download Primary\" siirrettiin lisäosaan {link}ZipDownload{link_end}."
 
-#: data/scripts/upgrade.php:2786
+#: data/scripts/upgrade.php:2803
 msgid "The D3.js library has been upgraded from version 3 to version 7.9. If you have customized the D3 Graph block in your theme (overriding \"d3-graph.phtml\" or \"d3-graph.js\"), you must update your customizations to use the D3 v7 API. The main changes are: \"d3.layout.force()\" becomes \"d3.forceSimulation()\", \"force.drag\" becomes \"d3.drag()\", and \"svg:a\" becomes \"a\". See {link}D3 v7 migration guide{link_end}. Pages using D3 Graph: {pages}."
 msgstr "D3.js-kirjasto on päivitetty versiosta 3 versioon 7.9. Jos olet mukauttanut D3 Graph -lohkoa teemassasi (ohittamalla tiedoston \"d3-graph.phtml\" tai \"d3-graph.js\"), mukautukset on päivitettävä käyttämään D3 v7 -rajapintaa. Tärkeimmät muutokset ovat: \"d3.layout.force()\" muuttuu muotoon \"d3.forceSimulation()\", \"force.drag\" muotoon \"d3.drag()\" ja \"svg:a\" muotoon \"a\". Katso {link}D3 v7 -siirtymäopas{link_end}. D3 Graphia käyttävät sivut: {pages}."
 
-#: data/scripts/upgrade.php:2796
+#: data/scripts/upgrade.php:2813
 msgid "The D3.js library has been upgraded from version 3 to version 7.9. If you use the D3 Graph block in the future and have theme customizations, ensure they use the D3 v7 API."
 msgstr "D3.js-kirjasto on päivitetty versiosta 3 versioon 7.9. Jos käytät D3 Graph -lohkoa myöhemmin ja teemassasi on mukautuksia, varmista, että ne käyttävät D3 v7 -rajapintaa."
 
-#: Module.php:51
-msgid "The javascript library should be installed. See module’s installation documentation."
-msgstr "JavaScript-kirjasto on asennettava. Katso lisäosan asennusohje."
-
-#: Module.php:212
+#: Module.php:215
 msgid "The page model \"{page_model}\" does not exist."
 msgstr "Sivumallia \"{page_model}\" ei ole olemassa."
 
-#: Module.php:430
+#: Module.php:433
 msgid "Blocks only"
 msgstr "Vain lohkot"
 
-#: Module.php:431
+#: Module.php:434
 msgid "Full page"
 msgstr "Koko sivu"
 
-#: Module.php:447
+#: Module.php:450
 msgid "Main settings"
 msgstr "Pääasetukset"
 
-#: Module.php:451
+#: Module.php:454
 msgid "Site settings"
 msgstr "Sivustoasetukset"
 
-#: Module.php:456
+#: Module.php:459
 msgid "Theme settings"
 msgstr "Teema-asetukset"
 
-#: Module.php:457
+#: Module.php:460
 msgid "Theme settings (unsupported)"
 msgstr "Teema-asetukset (ei tuettu)"
 
-#: Module.php:548
+#: Module.php:551
 msgid "\"{name}\" is already used as page model and was renamed \"{name_2}\"."
 msgstr "\"{name}\" on jo käytössä sivumallina, ja se nimettiin uudelleen muotoon \"{name_2}\"."
 
-#: Module.php:619
+#: Module.php:622
 msgid "The page models can’t contain a value with a double quote (\")"
 msgstr "Sivumallit eivät voi sisältää arvoa, jossa on lainausmerkki (\")"
 
-#: Module.php:631
+#: Module.php:634
 msgid "The blocks group cannot be stored in the theme settings: the theme does not support it. See {link}readme{link_end}."
 msgstr "Lohkoryhmää ei voi tallentaa teema-asetuksiin, koska teema ei tue sitä. Katso {link}readme{link_end}."
 
-#: Module.php:664
+#: Module.php:667
 msgid "The page model \"{label}\" ({name}) was saved in theme settings."
 msgstr "Sivumalli \"{label}\" ({name}) tallennettiin teema-asetuksiin."
 
-#: Module.php:665
+#: Module.php:668
 msgid "The blocks group \"{label}\" ({name}) was saved in theme settings."
 msgstr "Lohkoryhmä \"{label}\" ({name}) tallennettiin teema-asetuksiin."
 
-#: Module.php:669
+#: Module.php:672
 msgid "The page model \"{label}\" ({name}) was saved in site settings."
 msgstr "Sivumalli \"{label}\" ({name}) tallennettiin sivustoasetuksiin."
 
-#: Module.php:670
+#: Module.php:673
 msgid "The blocks group \"{label}\" ({name}) was saved in site settings."
 msgstr "Lohkoryhmä \"{label}\" ({name}) tallennettiin sivustoasetuksiin."
 
-#: Module.php:674
+#: Module.php:677
 msgid "The page model \"{label}\" ({name}) was saved in main settings."
 msgstr "Sivumalli \"{label}\" ({name}) tallennettiin pääasetuksiin."
 
-#: Module.php:675
+#: Module.php:678
 msgid "The blocks group \"{label}\" ({name}) was saved in main settings."
 msgstr "Lohkoryhmä \"{label}\" ({name}) tallennettiin pääasetuksiin."
 
-#: Module.php:703
+#: Module.php:706
 msgid "Page models and blocks groups"
 msgstr "Sivumallit ja lohkoryhmät"
 
-#: Module.php:729 Module.php:737 config/module.config.php:248
+#: Module.php:732 Module.php:740 config/module.config.php:249
 msgid "Page metadata"
 msgstr "Sivun metatiedot"
 
-#: Module.php:751 src/Form/PageMetadataFieldset.php:18
+#: Module.php:754 src/Form/PageMetadataFieldset.php:18
 msgid "Credits"
 msgstr "Tekijätiedot"
 
-#: Module.php:762 src/Form/PageMetadataFieldset.php:50
+#: Module.php:765 src/Form/PageMetadataFieldset.php:50
 msgid "Tags"
 msgstr "Tunnisteet"
 
-#: Module.php:763 src/Form/PageMetadataFieldset.php:51
+#: Module.php:766 src/Form/PageMetadataFieldset.php:51
 msgid "Comma-separated list of keywords"
 msgstr "Pilkuilla erotettu avainsanaluettelo"
 
-#: Module.php:777 src/Form/PageMetadataFieldset.php:40
+#: Module.php:780 src/Form/PageMetadataFieldset.php:40
 msgid "Featured"
 msgstr "Nostettu"
 
-#: Module.php:788
+#: Module.php:791
 msgid "Is new"
 msgstr "On uusi"
 
-#: Module.php:812 src/Form/D3GraphFieldset.php:17
+#: Module.php:815 src/Form/D3GraphFieldset.php:17
 #: src/Form/PageMetadataFieldset.php:62 src/Form/BlockFieldset.php:18
 msgid "Params"
 msgstr "Parametrit"
 
-#: Module.php:813
+#: Module.php:816
 msgid "The params can be fetched as raw text, key/value pairs, or json depending on theme."
 msgstr "Parametrit voidaan hakea raakana tekstinä, avain–arvo-pareina tai JSON-muodossa teeman mukaan."
 
@@ -947,52 +938,56 @@ msgstr "Sivumallit"
 msgid "Blocks groups"
 msgstr "Lohkoryhmät"
 
-#: src/Form/SearchResultsFieldset.php:34
+#: src/Form/SearchResultsFieldset.php:23
+msgid "Digital objects"
+msgstr "Digitaaliset kohteet"
+
+#: src/Form/SearchResultsFieldset.php:35
 msgid "Search pool query"
 msgstr "Hakujoukon kysely"
 
-#: src/Form/SearchResultsFieldset.php:35
+#: src/Form/SearchResultsFieldset.php:36
 msgid "Used to restrict resources to search, for example on an item set."
 msgstr "Käytetään haettavien resurssien rajaamiseen esimerkiksi kohdejoukon perusteella."
 
-#: src/Form/SearchResultsFieldset.php:59
+#: src/Form/SearchResultsFieldset.php:60
 msgid "Show pagination to browse all resources on the same page."
 msgstr "Näytä sivutus kaikkien resurssien selaamista varten samalla sivulla."
 
-#: src/Form/SearchResultsFieldset.php:69
+#: src/Form/SearchResultsFieldset.php:70
 msgid "Auto-scroll to block"
 msgstr "Automaattinen vieritys lohkoon"
 
-#: src/Form/SearchResultsFieldset.php:70
+#: src/Form/SearchResultsFieldset.php:71
 msgid "When enabled, the page will scroll to this block after form submission. Useful when the block is not at the top of the page."
 msgstr "Kun asetus on käytössä, sivu vieritetään tähän lohkoon lomakkeen lähettämisen jälkeen. Tämä on hyödyllistä, kun lohko ei ole sivun yläosassa."
 
-#: src/Form/SearchResultsFieldset.php:80
+#: src/Form/SearchResultsFieldset.php:81
 msgid "Sort headings"
 msgstr "Lajitteluotsikot"
 
-#: src/Form/SearchResultsFieldset.php:81
+#: src/Form/SearchResultsFieldset.php:82
 msgid "Display sort links for the list of results."
 msgstr "Näytä tulosluettelon lajittelulinkit."
 
-#: src/Form/SearchResultsFieldset.php:99
+#: src/Form/SearchResultsFieldset.php:100
 msgid "Resource template for sort headings"
 msgstr "Lajitteluotsikoiden resurssimalli"
 
-#: src/Form/SearchResultsFieldset.php:100
+#: src/Form/SearchResultsFieldset.php:101
 msgid "If set, the alternative labels of this resource template will be used to display the sort headings."
 msgstr "Jos tämä on määritetty, lajitteluotsikoissa käytetään tämän resurssimallin vaihtoehtoisia nimiöitä."
 
-#: src/Form/SearchResultsFieldset.php:107
+#: src/Form/SearchResultsFieldset.php:108
 msgid "Select resource template…"
 msgstr "Valitse resurssimalli…"
 
-#: src/Form/SearchResultsFieldset.php:121
+#: src/Form/SearchResultsFieldset.php:122
 #: src/Site/BlockLayout/SearchForm.php:21
 msgid "Search form"
 msgstr "Hakulomake"
 
-#: src/Form/SearchResultsFieldset.php:151
+#: src/Form/SearchResultsFieldset.php:152
 msgid "Properties to display for each result"
 msgstr "Kunkin tuloksen yhteydessä näytettävät ominaisuudet"
 
@@ -1179,11 +1174,11 @@ msgstr "HTML-sivuhuomautus (loppu)"
 msgid "Citation"
 msgstr "Viittaus"
 
-#: src/Site/ResourcePageBlockLayout/SeeAlso.php:19 config/module.config.php:272
+#: src/Site/ResourcePageBlockLayout/SeeAlso.php:19 config/module.config.php:273
 msgid "See also"
 msgstr "Katso myös"
 
-#: src/Site/ResourcePageBlockLayout/SeeAlso.php:107
+#: src/Site/ResourcePageBlockLayout/SeeAlso.php:108
 msgid "SeeAlso block: Error searching for related resources: {message}"
 msgstr "SeeAlso-lohko: Virhe liittyvien resurssien haussa: {message}"
 
@@ -1216,11 +1211,11 @@ msgid "Html div for tools (end)"
 msgstr "Työkalujen HTML-div (loppu)"
 
 #: src/Site/ResourcePageBlockLayout/SimilarContent.php:22
-#: config/module.config.php:278
+#: config/module.config.php:279
 msgid "Similar content"
 msgstr "Samankaltainen sisältö"
 
-#: src/Site/ResourcePageBlockLayout/SimilarContent.php:110
+#: src/Site/ResourcePageBlockLayout/SimilarContent.php:111
 msgid "SimilarContent block: Error searching for similar resources: {message}"
 msgstr "SimilarContent-lohko: Virhe samankaltaisten resurssien haussa: {message}"
 
@@ -1463,188 +1458,197 @@ msgstr "Tekstiä sisältävä resurssi"
 msgid "A group of blocks with a heading, a media and a field for html."
 msgstr "Lohkoryhmä, jossa on otsikko, media ja HTML-kenttä."
 
-#: config/module.config.php:144
+#: config/module.config.php:145
 msgid "Block Plus: Home page"
 msgstr "Block Plus: Etusivu"
 
-#: config/module.config.php:145
+#: config/module.config.php:146
 msgid "Block Plus: Exhibit"
 msgstr "Block Plus: Näyttely"
 
-#: config/module.config.php:146
+#: config/module.config.php:147
 msgid "Block Plus: Exhibit page"
 msgstr "Block Plus: Näyttelysivu"
 
-#: config/module.config.php:147
+#: config/module.config.php:148
 msgid "Block Plus: Simple page"
 msgstr "Block Plus: Yksinkertainen sivu"
 
-#: config/module.config.php:151
+#: config/module.config.php:152
 msgid "Block Plus: Asset with class and url"
 msgstr "Block Plus: Aineisto, jolla on luokka ja URL-osoite"
 
-#: config/module.config.php:152
+#: config/module.config.php:153
 msgid "Block Plus: Bootstrap Hero"
 msgstr "Block Plus: Bootstrap Hero"
 
-#: config/module.config.php:153
+#: config/module.config.php:154
 msgid "Block Plus: Left Right"
 msgstr "Block Plus: Vasen–oikea"
 
-#: config/module.config.php:154
+#: config/module.config.php:155
 msgid "Block Plus: Partners"
 msgstr "Block Plus: Kumppanit"
 
-#: config/module.config.php:155 config/module.config.php:181
-#: config/module.config.php:190 config/module.config.php:196
-#: config/module.config.php:213
+#: config/module.config.php:156 config/module.config.php:182
+#: config/module.config.php:191 config/module.config.php:197
+#: config/module.config.php:214
 msgid "Block Plus: Skip"
 msgstr "Block Plus: Ohita"
 
-#: config/module.config.php:156
+#: config/module.config.php:157
 msgid "Block Plus: Asset (deprecated)"
 msgstr "Block Plus: Aineisto (vanhentunut)"
 
-#: config/module.config.php:159
+#: config/module.config.php:160
 msgid "Block Plus: Arborescence"
 msgstr "Block Plus: Puurakenne"
 
-#: config/module.config.php:160 config/module.config.php:188
+#: config/module.config.php:161 config/module.config.php:189
 msgid "Block Plus: Glossary"
 msgstr "Block Plus: Sanasto"
 
-#: config/module.config.php:161
+#: config/module.config.php:162
 msgid "Block Plus: Html"
 msgstr "Block Plus: HTML"
 
-#: config/module.config.php:164
+#: config/module.config.php:165
 msgid "Block Plus: Card (template config)"
 msgstr "Block Plus: Kortti (mallipohjan määritys)"
 
-#: config/module.config.php:165
+#: config/module.config.php:166
 msgid "Block Plus: Carousel"
 msgstr "Block Plus: Karuselli"
 
-#: config/module.config.php:166
+#: config/module.config.php:167
 msgid "Block Plus: Filter by year"
 msgstr "Block Plus: Suodatus vuoden mukaan"
 
-#: config/module.config.php:167
+#: config/module.config.php:168
 msgid "Block Plus: Gallery (square)"
 msgstr "Block Plus: Galleria (neliö)"
 
-#: config/module.config.php:168
+#: config/module.config.php:169
 msgid "Block Plus: Gallery (medium)"
 msgstr "Block Plus: Galleria (keskikoko)"
 
-#: config/module.config.php:169
+#: config/module.config.php:170
 msgid "Block Plus: Gallery (medium, link to item)"
 msgstr "Block Plus: Galleria (keskikoko, linkki kohteeseen)"
 
-#: config/module.config.php:170
+#: config/module.config.php:171
 msgid "Block Plus: Subjects"
 msgstr "Block Plus: Aiheet"
 
-#: config/module.config.php:171
+#: config/module.config.php:172
 msgid "Block Plus: Timeline list"
 msgstr "Block Plus: Aikajanalista"
 
-#: config/module.config.php:172 config/module.config.php:216
+#: config/module.config.php:173 config/module.config.php:217
 msgid "Block Plus: Browse preview (deprecated)"
 msgstr "Block Plus: Selausesikatselu (vanhentunut)"
 
-#: config/module.config.php:175 config/module.config.php:219
+#: config/module.config.php:176 config/module.config.php:220
 msgid "Block Plus: Include html from group"
 msgstr "Block Plus: Sisällytä ryhmän HTML"
 
-#: config/module.config.php:178
+#: config/module.config.php:179
 msgid "Block Plus: Heading link"
 msgstr "Block Plus: Otsikkolinkki"
 
-#: config/module.config.php:179
+#: config/module.config.php:180
 msgid "Block Plus: Details/summary (start)"
 msgstr "Block Plus: Tiedot/yhteenveto (alku)"
 
-#: config/module.config.php:180
+#: config/module.config.php:181
 msgid "Block Plus: Details/summary (end)"
 msgstr "Block Plus: Tiedot/yhteenveto (loppu)"
 
-#: config/module.config.php:184
+#: config/module.config.php:185
 msgid "Block Plus: Accordion (h3)"
 msgstr "Block Plus: Haitari (h3)"
 
-#: config/module.config.php:185
+#: config/module.config.php:186
 msgid "Block Plus: Anchor for headings"
 msgstr "Block Plus: Otsikoiden ankkuri"
 
-#: config/module.config.php:186
+#: config/module.config.php:187
 msgid "Block Plus: Class to id"
 msgstr "Block Plus: Luokka tunnukseksi"
 
-#: config/module.config.php:187
+#: config/module.config.php:188
 msgid "Block Plus: Dialog (class for name)"
 msgstr "Block Plus: Valintaikkuna (nimen luokka)"
 
-#: config/module.config.php:189
+#: config/module.config.php:190
 msgid "Block Plus: Page header"
 msgstr "Block Plus: Sivun ylätunniste"
 
-#: config/module.config.php:193
+#: config/module.config.php:194
 msgid "Block Plus: Item with metadata (deprecated)"
 msgstr "Block Plus: Metatietoja sisältävä kohde (vanhentunut)"
 
-#: config/module.config.php:199
+#: config/module.config.php:200
 msgid "Block Plus: List of pages (deprecated)"
 msgstr "Block Plus: Sivuluettelo (vanhentunut)"
 
-#: config/module.config.php:202
+#: config/module.config.php:203
 msgid "Block Plus: List of sites (deprecated)"
 msgstr "Block Plus: Sivustoluettelo (vanhentunut)"
 
-#: config/module.config.php:206
+#: config/module.config.php:207
 msgid "Block Plus: Item showcase (deprecated)"
 msgstr "Block Plus: Kohteen esittely (vanhentunut)"
 
-#: config/module.config.php:207
+#: config/module.config.php:208
 msgid "Block Plus: Resource text (deprecated)"
 msgstr "Block Plus: Resurssin teksti (vanhentunut)"
 
-#: config/module.config.php:210
+#: config/module.config.php:211
 msgid "Block Plus: Page date time"
 msgstr "Block Plus: Sivun päivämäärä ja aika"
 
-#: config/module.config.php:222
+#: config/module.config.php:223
 msgid "Block Plus: Table of contents (deprecated)"
 msgstr "Block Plus: Sisällysluettelo (vanhentunut)"
 
-#: config/module.config.php:239
+#: config/module.config.php:240
 msgid "Collapse the list of groups of blocks"
 msgstr "Pienennä lohkoryhmäluettelo"
 
-#: config/module.config.php:240
+#: config/module.config.php:241
 msgid "Confirm download"
 msgstr "Vahvista lataus"
 
-#: config/module.config.php:243
+#: config/module.config.php:244
 msgid "Expand to display the list of groups of blocks"
 msgstr "Laajenna lohkoryhmäluettelo näkyviin"
 
-#: config/module.config.php:244
+#: config/module.config.php:245
 msgid "Insert Footnotes"
 msgstr "Lisää alaviitteet"
 
-#: config/module.config.php:249
+#: config/module.config.php:250
 msgid "Please wait for previous group of blocks to be prepared before adding a new one."
 msgstr "Odota, että edellinen lohkoryhmä on valmisteltu, ennen kuin lisäät uuden."
 
-#: config/module.config.php:251
+#: config/module.config.php:252
 msgid "This group does not contain any block."
 msgstr "Tämä ryhmä ei sisällä yhtään lohkoa."
 
-#: config/module.config.php:252
+#: config/module.config.php:253
 msgid "Url (deprecated)"
 msgstr "URL-osoite (vanhentunut)"
 
-#: config/module.config.php:325
+#: config/module.config.php:326
 msgid "Know more"
 msgstr "Lue lisää"
+
+#~ msgid "No previous resource"
+#~ msgstr "Ei edellistä resurssia"
+
+#~ msgid "No next resource"
+#~ msgstr "Ei seuraavaa resurssia"
+
+#~ msgid "The javascript library should be installed. See module’s installation documentation."
+#~ msgstr "JavaScript-kirjasto on asennettava. Katso lisäosan asennusohje."
