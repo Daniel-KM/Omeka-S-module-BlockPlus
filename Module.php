@@ -59,20 +59,6 @@ class Module extends AbstractModule
             );
             throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
         }
-
-        $errors = [];
-
-        $js = __DIR__ . '/asset/vendor/thumbnail-grid-expanding-preview/js/grid.js';
-        if (!file_exists($js)) {
-            $message = new PsrMessage(
-                'The javascript library should be installed. See module’s installation documentation.' // @translate
-            );
-            $errors[] = (string) $message->setTranslator($translator);
-        }
-
-        if ($errors) {
-            throw new \Omeka\Module\Exception\ModuleCannotInstallException(implode("\n", $errors));
-        }
     }
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void

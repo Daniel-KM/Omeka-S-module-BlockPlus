@@ -2800,7 +2800,7 @@ if (version_compare((string) $oldVersion, '3.4.43', '<')) {
     if ($d3GraphPages) {
         $slugList = array_map(fn ($row) => $row['site_slug'] . '/' . $row['page_slug'], $d3GraphPages);
         $message = new PsrMessage(
-            'The D3.js library has been upgraded from version 3 to version 7.9. If you have customized the D3 Graph block in your theme (overriding "d3-graph.phtml" or "d3-graph.js"), you must update your customizations to use the D3 v7 API. The main changes are: "d3.layout.force()" becomes "d3.forceSimulation()", "force.drag" becomes "d3.drag()", and "svg:a" becomes "a". See {link}D3 v7 migration guide{link_end}. Pages using D3 Graph: {pages}.', // @translate
+            'The D3.js library has been upgraded from version 3 to version 7.9. See {link}D3 v7 migration guide{link_end} if you customized blocks. Pages using D3 Graph: {pages}.', // @translate
             [
                 'link' => '<a href="https://observablehq.com/@d3/d3v6-migration-guide" target="_blank" rel="noopener">',
                 'link_end' => '</a>',
