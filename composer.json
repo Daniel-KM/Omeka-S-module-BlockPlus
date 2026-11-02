@@ -41,7 +41,6 @@
     "extra": {
         "installer-name": "BlockPlus",
         "external-assets": {
-            "asset/vendor/ckeditor-footnotes/": "https://github.com/Daniel-KM/Omeka-S-module-BlockPlus/releases/download/3.4.33/CKEditorFootnotes.1.2.0-fix-blockplus.tar.gz",
             "asset/vendor/thumbnail-grid-expanding-preview/": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/refs/tags/0.3.0.tar.gz",
             "asset/vendor/d3/d3.min.js": "https://unpkg.com/d3@7.9.0/dist/d3.min.js",
             "asset/vendor/slick/": "https://github.com/kenwheeler/slick/archive/refs/heads/master.tar.gz",

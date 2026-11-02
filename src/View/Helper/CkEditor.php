@@ -78,27 +78,40 @@ class CkEditor extends AbstractHelper
             CKEDITOR.config.customConfig = '$customConfigUrl';
             JS;
 
-        // Check if the footnotes plugin is available (requires external
-        // assets). Register it via addExternal so CKEditor knows where to
-        // find it, and gracefully degrade when missing.
-        $footnotesPluginPath = dirname(__DIR__, 3) . '/asset/vendor/ckeditor-footnotes/footnotes/plugin.js';
+        // The footnotes plugin (external asset) is shipped only by module
+        // DataTypeRdf; BlockPlus loads it from there when available. Register
+        // it via addExternal so CKEditor knows where to find it, and gracefully
+        // degrade when the module or the asset is missing.
+        $footnotesPluginPath = dirname(__DIR__, 4) . '/DataTypeRdf/asset/vendor/ckeditor-footnotes/footnotes/plugin.js';
         $hasFootnotes = file_exists($footnotesPluginPath);
         if ($hasFootnotes) {
-            $footnotesUrl = $escapeJs($assetUrl('vendor/ckeditor-footnotes/footnotes/', 'BlockPlus'));
+            $footnotesUrl = $escapeJs($assetUrl('vendor/ckeditor-footnotes/footnotes/', 'DataTypeRdf'));
             $script .= "\n" . <<<JS
                 CKEDITOR.plugins.addExternal('footnotes', '$footnotesUrl', 'plugin.js');
                 JS;
         } else {
             // Remove footnotes from extraPlugins to prevent CKEditor from
-            // failing to load the editor when the plugin is missing.
+            // failing to load the editor when the plugin is missing. The
+            // removal must run on "configLoaded", after the customConfig file
+            // has been merged (it reintroduces footnotes in extraPlugins), and
+            // before the plugins are actually loaded. Doing it on
+            // "instanceCreated" is too early: the customConfig then overwrites
+            // extraPlugins again.
             $script .= "\n" . <<<'JS'
                 CKEDITOR.on('instanceCreated', function(event) {
-                    var ep = event.editor.config.extraPlugins;
-                    if (typeof ep === 'string') {
-                        event.editor.config.extraPlugins = ep.replace(/,?footnotes/, '').replace(/^,/, '');
-                    } else if (Array.isArray(ep)) {
-                        event.editor.config.extraPlugins = ep.filter(function(p) { return p !== 'footnotes'; });
-                    }
+                    event.editor.on('configLoaded', function() {
+                        var config = event.editor.config;
+                        var ep = config.extraPlugins;
+                        if (typeof ep === 'string') {
+                            config.extraPlugins = ep.split(',').filter(function(p) {
+                                return p.trim() !== 'footnotes';
+                            }).join(',');
+                        } else if (Array.isArray(ep)) {
+                            config.extraPlugins = ep.filter(function(p) {
+                                return p !== 'footnotes';
+                            });
+                        }
+                    });
                 });
                 JS;
         }
@@ -113,7 +126,7 @@ class CkEditor extends AbstractHelper
             ->appendFile($assetUrl('vendor/ckeditor/ckeditor.js', 'Omeka'));
         if ($hasFootnotes) {
             $view->headScript()
-                ->appendFile($assetUrl('vendor/ckeditor-footnotes/footnotes/plugin.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
+                ->appendFile($assetUrl('vendor/ckeditor-footnotes/footnotes/plugin.js', 'DataTypeRdf'), 'text/javascript', ['defer' => 'defer']);
         }
         $view->headScript()
             ->appendFile($assetUrl('vendor/ckeditor/adapters/jquery.js', 'Omeka'))
