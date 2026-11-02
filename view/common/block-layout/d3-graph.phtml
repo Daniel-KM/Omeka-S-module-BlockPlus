@@ -180,6 +180,9 @@ foreach ($resources as $resource) {
             // Check the relation.
             if ($relation instanceof \Omeka\Api\Representation\AbstractResourceEntityRepresentation) {
                 // $relation is a correct object
+            } elseif (is_array($relation) && isset($relation['val'])) {
+                // Subject value: the linked resource owns the value.
+                $relation = $relation['val']->resource();
             } elseif (is_object($relation) && method_exists($relation, 'valueResource')) {
                 // $relation is not a correct object, but the linked resource can be used.
                 $relation = $relation->valueResource();
