@@ -763,6 +763,7 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
         $layoutData = $block->getLayoutData() ?? [];
         $layoutData['class'] = empty($data['class']) ? 'separator' : trim($data['class'] . ' separator');
         $data = ['break_type' => 'transparent'];
+        $block->setLayout('lineBreak');
         $block->setData($data);
         $block->setLayoutData($layoutData);
     }
@@ -1390,6 +1391,7 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
     // Do a clear to fix issues with new blocks created during migration.
     $entityManager->flush();
     $entityManager->clear();
+        $block->setLayout('lineBreak');
 
     $message = new PsrMessage(
         'The block "Separator" was replaced by the Omeka block "Line Break" with block class "transparent" and layout class "separator".' // @translate
