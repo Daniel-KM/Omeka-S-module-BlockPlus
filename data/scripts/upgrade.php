@@ -1101,8 +1101,15 @@ if (version_compare($oldVersion, '3.4.22-alpha.2', '<')) {
     foreach ($blocksRepository->findBy(['layout' => 'browsePreview']) as $block) {
         $data = $block->getData();
         $layoutData = $block->getLayoutData() ?? [];
+        // Keep the specific template, that is not yet migrated.
+        if (empty($layoutData['template_name']) && !empty($data['template'])) {
+            $templateName = pathinfo($data['template'], PATHINFO_FILENAME);
+            if ($templateName !== 'browse-preview') {
+                $layoutData['template_name'] = $templateName;
+            }
+        }
         $query = $data['query'] ?? '';
-        $isQuerySiteOverridden = $query && preg_match('~site_page_id=\d+~', $query);
+        $isQuerySiteOverridden = $query && preg_match('~site_(?:page_)?id=\d+~', $query);
         $isPageOverridden = !empty($data['pagination']) || !empty($data['sort_headings']) || !empty($data['resource_template']);
         // Convert to block Search Results only when needed.
         if ($isQuerySiteOverridden || $isPageOverridden) {
@@ -1379,6 +1386,7 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
         $layoutData = $block->getLayoutData() ?? [];
         $data = ['break_type' => 'transparent'];
         $layoutData['class'] = empty($layoutData['class']) ? 'separator' : trim($layoutData['class'] . ' separator');
+        $block->setLayout('lineBreak');
         $block->setData($data);
         $block->setLayoutData($layoutData);
     }
@@ -1454,8 +1462,15 @@ if (version_compare($oldVersion, '3.4.22-beta', '<')
     foreach ($blocksRepository->findBy(['layout' => 'browsePreview']) as $block) {
         $data = $block->getData();
         $layoutData = $block->getLayoutData() ?? [];
+        // Keep the specific template, that is not yet migrated.
+        if (empty($layoutData['template_name']) && !empty($data['template'])) {
+            $templateName = pathinfo($data['template'], PATHINFO_FILENAME);
+            if ($templateName !== 'browse-preview') {
+                $layoutData['template_name'] = $templateName;
+            }
+        }
         $query = $data['query'] ?? '';
-        $isQuerySiteOverridden = $query && preg_match('~site_page_id=\d+~', $query);
+        $isQuerySiteOverridden = $query && preg_match('~site_(?:page_)?id=\d+~', $query);
         $isPageOverridden = !empty($data['pagination']) || !empty($data['sort_headings']) || !empty($data['resource_template']);
         // Convert to block Search Results only when needed.
         if ($isQuerySiteOverridden || $isPageOverridden) {
