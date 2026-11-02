@@ -494,7 +494,8 @@ Two new options are added in main settings:
 - Use the default or advanced toolbar. The advanced toolbar is the CKEditor one
   and contains more possibilities to edit advanced text.
 
-Furthermore, it is possible to add footnotes inside each html field.
+Furthermore, it is possible to add footnotes inside each html field when the
+module [Data Type Rdf] is installed, since it provides the plugin for CKEditor.
 
 For the templates:
 - accordion: display an accordion, for example for a faq. The accordion parts
@@ -1250,15 +1251,20 @@ altered, and that no provisions are either added or removed herefrom.
 
 ### CKEditor 4
 
-One of the CKEditor ones [GPL].
+One of the CKEditor ones [GNU/GPL].
 
 ### CKEditor 4 footnotes
 
-One of the CKEditor ones [GPL]. See [CKEditor-Footnotes].
+One of the CKEditor ones [GNU/GPL]. See [CKEditor Footnotes]. The plugin is
+provided by the module [Data Type Rdf].
 
 ### D3
 
 [ISC License] (equivalent to [MIT])
+
+### Arborescence
+
+[MIT] license. See [jsLists].
 
 ### Gallery of images
 
@@ -1266,6 +1272,11 @@ See [MIT] license here: http://tympanus.net/codrops/licensing/
 The original template was fixed by KevinMwangi and alii, then updated for newer
 version of components (modernizr, smartresize, imagesloaded), then upgraded to
 native javascript.
+
+### Slick carousel
+
+[MIT] license. See [Slick]. It is not used by the module, but provided for the
+themes that use it, previously with the module Item Carousel Block.
 
 ### Timeline list
 
@@ -1279,6 +1290,8 @@ Copyright
 * Copyright Codrops, 2013 ([image gallery], see vendor/ for more infos)
 * Copyright Andy Kirk, 2014-2021 (See https://github.com/andykirk)
 * Copyright Jan Sorgalla, 2014 (See http://sorgalla.com/jcarousel)
+* Copyright Ken Wheeler, 2013-2024 (See [Slick])
+* Copyright TheTechy, 2016 (See [jsLists])
 
 
 [Block Plus]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus
@@ -1299,11 +1312,13 @@ Copyright
 [Twitter]: https://twitter.com
 [Shortcode Carousel]: https://github.com/omeka/plugin-ShortcodeCarousel
 [CKEditor Footnotes]: https://github.com/andykirk/CKEditorFootnotes
+[Data Type Rdf]: https://gitlab.com/Daniel-KM/Omeka-S-module-DataTypeRdf
+[Slick]: https://github.com/kenwheeler/slick
+[jsLists]: https://github.com/TheTechy/jslists
 [to get a dev account]: https://developer.twitter.com/en/apply-for-access
 [this issue on StackOverflow]: https://stackoverflow.com/questions/65403350/how-can-i-scrape-twitter-now-that-they-require-javascript
 [bear token]: https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens
 [rate limit]: https://developer.twitter.com/en/docs/twitter-api/rate-limits#table
-[Block Plus: Twitter]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlusTwitter
 [core block "asset"]: https://omeka.org/s/docs/user-manual/sites/site_pages/#asset
 [Ontologie du christianisme médiéval en images]: https://omci.inha.fr/s/ocmi/page/images
 [Institut national de l’histoire de l’art]: https://www.inha.fr
