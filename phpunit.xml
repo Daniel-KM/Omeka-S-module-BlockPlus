@@ -9,7 +9,7 @@
     >
     <testsuites>
         <testsuite name="BlockPlusTest">
-            <directory suffix="Test.php">BlockPlusTest</directory>
+            <directory suffix="Test.php">./tests/BlockPlusTest</directory>
         </testsuite>
     </testsuites>
     <php>
