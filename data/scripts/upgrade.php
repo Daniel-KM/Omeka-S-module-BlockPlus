@@ -169,7 +169,7 @@ if (version_compare($oldVersion, '3.3.11.8', '<')) {
 }
 
 if (version_compare($oldVersion, '3.3.13.0', '<')) {
-    require_once __DIR__ . '/upgrade_vocabulary.php';
+    require __DIR__ . '/upgrade_vocabulary.php';
 }
 
 if (version_compare($oldVersion, '3.3.13.1', '<')) {
@@ -251,15 +251,15 @@ if (version_compare($oldVersion, '3.3.14.0', '<')) {
 }
 
 if (version_compare($oldVersion, '3.3.14.1', '<')) {
-    require_once __DIR__ . '/upgrade_vocabulary.php';
+    require __DIR__ . '/upgrade_vocabulary.php';
 }
 
 if (version_compare($oldVersion, '3.3.14.2', '<')) {
-    require_once __DIR__ . '/upgrade_vocabulary.php';
+    require __DIR__ . '/upgrade_vocabulary.php';
 }
 
 if (version_compare($oldVersion, '3.3.15.1', '<')) {
-    require_once __DIR__ . '/upgrade_vocabulary.php';
+    require __DIR__ . '/upgrade_vocabulary.php';
 }
 
 if (version_compare($oldVersion, '3.3.15.2', '<')) {
