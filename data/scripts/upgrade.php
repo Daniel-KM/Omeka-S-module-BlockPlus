@@ -312,36 +312,32 @@ if (version_compare($oldVersion, '3.4.15.7', '<')) {
         foreach ($attachments as $attachment) {
             $newAttachment = [];
             $newAttachment['id'] = $attachment['id'] ?? $attachment['asset'] ?? null;
-            $newAttachment['page'] = $attachments['page'] ?? null;
+            $newAttachment['page'] = $attachment['page'] ?? null;
             $newAttachment['caption'] = $attachment['caption'] ?? '';
-            $newAttachment['alt_link_title'] = isset($newAttachment['alt_link_title']) && $newAttachment['alt_link_title'] !== ''
-                ? $newAttachment['title'] ?? ''
-                : '';
+            $newAttachment['alt_link_title'] = (string) ($attachment['alt_link_title'] ?? $attachment['title'] ?? '');
             $newAttachment['class'] = $attachment['class'] ?? '';
-            // Keep the url as page if possible, else as class, managed by
-            // special block.
+            // Keep the url as page if possible, else as url, moved later at
+            // the start of the caption and managed by a special template.
             $hasClassUrl = false;
-            if (!empty($attachment['url'])) {
+            $url = trim((string) ($attachment['url'] ?? ''));
+            if ($url !== '') {
                 // Absolute url = external url in most of cases.
                 // Require manual check.
-                if (filter_var($attachment['url'], FILTER_VALIDATE_URL) || $newAttachment['page']) {
-                    $newAttachment['class'] = trim($newAttachment['class'] . ' ' . $attachment['url']);
-                    $hasClassUrl = true;
-                }
-                // Relative url: check the page if none.
-                else {
-                    preg_match('~/s/(?<site>[\w_-]+)/page/(?<page>[\w_-]+)~', $attachment['url'], $matches);
-                    if ($matches['page']) {
-                        try {
-                            /** @var \Omeka\Api\Representation\SitePageRepresentation $page */
-                            $site = $api->read('sites', ['slug' => $matches['site']])->getContent();
-                            $page = $api->read('site_pages', ['site' => $site->id(), 'slug' => $matches['page']])->getContent();
-                            $newAttachment['page'] = $page->id();
-                        } catch (\Omeka\Api\Exception\NotFoundException $e) {
-                            $newAttachment['class'] = trim($newAttachment['class'] . ' ' . $attachment['url']);
-                            $hasClassUrl = true;
-                        }
+                if (!filter_var($url, FILTER_VALIDATE_URL)
+                    && !$newAttachment['page']
+                    && preg_match('~/s/(?<site>[\w_-]+)/page/(?<page>[\w_-]+)~', $url, $matches)
+                ) {
+                    try {
+                        /** @var \Omeka\Api\Representation\SitePageRepresentation $page */
+                        $site = $api->read('sites', ['slug' => $matches['site']])->getContent();
+                        $page = $api->read('site_pages', ['site' => $site->id(), 'slug' => $matches['page']])->getContent();
+                        $newAttachment['page'] = $page->id();
+                    } catch (\Omeka\Api\Exception\NotFoundException $e) {
                     }
+                }
+                if (!$newAttachment['page']) {
+                    $newAttachment['url'] = $url;
+                    $hasClassUrl = true;
                 }
             }
             if ($hasClassUrl) {
