@@ -64,6 +64,8 @@ class SettingsFieldset extends Fieldset
                     'label' => 'Page models and groups of blocks', // @translate
                     'info' => 'List all page models and blocks groups formatted as ini with a section for each group.', // @translate
                     'documentation' => 'https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus#Usage',
+                    // The html of the blocks may contain attributes.
+                    'ini_allow_double_quotes' => true,
                 ],
                 'attributes' => [
                     'id' => 'blockplus_page_models',
