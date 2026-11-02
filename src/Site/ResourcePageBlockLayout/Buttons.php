@@ -79,7 +79,7 @@ class Buttons implements ResourcePageBlockLayoutInterface
                 case 'download':
                     $primaryMedia = $resource->primaryMedia();
                     if (!$primaryMedia || !$primaryMedia->hasOriginal()) {
-                        break;
+                        continue 2;
                     }
                     $data = [
                         'label' => $translate('Download'), // @translate
