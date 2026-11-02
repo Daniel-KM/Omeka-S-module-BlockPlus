@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    // Omeka.jsTranslate() exists only when the theme calls the view helper
+    // jsTranslate(), so fallback to the original string.
+    const jsTranslate = (str) => typeof Omeka !== 'undefined' && typeof Omeka.jsTranslate === 'function'
+        ? Omeka.jsTranslate(str)
+        : str;
 
     // TODO Manage multiple skiplinks.
     var updateGlossary = function () {
@@ -20,10 +25,10 @@ $(document).ready(function() {
 
         $('.glossary-pagination .pagination-current').val(currentPage);
         $('.glossary-pagination .pagination-total').html(pageCount);
-        const prevLabel = Omeka.jsTranslate('Previous');
-        const prevDisabledLabel = Omeka.jsTranslate('No previous');
-        const nextLabel = Omeka.jsTranslate('Next');
-        const nextDisabledLabel = Omeka.jsTranslate('No next');
+        const prevLabel = jsTranslate('Previous');
+        const prevDisabledLabel = jsTranslate('No previous');
+        const nextLabel = jsTranslate('Next');
+        const nextDisabledLabel = jsTranslate('No next');
         $('.glossary-pagination .pagination-previous').replaceWith(
             previousPage
                 ? `<a data-page="${ previousPage }" href="" class="pagination-previous" title="${prevLabel}" aria-label="${prevLabel}"></a>`
