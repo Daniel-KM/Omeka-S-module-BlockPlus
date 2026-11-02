@@ -43,6 +43,9 @@
         "external-assets": {
             "asset/vendor/thumbnail-grid-expanding-preview/": "https://github.com/Daniel-KM/ThumbnailGridExpandingPreview/archive/refs/tags/0.3.0.tar.gz",
             "asset/vendor/d3/d3.min.js": "https://unpkg.com/d3@7.9.0/dist/d3.min.js",
+            "asset/vendor/jcarousel/javascripts/jquery.jcarousel.min.js": "https://raw.githubusercontent.com/jsor/jcarousel/0.3.9/dist/jquery.jcarousel.min.js",
+            "asset/vendor/jcarousel/javascripts/jcarousel.responsive.js": "https://raw.githubusercontent.com/jsor/jcarousel/0.3.9/examples/responsive/jcarousel.responsive.js",
+            "asset/vendor/jcarousel/css/jcarousel.responsive.css": "https://raw.githubusercontent.com/jsor/jcarousel/0.3.9/examples/responsive/jcarousel.responsive.css",
             "asset/vendor/slick/": "https://github.com/kenwheeler/slick/archive/refs/heads/master.tar.gz",
             "asset/vendor/jslists/": "https://github.com/TheTechy/jslists/archive/refs/heads/master.tar.gz"
         }
