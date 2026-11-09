@@ -43,7 +43,12 @@ class CaptionClassAndUrl extends AbstractHelper
         $hasClass = false;
         $hasLabel = false;
 
-        $lines = array_values(array_filter(array_map('trim', explode("\n", strip_tags($string))), 'strlen'));
+        // The html block elements are separated by a new line before removing
+        // the tags, else the lines of a html without new lines are merged.
+        $text = $isHtml
+            ? preg_replace('~(</(?:p|div|h[1-6]|li)>|<br\s*/?>)~i', "$1\n", $string)
+            : $string;
+        $lines = array_values(array_filter(array_map('trim', explode("\n", strip_tags($text))), 'strlen'));
 
         // Single pattern matching class, url, or label in any order (first 3 lines max).
         $pattern = '~^(?<key>url|class|label)\s*=\s*(?<value>.+)$~';
@@ -85,18 +90,19 @@ class CaptionClassAndUrl extends AbstractHelper
 
         if ($isHtml) {
             if ($hasClass) {
-                $quoted = preg_quote(trim($class));
+                $quoted = preg_quote(trim($class), '~');
                 $regex = '~(?:<p>class\s*=\s*' . $quoted . '\s*</p>|<div>class\s*=\s*' . $quoted . '\s*</div>)|class\s*=\s*' . $quoted . '~sU';
                 $string = preg_replace($regex, '', $string, 1);
             }
             if ($hasUrl) {
-                $quoted = preg_quote($url);
+                $quoted = preg_quote($url, '~');
                 $regex = '~(?:<p>url\s*=\s*' . $quoted . '\s*</p>|<div>url\s*=\s*' . $quoted . '\s*</div>)|url\s*=\s*' . $quoted . '~sU';
                 $string = preg_replace($regex, '', $string, 1);
             }
             if ($hasLabel) {
+                // The label is searched as written in the html, then decoded.
+                $quoted = preg_quote($label, '~');
                 $label = html_entity_decode($label, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401);
-                $quoted = preg_quote($label);
                 $regex = '~(?:<p>label\s*=\s*' . $quoted . '\s*</p>|<div>label\s*=\s*' . $quoted . '\s*</div>)|label\s*=\s*' . $quoted . '~sU';
                 $string = preg_replace($regex, '', $string, 1);
             }
