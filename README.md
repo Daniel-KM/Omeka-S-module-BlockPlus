@@ -7,7 +7,8 @@ Block Plus (module for Omeka S)
 
 [Block Plus] is a module for [Omeka S] that adds page models and new blocks for
 the editorial pages and improves some of the existing ones: image gallery,
-D3 graph, mirror page, search form, item set showcase, exhibits, footnotes, etc.
+D3 graph, mirror page, search form, item set showcase, exhibits, footnotes, last
+messages of Bluesky, Mastodon and Twitter, etc.
 Some resource page blocks are implemented too: previous/next resource, section,
 etc.
 
@@ -315,6 +316,14 @@ To use them, simply select the wanted template:
 
 ![browse-preview-carousel](data/images/browse-preview-carousel.png)
 
+#### Bluesky
+
+Display the last messages from an account on [Bluesky]. The account may be set
+as a handle (`psl-univ.bsky.social`), with an `@` or as an url
+(`https://bsky.app/profile/psl-univ.bsky.social`). The messages are fetched via
+the public api, without authentication. Reposts and replies are skipped by
+default. The messages are cached like for the block [Twitter](#twitter).
+
 #### Buttons
 
 This block displays buttons to share the current page in a privacy-compliant way.
@@ -529,6 +538,16 @@ sites.
 
 This feature may be integrated in the core.
 
+#### Mastodon (Fediverse)
+
+Display the last messages from an account on [Mastodon] or on another server of
+the [Fediverse] that implements the api of Mastodon (Pleroma, Akkoma, Friendica,
+GoToSocial when public, etc.). The account is set with its server, for example
+`@name@mastodon.social`, or as an url (`https://mastodon.social/@name`). The
+messages are fetched via the public api of its server, without authentication.
+Boosts and replies are skipped by default. The messages are cached like for the
+block [Twitter](#twitter).
+
 #### Messages
 
 Display the messages (notice, warning and errors), like in admin. This block may
@@ -593,28 +612,32 @@ built from the property Dublin Core : Has Part.
 
 #### Twitter
 
-Display the last messages from an account on [Twitter]. To use it, you may use
-your own developer bearer token, else the module will try to use an anonymous
-one.
+Display the last messages from an account on [Twitter] (X). The account may be
+set as a name (`psl_univ`), with an `@` or as an url (`https://x.com/psl_univ`).
+Retweets and replies are skipped by default.
 
-Technical note: Since December 2020, it is required [to get a dev account] to
-fetch messages of a user, because Twitter disabled any standard html endpoint
-(see [this issue on StackOverflow]). If you use a dev account, it is not
-necessarily the one of the thread to follow.
+The api of Twitter requires a paid account, so the messages are fetched from the
+rss feed of a mirror site, a [Nitter] instance. The instances are often closed
+or protected against bots, so a list of them can be set in the main settings:
+they are checked in turn until one returns a valid feed. The links to the mirror
+are replaced by links to Twitter and the content of the messages is purified.
 
-Nevertheless, it is still possible to fetch them with an anonymous bearer token.
-To get it, check the urls in the dev tools of your browser in the "network" tab.
-The token is set in the header of the requests to https://api.twitter.com with
-the key `Authorization`, for example `AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA`.
-This token will be available for the next two years, _or less_. Anyway, the
-module fetches it automagically. Nevertheless, it uses some hard coded urls that
-may change.
+The messages are cached for one hour in the directory `files/cache/blockplus`,
+so the mirror is requested once an hour at most. When no mirror is available,
+the last cached messages are displayed and the mirrors are requested again ten
+minutes later only, so the display of the page is not slowed down.
 
-Check how to generate a [bear token]. You need to create an app in your account
-too. If you can't, try to check the option to use the Api version 1.1.
+The three blocks Bluesky, Mastodon and Twitter share the same partial for the
+list of messages, `common/social-messages`, that can be overridden in the theme
+like the template of each block.
 
-In all cases, there is a [rate limit], but generally largely enough for a common
-digital library.
+**Privacy**: only the text of the messages is cached on the server. The images
+of the messages are loaded by the browsers of the visitors from the servers of
+the network (`pbs.twimg.com` for Twitter, `cdn.bsky.app` for Bluesky, or the
+server of the account for Mastodon), that receive their ip address and the data
+of their browser. So these blocks are not compliant with the [GDPR] without the
+consent of the visitors. To avoid it, override the template to remove the images
+or manage the consent of the visitors with the theme.
 
 ### New Resource page blocks
 
@@ -631,6 +654,24 @@ A block that does nothing, but that may be useful for theme developer.
 This block displays buttons to share the current page in a privacy-compliant way.
 Available buttons are Download, Email, Facebook, Pinterest and Twitter. The
 config should be set in site settings.
+
+#### Collapsible (start and end)
+
+Allow to wrap a list of blocks with a html element `<div>` that the visitor can
+hide with a button "Enlarge" / "Reduce". The other blocks of the same container
+use the freed space, for example to display the viewer on the whole width of the
+page when the metadata are wrapped:
+
+- Html div (start)
+- Mirador (or any viewer)
+- Collapsible (start)
+- Title, Metadata, etc.
+- Collapsible (end)
+- Html div (end)
+
+The button is outside of the hidden content, so it remains visible. When the
+content is hidden, the class `block-collapsible-collapsed` is set on the parent
+container, so the theme can adapt the width of the other blocks.
 
 #### Description
 
@@ -1309,16 +1350,17 @@ Copyright
 [D3 library]: https://d3js.org
 [Fondation de la Maison de Salins]: https://cooparchives.maison-salins.fr/s/fr/page/carte-heuristique
 [#1706]: https://github.com/omeka/omeka-s/issues/1706
-[Twitter]: https://twitter.com
+[Twitter]: https://x.com
+[Bluesky]: https://bsky.app
+[Mastodon]: https://joinmastodon.org
+[Fediverse]: https://en.wikipedia.org/wiki/Fediverse
+[GDPR]: https://gdpr.eu
+[Nitter]: https://github.com/zedeus/nitter
 [Shortcode Carousel]: https://github.com/omeka/plugin-ShortcodeCarousel
 [CKEditor Footnotes]: https://github.com/andykirk/CKEditorFootnotes
 [Data Type Rdf]: https://gitlab.com/Daniel-KM/Omeka-S-module-DataTypeRdf
 [Slick]: https://github.com/kenwheeler/slick
 [jsLists]: https://github.com/TheTechy/jslists
-[to get a dev account]: https://developer.twitter.com/en/apply-for-access
-[this issue on StackOverflow]: https://stackoverflow.com/questions/65403350/how-can-i-scrape-twitter-now-that-they-require-javascript
-[bear token]: https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens
-[rate limit]: https://developer.twitter.com/en/docs/twitter-api/rate-limits#table
 [core block "asset"]: https://omeka.org/s/docs/user-manual/sites/site_pages/#asset
 [Ontologie du christianisme médiéval en images]: https://omci.inha.fr/s/ocmi/page/images
 [Institut national de l’histoire de l’art]: https://www.inha.fr
