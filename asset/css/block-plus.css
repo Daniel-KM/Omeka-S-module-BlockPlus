@@ -393,3 +393,24 @@
         vertical-align: bottom;
     }
 }
+
+/* Collapsible resource block. */
+.block-collapsible-button {
+    display: block;
+    margin: 0 0 1em auto;
+    cursor: pointer;
+}
+.block-collapsible-button::before {
+    content: "> ";
+}
+.block-collapsible-button[aria-expanded="false"]::before {
+    content: "< ";
+}
+.block-collapsible[hidden] {
+    display: none;
+}
+.block-collapsible-collapsed > :not(.block-collapsible) {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+}

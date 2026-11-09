@@ -1,0 +1,28 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ */
+
+// This block must be used with the matching block collapsible-end. The button
+// is moved by js before the parent container, so it remains visible when the
+// block is collapsed.
+
+$plugins = $this->getHelperPluginManager();
+$assetUrl = $plugins->get('assetUrl');
+$translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
+$this->headLink()
+    ->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus'));
+$this->headScript()
+    ->appendFile($assetUrl('js/block-plus.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
+
+$id = 'block-collapsible-' . $resource->id() . '-' . substr(md5(uniqid('', true)), 0, 6);
+$labelExpand = $translate('Enlarge'); // @translate
+$labelCollapse = $translate('Reduce'); // @translate
+?>
+
+<button type="button" class="block-collapsible-button" aria-expanded="true" aria-controls="<?= $id ?>" data-label-expand="<?= $escapeAttr($labelExpand) ?>" data-label-collapse="<?= $escapeAttr($labelCollapse) ?>"><?= $labelExpand ?></button>
+
+<div class="block block-resource block-collapsible" id="<?= $id ?>">
