@@ -46,8 +46,8 @@
             "asset/vendor/jcarousel/javascripts/jquery.jcarousel.min.js": "https://raw.githubusercontent.com/jsor/jcarousel/0.3.9/dist/jquery.jcarousel.min.js",
             "asset/vendor/jcarousel/javascripts/jcarousel.responsive.js": "https://raw.githubusercontent.com/jsor/jcarousel/0.3.9/examples/responsive/jcarousel.responsive.js",
             "asset/vendor/jcarousel/css/jcarousel.responsive.css": "https://raw.githubusercontent.com/jsor/jcarousel/0.3.9/examples/responsive/jcarousel.responsive.css",
-            "asset/vendor/slick/": "https://github.com/kenwheeler/slick/archive/refs/heads/master.tar.gz",
-            "asset/vendor/jslists/": "https://github.com/TheTechy/jslists/archive/refs/heads/master.tar.gz"
+            "asset/vendor/slick/": "https://github.com/kenwheeler/slick/archive/refs/tags/v2.0.1.tar.gz",
+            "asset/vendor/jslists/": "https://github.com/TheTechy/jslists/archive/6184acf2b0b89223d5f6930ddeb8d690c9e9f940.tar.gz"
         }
     },
     "config": {
