@@ -23,13 +23,21 @@ if (!is_array($parameters)) {
 $glossary = $parameters;
 
 // Create the glossary alphabet, the list of current letters and current definitions and prepare first letters.
+// The params may be "key_value_array" (list of term and definition) or
+// "key_value", the default with "auto" (definitions keyed by term).
 foreach ($glossary as $key => $termDefinition) {
-    $term = strtr((string) reset($termDefinition), ["\t" => '    ']);
+    if (is_array($termDefinition)) {
+        $term = (string) reset($termDefinition);
+        $definition = (string) ($termDefinition[1] ?? '');
+    } else {
+        $term = (string) $key;
+        $definition = (string) $termDefinition;
+    }
+    $term = strtr($term, ["\t" => '    ']);
     if ($term === '') {
         unset($glossary[$key]);
         continue;
     }
-    $definition = $termDefinition[1] ?? '';
     $definition = strtr($definition, ["\t" => '    ']);
     $glossary[$key] = [
         'term' => $term,
