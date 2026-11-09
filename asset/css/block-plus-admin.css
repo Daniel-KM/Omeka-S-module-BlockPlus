@@ -1,5 +1,4 @@
 @media all {
-
     [hidden],
     .hidden {
         display: none;
@@ -13,13 +12,15 @@
     }
 
     /* Page metadata with details/summary */
-    #site-page-metadata-details summary::after {
-        margin-left: 12px;
-        content: "";
-     }
-    #site-page-metadata-details[open] summary::after {
-        content: "";
-     }
+    #site-page-metadata-details {
+        & summary::after {
+            margin-left: 12px;
+            content: "";
+        }
+        &[open] summary::after {
+            content: "";
+        }
+    }
 
     /* Page model */
     #button-page-model.button {
@@ -54,65 +55,71 @@
         list-style: none;
         margin-bottom: 6px;
         padding-left: 0;
-    }
-    #block-group-layouts button {
-        font-size: 16px;
-        line-height: 24px;
-        margin: 0 0 12px 0;
-        padding: 6px 10px;
-    }
-    #block-group-layouts .spinner {
-        position: absolute;
-        right: 40px;
-        margin-top: 6px;
-        margin-right: 6px;
-        opacity: 0;
-    }
-    #block-group-layouts .spinner.processing {
-        opacity: 0.5;
+        & button {
+            font-size: 16px;
+            line-height: 24px;
+            margin: 0 0 12px 0;
+            padding: 6px 10px;
+        }
+        & .spinner {
+            position: absolute;
+            right: 40px;
+            margin-top: 6px;
+            margin-right: 6px;
+            opacity: 0;
+            &.processing {
+                opacity: 0.5;
+            }
+        }
     }
 
     /* Footnotes (against core styles) */
-    section.footnotes header {
-        background-color: inherit;
-        width: auto;
-        min-height: initial;
-        text-align: initial;
-        padding: initial;
-        color: initial;
-    }
-    section.footnotes header h2 {
-        font-size: 16px;
-    }
-
-    .block textarea.full.wysiwyg {
-        width: 100%;
-        min-width: 100%;
-        max-width: 100%;
-    }
-    .block textarea.full.wysiwyg,
-    .block textarea.full.wysiwyg + [contenteditable=true] {
-        height: 288px;
-        max-height: initial;
+    section.footnotes {
+        & header {
+            background-color: inherit;
+            width: auto;
+            min-height: initial;
+            text-align: initial;
+            padding: initial;
+            color: initial;
+            & h2 {
+                font-size: 16px;
+            }
+        }
     }
 
-    .block[data-block-layout="browsePreview"] textarea.full.wysiwyg,
-    .block[data-block-layout="browsePreview"] textarea.full.wysiwyg + [contenteditable=true] {
-        height: inherit;
-        max-height: inherit;
+    .block {
+        & textarea.full.wysiwyg {
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            &,
+            & + [contenteditable=true] {
+                height: 288px;
+                max-height: initial;
+            }
+        }
+
+        &[data-block-layout="browsePreview"] textarea.full.wysiwyg,
+        &[data-block-layout="browsePreview"] textarea.full.wysiwyg + [contenteditable=true] {
+            height: inherit;
+            max-height: inherit;
+        }
     }
 
-    .asset-form-element .selected-asset-page-metadata {
-        display: flex;
-        align-items: center;
-        max-width: 100%;
-        min-width: 0;
-        margin-top: 12px;
-    }
-    .asset-form-element .selected-asset-page-metadata img {
-        max-height: 48px;
-        max-width: 48px;
-        margin-right: 12px;
+    .asset-form-element {
+        & .selected-asset-page-metadata {
+            display: flex;
+            align-items: center;
+            max-width: 100%;
+            min-width: 0;
+            margin-top: 12px;
+            & img {
+                max-height: 48px;
+                max-width: 48px;
+                margin-right: 12px;
+            }
+        }
     }
 }
 
@@ -131,29 +138,32 @@
     }
 }
 
-#asset-options .asset-resource-status {
-    margin-bottom: 12px;
-}
+#asset-options {
+    & .asset-resource-status {
+        margin-bottom: 12px;
+    }
 
-#asset-options .asset-resource-link button + button {
-    margin-left: 6px;
-}
+    & .asset-resource-link {
+        & button + button {
+            margin-left: 6px;
+        }
 
-#asset-options .asset-resource-link .asset-option-selection {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-}
+        & .asset-option-selection {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            & .asset-selected-resource:empty {
+                display: none;
+            }
 
-#asset-options .asset-resource-link .asset-option-selection .asset-selected-resource:empty {
-    display: none;
-}
+            & .o-icon-external {
+                margin-left: auto;
+            }
 
-#asset-options .asset-resource-link .asset-option-selection .o-icon-external {
-    margin-left: auto;
-}
-
-#asset-options .asset-resource-link .asset-option-selection .o-icon-external[hidden] {
-    display: none;
+            & .o-icon-external[hidden] {
+                display: none;
+            }
+        }
+    }
 }
