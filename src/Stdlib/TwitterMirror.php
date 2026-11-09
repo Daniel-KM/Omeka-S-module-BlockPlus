@@ -2,8 +2,6 @@
 
 namespace BlockPlus\Stdlib;
 
-use Laminas\Http\Client as HttpClient;
-
 /**
  * Get the last messages of a Twitter (X) account from a mirror site (Nitter).
  *
@@ -12,34 +10,9 @@ use Laminas\Http\Client as HttpClient;
  * they are checked in turn until one returns a valid feed. The links to the
  * mirror are replaced by links to Twitter.
  */
-class TwitterMirror
+class TwitterMirror extends AbstractSocialFeed
 {
     const BASE_URL = 'https://x.com';
-
-    /**
-     * Some instances reject requests without user agent.
-     */
-    const USER_AGENT = 'Omeka S (module BlockPlus)';
-
-    /**
-     * Timeout in seconds for each mirror, that is requested during rendering.
-     */
-    const TIMEOUT = 3;
-
-    /**
-     * @var HttpClient
-     */
-    protected $httpClient;
-
-    /**
-     * @var \HTMLPurifier|null
-     */
-    protected $purifier;
-
-    public function __construct(HttpClient $httpClient)
-    {
-        $this->httpClient = $httpClient;
-    }
 
     /**
      * Fetch the account and its last messages from the first available mirror.
@@ -89,9 +62,7 @@ class TwitterMirror
     /**
      * Convert the rss feed of a Nitter instance into an account and messages.
      *
-     * Each message has the keys "id", "url", "created_at", "timestamp",
-     * "content" (purified html), "author", "is_retweet", "is_reply" and
-     * "is_pinned".
+     * @see \BlockPlus\Stdlib\AbstractSocialFeed for the structure.
      */
     public function parseFeed(string $xml, string $mirror, array $options = []): ?array
     {
@@ -138,14 +109,13 @@ class TwitterMirror
             }
             $id = $matches[1];
             $author = self::normalizeAccount((string) $item->children('http://purl.org/dc/elements/1.1/')->creator) ?: $account['name'];
-            $date = date_create((string) $item->pubDate) ?: null;
             $messages[] = [
                 'id' => $id,
                 'url' => self::BASE_URL . '/' . $author . '/status/' . $id,
-                'created_at' => $date ? $date->format('c') : null,
-                'timestamp' => $date ? (int) $date->format('U') : null,
+            ] + $this->messageDate((string) $item->pubDate) + [
                 'content' => $this->cleanContent((string) $item->description, $mirror),
                 'author' => $author,
+                'author_url' => self::BASE_URL . '/' . $author,
                 'is_retweet' => $isRetweet,
                 'is_reply' => $isReply,
                 'is_pinned' => strpos($itemTitle, 'Pinned:') === 0,
@@ -160,21 +130,8 @@ class TwitterMirror
 
     protected function fetchFeed(string $url): ?string
     {
-        try {
-            $response = $this->httpClient
-                ->resetParameters()
-                ->setUri($url)
-                ->setOptions(['timeout' => self::TIMEOUT])
-                ->setHeaders(['User-Agent' => self::USER_AGENT])
-                ->send();
-        } catch (\Throwable $e) {
-            return null;
-        }
-        if (!$response->isSuccess()) {
-            return null;
-        }
-        $body = $response->getBody();
-        return strpos($body, '<rss') === false ? null : $body;
+        $body = $this->getBody($url, [], 'application/rss+xml, application/xml');
+        return $body !== null && strpos($body, '<rss') !== false ? $body : null;
     }
 
     /**
@@ -189,20 +146,6 @@ class TwitterMirror
             '$1' . self::BASE_URL . '/',
             $html
         );
-        return trim($this->purifier()->purify($html));
-    }
-
-    protected function purifier(): \HTMLPurifier
-    {
-        if (!$this->purifier) {
-            $config = \HTMLPurifier_Config::createDefault();
-            $config->set('Cache.DefinitionImpl', null);
-            $config->set('HTML.Allowed', 'p,br,a[href|title],img[src|alt],span');
-            $config->set('URI.AllowedSchemes', ['http' => true, 'https' => true]);
-            $config->set('HTML.TargetBlank', true);
-            $config->set('HTML.Nofollow', true);
-            $this->purifier = new \HTMLPurifier($config);
-        }
-        return $this->purifier;
+        return $this->purify($html);
     }
 }

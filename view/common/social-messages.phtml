@@ -1,0 +1,45 @@
+<?php
+/**
+ * List of the last messages of an account on a social network.
+ *
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var array $account Keys "id", "name", "fullname" and "url".
+ * @var array $messages
+ *
+ * @see \BlockPlus\Stdlib\AbstractSocialFeed for the structure of messages.
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$escape = $plugins->get('escapeHtml');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+$i18n = $plugins->get('i18n');
+?>
+
+<?php if (!count($messages)): ?>
+<p><?= $translate('No message.') ?></p>
+<?php else: ?>
+<ul class="messages">
+    <?php foreach ($messages as $message):
+    // A repost displays its author.
+    $isRepost = !empty($message['is_retweet']) && !empty($message['author']) && !empty($message['author_url']);
+    ?>
+    <li data-id="<?= $escapeAttr($message['id']) ?>"<?= $isRepost ? ' class="repost"' : '' ?>>
+        <?php if ($isRepost): ?>
+        <h4><?= $hyperlink->raw('<span>@</span>' . $escape($message['author']), $message['author_url'], ['rel' => 'nofollow noopener', 'target' => '_blank']) ?></h4>
+        <?php else: ?>
+        <h4><?= $hyperlink->raw('<span>@</span>' . $escape($account['fullname']), $account['url'], ['rel' => 'nofollow noopener', 'target' => '_blank']) ?></h4>
+        <?php endif; ?>
+        <div class="message"><?= $message['content'] ?></div>
+        <?php if (!empty($message['timestamp'])): ?>
+        <p class="message-date">
+            <a href="<?= $escapeAttr($message['url']) ?>" rel="nofollow noopener" target="_blank">
+                <time datetime="<?= $escapeAttr($message['created_at']) ?>"><?= $escape($i18n->dateFormat(new \DateTime('@' . $message['timestamp']), $i18n::DATE_FORMAT_MEDIUM)) ?></time>
+            </a>
+        </p>
+        <?php endif; ?>
+    </li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
