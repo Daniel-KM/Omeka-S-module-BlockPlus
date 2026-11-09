@@ -24,24 +24,12 @@ $(document).ready(function() {
         }
     });
 
-    /**
-     * Collapsible resource block: the button is moved before the parent
-     * container, so it remains visible when the block is collapsed.
-     */
-    $('.block-collapsible-button').each(function() {
-        const collapsible = document.getElementById(this.getAttribute('aria-controls'));
-        const container = collapsible ? collapsible.parentElement : null;
-        if (container && container.matches('.block')) {
-            container.before(this);
-        }
-    });
-
     $(document).on('click', '.block-collapsible-button', function() {
         const button = $(this);
-        const collapsible = $('#' + button.attr('aria-controls'));
         const isCollapsing = button.attr('aria-expanded') === 'true';
-        collapsible.prop('hidden', isCollapsing)
-            .parent().toggleClass('block-collapsible-collapsed', isCollapsing);
+        $('#' + button.attr('aria-controls')).prop('hidden', isCollapsing);
+        button.closest('.block-collapsible').parent()
+            .toggleClass('block-collapsible-collapsed', isCollapsing);
         button
             .attr('aria-expanded', isCollapsing ? 'false' : 'true')
             .text(button.data(isCollapsing ? 'label-collapse' : 'label-expand'));

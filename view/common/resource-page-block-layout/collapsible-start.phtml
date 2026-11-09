@@ -5,8 +5,7 @@
  */
 
 // This block must be used with the matching block collapsible-end. The button
-// is moved by js before the parent container, so it remains visible when the
-// block is collapsed.
+// is outside of the content, so it remains visible when the content is hidden.
 
 $plugins = $this->getHelperPluginManager();
 $assetUrl = $plugins->get('assetUrl');
@@ -23,6 +22,6 @@ $labelExpand = $translate('Enlarge'); // @translate
 $labelCollapse = $translate('Reduce'); // @translate
 ?>
 
-<button type="button" class="block-collapsible-button" aria-expanded="true" aria-controls="<?= $id ?>" data-label-expand="<?= $escapeAttr($labelExpand) ?>" data-label-collapse="<?= $escapeAttr($labelCollapse) ?>"><?= $labelExpand ?></button>
-
-<div class="block block-resource block-collapsible" id="<?= $id ?>">
+<div class="block block-resource block-collapsible">
+    <button type="button" class="block-collapsible-button" aria-expanded="true" aria-controls="<?= $id ?>" data-label-expand="<?= $escapeAttr($labelExpand) ?>" data-label-collapse="<?= $escapeAttr($labelCollapse) ?>"><?= $labelExpand ?></button>
+    <div class="block-collapsible-content" id="<?= $id ?>">

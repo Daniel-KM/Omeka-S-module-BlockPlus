@@ -394,10 +394,17 @@
     }
 }
 
-/* Collapsible resource block. */
+/* Collapsible resource block. The button is set above the parent container,
+   so the collapsed block does not keep a column for it. */
+.block:has(> .block-collapsible) {
+    position: relative;
+    padding-top: 2.5em;
+}
 .block-collapsible-button {
-    display: block;
-    margin: 0 0 1em auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    white-space: nowrap;
     cursor: pointer;
 }
 .block-collapsible-button::before {
@@ -406,11 +413,20 @@
 .block-collapsible-button[aria-expanded="false"]::before {
     content: "< ";
 }
-.block-collapsible[hidden] {
+.block-collapsible-content[hidden] {
     display: none;
 }
+.block-collapsible-collapsed {
+    gap: 0;
+}
+.block-collapsible-collapsed > .block-collapsible {
+    flex: 0 0 0;
+    width: 0;
+    min-width: 0;
+}
 .block-collapsible-collapsed > :not(.block-collapsible) {
-    flex: 1 1 100%;
-    width: 100%;
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
     max-width: 100%;
 }
