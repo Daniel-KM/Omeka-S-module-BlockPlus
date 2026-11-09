@@ -91,6 +91,20 @@ class SettingsFieldset extends Fieldset
                     'data-placeholder' => 'Select a property…', // @translate
                 ],
             ])
+            ->add([
+                'name' => 'blockplus_twitter_mirrors',
+                'type' => CommonElement\ArrayTextarea::class,
+                'options' => [
+                    'element_group' => 'block_plus',
+                    'label' => 'Mirror sites for the block Twitter', // @translate
+                    'info' => 'The api of Twitter requires a paid account, so the messages are fetched from the rss feed of a mirror site (Nitter instance). Set one url by line: they are checked in turn until one is available.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'blockplus_twitter_mirrors',
+                    'rows' => 4,
+                    'placeholder' => 'https://nitter.net',
+                ],
+            ])
         ;
     }
 }

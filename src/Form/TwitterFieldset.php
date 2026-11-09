@@ -15,38 +15,10 @@ class TwitterFieldset extends Fieldset
                 'type' => Element\Text::class,
                 'options' => [
                     'label' => 'Account', // @translate
+                    'info' => 'The messages are fetched from a mirror site set in the main settings.', // @translate
                 ],
                 'attributes' => [
                     'id' => 'twitter-account',
-                ],
-            ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][authorization]',
-                'type' => Element\Text::class,
-                'options' => [
-                    'label' => 'Authorization token (bearer)', // @translate
-                    'info' => 'You may need to set a token, not necessarily the account one. It may be an anonymous one.', // @translate
-                    'documentation' => 'https://gitlab.com/Daniel-KM/Omeka-S-module-BlockPlus#Twitter',
-                ],
-                'attributes' => [
-                    'id' => 'twitter-authorization',
-                ],
-            ])
-            ->add([
-                'name' => 'o:block[__blockIndex__][o:data][api]',
-                'type' => Element\Radio::class,
-                'options' => [
-                    'label' => 'Twitter api version', // @translate
-                    'info' => 'According to Twitter, you may require to create an app inside dev account. In some cases, api 1.1 doesn’t require it.', // @translate
-                    'value_options' => [
-                        '1.1-home' => '1.1 (home timeline)', // @translate
-                        '1.1' => '1.1',
-                        '2.0' => '2.0',
-                    ],
-                ],
-                'attributes' => [
-                    'id' => 'twitter-api',
-                    'value' => '1.1',
                 ],
             ])
             ->add([
@@ -68,6 +40,16 @@ class TwitterFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => 'twitter-retweet',
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][replies]',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'label' => 'Display replies', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'twitter-replies',
                 ],
             ])
         ;

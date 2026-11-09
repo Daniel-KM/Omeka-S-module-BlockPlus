@@ -2,14 +2,18 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Omeka\Api\Representation\SitePageBlockRepresentation $block
- * @var array $account
- * @var array $messages
+ * @var array $account Keys "name", "fullname" and "url".
+ * @var array $messages Each message has the keys "id", "url", "created_at",
+ *   "timestamp", "content" (purified html), "author", "is_retweet", "is_reply"
+ *   and "is_pinned".
  */
 
 $plugins = $this->getHelperPluginManager();
 $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
+$escape = $plugins->get('escapeHtml');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
+$i18n = $plugins->get('i18n');
 ?>
 
 <div class="block block-twitter">
@@ -18,9 +22,23 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
     <?php else: ?>
     <ul class="messages">
     <?php foreach ($messages as $message): ?>
-        <li data-id="<?= $escapeAttr($message['id']) ?>">
-            <h4><?= $hyperlink->raw('<span>@</span>' . $account['fullname'], $account['url'], ['rel' => 'nofollow noopener', 'target' => '_blank']) ?></h4>
+        <?php // A retweet displays its author.
+        $isRetweet = !empty($message['is_retweet']) && !empty($message['author']);
+        ?>
+        <li data-id="<?= $escapeAttr($message['id']) ?>"<?= $isRetweet ? ' class="retweet"' : '' ?>>
+            <?php if ($isRetweet): ?>
+            <h4><?= $hyperlink->raw('<span>@</span>' . $escape($message['author']), 'https://x.com/' . $message['author'], ['rel' => 'nofollow noopener', 'target' => '_blank']) ?></h4>
+            <?php else: ?>
+            <h4><?= $hyperlink->raw('<span>@</span>' . $escape($account['fullname']), $account['url'], ['rel' => 'nofollow noopener', 'target' => '_blank']) ?></h4>
+            <?php endif; ?>
             <div class="message"><?= $message['content'] ?></div>
+            <?php if (!empty($message['timestamp'])): ?>
+            <p class="message-date">
+                <a href="<?= $escapeAttr($message['url']) ?>" rel="nofollow noopener" target="_blank">
+                    <time datetime="<?= $escapeAttr($message['created_at']) ?>"><?= $escape($i18n->dateFormat(new \DateTime('@' . $message['timestamp']), $i18n::DATE_FORMAT_MEDIUM)) ?></time>
+                </a>
+            </p>
+            <?php endif; ?>
         </li>
     <?php endforeach; ?>
     </ul>

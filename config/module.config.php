@@ -261,6 +261,13 @@ return [
             'blockplus_html_config_page' => 'default',
             'blockplus_page_models' => [],
             'blockplus_property_itemset' => '',
+            // Mirror sites of Twitter (Nitter instances), checked in turn.
+            'blockplus_twitter_mirrors' => [
+                'https://nitter.kareem.one',
+                'https://nitter.net',
+                'https://nitter.tiekoetter.com',
+                'https://xcancel.com',
+            ],
         ],
         'site_settings' => [
             // Layouts.
@@ -431,14 +438,7 @@ return [
                 'account' => '',
                 'limit' => 1,
                 'retweet' => false,
-                'authorization' => '',
-                'api' => '1.1',
-                // Account data are stored because the id is required in Twitter api v2.
-                'account_data' => [],
-                // The bearer token is saved separately when it is an automatic one.
-                'authorization_bearer' => '',
-                // The guest token may be needed too.
-                'guest_token' => '',
+                'replies' => false,
             ],
         ],
     ],
