@@ -2,6 +2,7 @@
 
 namespace BlockPlus\Form;
 
+use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
@@ -71,6 +72,16 @@ abstract class AbstractSocialFieldset extends Fieldset
                 ],
                 'attributes' => [
                     'id' => $this->network . '-replies',
+                ],
+            ])
+            ->add([
+                'name' => 'o:block[__blockIndex__][o:data][privacy]',
+                'type' => CommonElement\Note::class,
+                'options' => [
+                    'text' => 'Privacy: the images of the messages are loaded by the browsers of the visitors from the servers of the network, that receive their ip address. So this block is not compliant with the GDPR without the consent of the visitors.', // @translate
+                ],
+                'attributes' => [
+                    'id' => $this->network . '-privacy',
                 ],
             ])
         ;
