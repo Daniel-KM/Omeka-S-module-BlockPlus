@@ -2815,3 +2815,31 @@ if (version_compare((string) $oldVersion, '3.4.43', '<')) {
         $messenger->addSuccess($message);
     }
 }
+
+if (version_compare((string) $oldVersion, '3.4.47', '<')) {
+    // The block Twitter uses a mirror site instead of the api of Twitter, so
+    // remove the tokens, the version of the api and the cached account.
+    $blocks = $connection->executeQuery(
+        'SELECT `id`, `data` FROM `site_page_block` WHERE `layout` = "twitter"'
+    )->fetchAllKeyValue();
+    foreach ($blocks as $id => $blockData) {
+        $blockData = json_decode((string) $blockData, true) ?: [];
+        $newData = array_intersect_key($blockData, ['account' => null, 'limit' => null, 'retweet' => null, 'replies' => null]);
+        if ($newData !== $blockData) {
+            $connection->executeStatement(
+                'UPDATE `site_page_block` SET `data` = ? WHERE `id` = ?',
+                [json_encode($newData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), $id]
+            );
+        }
+    }
+
+    $url = $services->get('ViewHelperManager')->get('url');
+    $message = new PsrMessage(
+        'The block Twitter fetches the messages from a mirror site (Nitter instance) instead of the api of Twitter, that requires a paid account. The list of mirror sites can be set in {link}main settings{link_end}.', // @translate
+        [
+            'link' => '<a href="' . $url('admin/default', ['controller' => 'setting']) . '">',
+            'link_end' => '</a>',
+        ]
+    );
+    $messenger->addSuccess($message->setEscapeHtml(false));
+}
