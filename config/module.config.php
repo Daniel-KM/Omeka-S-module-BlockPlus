@@ -52,6 +52,7 @@ return [
             'itemSetShowcase' => Site\BlockLayout\ItemSetShowcase::class,
             'links' => Site\BlockLayout\Links::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
+            'mastodon' => Site\BlockLayout\Mastodon::class,
             'messages' => Site\BlockLayout\Messages::class,
             'pageMetadata' => Site\BlockLayout\PageMetadata::class,
             'redirectToUrl' => Site\BlockLayout\RedirectToUrl::class,
@@ -114,6 +115,7 @@ return [
             Form\HeadingFieldset::class => Form\HeadingFieldset::class,
             Form\ItemSetShowcaseFieldset::class => Form\ItemSetShowcaseFieldset::class,
             Form\ListOfSitesFieldset::class => Form\ListOfSitesFieldset::class,
+            Form\MastodonFieldset::class => Form\MastodonFieldset::class,
             Form\MirrorPageFieldset::class => Form\MirrorPageFieldset::class,
             Form\PageMetadataFieldset::class => Form\PageMetadataFieldset::class,
             Form\RedirectToUrlFieldset::class => Form\RedirectToUrlFieldset::class,
@@ -372,6 +374,12 @@ return [
             'mappingMapSearch' => [
                 // This is a derivative from block Mapping Map Query from module Mapping.
                 // The form and data the same than the original block.
+            ],
+            'mastodon' => [
+                'account' => '',
+                'limit' => 1,
+                'reposts' => false,
+                'replies' => false,
             ],
             'messages' => [
             ],
