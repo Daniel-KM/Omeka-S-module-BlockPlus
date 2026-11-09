@@ -20,7 +20,7 @@ $html = $block->dataValue('html', '');
 $this->headLink()
     ->appendStylesheet($assetUrl('css/block-plus.css', 'BlockPlus'));
 $this->headScript()
-    ->appendFile($assetUrl('js/block-plus.js', 'BlockPlus', 'text/javascript', ['defer' => 'defer']));
+    ->appendFile($assetUrl('js/block-plus.js', 'BlockPlus'), 'text/javascript', ['defer' => 'defer']);
 ?>
 
 <dialog class="popup popup-dialog" data-dialog-name="<?= $escapeAttr($block->layoutDataValue('class') ?: ($block->page()->slug() . '-' . $block->id())) ?>" aria-label="<?= $escapeAttr($translate('Dialog content')) ?>">
