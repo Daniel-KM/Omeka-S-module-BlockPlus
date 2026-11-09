@@ -46,6 +46,7 @@ return [
         'invokables' => [
             'assetLinks' => Site\BlockLayout\AssetLinks::class,
             'block' => Site\BlockLayout\Block::class,
+            'bluesky' => Site\BlockLayout\Bluesky::class,
             'buttons' => Site\BlockLayout\Buttons::class,
             'd3Graph' => Site\BlockLayout\D3Graph::class,
             'heading' => Site\BlockLayout\Heading::class,
@@ -109,6 +110,7 @@ return [
         'invokables' => [
             // Blocks.
             Form\BlockFieldset::class => Form\BlockFieldset::class,
+            Form\BlueskyFieldset::class => Form\BlueskyFieldset::class,
             Form\ButtonsFieldset::class => Form\ButtonsFieldset::class,
             Form\D3GraphFieldset::class => Form\D3GraphFieldset::class,
             Form\ExternalContentFieldset::class => Form\ExternalContentFieldset::class,
@@ -302,6 +304,12 @@ return [
             'block' => [
                 'params' => '',
                 'params_type' => 'auto',
+            ],
+            'bluesky' => [
+                'account' => '',
+                'limit' => 1,
+                'reposts' => false,
+                'replies' => false,
             ],
             'buttons' => [
                 'buttons' => [],
