@@ -47,7 +47,8 @@ class CaptionClassAndUrl extends AbstractHelper
 
         // Single pattern matching class, url, or label in any order (first 3 lines max).
         $pattern = '~^(?<key>url|class|label)\s*=\s*(?<value>.+)$~';
-        for ($i = 0; $i < min(3, count($lines)); $i++) {
+        $maxLines = min(3, count($lines));
+        for ($i = 0; $i < $maxLines; $i++) {
             if (!isset($lines[$i])) {
                 break;
             }
